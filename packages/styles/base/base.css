@@ -1,0 +1,40 @@
+/*
+ * Native scrollbars — hidden by default.
+ * Use the <ScrollArea/> component (Reka UI–backed, cross-browser) wherever
+ * a scrollable region is needed. It renders a JS-driven pretty scrollbar
+ * that looks identical on Chrome, Safari, Firefox, and Edge.
+ *
+ * Opt back into a native scrollbar by adding `data-native-scrollbar` to an
+ * ancestor or the scrolling element itself.
+ */
+*:not([data-native-scrollbar] *):not([data-native-scrollbar]) {
+  scrollbar-width: none;
+}
+*:not([data-native-scrollbar] *):not([data-native-scrollbar])::-webkit-scrollbar {
+  display: none;
+}
+
+/* Border color inheritance */
+*,
+::after,
+::before,
+::backdrop,
+::file-selector-button {
+  border-color: var(--border, currentColor);
+}
+
+/* Keeps main page content interactive during view transitions */
+:root {
+  view-transition-name: none;
+}
+
+::view-transition {
+  pointer-events: none;
+}
+
+/* Default typography — inherited by every component. Override by redefining
+ * --font-sans at :root (or any ancestor). Font files are NOT bundled by
+ * @auronui/styles; consumers load their own (see apps/docs + packages/storybook). */
+body {
+  font-family: var(--font-sans);
+}

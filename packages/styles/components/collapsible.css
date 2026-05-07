@@ -1,0 +1,74 @@
+/* Base collapsible styles */
+.collapsible {
+  @apply relative w-full;
+}
+
+.collapsible__trigger {
+  cursor: var(--cursor-interactive);
+  @apply flex w-full items-center text-left font-medium no-highlight rounded-lg px-4 py-3.5 text-sm;
+
+  transition:
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out),
+    opacity 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    transform 120ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Hover state — subtle surface lift */
+  @media (hover: hover) {
+    &:hover {
+      background-color: color-mix(in oklab, var(--color-foreground) 4%, transparent);
+    }
+  }
+
+  /* Pressed state — tactile feedback */
+  &:active:not([aria-disabled="true"]),
+  &[data-pressed="true"] {
+    transform: scale(0.995);
+    background-color: color-mix(in oklab, var(--color-foreground) 7%, transparent);
+  }
+
+  &[aria-expanded="true"] {
+    @apply text-foreground;
+  }
+
+  /* Focus state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.collapsible__indicator {
+  @apply ml-auto size-4 shrink-0 text-muted;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  transition:
+    transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+    color 200ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Expanded state — rotate + color lift */
+  &[data-state="open"] {
+    @apply -rotate-180 text-foreground;
+  }
+}
+
+.collapsible__body {
+  @apply text-sm;
+
+  /* Height/opacity animation driven by motion-v in CollapsibleContent.vue */
+}
+
+.collapsible__body-inner {
+  @apply px-4 pt-1 pb-4 text-sm text-muted leading-relaxed;
+}

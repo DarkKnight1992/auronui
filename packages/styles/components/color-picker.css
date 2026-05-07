@@ -1,0 +1,121 @@
+/* ==========================================================================
+   ColorPicker - Color selection component with popover
+   ========================================================================== */
+
+/* Base color-picker styles
+   Vertical panel layout: preview swatch → 2D area → sliders → hex field.
+   Sized to match the ColorArea's max width (14rem / 224px). */
+.color-picker {
+  @apply inline-flex flex-col gap-3 rounded-2xl border bg-overlay p-3;
+
+  width: max-content;
+  border-color: var(--border);
+  box-shadow: var(--shadow-overlay);
+
+  /* Preview swatch at the top, inline with an optional label/summary */
+  > .color-swatch {
+    @apply size-8 rounded-full;
+  }
+
+  /* Ensure child components flex to the panel width */
+  > .color-slider,
+  > .color-field {
+    @apply w-full;
+  }
+}
+
+/* ==========================================================================
+   Trigger
+   ========================================================================== */
+
+.color-picker__trigger {
+  @apply inline-flex items-center gap-3 rounded-sm text-sm no-highlight;
+
+  /* Cursor */
+  cursor: var(--cursor-interactive);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  [data-slot="label"] {
+    cursor: var(--cursor-interactive);
+  }
+
+  /* Focus visible state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+/* ==========================================================================
+   Popover
+   ========================================================================== */
+
+.color-picker__popover {
+  @apply min-w-62 origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto overscroll-contain bg-overlay px-2 pt-2 pb-3;
+  box-shadow: var(--shadow-overlay);
+  border-radius: calc(var(--radius) * 2.5);
+  /* Content layout */
+  @apply flex flex-col gap-3;
+
+  /* Hide scrollbar */
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  /* For IE and Edge */
+  -ms-overflow-style: none;
+  /* For Firefox */
+  scrollbar-width: none;
+
+  /* Focus state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply outline-none;
+  }
+
+  /* Entering animations */
+  & {
+    @apply animate-in duration-300 ease-smooth fade-in-0 zoom-in-95;
+
+    /* Placement-specific translations */
+    &[data-placement^="top"] {
+      @apply slide-in-from-bottom-1;
+    }
+
+    &[data-placement^="bottom"] {
+      @apply slide-in-from-top-1;
+    }
+
+    &[data-placement^="left"] {
+      @apply slide-in-from-right-1;
+    }
+
+    &[data-placement^="right"] {
+      @apply slide-in-from-left-1;
+    }
+  }
+
+  /* Exiting animations */
+  & {
+    @apply animate-out duration-300 ease-smooth zoom-out-95 fade-out;
+  }
+
+  &,
+  & {
+    @apply will-change-[opacity,transform];
+  }
+}

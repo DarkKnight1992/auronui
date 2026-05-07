@@ -1,0 +1,530 @@
+/* ─── TimeField ──────────────────────────────────────────────────────────────
+   Mirrors input.css / date-input.css: same prop surface (variant/size/color/
+   labelPlacement/fullWidth/isInvalid/isDisabled/isReadonly), same data-
+   attribute contract, same floating-label up-state, same start/end content
+   slots. Each pseudo-class is paired with its Reka UI data-attribute
+   counterpart.
+*/
+
+.time-field {
+  @apply flex items-center gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+
+  height: 2.25rem;
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &.time-field--sm {
+    @apply gap-[0.40rem];
+  }
+
+  &.time-field--lg {
+    @apply gap-4;
+  }
+
+  &[data-focused="true"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &[data-readonly="true"] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* ─── Variant modifiers ─────────────────────────────────────────────────── */
+
+.time-field--flat {
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.time-field--bordered {
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &[data-focused="true"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.time-field--faded {
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &[data-focused="true"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.time-field--underlined {
+  @apply rounded-none shadow-none bg-transparent !pl-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.time-field--raised {
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Size modifiers ─────────────────────────────────────────────────────── */
+
+.time-field--sm {
+  @apply text-xs px-2 py-1;
+  height: 1.75rem;
+}
+
+.time-field--md {
+  /* No styles — md is the default size */
+}
+
+.time-field--lg {
+  @apply text-base px-4 py-2.5;
+  height: 2.75rem;
+}
+
+/* ─── Color modifiers ─────────────────────────────────────────────────────── */
+
+.time-field--default {
+  --time-field-accent: var(--color-default-foreground);
+  accent-color: var(--time-field-accent);
+}
+
+.time-field--primary {
+  --time-field-accent: var(--color-primary);
+  accent-color: var(--time-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.time-field--secondary {
+  --time-field-accent: var(--color-secondary);
+  accent-color: var(--time-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-secondary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.time-field--success {
+  --time-field-accent: var(--color-success);
+  accent-color: var(--time-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-success);
+    --tw-ring-color: var(--color-success);
+  }
+}
+
+.time-field--warning {
+  --time-field-accent: var(--color-warning);
+  accent-color: var(--time-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-warning);
+    --tw-ring-color: var(--color-warning);
+  }
+}
+
+.time-field--danger {
+  --time-field-accent: var(--color-danger);
+  accent-color: var(--time-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-danger);
+    --tw-ring-color: var(--color-danger);
+  }
+}
+
+/* ─── Underlined + color variant overrides ───────────────────────────────── */
+
+.time-field--underlined.time-field--primary,
+.time-field--underlined.time-field--secondary,
+.time-field--underlined.time-field--success,
+.time-field--underlined.time-field--warning,
+.time-field--underlined.time-field--danger {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
+/* ─── State modifiers ────────────────────────────────────────────────────── */
+
+.time-field--invalid {
+  border-color: var(--color-danger) !important;
+  @apply status-invalid-field;
+}
+
+.time-field--disabled {
+  @apply status-disabled opacity-60 cursor-not-allowed;
+}
+
+.time-field--readonly {
+  background-color: var(--color-default-100);
+  cursor: default;
+}
+
+/* ─── Layout modifiers ───────────────────────────────────────────────────── */
+
+.time-field--full-width {
+  @apply w-full;
+}
+
+/* ─── Segment list + segments ────────────────────────────────────────────── */
+
+.time-field__segment-list {
+  @apply flex-1 inline-flex items-center min-w-0;
+  @apply bg-transparent outline-none border-0 p-0 h-auto text-inherit;
+  gap: 0.05rem;
+}
+
+.time-field__segment {
+  @apply inline-flex items-center justify-center rounded-sm px-0.5 outline-none;
+  color: var(--color-field-foreground);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 300ms var(--ease-smooth), color 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-placeholder="true"] {
+    color: var(--color-field-placeholder);
+  }
+
+  &:focus,
+  &:focus-visible,
+  &[data-focused="true"] {
+    background-color: color-mix(in oklab, var(--time-field-accent, var(--color-focus)) 18%, transparent);
+    color: var(--color-foreground);
+  }
+
+  &[data-readonly="true"] {
+    cursor: default;
+  }
+
+  &[data-disabled="true"] {
+    @apply cursor-not-allowed opacity-60;
+  }
+}
+
+/* ─── Start / end content ────────────────────────────────────────────────── */
+
+.time-field__start-content,
+.time-field__end-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+}
+
+.time-field__start-content svg,
+.time-field__end-content svg {
+  @apply size-4;
+}
+
+/* ─── Label slot ─────────────────────────────────────────────────────────── */
+
+.time-field__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-field-placeholder);
+  pointer-events: none;
+  transition:
+    transform 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/* ─── Floating label (inside the field) ──────────────────────────────────── */
+
+.time-field--label-inside {
+  position: relative;
+  height: 3.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.time-field--label-inside.time-field--sm {
+  height: 2.5rem;
+}
+
+.time-field--label-inside.time-field--lg {
+  height: 4rem;
+}
+
+.time-field--label-inside .time-field__label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font-size: var(--text-sm);
+  color: var(--color-field-placeholder);
+}
+
+.time-field--label-inside.time-field--underlined .time-field__label {
+  left: 0rem;
+}
+
+/* Push the segment row down so it doesn't sit under the floated label.
+   Applied statically (not only in up-state) to keep the field stable. */
+.time-field--label-inside .time-field__segment-list {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+/* Hide placeholder-segment tokens (--:-- and literal ":") while the
+   inside-floating label is at rest. Only applies when hasLabel + labelPlacement
+   === 'inside' (scoped via .time-field--label-inside). Placeholder reveals
+   once the field is focused or has a value. */
+.time-field--label-inside:not([data-focused="true"]):not([data-filled="true"])
+  .time-field__segment {
+  color: transparent;
+}
+
+.time-field--label-inside.time-field--default[data-focused="true"] .time-field__label {
+  color: var(--color-foreground);
+}
+
+/* Up-state: focused OR filled. data-focused is emitted only when a segment is
+   focused (not any descendant), so clicks on endContent buttons don't float. */
+.time-field--label-inside[data-focused="true"] .time-field__label,
+.time-field--label-inside[data-filled="true"] .time-field__label {
+  transform: translateY(-110%) scale(0.85);
+}
+
+/* Start-content pushes the label's left anchor so it doesn't overlap the icon */
+.time-field--label-inside:has(> .time-field__start-content) .time-field__label {
+  left: calc(0.75rem + 1rem + 0.5rem);
+}
+.time-field--label-inside.time-field--underlined:has(> .time-field__start-content) .time-field__label {
+  left: calc(1rem + 0.5rem);
+}
+
+/* Size-aware offsets for the inside variant */
+.time-field--label-inside.time-field--sm .time-field__label {
+  font-size: var(--text-xs, 0.75rem);
+  left: 0.5rem;
+}
+
+.time-field--label-inside.time-field--sm:has(> .time-field__start-content) .time-field__label {
+  left: calc(0.5rem + 1rem + 0.4rem);
+}
+
+.time-field--label-inside.time-field--underlined.time-field--sm:has(> .time-field__start-content) .time-field__label {
+  left: calc(1rem + 0.4rem);
+}
+
+.time-field--label-inside.time-field--sm .time-field__segment-list {
+  padding-top: 0.625rem;
+}
+
+.time-field--label-inside.time-field--sm[data-focused="true"] .time-field__label,
+.time-field--label-inside.time-field--sm[data-filled="true"] .time-field__label {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.time-field--label-inside.time-field--lg .time-field__label {
+  font-size: var(--text-base, 1rem);
+  left: 1rem;
+}
+.time-field--label-inside.time-field--lg:has(> .time-field__start-content) .time-field__label {
+  left: calc(1rem + 1rem + 1rem);
+}
+.time-field--label-inside.time-field--underlined.time-field--lg:has(> .time-field__start-content) .time-field__label {
+  left: calc(1rem + 1rem);
+}
+
+.time-field--label-inside.time-field--lg .time-field__segment-list {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + inside label: ensure the segment row has enough top padding */
+.time-field--underlined.time-field--label-inside .time-field__segment-list {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + sm/lg: label flush left (override size rules) */
+.time-field--label-inside.time-field--underlined.time-field--sm .time-field__label,
+.time-field--label-inside.time-field--underlined.time-field--lg .time-field__label {
+  left: 0rem;
+}
+
+/* Invalid state — label color flips to danger */
+.time-field--label-inside[data-invalid="true"] .time-field__label {
+  color: var(--color-danger);
+}
+
+/* ─── Root wrapper (holds label + field + helper) ────────────────────────── */
+
+.time-field-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.time-field-root--full-width {
+  @apply w-full;
+}
+
+.time-field-root--label-outside-left {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.time-field__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Outside label ──────────────────────────────────────────────────────── */
+
+.time-field-root--label-outside > .time-field__label,
+.time-field-root--label-outside-left > .time-field__label {
+  position: static;
+  transform: none;
+  display: block;
+  pointer-events: auto;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.time-field-root--label-outside-left > .time-field__label {
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.time-field-root--label-outside[data-invalid="true"] > .time-field__label,
+.time-field-root--label-outside-left[data-invalid="true"] > .time-field__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ─────────────────────────── */
+
+.time-field__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.time-field__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.time-field__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+/* ─── Color up-state — floated label picks up the accent ────────────────── */
+
+.time-field--label-inside.time-field--primary[data-focused="true"] .time-field__label {
+  color: var(--color-primary);
+}
+.time-field--label-inside.time-field--secondary[data-focused="true"] .time-field__label {
+  color: var(--color-secondary);
+}
+.time-field--label-inside.time-field--success[data-focused="true"] .time-field__label {
+  color: var(--color-success);
+}
+.time-field--label-inside.time-field--warning[data-focused="true"] .time-field__label {
+  color: var(--color-warning);
+}
+.time-field--label-inside.time-field--danger[data-focused="true"] .time-field__label {
+  color: var(--color-danger);
+}

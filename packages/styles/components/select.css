@@ -1,0 +1,649 @@
+.select__trigger {
+  @apply relative flex items-center gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none select-none no-highlight sm:text-xs;
+
+  /* Default size - matches select__trigger--md (height equivalent to h-9) */
+  height: 2.25rem;
+
+  /* Cursor */
+  cursor: var(--cursor-interactive);
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Add padding-right when indicator is present */
+  &:has(.select__indicator) {
+    @apply pr-7;
+  }
+
+  @media (hover: hover) {
+    &:hover:not(:focus),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &.select__trigger--sm {
+    @apply gap-[0.40rem];
+  }
+
+  &.select__trigger--lg {
+    @apply gap-4;
+  }
+
+  /* Focus state */
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  /* Focus visible state */
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+  }
+
+  /* Invalid state */
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled],
+  &[data-disabled="true"],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Readonly state */
+  &[data-readonly="true"] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* ─── Variant modifiers ─────────────────────────────────────────────────────── */
+
+.select__trigger--flat {
+  /* Transparent background across all states, no border, no shadow */
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:focus),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.select__trigger--bordered {
+  /* Transparent background + light border */
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not(:focus),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.select__trigger--faded {
+  /* Muted background + visible border */
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.select__trigger--underlined {
+  /* Bottom border only — always-visible underline. Flush left so text starts at
+     the underline edge; keep right padding so the absolute-positioned indicator
+     doesn't collide with content. */
+  @apply rounded-none shadow-none bg-transparent !pl-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not(:focus),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.select__trigger--raised {
+  /* Elevated look: white bg + shadow, transparent border */
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:focus),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Size modifiers ─────────────────────────────────────────────────────────── */
+
+.select__trigger--sm {
+  @apply text-xs px-2 py-1;
+  height: 1.75rem;
+}
+
+.select__trigger--lg {
+  @apply text-base px-4 py-2.5;
+  height: 2.75rem;
+}
+
+/* ─── Color modifiers ────────────────────────────────────────────────────────── */
+
+.select__trigger--default {
+  /* Default accent */
+  --select-accent: var(--color-default-foreground);
+  accent-color: var(--select-accent);
+}
+
+.select__trigger--primary {
+  --select-accent: var(--color-primary);
+  accent-color: var(--select-accent);
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.select__trigger--secondary {
+  --select-accent: var(--color-secondary);
+  accent-color: var(--select-accent);
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-secondary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.select__trigger--success {
+  --select-accent: var(--color-success);
+  accent-color: var(--select-accent);
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-success);
+    --tw-ring-color: var(--color-success);
+  }
+}
+
+.select__trigger--warning {
+  --select-accent: var(--color-warning);
+  accent-color: var(--select-accent);
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-warning);
+    --tw-ring-color: var(--color-warning);
+  }
+}
+
+.select__trigger--danger {
+  --select-accent: var(--color-danger);
+  accent-color: var(--select-accent);
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-danger);
+    --tw-ring-color: var(--color-danger);
+  }
+}
+
+/* ─── Underlined + color variant overrides ─────────────────────────────────── */
+/* When .select__trigger--underlined is combined with any color variant, enforce
+   the bottom-only underline silhouette on focus (no full-box border, no full-ring
+   shadow). Each rule overrides .select__trigger--{color}'s focus box-shadow. */
+
+.select__trigger--underlined.select__trigger--primary,
+.select__trigger--underlined.select__trigger--secondary,
+.select__trigger--underlined.select__trigger--success,
+.select__trigger--underlined.select__trigger--warning,
+.select__trigger--underlined.select__trigger--danger {
+  /* Re-assert underline-only silhouette even when color variant is applied */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
+
+/* ─── State modifiers ────────────────────────────────────────────────────────── */
+
+.select__trigger--invalid {
+  /* Applied by tv() isInvalid variant — mirrors native :invalid */
+  border-color: var(--color-danger) !important;
+  @apply status-invalid-field;
+}
+
+.select__trigger--disabled {
+  /* Applied by tv() isDisabled variant — mirrors native :disabled */
+  @apply status-disabled opacity-60 cursor-not-allowed;
+}
+
+.select__trigger--readonly {
+  /* Applied by tv() isReadonly variant — mirrors native :read-only */
+  background-color: var(--color-default-100);
+  cursor: default;
+}
+
+/* ─── Layout modifiers ───────────────────────────────────────────────────────── */
+
+.select__trigger--full-width {
+  @apply w-full;
+}
+
+/* ─── Slots ──────────────────────────────────────────────────────────────────── */
+
+.select__value {
+  @apply flex-1 text-left bg-transparent outline-none border-0 p-0 h-auto text-inherit wrap-break-word;
+
+  /* Removes the list-box-item indicator element from the select value */
+  [data-slot="list-box-item-indicator"] {
+    @apply hidden;
+  }
+}
+
+/* Drive placeholder color off the trigger's data-filled state — Reka's own
+   data-placeholder attribute is unreliable here because SelectValue's selectedLabel
+   resolves through Reka's optionsSet which empties when SelectContent unmounts. */
+.select__trigger:not([data-filled="true"]) .select__value {
+  @apply text-field-placeholder;
+}
+
+/* ─── Label slot ─────────────────────────────────────────────────────────────── */
+
+.select__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-field-placeholder);
+  pointer-events: none;
+  transition:
+    transform 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/* ─── Floating label (inside the trigger) ──────────────────────────────────── */
+
+/* When a label is present, the trigger is taller to make room for the
+   floated label above the value. Heights override the base/size defaults. */
+.select__trigger--label-inside {
+  position: relative;
+  height: 3.5rem; /* md: was 2.25rem; +0.75rem room for floated label */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.select__trigger--label-inside.select__trigger--sm {
+  height: 2.5rem; /* sm: was 1.75rem */
+}
+
+.select__trigger--label-inside.select__trigger--lg {
+  height: 4rem; /* lg: was 2.75rem */
+}
+
+.select__trigger--label-inside .select__label {
+  position: absolute;
+  left: 0.75rem; /* matches .select__trigger px-3 */
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font-size: var(--text-sm);
+  color: var(--color-field-placeholder);
+}
+
+.select__trigger--label-inside.select__trigger--underlined .select__label {
+  left: 0rem;
+}
+
+/* Push the value down so it doesn't sit under the floated label.
+   Applied statically (not only in up-state) to keep the value box stable. */
+.select__trigger--label-inside .select__value {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+/* Hide the placeholder text while the label occupies the resting position.
+   Placeholder reveals only once the label has floated up (focused or filled).
+   Only applies when no value is selected (trigger lacks data-filled). */
+.select__trigger--label-inside:not([data-filled="true"]) .select__value {
+  color: transparent;
+}
+
+.select__trigger--label-inside.select__trigger--default:focus .select__label,
+.select__trigger--label-inside.select__trigger--default:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--default[data-focused="true"] .select__label,
+.select__trigger--label-inside.select__trigger--default[data-state="open"] .select__label {
+  color: var(--color-foreground);
+}
+
+.select__trigger--label-inside:focus:not([data-filled="true"]) .select__value,
+.select__trigger--label-inside:focus-within:not([data-filled="true"]) .select__value,
+.select__trigger--label-inside[data-focused="true"]:not([data-filled="true"]) .select__value,
+.select__trigger--label-inside[data-state="open"]:not([data-filled="true"]) .select__value {
+  color: var(--color-field-placeholder);
+}
+
+/* Up-state: focused OR open OR filled. Paired pseudo-class + data-attribute per the
+   Reka UI selector pairing rule. Reka's SelectTrigger sets data-state="open" while
+   the popover is open, so the label stays floated even after focus shifts to a list item. */
+.select__trigger--label-inside:focus .select__label,
+.select__trigger--label-inside:focus-within .select__label,
+.select__trigger--label-inside[data-focused="true"] .select__label,
+.select__trigger--label-inside[data-state="open"] .select__label,
+.select__trigger--label-inside[data-filled="true"] .select__label {
+  transform: translateY(-110%) scale(0.85);
+}
+
+/* Size-aware offsets for the inside variant */
+.select__trigger--label-inside.select__trigger--sm .select__label {
+  font-size: var(--text-xs, 0.75rem);
+  left: 0.5rem; /* matches .select__trigger--sm px-2 */
+}
+
+.select__trigger--label-inside.select__trigger--sm .select__value {
+  padding-top: 0.625rem;
+}
+
+.select__trigger--label-inside.select__trigger--sm:focus .select__label,
+.select__trigger--label-inside.select__trigger--sm:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--sm[data-focused="true"] .select__label,
+.select__trigger--label-inside.select__trigger--sm[data-state="open"] .select__label,
+.select__trigger--label-inside.select__trigger--sm[data-filled="true"] .select__label {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.select__trigger--label-inside.select__trigger--lg .select__label {
+  font-size: var(--text-base, 1rem);
+  left: 1rem; /* matches .select__trigger--lg px-4 */
+}
+
+.select__trigger--label-inside.select__trigger--lg .select__value {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + sm/lg: force the inside label flush-left (override the size-specific
+   left offsets above, which assume horizontal padding that underlined strips away). */
+.select__trigger--label-inside.select__trigger--underlined.select__trigger--sm .select__label,
+.select__trigger--label-inside.select__trigger--underlined.select__trigger--lg .select__label {
+  left: 0rem;
+}
+
+/* Underlined variant + inside label: ensure the value has enough top padding */
+.select__trigger--underlined.select__trigger--label-inside .select__value {
+  padding-top: 1.125rem;
+}
+
+/* Invalid state — label color flips to danger */
+.select__trigger--label-inside[data-invalid="true"] .select__label {
+  color: var(--color-danger);
+}
+
+/* ─── Root wrapper (holds label + field + helper) ───────────────────────── */
+
+.select-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.select-root--full-width {
+  @apply w-full;
+}
+
+.select-root--label-outside-left {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.select__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Outside label ──────────────────────────────────────────────────────── */
+
+.select-root--label-outside > .select__label,
+.select-root--label-outside-left > .select__label {
+  position: static;
+  transform: none;
+  display: block;
+  pointer-events: auto;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+/* Align outside-left label with value baseline; defaults tuned for md. */
+.select-root--label-outside-left > .select__label {
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.select-root--label-outside[data-invalid="true"] > .select__label,
+.select-root--label-outside-left[data-invalid="true"] > .select__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ─────────────────────────── */
+
+.select__helper-wrapper { @apply picker-helper-wrapper; }
+.select__description { @apply picker-description; }
+.select__error-message { @apply picker-error-message; }
+
+/* Color up-state — floated label picks up the focus accent per color variant */
+.select__trigger--label-inside.select__trigger--primary:focus .select__label,
+.select__trigger--label-inside.select__trigger--primary:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--primary[data-focused="true"] .select__label {
+  color: var(--color-primary);
+}
+.select__trigger--label-inside.select__trigger--secondary:focus .select__label,
+.select__trigger--label-inside.select__trigger--secondary:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--secondary[data-focused="true"] .select__label {
+  color: var(--color-secondary);
+}
+.select__trigger--label-inside.select__trigger--success:focus .select__label,
+.select__trigger--label-inside.select__trigger--success:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--success[data-focused="true"] .select__label {
+  color: var(--color-success);
+}
+.select__trigger--label-inside.select__trigger--warning:focus .select__label,
+.select__trigger--label-inside.select__trigger--warning:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--warning[data-focused="true"] .select__label {
+  color: var(--color-warning);
+}
+.select__trigger--label-inside.select__trigger--danger:focus .select__label,
+.select__trigger--label-inside.select__trigger--danger:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--danger[data-focused="true"] .select__label {
+  color: var(--color-danger);
+}
+
+/* ─── Indicator (chevron) ─────────────────────────────────────────────── */
+
+.select__indicator {
+  @apply absolute inset-y-0 right-2 my-auto flex shrink-0 items-center justify-center text-field-placeholder transition duration-300;
+
+  /* Cursor */
+  cursor: var(--cursor-interactive);
+
+  &[data-state="open"] {
+    @apply rotate-180;
+  }
+
+  &[data-slot="select-default-indicator"] {
+    @apply size-4;
+  }
+}
+
+/* ─── Start Content ──────────────────────────────────────────────────────── */
+
+.select__start-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+}
+
+.select__start-content svg {
+  @apply size-4;
+}
+
+/* Inside label offset when a startContent adornment is present — push the
+   floated label past the icon so it doesn't collide. Mirrors input.css. */
+.select__trigger--label-inside:has(> .select__start-content) .select__label {
+  left: calc(0.75rem + 1rem + 0.5rem); /* px-3 + size-4 icon + gap-2 */
+}
+.select__trigger--label-inside.select__trigger--underlined:has(> .select__start-content) .select__label {
+  left: calc(1rem + 0.5rem); /* icon + gap */
+}
+
+.select__trigger--label-inside.select__trigger--sm:has(> .select__start-content) .select__label {
+  left: calc(0.5rem + 1rem + 0.4rem);
+}
+.select__trigger--label-inside.select__trigger--underlined.select__trigger--sm:has(> .select__start-content) .select__label {
+  left: calc(1rem + 0.4rem);
+}
+
+.select__trigger--label-inside.select__trigger--lg:has(> .select__start-content) .select__label {
+  left: calc(1rem + 1rem + 1rem);
+}
+.select__trigger--label-inside.select__trigger--underlined.select__trigger--lg:has(> .select__start-content) .select__label {
+  left: calc(1rem + 1rem);
+}
+
+/* ─── Popover (listbox content) ─────────────────────────────────────────── */
+/* Similar to popover content styles */
+.select__popover {
+  /* Reka exposes --reka-select-trigger-width + --reka-select-content-transform-origin
+     on the content element; alias them into the design-system-wide names used below. */
+  --trigger-width: var(--reka-select-trigger-width);
+  --trigger-anchor-point: var(--reka-select-content-transform-origin);
+
+  @apply scroll-py-1 overflow-y-auto overscroll-contain rounded-3xl bg-overlay p-0 text-sm;
+  width: var(--trigger-width);
+  transform-origin: var(--trigger-anchor-point);
+  box-shadow: var(--shadow-overlay);
+
+  /* Constrain height to available viewport space (exposed by Reka's popper layer),
+     with an absolute cap so it never becomes a full-screen column. */
+  max-height: min(var(--reka-select-content-available-height, 20rem), 20rem);
+  scroll-behavior: smooth;
+
+  @apply overlay-popover-scrollbar;
+
+  /* Focus visible state */
+  &:has(> *:focus-visible):not(:focus-within),
+  &[data-focus-visible="true"] {
+    @apply outline-none;
+  }
+
+  /* Animations are handled by motion-v in SelectContent.vue.
+     Tailwind-animate classes are intentionally omitted here to avoid
+     a double-animation conflict with motion.div's scale/opacity transitions. */
+  & {
+    @apply will-change-[opacity,transform];
+  }
+
+  /* Arrow styling */
+  & [data-slot="popover-overlay-arrow"] {
+    fill: var(--overlay);
+  }
+
+  /* Arrow rotation based on placement */
+  &[data-placement="bottom"] [data-slot="popover-overlay-arrow"] {
+    rotate: 180deg;
+  }
+
+  &[data-placement="left"] [data-slot="popover-overlay-arrow"] {
+    rotate: -90deg;
+  }
+
+  &[data-placement="right"] [data-slot="popover-overlay-arrow"] {
+    rotate: 90deg;
+  }
+
+  @apply overlay-popover-listbox;
+}

@@ -1,0 +1,5 @@
+export { default as TagGroup } from './TagGroup.vue'
+export { default as TagGroupInput } from './TagGroupInput.vue'
+export type { TagGroupVariants } from '@auronui/styles'
+export { useTagGroupProvide, useTagGroupInject, tagGroupContextKey } from './TagGroup.context'
+export type { TagGroupContext } from './TagGroup.context'

@@ -1,0 +1,8 @@
+/* AspectRatio component styles */
+.aspect-ratio {
+  @apply relative w-full overflow-hidden;
+
+  & > * {
+    @apply absolute inset-0 size-full object-cover;
+  }
+}

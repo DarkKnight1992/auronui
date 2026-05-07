@@ -1,0 +1,31 @@
+# Build outputs
+dist/
+*.d.ts
+*.d.ts.map
+!packages/*/src/**/*.d.ts
+
+# Deps
+node_modules/
+
+# Turbo
+.turbo/
+
+# Test
+coverage/
+
+# Storybook
+storybook-static/
+
+# Env
+.env
+.env.local
+
+# Nuxt SSR test app generated output
+.nuxt/
+.output/
+
+# Misc
+*.log
+.DS_Store
+.planning
+.claude

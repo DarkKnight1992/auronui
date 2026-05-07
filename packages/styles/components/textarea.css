@@ -1,0 +1,536 @@
+/* use textarea instead of text-area to avoid conflict with Tailwind `text-` prefix */
+.textarea {
+  @apply flex items-start gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:has(> textarea:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &.textarea--sm {
+    @apply gap-[0.40rem];
+  }
+
+  &.textarea--lg {
+    @apply gap-4;
+  }
+
+  /* Focus state */
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  /* Focus visible state */
+  &:has(> textarea:focus-visible):not(:focus-within),
+  &[data-focus-visible="true"] {
+  }
+
+  /* Invalid state */
+  &:has(> textarea:invalid),
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  /* Disabled state */
+  &:has(> textarea:disabled),
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Readonly state */
+  &:has(> textarea:read-only),
+  &[data-readonly="true"] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* ─── Variant modifiers ─────────────────────────────────────────────────────── */
+
+.textarea--flat {
+  /* Transparent background across all states, no border, no shadow */
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:has(> textarea:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.textarea--bordered {
+  /* Transparent background + light border */
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:has(> textarea:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.textarea--faded {
+  /* Muted background + visible border */
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.textarea--underlined {
+  /* Bottom border only — always-visible underline */
+  @apply rounded-none shadow-none bg-transparent !px-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:has(> textarea:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.textarea--raised {
+  /* Elevated look: white bg + shadow, transparent border */
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:has(> textarea:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Size modifiers ─────────────────────────────────────────────────────────── */
+
+.textarea--sm {
+  @apply text-xs px-2 py-1;
+}
+
+.textarea--md {
+  /* No styles — md is the default size defined on .textarea base */
+}
+
+.textarea--lg {
+  @apply text-base px-4 py-2.5;
+}
+
+/* ─── Color modifiers ────────────────────────────────────────────────────────── */
+
+.textarea--default {
+  --textarea-accent: var(--color-default-foreground);
+  accent-color: var(--textarea-accent);
+}
+
+.textarea--primary {
+  --textarea-accent: var(--color-primary);
+  accent-color: var(--textarea-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.textarea--secondary {
+  --textarea-accent: var(--color-secondary);
+  accent-color: var(--textarea-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-secondary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.textarea--success {
+  --textarea-accent: var(--color-success);
+  accent-color: var(--textarea-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-success);
+    --tw-ring-color: var(--color-success);
+  }
+}
+
+.textarea--warning {
+  --textarea-accent: var(--color-warning);
+  accent-color: var(--textarea-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-warning);
+    --tw-ring-color: var(--color-warning);
+  }
+}
+
+.textarea--danger {
+  --textarea-accent: var(--color-danger);
+  accent-color: var(--textarea-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-danger);
+    --tw-ring-color: var(--color-danger);
+  }
+}
+
+/* ─── Underlined + color variant overrides ─────────────────────────────────── */
+.textarea--underlined.textarea--primary,
+.textarea--underlined.textarea--secondary,
+.textarea--underlined.textarea--success,
+.textarea--underlined.textarea--warning,
+.textarea--underlined.textarea--danger {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
+/* ─── State modifiers ────────────────────────────────────────────────────────── */
+
+.textarea--invalid {
+  border-color: var(--color-danger) !important;
+  @apply status-invalid-field;
+}
+
+.textarea--disabled {
+  @apply status-disabled opacity-60 cursor-not-allowed;
+}
+
+.textarea--readonly {
+  background-color: var(--color-default-100);
+  cursor: default;
+}
+
+/* ─── Layout modifiers ───────────────────────────────────────────────────────── */
+
+.textarea--full-width {
+  @apply w-full;
+}
+
+/* ─── Slots ──────────────────────────────────────────────────────────────────── */
+
+.textarea__input {
+  @apply flex-1 bg-transparent outline-none border-0 p-0 text-inherit resize-none;
+  @apply placeholder:text-field-placeholder;
+  min-height: 1.5rem;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.textarea__start-content,
+.textarea__end-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+  padding-top: 0.125rem;
+}
+
+.textarea__start-content svg,
+.textarea__end-content svg {
+  @apply size-4;
+}
+
+/* ─── Label slot ─────────────────────────────────────────────────────────────── */
+
+.textarea__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-field-placeholder);
+  pointer-events: none;
+  transition:
+    transform 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/* ─── Floating label (inside the textarea) ──────────────────────────────────── */
+
+.textarea--label-inside {
+  position: relative;
+  padding-top: 1.5rem;
+}
+
+.textarea--label-inside .textarea__label {
+  position: absolute;
+  left: 0.75rem;
+  top: 0.75rem;
+  transform-origin: left top;
+  font-size: var(--text-sm);
+  color: var(--color-field-placeholder);
+}
+
+.textarea--label-inside.textarea--underlined .textarea__label {
+  left: 0rem;
+}
+
+.textarea--label-inside .textarea__input::placeholder {
+  color: transparent;
+}
+
+.textarea--label-inside.textarea--default:focus-within .textarea__label,
+.textarea--label-inside.textarea--default[data-focused="true"] .textarea__label {
+  color: var(--color-foreground);
+}
+
+.textarea--label-inside:focus-within .textarea__input::placeholder,
+.textarea--label-inside[data-focused="true"] .textarea__input::placeholder,
+.textarea--label-inside[data-filled="true"] .textarea__input::placeholder {
+  color: var(--color-field-placeholder);
+}
+
+/* Up-state: focused OR filled. */
+.textarea--label-inside:focus-within .textarea__label,
+.textarea--label-inside[data-focused="true"] .textarea__label,
+.textarea--label-inside[data-filled="true"] .textarea__label {
+  transform: translateY(-20%) scale(0.85);
+}
+
+.textarea--label-inside:has(> .textarea__start-content) .textarea__label {
+  left: calc(0.75rem + 1rem + 0.5rem);
+}
+.textarea--label-inside.textarea--underlined:has(> .textarea__start-content) .textarea__label {
+  left: calc(1rem + 0.5rem);
+}
+
+.textarea--label-inside.textarea--sm .textarea__label {
+  font-size: var(--text-xs, 0.75rem);
+  left: 0.5rem;
+}
+
+.textarea--label-inside.textarea--sm:has(> .textarea__start-content) .textarea__label {
+  left: calc(0.5rem + 1rem + 0.4rem);
+}
+
+.textarea--label-inside.textarea--underlined.textarea--sm:has(> .textarea__start-content) .textarea__label {
+  left: calc(1rem + 0.4rem);
+}
+
+.textarea--label-inside.textarea--lg .textarea__label {
+  font-size: var(--text-base, 1rem);
+  left: 1rem;
+}
+.textarea--label-inside.textarea--lg:has(> .textarea__start-content) .textarea__label {
+  left: calc(1rem + 1rem + 1rem);
+}
+
+.textarea--label-inside.textarea--underlined.textarea--lg:has(> .textarea__start-content) .textarea__label {
+  left: calc(1rem + 1rem);
+}
+
+/* Invalid state — label color flips to danger */
+.textarea--label-inside:has(> textarea:invalid) .textarea__label,
+.textarea--label-inside[data-invalid="true"] .textarea__label {
+  color: var(--color-danger);
+}
+
+/* ─── Root wrapper (holds label + field + helper) ───────────────────────── */
+
+.textarea-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.textarea-root--full-width {
+  @apply w-full;
+}
+
+.textarea-root--label-outside-left {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.textarea__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Outside label ──────────────────────────────────────────────────────── */
+
+.textarea-root--label-outside > .textarea__label,
+.textarea-root--label-outside-left > .textarea__label {
+  position: static;
+  transform: none;
+  display: block;
+  pointer-events: auto;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.textarea-root--label-outside-left > .textarea__label {
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.textarea-root--label-outside[data-invalid="true"] > .textarea__label,
+.textarea-root--label-outside-left[data-invalid="true"] > .textarea__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ─────────────────────────── */
+
+.textarea__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.textarea__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.textarea__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+/* ─── Clear button ─────────────────────────────────────────────────────── */
+
+.textarea__clear-button {
+  @apply inline-flex items-center justify-center shrink-0;
+  @apply bg-transparent border-0 p-0 cursor-pointer outline-none;
+  color: var(--color-field-placeholder);
+  transition:
+    color 300ms var(--ease-smooth),
+    opacity 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+.textarea__clear-button svg {
+  @apply size-4;
+}
+
+.textarea--sm .textarea__clear-button svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.textarea--lg .textarea__clear-button svg {
+  @apply size-5;
+}
+
+@media (hover: hover) {
+  .textarea__clear-button:hover,
+  .textarea__clear-button[data-hovered="true"] {
+    color: var(--color-foreground);
+  }
+}
+
+.textarea__clear-button:focus-visible,
+.textarea__clear-button[data-focus-visible="true"] {
+  color: var(--color-foreground);
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px var(--color-focus, var(--color-field-border-focus));
+}
+
+.textarea__clear-button:disabled,
+.textarea__clear-button[data-disabled="true"] {
+  @apply cursor-not-allowed opacity-50;
+}
+
+/* Color up-state — floated label picks up the focus accent per color variant */
+.textarea--label-inside.textarea--primary:focus-within .textarea__label,
+.textarea--label-inside.textarea--primary[data-focused="true"] .textarea__label {
+  color: var(--color-primary);
+}
+.textarea--label-inside.textarea--secondary:focus-within .textarea__label,
+.textarea--label-inside.textarea--secondary[data-focused="true"] .textarea__label {
+  color: var(--color-secondary);
+}
+.textarea--label-inside.textarea--success:focus-within .textarea__label,
+.textarea--label-inside.textarea--success[data-focused="true"] .textarea__label {
+  color: var(--color-success);
+}
+.textarea--label-inside.textarea--warning:focus-within .textarea__label,
+.textarea--label-inside.textarea--warning[data-focused="true"] .textarea__label {
+  color: var(--color-warning);
+}
+.textarea--label-inside.textarea--danger:focus-within .textarea__label,
+.textarea--label-inside.textarea--danger[data-focused="true"] .textarea__label {
+  color: var(--color-danger);
+}

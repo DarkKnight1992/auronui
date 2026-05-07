@@ -1,0 +1,201 @@
+/* Base accordion styles */
+.accordion {
+  @apply w-full;
+
+  /* Performance optimization - contain layout changes */
+  contain: layout style;
+}
+
+/* Accordion elements */
+.accordion__body {
+  @apply text-sm;
+
+  /* The open/close height + opacity animation is driven by motion-v inside
+   * AccordionContent.vue, keyed off Reka's per-item `open` state (synchronous
+   * Vue reactivity — no MutationObserver, no CSS-var race). motion-v honors
+   * prefers-reduced-motion natively, so no @media override is needed here. */
+}
+
+.accordion__body-inner {
+  @apply text-muted leading-relaxed;
+}
+
+.accordion__heading {
+  @apply flex;
+}
+
+.accordion__indicator {
+  @apply ml-auto shrink-0 text-muted;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  /**
+   * Transitions — smoother rotate curve matches motion-v body animation
+   */
+  transition: transform 250ms cubic-bezier(0.4, 0, 0.2, 1),
+              color 200ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Expanded state for indicator rotation + color lift */
+  &[data-state="open"] {
+    @apply -rotate-180 text-foreground;
+  }
+}
+
+/* Accordion Item - Separator styles */
+.accordion__item {
+  @apply relative border-none;
+}
+
+.accordion__item::after {
+  content: "";
+  @apply absolute bottom-0 left-0 h-px w-full rounded-full bg-separator;
+  transition: opacity 200ms var(--ease-out);
+}
+
+.accordion__item:last-child::after {
+  content: none;
+}
+
+/* Fade separator out when adjacent item is open — cleaner look */
+.accordion__item:has([data-slot="accordion-trigger"][aria-expanded="true"])::after {
+  @apply opacity-0;
+}
+
+/* Hide separator when hideSeparator prop is set */
+.accordion__item[data-hide-separator="true"]::after {
+  display: none;
+}
+/* ------------------------------------ */
+
+.accordion__trigger {
+  cursor: var(--cursor-interactive);
+
+  /* Base Styles — padding + text size are applied by size modifiers below */
+  @apply flex flex-1 items-center text-left font-medium no-highlight rounded-lg;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 200ms var(--ease-out),
+    color 200ms var(--ease-out),
+    opacity 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    transform 120ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Hover state — subtle surface lift */
+  @media (hover: hover) {
+    &:hover {
+      background-color: color-mix(in oklab, var(--color-foreground) 4%, transparent);
+    }
+  }
+
+  /* Pressed state — tactile feedback */
+  &:active:not([aria-disabled="true"]),
+  &[data-pressed="true"] {
+    transform: scale(0.995);
+    background-color: color-mix(in oklab, var(--color-foreground) 7%, transparent);
+  }
+
+  &[aria-expanded="true"] {
+    @apply text-foreground;
+  }
+
+  &[aria-expanded="true"] .accordion__indicator {
+    @apply -rotate-180;
+  }
+
+  /* Focus state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled State */
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+/* Surface variant */
+.accordion--surface {
+  @apply rounded-3xl bg-surface ring-1 ring-separator overflow-hidden isolate;
+
+  .accordion__item::after {
+    @apply bg-surface-foreground/6;
+  }
+}
+
+.accordion--surface .accordion__item {
+  /* Surface variant separator styling */
+  &::after {
+    @apply left-[3%] w-[94%];
+  }
+
+  /* Non-rounded triggers inside surface (corners handled by container) */
+  [data-slot="accordion-trigger"] {
+    @apply rounded-none;
+  }
+
+  /* Special rounding for first and last items in surface variant */
+  &:first-child [data-slot="accordion-trigger"] {
+    @apply rounded-t-3xl;
+  }
+
+  &:last-child:not(:has([data-slot="accordion-trigger"][aria-expanded="true"]))
+    [data-slot="accordion-trigger"] {
+    @apply rounded-b-3xl;
+  }
+
+  /* Slightly deeper hover inside the surface container */
+  @media (hover: hover) {
+    [data-slot="accordion-trigger"]:hover {
+      background-color: color-mix(in oklab, var(--color-foreground) 5%, transparent);
+    }
+  }
+}
+
+/* ============================================================
+ * Size modifiers
+ * Each size sets trigger padding + text size, body-inner spacing,
+ * and indicator dimensions. The indicator size doubles as the
+ * sizing box for any custom icon slotted into it.
+ * ============================================================ */
+
+/* ---- sm (compact) ---- */
+.accordion--sm .accordion__trigger {
+  @apply px-3 py-2 text-xs;
+}
+.accordion--sm .accordion__body-inner {
+  @apply px-3 pt-0.5 pb-3 text-xs;
+}
+.accordion--sm .accordion__indicator {
+  @apply size-3.5;
+}
+
+/* ---- md (default) ---- */
+.accordion--md .accordion__trigger {
+  @apply px-4 py-3.5 text-sm;
+}
+.accordion--md .accordion__body-inner {
+  @apply px-5 pt-1 pb-5 text-sm;
+}
+.accordion--md .accordion__indicator {
+  @apply size-4;
+}
+
+/* ---- lg ---- */
+.accordion--lg .accordion__trigger {
+  @apply px-5 py-4 text-base;
+}
+.accordion--lg .accordion__body-inner {
+  @apply px-6 pt-1.5 pb-6 text-sm;
+}
+.accordion--lg .accordion__indicator {
+  @apply size-5;
+}

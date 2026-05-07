@@ -1,0 +1,99 @@
+/* Tag component styles */
+.tag {
+  --optical-offset: 0.031em;
+
+  @apply relative inline-flex items-center gap-1 rounded-full font-medium select-none no-highlight;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth),
+    opacity 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply origin-center transform-gpu motion-reduce:transition-none;
+
+  /* Cursor */
+  cursor: var(--cursor-interactive);
+
+  /* SVG icon styling */
+  & svg {
+    @apply pointer-events-none size-3 shrink-0 self-center text-current;
+  }
+}
+
+/* Disabled state */
+.tag:is([data-disabled], [aria-disabled="true"]) {
+  @apply status-disabled;
+}
+
+/* Focus visible state (keyboard focus only) */
+.tag:is(:focus-visible, [data-focus-visible]) {
+  @apply status-focused;
+}
+
+/* Pressed/Active state */
+.tag:active {
+}
+
+/* Selected state */
+.tag:is([data-state="checked"], [aria-selected="true"]) {
+  @apply bg-accent-soft text-accent-soft-foreground;
+
+  /* Selected + Hover state */
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-accent-soft-hover;
+    }
+  }
+}
+
+/* Size */
+.tag--sm {
+  @apply px-2 py-0.5 text-xs;
+}
+
+.tag--md {
+  @apply px-2 py-1 text-xs;
+}
+
+.tag--lg {
+  @apply px-2.5 py-1.5 text-sm;
+}
+
+/* Variant */
+.tag--default {
+  @apply bg-default text-default-foreground;
+
+  /* Hover state (when not selected or disabled) */
+  @media (hover: hover) {
+    &:hover:not([data-state="checked"]):not([data-disabled]) {
+      @apply bg-default-hover;
+    }
+  }
+}
+
+.tag--surface {
+  @apply bg-surface text-surface-foreground;
+
+  /* Hover state (when not selected or disabled) */
+  @media (hover: hover) {
+    &:hover:not([data-state="checked"]):not([data-disabled]) {
+      @apply bg-surface-hover;
+    }
+  }
+}
+
+/* Remove Button  */
+.tag__remove-button {
+  @apply size-3 text-inherit;
+  cursor: var(--cursor-interactive);
+
+  /* SVG icon styling */
+  & svg {
+    @apply size-[inherit] shrink-0 self-center text-current;
+  }
+}

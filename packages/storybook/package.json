@@ -1,0 +1,30 @@
+{
+  "name": "@auronui/storybook",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Shared Storybook 10 Vue3 config for Auron",
+  "type": "module",
+  "scripts": {
+    "storybook": "storybook dev --config-dir .storybook -p 6006",
+    "build-storybook": "storybook build --config-dir .storybook"
+  },
+  "devDependencies": {
+    "@fontsource/inter": "^5.2.0",
+    "@auronui/standard": "workspace:*",
+    "@auronui/styles": "workspace:*",
+    "@auronui/vue": "workspace:*",
+    "@internationalized/date": "^3.12.1",
+    "@storybook/addon-vitest": "10.3.5",
+    "@storybook/vue3-vite": "10.3.5",
+    "@tailwindcss/vite": "4.2.2",
+    "@vitejs/plugin-vue": "6.0.5",
+    "storybook": "10.3.5",
+    "tailwindcss": "4.2.2",
+    "vite": "^8.0.8",
+    "vue": "^3.5.32",
+    "vitest": "^4.1.4",
+    "playwright": "^1.59.1",
+    "@vitest/browser-playwright": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.4"
+  }
+}

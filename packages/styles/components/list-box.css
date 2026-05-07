@@ -1,0 +1,11 @@
+/* ==========================================================================
+   List-box container
+   ========================================================================== */
+
+.list-box {
+  @apply list-container gap-0.5 text-sm text-foreground surface-card;
+
+  [data-slot="separator"][data-orientation="horizontal"] {
+    @apply mx-1 my-0.5 h-px bg-separator;
+  }
+}

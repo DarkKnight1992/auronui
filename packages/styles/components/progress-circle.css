@@ -1,0 +1,82 @@
+/* ==========================================================================
+   ProgressCircle - Circular progress indicator
+   ========================================================================== */
+
+/* Base styles */
+.progress-circle {
+  @apply inline-flex items-center justify-center;
+
+  --progress-circle-stroke: var(--color-accent);
+  --progress-circle-track-stroke: var(--color-default);
+
+  .progress-circle__track {
+    stroke: var(--progress-circle-track-stroke);
+  }
+
+  .progress-circle__indicator {
+    stroke: var(--progress-circle-stroke);
+    transition: stroke-dashoffset 300ms var(--ease-out);
+    @apply motion-reduce:transition-none;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+/* ==========================================================================
+   Size variants
+   ========================================================================== */
+
+.progress-circle--sm {
+  .progress-circle__svg {
+    @apply size-12;
+  }
+}
+
+.progress-circle--md {
+  .progress-circle__svg {
+    @apply size-16;
+  }
+}
+
+.progress-circle--lg {
+  .progress-circle__svg {
+    @apply size-24;
+  }
+}
+
+/* ==========================================================================
+   Color variants
+   ========================================================================== */
+
+.progress-circle--default {
+  --progress-circle-stroke: var(--color-default-foreground);
+}
+
+.progress-circle--primary {
+  --progress-circle-stroke: var(--color-accent);
+}
+
+.progress-circle--secondary {
+  --progress-circle-stroke: var(--color-default-foreground);
+}
+
+.progress-circle--accent {
+  --progress-circle-stroke: var(--color-accent);
+}
+
+.progress-circle--success {
+  --progress-circle-stroke: var(--color-success);
+}
+
+.progress-circle--warning {
+  --progress-circle-stroke: var(--color-warning);
+}
+
+.progress-circle--danger {
+  --progress-circle-stroke: var(--color-danger);
+}

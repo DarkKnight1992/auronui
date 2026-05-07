@@ -1,0 +1,126 @@
+/* ==========================================================================
+   ButtonGroup - Groups related buttons together
+
+   Design model: the GROUP container owns the rounded silhouette and (for
+   outline variants) the single continuous outer border. Children buttons
+   drop their own border + radius and fill their slice. `overflow-hidden`
+   clips each button's hover/active background to the group's rounded
+   corners, so the long edges (left/right vertical, top/bottom horizontal)
+   render as one uninterrupted line on every button.
+   ========================================================================== */
+
+/* Base group: rounded container that clips children to its silhouette */
+.button-group {
+  @apply inline-flex h-auto w-fit items-center justify-center gap-0 overflow-hidden rounded-3xl;
+}
+
+/* ==========================================================================
+   Orientation variants
+   ========================================================================== */
+
+.button-group--horizontal {
+  @apply flex-row items-stretch;
+}
+
+.button-group--vertical {
+  @apply flex-col items-stretch rounded-xl;
+}
+
+/* Stretch each child across the group's cross axis so every button shares
+   the same width (vertical) or height (horizontal) as the widest/tallest one. */
+.button-group--vertical .button {
+  @apply w-full;
+}
+
+/* Children fill their slice with no individual radius — the group clips them.
+   Override the base button's 300ms transitions so press/hover feedback feels
+   snappy in both directions and doesn't leave the button looking "stuck"
+   selected for a third of a second after release. */
+.button-group .button {
+  @apply rounded-none;
+  transition:
+    background-color 100ms var(--ease-out),
+    box-shadow 100ms var(--ease-out);
+}
+
+/* ==========================================================================
+   Outline variant — group owns the single outer border
+   ========================================================================== */
+
+.button-group:has(.button--outline) {
+  @apply border border-border;
+}
+
+.button-group .button--outline {
+  @apply border-0;
+}
+
+/* ==========================================================================
+   Press feedback
+
+   Scale would leave a visible gap inside the clipped group, so use an
+   immediate inset darken overlay instead. The button base's bg-color
+   transition is 300ms (too slow to register on a quick click), so we
+   short-circuit it here for a snappy press.
+   ========================================================================== */
+
+   
+.button-group .button:active,
+.button-group .button[data-pressed="true"],
+.button-group .button[data-selected="true"],
+.button-group .button[aria-pressed="true"] {
+  transform: none;
+  box-shadow: inset 0 0 0 999px rgb(0 0 0 / 0.08);
+  transition: box-shadow 80ms var(--ease-out);
+}
+
+/* Override focus ring to use inset style so it stays within button bounds
+   and isn't clipped by the group's overflow-hidden */
+.button-group .button:focus-visible:not(:focus),
+.button-group .button:focus-visible {
+  --tw-ring-offset-width: 0px;
+  @apply ring-inset;
+}
+
+/* ==========================================================================
+   Separator (compound component)
+   ========================================================================== */
+
+.button-group__separator {
+  @apply bg-current opacity-15;
+
+  border-radius: 4px;
+  position: absolute;
+  pointer-events: none;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition: opacity 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  /* Horizontal orientation - vertical divider */
+  .button-group--horizontal & {
+    left: -1px;
+    top: 25%;
+    width: 1px;
+    height: 50%;
+  }
+
+  /* Vertical orientation - horizontal divider */
+  .button-group--vertical & {
+    left: 25%;
+    top: -1px;
+    width: 50%;
+    height: 1px;
+  }
+}
+
+/* ==========================================================================
+   Full width modifier
+   ========================================================================== */
+
+.button-group--full-width {
+  @apply w-full;
+}

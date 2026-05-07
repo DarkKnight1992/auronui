@@ -1,0 +1,98 @@
+<script setup lang="ts">
+import { computed, ref } from 'vue'
+import { Toggle } from 'reka-ui'
+import { toggleButtonVariants, type ToggleButtonVariants } from '@auronui/styles'
+import { composeClassName } from '../../utils/composeClassName'
+import { useToggleButtonGroupInject } from './toggle-button-group.context'
+
+const props = withDefaults(defineProps<{
+  variant?: ToggleButtonVariants['variant']
+  size?: ToggleButtonVariants['size']
+  isIconOnly?: boolean
+  disabled?: boolean
+  modelValue?: boolean
+  defaultValue?: boolean
+  value?: string
+  class?: string
+}>(), {
+  variant: undefined,
+  size: undefined,
+  isIconOnly: false,
+  disabled: false,
+  modelValue: undefined,
+  defaultValue: false,
+  value: undefined,
+})
+
+const emit = defineEmits<{
+  'update:modelValue': [value: boolean]
+}>()
+
+// Inject ToggleButtonGroup context with fallback defaults (mirrors Button → ButtonGroup pattern)
+const groupCtx = useToggleButtonGroupInject({
+  variant: ref('default'),
+  size: ref('md'),
+  disabled: ref(false),
+  fullWidth: ref(false),
+  orientation: ref('horizontal'),
+  selectionMode: ref('multiple'),
+  selectedValues: ref([]),
+  toggleValue: () => {},
+})
+
+// Prop precedence: group disabled wins; child prop wins for variant/size
+const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
+const finalSize = computed(() => props.size ?? groupCtx.size.value)
+
+// When inside a group with selectionMode and a value prop, derive pressed from group state
+const isGroupManaged = computed(() => props.value !== undefined)
+const isPressed = computed(() => {
+  if (isGroupManaged.value) {
+    return groupCtx.selectedValues.value.includes(props.value!)
+  }
+  return props.modelValue
+})
+
+function handleUpdate(val: boolean) {
+  if (isGroupManaged.value) {
+    groupCtx.toggleValue(props.value!)
+  } else {
+    emit('update:modelValue', val)
+  }
+}
+
+const classes = computed(() =>
+  toggleButtonVariants({
+    variant: finalVariant.value,
+    size: finalSize.value,
+    isIconOnly: props.isIconOnly,
+  })
+)
+</script>
+
+<template>
+  <!--
+    Use as-child so Reka's Toggle merges data-state / aria-pressed / onClick directly
+    onto OUR <button> element instead of relying on a 2-level inheritAttrs chain
+    (Toggle → Primitive → button). This guarantees the toggle-button CSS class and
+    data-state="on" are always on the same DOM element, so [data-state="on"] selectors
+    apply correctly.
+  -->
+  <Toggle
+    as-child
+    :disabled="isDisabled"
+    :model-value="isPressed"
+    :default-value="props.defaultValue"
+    @update:model-value="handleUpdate"
+  >
+    <button
+      :class="composeClassName(classes, props.class)"
+      :disabled="isDisabled || undefined"
+      :data-orientation="groupCtx.orientation.value"
+      :type="'button'"
+    >
+      <slot />
+    </button>
+  </Toggle>
+</template>

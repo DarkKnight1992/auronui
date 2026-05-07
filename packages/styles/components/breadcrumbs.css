@@ -1,0 +1,76 @@
+/* Base breadcrumbs container */
+.breadcrumbs {
+  @apply flex flex-wrap items-center gap-0;
+
+  /* Breadcrumb item wrapper */
+  .breadcrumbs__item {
+    @apply flex shrink-0 items-center justify-center;
+  }
+
+  /* Breadcrumb link */
+  .breadcrumbs__link {
+    @apply relative inline-flex items-center rounded-md px-2 py-1 text-sm leading-5 font-medium text-muted no-underline outline-none;
+
+    /**
+     * Transitions
+     * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+     */
+    transition:
+      color 200ms var(--ease-smooth),
+      background-color 200ms var(--ease-smooth),
+      opacity 200ms var(--ease-out);
+    @apply motion-reduce:transition-none;
+
+    /* Cursor */
+    cursor: var(--cursor-interactive);
+
+    /* Hover: brighten to foreground and show a subtle background */
+    @media (hover: hover) {
+      &:hover,
+      &[data-hovered="true"] {
+        @apply bg-surface-hover text-foreground;
+      }
+    }
+
+    /* Active / pressed */
+    &:active,
+    &[data-pressed="true"] {
+      @apply opacity-80;
+    }
+
+    /* Focus ring */
+    &:focus-visible:not(:focus),
+    &[data-focus-visible="true"] {
+      @apply status-focused;
+    }
+
+    /* Disabled */
+    &[aria-disabled="true"],
+    &:disabled {
+      @apply status-disabled;
+    }
+  }
+
+  /* Current page — applied to the <li> carrying aria-current="page" */
+  .breadcrumbs__item[aria-current="page"] .breadcrumbs__link {
+    @apply text-foreground font-semibold;
+    cursor: default;
+
+    @media (hover: hover) {
+      &:hover,
+      &[data-hovered="true"] {
+        @apply bg-transparent;
+      }
+    }
+  }
+
+  /* Separator icon */
+  .breadcrumbs__separator {
+    @apply inline-flex shrink-0 items-center justify-center text-muted/60 rtl:rotate-180 select-none;
+
+    /* Default chevron SVG sizing */
+    & > svg {
+      @apply size-3.5;
+    }
+  }
+}

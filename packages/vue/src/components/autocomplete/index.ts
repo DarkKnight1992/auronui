@@ -1,0 +1,8 @@
+export { default as Autocomplete } from './Autocomplete.vue'
+export type { AutocompleteItem as AutocompleteItemData } from './Autocomplete.vue'
+export { default as AutocompleteInput } from './AutocompleteInput.vue'
+export { default as AutocompleteContent } from './AutocompleteContent.vue'
+export { default as AutocompleteItem } from './AutocompleteItem.vue'
+export { useAutocompleteProvide, useAutocompleteInject, autocompleteContextKey } from './Autocomplete.context'
+export type { AutocompleteContext } from './Autocomplete.context'
+export type { AutocompleteVariants } from '@auronui/styles'

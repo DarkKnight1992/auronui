@@ -1,0 +1,13 @@
+/* ==========================================================================
+   List-box section
+   ========================================================================== */
+
+.list-box-section {
+  @apply list-section;
+}
+.list-box-section__label {
+  @apply list-section-label;
+}
+.list-box-section__separator {
+  @apply list-section-separator;
+}

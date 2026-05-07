@@ -1,0 +1,402 @@
+/* =============================================================================
+ * RangeCalendar Component Styles
+ *
+ * A compound component for contiguous date range selection.
+ * Uses BEM naming convention: range-calendar, range-calendar__element, range-calendar--modifier
+ *
+ * Density, typography and spacing mirror `.calendar` so RangeCalendar and
+ * Calendar look identical outside of range-specific track / cap styling.
+ * ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+ * Base RangeCalendar Styles
+ * -------------------------------------------------------------------------- */
+.range-calendar {
+  @apply w-64 max-w-full text-xs;
+
+  container-type: inline-size;
+}
+
+/* -----------------------------------------------------------------------------
+ * RangeCalendar Header
+ * -------------------------------------------------------------------------- */
+.range-calendar__header {
+  @apply flex items-center justify-between px-0.5 pb-1;
+
+  &:has(.calendar-year-picker__trigger[data-state="open"]) {
+    .range-calendar__nav-button {
+      @apply pointer-events-none opacity-0;
+    }
+  }
+}
+
+.range-calendar__heading {
+  @apply flex flex-1 items-center justify-center text-center text-xs font-medium;
+}
+
+.range-calendar__nav-button {
+  @apply flex size-6 items-center justify-center rounded-full text-accent;
+
+  will-change: scale;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    transform 300ms var(--ease-out),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  cursor: var(--cursor-interactive);
+
+  /* Hover state – only on devices that support hover (avoids false triggers on touch) */
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default text-accent;
+    }
+  }
+
+  /* Pressed state */
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.95);
+  }
+
+  /* Focus state */
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+.range-calendar__nav-button-icon {
+  @apply size-3.5;
+}
+
+/* -----------------------------------------------------------------------------
+ * RangeCalendar Grid
+ * -------------------------------------------------------------------------- */
+.range-calendar__grid {
+  /* Override table display with CSS Grid for easier customization */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-collapse: collapse;
+  @apply w-full pt-2;
+
+  &[aria-readonly="true"] {
+    .range-calendar__cell {
+      @apply pointer-events-none;
+    }
+  }
+}
+
+.range-calendar__grid-header {
+  /* Grid header (thead) styles */
+  display: contents;
+
+  & > tr {
+    display: contents;
+  }
+}
+
+.range-calendar__grid-body {
+  /* Grid body (tbody) styles */
+  display: contents;
+
+  & > tr {
+    display: contents;
+  }
+
+  /* Add top spacing between header and first body row */
+  & > tr:first-child > td {
+    @apply mt-1;
+  }
+}
+
+.range-calendar__grid-row {
+  /* Use 'contents' so cells participate directly in grid */
+  /* Note: This class can be used for custom row styling if needed */
+  display: contents;
+}
+
+.range-calendar__header-cell {
+  /* Header cell (th - weekday names) styles */
+  @apply flex items-center justify-center pb-1 text-[10px] font-medium text-muted;
+}
+
+/* -----------------------------------------------------------------------------
+ * RangeCalendar Cells
+ * -------------------------------------------------------------------------- */
+.range-calendar__cell {
+  @apply relative z-1 mx-0 my-[1px] rounded-full p-0 outline-none;
+  cursor: var(--cursor-interactive);
+
+  will-change: background-color, border-color;
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    box-shadow 300ms var(--ease-out),
+    border-color 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  /* Inner interactive circle/capsule (equivalent to React Aria "button-base") */
+  .range-calendar__cell-button {
+    @apply flex aspect-square w-full items-center justify-center rounded-full text-xs leading-none font-normal text-foreground no-highlight;
+
+    will-change: scale;
+    transition: scale 300ms var(--ease-out);
+    @apply transform-gpu motion-reduce:transition-none;
+  }
+
+  /* Focus state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply z-2;
+
+    .range-calendar__cell-button {
+      @apply status-focused;
+    }
+  }
+
+  /* Today indicator (data-today lives on the trigger) */
+  &:has([data-today]) {
+    .range-calendar__cell-button {
+      @apply text-accent;
+    }
+  }
+
+  /* Range selected track (middle segment) — data-selected is on the trigger */
+  &:has([data-selected]:not([data-outside-view])) {
+    @apply rounded-none bg-accent-soft;
+  }
+
+  /* Round row boundaries so the range track looks continuous across weeks */
+  &:has([data-selected]):is(td:first-child > *, [aria-disabled] + td > *) {
+    @apply rounded-ss-lg rounded-es-lg;
+    &:has([data-selection-start]) {
+      @apply rounded-ss-full rounded-es-full;
+    }
+  }
+
+  &:has([data-selected]):is(td:last-child > *, td:has(+ [aria-disabled]) > *) {
+    @apply rounded-se-lg rounded-ee-lg;
+    &:has([data-selection-end]) {
+      @apply rounded-se-full rounded-ee-full;
+    }
+  }
+
+  /* Range caps (start/end) — data-selection-start/end are on the trigger */
+  &:has([data-selection-start]:not([data-outside-view])),
+  &:has([data-selection-end]:not([data-outside-view])) {
+    @apply z-2;
+
+    .range-calendar__cell-button {
+      @apply bg-accent text-accent-foreground;
+    }
+  }
+
+  &:has([data-selection-start]:not([data-outside-view])) {
+    @apply rounded-tl-full rounded-bl-full;
+  }
+
+  &:has([data-selection-end]:not([data-outside-view])) {
+    @apply rounded-tr-full rounded-br-full;
+  }
+
+  /* Pressed state */
+  &:active,
+  &[data-pressed="true"] {
+    .range-calendar__cell-button {
+      scale: 0.9;
+    }
+
+    &:has([data-selection-start]),
+    &:has([data-selection-end]) {
+      .range-calendar__cell-button {
+        @apply bg-accent-hover;
+      }
+    }
+  }
+
+  /* Hover state for non-selected days */
+  @media (hover: hover) {
+    &:hover:not(:has([data-selected])),
+    &[data-hovered="true"]:not(:has([data-selected])) {
+      .range-calendar__cell-button {
+        @apply bg-default;
+      }
+    }
+  }
+
+  /* Outside month / outside view (previous/next month days) */
+  &:has([data-outside-view]) {
+    @apply text-muted opacity-50;
+  }
+
+  &:has([data-selected][data-outside-view]:not([data-selection-start], [data-selection-end])) {
+    @apply bg-default/20;
+  }
+
+  /* Unavailable dates (data-unavailable on the trigger) */
+  &:has([data-unavailable]) {
+    @apply status-disabled;
+  }
+
+  /* Disabled state */
+  &:has([data-disabled]:not([data-outside-view])),
+  &[data-disabled]:not(:has([data-outside-view])) {
+    @apply status-disabled;
+
+    text-decoration: line-through;
+  }
+}
+
+/* Outside-view cell followed by selected cell across adjacent table cells */
+.range-calendar__grid-body
+  td:has(> .range-calendar__cell:has([data-outside-view]))
+  + td
+  > .range-calendar__cell:has([data-selected]) {
+  @apply rounded-ss-lg rounded-es-lg;
+
+  &:has([data-outside-view]),
+  &:has([data-selection-start]) {
+    @apply rounded-ss-full rounded-es-full;
+  }
+}
+
+/* Selected cell followed by outside-view cell across adjacent table cells */
+.range-calendar__grid-body
+  td:has(> .range-calendar__cell:has([data-selected])):has(
+    + td > .range-calendar__cell:has([data-outside-view])
+  )
+  > .range-calendar__cell:has([data-selected]) {
+  @apply rounded-se-lg rounded-ee-lg;
+
+  &:has([data-outside-view]),
+  &:has([data-selection-end]) {
+    @apply rounded-se-full rounded-ee-full;
+  }
+}
+
+/* Cell indicator - small dot at bottom center of cell */
+.range-calendar__cell-indicator {
+  @apply absolute bottom-1 left-1/2 size-[3px] -translate-x-1/2 rounded-full bg-muted;
+
+  /* Indicator color changes when cell is selected */
+  :has([data-selected]) > & {
+    @apply bg-accent-foreground;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * RangeCalendar Heading Button (clickable heading for view switching)
+ * -------------------------------------------------------------------------- */
+.range-calendar__heading-button {
+  @apply inline-flex items-center justify-center rounded-md bg-transparent px-2 py-0.5 text-center text-xs font-medium outline-none;
+  cursor: var(--cursor-interactive);
+  transition:
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * RangeCalendar Month / Year Grids (view switcher bodies)
+ * -------------------------------------------------------------------------- */
+.range-calendar__month-grid,
+.range-calendar__year-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  border-collapse: collapse;
+  @apply aspect-[7/6] w-full;
+}
+
+.range-calendar__month-grid-body,
+.range-calendar__year-grid-body {
+  display: contents;
+
+  & > tr {
+    display: contents;
+    place-items: center;
+
+    & > td {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+  }
+}
+
+.range-calendar__month-grid-row,
+.range-calendar__year-grid-row {
+  display: contents;
+}
+
+.range-calendar__month-cell,
+.range-calendar__year-cell {
+  @apply relative m-0.5 flex size-auto items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
+  will-change: scale;
+  transition:
+    transform 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    background-color 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+  cursor: var(--cursor-interactive);
+
+  @media (hover: hover) {
+    &:hover:not([data-selected]),
+    &[data-hovered="true"]:not([data-selected]) {
+      @apply bg-default;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &[data-selected] {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+.range-calendar__month-cell-label,
+.range-calendar__year-cell-label {
+  @apply pointer-events-none;
+}

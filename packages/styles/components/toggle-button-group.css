@@ -1,0 +1,174 @@
+/* ==========================================================================
+   ToggleButtonGroup - Groups multiple ToggleButtons into a unified control
+   ========================================================================== */
+
+/* Base styles */
+.toggle-button-group {
+  @apply inline-flex h-auto w-fit items-center justify-center gap-0;
+}
+
+/* ==========================================================================
+   Orientation variants
+   ========================================================================== */
+
+.toggle-button-group--horizontal {
+  @apply flex-row rounded-3xl;
+}
+
+.toggle-button-group--vertical {
+  @apply flex-col rounded-lg;
+
+  & .toggle-button {
+    @apply w-full;
+  }
+
+  & .toggle-button:first-child {
+    @apply !rounded-t-lg rounded-b-none;
+  }
+  & .toggle-button:last-child {
+    @apply !rounded-b-lg rounded-t-none;
+  }
+}
+
+/* ==========================================================================
+   Full width modifier
+   ========================================================================== */
+
+.toggle-button-group--full-width {
+  @apply w-full;
+}
+
+/* ==========================================================================
+   Attached mode (default) - unified group border with dividers between buttons
+   ========================================================================== */
+
+/*
+ * The GROUP container owns the outer border (via ring/box-shadow).
+ * Individual buttons suppress their own background so the group background
+ * shows through. A thin divider renders between adjacent siblings.
+ */
+
+/* Group container: outer ring acts as the shared border for all contained buttons */
+.toggle-button-group:not(.toggle-button-group--detached) {
+  box-shadow: 0 0 0 1px color-mix(in oklab, currentColor 20%, transparent);
+}
+
+/* Suppress individual button backgrounds inside attached group so the
+   group background shows through as a single unified surface */
+.toggle-button-group:not(.toggle-button-group--detached) .toggle-button {
+  --toggle-button-bg: transparent;
+  --toggle-button-bg-hover: color-mix(in oklab, currentColor 8%, transparent);
+  --toggle-button-bg-pressed: color-mix(in oklab, currentColor 12%, transparent);
+  @apply rounded-none;
+}
+
+/* Divider between adjacent buttons — horizontal group: vertical line */
+.toggle-button-group--horizontal:not(.toggle-button-group--detached) .toggle-button + .toggle-button {
+  border-inline-start: 1px solid color-mix(in oklab, currentColor 20%, transparent);
+}
+
+/* Divider between adjacent buttons — vertical group: horizontal line */
+.toggle-button-group--vertical:not(.toggle-button-group--detached) .toggle-button + .toggle-button {
+  border-block-start: 1px solid color-mix(in oklab, currentColor 20%, transparent);
+}
+
+/* Apply border radius to first button (start edge) */
+.toggle-button-group--horizontal .toggle-button:first-child {
+  @apply rounded-s-3xl;
+}
+
+/* Apply border radius to last button (end edge) */
+.toggle-button-group--horizontal .toggle-button:last-child {
+  @apply rounded-e-3xl;
+}
+
+/* If only one button, apply both rounded edges */
+.toggle-button-group--horizontal .toggle-button:first-child:last-child {
+  @apply rounded-3xl;
+}
+
+/* Apply border radius to first button (top edge) in vertical */
+.toggle-button-group--vertical .toggle-button:first-child {
+  @apply rounded-t-3xl;
+}
+
+/* Apply border radius to last button (bottom edge) in vertical */
+.toggle-button-group--vertical .toggle-button:last-child {
+  @apply rounded-b-3xl;
+}
+
+/* If only one button in vertical, apply all rounded edges */
+.toggle-button-group--vertical .toggle-button:first-child:last-child {
+  @apply rounded-3xl;
+}
+
+/* Remove scale transform on active/pressed state for buttons in group */
+.toggle-button-group .toggle-button:active,
+.toggle-button-group .toggle-button:active {
+  transform: none;
+}
+
+/* Override focus ring to use inset style so it stays within button bounds */
+.toggle-button-group .toggle-button:focus-visible:not(:focus),
+.toggle-button-group .toggle-button:focus-visible {
+  --tw-ring-offset-width: 0px;
+  @apply ring-inset;
+}
+
+/* Full width: stretch each toggle button */
+.toggle-button-group--full-width .toggle-button {
+  @apply flex-1;
+}
+
+/* ==========================================================================
+   Separator (compound component)
+   ========================================================================== */
+
+.toggle-button-group__separator {
+  @apply bg-current opacity-15;
+
+  border-radius: 4px;
+  position: absolute;
+  pointer-events: none;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition: opacity 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  /* Horizontal orientation - vertical divider */
+  .toggle-button-group--horizontal & {
+    left: -1px;
+    top: 25%;
+    width: 1px;
+    height: 50%;
+  }
+
+  /* Vertical orientation - horizontal divider */
+  .toggle-button-group--vertical & {
+    left: 25%;
+    top: -1px;
+    width: 50%;
+    height: 1px;
+  }
+}
+
+/* ==========================================================================
+   Detached mode - buttons separated with gaps
+   ========================================================================== */
+
+.toggle-button-group--detached {
+  @apply gap-1;
+}
+
+/* Restore border radius in detached mode */
+.toggle-button-group--detached .toggle-button {
+  @apply rounded-3xl;
+}
+
+/* Hide separators in detached mode */
+.toggle-button-group--detached .toggle-button-group__separator {
+  display: none;
+}

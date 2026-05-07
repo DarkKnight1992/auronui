@@ -1,0 +1,143 @@
+/* -------------------------------------------------------------------------------------------------
+ * Alert Component Styles
+ * Block: alert
+ * -----------------------------------------------------------------------------------------------*/
+
+/**
+ * Block: the alert container
+ */
+.alert {
+  @apply relative flex w-full flex-row items-start gap-2.5;
+  @apply rounded-xl border px-3 py-2.5;
+
+  transition:
+    background-color 200ms var(--ease-smooth),
+    border-color 200ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/**
+ * Element: indicator - the icon chip at the start of the alert
+ */
+.alert__indicator {
+  @apply flex shrink-0 items-center justify-center select-none;
+  @apply size-7 rounded-full;
+
+  [data-slot="alert-default-icon"] {
+    @apply size-4;
+  }
+}
+
+/**
+ * Element: content - the title + description column
+ */
+.alert__content {
+  @apply flex min-w-0 flex-1 flex-col items-start text-sm;
+  @apply pt-1;
+}
+
+/**
+ * Element: title - the alert heading
+ */
+.alert__title {
+  @apply text-sm font-semibold leading-5;
+}
+
+/**
+ * Element: description - supporting body copy
+ */
+.alert__description {
+  @apply text-xs leading-[1.125rem] text-muted;
+}
+
+/**
+ * Element: close - positioning for the optional dismiss control
+ */
+.alert > [data-slot="close-button"] {
+  @apply -mr-1;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Variants
+ * -----------------------------------------------------------------------------------------------*/
+
+/**
+ * Modifier: default - neutral surface tone
+ */
+.alert--default {
+  background-color: var(--color-surface);
+  border-color: var(--color-border);
+}
+
+.alert--default .alert__indicator {
+  background-color: color-mix(in oklab, var(--foreground) 8%, transparent);
+  @apply text-foreground;
+}
+
+.alert--default .alert__title {
+  @apply text-foreground;
+}
+
+/**
+ * Modifier: accent - primary / brand tone
+ */
+.alert--accent {
+  background-color: color-mix(in oklab, var(--accent) 8%, var(--surface));
+  border-color: color-mix(in oklab, var(--accent) 28%, transparent);
+}
+
+.alert--accent .alert__indicator {
+  @apply bg-accent-soft text-accent-soft-foreground;
+}
+
+.alert--accent .alert__title {
+  color: var(--color-accent-soft-foreground);
+}
+
+/**
+ * Modifier: success
+ */
+.alert--success {
+  background-color: color-mix(in oklab, var(--success) 8%, var(--surface));
+  border-color: color-mix(in oklab, var(--success) 28%, transparent);
+}
+
+.alert--success .alert__indicator {
+  @apply bg-success-soft text-success-soft-foreground;
+}
+
+.alert--success .alert__title {
+  color: var(--color-success-soft-foreground);
+}
+
+/**
+ * Modifier: warning
+ */
+.alert--warning {
+  background-color: color-mix(in oklab, var(--warning) 9%, var(--surface));
+  border-color: color-mix(in oklab, var(--warning) 30%, transparent);
+}
+
+.alert--warning .alert__indicator {
+  @apply bg-warning-soft text-warning-soft-foreground;
+}
+
+.alert--warning .alert__title {
+  color: var(--color-warning-soft-foreground);
+}
+
+/**
+ * Modifier: danger
+ */
+.alert--danger {
+  background-color: color-mix(in oklab, var(--danger) 8%, var(--surface));
+  border-color: color-mix(in oklab, var(--danger) 30%, transparent);
+}
+
+.alert--danger .alert__indicator {
+  @apply bg-danger-soft text-danger-soft-foreground;
+}
+
+.alert--danger .alert__title {
+  color: var(--color-danger-soft-foreground);
+}

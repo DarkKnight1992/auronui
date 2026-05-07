@@ -1,0 +1,35 @@
+{
+  "name": "auronui",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Vue 3 designed 85 components",
+  "license": "MIT",
+  "engines": {
+    "node": ">=22.0.0",
+    "pnpm": ">=10.33.0"
+  },
+  "scripts": {
+    "build": "turbo build",
+    "dev": "turbo dev",
+    "lint": "turbo lint",
+    "typecheck": "turbo typecheck",
+    "test": "turbo test",
+    "format": "prettier --write .",
+    "clean": "turbo clean",
+    "docs:dev": "pnpm --filter @auronui/docs dev",
+    "docs:build": "pnpm --filter @auronui/docs build"
+  },
+  "devDependencies": {
+    "@auronui/standard": "workspace:*",
+    "eslint": "^9.0.0",
+    "turbo": "2.9.6",
+    "prettier": "3.8.2",
+    "typescript": "6.0.2"
+  },
+  "overrides": {
+    "vue": "^3.5.32",
+    "tailwindcss": "^4.2.2",
+    "reka-ui": "^2.9.5"
+  },
+  "packageManager": "pnpm@10.33.0"
+}

@@ -1,0 +1,125 @@
+/* Date input group styles — mirror .input so DateInput visually matches Input */
+.date-input-group {
+  @apply inline-flex h-9 items-center overflow-hidden rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none placeholder:text-field-placeholder sm:text-sm;
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  /* Hover state */
+  @media (hover: hover) {
+    &:hover:not(:focus-within):not([data-focus-within="true"]),
+    &[data-hovered="true"]:not(:focus-within):not([data-focus-within="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  /* Focus within state */
+  &[data-focus-within="true"]:not(
+      :has(
+        [data-slot="date-picker-trigger"]:focus,
+        [data-slot="date-picker-trigger"]:focus,
+        [data-slot="date-range-picker-trigger"]:focus,
+        [data-slot="date-range-picker-trigger"]:focus
+      )
+    ),
+  &:focus-within:not(
+      :has(
+        [data-slot="date-picker-trigger"]:focus,
+        [data-slot="date-picker-trigger"]:focus,
+        [data-slot="date-range-picker-trigger"]:focus,
+        [data-slot="date-range-picker-trigger"]:focus
+      )
+    ) {
+    @apply status-focused-field;
+  }
+
+  /* Invalid state */
+  &[aria-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  /* Disabled state */
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.date-input-group__input {
+  @apply flex flex-1 cursor-text items-center gap-px rounded-none border-0 bg-transparent text-sm shadow-none outline-none sm:text-sm;
+
+  .date-input-group:has(.date-range-picker__range-separator) & {
+    &[slot="start"] {
+      @apply flex-none pr-0;
+    }
+    &[slot="end"] {
+      @apply pl-0;
+    }
+  }
+
+  /* Focus state - handled by group */
+  &:focus,
+  &:focus-visible {
+    @apply outline-none;
+  }
+}
+
+.date-input-group__input-container {
+  @apply flex flex-1 items-center;
+  width: fit-content;
+  overflow-x: auto;
+  overflow-y: clip;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.date-input-group__segment {
+  @apply inline-block rounded-md px-0.5 text-end text-nowrap outline-none;
+
+  /* Segment separators styling "/" */
+  &[data-type="literal"] {
+    @apply p-0 text-muted;
+  }
+
+  /* Placeholder styling */
+  &[data-placeholder="true"] {
+    @apply text-field-placeholder;
+  }
+
+  /* Focused segment */
+  &:focus,
+  &[data-focused="true"] {
+    @apply bg-accent-soft text-accent-soft-foreground;
+  }
+
+  /* Disabled segment */
+  &[data-disabled] {
+    @apply opacity-50;
+  }
+
+  /* Invalid segment */
+  &[aria-invalid="true"] {
+    @apply text-danger;
+
+    /* Focused segment */
+    &:focus,
+    &[data-focused="true"] {
+      @apply bg-danger-soft text-danger-soft-foreground;
+    }
+  }
+}

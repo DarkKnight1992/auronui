@@ -1,0 +1,107 @@
+{
+  "name": "@auronui/vue",
+  "version": "1.0.0",
+  "description": "Vue 3 85 components with full visual and functional parity",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://auronui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DarkKnight1992/auron.git",
+    "directory": "packages/vue"
+  },
+  "bugs": {
+    "url": "https://github.com/DarkKnight1992/auron/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "components",
+    "ui",
+    "component-library",
+    "heroui",
+    "reka-ui",
+    "tailwindcss",
+    "accessible",
+    "typescript",
+    "auron"
+  ],
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": false,
+  "main": "./dist/cjs/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "style": "./dist/style.css",
+  "exports": {
+    ".": {
+      "import": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/index.js"
+      },
+      "require": {
+        "types": "./dist/index.d.ts",
+        "default": "./dist/cjs/index.cjs"
+      }
+    },
+    "./style": {
+      "default": "./dist/style.css"
+    },
+    "./style.css": {
+      "default": "./dist/style.css"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "vite build",
+    "dev": "vite build --watch",
+    "typecheck": "vue-tsc --noEmit",
+    "lint": "eslint src --ext .ts,.vue",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "peerDependencies": {
+    "@vueuse/core": ">=14.0.0",
+    "reka-ui": ">=2.9.0",
+    "tailwindcss": ">=4.0.0",
+    "vue": ">=3.5.0"
+  },
+  "peerDependenciesMeta": {
+    "tailwindcss": {
+      "optional": true
+    }
+  },
+  "dependencies": {
+    "@auronui/styles": "workspace:*",
+    "@iconify/vue": "^5.0.0",
+    "@tanstack/vue-table": "^8.20.0",
+    "@tanstack/vue-virtual": "^3.13.0",
+    "motion-v": "^2.2.1",
+    "tailwind-merge": "3.5.0",
+    "tailwind-variants": "3.2.2",
+    "vee-validate": "^4.15.1"
+  },
+  "devDependencies": {
+    "@auronui/standard": "workspace:*",
+    "@auronui/vitest": "workspace:*",
+    "@chialab/vitest-axe": "0.19.1",
+    "@internationalized/date": "^3.12.1",
+    "@tailwindcss/vite": "4.2.2",
+    "@types/node": "^25.6.0",
+    "@vitejs/plugin-vue": "6.0.5",
+    "@vue/test-utils": "2.4.6",
+    "@vueuse/core": "14.2.1",
+    "axe-core": "^4.11.2",
+    "eslint": "^9.0.0",
+    "reka-ui": "2.9.5",
+    "typescript": "6.0.2",
+    "vite": "^8.0.8",
+    "vite-plugin-dts": "4.5.4",
+    "vitest": "4.1.4",
+    "vue": "^3.5.32",
+    "vue-tsc": "^3.2.6"
+  }
+}

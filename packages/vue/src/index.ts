@@ -1,0 +1,357 @@
+// @auronui/vue — Vue 3 designed components
+// Components, composables, and utilities are exported here as they are implemented.
+// Phase 1+: component exports added here.
+
+// Composables (Plan 04 — group 1)
+export { useIsMounted } from "./composables/useIsMounted";
+export { useIsHydrated } from "./composables/useIsHydrated";
+export { useMediaQuery } from "./composables/useMediaQuery";
+export { useOverlayState } from "./composables/useOverlayState";
+export type { UseOverlayStateProps, UseOverlayStateReturn } from "./composables/useOverlayState";
+
+// Composables (Plan 05 — group 2)
+export { useCSSVariable } from "./composables/useCSSVariable";
+export { useMeasuredHeight } from "./composables/useMeasuredHeight";
+export { useListData } from "./composables/useListData";
+export type { ListOptions, ListData, Key } from "./composables/useListData";
+
+// Utilities
+export { composeClassName, cx } from "./utils/composeClassName";
+export { composeSlotClassName } from "./utils/composeSlotClassName";
+export { mapPropsVariants } from "./utils/mapPropsVariants";
+export { dataAttr } from "./utils/dataAttr";
+export { createContext } from "./utils/context";
+
+// Phase 1 — Foundation: Presentational Components
+export { Spinner } from './components/spinner'
+export type { SpinnerVariants } from './components/spinner'
+
+export { Separator } from './components/separator'
+export type { SeparatorVariants } from './components/separator'
+
+export { Skeleton } from './components/skeleton'
+export type { SkeletonVariants } from './components/skeleton'
+
+export { Text } from './components/text'
+export type { TextVariants } from './components/text'
+
+export { Label } from './components/label'
+export type { LabelVariants } from './components/label'
+
+export { Description } from './components/description'
+
+export { Header } from './components/header'
+
+export { Kbd } from './components/kbd'
+export type { KbdVariants } from './components/kbd'
+
+export { Badge } from './components/badge'
+export type { BadgeVariants } from './components/badge'
+
+export { Chip } from './components/chip'
+export type { ChipVariants } from './components/chip'
+
+export { Surface, useSurfaceInject, surfaceContextKey } from './components/surface'
+export type { SurfaceContext, SurfaceVariants } from './components/surface'
+
+export { Card, CardHeader, CardBody, CardFooter } from './components/card'
+export type { CardVariants } from './components/card'
+
+export { EmptyState, EmptyStateContent } from './components/empty-state'
+
+// Phase 2 — Foundation: Reka UI Backed Components
+export { Button, ButtonGroup, CloseButton, ToggleButton, ToggleButtonGroup } from './components/button'
+export type { ButtonVariants, ButtonGroupContext, ToggleButtonGroupContext } from './components/button'
+
+export { Link } from './components/link'
+
+// Phase 3 — Form: Simple Inputs
+export { Input } from './components/input'
+export type { InputVariants } from './components/input'
+
+export { Textarea } from './components/textarea'
+export type { TextAreaVariants } from './components/textarea'
+
+export { NumberField } from './components/number-field'
+export type { NumberFieldVariants } from './components/number-field'
+
+export { Fieldset } from './components/fieldset'
+
+// Phase 4 — Form: Selection (Dual-Context)
+export { Checkbox, CheckboxGroup, useCheckboxGroupProvide, useCheckboxGroupInject, checkboxGroupContextKey } from './components/checkbox'
+export type { CheckboxGroupContext } from './components/checkbox'
+
+export { Radio, RadioGroup, useRadioGroupProvide, useRadioGroupInject, radioGroupContextKey } from './components/radio'
+export type { RadioGroupContext } from './components/radio'
+
+export { Switch, SwitchGroup, useSwitchGroupProvide, useSwitchGroupInject, switchGroupContextKey } from './components/switch'
+export type { SwitchGroupContext } from './components/switch'
+
+export { InputOTP } from './components/input-otp'
+
+// Phase 5 — Overlay: Popover
+export {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverArrow,
+  PopoverAnchor,
+  PopoverClose,
+} from './components/popover'
+
+// Phase 5 — Overlay: Tooltip
+export {
+  Tooltip,
+  TooltipProvider,
+  TooltipTrigger,
+  TooltipContent,
+  TooltipArrow,
+} from './components/tooltip'
+
+// Phase 5 — Overlay: Modal
+export {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalOverlay,
+  ModalHeader,
+  ModalBody,
+  ModalFooter,
+  ModalTitle,
+  ModalDescription,
+  ModalClose,
+} from './components/modal'
+
+// Phase 5 — Overlay: AlertDialog
+export {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogOverlay,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogIcon,
+  AlertDialogAction,
+  AlertDialogCancel,
+} from './components/alert-dialog'
+
+// Phase 5 — Overlay: Drawer
+export {
+  Drawer,
+  DrawerTrigger,
+  DrawerContent,
+  DrawerOverlay,
+  DrawerHeader,
+  DrawerBody,
+  DrawerFooter,
+  DrawerClose,
+  DrawerTitle,
+} from './components/drawer'
+export type { DrawerPlacement, DrawerSize } from './components/drawer'
+
+// Phase 6 — Navigation & Feedback: Tabs
+export { Tabs, TabList, Tab, TabPanel, TabIndicator } from './components/tabs'
+
+// Phase 6 — Navigation & Feedback: Accordion
+export {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+} from './components/accordion'
+
+// Phase 6 — Navigation & Feedback: Collapsible
+export {
+  Collapsible,
+  CollapsibleTrigger,
+  CollapsibleContent,
+  CollapsibleGroup,
+} from './components/collapsible'
+
+// Phase 6 — Navigation & Feedback: Breadcrumbs
+export { Breadcrumbs, BreadcrumbItem } from './components/breadcrumbs'
+
+// Phase 6 — Navigation & Feedback: Toolbar
+export {
+  Toolbar,
+  ToolbarButton,
+  ToolbarLink,
+  ToolbarSeparator,
+  ToolbarToggleGroup,
+  ToolbarToggleItem,
+} from './components/toolbar'
+
+// Phase 6 — Navigation & Feedback: Alert
+export { Alert, AlertIcon, AlertTitle, AlertDescription } from './components/alert'
+export type { AlertSeverity } from './components/alert/Alert.vue'
+
+// Phase 6 — Navigation & Feedback: Toast
+export {
+  ToastProvider,
+  Toast,
+  ToastTitle,
+  ToastDescription,
+  ToastAction,
+  ToastClose,
+  ToastViewport,
+  useToast,
+} from './components/toast'
+export type { ToastOptions, ToastInstance, ToastPosition, ToastVariant } from './composables/useToast'
+
+// Phase 7 — Selection: List / Menu / Combo
+export { ListBox, ListBoxItem, ListBoxSection } from './components/list-box'
+export type { ListBoxContext, ListBoxVariants, ListBoxItemVariants, ListBoxSectionVariants } from './components/list-box'
+
+export { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './components/select'
+export type { SelectContext, SelectVariants } from './components/select'
+
+// Phase 7 — Selection: Dropdown
+export {
+  Dropdown,
+  DropdownTrigger,
+  DropdownMenu,
+  DropdownItem,
+  DropdownCheckboxItem,
+  DropdownRadioGroup,
+  DropdownRadioItem,
+  DropdownSection,
+  DropdownSub,
+  DropdownSubTrigger,
+  DropdownSubContent,
+  dropdownContextKey,
+  useDropdownProvide,
+  useDropdownInject,
+} from './components/dropdown'
+export type { DropdownContext } from './components/dropdown'
+
+// Phase 7 — Selection: ComboBox (SEL-05)
+export {
+  ComboBox,
+  ComboBoxInput,
+  ComboBoxContent,
+  ComboBoxItem,
+  ComboBoxEmpty,
+  comboBoxContextKey,
+  useComboBoxProvide,
+  useComboBoxInject,
+} from './components/combo-box'
+export type { ComboBoxContext, ComboBoxVariants, ComboBoxItemData } from './components/combo-box'
+
+// Phase 7 — Selection: Autocomplete (SEL-06)
+export {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+  autocompleteContextKey,
+  useAutocompleteProvide,
+  useAutocompleteInject,
+} from './components/autocomplete'
+export type { AutocompleteContext, AutocompleteVariants, AutocompleteItemData } from './components/autocomplete'
+
+// Phase 7 — Selection: TagGroup (SEL-07) + Tag (SEL-08)
+export { TagGroup, TagGroupInput, tagGroupContextKey, useTagGroupProvide, useTagGroupInject } from './components/tag-group'
+export type { TagGroupContext, TagGroupVariants } from './components/tag-group'
+
+export { Tag, TagText, TagDelete } from './components/tag'
+export type { TagVariants } from './components/tag'
+
+// Phase 8 — Pagination
+export {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+  usePaginationProvide,
+  usePaginationInject,
+  createPaginationContext,
+  paginationContextKey,
+} from './components/pagination'
+export type { PaginationContext, PaginationVariants } from './components/pagination'
+
+// Phase 8 — Data Table
+export {
+  Table,
+  TableHeader,
+  TableBody,
+  TableRow,
+  TableCell,
+  TableHeaderCell,
+  TableFooter,
+  tableContextKey,
+  useTableProvide,
+  useTableInject,
+  useTableKeyboardNav,
+} from './components/table'
+export type { TableContext, TableKeyboardNav, TableKeyboardNavOptions } from './components/table'
+
+// Phase 9 — Specialized: Media & Feedback
+export { Avatar, AvatarGroup } from './components/avatar'
+export type { AvatarGroupContext } from './components/avatar'
+
+// Reka UI primitives + custom
+export { AspectRatio } from './components/aspect-ratio'
+export type { AspectRatioVariants } from './components/aspect-ratio'
+
+export { SplitterGroup, SplitterPanel, SplitterResizeHandle, splitterContextKey } from './components/splitter'
+export type { SplitterGroupContext, SplitterVariants } from './components/splitter'
+
+export {
+  Stepper,
+  StepperItem,
+  StepperIndicator,
+  StepperTitle,
+  StepperDescription,
+  StepperContent,
+  StepperSeparator,
+  stepperContextKey,
+} from './components/stepper'
+export type { StepperContext, StepStatus, StepperVariants } from './components/stepper'
+
+export { Tree, TreeItem, TreeItemToggle, treeContextKey } from './components/tree'
+export type { TreeContext, TreeVariants } from './components/tree'
+
+export { Slider } from './components/slider'
+
+export { ProgressBar } from './components/progress-bar'
+export { ProgressCircle } from './components/progress-circle'
+
+export { Meter } from './components/meter'
+
+export { ScrollShadow } from './components/scroll-shadow'
+export { ScrollArea } from './components/scroll-area'
+
+// Phase 10 — Specialized: Date & Time (plan 01)
+export { Calendar } from './components/calendar'
+export { RangeCalendar } from './components/range-calendar'
+export type { DateRange } from './components/range-calendar/RangeCalendar.vue'
+export { CalendarYearPicker } from './components/calendar-year-picker'
+
+// Phase 10 — Specialized: Date & Time (plan 02)
+export { DateInput } from './components/date-input'
+export { DateRangeField } from './components/date-range-field'
+export { TimeField } from './components/time-field'
+
+// Phase 10 — Specialized: Date & Time (plan 03)
+export { DatePicker } from './components/date-picker'
+export { DateRangePicker } from './components/date-range-picker'
+export type { DateRange as DateRangePickerRange } from './components/date-range-picker'
+
+// Phase 11 — Specialized: Color
+export { ColorArea } from './components/color-area'
+export { ColorSlider } from './components/color-slider'
+export { ColorField } from './components/color-field'
+export { ColorSwatch } from './components/color-swatch'
+export { ColorSwatchPicker } from './components/color-swatch-picker'
+export { ColorInputGroup } from './components/color-input-group'
+export { ColorPicker } from './components/color-picker'
+export { useColorState } from './composables/useColorState'
+export type { UseColorStateProps, UseColorStateReturn, ColorFormat } from './composables/useColorState'

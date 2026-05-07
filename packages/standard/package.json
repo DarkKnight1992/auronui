@@ -1,0 +1,21 @@
+{
+  "name": "@auronui/standard",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Shared ESLint, Prettier, and TypeScript configs for Auron",
+  "type": "module",
+  "exports": {
+    "./eslint/vue": "./eslint/vue.mjs",
+    "./prettier": "./prettier/index.mjs",
+    "./tsconfig/base": "./tsconfig/base.json",
+    "./tsconfig/vue": "./tsconfig/vue.json"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "0.9.1",
+    "eslint": "^9.0.0",
+    "eslint-plugin-vue": "10.8.0",
+    "prettier": "3.8.2",
+    "typescript": "6.0.2",
+    "typescript-eslint": "^8.59.0"
+  }
+}

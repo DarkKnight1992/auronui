@@ -1,0 +1,18 @@
+{
+  "extends": "@vue/tsconfig/tsconfig.dom.json",
+  "compilerOptions": {
+    "moduleResolution": "bundler",
+    "types": ["vitepress/client"]
+  },
+  "include": [
+    ".vitepress/**/*",
+    "**/*.ts",
+    "**/*.vue",
+    "**/*.md"
+  ],
+  "exclude": [
+    "node_modules",
+    ".vitepress/dist",
+    ".vitepress/cache"
+  ]
+}

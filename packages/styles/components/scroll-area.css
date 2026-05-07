@@ -1,0 +1,70 @@
+/* -------------------------------------------------------------------------------------------------
+ * ScrollArea Component Styles
+ * Block: scroll-area
+ * Pretty, cross-browser scrollbar driven by Reka UI (same look on Chrome,
+ * Safari, Firefox, Edge). Renders a JS-positioned thumb over a track.
+ * -----------------------------------------------------------------------------------------------*/
+
+.scroll-area__root {
+  @apply relative overflow-hidden;
+  @apply h-full w-full;
+}
+
+.scroll-area__viewport {
+  @apply h-full w-full rounded-[inherit];
+}
+
+/* Hide the native scrollbar inside the viewport — Reka already does this
+ * inline, but we reinforce for clarity. */
+.scroll-area__viewport > [data-reka-scroll-area-viewport] {
+  scrollbar-width: none;
+}
+.scroll-area__viewport > [data-reka-scroll-area-viewport]::-webkit-scrollbar {
+  display: none;
+}
+
+.scroll-area__scrollbar {
+  @apply flex touch-none select-none;
+  @apply bg-transparent;
+  @apply p-[2px];
+  @apply transition-[background-color,opacity] duration-200 ease-out;
+
+  &[data-orientation="vertical"] {
+    @apply h-full w-2.5;
+  }
+
+  &[data-orientation="horizontal"] {
+    @apply h-2.5 w-full flex-col;
+  }
+
+  &:hover {
+    @apply bg-(--scroll-area-track,color-mix(in_oklab,currentColor_6%,transparent));
+  }
+}
+
+.scroll-area__thumb {
+  @apply relative flex-1;
+  @apply rounded-full;
+  @apply bg-(--scroll-area-thumb,color-mix(in_oklab,currentColor_28%,transparent));
+  @apply transition-colors duration-150 ease-out;
+
+  /* Expand hit-target — invisible, absolute-centered — for easier grabbing. */
+  &::before {
+    content: "";
+    @apply absolute left-1/2 top-1/2;
+    @apply h-full w-full min-h-11 min-w-11;
+    @apply -translate-x-1/2 -translate-y-1/2;
+  }
+
+  &:hover {
+    @apply bg-(--scroll-area-thumb-hover,color-mix(in_oklab,currentColor_46%,transparent));
+  }
+
+  &[data-state="visible"] {
+    @apply opacity-100;
+  }
+}
+
+.scroll-area__corner {
+  @apply bg-transparent;
+}

@@ -1,0 +1,603 @@
+.input {
+  @apply flex items-center gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+
+  /* Default size - matches input--md (height equivalent to h-9) */
+  height: 2.25rem;
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:has(> input:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &.input--sm {
+    @apply gap-[0.40rem];
+  }
+
+  &.input--lg {
+    @apply gap-4;
+  }
+
+  /* Focus state */
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  /* Focus visible state */
+  &:has(> input:focus-visible):not(:focus-within),
+  &[data-focus-visible="true"] {
+  }
+
+  /* Invalid state */
+  &:has(> input:invalid),
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  /* Disabled state */
+  &:has(> input:disabled),
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Readonly state */
+  &:has(> input:read-only),
+  &[data-readonly="true"] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* ─── Variant modifiers ─────────────────────────────────────────────────────── */
+
+.input--flat {
+  /* Transparent background across all states, no border, no shadow */
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:has(> input:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.input--bordered {
+  /* Transparent background + light border */
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:has(> input:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.input--faded {
+  /* Muted background + visible border */
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.input--underlined {
+  /* Bottom border only — always-visible underline */
+  @apply rounded-none shadow-none bg-transparent !px-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:has(> input:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.input--raised {
+  /* Elevated look: white bg + shadow, transparent border */
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:has(> input:hover):not(:focus-within),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &:focus-within,
+  &[data-focused="true"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Size modifiers ─────────────────────────────────────────────────────────── */
+
+.input--sm {
+  @apply text-xs px-2 py-1;
+  height: 1.75rem;
+}
+
+.input--md {
+  /* No styles — md is the default size defined on .input base */
+}
+
+.input--lg {
+  @apply text-base px-4 py-2.5;
+  height: 2.75rem;
+}
+
+/* ─── Color modifiers ────────────────────────────────────────────────────────── */
+
+.input--default {
+  /* Default accent */
+  --input-accent: var(--color-default-foreground);
+  accent-color: var(--input-accent);
+}
+
+.input--primary {
+  --input-accent: var(--color-primary);
+  accent-color: var(--input-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.input--secondary {
+  --input-accent: var(--color-secondary);
+  accent-color: var(--input-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-secondary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.input--success {
+  --input-accent: var(--color-success);
+  accent-color: var(--input-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-success);
+    --tw-ring-color: var(--color-success);
+  }
+}
+
+.input--warning {
+  --input-accent: var(--color-warning);
+  accent-color: var(--input-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-warning);
+    --tw-ring-color: var(--color-warning);
+  }
+}
+
+.input--danger {
+  --input-accent: var(--color-danger);
+  accent-color: var(--input-accent);
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-danger);
+    --tw-ring-color: var(--color-danger);
+  }
+}
+
+/* ─── Underlined + color variant overrides ─────────────────────────────────── */
+/* When .input--underlined is combined with any color variant, enforce the
+   bottom-only underline silhouette on focus (no full-box border, no full-ring
+   shadow). Each rule overrides .input--{color}'s &:focus box-shadow. */
+
+.input--underlined.input--primary,
+.input--underlined.input--secondary,
+.input--underlined.input--success,
+.input--underlined.input--warning,
+.input--underlined.input--danger {
+  /* Re-assert underline-only silhouette even when color variant is applied */
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
+
+/* ─── State modifiers ────────────────────────────────────────────────────────── */
+
+.input--invalid {
+  /* Applied by tv() isInvalid variant — mirrors native :invalid */
+  border-color: var(--color-danger) !important;
+  @apply status-invalid-field;
+}
+
+.input--disabled {
+  /* Applied by tv() isDisabled variant — mirrors native :disabled */
+  @apply status-disabled opacity-60 cursor-not-allowed;
+}
+
+.input--readonly {
+  /* Applied by tv() isReadonly variant — mirrors native :read-only */
+  background-color: var(--color-default-100);
+  cursor: default;
+}
+
+/* ─── Layout modifiers ───────────────────────────────────────────────────────── */
+
+.input--full-width {
+  @apply w-full;
+}
+
+/* ─── Slots ──────────────────────────────────────────────────────────────────── */
+
+.input__input {
+  @apply flex-1 bg-transparent outline-none border-0 p-0 h-auto text-inherit;
+  @apply placeholder:text-field-placeholder;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+}
+
+.input__start-content,
+.input__end-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+}
+
+.input__start-content svg,
+.input__end-content svg {
+  @apply size-4;
+}
+
+/* ─── Label slot ─────────────────────────────────────────────────────────────── */
+
+.input__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-field-placeholder);
+  pointer-events: none;
+  transition:
+    transform 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/* ─── Floating label (inside the input) ──────────────────────────────────── */
+
+/* When a label is present, the input wrapper is taller to make room for the
+   floated label above the caret. Heights override the base/size defaults. */
+.input--label-inside {
+  position: relative;
+  height: 3.5rem; /* md: was 2.25rem; +0.75rem room for floated label */
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.input--label-inside.input--sm {
+  height: 2.5rem; /* sm: was 1.75rem */
+}
+
+.input--label-inside.input--lg {
+  height: 4rem; /* lg: was 2.75rem */
+}
+
+.input--label-inside .input__label {
+  position: absolute;
+  left: 0.75rem; /* matches .input px-3 */
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font-size: var(--text-sm);
+  color: var(--color-field-placeholder);
+}
+
+.input--label-inside.input--underlined .input__label {
+  left: 0rem;
+}
+
+/* Push the input caret/text down so it doesn't sit under the floated label.
+   Applied statically (not only in up-state) to keep the input box stable. */
+.input--label-inside .input__input {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+/* Hide the native placeholder while the label occupies the resting position.
+   Placeholder reveals only once the label has floated up (focused or filled). */
+.input--label-inside .input__input::placeholder {
+  color: transparent;
+}
+
+.input--label-inside.input--default:focus-within .input__label,
+.input--label-inside.input--default[data-focused="true"] .input__label {
+  color: var(--color-foreground);
+}
+
+.input--label-inside:focus-within .input__input::placeholder,
+.input--label-inside[data-focused="true"] .input__input::placeholder,
+.input--label-inside[data-filled="true"] .input__input::placeholder {
+  color: var(--color-field-placeholder);
+}
+
+/* Up-state: focused OR filled. Paired pseudo-class + data-attribute per the
+   Reka UI selector pairing rule. */
+.input--label-inside:focus-within .input__label,
+.input--label-inside[data-focused="true"] .input__label,
+.input--label-inside[data-filled="true"] .input__label {
+  transform: translateY(-110%) scale(0.85);
+}
+
+/* Start-content pushes the label's left anchor so it doesn't overlap the icon */
+.input--label-inside:has(> .input__start-content) .input__label {
+  left: calc(0.75rem + 1rem + 0.5rem); /* px-3 + size-4 icon + gap-2 */
+}
+.input--label-inside.input--underlined:has(> .input__start-content) .input__label {
+  left: calc(1rem + 0.5rem); /* px-3 + size-4 icon + gap-2 */
+}
+
+/* Size-aware offsets for the inside variant */
+.input--label-inside.input--sm .input__label {
+  font-size: var(--text-xs, 0.75rem);
+  left: 0.5rem; /* matches .input--sm px-2 */
+}
+
+.input--label-inside.input--sm:has(> .input__start-content) .input__label {
+  left: calc(0.5rem + 1rem + 0.4rem); /* px-3 + size-4 icon + gap-2 */
+}
+
+.input--label-inside.input--underlined.input--sm:has(> .input__start-content) .input__label {
+  left: calc(1rem + 0.4rem); /* px-3 + size-4 icon + gap-2 */
+}
+
+.input--label-inside.input--sm .input__input {
+  padding-top: 0.625rem;
+}
+.input--label-inside.input--sm:focus-within .input__label,
+.input--label-inside.input--sm[data-focused="true"] .input__label,
+.input--label-inside.input--sm[data-filled="true"] .input__label {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.input--label-inside.input--lg .input__label {
+  font-size: var(--text-base, 1rem);
+  left: 1rem; /* matches .input--lg px-4 */
+}
+.input--label-inside.input--lg:has(> .input__start-content) .input__label {
+  left: calc(1rem + 1rem + 1rem); /* px-3 + size-4 icon + gap-2 */
+}
+
+.input--label-inside.input--underlined.input--lg:has(> .input__start-content) .input__label {
+  left: calc(1rem + 1rem); /* px-3 + size-4 icon + gap-2 */
+}
+
+.input--label-inside.input--lg .input__input {
+  padding-top: 1.125rem;
+}
+
+
+/* Underlined variant + inside label: ensure the input has enough top padding */
+.input--underlined.input--label-inside .input__input {
+  padding-top: 1.125rem;
+}
+
+/* Invalid state — label color flips to danger */
+.input--label-inside:has(> input:invalid) .input__label,
+.input--label-inside[data-invalid="true"] .input__label {
+  color: var(--color-danger);
+}
+
+/* ─── Root wrapper (holds label + field + helper) ───────────────────────── */
+
+.input-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.input-root--full-width {
+  @apply w-full;
+}
+
+.input-root--label-outside-left {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.input__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Outside label ──────────────────────────────────────────────────────── */
+
+.input-root--label-outside > .input__label,
+.input-root--label-outside-left > .input__label {
+  position: static;
+  transform: none;
+  display: block;
+  pointer-events: auto;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+/* Align outside-left label with input text baseline; defaults tuned for md. */
+.input-root--label-outside-left > .input__label {
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.input-root--label-outside[data-invalid="true"] > .input__label,
+.input-root--label-outside-left[data-invalid="true"] > .input__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ─────────────────────────── */
+
+.input__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.input__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.input__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+/* ─── Clear button + password toggle ─────────────────────────────────── */
+
+.input__clear-button,
+.input__password-toggle {
+  @apply inline-flex items-center justify-center shrink-0;
+  @apply bg-transparent border-0 p-0 cursor-pointer outline-none;
+  color: var(--color-field-placeholder);
+  transition:
+    color 300ms var(--ease-smooth),
+    opacity 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+.input__clear-button svg,
+.input__password-toggle svg {
+  @apply size-4;
+}
+
+.input--sm .input__clear-button svg,
+.input--sm .input__password-toggle svg {
+  width: 0.875rem;
+  height: 0.875rem;
+}
+
+.input--lg .input__clear-button svg,
+.input--lg .input__password-toggle svg {
+  @apply size-5;
+}
+
+@media (hover: hover) {
+  .input__clear-button:hover,
+  .input__password-toggle:hover,
+  .input__clear-button[data-hovered="true"],
+  .input__password-toggle[data-hovered="true"] {
+    color: var(--color-foreground);
+  }
+}
+
+.input__clear-button:focus-visible,
+.input__password-toggle:focus-visible,
+.input__clear-button[data-focus-visible="true"],
+.input__password-toggle[data-focus-visible="true"] {
+  color: var(--color-foreground);
+  border-radius: 4px;
+  box-shadow: 0 0 0 2px var(--color-focus, var(--color-field-border-focus));
+}
+
+.input__clear-button:disabled,
+.input__password-toggle:disabled,
+.input__clear-button[data-disabled="true"],
+.input__password-toggle[data-disabled="true"] {
+  @apply cursor-not-allowed opacity-50;
+}
+
+/* Color up-state — floated label picks up the focus accent per color variant */
+.input--label-inside.input--primary:focus-within .input__label,
+.input--label-inside.input--primary[data-focused="true"] .input__label {
+  color: var(--color-primary);
+}
+.input--label-inside.input--secondary:focus-within .input__label,
+.input--label-inside.input--secondary[data-focused="true"] .input__label {
+  color: var(--color-secondary);
+}
+.input--label-inside.input--success:focus-within .input__label,
+.input--label-inside.input--success[data-focused="true"] .input__label {
+  color: var(--color-success);
+}
+.input--label-inside.input--warning:focus-within .input__label,
+.input--label-inside.input--warning[data-focused="true"] .input__label {
+  color: var(--color-warning);
+}
+.input--label-inside.input--danger:focus-within .input__label,
+.input--label-inside.input--danger[data-focused="true"] .input__label {
+  color: var(--color-danger);
+}

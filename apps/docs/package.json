@@ -1,0 +1,31 @@
+{
+  "name": "@auronui/docs",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Auron documentation site powered by VitePress",
+  "type": "module",
+  "scripts": {
+    "dev": "vitepress dev",
+    "build": "vitepress build",
+    "preview": "vitepress preview",
+    "typecheck": "vue-tsc --noEmit",
+    "docgen": "tsx scripts/generate-component-meta.ts",
+    "docgen:pages": "tsx scripts/generate-component-pages.ts",
+    "docs:gen": "pnpm run docgen && pnpm run docgen:pages"
+  },
+  "dependencies": {
+    "@fontsource/inter": "^5.2.0",
+    "@auronui/styles": "workspace:*",
+    "@auronui/vue": "workspace:*"
+  },
+  "devDependencies": {
+    "@vue/tsconfig": "^0.9.0",
+    "fast-glob": "^3.3.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.8.0",
+    "vitepress": "^1.6.4",
+    "vue": "^3.5.0",
+    "vue-docgen-api": "^4.79.0",
+    "vue-tsc": "^2.1.0"
+  }
+}

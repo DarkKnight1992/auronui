@@ -1,0 +1,7 @@
+/* Base collapsible-group styles */
+.collapsible-group {
+  @apply w-full;
+
+  /* Performance optimization - contain layout changes */
+  contain: layout style;
+}

@@ -1,0 +1,29 @@
+/* ==========================================================================
+   List-box item
+   ========================================================================== */
+
+.list-box-item {
+  @apply list-item min-h-8 gap-2 rounded-lg text-sm;
+
+  &:has(.list-box-item__indicator) {
+    @apply pr-7;
+  }
+
+  &[aria-selected="true"],
+  &[data-state="checked"] {
+    @apply bg-default font-medium text-foreground;
+  }
+}
+
+.list-box-item__indicator {
+  @apply list-item-indicator right-2 text-foreground;
+
+  [data-slot="list-box-item-indicator--checkmark"] {
+    @apply size-3;
+  }
+}
+
+.list-box-item--danger {
+  .list-box-item__indicator { @apply text-danger; }
+  [data-slot="label"] { @apply text-danger; }
+}

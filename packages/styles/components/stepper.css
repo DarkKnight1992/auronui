@@ -1,0 +1,160 @@
+/* Stepper component styles */
+
+/* -------------------------------------------------- Container -------------------------------------------------- */
+.stepper {
+  @apply flex;
+}
+
+.stepper--horizontal {
+  @apply flex-row items-start;
+}
+
+.stepper--vertical {
+  @apply flex-col;
+}
+
+/* -------------------------------------------------- Item -------------------------------------------------- */
+.stepper__item {
+  @apply relative flex;
+}
+
+.stepper__item--horizontal {
+  @apply flex-1 flex-col items-center;
+
+  &:last-child {
+    @apply flex-none;
+  }
+}
+
+.stepper__item--vertical {
+  @apply flex-row gap-3;
+
+  &:last-child .stepper__separator--vertical {
+    @apply hidden;
+  }
+}
+
+/* -------------------------------------------------- Indicator -------------------------------------------------- */
+.stepper__indicator {
+  @apply relative z-10 flex shrink-0 items-center justify-center rounded-full font-semibold transition-colors;
+}
+
+/* Size variants */
+.stepper__indicator--sm {
+  @apply size-6 text-xs;
+}
+
+.stepper__indicator--md {
+  @apply size-8 text-sm;
+}
+
+.stepper__indicator--lg {
+  @apply size-10 text-base;
+}
+
+/* Color: pending (default gray) */
+.stepper__indicator {
+  @apply bg-default text-default-foreground;
+}
+
+/* Completed state — neutral green-ish using accent */
+.stepper__item[data-status="completed"] .stepper__indicator {
+  @apply bg-success text-success-foreground;
+}
+
+/* Error state */
+.stepper__item[data-status="error"] .stepper__indicator {
+  @apply bg-danger text-danger-foreground;
+}
+
+/* Current (active) step */
+.stepper__item[data-status="current"] .stepper__indicator--default {
+  @apply bg-default text-default-foreground ring-2 ring-default;
+}
+
+.stepper__item[data-status="current"] .stepper__indicator--accent {
+  @apply bg-accent text-accent-foreground ring-2 ring-accent/30;
+}
+
+.stepper__item[data-status="current"] .stepper__indicator--success {
+  @apply bg-success text-success-foreground ring-2 ring-success/30;
+}
+
+.stepper__item[data-status="current"] .stepper__indicator--warning {
+  @apply bg-warning text-warning-foreground ring-2 ring-warning/30;
+}
+
+.stepper__item[data-status="current"] .stepper__indicator--danger {
+  @apply bg-danger text-danger-foreground ring-2 ring-danger/30;
+}
+
+/* -------------------------------------------------- Content (title + description) -------------------------------------------------- */
+.stepper__content {
+  @apply flex flex-col;
+
+  .stepper__item--horizontal & {
+    @apply mt-2 items-center text-center;
+  }
+
+  .stepper__item--vertical & {
+    @apply pb-6;
+  }
+}
+
+.stepper__title {
+  @apply font-medium text-foreground;
+}
+
+.stepper__title--sm {
+  @apply text-xs;
+}
+
+.stepper__title--md {
+  @apply text-sm;
+}
+
+.stepper__title--lg {
+  @apply text-base;
+}
+
+.stepper__item[data-status="pending"] .stepper__title {
+  @apply text-muted;
+}
+
+.stepper__description {
+  @apply text-xs text-muted;
+}
+
+/* -------------------------------------------------- Separator -------------------------------------------------- */
+.stepper__separator {
+  @apply bg-default transition-colors;
+}
+
+/* Horizontal separator fills the space between the step indicator and next one */
+.stepper__separator--horizontal {
+  @apply mt-4 h-px flex-1;
+
+  .stepper__item--horizontal:last-child & {
+    @apply hidden;
+  }
+}
+
+/* Vertical separator is a line on the left side running down */
+.stepper__separator--vertical {
+  @apply absolute left-4 top-8 -translate-x-1/2 w-px;
+  bottom: 0;
+
+  .stepper__indicator--sm ~ & {
+    @apply left-3 top-6;
+  }
+
+  .stepper__indicator--lg ~ & {
+    @apply left-5 top-10;
+  }
+}
+
+/* Completed separator takes accent color */
+.stepper__item[data-status="completed"] .stepper__separator,
+.stepper__item[data-status="current"] .stepper__separator {
+  @apply bg-accent;
+}

@@ -1,0 +1,74 @@
+/* Splitter component styles */
+.splitter-group {
+  @apply flex size-full overflow-hidden;
+}
+
+.splitter-group--horizontal {
+  @apply flex-row;
+}
+
+.splitter-group--vertical {
+  @apply flex-col;
+}
+
+.splitter-panel {
+  @apply overflow-hidden;
+}
+
+/* Resize handle */
+.splitter-handle {
+  @apply relative flex shrink-0 items-center justify-center focus-visible:outline-none;
+
+  /* Focus ring */
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  /* Active/dragging cursor */
+  &[data-state="drag"] {
+    @apply opacity-100;
+  }
+}
+
+.splitter-handle--horizontal {
+  @apply cursor-col-resize;
+  width: 1px;
+  margin-inline: 1px;
+
+  &::before {
+    @apply absolute inset-y-0 -inset-x-1.5 content-[''];
+  }
+}
+
+.splitter-handle--vertical {
+  @apply cursor-row-resize;
+  height: 1px;
+  margin-block: 1px;
+
+  &::before {
+    @apply absolute inset-x-0 -inset-y-1.5 content-[''];
+  }
+}
+
+/* Visual bar inside the handle */
+.splitter-handle__bar {
+  @apply rounded-full bg-default transition-colors;
+
+  .splitter-handle--horizontal & {
+    @apply h-8 w-px;
+  }
+
+  .splitter-handle--vertical & {
+    @apply h-px w-8;
+  }
+
+  @media (hover: hover) {
+    .splitter-handle:hover & {
+      @apply bg-default-hover;
+    }
+  }
+
+  .splitter-handle[data-state="drag"] & {
+    @apply bg-accent;
+  }
+}

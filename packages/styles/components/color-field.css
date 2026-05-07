@@ -1,0 +1,99 @@
+/* ==========================================================================
+   ColorField - Form field for editing hex colors or individual color channels
+   ========================================================================== */
+
+/* Base styles */
+.color-field {
+  @apply flex flex-col gap-1;
+
+  &[aria-invalid="true"] {
+    [data-slot="description"] {
+      @apply hidden;
+    }
+  }
+
+  [data-slot="label"] {
+    @apply w-fit;
+  }
+
+  [data-slot="description"] {
+    @apply px-1;
+  }
+}
+
+/* Full width modifier */
+.color-field--full-width {
+  @apply w-full;
+}
+
+/* ==========================================================================
+   Label
+   ========================================================================== */
+
+.color-field__label {
+  @apply w-fit text-sm font-medium text-foreground;
+}
+
+/* ==========================================================================
+   Input
+   ========================================================================== */
+
+.color-field__input {
+  @apply rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+
+  height: 2.25rem;
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &::placeholder {
+    @apply text-field-placeholder;
+  }
+
+  /* Focus state */
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Readonly state */
+  &[readonly],
+  &[data-readonly] {
+    @apply cursor-default;
+  }
+
+  /* Invalid state */
+  &[aria-invalid="true"],
+  &[data-invalid] {
+    border-color: var(--color-danger);
+  }
+}
+
+/* ==========================================================================
+   Description / error message
+   ========================================================================== */
+
+.color-field__description {
+  @apply px-1 text-xs text-muted;
+}
+
+.color-field__error-message {
+  @apply px-1 text-xs;
+  color: var(--color-danger);
+}

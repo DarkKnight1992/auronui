@@ -1,0 +1,262 @@
+/* Base tabs component */
+.tabs {
+  @apply flex gap-2;
+
+  /* Orientation styles */
+  &[data-orientation="horizontal"] {
+    @apply flex-col;
+  }
+
+  &[data-orientation="vertical"] {
+    @apply flex-row;
+  }
+}
+
+/* Tab list container */
+.tabs__list-container {
+  @apply relative;
+}
+
+/* Tab list */
+.tabs__list {
+  @apply relative inline-flex bg-default p-1;
+
+  border-radius: calc(var(--radius-2xl) + 0.25rem);
+
+  /* Horizontal orientation */
+  &[data-orientation="horizontal"] {
+    @apply w-full flex-row;
+  }
+
+  /* Vertical orientation */
+  &[data-orientation="vertical"] {
+    @apply flex-col gap-1;
+
+    .tabs__tab {
+      @apply min-w-20;
+    }
+  }
+}
+
+/* Individual tab */
+.tabs__tab {
+  position: relative;
+  z-index: 1;
+  cursor: var(--cursor-interactive);
+
+  @apply flex h-8 w-full items-center justify-center rounded-3xl px-4 text-center text-sm font-medium outline-none no-highlight;
+  @apply text-foreground/50;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    color 300ms var(--ease-smooth),
+    opacity 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  /* Selected state */
+  &[data-state="active"] {
+    @apply text-segment-foreground font-semibold opacity-100;
+  }
+
+  /* Hide separator when this tab is selected */
+  &[data-state="active"] .tabs__separator {
+    opacity: 0;
+  }
+
+  /* Hide separator when previous sibling is selected */
+  &[data-state="active"] + .tabs__tab .tabs__separator {
+    opacity: 0;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Hover: brighten inactive tabs only */
+  @media (hover: hover) {
+    &:not([data-state="active"]):not([data-disabled]):hover {
+      @apply text-foreground/75;
+    }
+  }
+
+  /* Focus states */
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+/* Tab separator */
+.tabs__separator {
+  @apply bg-muted/25;
+
+  border-radius: 4px;
+  position: absolute;
+  pointer-events: none;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition: opacity 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  /* Horizontal tabs - vertical separator */
+  .tabs__list[data-orientation="horizontal"] & {
+    left: 0;
+    top: 25%;
+    width: 1px;
+    height: 50%;
+  }
+
+  /* Vertical tabs - horizontal separator */
+  .tabs__list[data-orientation="vertical"] & {
+    top: 0;
+    left: 5%;
+    width: 90%;
+    height: 1px;
+  }
+}
+
+/* Tab panel */
+.tabs__panel {
+  @apply w-full p-2 outline-none;
+
+  &[data-state="active"] {
+    animation: tabs-panel-enter 200ms var(--ease-smooth) both;
+    @apply motion-reduce:animate-none;
+  }
+
+  /* Orientation spacing */
+  &[data-orientation="horizontal"] {
+    @apply mt-4;
+  }
+
+  &[data-orientation="vertical"] {
+    @apply ml-4;
+  }
+}
+
+@keyframes tabs-panel-enter {
+  from {
+    opacity: 0;
+    translate: 0 6px;
+  }
+  to {
+    opacity: 1;
+    translate: 0 0;
+  }
+}
+
+/* Tab indicator - driven by Reka UI's CSS custom properties */
+.tabs__indicator {
+  box-shadow: var(--shadow-surface);
+  position: absolute;
+  /* inset matches the list's p-1 (0.25rem) so the pill gap is consistent on all sides */
+  top: 0.25rem;
+  left: 0;
+  z-index: 0;
+  border-radius: var(--radius-3xl);
+
+  /* Horizontal (default): Reka sets --reka-tabs-indicator-size = tab width,
+     --reka-tabs-indicator-position = tab offsetLeft */
+  width: var(--reka-tabs-indicator-size, 0px);
+  height: calc(100% - 0.5rem);
+  translate: var(--reka-tabs-indicator-position, 0px) 0;
+
+  @apply bg-segment;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition-duration: 300ms;
+  transition-property: translate, width, height;
+  transition-timing-function: var(--ease-out-fluid);
+  @apply motion-reduce:transition-none;
+}
+
+/* Vertical orientation: size = height, position = offsetTop */
+.tabs[data-orientation="vertical"] .tabs__indicator {
+  top: 0;
+  left: 0.25rem;
+  width: calc(100% - 0.5rem);
+  height: var(--reka-tabs-indicator-size, 0px);
+  translate: 0 var(--reka-tabs-indicator-position, 0px);
+}
+
+/* ==========================================================================
+   Secondary Variant
+   ========================================================================== */
+
+.tabs--secondary {
+  /* Tab list - remove background, add bottom/left border */
+  .tabs__list {
+    @apply bg-transparent p-0;
+
+    border-radius: 0;
+
+    /* Horizontal orientation - bottom border, scrollable */
+    &[data-orientation="horizontal"] {
+      @apply border-b border-border;
+
+      max-width: 100%;
+      overflow-x: auto;
+      overflow-y: clip;
+      scrollbar-width: none;
+
+      &::-webkit-scrollbar {
+        display: none;
+      }
+    }
+
+    /* Vertical orientation - left border */
+    &[data-orientation="vertical"] {
+      @apply border-l border-border;
+    }
+  }
+
+  /* Tab - adjust for secondary variant */
+  .tabs__tab {
+    @apply rounded-none;
+
+    /* Selected state - use text-foreground */
+    &[data-state="active"] {
+      @apply text-foreground;
+    }
+  }
+
+  /* Hide separators in secondary variant */
+  .tabs__separator {
+    display: none;
+  }
+
+  /* Tab indicator - line style */
+  .tabs__indicator {
+    @apply bg-accent;
+
+    box-shadow: none;
+    border-radius: 0;
+  }
+
+  /* Horizontal orientation - bottom line indicator */
+  &[data-orientation="horizontal"] .tabs__indicator {
+    top: auto;
+    bottom: 0;
+    height: 2px;
+  }
+
+  /* Vertical orientation - left line indicator */
+  &[data-orientation="vertical"] .tabs__indicator {
+    left: 0;
+    top: 0;
+    width: 2px;
+    height: 100%;
+  }
+}

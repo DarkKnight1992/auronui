@@ -1,0 +1,203 @@
+<script setup lang="ts">
+import { computed, reactive, toRef, useAttrs, useId } from 'vue'
+import { SelectRoot } from 'reka-ui'
+import { selectVariants, type SelectVariants } from '@auronui/styles'
+import { composeClassName } from '../../utils/composeClassName'
+import { useSelectProvide } from './Select.context'
+
+defineOptions({ inheritAttrs: false })
+
+const props = withDefaults(defineProps<Props>(), {
+  variant: 'flat',
+  size: 'md',
+  color: 'default',
+  labelPlacement: 'inside',
+  fullWidth: false,
+  isInvalid: false,
+  isDisabled: false,
+  isReadonly: false,
+  isRequired: false,
+  modelValue: undefined,
+  defaultValue: undefined,
+  open: undefined,
+  defaultOpen: undefined,
+})
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+  'update:open': [value: boolean]
+}>()
+
+type Props = {
+  /** Visual style of the field. @default 'flat' */
+  variant?: SelectVariants['variant']
+  /** Field height. @default 'md' */
+  size?: SelectVariants['size']
+  /** Accent color applied to focus ring + floating label. @default 'default' */
+  color?: SelectVariants['color']
+  /**
+   * Where the `label` is rendered relative to the field.
+   * - `inside`: floats above the trigger (shrinks when focused/filled)
+   * - `outside`: sits above the field, static
+   * - `outside-left`: sits to the left, horizontal layout
+   * @default 'inside'
+   */
+  labelPlacement?: SelectVariants['labelPlacement']
+  /** Stretches root wrapper to 100% width. @default false */
+  fullWidth?: boolean
+  /** Marks the field as invalid. Triggers danger styling and enables `errorMessage`. @default false */
+  isInvalid?: boolean
+  /** Disables the field. @default false */
+  isDisabled?: boolean
+  /** Makes the field read-only. @default false */
+  isReadonly?: boolean
+  /** Adds a required asterisk next to the label. @default false */
+  isRequired?: boolean
+  /** Placeholder shown when no value is selected. */
+  placeholder?: string
+  /** Form field name, for native form submission. */
+  name?: string
+  /** Field label. When omitted, the floating-label behavior is skipped. */
+  label?: string
+  /** Helper text displayed below the field. Suppressed when `isInvalid && errorMessage` is shown. */
+  description?: string
+  /** Error text displayed below the field. Only rendered when `isInvalid` is also true. */
+  errorMessage?: string
+  /** Extra classes merged onto the root wrapper via `composeClassName`. */
+  class?: string
+
+  /* ─── Select-specific ─────────────────────────────────────── */
+  /** Two-way bound selected value. */
+  modelValue?: string
+  /** Initial selected value (uncontrolled). */
+  defaultValue?: string
+  /** Controls open state of the dropdown. */
+  open?: boolean
+  /** Initial open state of the dropdown (uncontrolled). */
+  defaultOpen?: boolean
+}
+
+const attrs = useAttrs()
+const generatedId = useId()
+const triggerId = computed(() => (attrs.id as string | undefined) ?? generatedId)
+
+const hasLabel = computed(() => !!props.label)
+
+// Helper IDs / aria wiring
+const descriptionId = computed(() => `${triggerId.value}-description`)
+const errorMessageId = computed(() => `${triggerId.value}-error`)
+const showError = computed(() => props.isInvalid && !!props.errorMessage)
+const showDescription = computed(() => !!props.description && !showError.value)
+const hasHelper = computed(() => showError.value || showDescription.value)
+const ariaDescribedBy = computed(() => {
+  if (showError.value) return errorMessageId.value
+  if (showDescription.value) return descriptionId.value
+  return undefined
+})
+
+const slotFns = computed(() =>
+  selectVariants({
+    variant: props.variant,
+    size: props.size,
+    color: props.color,
+    fullWidth: props.fullWidth,
+    isInvalid: props.isInvalid,
+    isDisabled: props.isDisabled,
+    isReadonly: props.isReadonly,
+    hasLabel: hasLabel.value,
+    labelPlacement: props.labelPlacement,
+  }),
+)
+
+const showOutsideLabel = computed(
+  () => hasLabel.value && props.labelPlacement !== 'inside',
+)
+
+// Persistent item registry. SelectItem populates on first mount; entries
+// survive SelectContent unmount so SelectValue can render the label while
+// the popover is closed.
+const itemRegistry = reactive(new Map<string, string>())
+const registerItem = (value: string, label: string) => {
+  itemRegistry.set(value, label)
+}
+const itemLabel = (value: string | string[] | undefined | null): string => {
+  if (value == null) return ''
+  if (Array.isArray(value)) {
+    return value.map(v => itemRegistry.get(v) ?? v).filter(Boolean).join(', ')
+  }
+  return itemRegistry.get(value) ?? value
+}
+
+useSelectProvide({
+  isDisabled: toRef(props, 'isDisabled'),
+  isInvalid: toRef(props, 'isInvalid'),
+  isReadonly: toRef(props, 'isReadonly'),
+  isRequired: toRef(props, 'isRequired'),
+  fullWidth: toRef(props, 'fullWidth'),
+  hasLabel,
+  labelPlacement: toRef(props, 'labelPlacement'),
+  triggerId,
+  label: toRef(props, 'label'),
+  ariaDescribedBy,
+  slots: slotFns,
+  registerItem,
+  itemLabel,
+})
+</script>
+
+<template>
+  <div
+    :class="composeClassName(slotFns.base(), props.class)"
+    :data-invalid="isInvalid || undefined"
+    :data-disabled="isDisabled || undefined"
+    :data-readonly="isReadonly || undefined"
+    :data-required="isRequired || undefined"
+    :data-has-label="hasLabel || undefined"
+    :data-has-helper="hasHelper || undefined"
+  >
+    <label
+      v-if="showOutsideLabel"
+      :for="triggerId"
+      :class="slotFns.label()"
+    >{{ label }}<span
+      v-if="isRequired"
+      aria-hidden="true"
+    > *</span></label>
+
+    <div :class="slotFns.mainWrapper()">
+      <SelectRoot
+        :model-value="props.modelValue"
+        :default-value="props.defaultValue"
+        :open="props.open"
+        :default-open="props.defaultOpen"
+        :disabled="props.isDisabled"
+        :required="props.isRequired"
+        :name="props.name"
+        @update:model-value="emit('update:modelValue', $event as string)"
+        @update:open="emit('update:open', $event)"
+      >
+        <slot />
+      </SelectRoot>
+
+      <div
+        v-if="hasHelper"
+        :class="slotFns.helperWrapper()"
+      >
+        <div
+          v-if="showError"
+          :id="errorMessageId"
+          :class="slotFns.errorMessage()"
+        >
+          {{ errorMessage }}
+        </div>
+        <div
+          v-else-if="showDescription"
+          :id="descriptionId"
+          :class="slotFns.description()"
+        >
+          {{ description }}
+        </div>
+      </div>
+    </div>
+  </div>
+</template>

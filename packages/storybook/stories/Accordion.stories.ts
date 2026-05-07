@@ -1,0 +1,173 @@
+import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import {
+  Accordion,
+  AccordionItem,
+  AccordionHeader,
+  AccordionTrigger,
+  AccordionContent,
+} from '@auronui/vue'
+
+console.log(Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent)
+
+const meta: Meta<typeof Accordion> = {
+  title: 'Components/Accordion',
+  component: Accordion,
+  argTypes: {
+    type: { control: 'select', options: ['single', 'multiple'] },
+    variant: { control: 'select', options: ['default', 'surface'] },
+    size: { control: 'select', options: ['sm', 'md', 'lg'] },
+  },
+}
+export default meta
+type Story = StoryObj<typeof Accordion>
+
+export const Single: Story = {
+  args: { type: 'single', collapsible: true, defaultValue: 'faq-1' },
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args">
+        <AccordionItem value="faq-1">
+          <AccordionHeader><AccordionTrigger>What is Auron?</AccordionTrigger></AccordionHeader>
+          <AccordionContent>A Vue 3 designed component library.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-2">
+          <AccordionHeader><AccordionTrigger>What is Reka UI?</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Reka UI is Radix UI for Vue — accessibility primitives used by Auron.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-3">
+          <AccordionHeader><AccordionTrigger>Is it MIT licensed?</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Yes — MIT, clean-room</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}
+
+export const Multiple: Story = {
+  args: { type: 'multiple', defaultValue: ['a', 'b'] },
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args">
+        <AccordionItem value="a">
+          <AccordionHeader><AccordionTrigger>Alpha</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Alpha content</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="b">
+          <AccordionHeader><AccordionTrigger>Beta</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Beta content</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="c">
+          <AccordionHeader><AccordionTrigger>Gamma</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Gamma content</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}
+
+export const SurfaceVariant: Story = {
+  args: { type: 'single', variant: 'surface' },
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args">
+        <AccordionItem value="one">
+          <AccordionHeader><AccordionTrigger>Surface one</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Surface content one</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="two">
+          <AccordionHeader><AccordionTrigger>Surface two</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Surface content two</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}
+
+export const Compact: Story = {
+  args: { type: 'single', collapsible: true, size: 'sm', defaultValue: 'faq-1' },
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args">
+        <AccordionItem value="faq-1">
+          <AccordionHeader><AccordionTrigger>Compact one</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Compact spacing for dense layouts.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-2">
+          <AccordionHeader><AccordionTrigger>Compact two</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Same styling, tighter paddings and smaller text.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="faq-3">
+          <AccordionHeader><AccordionTrigger>Compact three</AccordionTrigger></AccordionHeader>
+          <AccordionContent>Use size="sm" for sidebars and settings panes.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}
+
+export const CustomIndicator: Story = {
+  args: { type: 'single', collapsible: true, defaultValue: 'a' },
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args">
+        <AccordionItem value="a">
+          <AccordionHeader>
+            <AccordionTrigger>
+              <span>Plus / minus indicator</span>
+              <template #indicator="{ open }">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <line v-if="!open" x1="12" y1="5" x2="12" y2="19"/>
+                </svg>
+              </template>
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionContent>Uses the \`open\` slot prop to switch between plus and minus icons instead of rotating a chevron.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="b">
+          <AccordionHeader>
+            <AccordionTrigger>
+              <span>Arrow indicator</span>
+              <template #indicator>
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" width="100%" height="100%">
+                  <line x1="5" y1="12" x2="19" y2="12"/>
+                  <polyline points="12 5 19 12 12 19"/>
+                </svg>
+              </template>
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionContent>An arrow that inherits the same rotate-on-open animation as the default chevron — just replace the icon contents.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}
+
+export const WithDisabledItem: Story = {
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup: () => ({ args }),
+    template: `
+      <Accordion v-bind="args" type="single" collapsible>
+        <AccordionItem value="enabled">
+          <AccordionHeader><AccordionTrigger>Enabled</AccordionTrigger></AccordionHeader>
+          <AccordionContent>You can toggle me.</AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="disabled" disabled>
+          <AccordionHeader><AccordionTrigger>Disabled</AccordionTrigger></AccordionHeader>
+          <AccordionContent>I am locked.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}

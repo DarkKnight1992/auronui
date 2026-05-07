@@ -1,0 +1,244 @@
+/* === Focus Ring === */
+@utility focus-ring {
+  @apply ring-2 ring-focus ring-offset-0 ring-offset-background outline-none;
+  /* Overrides the ring offset from the theme variables */
+  --tw-ring-offset-width: var(--ring-offset-width);
+}
+
+@utility focus-field-ring {
+  @apply ring-2 ring-focus ring-offset-0 outline-none;
+  /* No separation - ring sits directly against the element */
+  --tw-ring-offset-width: 0px;
+}
+
+@utility invalid-field-ring {
+  /* Unfocused: show 1px outline */
+  @apply outline-1 outline-danger outline-solid;
+  --tw-ring-offset-width: 3px;
+
+  /* Focused: show 2px ring in danger color, remove outline */
+  &:focus,
+  &:focus-visible,
+  &[data-focused="true"],
+  &[data-focus-visible="true"],
+  &:focus-within,
+  &[data-focus-within="true"] {
+    @apply ring-2 ring-danger ring-offset-0;
+    --tw-ring-offset-width: 0px;
+  }
+}
+
+@utility no-highlight {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* === Statuses === */
+@utility status-focused {
+  @apply focus-ring;
+}
+
+@utility status-focused-field {
+  @apply focus-field-ring;
+}
+
+@utility status-invalid-field {
+  @apply invalid-field-ring;
+}
+
+@utility status-disabled {
+  opacity: var(--disabled-opacity);
+  cursor: var(--cursor-disabled);
+  pointer-events: none;
+}
+
+@utility status-pending {
+  @apply pointer-events-none;
+}
+
+/* ==========================================================================
+   Shared list utilities — @apply these into component classes.
+   Defined here (not in layer(components)) so @apply resolves correctly.
+   ========================================================================== */
+
+@utility list-container {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 0.25rem;
+
+  & [data-slot="separator"] {
+    margin-left: 3%;
+    width: 94%;
+  }
+}
+
+@utility list-section {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 0;
+}
+
+@utility list-section-label {
+  @apply px-2 py-1 text-xs text-gray-500 tracking-wider;
+}
+
+@utility list-section-separator {
+  @apply h-px bg-muted/25 mx-1 my-1;
+}
+
+@utility list-item {
+  position: relative;
+  display: flex !important;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  padding: 0.375rem 0.5rem;
+  outline: none;
+  -webkit-tap-highlight-color: transparent;
+  cursor: var(--cursor-interactive);
+
+  transition:
+    transform 300ms var(--ease-out-quart),
+    background-color 200ms var(--ease-smooth);
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+
+  & [data-slot="label"] {
+    pointer-events: none;
+    width: fit-content;
+    user-select: none;
+  }
+
+  & [data-slot="description"] {
+    pointer-events: none;
+    text-wrap: wrap;
+    user-select: none;
+    color: var(--color-muted);
+  }
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.98);
+  }
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      background-color: var(--color-default);
+    }
+  }
+
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+@utility list-item-indicator {
+  position: absolute;
+  top: 50%;
+  display: flex;
+  width: 1rem;
+  height: 1rem;
+  flex-shrink: 0;
+  translate: 0 -50%;
+  align-items: center;
+  justify-content: center;
+  transition: all 300ms;
+
+  @media (prefers-reduced-motion: reduce) {
+    transition: none;
+  }
+}
+
+/* ==========================================================================
+   Picker (Select / Autocomplete / ComboBox) shared utilities
+   ========================================================================== */
+
+@utility picker-helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+@utility picker-description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+@utility picker-error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+@utility overlay-popover-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: color-mix(in oklab, var(--foreground) 20%, transparent) transparent;
+
+  &::-webkit-scrollbar {
+    width: 6px;
+  }
+  &::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  &::-webkit-scrollbar-thumb {
+    background: color-mix(in oklab, var(--foreground) 20%, transparent);
+    border-radius: 9999px;
+  }
+  &::-webkit-scrollbar-thumb:hover {
+    background: color-mix(in oklab, var(--foreground) 35%, transparent);
+  }
+
+  &:not(:hover):not(:focus-within) {
+    scrollbar-color: transparent transparent;
+    &::-webkit-scrollbar-thumb {
+      background: transparent;
+    }
+  }
+}
+
+@utility overlay-popover-listbox {
+  & [data-slot="list-box"] {
+    @apply p-1.5 outline-none;
+  }
+
+  & [data-slot="list-box-item"] {
+    @apply px-2.5;
+    scroll-margin-block: 0.25rem;
+
+    &[data-highlighted],
+    &[data-highlighted="true"] {
+      @apply bg-default;
+    }
+  }
+
+  & [data-slot="list-box"]:not([aria-multiselectable="true"]) [data-slot="list-box-item-indicator"],
+  & [data-slot="list-box"]:not([aria-multiselectable="true"])
+    [data-slot="list-box-item-indicator"]
+    [data-slot="list-box-item-indicator--checkmark"] {
+    @apply transition-none;
+  }
+
+  & [data-slot="empty-state"] {
+    @apply text-center text-sm text-overlay-foreground/60;
+  }
+}
+
+@utility surface-card {
+  background-color: var(--color-surface);
+  color: var(--color-surface-foreground);
+  border: 1px solid var(--color-border);
+  border-radius: calc(var(--radius) * 1.5);
+  overflow: hidden;
+  --tw-shadow: var(--tw-shadow-colored);
+  box-shadow: var(--tw-inset-shadow),var(--tw-inset-ring-shadow),var(--tw-ring-offset-shadow),var(--tw-ring-shadow),var(--tw-shadow);
+  
+}

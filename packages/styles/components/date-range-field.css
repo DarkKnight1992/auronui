@@ -1,0 +1,538 @@
+/* ─── DateRangeField ─────────────────────────────────────────────────────────
+   Mirrors date-input.css: same prop surface (variant/size/color/labelPlacement/
+   fullWidth/isInvalid/isDisabled/isReadonly), same data-attribute contract,
+   same floating-label up-state, same start/end content slots. The only
+   difference from DateInput is TWO segment lists (start + end) separated by
+   a visible "–" glyph. Each pseudo-class is paired with its Reka UI
+   data-attribute counterpart.
+*/
+
+.date-range-field {
+  @apply flex items-center gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+
+  height: 2.25rem;
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &.date-range-field--sm {
+    @apply gap-[0.40rem];
+  }
+
+  &.date-range-field--lg {
+    @apply gap-4;
+  }
+
+  &[data-focused="true"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &[data-readonly="true"] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* ─── Variant modifiers ─────────────────────────────────────────────────── */
+
+.date-range-field--flat {
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-range-field--bordered {
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &[data-focused="true"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-range-field--faded {
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &[data-focused="true"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-range-field--underlined {
+  @apply rounded-none shadow-none bg-transparent !pl-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.date-range-field--raised {
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Size modifiers ─────────────────────────────────────────────────────── */
+
+.date-range-field--sm {
+  @apply text-xs px-2 py-1;
+  height: 1.75rem;
+}
+
+.date-range-field--md {
+  /* No styles — md is the default size */
+}
+
+.date-range-field--lg {
+  @apply text-base px-4 py-2.5;
+  height: 2.75rem;
+}
+
+/* ─── Color modifiers ─────────────────────────────────────────────────────── */
+
+.date-range-field--default {
+  --date-range-field-accent: var(--color-default-foreground);
+  accent-color: var(--date-range-field-accent);
+}
+
+.date-range-field--primary {
+  --date-range-field-accent: var(--color-primary);
+  accent-color: var(--date-range-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.date-range-field--secondary {
+  --date-range-field-accent: var(--color-secondary);
+  accent-color: var(--date-range-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-secondary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.date-range-field--success {
+  --date-range-field-accent: var(--color-success);
+  accent-color: var(--date-range-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-success);
+    --tw-ring-color: var(--color-success);
+  }
+}
+
+.date-range-field--warning {
+  --date-range-field-accent: var(--color-warning);
+  accent-color: var(--date-range-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-warning);
+    --tw-ring-color: var(--color-warning);
+  }
+}
+
+.date-range-field--danger {
+  --date-range-field-accent: var(--color-danger);
+  accent-color: var(--date-range-field-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-danger);
+    --tw-ring-color: var(--color-danger);
+  }
+}
+
+/* ─── Underlined + color variant overrides ───────────────────────────────── */
+
+.date-range-field--underlined.date-range-field--primary,
+.date-range-field--underlined.date-range-field--secondary,
+.date-range-field--underlined.date-range-field--success,
+.date-range-field--underlined.date-range-field--warning,
+.date-range-field--underlined.date-range-field--danger {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
+/* ─── State modifiers ────────────────────────────────────────────────────── */
+
+.date-range-field--invalid {
+  border-color: var(--color-danger) !important;
+  @apply status-invalid-field;
+}
+
+.date-range-field--disabled {
+  @apply status-disabled opacity-60 cursor-not-allowed;
+}
+
+.date-range-field--readonly {
+  background-color: var(--color-default-100);
+  cursor: default;
+}
+
+/* ─── Layout modifiers ───────────────────────────────────────────────────── */
+
+.date-range-field--full-width {
+  @apply w-full;
+}
+
+/* ─── Segment list + segments + separator ───────────────────────────────── */
+
+.date-range-field__segment-list {
+  @apply inline-flex items-center min-w-0 shrink-0;
+  @apply bg-transparent outline-none border-0 p-0 h-auto text-inherit;
+  gap: 0.05rem;
+}
+
+.date-range-field__separator {
+  @apply inline-flex items-center justify-center shrink-0 select-none px-1;
+  color: var(--color-field-placeholder);
+}
+
+.date-range-field__segment {
+  @apply inline-flex items-center justify-center rounded-sm px-0.5 outline-none;
+  color: var(--color-field-foreground);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 300ms var(--ease-smooth), color 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-placeholder="true"] {
+    color: var(--color-field-placeholder);
+  }
+
+  &:focus,
+  &:focus-visible,
+  &[data-focused="true"] {
+    background-color: color-mix(in oklab, var(--date-range-field-accent, var(--color-focus)) 18%, transparent);
+    color: var(--color-foreground);
+  }
+
+  &[data-readonly="true"] {
+    cursor: default;
+  }
+
+  &[data-disabled="true"] {
+    @apply cursor-not-allowed opacity-60;
+  }
+}
+
+/* ─── Start / end content ────────────────────────────────────────────────── */
+
+.date-range-field__start-content,
+.date-range-field__end-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+}
+
+.date-range-field__start-content svg,
+.date-range-field__end-content svg {
+  @apply size-4;
+}
+
+/* ─── Label slot ─────────────────────────────────────────────────────────── */
+
+.date-range-field__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-field-placeholder);
+  pointer-events: none;
+  transition:
+    transform 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/* ─── Floating label (inside the field) ──────────────────────────────────── */
+
+.date-range-field--label-inside {
+  position: relative;
+  height: 3.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.date-range-field--label-inside.date-range-field--sm {
+  height: 2.5rem;
+}
+
+.date-range-field--label-inside.date-range-field--lg {
+  height: 4rem;
+}
+
+.date-range-field--label-inside .date-range-field__label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font-size: var(--text-sm);
+  color: var(--color-field-placeholder);
+}
+
+.date-range-field--label-inside.date-range-field--underlined .date-range-field__label {
+  left: 0rem;
+}
+
+/* Push segment rows down so they don't sit under the floated label. */
+.date-range-field--label-inside .date-range-field__segment-list,
+.date-range-field--label-inside .date-range-field__separator {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+/* Hide placeholder-segment tokens and the separator while the inside-floating
+   label is at rest. Only applies when hasLabel + labelPlacement === 'inside'. */
+.date-range-field--label-inside:not([data-focused="true"]):not([data-filled="true"])
+  .date-range-field__segment,
+.date-range-field--label-inside:not([data-focused="true"]):not([data-filled="true"])
+  .date-range-field__separator {
+  color: transparent;
+}
+
+.date-range-field--label-inside.date-range-field--default[data-focused="true"] .date-range-field__label {
+  color: var(--color-foreground);
+}
+
+/* Up-state: focused OR filled. */
+.date-range-field--label-inside[data-focused="true"] .date-range-field__label,
+.date-range-field--label-inside[data-filled="true"] .date-range-field__label {
+  transform: translateY(-110%) scale(0.85);
+}
+
+/* Start-content pushes the label's left anchor so it doesn't overlap the icon */
+.date-range-field--label-inside:has(> .date-range-field__start-content) .date-range-field__label {
+  left: calc(0.75rem + 1rem + 0.5rem);
+}
+.date-range-field--label-inside.date-range-field--underlined:has(> .date-range-field__start-content) .date-range-field__label {
+  left: calc(1rem + 0.5rem);
+}
+
+/* Size-aware offsets for the inside variant */
+.date-range-field--label-inside.date-range-field--sm .date-range-field__label {
+  font-size: var(--text-xs, 0.75rem);
+  left: 0.5rem;
+}
+
+.date-range-field--label-inside.date-range-field--sm:has(> .date-range-field__start-content) .date-range-field__label {
+  left: calc(0.5rem + 1rem + 0.4rem);
+}
+
+.date-range-field--label-inside.date-range-field--underlined.date-range-field--sm:has(> .date-range-field__start-content) .date-range-field__label {
+  left: calc(1rem + 0.4rem);
+}
+
+.date-range-field--label-inside.date-range-field--sm .date-range-field__segment-list,
+.date-range-field--label-inside.date-range-field--sm .date-range-field__separator {
+  padding-top: 0.625rem;
+}
+
+.date-range-field--label-inside.date-range-field--sm[data-focused="true"] .date-range-field__label,
+.date-range-field--label-inside.date-range-field--sm[data-filled="true"] .date-range-field__label {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.date-range-field--label-inside.date-range-field--lg .date-range-field__label {
+  font-size: var(--text-base, 1rem);
+  left: 1rem;
+}
+.date-range-field--label-inside.date-range-field--lg:has(> .date-range-field__start-content) .date-range-field__label {
+  left: calc(1rem + 1rem + 1rem);
+}
+.date-range-field--label-inside.date-range-field--underlined.date-range-field--lg:has(> .date-range-field__start-content) .date-range-field__label {
+  left: calc(1rem + 1rem);
+}
+
+.date-range-field--label-inside.date-range-field--lg .date-range-field__segment-list,
+.date-range-field--label-inside.date-range-field--lg .date-range-field__separator {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + inside label: ensure the segment row has enough top padding */
+.date-range-field--underlined.date-range-field--label-inside .date-range-field__segment-list,
+.date-range-field--underlined.date-range-field--label-inside .date-range-field__separator {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + sm/lg: label flush left */
+.date-range-field--label-inside.date-range-field--underlined.date-range-field--sm .date-range-field__label,
+.date-range-field--label-inside.date-range-field--underlined.date-range-field--lg .date-range-field__label {
+  left: 0rem;
+}
+
+/* Invalid state — label color flips to danger */
+.date-range-field--label-inside[data-invalid="true"] .date-range-field__label {
+  color: var(--color-danger);
+}
+
+/* ─── Root wrapper (holds label + field + helper) ────────────────────────── */
+
+.date-range-field-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.date-range-field-root--full-width {
+  @apply w-full;
+}
+
+.date-range-field-root--label-outside-left {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.date-range-field__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Outside label ──────────────────────────────────────────────────────── */
+
+.date-range-field-root--label-outside > .date-range-field__label,
+.date-range-field-root--label-outside-left > .date-range-field__label {
+  position: static;
+  transform: none;
+  display: block;
+  pointer-events: auto;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.date-range-field-root--label-outside-left > .date-range-field__label {
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.date-range-field-root--label-outside[data-invalid="true"] > .date-range-field__label,
+.date-range-field-root--label-outside-left[data-invalid="true"] > .date-range-field__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ─────────────────────────── */
+
+.date-range-field__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.date-range-field__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.date-range-field__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+/* ─── Color up-state — floated label picks up the accent ────────────────── */
+
+.date-range-field--label-inside.date-range-field--primary[data-focused="true"] .date-range-field__label {
+  color: var(--color-primary);
+}
+.date-range-field--label-inside.date-range-field--secondary[data-focused="true"] .date-range-field__label {
+  color: var(--color-secondary);
+}
+.date-range-field--label-inside.date-range-field--success[data-focused="true"] .date-range-field__label {
+  color: var(--color-success);
+}
+.date-range-field--label-inside.date-range-field--warning[data-focused="true"] .date-range-field__label {
+  color: var(--color-warning);
+}
+.date-range-field--label-inside.date-range-field--danger[data-focused="true"] .date-range-field__label {
+  color: var(--color-danger);
+}

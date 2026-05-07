@@ -1,0 +1,267 @@
+/* -------------------------------------------------------------------------------------------------
+ * Toast Component Styles
+ * Block: toast
+ * ------------------------------------------------------------------------------------------------- */
+
+/* Toast Region - Fixed container that stacks toasts along Y axis */
+.toast-region {
+  @apply pointer-events-none fixed z-50 outline-none;
+  @apply w-[calc(100vw-2rem)] sm:w-auto;
+
+  display: flex;
+  gap: 0.5rem;
+}
+
+.toast-region:focus-visible {
+  @apply outline-2 outline-offset-2 outline-focus;
+}
+
+/*
+ * Bottom positions: column
+ * Newest is last in DOM → visual bottom → nearest to screen edge
+ */
+.toast-region--bottom {
+  @apply bottom-4 left-1/2 -translate-x-1/2;
+  flex-direction: column;
+}
+
+.toast-region--bottom-start {
+  @apply bottom-4 left-4;
+  flex-direction: column;
+}
+
+.toast-region--bottom-end {
+  @apply right-4 bottom-4;
+  flex-direction: column;
+}
+
+/*
+ * Top positions: column-reverse
+ * Newest is last in DOM → visually first → nearest to top edge
+ */
+.toast-region--top {
+  @apply top-4 left-1/2 -translate-x-1/2;
+  flex-direction: column-reverse;
+}
+
+.toast-region--top-start {
+  @apply top-4 left-4;
+  flex-direction: column-reverse;
+}
+
+.toast-region--top-end {
+  @apply top-4 right-4;
+  flex-direction: column-reverse;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Block: toast
+ * ------------------------------------------------------------------------------------------------- */
+
+.toast {
+  --toast-width: 360px;
+
+  @apply relative pointer-events-auto flex w-full items-start gap-3;
+  @apply rounded-2xl border border-border bg-overlay px-4 py-3.5 shadow-overlay;
+
+  /* Clamp to viewport on mobile, fixed width on sm+ */
+  min-width: min(calc(100vw - 2rem), var(--toast-width));
+  max-width: var(--toast-width);
+}
+
+.toast:focus-visible {
+  @apply outline-2 outline-offset-2 outline-focus;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Elements
+ * ------------------------------------------------------------------------------------------------- */
+
+.toast__content {
+  @apply flex min-w-0 flex-1 flex-col gap-0.5;
+}
+
+.toast__indicator {
+  @apply mt-0.5 flex shrink-0 items-center justify-center select-none;
+  @apply size-5 rounded-full;
+
+  [data-slot="toast-default-icon"] {
+    @apply size-3.5;
+  }
+}
+
+.toast__title {
+  @apply text-sm font-semibold leading-5 text-overlay-foreground;
+}
+
+.toast__description {
+  @apply text-xs leading-[1.125rem] text-muted;
+}
+
+.toast__close-button {
+  @apply -mr-1 -mt-0.5 shrink-0 opacity-40;
+
+  transition: opacity 200ms ease;
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply opacity-100;
+    }
+  }
+}
+
+.toast__action {
+  @apply shrink-0;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Variant modifiers
+ * ------------------------------------------------------------------------------------------------- */
+
+.toast--default {
+  /* uses base bg-overlay + border-border */
+}
+
+.toast--accent {
+  background-color: color-mix(in oklab, var(--accent) 8%, var(--overlay));
+  border-color: color-mix(in oklab, var(--accent) 28%, transparent);
+}
+
+.toast--accent .toast__title {
+  @apply text-accent;
+}
+
+.toast--accent .toast__indicator {
+  background-color: color-mix(in oklab, var(--accent) 15%, transparent);
+  @apply text-accent;
+}
+
+.toast--success {
+  background-color: color-mix(in oklab, var(--success) 8%, var(--overlay));
+  border-color: color-mix(in oklab, var(--success) 28%, transparent);
+}
+
+.toast--success .toast__title {
+  @apply text-success;
+}
+
+.toast--success .toast__indicator {
+  background-color: color-mix(in oklab, var(--success) 15%, transparent);
+  @apply text-success;
+}
+
+.toast--warning {
+  background-color: color-mix(in oklab, var(--warning) 9%, var(--overlay));
+  border-color: color-mix(in oklab, var(--warning) 30%, transparent);
+}
+
+.toast--warning .toast__title {
+  @apply text-warning;
+}
+
+.toast--warning .toast__indicator {
+  background-color: color-mix(in oklab, var(--warning) 15%, transparent);
+  @apply text-warning;
+}
+
+.toast--danger {
+  background-color: color-mix(in oklab, var(--danger) 8%, var(--overlay));
+  border-color: color-mix(in oklab, var(--danger) 30%, transparent);
+}
+
+.toast--danger .toast__title {
+  @apply text-danger;
+}
+
+.toast--danger .toast__indicator {
+  background-color: color-mix(in oklab, var(--danger) 15%, transparent);
+  @apply text-danger;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Enter/exit animations
+ * Reka sets data-state="open"/"closed" on ToastRoot.
+ * Corner toasts slide from the nearest screen edge.
+ * Center toasts slide from top or bottom.
+ * ------------------------------------------------------------------------------------------------- */
+
+.toast--bottom-end[data-state="open"],
+.toast--top-end[data-state="open"] {
+  animation: toast-enter-right 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast--bottom-end[data-state="closed"],
+.toast--top-end[data-state="closed"] {
+  animation: toast-exit-right 0.2s ease-in forwards;
+}
+
+.toast--bottom-start[data-state="open"],
+.toast--top-start[data-state="open"] {
+  animation: toast-enter-left 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast--bottom-start[data-state="closed"],
+.toast--top-start[data-state="closed"] {
+  animation: toast-exit-left 0.2s ease-in forwards;
+}
+
+.toast--bottom[data-state="open"] {
+  animation: toast-enter-bottom 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast--bottom[data-state="closed"] {
+  animation: toast-exit-bottom 0.2s ease-in forwards;
+}
+
+.toast--top[data-state="open"] {
+  animation: toast-enter-top 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.toast--top[data-state="closed"] {
+  animation: toast-exit-top 0.2s ease-in forwards;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [class*="toast--"][data-state="open"],
+  [class*="toast--"][data-state="closed"] {
+    animation: none;
+  }
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Keyframes
+ * ------------------------------------------------------------------------------------------------- */
+
+@keyframes toast-enter-right {
+  from { translate: calc(100% + 1rem) 0; opacity: 0; }
+  to   { translate: 0 0; opacity: 1; }
+}
+
+@keyframes toast-exit-right {
+  to { translate: calc(100% + 1rem) 0; opacity: 0; }
+}
+
+@keyframes toast-enter-left {
+  from { translate: calc(-100% - 1rem) 0; opacity: 0; }
+  to   { translate: 0 0; opacity: 1; }
+}
+
+@keyframes toast-exit-left {
+  to { translate: calc(-100% - 1rem) 0; opacity: 0; }
+}
+
+@keyframes toast-enter-bottom {
+  from { translate: 0 calc(100% + 1rem); opacity: 0; }
+  to   { translate: 0 0; opacity: 1; }
+}
+
+@keyframes toast-exit-bottom {
+  to { translate: 0 calc(100% + 1rem); opacity: 0; }
+}
+
+@keyframes toast-enter-top {
+  from { translate: 0 calc(-100% - 1rem); opacity: 0; }
+  to   { translate: 0 0; opacity: 1; }
+}
+
+@keyframes toast-exit-top {
+  to { translate: 0 calc(-100% - 1rem); opacity: 0; }
+}

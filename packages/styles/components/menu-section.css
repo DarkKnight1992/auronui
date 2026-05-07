@@ -1,0 +1,18 @@
+/* ==========================================================================
+   Menu section
+   ========================================================================== */
+
+.menu-section {
+  @apply list-section py-1;
+
+  /* & + .menu-section {
+    @apply mt-0.5 border-t border-border pt-1.5;
+  } */
+}
+
+.menu-section__label {
+  @apply list-section-label;
+}
+.menu-section__separator {
+  @apply list-section-separator;
+}

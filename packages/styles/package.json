@@ -1,0 +1,415 @@
+{
+  "name": "@auronui/styles",
+  "version": "1.0.0",
+  "description": "Auron core styles — adapted for Reka UI",
+  "type": "module",
+  "license": "MIT",
+  "homepage": "https://auronui.dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/DarkKnight1992/auron.git",
+    "directory": "packages/styles"
+  },
+  "bugs": {
+    "url": "https://github.com/DarkKnight1992/auron/issues"
+  },
+  "keywords": [
+    "vue",
+    "vue3",
+    "css",
+    "styles",
+    "tailwindcss",
+    "component-library",
+    "heroui",
+    "design-system",
+    "theming",
+    "auron"
+  ],
+  "style": "./index.css",
+  "exports": {
+    ".": {
+      "style": "./index.css",
+      "types": "./src/index.ts",
+      "import": "./src/index.ts",
+      "default": "./src/index.ts"
+    },
+    "./css": {
+      "style": "./index.css",
+      "default": "./index.css"
+    },
+    "./index.css": {
+      "style": "./index.css",
+      "default": "./index.css"
+    },
+    "./base.css": {
+      "style": "./base/base.css",
+      "default": "./base/base.css"
+    },
+    "./themes.css": {
+      "style": "./themes/default/index.css",
+      "default": "./themes/default/index.css"
+    },
+    "./accordion.css": {
+      "style": "./components/accordion.css",
+      "default": "./components/accordion.css"
+    },
+    "./alert.css": {
+      "style": "./components/alert.css",
+      "default": "./components/alert.css"
+    },
+    "./alert-dialog.css": {
+      "style": "./components/alert-dialog.css",
+      "default": "./components/alert-dialog.css"
+    },
+    "./autocomplete.css": {
+      "style": "./components/autocomplete.css",
+      "default": "./components/autocomplete.css"
+    },
+    "./avatar.css": {
+      "style": "./components/avatar.css",
+      "default": "./components/avatar.css"
+    },
+    "./badge.css": {
+      "style": "./components/badge.css",
+      "default": "./components/badge.css"
+    },
+    "./breadcrumbs.css": {
+      "style": "./components/breadcrumbs.css",
+      "default": "./components/breadcrumbs.css"
+    },
+    "./button.css": {
+      "style": "./components/button.css",
+      "default": "./components/button.css"
+    },
+    "./button-group.css": {
+      "style": "./components/button-group.css",
+      "default": "./components/button-group.css"
+    },
+    "./calendar.css": {
+      "style": "./components/calendar.css",
+      "default": "./components/calendar.css"
+    },
+    "./calendar-year-picker.css": {
+      "style": "./components/calendar-year-picker.css",
+      "default": "./components/calendar-year-picker.css"
+    },
+    "./card.css": {
+      "style": "./components/card.css",
+      "default": "./components/card.css"
+    },
+    "./checkbox.css": {
+      "style": "./components/checkbox.css",
+      "default": "./components/checkbox.css"
+    },
+    "./checkbox-group.css": {
+      "style": "./components/checkbox-group.css",
+      "default": "./components/checkbox-group.css"
+    },
+    "./chip.css": {
+      "style": "./components/chip.css",
+      "default": "./components/chip.css"
+    },
+    "./close-button.css": {
+      "style": "./components/close-button.css",
+      "default": "./components/close-button.css"
+    },
+    "./color-area.css": {
+      "style": "./components/color-area.css",
+      "default": "./components/color-area.css"
+    },
+    "./color-field.css": {
+      "style": "./components/color-field.css",
+      "default": "./components/color-field.css"
+    },
+    "./color-input-group.css": {
+      "style": "./components/color-input-group.css",
+      "default": "./components/color-input-group.css"
+    },
+    "./color-picker.css": {
+      "style": "./components/color-picker.css",
+      "default": "./components/color-picker.css"
+    },
+    "./color-slider.css": {
+      "style": "./components/color-slider.css",
+      "default": "./components/color-slider.css"
+    },
+    "./color-swatch.css": {
+      "style": "./components/color-swatch.css",
+      "default": "./components/color-swatch.css"
+    },
+    "./color-swatch-picker.css": {
+      "style": "./components/color-swatch-picker.css",
+      "default": "./components/color-swatch-picker.css"
+    },
+    "./combo-box.css": {
+      "style": "./components/combo-box.css",
+      "default": "./components/combo-box.css"
+    },
+    "./date-input.css": {
+      "style": "./components/date-input.css",
+      "default": "./components/date-input.css"
+    },
+    "./date-picker.css": {
+      "style": "./components/date-picker.css",
+      "default": "./components/date-picker.css"
+    },
+    "./date-range-picker.css": {
+      "style": "./components/date-range-picker.css",
+      "default": "./components/date-range-picker.css"
+    },
+    "./description.css": {
+      "style": "./components/description.css",
+      "default": "./components/description.css"
+    },
+    "./collapsible.css": {
+      "style": "./components/collapsible.css",
+      "default": "./components/collapsible.css"
+    },
+    "./collapsible-group.css": {
+      "style": "./components/collapsible-group.css",
+      "default": "./components/collapsible-group.css"
+    },
+    "./drawer.css": {
+      "style": "./components/drawer.css",
+      "default": "./components/drawer.css"
+    },
+    "./dropdown.css": {
+      "style": "./components/dropdown.css",
+      "default": "./components/dropdown.css"
+    },
+    "./empty-state.css": {
+      "style": "./components/empty-state.css",
+      "default": "./components/empty-state.css"
+    },
+    "./error-message.css": {
+      "style": "./components/error-message.css",
+      "default": "./components/error-message.css"
+    },
+    "./fieldset.css": {
+      "style": "./components/fieldset.css",
+      "default": "./components/fieldset.css"
+    },
+    "./header.css": {
+      "style": "./components/header.css",
+      "default": "./components/header.css"
+    },
+    "./input.css": {
+      "style": "./components/input.css",
+      "default": "./components/input.css"
+    },
+    "./input-otp.css": {
+      "style": "./components/input-otp.css",
+      "default": "./components/input-otp.css"
+    },
+    "./kbd.css": {
+      "style": "./components/kbd.css",
+      "default": "./components/kbd.css"
+    },
+    "./label.css": {
+      "style": "./components/label.css",
+      "default": "./components/label.css"
+    },
+    "./link.css": {
+      "style": "./components/link.css",
+      "default": "./components/link.css"
+    },
+    "./list-box.css": {
+      "style": "./components/list-box.css",
+      "default": "./components/list-box.css"
+    },
+    "./list-box-item.css": {
+      "style": "./components/list-box-item.css",
+      "default": "./components/list-box-item.css"
+    },
+    "./list-box-section.css": {
+      "style": "./components/list-box-section.css",
+      "default": "./components/list-box-section.css"
+    },
+    "./menu.css": {
+      "style": "./components/menu.css",
+      "default": "./components/menu.css"
+    },
+    "./menu-item.css": {
+      "style": "./components/menu-item.css",
+      "default": "./components/menu-item.css"
+    },
+    "./menu-section.css": {
+      "style": "./components/menu-section.css",
+      "default": "./components/menu-section.css"
+    },
+    "./meter.css": {
+      "style": "./components/meter.css",
+      "default": "./components/meter.css"
+    },
+    "./modal.css": {
+      "style": "./components/modal.css",
+      "default": "./components/modal.css"
+    },
+    "./number-field.css": {
+      "style": "./components/number-field.css",
+      "default": "./components/number-field.css"
+    },
+    "./pagination.css": {
+      "style": "./components/pagination.css",
+      "default": "./components/pagination.css"
+    },
+    "./popover.css": {
+      "style": "./components/popover.css",
+      "default": "./components/popover.css"
+    },
+    "./progress-bar.css": {
+      "style": "./components/progress-bar.css",
+      "default": "./components/progress-bar.css"
+    },
+    "./progress-circle.css": {
+      "style": "./components/progress-circle.css",
+      "default": "./components/progress-circle.css"
+    },
+    "./radio.css": {
+      "style": "./components/radio.css",
+      "default": "./components/radio.css"
+    },
+    "./radio-group.css": {
+      "style": "./components/radio-group.css",
+      "default": "./components/radio-group.css"
+    },
+    "./range-calendar.css": {
+      "style": "./components/range-calendar.css",
+      "default": "./components/range-calendar.css"
+    },
+    "./scroll-shadow.css": {
+      "style": "./components/scroll-shadow.css",
+      "default": "./components/scroll-shadow.css"
+    },
+    "./select.css": {
+      "style": "./components/select.css",
+      "default": "./components/select.css"
+    },
+    "./separator.css": {
+      "style": "./components/separator.css",
+      "default": "./components/separator.css"
+    },
+    "./skeleton.css": {
+      "style": "./components/skeleton.css",
+      "default": "./components/skeleton.css"
+    },
+    "./slider.css": {
+      "style": "./components/slider.css",
+      "default": "./components/slider.css"
+    },
+    "./spinner.css": {
+      "style": "./components/spinner.css",
+      "default": "./components/spinner.css"
+    },
+    "./surface.css": {
+      "style": "./components/surface.css",
+      "default": "./components/surface.css"
+    },
+    "./switch.css": {
+      "style": "./components/switch.css",
+      "default": "./components/switch.css"
+    },
+    "./switch-group.css": {
+      "style": "./components/switch-group.css",
+      "default": "./components/switch-group.css"
+    },
+    "./table.css": {
+      "style": "./components/table.css",
+      "default": "./components/table.css"
+    },
+    "./tabs.css": {
+      "style": "./components/tabs.css",
+      "default": "./components/tabs.css"
+    },
+    "./tag.css": {
+      "style": "./components/tag.css",
+      "default": "./components/tag.css"
+    },
+    "./tag-group.css": {
+      "style": "./components/tag-group.css",
+      "default": "./components/tag-group.css"
+    },
+    "./textarea.css": {
+      "style": "./components/textarea.css",
+      "default": "./components/textarea.css"
+    },
+    "./time-field.css": {
+      "style": "./components/time-field.css",
+      "default": "./components/time-field.css"
+    },
+    "./toast.css": {
+      "style": "./components/toast.css",
+      "default": "./components/toast.css"
+    },
+    "./toggle-button.css": {
+      "style": "./components/toggle-button.css",
+      "default": "./components/toggle-button.css"
+    },
+    "./toggle-button-group.css": {
+      "style": "./components/toggle-button-group.css",
+      "default": "./components/toggle-button-group.css"
+    },
+    "./toolbar.css": {
+      "style": "./components/toolbar.css",
+      "default": "./components/toolbar.css"
+    },
+    "./tooltip.css": {
+      "style": "./components/tooltip.css",
+      "default": "./components/tooltip.css"
+    },
+    "./aspect-ratio.css": {
+      "style": "./components/aspect-ratio.css",
+      "default": "./components/aspect-ratio.css"
+    },
+    "./splitter.css": {
+      "style": "./components/splitter.css",
+      "default": "./components/splitter.css"
+    },
+    "./stepper.css": {
+      "style": "./components/stepper.css",
+      "default": "./components/stepper.css"
+    },
+    "./tree.css": {
+      "style": "./components/tree.css",
+      "default": "./components/tree.css"
+    },
+    "./components/*": {
+      "types": "./src/components/*/index.ts",
+      "import": "./src/components/*/index.ts"
+    },
+    "./package.json": "./package.json"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "src",
+    "base",
+    "components",
+    "themes",
+    "utilities",
+    "variants",
+    "index.css",
+    "DATA_ATTRIBUTES.md"
+  ],
+  "scripts": {
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "clean": "rm -rf .turbo"
+  },
+  "dependencies": {
+    "tailwind-variants": "3.2.2",
+    "tw-animate-css": "1.4.0"
+  },
+  "devDependencies": {
+    "@auronui/standard": "workspace:*",
+    "tailwindcss": "4.2.2",
+    "vitest": "4.1.4"
+  },
+  "peerDependencies": {
+    "tailwindcss": ">=4.0.0"
+  }
+}

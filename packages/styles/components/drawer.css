@@ -1,0 +1,222 @@
+/* -------------------------------------------------------------------------------------------------
+ * Drawer Component Styles
+ * Block: drawer
+ * -----------------------------------------------------------------------------------------------*/
+
+/* Panel enter/exit keyframes — Reka's Presence waits for animationend before unmounting */
+@keyframes drawer-slide-in-right  { from { transform: translateX(100%); } to { transform: translateX(0); } }
+@keyframes drawer-slide-out-right { from { transform: translateX(0); } to { transform: translateX(100%); } }
+@keyframes drawer-slide-in-left   { from { transform: translateX(-100%); } to { transform: translateX(0); } }
+@keyframes drawer-slide-out-left  { from { transform: translateX(0); } to { transform: translateX(-100%); } }
+@keyframes drawer-slide-in-top    { from { transform: translateY(-100%); } to { transform: translateY(0); } }
+@keyframes drawer-slide-out-top   { from { transform: translateY(0); } to { transform: translateY(-100%); } }
+@keyframes drawer-slide-in-bottom { from { transform: translateY(100%); } to { transform: translateY(0); } }
+@keyframes drawer-slide-out-bottom{ from { transform: translateY(0); } to { transform: translateY(100%); } }
+
+/* Backdrop fade keyframes */
+@keyframes drawer-backdrop-in  { from { opacity: 0; } to { opacity: 1; } }
+@keyframes drawer-backdrop-out { from { opacity: 1; } to { opacity: 0; } }
+
+/**
+ * Element: trigger - the element that opens the drawer
+ */
+.drawer__trigger {
+  @apply inline-block cursor-(--cursor-interactive);
+
+  transition:
+    transform 300ms var(--ease-out-quart),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.97);
+  }
+}
+
+/**
+ * Element: backdrop - the overlay behind the drawer panel
+ * Reka sets data-state="open"/"closed" on DialogOverlay.
+ * Reka's Presence component waits for animationend before unmounting.
+ */
+.drawer__backdrop {
+  @apply fixed inset-0 z-50;
+  @apply h-(--visual-viewport-height) w-full;
+
+  &[data-state="open"] {
+    animation: drawer-backdrop-in 0.2s ease forwards;
+  }
+
+  &[data-state="closed"] {
+    animation: drawer-backdrop-out 0.2s ease forwards;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+    opacity: 1;
+  }
+}
+
+/**
+ * Modifier: backdrop--transparent
+ */
+.drawer__backdrop--transparent {
+  @apply bg-transparent;
+}
+
+/**
+ * Modifier: backdrop--opaque
+ */
+.drawer__backdrop--opaque {
+  @apply bg-backdrop;
+}
+
+/**
+ * Modifier: backdrop--blur
+ */
+.drawer__backdrop--blur {
+  @apply bg-backdrop backdrop-blur-md;
+}
+
+/**
+ * Element: dialog - the drawer panel (applied directly to DialogContent).
+ * Reka sets data-state="open"/"closed" on DialogContent; Presence waits for
+ * animationend on this element before unmounting on close.
+ */
+.drawer__dialog {
+  @apply fixed z-50;
+  @apply flex flex-col;
+  @apply bg-overlay shadow-overlay outline-none;
+  @apply p-6;
+
+  @media (prefers-reduced-motion: reduce) {
+    animation: none !important;
+  }
+}
+
+/**
+ * Modifier: dialog--right
+ * Panel anchored to the right edge, full viewport height.
+ */
+.drawer__dialog--right {
+  @apply top-0 right-0 bottom-0;
+  @apply w-80 max-w-[85vw] sm:w-96;
+  @apply rounded-none;
+
+  &[data-state="open"]   { animation: drawer-slide-in-right  0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+  &[data-state="closed"] { animation: drawer-slide-out-right 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+}
+
+/**
+ * Modifier: dialog--left
+ * Panel anchored to the left edge, full viewport height.
+ */
+.drawer__dialog--left {
+  @apply top-0 left-0 bottom-0;
+  @apply w-80 max-w-[85vw] sm:w-96;
+  @apply rounded-none;
+
+  &[data-state="open"]   { animation: drawer-slide-in-left  0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+  &[data-state="closed"] { animation: drawer-slide-out-left 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+}
+
+/**
+ * Modifier: dialog--top
+ * Panel anchored to the top edge, full viewport width.
+ */
+.drawer__dialog--top {
+  @apply top-0 left-0 right-0;
+  @apply w-full max-h-[85vh];
+  @apply rounded-b-2xl pb-2;
+
+  &[data-state="open"]   { animation: drawer-slide-in-top  0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+  &[data-state="closed"] { animation: drawer-slide-out-top 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+}
+
+/**
+ * Modifier: dialog--bottom
+ * Panel anchored to the bottom edge, full viewport width.
+ */
+.drawer__dialog--bottom {
+  @apply bottom-0 left-0 right-0;
+  @apply w-full max-h-[85vh];
+  @apply rounded-t-2xl;
+
+  &[data-state="open"]   { animation: drawer-slide-in-bottom  0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+  &[data-state="closed"] { animation: drawer-slide-out-bottom 0.3s cubic-bezier(0.32, 0.72, 0, 1) forwards; }
+}
+
+/**
+ * Element: header
+ */
+.drawer__header {
+  @apply flex flex-col gap-3;
+  @apply mb-0;
+}
+
+/**
+ * Element: heading
+ */
+.drawer__heading {
+  @apply align-middle;
+  @apply text-sm font-medium text-foreground;
+}
+
+/**
+ * Element: body
+ */
+.drawer__body {
+  @apply min-h-0 flex-1;
+  @apply text-sm leading-[1.43] text-muted;
+  @apply -m-[3px] my-0 p-[3px];
+  @apply overflow-y-auto overscroll-contain;
+  -webkit-overflow-scrolling: touch;
+}
+
+/**
+ * Element: footer
+ */
+.drawer__footer {
+  @apply flex flex-row items-center justify-end gap-2;
+  @apply mt-0;
+}
+
+/**
+ * Element: handle
+ */
+.drawer__handle {
+  @apply flex items-center justify-center;
+  @apply pb-2;
+
+  & > [data-slot="drawer-handle-bar"] {
+    @apply h-1 w-9 rounded-full;
+    @apply bg-separator;
+  }
+}
+
+/**
+ * Element: close-trigger
+ */
+.drawer__close-trigger {
+  @apply cursor-pointer;
+}
+
+/**
+ * Spacing between elements
+ */
+.drawer__header + .drawer__body  { @apply mt-2; }
+.drawer__header + .drawer__footer { @apply mt-5; }
+.drawer__body + .drawer__footer  { @apply mt-5; }
+.drawer__handle + .drawer__header { @apply mt-0; }
+.drawer__handle + .drawer__body  { @apply mt-0; }

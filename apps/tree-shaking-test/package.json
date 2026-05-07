@@ -1,0 +1,16 @@
+{
+  "name": "tree-shaking-test",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "build": "vite build"
+  },
+  "dependencies": {
+    "@auronui/vue": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "^8.0.8",
+    "vue": "^3.5.32"
+  }
+}

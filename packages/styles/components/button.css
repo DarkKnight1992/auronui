@@ -1,0 +1,282 @@
+/* Button component styles */
+
+/* Base button styles */
+.button {
+  @apply relative isolate inline-flex h-8 w-fit origin-center items-center justify-center gap-1.5 rounded-full px-3 text-sm font-medium whitespace-nowrap outline-none select-none no-highlight;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    transform 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  /* Cursor */
+  cursor: var(--cursor-interactive);
+
+  /* Default tokens (fallback behavior) */
+  --button-bg: transparent;
+  --button-bg-hover: var(--button-bg);
+  --button-bg-pressed: var(--button-bg-hover);
+  --button-fg: currentColor;
+
+  background-color: var(--button-bg);
+  color: var(--button-fg);
+
+  /* Focus state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Pending state */
+  &[data-pending="true"] {
+    @apply status-pending;
+  }
+
+  /* Active / pressed */
+  &:active,
+  &[data-pressed="true"] {
+    background-color: var(--button-bg-pressed);
+    transform: scale(0.97);
+  }
+
+  /* Selected / toggle-on state */
+  &[aria-pressed="true"],
+  &[data-selected="true"] {
+    background-color: var(--button-bg-pressed);
+    box-shadow: inset 0 0 0 2px color-mix(in srgb, var(--button-fg) 20%, transparent);
+  }
+
+  /* Hover */
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      background-color: var(--button-bg-hover);
+    }
+  }
+
+  /* SVG icon styling - exclude spinner and link-icon svgs */
+  & svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+    @apply pointer-events-none size-4 shrink-0 self-center;
+  }
+}
+
+/* Size variants */
+.button--xs {
+  @apply h-6 gap-1 rounded-md px-2 text-xs;
+
+  & svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+    @apply size-3.5;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.98);
+  }
+}
+
+.button--sm {
+  @apply h-7 gap-1 rounded-lg px-2.5 text-xs;
+
+  & svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+    @apply size-3.5;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.98);
+  }
+}
+
+.button--md {
+  /* No styles as this is the default size */
+}
+
+.button--lg {
+  @apply h-9 px-4 text-sm;
+}
+
+.button--xl {
+  @apply h-10 gap-2 px-5 text-base;
+
+  & svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
+    @apply size-5;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.96);
+  }
+}
+
+/* Color variants - only set custom property values */
+.button--primary {
+  --button-bg: var(--color-accent);
+  --button-bg-hover: var(--color-accent-hover);
+  --button-bg-pressed: var(--color-accent-hover);
+  --button-fg: var(--color-accent-foreground);
+}
+
+.button--secondary {
+  --button-bg: var(--color-default);
+  --button-bg-hover: var(--color-default-hover);
+  --button-bg-pressed: var(--color-default-hover);
+  --button-fg: var(--color-accent-soft-foreground);
+}
+
+.button--tertiary {
+  --button-bg: var(--color-default);
+  --button-bg-hover: var(--color-default-hover);
+  --button-bg-pressed: var(--color-default-hover);
+}
+
+.button--ghost,
+.button--outline {
+  --button-bg: transparent;
+  --button-bg-hover: var(--color-default);
+  --button-bg-pressed: var(--color-default);
+  --button-fg: var(--color-default-foreground);
+}
+
+.button--outline {
+  @apply border border-border;
+  --button-bg-hover: color-mix(in srgb, var(--color-default) 60%, transparent);
+}
+
+.button--danger {
+  --button-bg: var(--color-danger);
+  --button-bg-hover: var(--color-danger-hover);
+  --button-bg-pressed: var(--color-danger-hover);
+  --button-fg: var(--color-danger-foreground);
+}
+
+.button--danger-soft {
+  --button-bg: var(--color-danger-soft);
+  --button-bg-hover: var(--color-danger-soft-hover);
+  --button-bg-pressed: var(--color-danger-soft-hover);
+  --button-fg: var(--color-danger-soft-foreground);
+}
+
+/* Radius modifiers - compound selector wins over base/size rounding */
+.button.button--radius-none {
+  @apply rounded-none;
+}
+
+.button.button--radius-sm {
+  @apply rounded-sm;
+}
+
+.button.button--radius-md {
+  @apply rounded-md;
+}
+
+.button.button--radius-lg {
+  @apply rounded-lg;
+}
+
+.button.button--radius-full {
+  @apply rounded-full;
+}
+
+/* Icon-only modifier - square aspect at every size */
+.button--icon-only {
+  @apply w-8 p-0;
+}
+
+.button--icon-only.button--xs {
+  @apply w-6;
+}
+
+.button--icon-only.button--sm {
+  @apply w-7;
+}
+
+.button--icon-only.button--lg {
+  @apply w-9;
+}
+
+.button--icon-only.button--xl {
+  @apply w-10;
+}
+
+/* Full width modifier */
+.button--full-width {
+  @apply w-full;
+}
+
+/* ============================================================
+   Button — Phase 2 extensions (02-01-STYLES)
+   ============================================================ */
+
+/* --- New color variants --- */
+
+.button--success {
+  --button-bg: var(--color-success);
+  --button-bg-hover: var(--color-success-hover);
+  --button-bg-pressed: var(--color-success-hover);
+  --button-fg: var(--color-success-foreground);
+}
+
+.button--success-soft {
+  --button-bg: var(--color-success-soft);
+  --button-bg-hover: var(--color-success-soft-hover);
+  --button-bg-pressed: var(--color-success-soft-hover);
+  --button-fg: var(--color-success-soft-foreground);
+}
+
+.button--warning {
+  --button-bg: var(--color-warning);
+  --button-bg-hover: var(--color-warning-hover);
+  --button-bg-pressed: var(--color-warning-hover);
+  --button-fg: var(--color-warning-foreground);
+}
+
+.button--warning-soft {
+  --button-bg: var(--color-warning-soft);
+  --button-bg-hover: var(--color-warning-soft-hover);
+  --button-bg-pressed: var(--color-warning-soft-hover);
+  --button-fg: var(--color-warning-soft-foreground);
+}
+
+/* --- Loading state --- */
+
+/* Root button in loading state: pointer-events off, cursor change */
+.button--loading,
+.button[data-loading="true"] {
+  @apply pointer-events-none cursor-not-allowed;
+}
+
+/* Dimmed label when loading */
+.button__label--loading,
+.button[data-loading="true"] .button__label {
+  @apply opacity-0;
+}
+
+/* Spinner overlay: centered absolutely over the button */
+.button__spinner {
+  @apply absolute inset-0 flex items-center justify-center;
+}
+
+/* --- Content slots --- */
+
+.button__start-content {
+  @apply inline-flex items-center justify-center shrink-0;
+}
+
+.button__end-content {
+  @apply inline-flex items-center justify-center shrink-0;
+}
+
+.button__label {
+  @apply inline-flex flex-1 items-center justify-center truncate;
+}

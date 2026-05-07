@@ -1,0 +1,332 @@
+/* =============================================================================
+ * Calendar Component Styles
+ *
+ * A compound component for date selection.
+ * Uses BEM naming convention: calendar, calendar__element, calendar--modifier
+ * ============================================================================= */
+
+/* -----------------------------------------------------------------------------
+ * Base Calendar Styles
+ * -------------------------------------------------------------------------- */
+.calendar {
+  @apply w-64 max-w-full text-xs;
+
+  container-type: inline-size;
+}
+
+/* -----------------------------------------------------------------------------
+ * Calendar Header
+ * -------------------------------------------------------------------------- */
+.calendar__header {
+  @apply flex items-center justify-between px-0.5 pb-1;
+
+  &:has(.calendar-year-picker__trigger[data-state="open"]) {
+    .calendar__nav-button {
+      @apply pointer-events-none opacity-0;
+    }
+  }
+}
+
+.calendar__heading {
+  @apply flex flex-1 items-center justify-center text-center text-xs font-medium;
+}
+
+.calendar__nav-button {
+  @apply flex size-6 items-center justify-center rounded-full text-accent;
+
+  will-change: scale;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    transform 300ms var(--ease-out),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  cursor: var(--cursor-interactive);
+
+  /* Hover state – only on devices that support hover (avoids false triggers on touch) */
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default text-accent;
+    }
+  }
+
+  /* Pressed state */
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.95);
+  }
+
+  /* Focus state */
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+.calendar__nav-button-icon {
+  @apply size-3.5;
+}
+
+/* -----------------------------------------------------------------------------
+ * Calendar Grid
+ * -------------------------------------------------------------------------- */
+.calendar__grid {
+  /* Override table display with CSS Grid for easier customization */
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  border-collapse: collapse;
+  @apply w-full pt-2;
+
+  &[aria-readonly="true"] {
+    .calendar__cell {
+      @apply pointer-events-none;
+    }
+  }
+}
+
+.calendar__grid-header {
+  /* Grid header (thead) styles */
+  display: contents;
+
+  & > tr {
+    display: contents;
+  }
+}
+
+.calendar__grid-body {
+  /* Grid body (tbody) styles */
+  display: contents;
+
+  & > tr {
+    display: contents;
+  }
+
+  /* Add top spacing between header and first body row */
+  & > tr:first-child > td {
+    @apply mt-1;
+  }
+}
+
+.calendar__grid-row {
+  /* Use 'contents' so cells participate directly in grid */
+  /* Note: This class can be used for custom row styling if needed */
+  display: contents;
+}
+
+.calendar__header-cell {
+  /* Header cell (th - weekday names) styles */
+  @apply flex items-center justify-center pb-1 text-[10px] font-medium text-muted;
+}
+
+/* -----------------------------------------------------------------------------
+ * Calendar Cells
+ * -------------------------------------------------------------------------- */
+.calendar__cell {
+  /* Cell (td) wrapper styles - margins now work with grid layout */
+  @apply relative flex aspect-square items-center justify-center rounded-full text-center text-xs leading-none font-normal outline-none no-highlight;
+
+  will-change: scale;
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    transform 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  cursor: var(--cursor-interactive);
+
+  /* Focus state */
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Today indicator (data-today lives on the trigger) */
+  &:has([data-today]) {
+    @apply text-accent;
+  }
+
+  /* Selected state (reka-ui: CalendarCell gets aria-selected; CellTrigger gets data-selected) */
+  &[aria-selected="true"] {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  /* Pressed state */
+  &:active,
+  &[data-pressed="true"] {
+    @apply bg-default;
+    transform: scale(0.95);
+
+    &[aria-selected="true"] {
+      @apply bg-accent-hover;
+    }
+  }
+
+  /* Hover state – only on devices that support hover (avoids false triggers on touch) */
+  @media (hover: hover) {
+    &:hover:not([aria-selected="true"]),
+    &[data-hovered="true"]:not([aria-selected="true"]) {
+      @apply bg-default;
+    }
+  }
+
+  /* Outside month / outside view (previous/next month days) — data-outside-view lives on the trigger */
+  &:has([data-outside-view]) {
+    @apply text-muted opacity-50;
+  }
+
+  &[aria-selected="true"]:has([data-outside-view]) {
+    @apply bg-default;
+  }
+
+  /* Unavailable dates */
+  &[data-unavailable="true"] {
+    @apply status-disabled;
+  }
+
+  /* Disabled state */
+  &:disabled:not([data-outside-month="true"]),
+  &[data-disabled]:not([data-outside-month="true"]) {
+    @apply status-disabled;
+
+    text-decoration: line-through;
+  }
+}
+
+/* Cell trigger - full-cell hit target inside the cell's circle */
+.calendar__cell-button {
+  @apply absolute inset-0 flex items-center justify-center rounded-full outline-none no-highlight;
+  cursor: var(--cursor-interactive);
+
+  /* Suppress browser default focus ring on pointer interaction;
+     the keyboard focus state is drawn by `.calendar__cell` via status-focused. */
+  &:focus {
+    @apply outline-none;
+  }
+}
+
+/* Cell indicator - small dot at bottom center of cell */
+.calendar__cell-indicator {
+  @apply absolute bottom-1 left-1/2 size-[3px] -translate-x-1/2 rounded-full bg-muted;
+
+  /* Indicator color changes when cell is selected */
+  [data-state="checked"] > & {
+    @apply bg-accent-foreground;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Calendar Heading Button (clickable heading for view switching)
+ * -------------------------------------------------------------------------- */
+.calendar__heading-button {
+  @apply inline-flex items-center justify-center rounded-md bg-transparent px-2 py-0.5 text-center text-xs font-medium outline-none;
+  cursor: var(--cursor-interactive);
+  transition:
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Calendar Month / Year Grids (view switcher bodies)
+ * -------------------------------------------------------------------------- */
+.calendar__month-grid,
+.calendar__year-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  border-collapse: collapse;
+  @apply aspect-[7/6] w-full;
+}
+
+.calendar__month-grid-body,
+.calendar__year-grid-body {
+  display: contents;
+  
+  & > tr {
+    display: contents;
+    place-items: center;
+    
+    & > td {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+  }
+}
+
+.calendar__month-grid-row,
+.calendar__year-grid-row {
+  display: contents;
+}
+
+.calendar__month-cell,
+.calendar__year-cell {
+  @apply relative m-0.5 flex size-auto items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
+  will-change: scale;
+  transition:
+    transform 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    background-color 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+  cursor: var(--cursor-interactive);
+
+  @media (hover: hover) {
+    &:hover:not([data-selected]),
+    &[data-hovered="true"]:not([data-selected]) {
+      @apply bg-default;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &[data-selected] {
+    @apply bg-accent text-accent-foreground;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+.calendar__month-cell-label,
+.calendar__year-cell-label {
+  @apply pointer-events-none;
+}

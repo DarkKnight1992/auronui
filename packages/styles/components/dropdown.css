@@ -1,0 +1,67 @@
+/* ==========================================================================
+   Dropdown
+   ========================================================================== */
+
+.dropdown {
+  @apply flex flex-col gap-1;
+}
+
+.dropdown__trigger {
+  @apply inline-block outline-none;
+
+  transition:
+    transform 300ms var(--ease-out-quart),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  cursor: var(--cursor-interactive);
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &[data-pending="true"] {
+    @apply status-pending;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.97);
+  }
+}
+
+/* Positioning, sizing, and open/close animations — visuals come from card classes */
+.dropdown__popover {
+  @apply max-w-[48svw] origin-(--trigger-anchor-point) scroll-py-1 overflow-y-auto overscroll-contain md:min-w-55;
+  @apply will-change-[opacity,transform];
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply outline-none;
+  }
+
+  &[data-state="open"] {
+    @apply animate-in duration-200 ease-smooth fade-in-0 zoom-in-95;
+
+    &[data-side="top"] { @apply slide-in-from-bottom-1; }
+    &[data-side="bottom"] { @apply slide-in-from-top-1; }
+    &[data-side="left"] { @apply slide-in-from-right-1; }
+    &[data-side="right"] { @apply slide-in-from-left-1; }
+  }
+
+  &[data-state="closed"] {
+    @apply animate-out duration-150 ease-smooth zoom-out-95 fade-out;
+  }
+}
+
+/* Inner list — shares list-container base */
+.dropdown__menu {
+  @apply list-container gap-0.5;
+}

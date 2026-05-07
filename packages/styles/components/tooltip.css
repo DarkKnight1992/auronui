@@ -1,0 +1,47 @@
+/* Tooltip component styles */
+
+/* Base tooltip styles */
+.tooltip {
+  @apply max-w-xs text-xs break-all;
+  /* box-shadow: var(--shadow-overlay); */
+  will-change: opacity, transform;
+
+  /* Arrow styling */
+  & [data-slot="overlay-arrow"] {
+    @apply stroke-border/40;
+    fill: var(--overlay);
+  }
+
+  /* Arrow rotation based on placement */
+  &[data-placement="bottom"] [data-slot="overlay-arrow"] {
+    rotate: 180deg;
+  }
+
+  &[data-placement="left"] [data-slot="overlay-arrow"] {
+    rotate: -90deg;
+  }
+
+  &[data-placement="right"] [data-slot="overlay-arrow"] {
+    rotate: 90deg;
+  }
+}
+
+/* Tooltip trigger */
+.tooltip__trigger {
+  @apply inline-block;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    color 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+}

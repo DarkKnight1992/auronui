@@ -1,0 +1,155 @@
+/* Slider styles */
+
+.slider {
+  @apply grid w-full gap-1;
+
+  grid-template-areas:
+    "label output"
+    "track track";
+  grid-template-columns: 1fr auto;
+
+  [data-slot="label"] {
+    @apply w-fit text-sm font-medium;
+
+    grid-area: label;
+  }
+
+  .slider__output {
+    @apply text-sm font-medium tabular-nums;
+
+    grid-area: output;
+  }
+
+  .slider__track {
+    @apply relative rounded-full bg-default;
+
+    grid-area: track;
+  }
+
+  .slider__fill {
+    @apply pointer-events-none absolute rounded-full bg-accent;
+  }
+
+  .slider__thumb {
+    /* Flex container for centering pseudo-elements */
+    @apply absolute flex cursor-grab items-center justify-center rounded-full bg-accent no-highlight;
+
+    /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+    transition:
+      background-color 300ms var(--ease-smooth),
+      transform 300ms var(--ease-out),
+      box-shadow 300ms var(--ease-out);
+    @apply motion-reduce:transition-none;
+
+    /* after: Visible thumb element */
+    &::after {
+      @apply relative z-10 rounded-full bg-accent-foreground text-black shadow-field;
+      content: "";
+
+      /**
+       * Transitions
+       */
+      @apply origin-center transition-all motion-reduce:transition-none;
+    }
+
+    /* Dragging state - cursor changes and thumb scales down */
+    &[data-dragging="true"] {
+      @apply cursor-grabbing;
+
+      &::after {
+        @apply scale-[0.9] motion-reduce:scale-100;
+      }
+    }
+
+    /* Focus state - increase z-index */
+    &:focus {
+      @apply z-10 status-focused;
+    }
+
+    /* Disabled state */
+    &[data-disabled] {
+      @apply cursor-default;
+    }
+  }
+
+  /* Disabled state */
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+
+    [data-slot="label"] {
+      @apply opacity-100;
+    }
+  }
+
+  /* Horizontal orientation */
+  &[data-orientation="horizontal"] {
+    flex-direction: column;
+
+    .slider__track {
+      @apply h-5 w-full overflow-visible;
+    }
+
+    .slider__fill {
+      @apply h-full;
+    }
+
+    .slider__thumb {
+      @apply top-1/2 h-full;
+
+      width: 1.25rem;
+      --reka-slider-thumb-transform: translate(-50%, -50%);
+
+      &::after {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
+    }
+  }
+
+  /* Vertical orientation */
+  &[data-orientation="vertical"] {
+    @apply h-full gap-2;
+
+    flex-direction: row;
+    grid-template-areas:
+      "output"
+      "track"
+      "label";
+    grid-template-rows: auto 1fr auto;
+    grid-template-columns: 1fr;
+
+    .slider__output {
+      text-align: center;
+    }
+
+    [data-slot="label"] {
+      text-align: center;
+    }
+
+    .slider__track {
+      @apply h-full w-5 overflow-visible;
+      justify-self: center;
+    }
+
+    .slider__fill {
+      @apply w-full;
+    }
+
+    .slider__thumb {
+      @apply left-1/2 w-full;
+
+      height: 1.25rem;
+      --reka-slider-thumb-transform: translate(-50%, 50%);
+
+      &::after {
+        width: 0.875rem;
+        height: 0.875rem;
+      }
+    }
+  }
+}

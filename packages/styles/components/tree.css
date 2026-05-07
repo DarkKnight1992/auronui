@@ -1,0 +1,81 @@
+/* Tree component styles */
+.tree {
+  @apply flex flex-col gap-0.5 select-none outline-none;
+}
+
+/* -------------------------------------------------- Item -------------------------------------------------- */
+.tree__item {
+  @apply relative flex flex-col;
+}
+
+/* -------------------------------------------------- Item content row -------------------------------------------------- */
+.tree__item-content {
+  @apply relative flex w-full cursor-pointer items-center gap-1.5 rounded-md font-medium text-foreground outline-none transition-colors;
+
+  /* Indent via CSS variable set by level */
+  padding-inline-start: calc(var(--tree-indent, 0) * 1rem + 0.5rem);
+  padding-inline-end: 0.5rem;
+
+  /* Focus visible */
+  &:focus-visible,
+  &[data-focus-visible] {
+    @apply status-focused;
+  }
+
+  /* Hover */
+  @media (hover: hover) {
+    &:hover:not([data-selected]) {
+      @apply bg-default;
+    }
+  }
+
+  /* Selected */
+  &[data-selected] {
+    @apply bg-accent-soft text-accent-soft-foreground;
+
+    @media (hover: hover) {
+      &:hover {
+        @apply bg-accent-soft-hover;
+      }
+    }
+  }
+}
+
+/* Size variants */
+.tree__item-content--sm {
+  @apply py-0.5 text-xs;
+}
+
+.tree__item-content--md {
+  @apply py-1 text-sm;
+}
+
+.tree__item-content--lg {
+  @apply py-1.5 text-base;
+}
+
+/* -------------------------------------------------- Toggle chevron -------------------------------------------------- */
+.tree__item-toggle {
+  @apply flex shrink-0 items-center justify-center text-muted transition-transform;
+
+  & svg {
+    @apply size-3.5;
+  }
+
+  &[data-expanded] {
+    @apply rotate-90;
+  }
+
+  &[data-no-children] {
+    @apply invisible;
+  }
+}
+
+/* -------------------------------------------------- Icon -------------------------------------------------- */
+.tree__item-icon {
+  @apply shrink-0 text-muted;
+
+  & svg {
+    @apply size-4;
+  }
+}

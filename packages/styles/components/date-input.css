@@ -1,0 +1,529 @@
+/* ─── DateInput ──────────────────────────────────────────────────────────────
+   Mirrors input.css: same prop surface (variant/size/color/labelPlacement/
+   fullWidth/isInvalid/isDisabled/isReadonly), same data-attribute contract,
+   same floating-label up-state, same start/end content slots. Each pseudo-
+   class is paired with its Reka UI data-attribute counterpart.
+*/
+
+.date-input {
+  @apply flex items-center gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+
+  height: 2.25rem;
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &.date-input--sm {
+    @apply gap-[0.40rem];
+  }
+
+  &.date-input--lg {
+    @apply gap-4;
+  }
+
+  &[data-focused="true"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  &[data-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  &[data-readonly="true"] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* ─── Variant modifiers ─────────────────────────────────────────────────── */
+
+.date-input--flat {
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-input--bordered {
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &[data-focused="true"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-input--faded {
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &[data-focused="true"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-input--underlined {
+  @apply rounded-none shadow-none bg-transparent !pl-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.date-input--raised {
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-focused="true"]),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &[data-focused="true"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Size modifiers ─────────────────────────────────────────────────────── */
+
+.date-input--sm {
+  @apply text-xs px-2 py-1;
+  height: 1.75rem;
+}
+
+.date-input--md {
+  /* No styles — md is the default size */
+}
+
+.date-input--lg {
+  @apply text-base px-4 py-2.5;
+  height: 2.75rem;
+}
+
+/* ─── Color modifiers ─────────────────────────────────────────────────────── */
+
+.date-input--default {
+  --date-input-accent: var(--color-default-foreground);
+  accent-color: var(--date-input-accent);
+}
+
+.date-input--primary {
+  --date-input-accent: var(--color-primary);
+  accent-color: var(--date-input-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-primary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.date-input--secondary {
+  --date-input-accent: var(--color-secondary);
+  accent-color: var(--date-input-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-secondary);
+    --tw-ring-color: var(--color-secondary);
+  }
+}
+
+.date-input--success {
+  --date-input-accent: var(--color-success);
+  accent-color: var(--date-input-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-success);
+    --tw-ring-color: var(--color-success);
+  }
+}
+
+.date-input--warning {
+  --date-input-accent: var(--color-warning);
+  accent-color: var(--date-input-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-warning);
+    --tw-ring-color: var(--color-warning);
+  }
+}
+
+.date-input--danger {
+  --date-input-accent: var(--color-danger);
+  accent-color: var(--date-input-accent);
+
+  &[data-focused="true"] {
+    border-color: var(--color-danger);
+    --tw-ring-color: var(--color-danger);
+  }
+}
+
+/* ─── Underlined + color variant overrides ───────────────────────────────── */
+
+.date-input--underlined.date-input--primary,
+.date-input--underlined.date-input--secondary,
+.date-input--underlined.date-input--success,
+.date-input--underlined.date-input--warning,
+.date-input--underlined.date-input--danger {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
+/* ─── State modifiers ────────────────────────────────────────────────────── */
+
+.date-input--invalid {
+  border-color: var(--color-danger) !important;
+  @apply status-invalid-field;
+}
+
+.date-input--disabled {
+  @apply status-disabled opacity-60 cursor-not-allowed;
+}
+
+.date-input--readonly {
+  background-color: var(--color-default-100);
+  cursor: default;
+}
+
+/* ─── Layout modifiers ───────────────────────────────────────────────────── */
+
+.date-input--full-width {
+  @apply w-full;
+}
+
+/* ─── Segment list + segments ────────────────────────────────────────────── */
+
+.date-input__segment-list {
+  @apply flex-1 inline-flex items-center min-w-0;
+  @apply bg-transparent outline-none border-0 p-0 h-auto text-inherit;
+  gap: 0.05rem;
+}
+
+.date-input__segment {
+  @apply inline-flex items-center justify-center rounded-sm px-0.5 outline-none;
+  color: var(--color-field-foreground);
+  font-variant-numeric: tabular-nums;
+  transition: background-color 300ms var(--ease-smooth), color 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-placeholder="true"] {
+    color: var(--color-field-placeholder);
+  }
+
+  &:focus,
+  &:focus-visible,
+  &[data-focused="true"] {
+    background-color: color-mix(in oklab, var(--date-input-accent, var(--color-focus)) 18%, transparent);
+    color: var(--color-foreground);
+  }
+
+  &[data-readonly="true"] {
+    cursor: default;
+  }
+
+  &[data-disabled="true"] {
+    @apply cursor-not-allowed opacity-60;
+  }
+}
+
+/* ─── Start / end content ────────────────────────────────────────────────── */
+
+.date-input__start-content,
+.date-input__end-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+}
+
+.date-input__start-content svg,
+.date-input__end-content svg {
+  @apply size-4;
+}
+
+/* ─── Label slot ─────────────────────────────────────────────────────────── */
+
+.date-input__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-field-placeholder);
+  pointer-events: none;
+  transition:
+    transform 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth),
+    scale 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+}
+
+/* ─── Floating label (inside the field) ──────────────────────────────────── */
+
+.date-input--label-inside {
+  position: relative;
+  height: 3.5rem;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+.date-input--label-inside.date-input--sm {
+  height: 2.5rem;
+}
+
+.date-input--label-inside.date-input--lg {
+  height: 4rem;
+}
+
+.date-input--label-inside .date-input__label {
+  position: absolute;
+  left: 0.75rem;
+  top: 50%;
+  transform: translateY(-50%);
+  transform-origin: left center;
+  font-size: var(--text-sm);
+  color: var(--color-field-placeholder);
+}
+
+.date-input--label-inside.date-input--underlined .date-input__label {
+  left: 0rem;
+}
+
+/* Push the segment row down so it doesn't sit under the floated label.
+   Applied statically (not only in up-state) to keep the field stable. */
+.date-input--label-inside .date-input__segment-list {
+  padding-top: 1rem;
+  padding-bottom: 0;
+}
+
+/* Hide placeholder-segment tokens (mm/dd/yyyy and literal "/") while the
+   inside-floating label is at rest. Only applies when hasLabel + labelPlacement
+   === 'inside' (scoped via .date-input--label-inside). Placeholder reveals
+   once the field is focused or has a value. */
+.date-input--label-inside:not([data-focused="true"]):not([data-filled="true"])
+  .date-input__segment {
+  color: transparent;
+}
+
+.date-input--label-inside.date-input--default[data-focused="true"] .date-input__label {
+  color: var(--color-foreground);
+}
+
+/* Up-state: focused OR filled. data-focused is emitted only when a segment is
+   focused (not any descendant), so clicks on endContent buttons don't float. */
+.date-input--label-inside[data-focused="true"] .date-input__label,
+.date-input--label-inside[data-filled="true"] .date-input__label {
+  transform: translateY(-110%) scale(0.85);
+}
+
+/* Start-content pushes the label's left anchor so it doesn't overlap the icon */
+.date-input--label-inside:has(> .date-input__start-content) .date-input__label {
+  left: calc(0.75rem + 1rem + 0.5rem);
+}
+.date-input--label-inside.date-input--underlined:has(> .date-input__start-content) .date-input__label {
+  left: calc(1rem + 0.5rem);
+}
+
+/* Size-aware offsets for the inside variant */
+.date-input--label-inside.date-input--sm .date-input__label {
+  font-size: var(--text-xs, 0.75rem);
+  left: 0.5rem;
+}
+
+.date-input--label-inside.date-input--sm:has(> .date-input__start-content) .date-input__label {
+  left: calc(0.5rem + 1rem + 0.4rem);
+}
+
+.date-input--label-inside.date-input--underlined.date-input--sm:has(> .date-input__start-content) .date-input__label {
+  left: calc(1rem + 0.4rem);
+}
+
+.date-input--label-inside.date-input--sm .date-input__segment-list {
+  padding-top: 0.625rem;
+}
+
+.date-input--label-inside.date-input--sm[data-focused="true"] .date-input__label,
+.date-input--label-inside.date-input--sm[data-filled="true"] .date-input__label {
+  transform: translateY(-100%) scale(0.8);
+}
+
+.date-input--label-inside.date-input--lg .date-input__label {
+  font-size: var(--text-base, 1rem);
+  left: 1rem;
+}
+.date-input--label-inside.date-input--lg:has(> .date-input__start-content) .date-input__label {
+  left: calc(1rem + 1rem + 1rem);
+}
+.date-input--label-inside.date-input--underlined.date-input--lg:has(> .date-input__start-content) .date-input__label {
+  left: calc(1rem + 1rem);
+}
+
+.date-input--label-inside.date-input--lg .date-input__segment-list {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + inside label: ensure the segment row has enough top padding */
+.date-input--underlined.date-input--label-inside .date-input__segment-list {
+  padding-top: 1.125rem;
+}
+
+/* Underlined + sm/lg: label flush left (override size rules) */
+.date-input--label-inside.date-input--underlined.date-input--sm .date-input__label,
+.date-input--label-inside.date-input--underlined.date-input--lg .date-input__label {
+  left: 0rem;
+}
+
+/* Invalid state — label color flips to danger */
+.date-input--label-inside[data-invalid="true"] .date-input__label {
+  color: var(--color-danger);
+}
+
+/* ─── Root wrapper (holds label + field + helper) ────────────────────────── */
+
+.date-input-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.date-input-root--full-width {
+  @apply w-full;
+}
+
+.date-input-root--label-outside-left {
+  flex-direction: row;
+  align-items: flex-start;
+  gap: 0.75rem;
+}
+
+.date-input__main-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+/* ─── Outside label ──────────────────────────────────────────────────────── */
+
+.date-input-root--label-outside > .date-input__label,
+.date-input-root--label-outside-left > .date-input__label {
+  position: static;
+  transform: none;
+  display: block;
+  pointer-events: auto;
+  font-size: var(--text-sm);
+  font-weight: 500;
+  color: var(--color-foreground);
+}
+
+.date-input-root--label-outside-left > .date-input__label {
+  padding-top: 0.5rem;
+  min-width: 5rem;
+  flex-shrink: 0;
+}
+
+.date-input-root--label-outside[data-invalid="true"] > .date-input__label,
+.date-input-root--label-outside-left[data-invalid="true"] > .date-input__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ─────────────────────────── */
+
+.date-input__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.date-input__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.date-input__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+/* ─── Color up-state — floated label picks up the accent ────────────────── */
+
+.date-input--label-inside.date-input--primary[data-focused="true"] .date-input__label {
+  color: var(--color-primary);
+}
+.date-input--label-inside.date-input--secondary[data-focused="true"] .date-input__label {
+  color: var(--color-secondary);
+}
+.date-input--label-inside.date-input--success[data-focused="true"] .date-input__label {
+  color: var(--color-success);
+}
+.date-input--label-inside.date-input--warning[data-focused="true"] .date-input__label {
+  color: var(--color-warning);
+}
+.date-input--label-inside.date-input--danger[data-focused="true"] .date-input__label {
+  color: var(--color-danger);
+}

@@ -1,0 +1,39 @@
+/* Base component styles */
+.fieldset {
+  @apply flex flex-col gap-6;
+  /* fix flexbox issue in Safari when fieldset with legend is inside a flexbox */
+  @apply shrink grow basis-0;
+}
+
+.fieldset__legend {
+  @apply text-sm font-medium text-foreground;
+}
+
+.fieldset__description {
+  @apply text-sm text-foreground/60;
+}
+
+/* ─── Field group slots ───────────────────────────────────────────────────────── */
+
+.fieldset__field-group {
+  @apply w-full;
+}
+
+.fieldset__field-group--vertical {
+  @apply flex flex-col gap-4;
+}
+
+.fieldset__field-group--horizontal {
+  @apply flex flex-row flex-wrap gap-4;
+}
+
+.fieldset__actions {
+  @apply flex items-center gap-2 pt-1;
+}
+
+/* ─── State modifiers ────────────────────────────────────────────────────────── */
+
+.fieldset--disabled,
+.fieldset[data-disabled="true"] {
+  @apply opacity-60 pointer-events-none;
+}

@@ -1,0 +1,225 @@
+/* ==========================================================================
+   Card — Surface container with header / body / footer composition
+   ========================================================================== */
+
+/* Block */
+.card {
+  @apply relative flex flex-col overflow-hidden;
+  @apply rounded-3xl;
+
+  /* Tokens — overridden by variant/shadow modifiers */
+  --card-bg: var(--color-surface);
+  --card-fg: var(--color-surface-foreground);
+  --card-border: transparent;
+  --card-shadow: var(--surface-shadow);
+  --card-gap: 0;
+
+  background-color: var(--card-bg);
+  color: var(--card-fg);
+  border: 1px solid var(--card-border);
+  box-shadow: var(--card-shadow);
+
+  transition:
+    transform 300ms var(--ease-smooth),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    border-color 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+}
+
+/* ==========================================================================
+   Element — header
+   ========================================================================== */
+
+.card__header {
+  @apply flex shrink-0 flex-col gap-0.5 px-5 pt-5 pb-3;
+}
+
+.card__header--divided {
+  @apply border-b border-border pb-4;
+}
+
+/* Element — title */
+.card__title {
+  @apply text-sm leading-6 font-semibold tracking-tight text-foreground;
+}
+
+/* Element — description */
+.card__description {
+  @apply text-sm leading-5 text-muted;
+}
+
+/* ==========================================================================
+   Element — body / content
+   ========================================================================== */
+
+.card__content {
+  @apply flex flex-1 flex-col gap-2 px-5 py-4 text-sm leading-6 text-foreground;
+}
+
+/* Body as the only child (no header/footer) tightens to comfortable padding */
+.card__content:only-child {
+  @apply p-5;
+}
+
+/* ==========================================================================
+   Element — footer
+   ========================================================================== */
+
+.card__footer {
+  @apply flex shrink-0 flex-row items-center gap-2 px-5 pt-3 pb-5;
+}
+
+.card__footer--divided {
+  @apply border-t border-border pt-4;
+}
+
+/* ==========================================================================
+   Variants — surface color
+   ========================================================================== */
+
+.card--default {
+  --card-bg: var(--color-surface);
+  --card-fg: var(--color-surface-foreground);
+}
+
+.card--secondary {
+  --card-bg: var(--color-surface-secondary);
+  --card-fg: var(--color-surface-secondary-foreground);
+}
+
+.card--tertiary {
+  --card-bg: var(--color-surface-tertiary);
+  --card-fg: var(--color-surface-tertiary-foreground);
+}
+
+.card--transparent {
+  --card-bg: transparent;
+  --card-shadow: none;
+}
+
+.card--bordered {
+  --card-bg: var(--color-surface);
+  --card-border: var(--color-border);
+  --card-shadow: none;
+}
+
+/* Frosted glass — sits over imagery / gradients. Host must allow bg bleed. */
+.card--blurred {
+  --card-bg: color-mix(in oklab, var(--color-surface) 60%, transparent);
+  backdrop-filter: saturate(160%) blur(16px);
+  -webkit-backdrop-filter: saturate(160%) blur(16px);
+}
+
+/* ==========================================================================
+   Shadow scale
+   ========================================================================== */
+
+.card--shadow-none {
+  --card-shadow: none;
+}
+
+.card--shadow-sm {
+  --card-shadow:
+    0 1px 2px 0 rgba(0, 0, 0, 0.04),
+    0 0 1px 0 rgba(0, 0, 0, 0.06);
+}
+
+.card--shadow-md {
+  --card-shadow:
+    0 4px 12px -2px rgba(0, 0, 0, 0.08),
+    0 2px 4px -1px rgba(0, 0, 0, 0.04),
+    0 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+.card--shadow-lg {
+  --card-shadow:
+    0 20px 40px -12px rgba(0, 0, 0, 0.18),
+    0 8px 16px -6px rgba(0, 0, 0, 0.08),
+    0 0 1px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* ==========================================================================
+   Radius scale
+   ========================================================================== */
+
+.card.card--radius-none {
+  @apply rounded-none;
+}
+.card.card--radius-sm {
+  @apply rounded-md;
+}
+.card.card--radius-md {
+  @apply rounded-xl;
+}
+.card.card--radius-lg {
+  @apply rounded-2xl;
+}
+
+/* ==========================================================================
+   Interactive — hoverable
+   ========================================================================== */
+
+.card--hoverable {
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      --card-shadow:
+        0 16px 32px -12px rgba(0, 0, 0, 0.18),
+        0 4px 8px -2px rgba(0, 0, 0, 0.06),
+        0 0 1px 0 rgba(0, 0, 0, 0.08);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+/* ==========================================================================
+   Interactive — pressable (fully clickable card)
+   ========================================================================== */
+
+.card--pressable {
+  cursor: var(--cursor-interactive);
+  @apply outline-none select-none;
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.985);
+  }
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      --card-bg: var(--color-surface-hover);
+    }
+  }
+}
+
+/* Pressable + hoverable combined: preserve lift + keep press scale */
+.card--pressable.card--hoverable:active,
+.card--pressable.card--hoverable[data-pressed="true"] {
+  transform: translateY(-2px) scale(0.985);
+}
+
+/* ==========================================================================
+   Disabled
+   ========================================================================== */
+
+.card--disabled,
+.card[aria-disabled="true"],
+.card[data-disabled="true"] {
+  @apply status-disabled;
+  pointer-events: none;
+}
+
+/* ==========================================================================
+   Full width
+   ========================================================================== */
+
+.card--full-width {
+  @apply w-full;
+}
