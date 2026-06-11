@@ -7,7 +7,7 @@
   "homepage": "https://darkknight1992.github.io/auronui",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DarkKnight1992/auronui.git",
+    "url": "git+https://github.com/DarkKnight1992/auronui.git",
     "directory": "packages/vue"
   },
   "bugs": {

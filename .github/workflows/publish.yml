@@ -29,9 +29,13 @@ jobs:
       - name: Set up Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '24'
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
+
+      # FIX 2: Force upgrade npm client to v11+ to resolve the monorepo OIDC drop bug
+      - name: Upgrade npm client engine
+        run: npm install -g npm@latest
 
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
