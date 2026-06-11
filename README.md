@@ -51,7 +51,7 @@ import { Button, ButtonGroup } from '@auronui/vue'
 
 ## Documentation
 
-Browse interactive component stories at **[Storybook](https://darkknight1992.github.io/auron/)**.
+Browse interactive component stories at **[Storybook](https://darkknight1992.github.io/auronui/)**.
 
 ## Components
 

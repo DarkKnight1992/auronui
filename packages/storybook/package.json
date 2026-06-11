@@ -5,8 +5,8 @@
   "description": "Shared Storybook 10 Vue3 config for Auron",
   "type": "module",
   "scripts": {
-    "storybook": "storybook dev --config-dir .storybook -p 6006",
-    "build-storybook": "storybook build --config-dir .storybook"
+    "dev": "storybook dev --config-dir .storybook -p 6006",
+    "build": "storybook build --config-dir .storybook"
   },
   "devDependencies": {
     "@fontsource/inter": "^5.2.0",

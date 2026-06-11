@@ -1,5 +1,7 @@
 html, body {
   /* font-size: 14px; */
+  background-color: var(--background);
+  transition: background-color 0.15s ease;
 }
 
 .empty-state-story__card {
