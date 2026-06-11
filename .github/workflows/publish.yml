@@ -40,7 +40,7 @@ jobs:
         run: pnpm exec turbo build --filter=@auronui/vue
 
       - name: Publish @auronui/styles
-        run: pnpm publish --filter=@auronui/styles --no-git-checks --provenance --access public
+        run: npm publish ./packages/styles --no-git-checks --provenance --access public
 
       - name: Publish @auronui/vue
-        run: pnpm publish --filter=@auronui/vue --no-git-checks --provenance --access public
+        run: npm publish ./packages/vue --no-git-checks --provenance --access public
