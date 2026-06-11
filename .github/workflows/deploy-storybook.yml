@@ -30,7 +30,7 @@ jobs:
         run: pnpm exec turbo build --filter=@auronui/vue --filter=@auronui/styles
 
       - name: Build Storybook
-        run: pnpm --filter @auronui/storybook build-storybook
+        run: pnpm --filter @auronui/storybook build
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
