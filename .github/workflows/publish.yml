@@ -33,7 +33,6 @@ jobs:
           cache: 'pnpm'
           registry-url: 'https://registry.npmjs.org'
 
-      # FIX 2: Force upgrade npm client to v11+ to resolve the monorepo OIDC drop bug
       - name: Upgrade npm client engine
         run: npm install -g npm@latest
 
@@ -43,8 +42,16 @@ jobs:
       - name: Build @auronui/vue
         run: pnpm exec turbo build --filter=@auronui/vue
 
+      # Fixed: Navigates to styles, runs pack to strip workspace protocols, and publishes tarball via npm
       - name: Publish @auronui/styles
-        run: npm publish ./packages/styles --no-git-checks --provenance --access public
+        run: |
+          cd ./packages/styles
+          pnpm pack
+          npm publish *.tgz --no-git-checks --provenance --access public
 
+      # Fixed: Navigates to vue, runs pack to strip workspace protocols, and publishes tarball via npm
       - name: Publish @auronui/vue
-        run: npm publish ./packages/vue --no-git-checks --provenance --access public
+        run: |
+          cd ./packages/vue
+          pnpm pack
+          npm publish *.tgz --no-git-checks --provenance --access public
