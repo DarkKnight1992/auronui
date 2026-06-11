@@ -1,10 +1,14 @@
-name: Publish to npm
+name: Publish Package
 
 on:
   push:
     tags:
       - 'v*'
   workflow_dispatch:
+
+permissions:
+  id-token: write  # Required for OIDC
+  contents: read
 
 jobs:
   publish:
@@ -36,7 +40,7 @@ jobs:
         run: pnpm exec turbo build --filter=@auronui/vue
 
       - name: Publish @auronui/styles
-        run: pnpm publish --filter=@auronui/styles --no-git-checks --provenance
+        run: pnpm publish --filter=@auronui/styles --no-git-checks --provenance --access public
 
       - name: Publish @auronui/vue
-        run: pnpm publish --filter=@auronui/vue --no-git-checks --provenance
+        run: pnpm publish --filter=@auronui/vue --no-git-checks --provenance --access public

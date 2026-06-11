@@ -1,17 +1,17 @@
 {
   "name": "@auronui/styles",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Auron core styles — adapted for Reka UI",
   "type": "module",
   "license": "MIT",
   "homepage": "https://auronui.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DarkKnight1992/auron.git",
+    "url": "https://github.com/DarkKnight1992/auronui.git",
     "directory": "packages/styles"
   },
   "bugs": {
-    "url": "https://github.com/DarkKnight1992/auron/issues"
+    "url": "https://github.com/DarkKnight1992/auronui/issues"
   },
   "keywords": [
     "vue",

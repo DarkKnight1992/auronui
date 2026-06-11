@@ -2,7 +2,7 @@
 
 [![npm version](https://img.shields.io/npm/v/@auronui/vue.svg?style=flat)](https://npmjs.com/package/@auronui/vue)
 [![license](https://img.shields.io/npm/l/@auronui/vue.svg)](./LICENSE)
-[![CI](https://github.com/DarkKnight1992/auron/actions/workflows/ci.yml/badge.svg)](https://github.com/DarkKnight1992/auron/actions/workflows/ci.yml)
+[![CI](https://github.com/DarkKnight1992/auronui/actions/workflows/ci.yml/badge.svg)](https://github.com/DarkKnight1992/auronui/actions/workflows/ci.yml)
 [![storybook](https://img.shields.io/badge/storybook-live-ff4785.svg)](https://darkknight1992.github.io/auron/)
 
 > A multi-framework component library — accessible, beautifully designed UI components powered by Reka UI and Tailwind CSS 4. Starting with Vue 3, with React and Angular coming soon.

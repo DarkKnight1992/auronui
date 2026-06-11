@@ -12,7 +12,7 @@ export default defineConfig({
     nav: [
       { text: 'Guide', link: '/guide/introduction' },
       { text: 'Components', link: '/components/' },
-      { text: 'GitHub', link: 'https://github.com/DarkKnight1992/auron' },
+      { text: 'GitHub', link: 'https://github.com/DarkKnight1992/auronui' },
     ],
 
     sidebar: {
@@ -55,7 +55,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/DarkKnight1992/auron' },
+      { icon: 'github', link: 'https://github.com/DarkKnight1992/auronui' },
     ],
 
     editLink: {

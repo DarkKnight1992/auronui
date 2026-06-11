@@ -11,7 +11,7 @@ Thanks for your interest in Auron UI! This guide explains how to set up the repo
 ## Setup
 
 ```bash
-git clone https://github.com/DarkKnight1992/auron.git
+git clone https://github.com/DarkKnight1992/auronui.git
 cd auron
 pnpm install
 pnpm turbo run build

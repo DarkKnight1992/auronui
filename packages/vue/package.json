@@ -1,17 +1,17 @@
 {
   "name": "@auronui/vue",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Vue 3 85 components with full visual and functional parity",
   "type": "module",
   "license": "MIT",
   "homepage": "https://auronui.dev",
   "repository": {
     "type": "git",
-    "url": "https://github.com/DarkKnight1992/auron.git",
+    "url": "https://github.com/DarkKnight1992/auronui.git",
     "directory": "packages/vue"
   },
   "bugs": {
-    "url": "https://github.com/DarkKnight1992/auron/issues"
+    "url": "https://github.com/DarkKnight1992/auronui/issues"
   },
   "keywords": [
     "vue",
@@ -53,7 +53,8 @@
     }
   },
   "files": [
-    "dist"
+    "dist",
+    "README.md"
   ],
   "scripts": {
     "build": "vite build",

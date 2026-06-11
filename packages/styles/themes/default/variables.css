@@ -109,6 +109,54 @@
     --skeleton-animation: shimmer; /* shimmer, pulse, none */
   }
 
+  @media (prefers-color-scheme: dark) {
+    :root:not(.light):not([data-theme="light"]):not(.default):not([data-theme="default"]) {
+      color-scheme: dark;
+
+      --background: oklch(12% 0.005 285.823);
+      --foreground: var(--snow);
+
+      --surface: oklch(0.2103 0.0059 285.89);
+      --surface-foreground: var(--foreground);
+
+      --surface-secondary: oklch(0.257 0.0037 286.14);
+      --surface-tertiary: oklch(0.2721 0.0024 247.91);
+
+      --overlay: oklch(0.2103 0.0059 285.89);
+      --overlay-foreground: var(--foreground);
+
+      --muted: oklch(70.5% 0.015 286.067);
+
+      --scrollbar: oklch(70.5% 0.015 286.067);
+
+      --default: oklch(27.4% 0.006 286.033);
+      --default-foreground: var(--snow);
+
+      --field-background: oklch(0.2103 0.0059 285.89);
+      --field-foreground: var(--foreground);
+
+      --warning: oklch(0.8203 0.1388 76.34);
+      --warning-foreground: var(--eclipse);
+
+      --danger: oklch(0.594 0.1967 24.63);
+      --danger-foreground: var(--snow);
+
+      --segment: oklch(0.3964 0.01 285.93);
+      --segment-foreground: var(--foreground);
+
+      --border: oklch(28% 0.006 286.033);
+      --separator: oklch(25% 0.006 286.033);
+      --focus: var(--accent);
+      --link: var(--foreground);
+
+      --backdrop: rgba(0, 0, 0, 0.6);
+
+      --surface-shadow: 0 0 0 0 transparent inset;
+      --overlay-shadow: 0 0 1px 0 rgba(255, 255, 255, 0.3) inset;
+      --field-shadow: 0 0 0 0 transparent inset;
+    }
+  }
+
   .dark,
   [data-theme="dark"] {
     color-scheme: dark;
