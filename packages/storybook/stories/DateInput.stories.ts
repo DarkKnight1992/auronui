@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
 import { DateInput } from "@auronui/vue";
-import { CalendarDate } from "@internationalized/date";
+import { CalendarDate, CalendarDateTime } from "@internationalized/date";
 
 const meta: Meta<typeof DateInput> = {
   component: DateInput,
@@ -292,6 +292,44 @@ export const FullWidth: Story = {
     components: { DateInput },
     setup: () => {
       const value = ref(undefined);
+      return { args, value };
+    },
+    template: `<DateInput v-bind="args" v-model="value" />`,
+  }),
+};
+
+/* ─── Time ──────────────────────────────────────────────────────────────── */
+
+export const WithTime: Story = {
+  args: { label: "Appointment", granularity: "minute" },
+  render: (args) => ({
+    components: { DateInput },
+    setup: () => {
+      const value = ref(new CalendarDateTime(2024, 6, 15, 10, 30));
+      return { args, value };
+    },
+    template: `<DateInput v-bind="args" v-model="value" />`,
+  }),
+};
+
+export const WithTimeAndSeconds: Story = {
+  args: { label: "Log Timestamp", granularity: "second" },
+  render: (args) => ({
+    components: { DateInput },
+    setup: () => {
+      const value = ref(new CalendarDateTime(2024, 6, 15, 10, 30, 45));
+      return { args, value };
+    },
+    template: `<DateInput v-bind="args" v-model="value" />`,
+  }),
+};
+
+export const WithTime12Hour: Story = {
+  args: { label: "Meeting Time", granularity: "minute", hourCycle: 12 },
+  render: (args) => ({
+    components: { DateInput },
+    setup: () => {
+      const value = ref(new CalendarDateTime(2024, 6, 15, 14, 0));
       return { args, value };
     },
     template: `<DateInput v-bind="args" v-model="value" />`,
