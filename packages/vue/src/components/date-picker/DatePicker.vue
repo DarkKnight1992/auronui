@@ -6,6 +6,7 @@ import {
   DatePickerContent,
 } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
+import type { CalendarDateTime, ZonedDateTime } from '@internationalized/date'
 import { datePickerVariants, type DateInputVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
@@ -67,10 +68,18 @@ const slotFns = computed(() => datePickerVariants())
 
 // Sync Calendar's `DateValue` v-model with DatePicker's `DateValue | null` model,
 // and close the popover on selection when closeOnSelect is enabled.
+// When the current value carries a time component (CalendarDateTime / ZonedDateTime),
+// preserve it so clicking a date in the calendar doesn't wipe out the time the user
+// typed into the field segments.
 const calendarValue = computed<DateValue | undefined>({
   get: () => modelValue.value ?? undefined,
   set: (val) => {
-    modelValue.value = val ?? null
+    if (val != null && modelValue.value != null && 'hour' in modelValue.value) {
+      const existing = modelValue.value as CalendarDateTime | ZonedDateTime
+      modelValue.value = existing.set({ year: val.year, month: val.month, day: val.day })
+    } else {
+      modelValue.value = val ?? null
+    }
     if (props.closeOnSelect && val != null) {
       openModel.value = false
     }

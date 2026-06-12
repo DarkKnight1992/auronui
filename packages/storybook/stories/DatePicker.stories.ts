@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
 import { ref } from "vue";
-import { CalendarDate, today, getLocalTimeZone } from "@internationalized/date";
+import { CalendarDate, CalendarDateTime, toZoned, today, getLocalTimeZone } from "@internationalized/date";
 import { DatePicker } from "@auronui/vue";
 
 const meta: Meta<typeof DatePicker> = {
@@ -300,7 +300,7 @@ export const TimeGranularity: Story = {
   args: {
     label: "Date and Time",
     granularity: "minute",
-    defaultValue: new CalendarDate(2024, 6, 15),
+    defaultValue: toZoned(new CalendarDateTime(2024, 6, 15, 10, 30), "America/New_York"),
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -314,7 +314,7 @@ export const TwelveHourCycle: Story = {
     label: "Date and Time (12h)",
     granularity: "hour",
     hourCycle: 12,
-    defaultValue: new CalendarDate(2024, 6, 15),
+    defaultValue: toZoned(new CalendarDateTime(2024, 6, 15, 14, 0), "America/New_York"),
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -328,7 +328,9 @@ export const HideTimeZone: Story = {
     label: "Date and Time — TZ hidden",
     granularity: "minute",
     hideTimeZone: true,
-    defaultValue: new CalendarDate(2024, 6, 15),
+    // hideTimeZone only affects ZonedDateTime values (timezone display is irrelevant
+    // for CalendarDateTime). toZoned promotes a CalendarDateTime to a ZonedDateTime.
+    defaultValue: toZoned(new CalendarDateTime(2024, 6, 15, 10, 30), "America/New_York"),
   },
   render: (args: any) => ({
     components: { DatePicker },
