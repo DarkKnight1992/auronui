@@ -141,6 +141,7 @@ function valueFor(displayed: string): string {
 const searchTerm = ref(labelFor(props.modelValue))
 
 const isFilled = computed(() => !!searchTerm.value)
+const hasItems = computed(() => internalItems.value.length > 0)
 
 // Helper IDs / aria wiring
 const descriptionId = computed(() => `${inputId.value}-description`)
@@ -266,6 +267,7 @@ useAutocompleteProvide({
   label: toRef(props, 'label'),
   ariaDescribedBy,
   truncateItems: toRef(props, 'truncateItems'),
+  hasItems,
   slots: slotFns,
 })
 </script>

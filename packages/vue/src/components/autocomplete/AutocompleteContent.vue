@@ -20,7 +20,7 @@ const rootContext = injectComboboxRootContext()
   <AutocompletePortal>
     <AnimatePresence>
       <AutocompleteContent
-        v-if="rootContext.open.value"
+        v-if="rootContext.open.value && (ctx.hasItems.value || (ctx.isFilled.value && !ctx.isLoading.value))"
         position="popper"
         :side-offset="props.sideOffset"
         as-child
@@ -54,7 +54,7 @@ const rootContext = injectComboboxRootContext()
               <slot />
               <!-- Empty state: only show when the user has typed a query -->
               <AutocompleteEmpty
-                v-if="ctx.isFilled.value"
+                v-if="ctx.isFilled.value && !ctx.isLoading.value"
                 class="py-3 text-center text-sm text-default-400"
                 data-slot="empty-content"
               >
