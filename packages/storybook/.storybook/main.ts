@@ -21,7 +21,11 @@ const config: StorybookConfig = {
     // CRITICAL: @tailwindcss/vite must be added here or CSS layers won't apply
     // See RESEARCH.md Pitfall 5
     // vue() must be explicit — @storybook/vue3-vite does not bundle @vitejs/plugin-vue
-    config.plugins = [...(config.plugins ?? []), vue(), tailwindcss()];
+    // vue() MUST come before storybook's own plugins.
+    // The storybook meta plugin appends __docgenInfo raw JS outside any <script> block.
+    // If vite:vue processes the file first (already-compiled JS), the meta plugin appends
+    // to valid JS instead of raw SFC content, avoiding "Element is missing end tag" errors.
+    config.plugins = [vue(), tailwindcss(), ...(config.plugins ?? [])];
     config.resolve = {
       ...config.resolve,
       // Prevent duplicate vue/reka-ui instances when aliasing @auronui/vue to source.
@@ -30,7 +34,7 @@ const config: StorybookConfig = {
       dedupe: ['vue', 'reka-ui', '@vueuse/core'],
       alias: {
         ...config.resolve?.alias,
-        // '@auronui/vue': path.resolve(import.meta.dirname, '../../../packages/vue/src/index.ts'),
+        '@auronui/vue': path.resolve(import.meta.dirname, '../../../packages/vue/src/index.ts'),
       },
     }
     return config;

@@ -29,3 +29,4 @@ storybook-static/
 .DS_Store
 .planning
 .claude
+docs/*

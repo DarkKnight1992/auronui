@@ -28,6 +28,7 @@ export * from "./date-input";
 export * from "./date-picker";
 export * from "./date-range-field";
 export * from "./date-range-picker";
+export * from "./date-time-picker";
 export * from "./description";
 export * from "./drawer";
 export * from "./collapsible";

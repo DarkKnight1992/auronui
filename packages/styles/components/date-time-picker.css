@@ -1,0 +1,239 @@
+/* ==========================================================================
+   DateTimePicker — three-step date + time + timezone picker
+   ========================================================================== */
+
+.date-time-picker {
+  @apply inline-flex flex-col gap-1;
+}
+
+.date-time-picker--full-width {
+  @apply w-full;
+}
+
+.date-time-picker--invalid {
+  /* invalid state propagated to child DateInput via isInvalid prop */
+}
+
+.date-time-picker--disabled {
+  @apply opacity-60 cursor-not-allowed pointer-events-none;
+}
+
+/* ─── Trigger (calendar icon button) ─────────────────────────────────────── */
+
+.date-time-picker__trigger {
+  @apply inline-flex items-center justify-center rounded-field p-1 no-highlight bg-transparent border-0 cursor-pointer outline-none shrink-0;
+  color: var(--color-field-placeholder);
+  cursor: var(--cursor-interactive);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition: box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.date-time-picker__trigger-indicator {
+  @apply inline-flex size-4 items-center justify-center text-field-placeholder;
+}
+
+/* ─── Popover shell ───────────────────────────────────────────────────────── */
+
+.date-time-picker__popover {
+  @apply origin-(--trigger-anchor-point) overflow-hidden bg-overlay p-0;
+  min-width: 17rem;
+  box-shadow: var(--shadow-overlay);
+  border-radius: calc(var(--radius) * 2.5);
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply outline-none;
+  }
+
+  & {
+    @apply animate-in duration-300 ease-smooth fade-in-0 zoom-in-95;
+
+    &[data-placement^="top"] {
+      @apply slide-in-from-bottom-1;
+    }
+
+    &[data-placement^="bottom"] {
+      @apply slide-in-from-top-1;
+    }
+
+    &[data-placement^="left"] {
+      @apply slide-in-from-right-1;
+    }
+
+    &[data-placement^="right"] {
+      @apply slide-in-from-left-1;
+    }
+  }
+
+  &,
+  & {
+    @apply will-change-[opacity,transform];
+  }
+}
+
+/* ─── Step header ─────────────────────────────────────────────────────────── */
+
+.date-time-picker__step-header {
+  @apply flex items-center justify-between px-3 pt-3 pb-1;
+}
+
+.date-time-picker__step-title {
+  @apply flex flex-1 items-center justify-center text-center text-xs font-medium select-none;
+}
+
+.date-time-picker__nav-button {
+  @apply flex size-6 items-center justify-center rounded-full bg-transparent text-accent outline-none no-highlight;
+  appearance: none;
+  -webkit-appearance: none;
+  border: none;
+  padding: 0;
+  cursor: var(--cursor-interactive);
+  will-change: scale;
+  transition:
+    transform 300ms var(--ease-out),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-default text-accent;
+    }
+  }
+
+  &:active {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  &[data-hidden="true"] {
+    @apply invisible pointer-events-none;
+  }
+}
+
+.date-time-picker__done-label {
+  @apply text-xs font-medium px-1;
+  color: var(--color-accent);
+}
+
+/* ─── Panel wrap (clips sliding panels) ──────────────────────────────────── */
+
+.date-time-picker__panel-wrap {
+  @apply relative overflow-hidden;
+  min-height: 16rem;
+}
+
+/* ─── Time scroller ───────────────────────────────────────────────────────── */
+
+.date-time-picker__scroller-wrap {
+  @apply flex items-stretch justify-center gap-0 px-3 pb-4;
+  position: relative;
+
+  &::before {
+    content: '';
+    @apply absolute inset-x-3 rounded-lg bg-default pointer-events-none;
+    height: 2.5rem;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 0;
+  }
+}
+
+.date-time-picker__scroller-column {
+  @apply flex-1 relative z-10;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
+  scroll-snap-type: y mandatory;
+  overscroll-behavior: contain;
+  height: 10rem;
+  padding-top: calc((10rem - 2.5rem) / 2);
+  padding-bottom: calc((10rem - 2.5rem) / 2);
+
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+.date-time-picker__scroller-item {
+  scroll-snap-align: center;
+  height: 2.5rem;
+  @apply flex items-center justify-center text-sm select-none cursor-pointer;
+  color: var(--color-muted-foreground);
+  transition: color 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-selected="true"] {
+    @apply font-medium;
+    color: var(--color-foreground);
+  }
+
+  &[data-disabled="true"] {
+    @apply opacity-40 cursor-not-allowed pointer-events-none;
+  }
+
+  @media (hover: hover) {
+    &:hover:not([data-selected="true"]) {
+      color: var(--color-foreground);
+    }
+  }
+}
+
+/* ─── Timezone panel ──────────────────────────────────────────────────────── */
+
+.date-time-picker__tz-search {
+  @apply w-full bg-transparent border-0 border-b outline-none px-3 py-2 text-sm;
+  border-color: var(--color-border);
+  color: var(--color-foreground);
+
+  &::placeholder {
+    color: var(--color-field-placeholder);
+  }
+
+  &:focus {
+    outline: none;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.date-time-picker__tz-list {
+  @apply overflow-y-auto p-1;
+  max-height: 14rem;
+  scrollbar-width: thin;
+}
+
+.date-time-picker__tz-item {
+  @apply list-item min-h-8 gap-2 rounded-lg text-sm;
+
+  &[aria-selected="true"] {
+    @apply bg-default font-medium text-foreground;
+  }
+
+  @media (hover: hover) {
+    &:hover:not([aria-selected="true"]) {
+      @apply bg-default-hover;
+    }
+  }
+}
