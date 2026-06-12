@@ -25,6 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
   loadItems: undefined,
   debounceMs: 200,
   filterOnOpen: false,
+  truncateItems: true,
 })
 
 const emit = defineEmits<{
@@ -94,6 +95,12 @@ type Props = {
   debounceMs?: number
   /** Apply filter immediately on open (default: false — show all items until user types). */
   filterOnOpen?: boolean
+  /**
+   * Truncate item text with an ellipsis when it overflows the dropdown width.
+   * Set to `false` to show full text — the dropdown will widen to fit.
+   * @default true
+   */
+  truncateItems?: boolean
 }
 
 const attrs = useAttrs()
@@ -258,6 +265,7 @@ useAutocompleteProvide({
   inputId,
   label: toRef(props, 'label'),
   ariaDescribedBy,
+  truncateItems: toRef(props, 'truncateItems'),
   slots: slotFns,
 })
 </script>

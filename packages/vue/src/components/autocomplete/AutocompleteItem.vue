@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<{
     data-slot="list-box-item"
   >
     <slot name="startContent" />
-    <slot />
+    <span class="autocomplete-item__text" data-slot="item-text"><slot /></span>
     <ComboboxItemIndicator
       class="list-box-item__indicator"
       data-slot="list-box-item-indicator"

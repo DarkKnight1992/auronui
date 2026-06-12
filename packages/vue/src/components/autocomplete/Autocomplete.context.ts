@@ -15,6 +15,7 @@ export interface AutocompleteContext {
   inputId: Ref<string>
   label: Ref<string | undefined>
   ariaDescribedBy: Ref<string | undefined>
+  truncateItems: Ref<boolean>
   slots: ComputedRef<ReturnType<typeof autocompleteVariants>>
 }
 

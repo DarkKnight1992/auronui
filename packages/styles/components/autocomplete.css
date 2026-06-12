@@ -301,7 +301,7 @@
 /* ─── Slots ──────────────────────────────────────────────────────────────────── */
 
 .autocomplete__input {
-  @apply flex-1 bg-transparent outline-none border-0 p-0 h-auto text-inherit;
+  @apply flex-1 bg-transparent outline-none border-0 p-0 h-auto text-inherit w-full min-w-4;
   @apply placeholder:text-field-placeholder;
 
   &:focus,
@@ -360,6 +360,7 @@
 /* Push the input caret/text down so it doesn't sit under the floated label.
    Applied statically (not only in up-state) to keep the input box stable. */
 .autocomplete__trigger--label-inside .autocomplete__input {
+  @apply w-full;
   padding-top: 1rem;
   padding-bottom: 0;
 }
@@ -600,6 +601,19 @@
   }
 }
 
+/* ─── Item text ──────────────────────────────────────────────────────────── */
+
+/* By default, item text truncates with an ellipsis when the dropdown is
+   constrained to the trigger width. The wrapper span is needed because the
+   item itself is a flex row (checkmark + text + end-content). */
+.autocomplete-item__text {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 /* ─── Popover (listbox content) ─────────────────────────────────────────── */
 /* Similar to popover content styles */
 .autocomplete__popover {
@@ -681,5 +695,19 @@
   /* Search Field styles */
   [data-slot="search-field"] {
     @apply px-3 py-1 outline-none;
+  }
+
+  /* truncateItems=false: widen the popover to fit full text instead of clipping */
+  &[data-truncate-items="false"] {
+    width: max-content;
+    min-width: var(--trigger-width);
+    max-width: min(90vw, 40rem);
+
+    .autocomplete-item__text {
+      overflow: visible;
+      text-overflow: unset;
+      white-space: nowrap;
+      flex: none;
+    }
   }
 }

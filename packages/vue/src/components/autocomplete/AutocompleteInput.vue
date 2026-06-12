@@ -66,9 +66,11 @@ const showInsideLabel = computed(
       data-slot="input"
       autocomplete="off"
     />
-    <!-- Clear button: resets the search term -->
+    <!-- Clear button: only shown when filled and not in a readonly/disabled state.
+         Reka's AutocompleteCancel does not set data-empty itself, so we drive it here. -->
     <AutocompleteCancel
       :class="ctx.slots.value.clearButton()"
+      :data-empty="(!ctx.isFilled.value || ctx.isReadonly.value || ctx.isDisabled.value) ? 'true' : undefined"
       data-slot="clear-button"
       aria-label="Clear"
     >

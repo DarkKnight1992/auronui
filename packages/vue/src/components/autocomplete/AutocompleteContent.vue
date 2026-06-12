@@ -29,6 +29,7 @@ const rootContext = injectComboboxRootContext()
         <motion.div
           :class="['autocomplete__popover', 'relative']"
           :data-loading="ctx.isLoading.value ? '' : undefined"
+          :data-truncate-items="ctx.truncateItems.value ? undefined : 'false'"
           :aria-busy="ctx.isLoading.value || undefined"
           :initial="{ opacity: 0, scale: 0.95 }"
           :animate="{ opacity: 1, scale: 1 }"
@@ -51,8 +52,9 @@ const rootContext = injectComboboxRootContext()
               data-slot="list-box"
             >
               <slot />
-              <!-- Empty state when no items match -->
+              <!-- Empty state: only show when the user has typed a query -->
               <AutocompleteEmpty
+                v-if="ctx.isFilled.value"
                 class="py-3 text-center text-sm text-default-400"
                 data-slot="empty-content"
               >
