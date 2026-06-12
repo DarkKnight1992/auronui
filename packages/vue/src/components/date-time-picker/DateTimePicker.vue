@@ -20,15 +20,9 @@ import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
 import DateTimePickerTimeScroller from './DateTimePickerTimeScroller.vue'
 
-defineOptions({ inheritAttrs: false })
-
 type Step = 'date' | 'time'
 
-const STEP_TITLES: Record<Step, string> = {
-  date: 'Pick a date',
-  time: 'Pick a time',
-}
-const STEP_ORDER: Step[] = ['date', 'time']
+defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   variant?: 'flat' | 'bordered' | 'faded' | 'underlined'
@@ -73,6 +67,12 @@ const props = withDefaults(defineProps<{
 
 const modelValue = defineModel<CalendarDateTime | null | undefined>('modelValue')
 const openModel = defineModel<boolean>('open', { default: undefined })
+
+const STEP_TITLES: Record<Step, string> = {
+  date: 'Pick a date',
+  time: 'Pick a time',
+}
+const STEP_ORDER: Step[] = ['date', 'time']
 
 // Seed controlled open state from defaultOpen so portal renders in uncontrolled mode too
 if (props.defaultOpen && openModel.value === undefined) {
