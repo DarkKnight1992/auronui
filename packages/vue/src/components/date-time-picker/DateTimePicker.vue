@@ -200,7 +200,6 @@ const slotFns = computed(() =>
   >
     <DateInput
       :model-value="internalValue"
-      @update:model-value="onInputChange"
       :variant="variant"
       :size="size"
       :color="color"
@@ -219,6 +218,7 @@ const slotFns = computed(() =>
       :is-required="isRequired"
       :name="name"
       :hide-time-zone="hideTimeZone"
+      @update:model-value="onInputChange"
     >
       <template #endContent>
         <DatePickerTrigger
@@ -241,10 +241,32 @@ const slotFns = computed(() =>
               aria-hidden="true"
               focusable="false"
             >
-              <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-              <line x1="16" y1="2" x2="16" y2="6" />
-              <line x1="8" y1="2" x2="8" y2="6" />
-              <line x1="3" y1="10" x2="21" y2="10" />
+              <rect
+                x="3"
+                y="4"
+                width="18"
+                height="18"
+                rx="2"
+                ry="2"
+              />
+              <line
+                x1="16"
+                y1="2"
+                x2="16"
+                y2="6"
+              />
+              <line
+                x1="8"
+                y1="2"
+                x2="8"
+                y2="6"
+              />
+              <line
+                x1="3"
+                y1="10"
+                x2="21"
+                y2="10"
+              />
             </svg>
           </slot>
         </DatePickerTrigger>
@@ -257,7 +279,10 @@ const slotFns = computed(() =>
       :side-offset="8"
     >
       <!-- Step header -->
-      <div :class="slotFns.stepHeader()" data-slot="step-header">
+      <div
+        :class="slotFns.stepHeader()"
+        data-slot="step-header"
+      >
         <button
           type="button"
           :class="slotFns.navButton()"
@@ -266,7 +291,17 @@ const slotFns = computed(() =>
           data-slot="back-button"
           @click="goBack"
         >
-          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <svg
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
             <polyline points="15 18 9 12 15 6" />
           </svg>
         </button>
@@ -280,15 +315,32 @@ const slotFns = computed(() =>
           data-slot="forward-button"
           @click="goForward"
         >
-          <span v-if="activeStep === 'time'" :class="slotFns.doneLabel()">Done</span>
-          <svg v-else width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <span
+            v-if="activeStep === 'time'"
+            :class="slotFns.doneLabel()"
+          >Done</span>
+          <svg
+            v-else
+            width="14"
+            height="14"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="2.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            aria-hidden="true"
+          >
             <polyline points="9 18 15 12 9 6" />
           </svg>
         </button>
       </div>
 
       <!-- Sliding panels -->
-      <div :class="slotFns.panelWrap()" style="overflow: hidden;">
+      <div
+        :class="slotFns.panelWrap()"
+        style="overflow: hidden;"
+      >
         <AnimatePresence mode="popLayout">
           <motion.div
             v-if="activeStep === 'date'"
@@ -328,7 +380,6 @@ const slotFns = computed(() =>
               @update:model-value="onTimeUpdate"
             />
           </motion.div>
-
         </AnimatePresence>
       </div>
     </DatePickerContent>

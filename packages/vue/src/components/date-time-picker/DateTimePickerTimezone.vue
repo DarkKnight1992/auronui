@@ -30,7 +30,7 @@ function computeTzLabel(iana: string): string {
 
 const allZones: string[] = (() => {
   try {
-    return (Intl as any).supportedValuesOf('timeZone') as string[]
+    return (Intl as typeof Intl & { supportedValuesOf(key: string): string[] }).supportedValuesOf('timeZone')
   } catch {
     return ['UTC', 'America/New_York', 'America/Los_Angeles', 'Europe/London', 'Asia/Tokyo']
   }
@@ -89,7 +89,7 @@ function onItemKeydown(e: KeyboardEvent) {
       placeholder="Search timezones…"
       aria-label="Search timezones"
       data-slot="tz-search"
-    />
+    >
     <div
       :class="['date-time-picker__tz-list']"
       role="listbox"
