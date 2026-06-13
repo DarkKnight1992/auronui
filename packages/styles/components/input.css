@@ -47,7 +47,6 @@
   }
 
   /* Invalid state */
-  &:has(> input:invalid),
   &[data-invalid="true"] {
     @apply status-invalid-field;
     background-color: var(--color-field-focus);
@@ -451,7 +450,6 @@
 }
 
 /* Invalid state — label color flips to danger */
-.input--label-inside:has(> input:invalid) .input__label,
 .input--label-inside[data-invalid="true"] .input__label {
   color: var(--color-danger);
 }
