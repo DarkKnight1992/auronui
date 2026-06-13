@@ -194,14 +194,21 @@
     @apply bg-default;
   }
 
-  /* Unavailable dates */
-  &[data-unavailable="true"] {
+  /* Unavailable dates — Reka places data-unavailable="" on the inner CalendarCellTrigger
+     button, not the outer td. Use :has() to match the parent cell when its child trigger
+     carries the attribute (consistent with :has([data-today]) and :has([data-outside-view])
+     patterns used above). */
+  &:has([data-unavailable]) {
     @apply status-disabled;
   }
 
-  /* Disabled state */
+  /* Disabled state — Reka places data-disabled="" on CalendarCell (td) only for
+     isDateDisabled() and disableDaysOutsideCurrentView. For minValue/maxValue out-of-range
+     dates Reka sets data-disabled="" on CalendarCellTrigger (inner button), so we also
+     match via :has() to ensure out-of-range dates are visually disabled. */
   &:disabled:not([data-outside-month="true"]),
-  &[data-disabled]:not([data-outside-month="true"]) {
+  &[data-disabled]:not([data-outside-month="true"]),
+  &:has([data-disabled]):not([data-outside-month="true"]) {
     @apply status-disabled;
 
     text-decoration: line-through;
