@@ -41,10 +41,17 @@ const rootContext = injectSelectRootContext()
       and populates itemRegistry. The animated chrome is visually hidden via
       v-show when closed; enter/exit animation runs via motion.div bindings.
     -->
-      <SelectContent :position="props.position" :side-offset="props.sideOffset" data-slot="popover">
-        <motion.div v-show="rootContext.open.value" :class="ctx.slots.value.popover()"
+      <SelectContent
+        :position="props.position"
+        :side-offset="props.sideOffset"
+        data-slot="popover"
+      >
+        <motion.div
+          v-show="rootContext.open.value"
+          :class="ctx.slots.value.popover()"
           :animate="rootContext.open.value ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }"
-          :transition="{ duration: 0.15 }">
+          :transition="{ duration: 0.15 }"
+        >
           <SelectViewport data-slot="list-box">
             <slot />
           </SelectViewport>

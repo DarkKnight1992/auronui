@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef, useAttrs, useId, watch, type Ref } from 'vue'
+import { computed, onMounted, ref, toRef, useAttrs, useId, watch } from 'vue'
 import { AutocompleteRoot } from 'reka-ui'
 import { autocompleteVariants, type AutocompleteVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
