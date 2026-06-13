@@ -108,7 +108,7 @@ export const Playground: Story = {
           <AutocompleteContent>
             <AutocompleteItem
               v-for="item in items" :key="item.value"
-              :value="item.value" :text-value="item.label"
+              :value="item.value"
             >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
@@ -129,7 +129,7 @@ export const Default: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </AutocompleteItem>
@@ -163,7 +163,7 @@ export const Variants: Story = {
           <AutocompleteContent>
             <AutocompleteItem
               v-for="item in items" :key="item.value"
-              :value="item.value" :text-value="item.label"
+              :value="item.value" 
             >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
@@ -181,19 +181,19 @@ export const Sizes: Story = {
         <Autocomplete v-bind="args" size="sm" variant="bordered" :items="items" aria-label="Small autocomplete">
           <AutocompleteInput placeholder="Small (sm)" />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" size="md" variant="bordered" :items="items" aria-label="Medium autocomplete">
           <AutocompleteInput placeholder="Medium (md) — default" />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" size="lg" variant="bordered" :items="items" aria-label="Large autocomplete">
           <AutocompleteInput placeholder="Large (lg)" />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -207,12 +207,12 @@ export const Colors: Story = {
     setup: () => ({ args, items: allFruits }),
     template: `
       <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
-        <Autocomplete v-bind="args" variant="bordered" color="default" :items="items" aria-label="Default color"><AutocompleteInput placeholder="default" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" color="primary" :items="items" aria-label="Primary color"><AutocompleteInput placeholder="primary" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" color="secondary" :items="items" aria-label="Secondary color"><AutocompleteInput placeholder="secondary" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" color="success" :items="items" aria-label="Success color"><AutocompleteInput placeholder="success" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" color="warning" :items="items" aria-label="Warning color"><AutocompleteInput placeholder="warning" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" color="danger" :items="items" aria-label="Danger color"><AutocompleteInput placeholder="danger" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="default" :items="items" aria-label="Default color"><AutocompleteInput placeholder="default" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="primary" :items="items" aria-label="Primary color"><AutocompleteInput placeholder="primary" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="secondary" :items="items" aria-label="Secondary color"><AutocompleteInput placeholder="secondary" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="success" :items="items" aria-label="Success color"><AutocompleteInput placeholder="success" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="warning" :items="items" aria-label="Warning color"><AutocompleteInput placeholder="warning" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="danger" :items="items" aria-label="Danger color"><AutocompleteInput placeholder="danger" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
       </div>
     `,
   }),
@@ -244,7 +244,7 @@ export const FocusByColor: Story = {
           >
             <AutocompleteInput :placeholder="c" />
             <AutocompleteContent>
-              <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+              <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
             </AutocompleteContent>
           </Autocomplete>
         </template>
@@ -269,7 +269,7 @@ export const LabelPlacementInside: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Inside label autocomplete">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -291,7 +291,7 @@ export const LabelPlacementOutside: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Outside label autocomplete">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -313,7 +313,7 @@ export const LabelPlacementOutsideLeft: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Outside-left label autocomplete">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -332,15 +332,15 @@ export const LabelPlacementMatrix: Story = {
           <div style="display:flex;flex-direction:column;gap:12px">
             <Autocomplete v-bind="args" variant="flat" label="Full name" :items="items" aria-label="inside-flat">
               <AutocompleteInput placeholder="Jane Doe" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
             <Autocomplete v-bind="args" variant="bordered" label="Email" :items="items" aria-label="inside-bordered">
               <AutocompleteInput placeholder="jane@example.com" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
             <Autocomplete v-bind="args" variant="underlined" label="Phone" :items="items" aria-label="inside-underlined">
               <AutocompleteInput placeholder="+1 555 000 0000" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
           </div>
         </div>
@@ -350,15 +350,15 @@ export const LabelPlacementMatrix: Story = {
           <div style="display:flex;flex-direction:column;gap:12px">
             <Autocomplete v-bind="args" variant="flat" label-placement="outside" label="Full name" :items="items" aria-label="outside-flat">
               <AutocompleteInput placeholder="Jane Doe" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
             <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Email" :items="items" aria-label="outside-bordered">
               <AutocompleteInput placeholder="jane@example.com" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
             <Autocomplete v-bind="args" variant="underlined" label-placement="outside" label="Phone" :items="items" aria-label="outside-underlined">
               <AutocompleteInput placeholder="+1 555 000 0000" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
           </div>
         </div>
@@ -368,15 +368,15 @@ export const LabelPlacementMatrix: Story = {
           <div style="display:flex;flex-direction:column;gap:12px">
             <Autocomplete v-bind="args" variant="flat" label-placement="outside-left" label="Full name" :items="items" aria-label="outsideleft-flat">
               <AutocompleteInput placeholder="Jane Doe" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
             <Autocomplete v-bind="args" variant="bordered" label-placement="outside-left" label="Email" :items="items" aria-label="outsideleft-bordered">
               <AutocompleteInput placeholder="jane@example.com" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
             <Autocomplete v-bind="args" variant="underlined" label-placement="outside-left" label="Phone" :items="items" aria-label="outsideleft-underlined">
               <AutocompleteInput placeholder="+1 555 000 0000" />
-              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+              <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
             </Autocomplete>
           </div>
         </div>
@@ -402,7 +402,7 @@ export const WithDescription: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Autocomplete with description">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -426,7 +426,7 @@ export const WithErrorMessage: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Autocomplete with error">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -452,7 +452,7 @@ export const ErrorSupersedesDescription: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Error supersedes description">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -476,7 +476,7 @@ export const Required: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Required autocomplete">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -492,15 +492,15 @@ export const RequiredAcrossPlacements: Story = {
       <div style="display:flex;flex-direction:column;gap:16px;max-width:520px">
         <Autocomplete v-bind="args" variant="bordered" label="Inside" :is-required="true" :items="items" aria-label="required-inside">
           <AutocompleteInput placeholder="Required inside" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" label="Outside" label-placement="outside" :is-required="true" :items="items" aria-label="required-outside">
           <AutocompleteInput placeholder="Required outside" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" label="Outside-left" label-placement="outside-left" :is-required="true" :items="items" aria-label="required-outside-left">
           <AutocompleteInput placeholder="Required outside-left" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
       </div>
     `,
@@ -525,7 +525,7 @@ export const Invalid: Story = {
         <Autocomplete v-bind="args" :items="items" aria-label="Invalid autocomplete">
           <AutocompleteInput placeholder="Search fruits..." />
           <AutocompleteContent>
-            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
@@ -545,7 +545,7 @@ export const Disabled: Story = {
       <Autocomplete v-bind="args" :items="items" aria-label="Disabled autocomplete">
         <AutocompleteInput placeholder="Disabled autocomplete" />
         <AutocompleteContent>
-          <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+          <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
         </AutocompleteContent>
       </Autocomplete>
     `,
@@ -565,7 +565,7 @@ export const Readonly: Story = {
       <Autocomplete v-bind="args" :items="items" aria-label="Readonly autocomplete">
         <AutocompleteInput placeholder="Readonly value" />
         <AutocompleteContent>
-          <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem>
+          <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem>
         </AutocompleteContent>
       </Autocomplete>
     `,
@@ -587,7 +587,7 @@ export const FullWidth: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </AutocompleteItem>
@@ -616,7 +616,7 @@ export const WithStartContent: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </AutocompleteItem>
@@ -646,7 +646,7 @@ export const StartContentAcrossVariants: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -677,7 +677,7 @@ export const StartContentAcrossSizes: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -704,18 +704,18 @@ export const LabelStatesMatrix: Story = {
         <div style="font-size:11px;color:#666">readonly</div>
 
         <div style="font-size:11px;color:#666">inside</div>
-        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :items="items" aria-label="inside-empty"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :model-value="'apple'" :items="items" aria-label="inside-filled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :is-invalid="true" :items="items" aria-label="inside-invalid"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :is-disabled="true" :items="items" aria-label="inside-disabled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :is-readonly="true" :model-value="'apple'" :items="items" aria-label="inside-readonly"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :items="items" aria-label="inside-empty"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :model-value="'apple'" :items="items" aria-label="inside-filled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :is-invalid="true" :items="items" aria-label="inside-invalid"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :is-disabled="true" :items="items" aria-label="inside-disabled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label="Fruit" :is-readonly="true" :model-value="'apple'" :items="items" aria-label="inside-readonly"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
 
         <div style="font-size:11px;color:#666">outside</div>
-        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :items="items" aria-label="outside-empty"><AutocompleteInput placeholder="Pick one" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :model-value="'apple'" :items="items" aria-label="outside-filled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :is-invalid="true" error-message="Invalid" :items="items" aria-label="outside-invalid"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :is-disabled="true" :items="items" aria-label="outside-disabled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
-        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :is-readonly="true" :model-value="'apple'" :items="items" aria-label="outside-readonly"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :items="items" aria-label="outside-empty"><AutocompleteInput placeholder="Pick one" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :model-value="'apple'" :items="items" aria-label="outside-filled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :is-invalid="true" error-message="Invalid" :items="items" aria-label="outside-invalid"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :is-disabled="true" :items="items" aria-label="outside-disabled"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Fruit" :is-readonly="true" :model-value="'apple'" :items="items" aria-label="outside-readonly"><AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
       </div>
     `,
   }),
@@ -729,23 +729,23 @@ export const AllStates: Story = {
       <div style="display:flex;flex-direction:column;gap:16px;max-width:400px">
         <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Normal" description="Everything is fine." :items="items" aria-label="all-normal">
           <AutocompleteInput placeholder="Normal state" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Disabled" :is-disabled="true" :items="items" aria-label="all-disabled">
           <AutocompleteInput placeholder="Disabled autocomplete" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Readonly" :is-readonly="true" :model-value="'apple'" :items="items" aria-label="all-readonly">
           <AutocompleteInput />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Invalid" :is-invalid="true" error-message="This field has an error." :items="items" aria-label="all-invalid">
           <AutocompleteInput placeholder="Invalid autocomplete" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" label-placement="outside" label="Required" :is-required="true" :items="items" aria-label="all-required">
           <AutocompleteInput placeholder="A required field" />
-          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+          <AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent>
         </Autocomplete>
       </div>
     `,
@@ -784,7 +784,7 @@ export const AsyncLoad: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -826,7 +826,7 @@ export const AsyncWithDebounce: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </AutocompleteItem>

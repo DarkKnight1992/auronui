@@ -90,7 +90,7 @@ export const Playground: Story = {
             <SelectValue :placeholder="args.placeholder" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -108,7 +108,7 @@ export const Default: Story = {
           <SelectValue placeholder="Pick a fruit" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem>
+          <SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem>
         </SelectContent>
       </Select>
     `,
@@ -130,7 +130,7 @@ export const Controlled: Story = {
             <SelectValue placeholder="Pick a fruit" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -160,7 +160,7 @@ export const Variants: Story = {
             <SelectValue :placeholder="v + ' variant...'" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem>
           </SelectContent>
         </Select>
       </div>
@@ -176,15 +176,15 @@ export const Sizes: Story = {
       <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
         <Select v-bind="args" size="sm" variant="bordered" aria-label="Small select">
           <SelectTrigger><SelectValue placeholder="Small (sm)" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
         <Select v-bind="args" size="md" variant="bordered" aria-label="Medium select">
           <SelectTrigger><SelectValue placeholder="Medium (md) — default" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
         <Select v-bind="args" size="lg" variant="bordered" aria-label="Large select">
           <SelectTrigger><SelectValue placeholder="Large (lg)" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -197,12 +197,12 @@ export const Colors: Story = {
     setup: () => ({ args, items: allFruits }),
     template: `
       <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
-        <Select v-bind="args" variant="bordered" color="default" aria-label="Default color"><SelectTrigger><SelectValue placeholder="default" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-        <Select v-bind="args" variant="bordered" color="primary" aria-label="Primary color"><SelectTrigger><SelectValue placeholder="primary" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-        <Select v-bind="args" variant="bordered" color="secondary" aria-label="Secondary color"><SelectTrigger><SelectValue placeholder="secondary" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-        <Select v-bind="args" variant="bordered" color="success" aria-label="Success color"><SelectTrigger><SelectValue placeholder="success" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-        <Select v-bind="args" variant="bordered" color="warning" aria-label="Warning color"><SelectTrigger><SelectValue placeholder="warning" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-        <Select v-bind="args" variant="bordered" color="danger" aria-label="Danger color"><SelectTrigger><SelectValue placeholder="danger" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="default" aria-label="Default color"><SelectTrigger><SelectValue placeholder="default" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="primary" aria-label="Primary color"><SelectTrigger><SelectValue placeholder="primary" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="secondary" aria-label="Secondary color"><SelectTrigger><SelectValue placeholder="secondary" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="success" aria-label="Success color"><SelectTrigger><SelectValue placeholder="success" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="warning" aria-label="Warning color"><SelectTrigger><SelectValue placeholder="warning" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="danger" aria-label="Danger color"><SelectTrigger><SelectValue placeholder="danger" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
       </div>
     `,
   }),
@@ -232,7 +232,7 @@ export const FocusByColor: Story = {
             :aria-label="v + ' ' + c"
           >
             <SelectTrigger><SelectValue :placeholder="c" /></SelectTrigger>
-            <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+            <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
           </Select>
         </template>
       </div>
@@ -255,7 +255,7 @@ export const LabelPlacementInside: Story = {
       <div style="max-width:360px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -275,7 +275,7 @@ export const LabelPlacementOutside: Story = {
       <div style="max-width:360px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -295,7 +295,7 @@ export const LabelPlacementOutsideLeft: Story = {
       <div style="max-width:520px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -311,27 +311,27 @@ export const LabelPlacementMatrix: Story = {
         <div>
           <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Inside (default)</h4>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <Select v-bind="args" variant="flat" label="Full name"><SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-            <Select v-bind="args" variant="bordered" label="Email"><SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-            <Select v-bind="args" variant="underlined" label="Phone"><SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="flat" label="Full name"><SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="bordered" label="Email"><SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="underlined" label="Phone"><SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
           </div>
         </div>
 
         <div>
           <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Outside</h4>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <Select v-bind="args" variant="flat" label-placement="outside" label="Full name"><SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-            <Select v-bind="args" variant="bordered" label-placement="outside" label="Email"><SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-            <Select v-bind="args" variant="underlined" label-placement="outside" label="Phone"><SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="flat" label-placement="outside" label="Full name"><SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="bordered" label-placement="outside" label="Email"><SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="underlined" label-placement="outside" label="Phone"><SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
           </div>
         </div>
 
         <div>
           <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Outside-left</h4>
           <div style="display:flex;flex-direction:column;gap:12px">
-            <Select v-bind="args" variant="flat" label-placement="outside-left" label="Full name"><SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-            <Select v-bind="args" variant="bordered" label-placement="outside-left" label="Email"><SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
-            <Select v-bind="args" variant="underlined" label-placement="outside-left" label="Phone"><SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="flat" label-placement="outside-left" label="Full name"><SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="bordered" label-placement="outside-left" label="Email"><SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+            <Select v-bind="args" variant="underlined" label-placement="outside-left" label="Phone"><SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
           </div>
         </div>
       </div>
@@ -355,7 +355,7 @@ export const WithDescription: Story = {
       <div style="max-width:400px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -377,7 +377,7 @@ export const WithErrorMessage: Story = {
       <div style="max-width:400px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -401,7 +401,7 @@ export const ErrorSupersedesDescription: Story = {
       <div style="max-width:400px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -423,7 +423,7 @@ export const Required: Story = {
       <div style="max-width:400px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -438,15 +438,15 @@ export const RequiredAcrossPlacements: Story = {
       <div style="display:flex;flex-direction:column;gap:16px;max-width:520px">
         <Select v-bind="args" variant="bordered" label="Inside" :is-required="true">
           <SelectTrigger><SelectValue placeholder="Required inside" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
         <Select v-bind="args" variant="bordered" label="Outside" label-placement="outside" :is-required="true">
           <SelectTrigger><SelectValue placeholder="Required outside" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
         <Select v-bind="args" variant="bordered" label="Outside-left" label-placement="outside-left" :is-required="true">
           <SelectTrigger><SelectValue placeholder="Required outside-left" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -470,7 +470,7 @@ export const Invalid: Story = {
       <div style="max-width:360px">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,
@@ -488,7 +488,7 @@ export const Disabled: Story = {
     template: `
       <Select v-bind="args" aria-label="Disabled select">
         <SelectTrigger><SelectValue placeholder="Disabled select" /></SelectTrigger>
-        <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+        <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
       </Select>
     `,
   }),
@@ -508,7 +508,7 @@ export const Readonly: Story = {
     template: `
       <Select v-bind="args">
         <SelectTrigger><SelectValue placeholder="Readonly" /></SelectTrigger>
-        <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+        <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
       </Select>
     `,
   }),
@@ -528,7 +528,7 @@ export const FullWidth: Story = {
       <div style="width:100%">
         <Select v-bind="args">
           <SelectTrigger><SelectValue placeholder="Choose..." /></SelectTrigger>
-          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" :text-value="item.label">{{ item.label }}</SelectItem></SelectContent>
+          <SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent>
         </Select>
       </div>
     `,

@@ -1,6 +1,6 @@
 import { describe, it, expect, afterEach, beforeAll, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
-import { nextTick } from 'vue'
+import { nextTick, ref } from 'vue'
 import axe from 'axe-core'
 import Autocomplete from './Autocomplete.vue'
 import AutocompleteInput from './AutocompleteInput.vue'
@@ -43,7 +43,7 @@ function harnessStatic(props: Record<string, unknown> = {}) {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </AutocompleteItem>
@@ -101,7 +101,7 @@ describe('Autocomplete', () => {
               v-for="item in resolvedItems"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -166,6 +166,102 @@ describe('Autocomplete', () => {
     await flushPromises()
   })
 
+  it('slot text is used as display label — no extra props needed', async () => {
+    // Core requirement: <AutocompleteItem value="us">United States</AutocompleteItem>
+    // must show "United States" in the input after selection, with zero extra props.
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete v-model="selected" aria-label="Country picker">
+          <AutocompleteInput placeholder="Search..." />
+          <AutocompleteContent>
+            <AutocompleteItem value="us">United States</AutocompleteItem>
+            <AutocompleteItem value="gb">United Kingdom</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() {
+        const selected = ref('us')
+        return { selected }
+      },
+    })
+    mountedWrappers.push(wrapper)
+
+    // Allow children to mount and register, then the registry watcher to fire
+    await nextTick()
+    await nextTick()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('United States')
+  })
+
+  it('slot text used as label also populates v-model with the real value not the label', async () => {
+    // When a slot-rendered item is selected, v-model should emit the value prop ("us"),
+    // not the display label ("United States").
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete v-model="selected" aria-label="Country picker">
+          <AutocompleteInput placeholder="Search..." />
+          <AutocompleteContent>
+            <AutocompleteItem value="us">United States</AutocompleteItem>
+            <AutocompleteItem value="gb">United Kingdom</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() {
+        const selected = ref('')
+        return { selected }
+      },
+    })
+    mountedWrappers.push(wrapper)
+
+    // Allow children to mount and register their labels
+    await nextTick()
+    await nextTick()
+    // Set v-model to 'us' — the input should show 'United States'
+    const vm = wrapper.vm as any
+    vm.selected = 'us'
+    await nextTick()
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('United States')
+    // v-model should still hold the real value, not the label
+    expect(vm.selected).toBe('us')
+  })
+
+  it('shows label in input after item with distinct value/label is selected (items prop)', async () => {
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete :items="items" v-model="selected" aria-label="Country picker">
+          <AutocompleteInput placeholder="Search..." />
+          <AutocompleteContent>
+            <AutocompleteItem
+              v-for="item in items"
+              :key="item.value"
+              :value="item.value"
+            >
+              {{ item.label }}
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() {
+        const selected = ref('')
+        const items = [
+          { value: 'us', label: 'United States' },
+          { value: 'gb', label: 'United Kingdom' },
+        ]
+        return { items, selected }
+      },
+    })
+    mountedWrappers.push(wrapper)
+
+    const vm = wrapper.vm as any
+    vm.selected = 'us'
+    await nextTick()
+    expect(wrapper.find('input').element.value).toBe('United States')
+  })
+
   it('axe: passes accessibility audit (closed state)', async () => {
     const wrapper = mount({
       components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
@@ -177,7 +273,7 @@ describe('Autocomplete', () => {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </AutocompleteItem>

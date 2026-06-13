@@ -191,6 +191,37 @@ describe('Select — label / description / error', () => {
   })
 })
 
+describe('Select — label display', () => {
+  it('Test 13: trigger shows item label (not raw value) when modelValue is pre-set', async () => {
+    // When modelValue is pre-set and the dropdown has never been opened, items are
+    // not yet mounted (no force-mount — see SelectContent.vue comment for why
+    // force-mount cannot be used). Labels must be provided via the textValue prop
+    // so SelectItem can register them at setup time (before mount).
+    //
+    // Without textValue, slot-text labels are only available after first mount
+    // (i.e. after the dropdown is opened at least once). That is acceptable UX
+    // for the slot-text API; the textValue prop is the correct contract for
+    // pre-set label display.
+    const Wrapper = makeWrapper(`
+      <Select model-value="us" label="Country">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick country" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="us" text-value="United States">United States</SelectItem>
+          <SelectItem value="ca" text-value="Canada">Canada</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.text()).toContain('United States')
+    expect(trigger.text()).not.toContain('us')
+    wrapper.unmount()
+  })
+})
+
 describe('Select — accessibility (axe)', () => {
   it('Test 11: passes axe in closed state (zero violations)', async () => {
     const wrapper = mount(BasicSelect, { attachTo: document.body })

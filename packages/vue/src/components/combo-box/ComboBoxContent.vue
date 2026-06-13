@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ComboboxPortal, ComboboxContent, ComboboxViewport, injectComboboxRootContext } from 'reka-ui'
 import { motion, AnimatePresence } from 'motion-v'
+import { useSlots, watchEffect, type VNode } from 'vue'
 import { useComboBoxInject } from './ComboBox.context'
 
 const props = withDefaults(defineProps<{
@@ -13,6 +14,51 @@ const props = withDefaults(defineProps<{
 
 const ctx = useComboBoxInject()
 const comboboxRootContext = injectComboboxRootContext()
+
+// Pre-walk slot VNodes to extract value→label pairs synchronously.
+// This runs before the portal opens so the bridge can resolve labels on initial render.
+const slots = useSlots()
+
+function extractNodeText(nodes: VNode[]): string {
+  return nodes.map(n => {
+    if (typeof n.children === 'string') return n.children
+    if (Array.isArray(n.children)) return extractNodeText(n.children as VNode[])
+    return ''
+  }).join('')
+}
+
+function walkAndRegister(nodes: VNode[]) {
+  for (const node of nodes) {
+    // ComboBoxItem VNodes have a `value` prop; extract their text children
+    if (node.props && typeof node.props.value === 'string') {
+      const value = node.props.value as string
+      const children = node.children
+      if (children && typeof children === 'object' && 'default' in children) {
+        const slotFn = (children as Record<string, () => VNode[]>).default
+        if (typeof slotFn === 'function') {
+          const text = extractNodeText(slotFn()).trim()
+          if (text) ctx.registerItem(value, text)
+        }
+      } else if (typeof children === 'string') {
+        const text = children.trim()
+        if (text) ctx.registerItem(value, text)
+      } else if (Array.isArray(children)) {
+        const text = extractNodeText(children as VNode[]).trim()
+        if (text) ctx.registerItem(value, text)
+      }
+    }
+    // Recurse into children arrays
+    if (Array.isArray(node.children)) {
+      walkAndRegister(node.children as VNode[])
+    }
+  }
+}
+
+// Run synchronously at setup time and whenever the slot content changes
+watchEffect(() => {
+  const vnodes = slots.default?.()
+  if (vnodes) walkAndRegister(vnodes)
+})
 </script>
 
 <template>

@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach, beforeAll } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { nextTick } from 'vue'
 import axe from 'axe-core'
 
 // jsdom does not implement scrollIntoView — mock it so Reka UI's
@@ -40,7 +41,7 @@ function harness(props: Record<string, unknown> = {}) {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -112,6 +113,66 @@ describe('ComboBox', () => {
     expect(w.find('.combo-box').exists()).toBe(true)
   })
 
+  it('slot text is used as display label — no extra props needed', async () => {
+    // Core requirement: <ComboBoxItem value="us">United States</ComboBoxItem>
+    // must show "United States" in the input after selection, with zero extra props.
+    const wrapper = mount({
+      components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
+      props: ['modelValue'],
+      template: `
+        <ComboBox :model-value="modelValue" aria-label="Country picker">
+          <ComboBoxInput placeholder="Select a country..." />
+          <ComboBoxContent>
+            <ComboBoxItem value="us">United States</ComboBoxItem>
+            <ComboBoxItem value="gb">United Kingdom</ComboBoxItem>
+          </ComboBoxContent>
+        </ComboBox>
+      `,
+      setup() {
+        return {}
+      },
+    }, { props: { modelValue: 'us' } })
+    mountedWrappers.push(wrapper)
+
+    // Allow children to mount and register, then the registry watcher to fire
+    await nextTick()
+    await nextTick()
+    const input = wrapper.find('input')
+    expect(input.element.value).toBe('United States')
+  })
+
+  it('shows label in input when modelValue is set to a value with a distinct label (items prop)', async () => {
+    const wrapper = mount({
+      components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
+      template: `
+        <ComboBox :items="items" :model-value="modelValue" aria-label="Fruit picker">
+          <ComboBoxInput placeholder="Select a fruit..." />
+          <ComboBoxContent>
+            <ComboBoxItem
+              v-for="item in items"
+              :key="item.value"
+              :value="item.value"
+            >
+              {{ item.label }}
+            </ComboBoxItem>
+            <template #empty>
+              <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+            </template>
+          </ComboBoxContent>
+        </ComboBox>
+      `,
+      setup() {
+        return { items }
+      },
+    }, { props: { modelValue: 'apple' } })
+    mountedWrappers.push(wrapper)
+
+    await nextTick()
+    const input = wrapper.find('input')
+    // displayValue maps 'apple' → 'Apple' via items prop
+    expect(input.element.value).toBe('Apple')
+  })
+
   it('axe: passes accessibility audit in closed state', async () => {
     const wrapper = mount({
       components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
@@ -123,7 +184,7 @@ describe('ComboBox', () => {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </ComboBoxItem>

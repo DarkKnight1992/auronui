@@ -5,6 +5,12 @@ import { useSelectInject } from './Select.context'
 
 const props = withDefaults(defineProps<{
   value: string
+  /**
+   * Explicit human-readable label for this item. When provided, the registry is
+   * populated immediately at setup time (before the dropdown is ever opened),
+   * so SelectValue can display the correct label for a pre-set modelValue.
+   * When omitted, the label is read from slot DOM text on first mount.
+   */
   textValue?: string
   isDisabled?: boolean
   class?: string
@@ -17,8 +23,20 @@ const props = withDefaults(defineProps<{
 const ctx = useSelectInject()
 const textRef = useTemplateRef<HTMLElement>('textRef')
 
+// Register immediately with textValue if provided — this runs at setup time,
+// before mount, so SelectValue shows the correct label for a pre-set modelValue
+// even before the dropdown has ever been opened.
+if (props.textValue !== undefined) {
+  ctx.registerItem(props.value, props.textValue)
+}
+
 onMounted(() => {
-  const label = props.textValue ?? textRef.value?.textContent?.trim() ?? props.value
+  // textRef points to the SelectItemText component instance (not a DOM element).
+  // Access $el to get the underlying span element and read its text content.
+  // This refines the registry entry with actual DOM text (handles slot-text items
+  // that don't have an explicit textValue prop).
+  const el = (textRef.value as { $el?: HTMLElement } | null)?.$el
+  const label = props.textValue ?? el?.textContent?.trim() ?? props.value
   ctx.registerItem(props.value, label)
 })
 </script>

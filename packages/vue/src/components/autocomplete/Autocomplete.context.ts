@@ -18,6 +18,15 @@ export interface AutocompleteContext {
   truncateItems: Ref<boolean>
   hasItems: Ref<boolean>
   slots: ComputedRef<ReturnType<typeof autocompleteVariants>>
+  /**
+   * Called by AutocompleteItem at mount time to register a value→label pair.
+   * Used by the bridge's valueFor() when no `items` prop entry matches.
+   */
+  registerItem: (value: string, label: string) => void
+  /**
+   * Called by AutocompleteItem at unmount time to deregister.
+   */
+  unregisterItem: (value: string) => void
 }
 
 export const {

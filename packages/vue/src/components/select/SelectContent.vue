@@ -25,20 +25,26 @@ const rootContext = injectSelectRootContext()
 <template>
   <SelectPortal>
     <AnimatePresence>
-      <SelectContent
-        v-if="rootContext.open.value"
-        :position="props.position"
-        :side-offset="props.sideOffset"
-        as-child
-        data-slot="popover"
-      >
-        <motion.div
-          :class="ctx.slots.value.popover()"
-          :initial="{ opacity: 0, scale: 0.95 }"
-          :animate="{ opacity: 1, scale: 1 }"
-          :exit="{ opacity: 0, scale: 0.95 }"
-          :transition="{ duration: 0.15 }"
-        >
+      <!--
+      No force-mount on SelectContent. With force-mount=true, Reka's
+      SelectContentImpl (which contains DismissableLayer with
+      disableOutsidePointerEvents=true) would mount immediately on page load and
+      block all pointer events — including clicks on the trigger button.
+
+      Without force-mount, when open=false, Reka teleports slot content into a
+      DocumentFragment (after SelectContent's own onMounted). Components inside
+      the slot (SelectItem) still get created and their setup() runs, so
+      textValue-based registrations fire at setup time.
+
+      v-show (not v-if) on the visual wrapper ensures SelectItem components are
+      always instantiated when inside the DocumentFragment — their setup() fires
+      and populates itemRegistry. The animated chrome is visually hidden via
+      v-show when closed; enter/exit animation runs via motion.div bindings.
+    -->
+      <SelectContent :position="props.position" :side-offset="props.sideOffset" data-slot="popover">
+        <motion.div v-show="rootContext.open.value" :class="ctx.slots.value.popover()"
+          :animate="rootContext.open.value ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }"
+          :transition="{ duration: 0.15 }">
           <SelectViewport data-slot="list-box">
             <slot />
           </SelectViewport>

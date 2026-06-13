@@ -8,6 +8,15 @@ export interface ComboBoxContext {
   fullWidth: Ref<boolean>
   slots: ComputedRef<ReturnType<typeof comboBoxVariants>>
   displayValue: ComputedRef<(value: string) => string>
+  /**
+   * Called by ComboBoxItem at mount time to register a value→label pair.
+   * Used by displayValue() and the modelValue bridge for slot-only usage.
+   */
+  registerItem: (value: string, label: string) => void
+  /**
+   * Called by ComboBoxItem at unmount time to deregister.
+   */
+  unregisterItem: (value: string) => void
 }
 
 export const {

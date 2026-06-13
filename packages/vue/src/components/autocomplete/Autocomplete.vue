@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef, useAttrs, useId, watch } from 'vue'
+import { computed, onMounted, ref, toRef, useAttrs, useId, watch, type Ref } from 'vue'
 import { AutocompleteRoot } from 'reka-ui'
 import { autocompleteVariants, type AutocompleteVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
@@ -109,6 +109,22 @@ const inputId = computed(() => (attrs.id as string | undefined) ?? generatedId)
 
 const hasLabel = computed(() => !!props.label)
 
+// Registry for slot-rendered items: value → label (populated by AutocompleteItem at mount).
+// Replaced with a new Map instance on each mutation so Vue's ref() reactivity tracks changes.
+const slotItemRegistry = ref(new Map<string, string>())
+
+function registerItem(value: string, label: string) {
+  const next = new Map(slotItemRegistry.value)
+  next.set(value, label)
+  slotItemRegistry.value = next
+}
+
+function unregisterItem(value: string) {
+  const next = new Map(slotItemRegistry.value)
+  next.delete(value)
+  slotItemRegistry.value = next
+}
+
 // Internal async state
 const isLoading = ref(false)
 const internalItems = ref<AutocompleteItem[]>([...props.items])
@@ -125,17 +141,25 @@ const effectiveIgnoreFilter = computed(() => {
 
 // Internal display text — bound to AutocompleteRoot's model-value.
 // Holds the LABEL (what the user reads), not the value. Bridged below.
+// Priority: items prop entry > slot registry > identity fallback
 function labelFor(value: string | undefined): string {
   if (value == null || value === '') return ''
   const match = internalItems.value.find((i) => i.value === value)
-  return match?.label ?? match?.textValue ?? value
+  if (match) return match.label ?? match.textValue ?? value
+  return slotItemRegistry.value.get(value) ?? value
 }
 function valueFor(displayed: string): string {
   if (!displayed) return ''
+  // Check items prop first
   const match = internalItems.value.find(
     (i) => (i.label ?? i.textValue ?? i.value) === displayed,
   )
-  return match?.value ?? displayed
+  if (match) return match.value
+  // Check slot registry: find value whose label equals displayed
+  for (const [value, label] of slotItemRegistry.value) {
+    if (label === displayed) return value
+  }
+  return displayed
 }
 
 const searchTerm = ref(labelFor(props.modelValue))
@@ -235,6 +259,15 @@ watch(internalItems, () => {
   }
 })
 
+// When slot items register (children mount after parent), re-resolve the display label.
+// This covers the case where modelValue is set before children have mounted.
+watch(slotItemRegistry, () => {
+  const next = labelFor(props.modelValue)
+  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (props.modelValue ?? '')) {
+    searchTerm.value = next
+  }
+})
+
 const slotFns = computed(() =>
   autocompleteVariants({
     variant: props.variant,
@@ -269,6 +302,8 @@ useAutocompleteProvide({
   truncateItems: toRef(props, 'truncateItems'),
   hasItems,
   slots: slotFns,
+  registerItem,
+  unregisterItem,
 })
 </script>
 

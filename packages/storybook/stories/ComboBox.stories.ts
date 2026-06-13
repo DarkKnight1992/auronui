@@ -69,7 +69,7 @@ export const Default: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -98,7 +98,7 @@ export const WithDescription: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -128,7 +128,7 @@ export const WithErrorMessage: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -151,7 +151,7 @@ export const WithDisabledItems: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
             :is-disabled="item.isDisabled"
           >
             {{ item.label }}
@@ -175,7 +175,7 @@ export const Disabled: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -199,7 +199,7 @@ export const Required: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -223,7 +223,7 @@ export const AllowsCustomValue: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -247,7 +247,7 @@ export const FullWidth: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            :text-value="item.label"
+            
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -272,7 +272,7 @@ export const MultipleCategories: Story = {
               v-for="item in fruits"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </ComboBoxItem>
@@ -286,7 +286,7 @@ export const MultipleCategories: Story = {
               v-for="item in animals"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </ComboBoxItem>
@@ -322,7 +322,7 @@ export const Controlled: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.label"
+              
             >
               {{ item.label }}
             </ComboBoxItem>

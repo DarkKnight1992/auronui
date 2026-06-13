@@ -1,23 +1,54 @@
 <script setup lang="ts">
+import { computed, onMounted, onUnmounted, useSlots, type VNode } from 'vue'
 import { ComboboxItem, ComboboxItemIndicator } from 'reka-ui'
+import { useComboBoxInject } from './ComboBox.context'
 
 const props = withDefaults(defineProps<{
   value: string
-  textValue?: string
   isDisabled?: boolean
   class?: string
 }>(), {
-  textValue: undefined,
   isDisabled: false,
   class: undefined,
+})
+
+const slots = useSlots()
+const ctx = useComboBoxInject()
+
+// Extract plain text from default slot VNodes at render time.
+function extractText(nodes: VNode[]): string {
+  return nodes.map(n => {
+    if (typeof n.children === 'string') return n.children
+    if (Array.isArray(n.children)) return extractText(n.children as VNode[])
+    return ''
+  }).join('')
+}
+
+// The display text Reka writes into the input when this item is selected.
+// Reads slot text content — no extra props needed.
+const displayText = computed(() => {
+  const vnodes = slots.default?.()
+  if (!vnodes) return props.value
+  return extractText(vnodes).trim() || props.value
+})
+
+// Register this item's value→label mapping with the parent ComboBox bridge
+// so displayValue() and handleModelValueUpdate() can translate correctly.
+onMounted(() => {
+  ctx.registerItem(props.value, displayText.value)
+})
+
+onUnmounted(() => {
+  ctx.unregisterItem(props.value)
 })
 </script>
 
 <template>
   <ComboboxItem
-    :value="props.value"
-    :text-value="props.textValue ?? props.value"
+    :value="displayText"
+    :text-value="displayText"
     :disabled="props.isDisabled"
+    :data-item-value="props.value"
     class="list-box-item list-box-item--default"
     data-slot="list-box-item"
   >

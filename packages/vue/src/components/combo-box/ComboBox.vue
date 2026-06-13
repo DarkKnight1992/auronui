@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, toRef, useId } from 'vue'
+import { computed, ref, toRef, useId, watch } from 'vue'
 import { ComboboxRoot } from 'reka-ui'
 import { comboBoxVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
@@ -69,11 +69,71 @@ const effectiveFilter = computed(() => {
     itemText.toLowerCase().includes(searchTerm.toLowerCase())
 })
 
-// Map a stored value back to its human-readable label for the input display
-const displayValue = computed(() => (val: string): string => {
-  if (!val) return ''
-  const item = props.items.find(i => i.value === val)
-  return item?.label ?? item?.textValue ?? val
+// Registry for slot-rendered items: value → label (populated by ComboBoxItem at mount).
+// Replaced with a new Map instance on each mutation so Vue's ref() reactivity tracks changes.
+const slotItemRegistry = ref(new Map<string, string>())
+
+function registerItem(value: string, label: string) {
+  const next = new Map(slotItemRegistry.value)
+  next.set(value, label)
+  slotItemRegistry.value = next
+}
+
+function unregisterItem(value: string) {
+  const next = new Map(slotItemRegistry.value)
+  next.delete(value)
+  slotItemRegistry.value = next
+}
+
+// Resolve a user-facing value ("us") to the label text used internally by Reka.
+// Priority: items prop entry > slot registry > identity fallback
+function labelFor(value: string | undefined): string {
+  if (!value) return ''
+  const item = props.items.find(i => i.value === value)
+  if (item) return item.label ?? item.textValue ?? value
+  return slotItemRegistry.value.get(value) ?? value
+}
+
+// Resolve a Reka-internal label text back to the user-facing value.
+function valueFor(label: string): string {
+  if (!label) return ''
+  // Check items prop first
+  const item = props.items.find(i => (i.label ?? i.textValue ?? i.value) === label)
+  if (item) return item.value
+  // Check slot registry
+  for (const [value, lbl] of slotItemRegistry.value) {
+    if (lbl === label) return value
+  }
+  return label
+}
+
+// internalValue holds the label text that Reka sees as its modelValue.
+// This lets Reka write the label directly into the input without a displayValue function.
+const internalValue = ref(labelFor(props.modelValue))
+
+// Map a stored value back to its human-readable label for the input display.
+// Used as a no-op pass-through since internalValue already holds the label.
+const displayValue = computed(() => (val: string): string => val)
+
+// Parent → internal: when the user's v-model changes, resolve to label text
+watch(() => props.modelValue, (val) => {
+  const next = labelFor(val)
+  if (internalValue.value !== next) internalValue.value = next
+})
+
+// Internal → parent: when Reka emits a label text (after selection), translate to real value
+function handleModelValueUpdate(emitted: string) {
+  internalValue.value = emitted
+  emit('update:modelValue', valueFor(emitted))
+}
+
+// When slot items register (children mount after parent), re-resolve internalValue.
+// This covers the case where modelValue is set before children have mounted.
+watch(slotItemRegistry, () => {
+  const next = labelFor(props.modelValue)
+  if (next !== internalValue.value && valueFor(internalValue.value) === (props.modelValue ?? '')) {
+    internalValue.value = next
+  }
 })
 
 useComboBoxProvide({
@@ -82,6 +142,8 @@ useComboBoxProvide({
   fullWidth: toRef(props, 'fullWidth'),
   slots: slotFns,
   displayValue,
+  registerItem,
+  unregisterItem,
 })
 </script>
 
@@ -104,14 +166,14 @@ useComboBoxProvide({
     </label>
 
     <ComboboxRoot
-      :model-value="props.modelValue"
-      :default-value="props.defaultValue"
+      v-model="internalValue"
+      :default-value="props.defaultValue ? labelFor(props.defaultValue) : undefined"
       :open="props.open"
       :default-open="props.defaultOpen"
       :disabled="props.isDisabled"
       :required="props.isRequired"
       :filter-function="effectiveFilter"
-      @update:model-value="emit('update:modelValue', $event)"
+      @update:model-value="handleModelValueUpdate($event)"
       @update:open="emit('update:open', $event)"
     >
       <slot />
