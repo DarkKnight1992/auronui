@@ -1,6 +1,6 @@
 {
   "name": "@auronui/vue",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "Vue 3 85 components with full visual and functional parity",
   "type": "module",
   "license": "MIT",
@@ -44,12 +44,6 @@
         "types": "./dist/index.d.ts",
         "default": "./dist/cjs/index.cjs"
       }
-    },
-    "./style": {
-      "default": "./dist/style.css"
-    },
-    "./style.css": {
-      "default": "./dist/style.css"
     }
   },
   "files": [
