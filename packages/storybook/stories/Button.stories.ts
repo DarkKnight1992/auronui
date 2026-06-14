@@ -61,7 +61,7 @@ export const Default: Story = {
 
 export const AllVariants: Story = {
   args: {
-    isLoading: true,
+    isLoading: false,
     size: "sm",
   },
 

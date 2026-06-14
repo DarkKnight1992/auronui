@@ -7,6 +7,8 @@ const meta: Meta<typeof Tabs> = {
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     variant: { control: 'select', options: ['primary', 'secondary'] },
+    // TabList prop — not on Tabs itself, exposed here so the overflow stories show a control
+    overflow: { control: 'select', options: [undefined, 'arrows', 'dropdown'], name: 'overflow (TabList)' },
   },
 }
 export default meta
@@ -109,6 +111,84 @@ export const Controlled: Story = {
           </TabList>
           <TabPanel value="one">One</TabPanel>
           <TabPanel value="two">Two</TabPanel>
+        </Tabs>
+      </div>
+    `,
+  }),
+}
+
+export const ArrowOverflow: Story = {
+  name: 'Overflow — Arrows',
+  args: { defaultValue: 'one', variant: 'primary', overflow: 'arrows' },
+  parameters: {
+    docs: {
+      description: {
+        story: 'When `overflow="arrows"` is set on `TabList`, left/right arrow buttons appear as tabs overflow the container width.',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
+    setup() { return { args } },
+    template: `
+      <div style="width: 400px; border: 1px dashed #ccc; padding: 8px; border-radius: 8px;">
+        <Tabs :default-value="args.defaultValue" :variant="args.variant" :orientation="args.orientation">
+          <TabList :overflow="args.overflow">
+            <Tab value="one">Overview</Tab>
+            <Tab value="two">Specifications</Tab>
+            <Tab value="three">Reviews</Tab>
+            <Tab value="four">Questions</Tab>
+            <Tab value="five">Shipping</Tab>
+            <Tab value="six">Returns</Tab>
+            <Tab value="seven">Warranty</Tab>
+            <TabIndicator />
+          </TabList>
+          <TabPanel value="one">Overview content</TabPanel>
+          <TabPanel value="two">Specifications content</TabPanel>
+          <TabPanel value="three">Reviews content</TabPanel>
+          <TabPanel value="four">Questions content</TabPanel>
+          <TabPanel value="five">Shipping content</TabPanel>
+          <TabPanel value="six">Returns content</TabPanel>
+          <TabPanel value="seven">Warranty content</TabPanel>
+        </Tabs>
+      </div>
+    `,
+  }),
+}
+
+export const DropdownOverflow: Story = {
+  name: 'Overflow — Dropdown',
+  args: { defaultValue: 'one', variant: 'primary', overflow: 'dropdown' },
+  parameters: {
+    docs: {
+      description: {
+        story: 'When `overflow="dropdown"` is set on `TabList`, tabs that don\'t fit collapse into a "+N" dropdown button.',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
+    setup() { return { args } },
+    template: `
+      <div style="width: 400px; border: 1px dashed #ccc; padding: 8px; border-radius: 8px;">
+        <Tabs :default-value="args.defaultValue" :variant="args.variant" :orientation="args.orientation">
+          <TabList :overflow="args.overflow">
+            <Tab value="one">Overview</Tab>
+            <Tab value="two">Specifications</Tab>
+            <Tab value="three">Reviews</Tab>
+            <Tab value="four">Questions</Tab>
+            <Tab value="five">Shipping</Tab>
+            <Tab value="six">Returns</Tab>
+            <Tab value="seven">Warranty</Tab>
+            <TabIndicator />
+          </TabList>
+          <TabPanel value="one">Overview content</TabPanel>
+          <TabPanel value="two">Specifications content</TabPanel>
+          <TabPanel value="three">Reviews content</TabPanel>
+          <TabPanel value="four">Questions content</TabPanel>
+          <TabPanel value="five">Shipping content</TabPanel>
+          <TabPanel value="six">Returns content</TabPanel>
+          <TabPanel value="seven">Warranty content</TabPanel>
         </Tabs>
       </div>
     `,

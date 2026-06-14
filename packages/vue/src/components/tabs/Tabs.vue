@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, toRef } from 'vue'
+import { computed, ref, toRef, watch } from 'vue'
 import { TabsRoot } from 'reka-ui'
 import { tabsVariants, type TabsVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
@@ -22,23 +22,35 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
+const internalValue = ref<string | undefined>(props.modelValue ?? props.defaultValue)
+
+watch(() => props.modelValue, (v) => {
+  if (v !== undefined) internalValue.value = v
+})
+
+function changeTab(value: string) {
+  internalValue.value = value
+  emit('update:modelValue', value)
+}
+
 const slotFns = computed(() => tabsVariants({ variant: props.variant }))
 
 useTabsProvide({
   slotFns,
   orientation: toRef(props, 'orientation'),
+  currentValue: internalValue,
+  changeTab,
 })
 </script>
 
 <template>
   <TabsRoot
-    :model-value="props.modelValue"
-    :default-value="props.defaultValue"
+    :model-value="internalValue"
     :orientation="props.orientation"
     :activation-mode="props.activationMode"
     :class="composeClassName(slotFns.base(), props.class)"
     :data-orientation="props.orientation"
-    @update:model-value="(v: string) => emit('update:modelValue', v)"
+    @update:model-value="changeTab"
   >
     <slot />
   </TabsRoot>

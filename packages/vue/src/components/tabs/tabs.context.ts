@@ -8,6 +8,8 @@ export type TabsSlotFns = ReturnType<typeof tabsVariants>
 export interface TabsContext {
   slotFns: Ref<TabsSlotFns>
   orientation: Ref<'horizontal' | 'vertical'>
+  currentValue: Ref<string | undefined>
+  changeTab: (value: string) => void
 }
 
 export const {

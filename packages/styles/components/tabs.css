@@ -14,7 +14,192 @@
 
 /* Tab list container */
 .tabs__list-container {
-  @apply relative;
+  @apply relative flex items-center;
+}
+
+/* Dropdown mode — pill background lifts to the container (same pattern as --arrows) so the
+   in-flow more button appears visually inside the pill. Flat selector avoids nesting issues. */
+.tabs__list-container--dropdown {
+  @apply bg-default;
+  border-radius: calc(var(--radius-2xl) + 0.25rem);
+  padding: 0.25rem;
+  gap: 0.25rem;
+}
+
+/* Inner TabsList in dropdown mode: strip background/radius/padding (now on the container),
+   flex:1 fills remaining width, overflow:hidden clips tabs that don't fit. */
+.tabs__list--clipped {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  background-color: transparent !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+}
+
+/* Arrows mode: background lifts here; arrows are absolutely positioned (no layout impact).
+   Written as a flat selector (not nested &--arrows) to avoid CSS nesting compile issues. */
+.tabs__list-container--arrows {
+  /* Primary variant: pill background on the container, not the inner list */
+  @apply bg-default;
+  border-radius: calc(var(--radius-2xl) + 0.25rem);
+  padding: 0.25rem;
+}
+
+/* Scroll wrapper for arrows mode — fills the container width, clips overflow */
+.tabs__scroll-wrapper {
+  flex: 1;
+  min-width: 0;
+  overflow-x: auto;
+  scrollbar-width: none;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+
+/* Gradient fade edges — pseudo-elements on the container that fade the pill
+   background color over the outermost tabs, making arrows easy to read. */
+/* .tabs__list-container--arrows::before,
+.tabs__list-container--arrows::after {
+  content: '';
+  position: absolute;
+  top: 0.25rem;
+  bottom: 0.25rem;
+  width: 2.5rem;
+  z-index: 1;
+  pointer-events: none;
+  border-radius: inherit;
+  opacity: 0;
+  transition: opacity 200ms var(--ease-smooth);
+} */
+
+/* .tabs__list-container--arrows::before {
+  left: 0.25rem;
+  background: linear-gradient(to right, var(--color-default), transparent);
+}
+
+.tabs__list-container--arrows::after {
+  right: 0.25rem;
+  background: linear-gradient(to left, var(--color-default), transparent);
+} */
+
+.tabs__list-container--arrows.has-left::before  { opacity: 1; }
+.tabs__list-container--arrows.has-right::after  { opacity: 1; }
+
+/* Arrow buttons — absolutely positioned, float over the fade gradient.
+   Button component handles sizing, color, hover, focus, and cursor.
+   Only positioning and opacity-based show/hide live here. */
+.tabs__arrow {
+  position: absolute !important;
+  top: 50%;
+  transform: translateY(-50%) !important;
+  z-index: 2;
+  /* Hidden by default — shown via .is-visible */
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 200ms var(--ease-smooth);
+  background: var(--segment) !important;
+  @apply motion-reduce:transition-none;
+}
+
+.tabs__arrow--left  { left: 0.375rem; }
+.tabs__arrow--right { right: 0.375rem; }
+
+.tabs__arrow.is-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* "More" button — in-flow flex sibling, hidden with display:none so it takes no space when
+   there is no overflow. The container (not position:absolute) provides the pill background,
+   so when --visible the button appears naturally inside the pill. */
+.tabs__more {
+  display: none;
+  flex-shrink: 0;
+  align-items: center;
+  position: relative;
+}
+
+.tabs__more--visible {
+  display: flex;
+}
+
+.tabs__more-btn {
+  background: var(--segment) !important;
+  transition: color 150ms var(--ease-smooth), background 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      color: theme('colors.foreground');
+      @apply bg-default;
+    }
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  &[aria-expanded="true"] {
+    @apply bg-default text-foreground;
+  }
+}
+
+.tabs__overflow-menu {
+  position: absolute;
+  top: calc(100% + 0.375rem);
+  right: 0;
+  min-width: 10rem;
+  padding: 0.25rem;
+  border-radius: var(--radius-xl);
+  border: 1px solid theme('colors.border');
+  background: theme('colors.background');
+  box-shadow: var(--shadow-lg);
+  z-index: 50;
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+}
+
+.tabs__overflow-item {
+  display: flex;
+  align-items: center;
+  width: 100% !important; 
+  padding: 0.375rem 0.625rem;
+  border-radius: var(--radius-lg);
+  border: none;
+  background: transparent;
+  cursor: var(--cursor-interactive);
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: theme('colors.foreground / 75%');
+  text-align: left;
+  outline: none;
+  transition: color 150ms var(--ease-smooth), background 150ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-default text-foreground;
+    }
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  &:disabled {
+    @apply status-disabled;
+  }
+}
+
+/* Hide tabs that overflow in dropdown mode.
+   !important is required: .tabs__tab uses `@apply flex` which is declared later in this file
+   at equal specificity, so without !important the flex display wins and tabs stay visible. */
+[data-overflow-hidden] {
+  display: none !important;
 }
 
 /* Tab list */
@@ -36,6 +221,16 @@
       @apply min-w-20;
     }
   }
+}
+
+/* Inner TabsList in arrows mode — must come AFTER .tabs__list so these declarations
+   win the cascade. All four use !important as an extra guard against secondary-variant
+   rules that use higher-specificity selectors. */
+.tabs__list--scroll {
+  background-color: transparent !important;
+  padding: 0 !important;
+  border-radius: 0 !important;
+  width: max-content !important;
 }
 
 /* Individual tab */
@@ -196,6 +391,31 @@
    ========================================================================== */
 
 .tabs--secondary {
+  /* In arrows mode the border-b moves to the container and scroll is handled by the wrapper */
+  .tabs__list-container--arrows {
+    @apply border-b border-border bg-transparent;
+    border-radius: 0;
+    padding: 0;
+
+    /* No pill padding, so flush-mount the arrows to the edges */
+    .tabs__arrow--left  { left: 0; }
+    .tabs__arrow--right { right: 0; }
+
+    .tabs__list--scroll[data-orientation="horizontal"] {
+      border-bottom: none;
+      overflow-x: visible;
+      max-width: none;
+    }
+  }
+
+  /* In dropdown mode the border-b moves to the container; no pill background */
+  .tabs__list-container--dropdown {
+    @apply border-b border-border bg-transparent;
+    border-radius: 0;
+    padding: 0;
+    gap: 0;
+  }
+
   /* Tab list - remove background, add bottom/left border */
   .tabs__list {
     @apply bg-transparent p-0;

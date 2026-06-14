@@ -16,6 +16,7 @@ const ctx = useTabsInject()
   <TabsTrigger
     :value="props.value"
     :disabled="props.disabled"
+    :data-tab-value="props.value"
     :class="composeClassName(ctx.slotFns.value.tab(), props.class)"
   >
     <slot />
