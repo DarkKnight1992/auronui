@@ -45,3 +45,15 @@
 body {
   font-family: var(--font-sans);
 }
+
+/* Reka UI popper wrapper — reads z-index from the content element and applies it
+ * here. Since our content classes (.select__popover, .tooltip, etc.) sit inside
+ * the slot (not on the Primitive root Reka reads from), we set z-index directly
+ * on the wrapper so all floating UI clears the modal layer. */
+[data-reka-popper-content-wrapper] {
+  z-index: var(--z-popover) !important;
+}
+
+[data-reka-popper-content-wrapper]:has(.tooltip) {
+  z-index: var(--z-tooltip) !important;
+}

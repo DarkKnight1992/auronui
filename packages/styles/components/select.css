@@ -615,6 +615,12 @@
 
   @apply overlay-popover-scrollbar;
 
+  /* Suppress smooth scroll for the first ~100ms so Reka's initial scrollTop
+     assignment (jumping to the selected item) is instant, not animated. */
+  &.select__popover--opening {
+    scroll-behavior: auto;
+  }
+
   /* Focus visible state */
   &:has(> *:focus-visible):not(:focus-within),
   &[data-focus-visible="true"] {

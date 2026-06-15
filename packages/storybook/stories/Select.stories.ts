@@ -6,6 +6,13 @@ import {
   SelectValue,
   SelectContent,
   SelectItem,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalTitle,
+  Button,
 } from "@auronui/vue";
 
 const meta: Meta<typeof Select> = {
@@ -550,6 +557,39 @@ export const WithDisabledItems: Story = {
           <SelectItem value="elderberry">Elderberry</SelectItem>
         </SelectContent>
       </Select>
+    `,
+  }),
+};
+
+/* ─── Z-index regression ─────────────────────────────────────────────── */
+
+export const InsideModal: Story = {
+  name: "Inside Modal (z-index regression)",
+  render: (args) => ({
+    components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem, Modal, ModalTrigger, ModalContent, ModalHeader, ModalBody, ModalTitle, Button },
+    setup: () => ({ args, items: allFruits }),
+    template: `
+      <Modal>
+        <ModalTrigger as-child>
+          <Button color="primary">Open modal</Button>
+        </ModalTrigger>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>Select inside a modal</ModalTitle>
+          </ModalHeader>
+          <ModalBody>
+            <p style="margin-bottom:16px;font-size:14px;color:var(--color-default-500)">
+              The dropdown must appear above the modal overlay — not behind it.
+            </p>
+            <Select v-bind="args" label="Favorite Fruit" variant="bordered" label-placement="outside">
+              <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+              <SelectContent>
+                <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+              </SelectContent>
+            </Select>
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     `,
   }),
 };

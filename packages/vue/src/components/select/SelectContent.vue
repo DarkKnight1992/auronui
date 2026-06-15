@@ -6,6 +6,7 @@ import {
   injectSelectRootContext,
 } from 'reka-ui'
 import { motion, AnimatePresence } from 'motion-v'
+import { ref, watch } from 'vue'
 import { useSelectInject } from './Select.context'
 
 const props = withDefaults(defineProps<{
@@ -20,6 +21,16 @@ const props = withDefaults(defineProps<{
 
 const ctx = useSelectInject()
 const rootContext = injectSelectRootContext()
+
+// Suppress scroll-behavior:smooth for the first frame after open so Reka's
+// programmatic scrollTop jump to the selected item is instant.
+const justOpened = ref(false)
+watch(() => rootContext.open.value, (open) => {
+  if (open) {
+    justOpened.value = true
+    setTimeout(() => { justOpened.value = false }, 100)
+  }
+})
 </script>
 
 <template>
@@ -48,7 +59,7 @@ const rootContext = injectSelectRootContext()
       >
         <motion.div
           v-show="rootContext.open.value"
-          :class="ctx.slots.value.popover()"
+          :class="[ctx.slots.value.popover(), { 'select__popover--opening': justOpened }]"
           :animate="rootContext.open.value ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }"
           :transition="{ duration: 0.15 }"
         >
