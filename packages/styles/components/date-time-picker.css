@@ -51,6 +51,7 @@
 /* ─── Popover shell ───────────────────────────────────────────────────────── */
 
 .date-time-picker__popover {
+  z-index: var(--z-popover);
   @apply origin-(--trigger-anchor-point) overflow-hidden bg-overlay p-0;
   min-width: 17rem;
   box-shadow: var(--shadow-overlay);

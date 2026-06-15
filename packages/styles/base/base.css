@@ -26,6 +26,13 @@
 /* Keeps main page content interactive during view transitions */
 :root {
   view-transition-name: none;
+
+  /* Z-index layering scale */
+  --z-modal-backdrop: 50;  /* backdrop behind modal / drawer / alert-dialog */
+  --z-modal: 100;          /* modal, drawer, alert-dialog panels */
+  --z-popover: 200;        /* floating UI: dropdowns, selects, popovers, date-pickers */
+  --z-tooltip: 300;        /* tooltips — above all other floating UI */
+  --z-toast: 400;          /* toasts — always on top */
 }
 
 ::view-transition {

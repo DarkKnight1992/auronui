@@ -42,7 +42,8 @@
  * Element: backdrop - the overlay behind the dialog
  */
 .modal__backdrop {
-  @apply fixed inset-0 z-50;
+  @apply fixed inset-0;
+  z-index: var(--z-modal-backdrop);
   @apply flex flex-row items-center justify-center;
   @apply h-(--visual-viewport-height) w-full;
 
@@ -92,7 +93,8 @@
  * Element: container - the positioning wrapper for the modal
  */
 .modal__container {
-  @apply flex flex-col items-center fixed z-[100] top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%];
+  @apply flex flex-col items-center fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%];
+  z-index: var(--z-modal);
   @apply h-(--visual-viewport-height) w-full min-w-0 flex-1;
   @apply p-4;
   @apply sm:w-fit sm:p-10;

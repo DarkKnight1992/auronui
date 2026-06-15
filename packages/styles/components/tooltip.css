@@ -3,6 +3,7 @@
 /* Base tooltip styles */
 .tooltip {
   @apply max-w-xs text-xs break-all;
+  z-index: var(--z-tooltip);
   /* box-shadow: var(--shadow-overlay); */
   will-change: opacity, transform;
 

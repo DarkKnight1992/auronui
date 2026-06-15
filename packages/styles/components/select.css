@@ -602,6 +602,7 @@
   --trigger-width: var(--reka-select-trigger-width);
   --trigger-anchor-point: var(--reka-select-content-transform-origin);
 
+  z-index: var(--z-popover);
   @apply scroll-py-1 overflow-y-auto overscroll-contain rounded-3xl bg-overlay p-0 text-sm;
   width: var(--trigger-width);
   transform-origin: var(--trigger-anchor-point);

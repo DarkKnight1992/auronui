@@ -41,6 +41,7 @@
 }
 
 .date-picker__popover {
+  z-index: var(--z-popover);
   @apply max-w-(--trigger-width) origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto overscroll-contain bg-overlay p-3;
   @apply motion-reduce:transition-none;
 

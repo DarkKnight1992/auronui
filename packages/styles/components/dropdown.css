@@ -39,6 +39,7 @@
 
 /* Positioning, sizing, and open/close animations — visuals come from card classes */
 .dropdown__popover {
+  z-index: var(--z-popover);
   @apply max-w-[48svw] origin-(--trigger-anchor-point) scroll-py-1 overflow-y-auto overscroll-contain md:min-w-55;
   @apply will-change-[opacity,transform];
 

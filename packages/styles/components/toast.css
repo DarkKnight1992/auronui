@@ -5,7 +5,8 @@
 
 /* Toast Region - Fixed container that stacks toasts along Y axis */
 .toast-region {
-  @apply pointer-events-none fixed z-50 outline-none;
+  @apply pointer-events-none fixed outline-none;
+  z-index: var(--z-toast);
   @apply w-[calc(100vw-2rem)] sm:w-auto;
 
   display: flex;

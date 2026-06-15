@@ -51,7 +51,8 @@
  * Reka's Presence component waits for animationend before unmounting.
  */
 .drawer__backdrop {
-  @apply fixed inset-0 z-50;
+  @apply fixed inset-0;
+  z-index: var(--z-modal-backdrop);
   @apply h-(--visual-viewport-height) w-full;
 
   &[data-state="open"] {
@@ -95,7 +96,8 @@
  * animationend on this element before unmounting on close.
  */
 .drawer__dialog {
-  @apply fixed z-50;
+  @apply fixed;
+  z-index: var(--z-modal);
   @apply flex flex-col;
   @apply bg-overlay shadow-overlay outline-none;
   @apply p-6;

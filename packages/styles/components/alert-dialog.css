@@ -43,7 +43,8 @@
  * Element: backdrop - the overlay behind the dialog
  */
 .alert-dialog__backdrop {
-  @apply fixed inset-0 z-50;
+  @apply fixed inset-0;
+  z-index: var(--z-modal-backdrop);
 
   /* Entering animation — Reka UI sets data-state="open" when mounted */
   &[data-state="open"] {
@@ -91,7 +92,8 @@
  * Element: container - the positioning wrapper for the modal
  */
 .alert-dialog__container {
-  @apply fixed inset-0 z-50;
+  @apply fixed inset-0;
+  z-index: var(--z-modal);
   @apply flex flex-col items-center;
   @apply w-full min-w-0;
   @apply p-4 sm:p-10;
