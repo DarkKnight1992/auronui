@@ -90,6 +90,15 @@
 .number-field__input {
   @apply min-w-0 rounded-none border-0 bg-transparent px-3 py-2 text-inherit tabular-nums shadow-none outline-none sm:text-sm h-full text-center;
 
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px var(--color-field) inset;
+    box-shadow: 0 0 0px 1000px var(--color-field) inset;
+    -webkit-text-fill-color: var(--color-field-foreground);
+    caret-color: var(--color-field-foreground);
+  }
+
   /* Remove border radius on left side when decrement button is present */
   .number-field__group:has([slot="decrement"]) & {
     @apply rounded-l-none;

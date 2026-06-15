@@ -72,6 +72,15 @@
     outline: none;
     box-shadow: none;
   }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px var(--color-field) inset;
+    box-shadow: 0 0 0px 1000px var(--color-field) inset;
+    -webkit-text-fill-color: var(--color-field-foreground);
+    caret-color: var(--color-field-foreground);
+  }
 }
 
 /* ─── Clear button ──────────────────────────────────────────────────────────── */
