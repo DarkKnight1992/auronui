@@ -551,13 +551,13 @@
   /* Cursor */
   cursor: var(--cursor-interactive);
 
-  &[data-state="open"] {
-    @apply rotate-180;
-  }
-
   &[data-slot="select-default-indicator"] {
     @apply size-4;
   }
+}
+
+.select__trigger[data-state="open"] .select__indicator {
+  @apply rotate-180;
 }
 
 /* ─── Start Content ──────────────────────────────────────────────────────── */
