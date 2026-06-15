@@ -8,9 +8,10 @@ defineOptions({ inheritAttrs: false })
 
 const props = defineProps<{
   name: string
+  defaultValue?: unknown
   rules?: FieldRules
   validate?: CustomValidator
-  /** Override validation mode — used in standalone mode (outside <Form>) or to override the Form's mode for a single field. */
+  /** Override validation mode for this field. */
   validationMode?: 'on-submit' | 'on-blur' | 'on-change'
 }>()
 
@@ -18,24 +19,48 @@ const modelValue = defineModel<unknown>({ default: undefined })
 
 const ctx = useFormInject()
 
-// Standalone mode: local error state when used outside <Form>
+// ── Field state ──────────────────────────────────────────────────────────────
+
 const localError = ref<string | undefined>(undefined)
+const touched = ref(false)
+const dirty = ref(props.defaultValue !== undefined && modelValue.value !== props.defaultValue)
 
 const fieldError = computed<string | undefined>(() =>
   ctx ? ctx.errors.value[props.name] : localError.value,
 )
 
-// Once a field has shown an error, validate on every change so errors clear as the user types.
 const hasBeenInvalid = ref(false)
 watch(fieldError, (error) => { if (error) hasBeenInvalid.value = true })
+
 const isInvalid = computed(() => !!fieldError.value)
 const isDisabled = computed(() => ctx?.isDisabled.value ?? false)
 const validationMode = computed(() => props.validationMode ?? ctx?.validationMode.value ?? 'on-submit')
+
+// ── Dirty tracking ───────────────────────────────────────────────────────────
+
+watch(modelValue, (val) => {
+  dirty.value = val !== props.defaultValue
+})
+
+// ── Registration ─────────────────────────────────────────────────────────────
+
+function resetField(): void {
+  modelValue.value = props.defaultValue
+  localError.value = undefined
+  touched.value = false
+  dirty.value = false
+  hasBeenInvalid.value = false
+}
 
 onMounted(() => {
   ctx?.registerField({
     name: props.name,
     getValue: () => modelValue.value,
+    getDefaultValue: () => props.defaultValue,
+    setValue: (val: unknown) => { modelValue.value = val },
+    reset: resetField,
+    touched,
+    dirty,
     rules: props.rules,
     validate: props.validate,
   })
@@ -45,8 +70,12 @@ onUnmounted(() => {
   ctx?.unregisterField(props.name)
 })
 
+// ── Validation ───────────────────────────────────────────────────────────────
+
 async function triggerValidation(val: unknown): Promise<void> {
-  const error = await runValidation(val, props.rules, props.validate)
+  const context = ctx ? { values: ctx.getValues() } : undefined
+  const error = await runValidation(val, props.rules, props.validate, context)
+
   if (ctx) {
     const next = { ...ctx.errors.value }
     if (error) {
@@ -68,10 +97,13 @@ async function handleUpdate(val: unknown): Promise<void> {
 }
 
 async function handleBlur(): Promise<void> {
+  touched.value = true
   if (validationMode.value === 'on-blur') {
     await triggerValidation(modelValue.value)
   }
 }
+
+// ── Slot bindings ─────────────────────────────────────────────────────────────
 
 const fieldProps = computed(() => ({
   name: props.name,
@@ -85,5 +117,11 @@ const fieldProps = computed(() => ({
 </script>
 
 <template>
-  <slot :field-props="fieldProps" />
+  <slot
+    :field-props="fieldProps"
+    :touched="touched"
+    :dirty="dirty"
+    :error="fieldError"
+    :is-invalid="isInvalid"
+  />
 </template>

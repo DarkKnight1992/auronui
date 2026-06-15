@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount, flushPromises } from '@vue/test-utils'
 import { defineComponent, ref, nextTick } from 'vue'
 import axe from 'axe-core'
@@ -192,5 +192,238 @@ describe('FormField', () => {
     const results = await axe.run(wrapper.element)
     expect(results).toHaveNoViolations()
     wrapper.unmount()
+  })
+})
+
+// ── slot: touched / dirty ─────────────────────────────────────────────────────
+
+describe('FormField — slot: touched', () => {
+  function mountWithSlotAttrs(opts: { defaultValue?: unknown; initialValue?: unknown } = {}) {
+    const value = ref(opts.initialValue ?? '')
+    const Wrapper = defineComponent({
+      components: { FormField, Input },
+      setup() { return { value, ...opts } },
+      template: `
+        <FormField name="f" v-model="value" :default-value="defaultValue" validation-mode="on-blur">
+          <template #default="{ fieldProps, touched, dirty }">
+            <Input v-bind="fieldProps" label="F" />
+            <span data-touched>{{ String(touched) }}</span>
+            <span data-dirty>{{ String(dirty) }}</span>
+          </template>
+        </FormField>
+      `,
+    })
+    return { wrapper: mount(Wrapper), value }
+  }
+
+  it('touched slot prop starts false', () => {
+    const { wrapper } = mountWithSlotAttrs()
+    expect(wrapper.find('[data-touched]').text()).toBe('false')
+  })
+
+  it('touched slot prop becomes true after blur', async () => {
+    const { wrapper } = mountWithSlotAttrs()
+    await wrapper.find('input').trigger('blur')
+    expect(wrapper.find('[data-touched]').text()).toBe('true')
+  })
+
+  it('dirty slot prop starts false when value equals defaultValue', async () => {
+    const { wrapper } = mountWithSlotAttrs({ initialValue: 'x', defaultValue: 'x' })
+    await nextTick()
+    expect(wrapper.find('[data-dirty]').text()).toBe('false')
+  })
+
+  it('dirty slot prop becomes true when value changes from defaultValue', async () => {
+    const { wrapper, value } = mountWithSlotAttrs({ initialValue: 'x', defaultValue: 'x' })
+    value.value = 'y'
+    await nextTick()
+    expect(wrapper.find('[data-dirty]').text()).toBe('true')
+  })
+
+  it('dirty slot prop is true when initialValue differs from defaultValue', async () => {
+    const { wrapper } = mountWithSlotAttrs({ initialValue: 'changed', defaultValue: 'original' })
+    await nextTick()
+    expect(wrapper.find('[data-dirty]').text()).toBe('true')
+  })
+})
+
+// ── defaultValue prop ─────────────────────────────────────────────────────────
+
+describe('FormField — defaultValue', () => {
+  it('accepts defaultValue prop without throwing', () => {
+    expect(() => {
+      const Wrapper = defineComponent({
+        components: { FormField, Input },
+        setup() { return { val: ref('init') } },
+        template: `
+          <FormField name="x" v-model="val" default-value="init">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="X" /></template>
+          </FormField>
+        `,
+      })
+      mount(Wrapper)
+    }).not.toThrow()
+  })
+
+  it('reset via Form.reset() restores field to defaultValue', async () => {
+    const val = ref('changed')
+    const formRef = ref<InstanceType<typeof Form> | null>(null)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val, formRef } },
+      template: `
+        <Form ref="formRef">
+          <FormField name="n" v-model="val" default-value="original">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="N" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    const api = formRef.value as unknown as Record<string, unknown>
+    ;(api?.reset as (() => void) | undefined)?.()
+    await nextTick()
+    expect(val.value).toBe('original')
+  })
+
+  it('reset also clears touched and dirty', async () => {
+    const val = ref('x')
+    const formRef = ref<InstanceType<typeof Form> | null>(null)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val, formRef } },
+      template: `
+        <Form ref="formRef">
+          <FormField name="n" v-model="val" default-value="x" validation-mode="on-blur">
+            <template #default="{ fieldProps, touched, dirty }">
+              <Input v-bind="fieldProps" label="N" />
+              <span data-touched>{{ String(touched) }}</span>
+              <span data-dirty>{{ String(dirty) }}</span>
+            </template>
+          </FormField>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await nextTick()
+    // Make field touched and dirty
+    val.value = 'other'
+    await wrapper.find('input').trigger('blur')
+    await nextTick()
+    expect(wrapper.find('[data-dirty]').text()).toBe('true')
+    expect(wrapper.find('[data-touched]').text()).toBe('true')
+    // Reset
+    const api = formRef.value as unknown as Record<string, unknown>
+    ;(api?.reset as (() => void) | undefined)?.()
+    await nextTick()
+    expect(wrapper.find('[data-dirty]').text()).toBe('false')
+    expect(wrapper.find('[data-touched]').text()).toBe('false')
+  })
+})
+
+// ── cross-field: matches rule ─────────────────────────────────────────────────
+
+describe('FormField — matches rule (cross-field)', () => {
+  it('confirm fails when it does not match password', async () => {
+    const password = ref('abc123')
+    const confirm = ref('wrong')
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { password, confirm } },
+      template: `
+        <Form>
+          <FormField name="password" v-model="password">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Password" /></template>
+          </FormField>
+          <FormField name="confirm" v-model="confirm" :rules="{ matches: 'password' }">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Confirm" /></template>
+          </FormField>
+          <button type="submit">Go</button>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await wrapper.find('form').trigger('submit')
+    await flushPromises()
+    const inputs = wrapper.findAllComponents(Input)
+    expect(inputs[1]!.props('isInvalid')).toBe(true)
+    expect(inputs[1]!.props('errorMessage')).toBe('Must match password')
+  })
+
+  it('confirm passes when it matches password', async () => {
+    const password = ref('abc123')
+    const confirm = ref('abc123')
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { password, confirm } },
+      template: `
+        <Form>
+          <FormField name="password" v-model="password">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Password" /></template>
+          </FormField>
+          <FormField name="confirm" v-model="confirm" :rules="{ matches: 'password' }">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Confirm" /></template>
+          </FormField>
+          <button type="submit">Go</button>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    const submitSpy = vi.fn()
+    wrapper.findComponent(Form).vm.$emit('submit', submitSpy)
+    await wrapper.find('form').trigger('submit')
+    await flushPromises()
+    const inputs = wrapper.findAllComponents(Input)
+    expect(inputs[1]!.props('isInvalid')).toBe(false)
+  })
+
+  it('object form of matches uses custom message', async () => {
+    const password = ref('abc')
+    const confirm = ref('xyz')
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { password, confirm } },
+      template: `
+        <Form>
+          <FormField name="password" v-model="password">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Password" /></template>
+          </FormField>
+          <FormField name="confirm" v-model="confirm" :rules="{ matches: { value: 'password', message: 'Passwords must match' } }">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Confirm" /></template>
+          </FormField>
+          <button type="submit">Go</button>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await wrapper.find('form').trigger('submit')
+    await flushPromises()
+    const inputs = wrapper.findAllComponents(Input)
+    expect(inputs[1]!.props('errorMessage')).toBe('Passwords must match')
+  })
+})
+
+// ── field-level validationMode override ──────────────────────────────────────
+
+describe('FormField — field-level validationMode', () => {
+  it('on-change at field level overrides on-submit at form level', async () => {
+    const val = ref('start')
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val } },
+      template: `
+        <Form validation-mode="on-submit">
+          <FormField name="f" v-model="val" :rules="{ required: true }" validation-mode="on-change">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="F" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    // Must go through the input element so handleUpdate fires (not just mutating val directly)
+    await wrapper.find('input').setValue('')
+    await flushPromises()
+    expect(wrapper.findComponent(Input).props('isInvalid')).toBe(true)
   })
 })

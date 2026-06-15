@@ -3,16 +3,29 @@ type RuleWithMessage<T> = T | { value: T; message: string }
 export interface FieldRules {
   required?: boolean | string
   email?: boolean | string
+  url?: boolean | string
+  integer?: boolean | string
   pattern?: RuleWithMessage<RegExp>
   minLength?: RuleWithMessage<number>
   maxLength?: RuleWithMessage<number>
   min?: RuleWithMessage<number>
   max?: RuleWithMessage<number>
+  /** Match the value of another field by name (e.g. confirm password). */
+  matches?: RuleWithMessage<string>
 }
 
-export type CustomValidator = (value: unknown) => string | undefined | Promise<string | undefined>
+export interface ValidationContext {
+  /** All current form field values — available for cross-field rules and custom validators. */
+  values: Record<string, unknown>
+}
+
+export type CustomValidator = (
+  value: unknown,
+  context?: ValidationContext,
+) => string | undefined | Promise<string | undefined>
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+const URL_REGEX = /^(https?:\/\/)?([\w-]+\.)+[\w-]+(\/[\w\-./?%&=]*)?$/i
 
 function isEmpty(value: unknown): boolean {
   if (value === undefined || value === null || value === '' || value === false) return true
@@ -35,10 +48,16 @@ function resolvePatternRule(rule: RegExp | { value: RegExp; message: string }): 
   return rule
 }
 
+function resolveStringRule(rule: string | { value: string; message: string }): { value: string; message: string | undefined } {
+  if (typeof rule === 'string') return { value: rule, message: undefined }
+  return rule
+}
+
 export async function runValidation(
   value: unknown,
   rules?: FieldRules,
   validate?: CustomValidator,
+  context?: ValidationContext,
 ): Promise<string | undefined> {
   if (!rules && !validate) return undefined
 
@@ -48,13 +67,23 @@ export async function runValidation(
   }
 
   if (isEmpty(value)) {
-    if (validate) return await validate(value)
+    if (validate) return await validate(value, context)
     return undefined
   }
 
   if (rules?.email !== undefined) {
     const { enabled, message } = resolveSimpleRule(rules.email)
     if (enabled && !EMAIL_REGEX.test(String(value))) return message ?? 'Enter a valid email address'
+  }
+
+  if (rules?.url !== undefined) {
+    const { enabled, message } = resolveSimpleRule(rules.url)
+    if (enabled && !URL_REGEX.test(String(value))) return message ?? 'Enter a valid URL'
+  }
+
+  if (rules?.integer !== undefined) {
+    const { enabled, message } = resolveSimpleRule(rules.integer)
+    if (enabled && !Number.isInteger(Number(value))) return message ?? 'Must be a whole number'
   }
 
   if (rules?.pattern !== undefined) {
@@ -84,7 +113,13 @@ export async function runValidation(
     if (Number(value) > maxVal) return message ?? `Must be at most ${maxVal}`
   }
 
-  if (validate) return await validate(value)
+  if (rules?.matches !== undefined) {
+    const { value: fieldName, message } = resolveStringRule(rules.matches)
+    const otherValue = context?.values[fieldName]
+    if (value !== otherValue) return message ?? `Must match ${fieldName}`
+  }
+
+  if (validate) return await validate(value, context)
 
   return undefined
 }

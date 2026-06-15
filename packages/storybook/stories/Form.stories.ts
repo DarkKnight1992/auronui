@@ -26,7 +26,6 @@ export const OnSubmit: Story = {
       const email = ref('')
       const password = ref('')
       const submitted = ref<Record<string, unknown> | null>(null)
-      const serverError = ref('')
 
       function handleSubmit({ values, setErrors }: { values: Record<string, unknown>; setErrors: (e: Record<string, string>) => void }) {
         // Simulate a server check
@@ -37,12 +36,12 @@ export const OnSubmit: Story = {
         submitted.value = values
       }
 
-      return { email, password, submitted, serverError, handleSubmit }
+      return { email, password, submitted, handleSubmit }
     },
     template: `
       <div style="max-width: 360px; display: flex; flex-direction: column; gap: 24px;">
         <Form validation-mode="on-submit" @submit="handleSubmit" @invalid="submitted = null" style="display: flex; flex-direction: column; gap: 16px;">
-          <FormField name="email" :rules="{ required: true, email: true }">
+          <FormField name="email" v-model="email" :rules="{ required: true, email: true }">
             <template #default="{ fieldProps }">
               <Input v-bind="fieldProps" label="Email" type="email" />
             </template>
@@ -234,6 +233,277 @@ export const StandaloneField: Story = {
             <Input v-bind="fieldProps" label="Email" type="email" placeholder="Validates on every keystroke" />
           </template>
         </FormField>
+      </div>
+    `,
+  }),
+}
+
+// ── isSubmitted / submitCount ─────────────────────────────────────────────────
+
+export const SubmitState: Story = {
+  name: 'Submit State (isSubmitted / submitCount)',
+  render: () => ({
+    components: { Form, FormField, Input },
+    setup() {
+      const email = ref('')
+      return { email }
+    },
+    template: `
+      <div style="max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+        <Form validation-mode="on-submit" @submit="() => {}" v-slot="{ isSubmitted, submitCount, isValid, errors }">
+          <FormField name="email" v-model="email" :rules="{ required: true, email: true }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Email" type="email" />
+            </template>
+          </FormField>
+
+          <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer;">
+            Submit
+          </button>
+
+          <div style="padding: 12px; background: #f4f4f5; border-radius: 8px; font-size: 13px; display: flex; flex-direction: column; gap: 4px;">
+            <div><strong>isSubmitted:</strong> {{ isSubmitted }}</div>
+            <div><strong>submitCount:</strong> {{ submitCount }}</div>
+            <div><strong>isValid:</strong> {{ isValid }}</div>
+            <div><strong>errors:</strong> {{ JSON.stringify(errors) }}</div>
+          </div>
+        </Form>
+        <p style="font-size: 12px; color: #71717a;">Submit multiple times to watch submitCount increment. isSubmitted becomes true after the first attempt.</p>
+      </div>
+    `,
+  }),
+}
+
+// ── isDirty / isTouched / touched+dirty slot props ───────────────────────────
+
+export const DirtyAndTouched: Story = {
+  name: 'Dirty & Touched State',
+  render: () => ({
+    components: { Form, FormField, Input },
+    setup() {
+      const name = ref('Jane Doe')
+      const email = ref('jane@example.com')
+      return { name, email }
+    },
+    template: `
+      <div style="max-width: 400px; display: flex; flex-direction: column; gap: 16px;">
+        <Form v-slot="{ isDirty, isTouched }" style="display: flex; flex-direction: column; gap: 12px;">
+          <FormField name="name" v-model="name" default-value="Jane Doe" validation-mode="on-blur">
+            <template #default="{ fieldProps, touched, dirty }">
+              <Input v-bind="fieldProps" label="Full name" />
+              <div style="font-size: 11px; color: #71717a; margin-top: 2px;">
+                touched: {{ touched }} · dirty: {{ dirty }}
+              </div>
+            </template>
+          </FormField>
+
+          <FormField name="email" v-model="email" default-value="jane@example.com" :rules="{ required: true, email: true }" validation-mode="on-blur">
+            <template #default="{ fieldProps, touched, dirty }">
+              <Input v-bind="fieldProps" label="Email" type="email" />
+              <div style="font-size: 11px; color: #71717a; margin-top: 2px;">
+                touched: {{ touched }} · dirty: {{ dirty }}
+              </div>
+            </template>
+          </FormField>
+
+          <div style="padding: 10px; background: #f4f4f5; border-radius: 8px; font-size: 13px; display: flex; gap: 16px;">
+            <div><strong>Form isDirty:</strong> {{ isDirty }}</div>
+            <div><strong>Form isTouched:</strong> {{ isTouched }}</div>
+          </div>
+
+          <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer;">
+            Save changes
+          </button>
+        </Form>
+        <p style="font-size: 12px; color: #71717a;">Edit a field and blur it. dirty tracks changes from defaultValue; touched tracks blur.</p>
+      </div>
+    `,
+  }),
+}
+
+// ── reset() ───────────────────────────────────────────────────────────────────
+
+export const FormReset: Story = {
+  name: 'Form Reset',
+  render: () => ({
+    components: { Form, FormField, Input },
+    setup() {
+      const name = ref('Jane Doe')
+      const email = ref('jane@example.com')
+      return { name, email }
+    },
+    template: `
+      <div style="max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+        <Form v-slot="{ reset, isDirty, isSubmitted, submitCount }" style="display: flex; flex-direction: column; gap: 12px;">
+          <FormField name="name" v-model="name" default-value="Jane Doe" :rules="{ required: true }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Full name" />
+            </template>
+          </FormField>
+
+          <FormField name="email" v-model="email" default-value="jane@example.com" :rules="{ required: true, email: true }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Email" type="email" />
+            </template>
+          </FormField>
+
+          <div style="display: flex; gap: 8px;">
+            <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer; flex: 1;">
+              Save
+            </button>
+            <button type="button" @click="reset()" style="padding: 8px 16px; background: #f4f4f5; color: #3f3f46; border: none; border-radius: 8px; cursor: pointer; flex: 1;">
+              Reset
+            </button>
+          </div>
+
+          <div style="padding: 10px; background: #f4f4f5; border-radius: 8px; font-size: 13px; display: flex; gap: 16px;">
+            <div><strong>isDirty:</strong> {{ isDirty }}</div>
+            <div><strong>isSubmitted:</strong> {{ isSubmitted }}</div>
+            <div><strong>submitCount:</strong> {{ submitCount }}</div>
+          </div>
+        </Form>
+        <p style="font-size: 12px; color: #71717a;">Edit the fields, then hit Reset. Values return to defaultValue, all state clears.</p>
+      </div>
+    `,
+  }),
+}
+
+// ── Imperative API (getValues / setValue / setError / clearErrors / trigger) ──
+
+export const ImperativeAPI: Story = {
+  name: 'Imperative API',
+  render: () => ({
+    components: { Form, FormField, Input },
+    setup() {
+      const name = ref('')
+      const email = ref('')
+      const formRef = ref<InstanceType<typeof Form> | null>(null)
+      const snapshot = ref<Record<string, unknown> | null>(null)
+
+      function prefill() {
+        formRef.value?.setValue('name', 'Jane Doe')
+        formRef.value?.setValue('email', 'jane@example.com')
+      }
+
+      function getSnapshot() {
+        snapshot.value = formRef.value?.getValues() ?? null
+      }
+
+      function injectError() {
+        formRef.value?.setError('email', 'This email is already in use')
+      }
+
+      function clearAll() {
+        formRef.value?.clearErrors()
+      }
+
+      async function validate() {
+        const valid = await formRef.value?.trigger()
+        snapshot.value = { valid: valid ?? false, errors: formRef.value?.errors }
+      }
+
+      return { name, email, formRef, snapshot, prefill, getSnapshot, injectError, clearAll, validate }
+    },
+    template: `
+      <div style="max-width: 400px; display: flex; flex-direction: column; gap: 16px;">
+        <Form ref="formRef" style="display: flex; flex-direction: column; gap: 12px;">
+          <FormField name="name" v-model="name" :rules="{ required: true, minLength: 2 }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Full name" />
+            </template>
+          </FormField>
+
+          <FormField name="email" v-model="email" :rules="{ required: true, email: true }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Email" type="email" />
+            </template>
+          </FormField>
+
+          <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer;">
+            Submit
+          </button>
+        </Form>
+
+        <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+          <button @click="prefill()" style="padding: 6px 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 6px; cursor: pointer; font-size: 13px;">
+            setValue() — Prefill
+          </button>
+          <button @click="getSnapshot()" style="padding: 6px 12px; background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 6px; cursor: pointer; font-size: 13px;">
+            getValues()
+          </button>
+          <button @click="validate()" style="padding: 6px 12px; background: #fefce8; border: 1px solid #fde68a; border-radius: 6px; cursor: pointer; font-size: 13px;">
+            trigger()
+          </button>
+          <button @click="injectError()" style="padding: 6px 12px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; cursor: pointer; font-size: 13px;">
+            setError()
+          </button>
+          <button @click="clearAll()" style="padding: 6px 12px; background: #f4f4f5; border: 1px solid #d4d4d8; border-radius: 6px; cursor: pointer; font-size: 13px;">
+            clearErrors()
+          </button>
+        </div>
+
+        <div v-if="snapshot" style="padding: 12px; background: #f4f4f5; border-radius: 8px; font-size: 12px; font-family: monospace; white-space: pre-wrap;">{{ JSON.stringify(snapshot, null, 2) }}</div>
+      </div>
+    `,
+  }),
+}
+
+// ── URL / Integer / Matches rules ─────────────────────────────────────────────
+
+export const NewValidationRules: Story = {
+  name: 'New Rules: url, integer, matches',
+  render: () => ({
+    components: { Form, FormField, Input },
+    setup() {
+      const website = ref('')
+      const quantity = ref('')
+      const password = ref('')
+      const confirm = ref('')
+      const submitted = ref<Record<string, unknown> | null>(null)
+      return { website, quantity, password, confirm, submitted }
+    },
+    template: `
+      <div style="max-width: 360px; display: flex; flex-direction: column; gap: 16px;">
+        <Form
+          validation-mode="on-submit"
+          @submit="({ values }) => submitted = values"
+          style="display: flex; flex-direction: column; gap: 12px;"
+        >
+          <FormField name="website" v-model="website" :rules="{ url: true }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Website (url rule)" placeholder="https://example.com" />
+            </template>
+          </FormField>
+
+          <FormField name="quantity" v-model="quantity" :rules="{ required: true, integer: true, min: 1, max: 100 }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Quantity (integer rule)" type="number" placeholder="1–100, no decimals" />
+            </template>
+          </FormField>
+
+          <FormField name="password" v-model="password" :rules="{ required: true, minLength: 8 }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Password" type="password" show-password-toggle />
+            </template>
+          </FormField>
+
+          <FormField name="confirm" v-model="confirm" :rules="{ required: true, matches: { value: 'password', message: 'Passwords must match' } }">
+            <template #default="{ fieldProps }">
+              <Input v-bind="fieldProps" label="Confirm password (matches rule)" type="password" />
+            </template>
+          </FormField>
+
+          <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer;">
+            Submit
+          </button>
+        </Form>
+
+        <div v-if="submitted" style="padding: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 13px;">
+          <strong>Submitted:</strong> {{ JSON.stringify(submitted) }}
+        </div>
+        <p style="font-size: 12px; color: #71717a;">
+          Demonstrates the three new rules: <code>url</code>, <code>integer</code>, and cross-field <code>matches</code>.
+        </p>
       </div>
     `,
   }),
