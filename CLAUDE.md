@@ -247,7 +247,31 @@ Auron is a Vue 3 designed componented — a public, open-source component librar
 <!-- GSD:conventions-start source:CONVENTIONS.md -->
 ## Conventions
 
-Conventions not yet established. Will populate as patterns emerge during development.
+### Component Usage — NEVER use raw HTML elements
+
+When writing any Vue code in this repo (components, stories, tests, examples), **always use AuronUI components** from `packages/vue/src/components/` instead of raw HTML elements. This applies inside the library itself and in any consuming code.
+
+| Instead of | Use |
+|------------|-----|
+| `<button>` | `<Button>` |
+| `<input>` | `<Input>` |
+| `<textarea>` | `<Textarea>` |
+| `<select>` | `<Select>` / `<ListBox>` |
+| `<dialog>` / `<div role="dialog">` | `<Modal>` |
+| `<a>` (navigation) | `<Link>` |
+| `<label>` | `<Label>` |
+| `<kbd>` | `<Kbd>` |
+| `<hr>` | `<Separator>` |
+| `<progress>` | `<ProgressBar>` / `<ProgressCircle>` |
+| `<details>` / `<summary>` | `<Collapsible>` |
+
+Import from the local package when inside the repo:
+```ts
+import Button from '../button/Button.vue'          // within packages/vue/src
+import { Button } from '@auronui/vue'              // in packages/storybook or apps
+```
+
+Only reach for a raw HTML element when no AuronUI component covers the use case, and add a comment explaining why.
 <!-- GSD:conventions-end -->
 
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->

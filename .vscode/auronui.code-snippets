@@ -1,0 +1,457 @@
+{
+  // ─── Buttons ─────────────────────────────────────────────────────────────────
+  "AuronUI Button": {
+    "prefix": "aui-button",
+    "scope": "vue,html",
+    "body": [
+      "<Button variant=\"${1|primary,secondary,tertiary,outline,ghost,danger,warning,success|}\" size=\"${2|md,sm,lg,xs,xl|}\"${3: radius=\"${4|md,sm,lg,full,none|}\"}\" @click=\"${5:handle}\">",
+      "\t$6",
+      "</Button>"
+    ],
+    "description": "AuronUI Button"
+  },
+  "AuronUI Icon Button": {
+    "prefix": "aui-icon-button",
+    "scope": "vue,html",
+    "body": [
+      "<Button variant=\"${1|ghost,outline,secondary|}\" size=\"${2|md,sm,lg|}\" :is-icon-only=\"true\" aria-label=\"${3:label}\">",
+      "\t$4",
+      "</Button>"
+    ],
+    "description": "AuronUI icon-only Button"
+  },
+  "AuronUI ButtonGroup": {
+    "prefix": "aui-button-group",
+    "scope": "vue,html",
+    "body": [
+      "<ButtonGroup variant=\"${1|outline,secondary,ghost|}\" size=\"${2|md,sm,lg|}\">",
+      "\t<Button>$3</Button>",
+      "\t<Button>$4</Button>",
+      "\t<Button>$5</Button>",
+      "</ButtonGroup>"
+    ],
+    "description": "AuronUI ButtonGroup"
+  },
+  "AuronUI CloseButton": {
+    "prefix": "aui-close-button",
+    "scope": "vue,html",
+    "body": ["<CloseButton @click=\"${1:close}\" />"],
+    "description": "AuronUI CloseButton"
+  },
+  "AuronUI ToggleButtonGroup": {
+    "prefix": "aui-toggle-group",
+    "scope": "vue,html",
+    "body": [
+      "<ToggleButtonGroup v-model=\"${1:selected}\" selection-mode=\"${2|single,multiple|}\">",
+      "\t<ToggleButton value=\"${3:a}\">${4:Option A}</ToggleButton>",
+      "\t<ToggleButton value=\"${5:b}\">${6:Option B}</ToggleButton>",
+      "</ToggleButtonGroup>"
+    ],
+    "description": "AuronUI ToggleButtonGroup"
+  },
+
+  // ─── Form Inputs ──────────────────────────────────────────────────────────────
+  "AuronUI Input": {
+    "prefix": "aui-input",
+    "scope": "vue,html",
+    "body": [
+      "<Input",
+      "\tv-model=\"${1:value}\"",
+      "\tlabel=\"${2:Label}\"",
+      "\ttype=\"${3|text,email,password,number,tel,url|}\"",
+      "\tplaceholder=\"${4}\"",
+      "/>"
+    ],
+    "description": "AuronUI Input"
+  },
+  "AuronUI Input (full)": {
+    "prefix": "aui-input-full",
+    "scope": "vue,html",
+    "body": [
+      "<Input",
+      "\tv-model=\"${1:value}\"",
+      "\tlabel=\"${2:Label}\"",
+      "\ttype=\"${3|text,email,password|}\"",
+      "\tplaceholder=\"${4}\"",
+      "\t:is-required=\"${5:true}\"",
+      "\t:is-invalid=\"${6:!!error}\"",
+      "\t:error-message=\"${7:error}\"",
+      "/>"
+    ],
+    "description": "AuronUI Input with validation"
+  },
+  "AuronUI Textarea": {
+    "prefix": "aui-textarea",
+    "scope": "vue,html",
+    "body": [
+      "<Textarea",
+      "\tv-model=\"${1:value}\"",
+      "\tlabel=\"${2:Label}\"",
+      "\t:min-rows=\"${3:3}\"",
+      "/>"
+    ],
+    "description": "AuronUI Textarea"
+  },
+  "AuronUI NumberField": {
+    "prefix": "aui-number-field",
+    "scope": "vue,html",
+    "body": [
+      "<NumberField",
+      "\tv-model=\"${1:value}\"",
+      "\tlabel=\"${2:Label}\"",
+      "\t:min=\"${3:0}\"",
+      "\t:max=\"${4:100}\"",
+      "\t:step=\"${5:1}\"",
+      "/>"
+    ],
+    "description": "AuronUI NumberField"
+  },
+  "AuronUI Checkbox": {
+    "prefix": "aui-checkbox",
+    "scope": "vue,html",
+    "body": ["<Checkbox v-model=\"${1:checked}\">${2:Label}</Checkbox>"],
+    "description": "AuronUI Checkbox"
+  },
+  "AuronUI CheckboxGroup": {
+    "prefix": "aui-checkbox-group",
+    "scope": "vue,html",
+    "body": [
+      "<CheckboxGroup v-model=\"${1:selected}\" label=\"${2:Options}\">",
+      "\t<Checkbox value=\"${3:a}\">${4:Option A}</Checkbox>",
+      "\t<Checkbox value=\"${5:b}\">${6:Option B}</Checkbox>",
+      "</CheckboxGroup>"
+    ],
+    "description": "AuronUI CheckboxGroup"
+  },
+  "AuronUI RadioGroup": {
+    "prefix": "aui-radio-group",
+    "scope": "vue,html",
+    "body": [
+      "<RadioGroup v-model=\"${1:selected}\" label=\"${2:Options}\">",
+      "\t<Radio value=\"${3:a}\">${4:Option A}</Radio>",
+      "\t<Radio value=\"${5:b}\">${6:Option B}</Radio>",
+      "</RadioGroup>"
+    ],
+    "description": "AuronUI RadioGroup"
+  },
+  "AuronUI Switch": {
+    "prefix": "aui-switch",
+    "scope": "vue,html",
+    "body": ["<Switch v-model=\"${1:enabled}\">${2:Label}</Switch>"],
+    "description": "AuronUI Switch"
+  },
+  "AuronUI Select": {
+    "prefix": "aui-select",
+    "scope": "vue,html",
+    "body": [
+      "<Select v-model=\"${1:value}\" label=\"${2:Label}\" placeholder=\"${3:Choose}\">",
+      "\t<SelectTrigger />",
+      "\t<SelectContent>",
+      "\t\t<SelectItem value=\"${4:a}\">${5:Option A}</SelectItem>",
+      "\t\t<SelectItem value=\"${6:b}\">${7:Option B}</SelectItem>",
+      "\t</SelectContent>",
+      "</Select>"
+    ],
+    "description": "AuronUI Select"
+  },
+
+  // ─── Overlays ─────────────────────────────────────────────────────────────────
+  "AuronUI Modal": {
+    "prefix": "aui-modal",
+    "scope": "vue,html",
+    "body": [
+      "<Modal v-model:open=\"${1:isOpen}\">",
+      "\t<ModalTrigger as-child>",
+      "\t\t<Button>${2:Open}</Button>",
+      "\t</ModalTrigger>",
+      "\t<ModalContent>",
+      "\t\t<ModalHeader>",
+      "\t\t\t<ModalTitle>${3:Title}</ModalTitle>",
+      "\t\t\t<ModalDescription>${4:Description}</ModalDescription>",
+      "\t\t</ModalHeader>",
+      "\t\t<ModalBody>",
+      "\t\t\t$5",
+      "\t\t</ModalBody>",
+      "\t\t<ModalFooter>",
+      "\t\t\t<Button variant=\"ghost\" @click=\"${1:isOpen} = false\">Cancel</Button>",
+      "\t\t\t<Button variant=\"primary\">${6:Confirm}</Button>",
+      "\t\t</ModalFooter>",
+      "\t</ModalContent>",
+      "</Modal>"
+    ],
+    "description": "AuronUI Modal dialog"
+  },
+  "AuronUI AlertDialog": {
+    "prefix": "aui-alert-dialog",
+    "scope": "vue,html",
+    "body": [
+      "<AlertDialog v-model:open=\"${1:isOpen}\">",
+      "\t<AlertDialogTrigger as-child>",
+      "\t\t<Button variant=\"danger\">${2:Delete}</Button>",
+      "\t</AlertDialogTrigger>",
+      "\t<AlertDialogContent>",
+      "\t\t<AlertDialogHeader>",
+      "\t\t\t<AlertDialogTitle>${3:Are you sure?}</AlertDialogTitle>",
+      "\t\t\t<AlertDialogDescription>${4:This action cannot be undone.}</AlertDialogDescription>",
+      "\t\t</AlertDialogHeader>",
+      "\t\t<AlertDialogFooter>",
+      "\t\t\t<AlertDialogCancel>Cancel</AlertDialogCancel>",
+      "\t\t\t<AlertDialogAction>${5:Confirm}</AlertDialogAction>",
+      "\t\t</AlertDialogFooter>",
+      "\t</AlertDialogContent>",
+      "</AlertDialog>"
+    ],
+    "description": "AuronUI AlertDialog (destructive confirmation)"
+  },
+  "AuronUI Drawer": {
+    "prefix": "aui-drawer",
+    "scope": "vue,html",
+    "body": [
+      "<Drawer v-model:open=\"${1:isOpen}\" placement=\"${2|right,left,top,bottom|}\">",
+      "\t<DrawerTrigger as-child>",
+      "\t\t<Button>${3:Open}</Button>",
+      "\t</DrawerTrigger>",
+      "\t<DrawerContent>",
+      "\t\t<DrawerHeader>",
+      "\t\t\t<DrawerTitle>${4:Title}</DrawerTitle>",
+      "\t\t</DrawerHeader>",
+      "\t\t<DrawerBody>",
+      "\t\t\t$5",
+      "\t\t</DrawerBody>",
+      "\t</DrawerContent>",
+      "</Drawer>"
+    ],
+    "description": "AuronUI Drawer"
+  },
+  "AuronUI Tooltip": {
+    "prefix": "aui-tooltip",
+    "scope": "vue,html",
+    "body": [
+      "<TooltipProvider>",
+      "\t<Tooltip>",
+      "\t\t<TooltipTrigger as-child>",
+      "\t\t\t$1",
+      "\t\t</TooltipTrigger>",
+      "\t\t<TooltipContent>${2:Tooltip text}</TooltipContent>",
+      "\t</Tooltip>",
+      "</TooltipProvider>"
+    ],
+    "description": "AuronUI Tooltip"
+  },
+  "AuronUI Popover": {
+    "prefix": "aui-popover",
+    "scope": "vue,html",
+    "body": [
+      "<Popover>",
+      "\t<PopoverTrigger as-child>",
+      "\t\t<Button>${1:Open}</Button>",
+      "\t</PopoverTrigger>",
+      "\t<PopoverContent>",
+      "\t\t$2",
+      "\t</PopoverContent>",
+      "</Popover>"
+    ],
+    "description": "AuronUI Popover"
+  },
+
+  // ─── Navigation ───────────────────────────────────────────────────────────────
+  "AuronUI Tabs": {
+    "prefix": "aui-tabs",
+    "scope": "vue,html",
+    "body": [
+      "<Tabs default-value=\"${1:one}\" variant=\"${2|primary,secondary|}\">",
+      "\t<TabList>",
+      "\t\t<Tab value=\"${1:one}\">${3:Tab One}</Tab>",
+      "\t\t<Tab value=\"${4:two}\">${5:Tab Two}</Tab>",
+      "\t\t<TabIndicator />",
+      "\t</TabList>",
+      "\t<TabPanel value=\"${1:one}\">${6:Content one}</TabPanel>",
+      "\t<TabPanel value=\"${4:two}\">${7:Content two}</TabPanel>",
+      "</Tabs>"
+    ],
+    "description": "AuronUI Tabs"
+  },
+  "AuronUI Accordion": {
+    "prefix": "aui-accordion",
+    "scope": "vue,html",
+    "body": [
+      "<Accordion type=\"${1|single,multiple|}\" collapsible>",
+      "\t<AccordionItem value=\"${2:a}\">",
+      "\t\t<AccordionHeader>",
+      "\t\t\t<AccordionTrigger>${3:Section A}</AccordionTrigger>",
+      "\t\t</AccordionHeader>",
+      "\t\t<AccordionContent>$4</AccordionContent>",
+      "\t</AccordionItem>",
+      "</Accordion>"
+    ],
+    "description": "AuronUI Accordion"
+  },
+  "AuronUI Breadcrumbs": {
+    "prefix": "aui-breadcrumbs",
+    "scope": "vue,html",
+    "body": [
+      "<Breadcrumbs>",
+      "\t<BreadcrumbItem href=\"${1:/}\">${2:Home}</BreadcrumbItem>",
+      "\t<BreadcrumbItem href=\"${3:}\">${4:Section}</BreadcrumbItem>",
+      "\t<BreadcrumbItem>${5:Current}</BreadcrumbItem>",
+      "</Breadcrumbs>"
+    ],
+    "description": "AuronUI Breadcrumbs"
+  },
+
+  // ─── Feedback ─────────────────────────────────────────────────────────────────
+  "AuronUI Alert": {
+    "prefix": "aui-alert",
+    "scope": "vue,html",
+    "body": [
+      "<Alert severity=\"${1|info,success,warning,danger|}\">",
+      "\t<AlertIcon />",
+      "\t<AlertTitle>${2:Title}</AlertTitle>",
+      "\t<AlertDescription>${3:Message}</AlertDescription>",
+      "</Alert>"
+    ],
+    "description": "AuronUI Alert"
+  },
+  "AuronUI Toast setup": {
+    "prefix": "aui-toast-setup",
+    "scope": "vue",
+    "body": [
+      "<script setup lang=\"ts\">",
+      "import { useToast } from '@auronui/vue'",
+      "const { toast } = useToast()",
+      "",
+      "function notify() {",
+      "\ttoast({ title: '${1:Title}', description: '${2}', variant: '${3|default,success,warning,danger|}' })",
+      "}",
+      "</script>",
+      "<template>",
+      "\t<ToastProvider>",
+      "\t\t<ToastViewport />",
+      "\t</ToastProvider>",
+      "</template>"
+    ],
+    "description": "AuronUI Toast provider + useToast"
+  },
+
+  // ─── Presentational ───────────────────────────────────────────────────────────
+  "AuronUI Badge": {
+    "prefix": "aui-badge",
+    "scope": "vue,html",
+    "body": [
+      "<Badge variant=\"${1|solid,flat,outline|}\" color=\"${2|default,primary,secondary,success,warning,danger|}\">${3:Label}</Badge>"
+    ],
+    "description": "AuronUI Badge"
+  },
+  "AuronUI Chip": {
+    "prefix": "aui-chip",
+    "scope": "vue,html",
+    "body": [
+      "<Chip variant=\"${1|flat,solid,outline|}\" color=\"${2|default,primary,secondary,success,warning,danger|}\" @close=\"${3:remove}\">${4:Label}</Chip>"
+    ],
+    "description": "AuronUI Chip"
+  },
+  "AuronUI Avatar": {
+    "prefix": "aui-avatar",
+    "scope": "vue,html",
+    "body": [
+      "<Avatar src=\"${1}\" name=\"${2:User Name}\" size=\"${3|md,sm,lg,xs,xl|}\" />"
+    ],
+    "description": "AuronUI Avatar"
+  },
+  "AuronUI Card": {
+    "prefix": "aui-card",
+    "scope": "vue,html",
+    "body": [
+      "<Card>",
+      "\t<CardHeader>${1:Title}</CardHeader>",
+      "\t<CardBody>",
+      "\t\t$2",
+      "\t</CardBody>",
+      "\t<CardFooter>$3</CardFooter>",
+      "</Card>"
+    ],
+    "description": "AuronUI Card"
+  },
+  "AuronUI Spinner": {
+    "prefix": "aui-spinner",
+    "scope": "vue,html",
+    "body": ["<Spinner size=\"${1|md,sm,lg,xs,xl|}\" color=\"${2|default,primary,current|}\" />"],
+    "description": "AuronUI Spinner"
+  },
+  "AuronUI Skeleton": {
+    "prefix": "aui-skeleton",
+    "scope": "vue,html",
+    "body": ["<Skeleton class=\"${1:h-8 w-32 rounded-lg}\" />"],
+    "description": "AuronUI Skeleton"
+  },
+
+  // ─── Data ─────────────────────────────────────────────────────────────────────
+  "AuronUI Table": {
+    "prefix": "aui-table",
+    "scope": "vue,html",
+    "body": [
+      "<Table>",
+      "\t<TableHeader>",
+      "\t\t<TableRow>",
+      "\t\t\t<TableHeaderCell>${1:Name}</TableHeaderCell>",
+      "\t\t\t<TableHeaderCell>${2:Value}</TableHeaderCell>",
+      "\t\t</TableRow>",
+      "\t</TableHeader>",
+      "\t<TableBody>",
+      "\t\t<TableRow v-for=\"row in ${3:rows}\" :key=\"row.${4:id}\">",
+      "\t\t\t<TableCell>{{ row.${5:name} }}</TableCell>",
+      "\t\t\t<TableCell>{{ row.${6:value} }}</TableCell>",
+      "\t\t</TableRow>",
+      "\t</TableBody>",
+      "</Table>"
+    ],
+    "description": "AuronUI Table"
+  },
+  "AuronUI Dropdown": {
+    "prefix": "aui-dropdown",
+    "scope": "vue,html",
+    "body": [
+      "<Dropdown>",
+      "\t<DropdownTrigger as-child>",
+      "\t\t<Button>${1:Actions}</Button>",
+      "\t</DropdownTrigger>",
+      "\t<DropdownMenu>",
+      "\t\t<DropdownItem @click=\"${2:edit}\">${3:Edit}</DropdownItem>",
+      "\t\t<DropdownItem @click=\"${4:remove}\">${5:Delete}</DropdownItem>",
+      "\t</DropdownMenu>",
+      "</Dropdown>"
+    ],
+    "description": "AuronUI Dropdown"
+  },
+  "AuronUI Pagination": {
+    "prefix": "aui-pagination",
+    "scope": "vue,html",
+    "body": [
+      "<Pagination v-model:page=\"${1:page}\" :total=\"${2:100}\" :per-page=\"${3:10}\">",
+      "\t<PaginationContent>",
+      "\t\t<PaginationPrev />",
+      "\t\t<PaginationNext />",
+      "\t</PaginationContent>",
+      "</Pagination>"
+    ],
+    "description": "AuronUI Pagination"
+  },
+
+  // ─── Imports ──────────────────────────────────────────────────────────────────
+  "AuronUI import": {
+    "prefix": "aui-import",
+    "scope": "typescript,vue",
+    "body": [
+      "import { ${1:Button} } from '@auronui/vue'"
+    ],
+    "description": "Import from @auronui/vue"
+  },
+  "AuronUI import (local)": {
+    "prefix": "aui-import-local",
+    "scope": "typescript,vue",
+    "body": [
+      "import ${1:Button} from '../${2:button}/${1:Button}.vue'"
+    ],
+    "description": "Import AuronUI component from local packages/vue/src"
+  }
+}
