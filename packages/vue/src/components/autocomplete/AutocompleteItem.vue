@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, onUnmounted, useSlots, type VNode } from 'vue'
+import { computed, onMounted, onUnmounted, useSlots, type Slots, type VNode } from 'vue'
 import { AutocompleteItem, ComboboxItemIndicator } from 'reka-ui'
 import { useAutocompleteInject } from './Autocomplete.context'
 
@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
   class: undefined,
 })
 
-const slots = useSlots()
+const slots: Slots = useSlots()
 const ctx = useAutocompleteInject()
 
 // Extract plain text from default slot VNodes at render time.
@@ -26,8 +26,8 @@ function extractText(nodes: VNode[]): string {
 
 // The display text Reka writes into the input when this item is selected.
 // Reads slot text content — no extra props needed.
-const displayText = computed(() => {
-  const vnodes = slots.default?.()
+const displayText = computed((): string => {
+  const vnodes: VNode[] | undefined = (slots.default as (() => VNode[]) | undefined)?.()
   if (!vnodes) return props.value
   return extractText(vnodes).trim() || props.value
 })

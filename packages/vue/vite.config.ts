@@ -24,7 +24,7 @@ export default defineConfig({
       include: ["src/**/*.ts", "src/**/*.vue"],
       outDir: "dist",
       rollupTypes: true,
-      compilerOptions: { noEmitOnError: false, skipLibCheck: true },
+      compilerOptions: { rootDir: "src", noEmitOnError: false, skipLibCheck: true },
     }),
   ],
   build: {

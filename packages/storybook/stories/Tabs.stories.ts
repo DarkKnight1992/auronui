@@ -1,18 +1,20 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
 
-const meta: Meta<typeof Tabs> = {
+// overflow belongs to TabList, not Tabs — extend the arg type to include it
+type TabsArgs = InstanceType<typeof Tabs>['$props'] & { overflow?: 'arrows' | 'dropdown' }
+
+const meta: Meta<TabsArgs> = {
   title: 'Components/Tabs',
   component: Tabs,
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     variant: { control: 'select', options: ['primary', 'secondary'] },
-    // TabList prop — not on Tabs itself, exposed here so the overflow stories show a control
     overflow: { control: 'select', options: [undefined, 'arrows', 'dropdown'], name: 'overflow (TabList)' },
   },
 }
 export default meta
-type Story = StoryObj<typeof Tabs>
+type Story = StoryObj<TabsArgs>
 
 export const Horizontal: Story = {
   args: { orientation: 'horizontal', variant: 'primary', defaultValue: 'one' },

@@ -63,7 +63,7 @@ function walkAndRegister(nodes: VNode[]) {
 
 // Run synchronously at setup time and whenever the slot content changes
 watchEffect(() => {
-  const vnodes = slots.default?.()
+  const vnodes = (slots.default as (() => VNode[]) | undefined)?.()
   if (vnodes) walkAndRegister(vnodes)
 })
 </script>
