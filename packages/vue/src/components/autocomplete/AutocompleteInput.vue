@@ -3,7 +3,9 @@ import { computed, useTemplateRef } from 'vue'
 import { useFocusWithin } from '@vueuse/core'
 import { AutocompleteInput, AutocompleteTrigger, AutocompleteCancel, AutocompleteAnchor } from 'reka-ui'
 import { useAutocompleteInject } from './Autocomplete.context'
-import Spinner from '../spinner/Spinner.vue';
+import Chip from '../chip/Chip.vue'
+import Spinner from '../spinner/Spinner.vue'
+import AutocompleteOverflowChips from './AutocompleteOverflowChips.vue'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -26,6 +28,13 @@ const { focused: isFocused } = useFocusWithin(anchorRef)
 const showInsideLabel = computed(
   () => ctx.hasLabel.value && ctx.labelPlacement.value === 'inside',
 )
+
+// In multiple mode, hide placeholder once chips are present
+const effectivePlaceholder = computed(() =>
+  ctx.multiple.value && ctx.selectedValues.value.length > 0 ? undefined : props.placeholder,
+)
+
+const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v)?.label ?? v
 </script>
 
 <template>
@@ -37,6 +46,7 @@ const showInsideLabel = computed(
     :data-invalid="ctx.isInvalid.value || undefined"
     :data-disabled="ctx.isDisabled.value || undefined"
     :data-readonly="ctx.isReadonly.value || undefined"
+    :data-multiple-overflow="ctx.multiple.value ? ctx.multipleOverflow.value : undefined"
     data-slot="trigger"
   >
     <label
@@ -54,25 +64,51 @@ const showInsideLabel = computed(
     >
       <slot name="startContent" />
     </span>
+    <!-- Multiple/collapse: overflow chip area with truncation -->
+    <AutocompleteOverflowChips
+      v-if="ctx.multiple.value && ctx.multipleOverflow.value === 'collapse' && ctx.selectedValues.value.length > 0"
+      :values="ctx.selectedValues.value"
+      :get-label="getLabel"
+      :remove-value="ctx.removeValue"
+    />
+    <!-- Multiple/wrap: chips that wrap onto new lines -->
+    <template v-else-if="ctx.multiple.value && ctx.multipleOverflow.value === 'wrap'">
+      <Chip
+        v-for="item in ctx.selectedLabels.value"
+        :key="item.value"
+        size="sm"
+        is-closable
+        :close-aria-label="`Remove ${item.label}`"
+        data-slot="selected-chip"
+        @close.stop="ctx.removeValue(item.value)"
+      >
+        {{ item.label }}
+      </Chip>
+    </template>
     <AutocompleteInput
       :id="ctx.inputId.value"
-      :placeholder="props.placeholder"
+      :placeholder="effectivePlaceholder"
       :disabled="ctx.isDisabled.value"
       :readonly="ctx.isReadonly.value"
       :required="ctx.isRequired.value"
       :aria-invalid="ctx.isInvalid.value || undefined"
       :aria-describedby="ctx.ariaDescribedBy.value"
       :class="ctx.slots.value.input()"
+      :style="ctx.multiple.value && ctx.multipleOverflow.value === 'collapse' && ctx.selectedValues.value.length > 0
+        ? { flex: '0 0 auto', minWidth: '80px', width: 'auto' }
+        : undefined"
       data-slot="input"
       autocomplete="off"
     />
     <!-- Clear button: only shown when filled and not in a readonly/disabled state.
-         Reka's AutocompleteCancel does not set data-empty itself, so we drive it here. -->
+         Reka's AutocompleteCancel does not set data-empty itself, so we drive it here.
+         In multiple mode also clears selectedValues via ctx.clearAll(). -->
     <AutocompleteCancel
       :class="ctx.slots.value.clearButton()"
       :data-empty="(!ctx.isFilled.value || ctx.isReadonly.value || ctx.isDisabled.value) ? 'true' : undefined"
       data-slot="clear-button"
       aria-label="Clear"
+      @click="ctx.multiple.value ? ctx.clearAll() : undefined"
     >
       <slot name="clearIcon">
         <svg

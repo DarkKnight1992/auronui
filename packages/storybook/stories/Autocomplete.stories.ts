@@ -904,3 +904,143 @@ export const LoadingState: Story = {
     `,
   }),
 };
+
+/* ─── Multiple selection ──────────────────────────────────────────────────── */
+
+const fruits = [
+  { value: "apple", label: "Apple" },
+  { value: "banana", label: "Banana" },
+  { value: "cherry", label: "Cherry" },
+  { value: "grape", label: "Grape" },
+  { value: "mango", label: "Mango" },
+  { value: "orange", label: "Orange" },
+  { value: "peach", label: "Peach" },
+  { value: "pear", label: "Pear" },
+  { value: "pineapple", label: "Pineapple" },
+  { value: "strawberry", label: "Strawberry" },
+];
+
+export const Multiple: Story = {
+  name: "Multiple selection",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+    setup() {
+      const selected = ref<string[]>([]);
+      return { args, selected, fruits };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <Autocomplete
+          v-bind="args"
+          v-model="selected"
+          :multiple="true"
+          :items="fruits"
+          label="Favourite fruits"
+        >
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+              {{ f.label }}
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+export const MultipleWithInitialValues: Story = {
+  name: "Multiple — pre-selected values",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+    setup() {
+      const selected = ref<string[]>(["apple", "mango", "strawberry"]);
+      return { args, selected, fruits };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <Autocomplete
+          v-bind="args"
+          v-model="selected"
+          :multiple="true"
+          :items="fruits"
+          label="Favourite fruits"
+          variant="bordered"
+        >
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+              {{ f.label }}
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+export const MultipleWrap: Story = {
+  name: "Multiple — wrap overflow",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+    setup() {
+      const selected = ref<string[]>(["apple", "banana", "cherry", "grape"]);
+      return { args, selected, fruits };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <Autocomplete
+          v-bind="args"
+          v-model="selected"
+          :multiple="true"
+          multiple-overflow="wrap"
+          :items="fruits"
+          label="Favourite fruits"
+          variant="bordered"
+        >
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+              {{ f.label }}
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+export const MultipleCollapse: Story = {
+  name: "Multiple — collapse overflow",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+    setup() {
+      const selected = ref<string[]>(["apple", "banana", "cherry", "grape"]);
+      return { args, selected, fruits };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <Autocomplete
+          v-bind="args"
+          v-model="selected"
+          :multiple="true"
+          multiple-overflow="collapse"
+          :items="fruits"
+          label="Favourite fruits"
+          variant="bordered"
+        >
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+              {{ f.label }}
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};

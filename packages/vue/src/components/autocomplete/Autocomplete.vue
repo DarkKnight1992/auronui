@@ -17,6 +17,8 @@ const props = withDefaults(defineProps<Props>(), {
   isDisabled: false,
   isReadonly: false,
   isRequired: false,
+  multiple: false,
+  multipleOverflow: 'wrap',
   modelValue: undefined,
   defaultValue: undefined,
   open: undefined,
@@ -29,7 +31,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: string | string[]]
   'update:open': [value: boolean]
 }>()
 
@@ -79,10 +81,19 @@ type Props = {
   class?: string
 
   /* ─── Autocomplete-specific ─────────────────────────────────────── */
-  /** Two-way bound selected value. */
-  modelValue?: string
+  /** Two-way bound selected value. string in single mode, string[] in multiple mode. */
+  modelValue?: string | string[]
   /** Initial selected value (uncontrolled). */
-  defaultValue?: string
+  defaultValue?: string | string[]
+  /** Allow selecting multiple values. modelValue becomes string[]. @default false */
+  multiple?: boolean
+  /**
+   * Controls how chips overflow in multiple mode.
+   * - `wrap`: trigger grows in height, chips wrap to new lines (default)
+   * - `collapse`: fixed height, overflowing chips are hidden behind "+N more"
+   * @default 'wrap'
+   */
+  multipleOverflow?: 'wrap' | 'collapse'
   /** Controls open state of the dropdown. */
   open?: boolean
   /** Initial open state of the dropdown (uncontrolled). */
@@ -129,7 +140,21 @@ function unregisterItem(value: string) {
 const isLoading = ref(false)
 const internalItems = ref<AutocompleteItem[]>([...props.items])
 
-// Open-state tracking so we can skip client-side filtering until the user types
+// ── Multiple-mode state ────────────────────────────────────────────────────
+// Tracks selected values as an array. Only meaningful when props.multiple=true.
+const selectedValues = ref<string[]>(
+  props.multiple && Array.isArray(props.modelValue) ? [...props.modelValue] : [],
+)
+
+// Controlled open state used in multiple mode to prevent the dropdown closing
+// after each item selection (Reka would normally close on selection).
+const internalOpen = ref(props.defaultOpen ?? false)
+
+// Flag set by onMultipleSelect so handleOpenChange can distinguish item
+// selection from Escape/outside-click close.
+let selectingItem = false
+
+// ── Open-state tracking ────────────────────────────────────────────────────
 const isOpen = ref(props.defaultOpen ?? false)
 const termAtOpen = ref('')
 const isUserTyping = ref(false)
@@ -139,8 +164,7 @@ const effectiveIgnoreFilter = computed(() => {
   return false
 })
 
-// Internal display text — bound to AutocompleteRoot's model-value.
-// Holds the LABEL (what the user reads), not the value. Bridged below.
+// ── Label/value bridge ─────────────────────────────────────────────────────
 // Priority: items prop entry > slot registry > identity fallback
 function labelFor(value: string | undefined): string {
   if (value == null || value === '') return ''
@@ -150,24 +174,34 @@ function labelFor(value: string | undefined): string {
 }
 function valueFor(displayed: string): string {
   if (!displayed) return ''
-  // Check items prop first
   const match = internalItems.value.find(
     (i) => (i.label ?? i.textValue ?? i.value) === displayed,
   )
   if (match) return match.value
-  // Check slot registry: find value whose label equals displayed
   for (const [value, label] of slotItemRegistry.value) {
     if (label === displayed) return value
   }
   return displayed
 }
 
-const searchTerm = ref(labelFor(props.modelValue))
+const singleModelValue = computed(() =>
+  props.multiple ? undefined : (props.modelValue as string | undefined),
+)
 
-const isFilled = computed(() => !!searchTerm.value)
+const searchTerm = ref(labelFor(singleModelValue.value))
+
+const isFilled = computed(() =>
+  props.multiple
+    ? selectedValues.value.length > 0 || !!searchTerm.value
+    : !!searchTerm.value,
+)
 const hasItems = computed(() => internalItems.value.length > 0)
 
-// Helper IDs / aria wiring
+const selectedLabels = computed(() =>
+  selectedValues.value.map(v => ({ value: v, label: labelFor(v) || v })),
+)
+
+// ── Helpers ────────────────────────────────────────────────────────────────
 const descriptionId = computed(() => `${inputId.value}-description`)
 const errorMessageId = computed(() => `${inputId.value}-error`)
 const showError = computed(() => props.isInvalid && !!props.errorMessage)
@@ -179,34 +213,74 @@ const ariaDescribedBy = computed(() => {
   return undefined
 })
 
-// Parent → internal: when the v-model value changes, reflect its label
+// ── Watchers ───────────────────────────────────────────────────────────────
+
+// Parent → internal: sync controlled modelValue into local state
 watch(() => props.modelValue, (val) => {
-  const next = labelFor(val)
-  if (searchTerm.value !== next) searchTerm.value = next
+  if (props.multiple) {
+    if (Array.isArray(val)) selectedValues.value = [...val]
+  } else {
+    const next = labelFor(val as string | undefined)
+    if (searchTerm.value !== next) searchTerm.value = next
+  }
 })
 
-// Internal → parent: when the displayed label changes, emit the real value.
-// Also detect user typing (for open-time filtering suppression).
+// Internal → parent: single mode only — multiple mode emits inside onMultipleSelect
 watch(searchTerm, (displayed) => {
-  const next = valueFor(displayed)
-  if (next !== (props.modelValue ?? '')) emit('update:modelValue', next)
-  if (isOpen.value && displayed !== termAtOpen.value) {
-    isUserTyping.value = true
+  if (props.multiple) {
+    if (isOpen.value && displayed !== termAtOpen.value) isUserTyping.value = true
+    return
   }
+  const next = valueFor(displayed)
+  if (next !== (singleModelValue.value ?? '')) emit('update:modelValue', next)
+  if (isOpen.value && displayed !== termAtOpen.value) isUserTyping.value = true
 })
 
 function handleOpenChange(val: boolean) {
   isOpen.value = val
-  if (val) {
-    termAtOpen.value = searchTerm.value
-    isUserTyping.value = false
-  } else {
-    isUserTyping.value = false
+
+  if (props.multiple) {
+    // Suppress close when triggered by item selection; allow Escape/outside-click
+    internalOpen.value = (!val && selectingItem) ? true : val
+    selectingItem = false
+    if (val) { termAtOpen.value = searchTerm.value; isUserTyping.value = false }
+    else { isUserTyping.value = false }
+    emit('update:open', val)
+    return
   }
+
+  if (val) { termAtOpen.value = searchTerm.value; isUserTyping.value = false }
+  else { isUserTyping.value = false }
   emit('update:open', val)
 }
 
-// Debounce timer
+// ── Multiple-mode actions ──────────────────────────────────────────────────
+
+function onMultipleSelect(value: string) {
+  selectingItem = true
+  const idx = selectedValues.value.indexOf(value)
+  selectedValues.value = idx === -1
+    ? [...selectedValues.value, value]
+    : selectedValues.value.filter((_, i) => i !== idx)
+  searchTerm.value = ''
+  emit('update:modelValue', selectedValues.value)
+}
+
+function removeValue(value: string) {
+  selectedValues.value = selectedValues.value.filter(v => v !== value)
+  emit('update:modelValue', selectedValues.value)
+}
+
+function clearAll() {
+  selectedValues.value = []
+  emit('update:modelValue', [])
+}
+
+function isSelected(value: string): boolean {
+  return selectedValues.value.includes(value)
+}
+
+// ── Async loading ──────────────────────────────────────────────────────────
 let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
 async function runLoadItems(query: string) {
@@ -223,50 +297,41 @@ function scheduleLoad(query: string) {
   if (!props.loadItems) return
   clearTimeout(debounceTimer)
   if (props.debounceMs === 0) {
-    // Run immediately (for tests and zero-debounce configs)
     void runLoadItems(query)
   } else {
     debounceTimer = setTimeout(() => void runLoadItems(query), props.debounceMs)
   }
 }
 
-// Initial load on mount
 onMounted(() => {
-  if (props.loadItems) {
-    void runLoadItems(searchTerm.value)
-  }
+  if (props.loadItems) void runLoadItems(searchTerm.value)
 })
 
-// Watch searchTerm changes and invoke loadItems (debounced)
 watch(searchTerm, (q) => {
-  if (props.loadItems) {
-    scheduleLoad(q)
-  }
+  if (props.loadItems) scheduleLoad(q)
 })
 
-// Sync static items when they change
 watch(() => props.items, (newItems) => {
-  if (!props.loadItems) {
-    internalItems.value = [...newItems]
-  }
+  if (!props.loadItems) internalItems.value = [...newItems]
 })
 
-// When items arrive (async) or change, re-resolve the display label
 watch(internalItems, () => {
-  const next = labelFor(props.modelValue)
-  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (props.modelValue ?? '')) {
+  if (props.multiple) return
+  const next = labelFor(singleModelValue.value)
+  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (singleModelValue.value ?? '')) {
     searchTerm.value = next
   }
 })
 
-// When slot items register (children mount after parent), re-resolve the display label.
-// This covers the case where modelValue is set before children have mounted.
 watch(slotItemRegistry, () => {
-  const next = labelFor(props.modelValue)
-  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (props.modelValue ?? '')) {
+  if (props.multiple) return
+  const next = labelFor(singleModelValue.value)
+  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (singleModelValue.value ?? '')) {
     searchTerm.value = next
   }
 })
+
+// ── Styles / context ───────────────────────────────────────────────────────
 
 const slotFns = computed(() =>
   autocompleteVariants({
@@ -302,6 +367,14 @@ useAutocompleteProvide({
   truncateItems: toRef(props, 'truncateItems'),
   hasItems,
   slots: slotFns,
+  multiple: toRef(props, 'multiple'),
+  multipleOverflow: toRef(props, 'multipleOverflow'),
+  selectedValues,
+  selectedLabels,
+  onMultipleSelect,
+  removeValue,
+  clearAll,
+  isSelected,
   registerItem,
   unregisterItem,
 })
@@ -327,13 +400,10 @@ useAutocompleteProvide({
     > *</span></label>
 
     <div :class="slotFns.mainWrapper()">
-      <!-- AutocompleteRoot is Reka UI's distinct autocomplete primitive.
-           ignoreFilter=true ensures server-returned items are never filtered
-           client-side (the server handles filtering). -->
       <AutocompleteRoot
         v-model:model-value="searchTerm"
-        :open="props.open"
-        :default-open="props.defaultOpen"
+        :open="props.multiple ? internalOpen : props.open"
+        :default-open="props.multiple ? undefined : props.defaultOpen"
         :disabled="props.isDisabled"
         :required="props.isRequired"
         :ignore-filter="effectiveIgnoreFilter"

@@ -15,7 +15,6 @@ const props = withDefaults(defineProps<{
 const slots: Slots = useSlots()
 const ctx = useAutocompleteInject()
 
-// Extract plain text from default slot VNodes at render time.
 function extractText(nodes: VNode[]): string {
   return nodes.map(n => {
     if (typeof n.children === 'string') return n.children
@@ -24,16 +23,15 @@ function extractText(nodes: VNode[]): string {
   }).join('')
 }
 
-// The display text Reka writes into the input when this item is selected.
-// Reads slot text content — no extra props needed.
 const displayText = computed((): string => {
   const vnodes: VNode[] | undefined = (slots.default as (() => VNode[]) | undefined)?.()
   if (!vnodes) return props.value
   return extractText(vnodes).trim() || props.value
 })
 
-// Register this item's value→label mapping with the parent Autocomplete bridge
-// so valueFor() can translate the display label back to the real value.
+// In multiple mode, track whether this item is in the selected array
+const isChecked = computed(() => ctx.multiple.value && ctx.isSelected(props.value))
+
 onMounted(() => {
   ctx.registerItem(props.value, displayText.value)
 })
@@ -41,6 +39,15 @@ onMounted(() => {
 onUnmounted(() => {
   ctx.unregisterItem(props.value)
 })
+
+function handleSelect(event: Event) {
+  if (ctx.multiple.value) {
+    // Prevent Reka from overwriting the combobox value with the selected item's text.
+    // Without this, Reka's internal handler fires after ours and sets searchTerm = displayText.
+    event.preventDefault()
+    ctx.onMultipleSelect(props.value)
+  }
+}
 </script>
 
 <template>
@@ -49,15 +56,19 @@ onUnmounted(() => {
     :text-value="displayText"
     :disabled="props.isDisabled"
     :data-item-value="props.value"
+    :data-selected="isChecked || undefined"
     class="list-box-item list-box-item--default"
     data-slot="list-box-item"
+    @select="handleSelect"
   >
     <slot name="startContent" />
     <span
       class="autocomplete-item__text"
       data-slot="item-text"
     ><slot /></span>
+    <!-- Single mode: Reka's ComboboxItemIndicator handles the checkmark natively -->
     <ComboboxItemIndicator
+      v-if="!ctx.multiple.value"
       class="list-box-item__indicator"
       data-slot="list-box-item-indicator"
     >
@@ -79,6 +90,30 @@ onUnmounted(() => {
         </svg>
       </slot>
     </ComboboxItemIndicator>
+    <!-- Multiple mode: check against our selectedValues array instead -->
+    <span
+      v-else-if="isChecked"
+      class="list-box-item__indicator"
+      data-slot="list-box-item-indicator"
+    >
+      <slot name="selectedIcon">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="12"
+          height="12"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="3"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          data-slot="list-box-item-indicator--checkmark"
+          aria-hidden="true"
+        >
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </slot>
+    </span>
     <slot name="endContent" />
   </AutocompleteItem>
 </template>
