@@ -57,7 +57,10 @@ function handleSelect(event: Event) {
     @select="handleSelect"
   >
     <slot :term="term">
-      <span class="autocomplete-item__text" data-slot="item-text">
+      <span
+        class="autocomplete-item__text"
+        data-slot="item-text"
+      >
         {{ displayLabel }}
       </span>
     </slot>

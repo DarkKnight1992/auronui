@@ -85,7 +85,6 @@ watch(
     <Chip
       v-if="overflowCount > 0"
       size="sm"
-      variant="flat"
       color="default"
     >
       +{{ overflowCount }} more

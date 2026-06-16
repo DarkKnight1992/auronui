@@ -186,7 +186,7 @@ describe('Form — slot bindings', () => {
   })
 
   it('slot exposes isDirty = false initially', async () => {
-    const { wrapper } = makeForm({ initialValue: 'x', defaultValue: 'x' })
+    makeForm({ initialValue: 'x', defaultValue: 'x' })
     await nextTick()
     const Wrapper2 = defineComponent({
       components: { Form },
@@ -225,7 +225,7 @@ describe('Form — imperative API (defineExpose)', () => {
   }
 
   it('getValues() returns current field values', async () => {
-    const { wrapper, formRef, val } = mountWithRef()
+    const { formRef, val } = mountWithRef()
     await nextTick()
     val.value = 'changed'
     await nextTick()
@@ -234,7 +234,7 @@ describe('Form — imperative API (defineExpose)', () => {
   })
 
   it('setValue() updates a field value', async () => {
-    const { wrapper, formRef, val } = mountWithRef()
+    const { formRef, val } = mountWithRef()
     await nextTick()
     const api = formRef.value as unknown as Record<string, unknown>
     ;(api.setValue as (n: string, v: unknown) => void)('name', 'programmatic')
