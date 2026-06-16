@@ -251,6 +251,7 @@ export {
   AutocompleteInput,
   AutocompleteContent,
   AutocompleteItem,
+  AutocompleteCreateItem,
   autocompleteContextKey,
   useAutocompleteProvide,
   useAutocompleteInject,

@@ -47,6 +47,14 @@ export interface AutocompleteContext {
    * Called by AutocompleteItem at unmount time to deregister.
    */
   unregisterItem: (value: string) => void
+
+  /* ─── Creatable ─────────────────────────────────────────────────────── */
+  /** Current search/filter term — exposed so AutocompleteCreateItem can read it. */
+  searchTerm: Ref<string>
+  /** True when the search term exactly matches an existing option (case-insensitive). */
+  hasExactMatch: ComputedRef<boolean>
+  /** Add the typed term as a new value. Handles both single and multiple mode. */
+  onCreateValue: (value: string) => void
 }
 
 export const {

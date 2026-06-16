@@ -33,6 +33,8 @@ const props = withDefaults(defineProps<Props>(), {
 const emit = defineEmits<{
   'update:modelValue': [value: string | string[]]
   'update:open': [value: boolean]
+  /** Fired when the user creates a new value via `creatable` or `<AutocompleteCreateItem>`. */
+  'create': [value: string]
 }>()
 
 export interface AutocompleteItem {
@@ -158,6 +160,14 @@ let selectingItem = false
 const isOpen = ref(props.defaultOpen ?? false)
 const termAtOpen = ref('')
 const isUserTyping = ref(false)
+// Controlled open state for single mode (mirrors multiple mode's internalOpen).
+// Driving open ourselves lets handleOpenChange gate spurious reopens — e.g. the
+// focus bounce caused when a create handler mutates the items list.
+const singleOpen = ref(props.open ?? props.defaultOpen ?? false)
+// When true, handleOpenChange ignores open=true requests. Set briefly after a
+// single-mode create so the post-create re-render can't reopen the menu.
+let blockReopen = false
+let blockReopenTimer: ReturnType<typeof setTimeout> | undefined
 const effectiveIgnoreFilter = computed(() => {
   if (props.loadItems) return true
   if (!props.filterOnOpen && isOpen.value && !isUserTyping.value) return true
@@ -225,6 +235,11 @@ watch(() => props.modelValue, (val) => {
   }
 })
 
+// Parent → internal: sync consumer-controlled open into our single-mode state
+watch(() => props.open, (val) => {
+  if (!props.multiple && val !== undefined) singleOpen.value = val
+})
+
 // Internal → parent: single mode only — multiple mode emits inside onMultipleSelect
 watch(searchTerm, (displayed) => {
   if (props.multiple) {
@@ -237,9 +252,8 @@ watch(searchTerm, (displayed) => {
 })
 
 function handleOpenChange(val: boolean) {
-  isOpen.value = val
-
   if (props.multiple) {
+    isOpen.value = val
     // Suppress close when triggered by item selection; allow Escape/outside-click
     internalOpen.value = (!val && selectingItem) ? true : val
     selectingItem = false
@@ -249,6 +263,13 @@ function handleOpenChange(val: boolean) {
     return
   }
 
+  // Single mode: ignore spurious reopen requests right after a create — the
+  // create handler's re-render bounces focus back to the input, which would
+  // otherwise reopen the menu via openOnFocus.
+  if (val && blockReopen) return
+
+  isOpen.value = val
+  singleOpen.value = val
   if (val) { termAtOpen.value = searchTerm.value; isUserTyping.value = false }
   else { isUserTyping.value = false }
   emit('update:open', val)
@@ -262,7 +283,10 @@ function onMultipleSelect(value: string) {
   selectedValues.value = idx === -1
     ? [...selectedValues.value, value]
     : selectedValues.value.filter((_, i) => i !== idx)
+  // Clear the input and drop out of "typing" mode so the filter is ignored and
+  // the full list shows again (effectiveIgnoreFilter depends on !isUserTyping).
   searchTerm.value = ''
+  isUserTyping.value = false
   emit('update:modelValue', selectedValues.value)
 }
 
@@ -278,6 +302,50 @@ function clearAll() {
 
 function isSelected(value: string): boolean {
   return selectedValues.value.includes(value)
+}
+
+// ── Creatable ──────────────────────────────────────────────────────────────
+
+const hasExactMatch = computed(() => {
+  const term = searchTerm.value.trim().toLowerCase()
+  if (!term) return false
+  const inItems = internalItems.value.some(
+    i => (i.label ?? i.textValue ?? i.value).toLowerCase() === term,
+  )
+  if (inItems) return true
+  for (const label of slotItemRegistry.value.values()) {
+    if (label.toLowerCase() === term) return true
+  }
+  return false
+})
+
+function onCreateValue(value: string) {
+  const trimmed = value.trim()
+  if (!trimmed) return
+  if (props.multiple) {
+    // We own selection state; add the value, then reset input + filter for the
+    // next entry (dropdown is kept open and refocused by AutocompleteCreateItem).
+    if (!selectedValues.value.includes(trimmed)) {
+      selectingItem = true
+      selectedValues.value = [...selectedValues.value, trimmed]
+      emit('update:modelValue', selectedValues.value)
+    }
+    searchTerm.value = ''
+    isUserTyping.value = false
+  } else {
+    // Single mode: set the value ourselves and close the (controlled) dropdown.
+    searchTerm.value = trimmed
+    emit('update:modelValue', trimmed)
+    isOpen.value = false
+    singleOpen.value = false
+    // The create handler (parent @create) typically mutates the items list, which
+    // re-renders and bounces focus back to the input — that fires openOnFocus and
+    // would reopen the menu. Block reopen requests briefly so the close sticks.
+    blockReopen = true
+    clearTimeout(blockReopenTimer)
+    blockReopenTimer = setTimeout(() => { blockReopen = false }, 300)
+  }
+  emit('create', trimmed)
 }
 
 // ── Async loading ──────────────────────────────────────────────────────────
@@ -377,6 +445,9 @@ useAutocompleteProvide({
   isSelected,
   registerItem,
   unregisterItem,
+  searchTerm,
+  hasExactMatch,
+  onCreateValue,
 })
 </script>
 
@@ -402,8 +473,7 @@ useAutocompleteProvide({
     <div :class="slotFns.mainWrapper()">
       <AutocompleteRoot
         v-model:model-value="searchTerm"
-        :open="props.multiple ? internalOpen : props.open"
-        :default-open="props.multiple ? undefined : props.defaultOpen"
+        :open="props.multiple ? internalOpen : singleOpen"
         :disabled="props.isDisabled"
         :required="props.isRequired"
         :ignore-filter="effectiveIgnoreFilter"

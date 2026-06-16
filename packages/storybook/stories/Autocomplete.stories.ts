@@ -5,6 +5,7 @@ import {
   AutocompleteInput,
   AutocompleteContent,
   AutocompleteItem,
+  AutocompleteCreateItem,
 } from "@auronui/vue";
 
 const meta: Meta<typeof Autocomplete> = {
@@ -1037,6 +1038,94 @@ export const MultipleCollapse: Story = {
             <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
               {{ f.label }}
             </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+/* ─── Creatable ───────────────────────────────────────────────────────────── */
+
+export const CreatableComponent: Story = {
+  name: "Creatable — AutocompleteCreateItem compound component",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem, AutocompleteCreateItem },
+    setup() {
+      const selected = ref("");
+      const items = ref([
+        { value: "react", label: "React" },
+        { value: "vue", label: "Vue" },
+        { value: "svelte", label: "Svelte" },
+      ]);
+      function onCreate(value: string) {
+        items.value = [...items.value, { value, label: value }];
+        selected.value = value;
+      }
+      return { args, selected, items, onCreate };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <Autocomplete
+          v-bind="args"
+          v-model="selected"
+          :items="items"
+          label="Framework"
+          variant="bordered"
+          @create="onCreate"
+        >
+          <AutocompleteInput placeholder="Search or create..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="i in items" :key="i.value" :value="i.value">
+              {{ i.label }}
+            </AutocompleteItem>
+            <AutocompleteCreateItem>
+              <template #default="{ term }">
+                ✦ New framework: {{ term }}
+              </template>
+            </AutocompleteCreateItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+export const CreatableMultiple: Story = {
+  name: "Creatable — multiple mode",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem, AutocompleteCreateItem },
+    setup() {
+      const selected = ref<string[]>([]);
+      const items = ref([
+        { value: "react", label: "React" },
+        { value: "vue", label: "Vue" },
+        { value: "svelte", label: "Svelte" },
+      ]);
+      function onCreate(value: string) {
+        items.value = [...items.value, { value, label: value }];
+      }
+      return { args, selected, items, onCreate };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+        <Autocomplete
+          v-bind="args"
+          v-model="selected"
+          :multiple="true"
+          :items="items"
+          label="Frameworks"
+          variant="bordered"
+          @create="onCreate"
+        >
+          <AutocompleteInput placeholder="Search or create..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="i in items" :key="i.value" :value="i.value">
+              {{ i.label }}
+            </AutocompleteItem>
+            <AutocompleteCreateItem />
           </AutocompleteContent>
         </Autocomplete>
         <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
