@@ -48,8 +48,8 @@ export type { KbdVariants } from './components/kbd'
 export { Badge } from './components/badge'
 export type { BadgeVariants } from './components/badge'
 
-export { Chip } from './components/chip'
-export type { ChipVariants } from './components/chip'
+export { Chip, Chip as Tag } from './components/chip'
+export type { ChipVariants, ChipVariants as TagVariants } from './components/chip'
 
 export { Surface, useSurfaceInject, surfaceContextKey } from './components/surface'
 export type { SurfaceContext, SurfaceVariants } from './components/surface'
@@ -257,12 +257,6 @@ export {
 } from './components/autocomplete'
 export type { AutocompleteContext, AutocompleteVariants, AutocompleteItemData } from './components/autocomplete'
 
-// Phase 7 — Selection: TagGroup (SEL-07) + Tag (SEL-08)
-export { TagGroup, TagGroupInput, tagGroupContextKey, useTagGroupProvide, useTagGroupInject } from './components/tag-group'
-export type { TagGroupContext, TagGroupVariants } from './components/tag-group'
-
-export { Tag, TagText, TagDelete } from './components/tag'
-export type { TagVariants } from './components/tag'
 
 // Phase 8 — Pagination
 export {
