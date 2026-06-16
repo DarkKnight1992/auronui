@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SelectValue } from 'reka-ui'
 import { useSelectInject } from './Select.context'
+import SelectOverflowChips from './SelectOverflowChips.vue'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -20,15 +21,24 @@ const ctx = useSelectInject()
     data-slot="value"
   >
     <template #default="{ selectedLabel, modelValue }">
+      <!-- Multiple mode: chips with overflow truncation -->
+      <template v-if="ctx.multiple.value && Array.isArray(modelValue) && modelValue.length > 0">
+        <SelectOverflowChips
+          :values="(modelValue as string[])"
+          :get-label="ctx.itemLabel"
+        />
+      </template>
+      <!-- Multiple mode: nothing selected yet -->
+      <template v-else-if="ctx.multiple.value">
+        {{ props.placeholder }}
+      </template>
       <!--
-        Label resolution order:
+        Single mode label resolution:
         1. Reka's native selectedLabel — populated via optionsSet once items mount
-           (works after first open, and in real browsers via DocumentFragment path)
-        2. itemRegistry label — populated at setup time for items with explicit
-           textValue prop, or at onMounted for slot-text items after first open
+        2. itemRegistry label — populated at setup time for items with explicit textValue
         3. Placeholder when no value is selected
       -->
-      <template v-if="selectedLabel && selectedLabel.length > 0">
+      <template v-else-if="selectedLabel && selectedLabel.length > 0">
         {{ selectedLabel.join(', ') }}
       </template>
       <template v-else-if="modelValue != null && (Array.isArray(modelValue) ? modelValue.length > 0 : modelValue !== '')">

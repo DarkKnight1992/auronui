@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<Props>(), {
   isDisabled: false,
   isReadonly: false,
   isRequired: false,
+  multiple: false,
   modelValue: undefined,
   defaultValue: undefined,
   open: undefined,
@@ -24,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string]
+  'update:modelValue': [value: string | string[]]
   'update:open': [value: boolean]
 }>()
 
@@ -68,9 +69,11 @@ type Props = {
 
   /* ─── Select-specific ─────────────────────────────────────── */
   /** Two-way bound selected value. */
-  modelValue?: string
+  modelValue?: string | string[]
   /** Initial selected value (uncontrolled). */
-  defaultValue?: string
+  defaultValue?: string | string[]
+  /** Allow selecting multiple values. modelValue becomes string[]. @default false */
+  multiple?: boolean
   /** Controls open state of the dropdown. */
   open?: boolean
   /** Initial open state of the dropdown (uncontrolled). */
@@ -128,6 +131,11 @@ const itemLabel = (value: string | string[] | undefined | null): string => {
   return itemRegistry.get(value) ?? value
 }
 
+function removeValue(value: string) {
+  const current = Array.isArray(props.modelValue) ? props.modelValue : []
+  emit('update:modelValue', current.filter(v => v !== value))
+}
+
 useSelectProvide({
   isDisabled: toRef(props, 'isDisabled'),
   isInvalid: toRef(props, 'isInvalid'),
@@ -140,8 +148,10 @@ useSelectProvide({
   label: toRef(props, 'label'),
   ariaDescribedBy,
   slots: slotFns,
+  multiple: toRef(props, 'multiple'),
   registerItem,
   itemLabel,
+  removeValue,
 })
 </script>
 
@@ -168,12 +178,13 @@ useSelectProvide({
       <SelectRoot
         :model-value="props.modelValue"
         :default-value="props.defaultValue"
+        :multiple="props.multiple"
         :open="props.open"
         :default-open="props.defaultOpen"
         :disabled="props.isDisabled"
         :required="props.isRequired"
         :name="props.name"
-        @update:model-value="emit('update:modelValue', $event as string)"
+        @update:model-value="emit('update:modelValue', $event as string | string[])"
         @update:open="emit('update:open', $event)"
       >
         <slot />

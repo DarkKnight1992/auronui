@@ -14,6 +14,7 @@ export interface SelectContext {
   label: Ref<string | undefined>
   ariaDescribedBy: Ref<string | undefined>
   slots: ComputedRef<ReturnType<typeof selectVariants>>
+  multiple: Ref<boolean>
   /**
    * Persistent registry of item value → display label. SelectItem registers
    * once on first mount and never unregisters — survives SelectContent
@@ -22,6 +23,7 @@ export interface SelectContext {
    */
   registerItem: (value: string, label: string) => void
   itemLabel: (value: string | string[] | undefined | null) => string
+  removeValue: (value: string) => void
 }
 
 export const {

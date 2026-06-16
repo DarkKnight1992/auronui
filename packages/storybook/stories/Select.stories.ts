@@ -593,3 +593,57 @@ export const InsideModal: Story = {
     `,
   }),
 };
+
+/* ─── Multiple selection ──────────────────────────────────────────────────── */
+
+export const Multiple: Story = {
+  name: "Multiple selection",
+  render: (args) => ({
+    components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
+    setup() {
+      const selected = ref<string[]>([]);
+      return { args, selected, items: allFruits };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px;">
+        <Select v-bind="args" v-model="selected" :multiple="true" label="Favourite fruits">
+          <SelectTrigger>
+            <SelectValue placeholder="Pick one or more fruits" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">
+              {{ item.label }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+export const MultipleWithInitialValues: Story = {
+  name: "Multiple — pre-selected values",
+  render: (args) => ({
+    components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
+    setup() {
+      const selected = ref<string[]>(["apple", "cherry", "grape"]);
+      return { args, selected, items: allFruits };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px;">
+        <Select v-bind="args" v-model="selected" :multiple="true" label="Favourite fruits" variant="bordered">
+          <SelectTrigger>
+            <SelectValue placeholder="Pick one or more fruits" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">
+              {{ item.label }}
+            </SelectItem>
+          </SelectContent>
+        </Select>
+        <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
