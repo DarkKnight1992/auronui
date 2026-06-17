@@ -4,3 +4,4 @@ export { mapPropsVariants } from "./mapPropsVariants";
 export { dataAttr } from "./dataAttr";
 export { createContext } from "./context";
 export { motion, AnimatePresence } from "./motion";
+export { hasSlotComponent } from "./hasSlotComponent";
