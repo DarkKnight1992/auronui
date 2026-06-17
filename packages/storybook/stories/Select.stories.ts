@@ -88,24 +88,27 @@ export const Playground: Story = {
     errorMessage: "Please select a valid option.",
   },
   render: (args) => ({
-    components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
+    components: { Select },
     setup: () => ({ args, items: allFruits }),
     template: `
       <div style="max-width:360px">
-        <Select v-bind="args">
-          <SelectTrigger>
-            <SelectValue :placeholder="args.placeholder" />
-          </SelectTrigger>
-          <SelectContent>
-            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
-          </SelectContent>
-        </Select>
+        <Select v-bind="args" :items="items" :placeholder="args.placeholder" />
       </div>
     `,
   }),
 };
 
 export const Default: Story = {
+  render: (args) => ({
+    components: { Select },
+    setup: () => ({ args, items: allFruits }),
+    template: `
+      <Select v-bind="args" label="Favorite Fruit" placeholder="Pick a fruit" :items="items" />
+    `,
+  }),
+};
+
+export const AdvancedComposition: Story = {
   render: (args) => ({
     components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
     setup: () => ({ args, items: allFruits }),
@@ -115,7 +118,7 @@ export const Default: Story = {
           <SelectValue placeholder="Pick a fruit" />
         </SelectTrigger>
         <SelectContent>
-          <SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem>
+          <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
         </SelectContent>
       </Select>
     `,
