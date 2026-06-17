@@ -100,19 +100,11 @@ export const Playground: Story = {
     errorMessage: "Please select a valid option.",
   },
   render: (args) => ({
-    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+    components: { Autocomplete },
     setup: () => ({ args, items: allFruits }),
     template: `
       <div style="max-width:360px">
-        <Autocomplete v-bind="args" :items="items" aria-label="Playground autocomplete">
-          <AutocompleteInput :placeholder="args.placeholder" />
-          <AutocompleteContent>
-            <AutocompleteItem
-              v-for="item in items" :key="item.value"
-              :value="item.value"
-            >{{ item.label }}</AutocompleteItem>
-          </AutocompleteContent>
-        </Autocomplete>
+        <Autocomplete v-bind="args" :items="items" :placeholder="args.placeholder" aria-label="Playground autocomplete" />
       </div>
     `,
   }),
@@ -120,20 +112,23 @@ export const Playground: Story = {
 
 export const Default: Story = {
   render: (args) => ({
+    components: { Autocomplete },
+    setup: () => ({ args, items: allFruits }),
+    template: `
+      <Autocomplete v-bind="args" :items="items" label="Favorite Fruit" placeholder="Search fruits..." aria-label="Fruit autocomplete" />
+    `,
+  }),
+};
+
+export const AdvancedComposition: Story = {
+  render: (args) => ({
     components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
     setup: () => ({ args, items: allFruits }),
     template: `
       <Autocomplete v-bind="args" :items="items" label="Favorite Fruit" aria-label="Fruit autocomplete">
         <AutocompleteInput placeholder="Search fruits..." />
         <AutocompleteContent>
-          <AutocompleteItem
-            v-for="item in items"
-            :key="item.value"
-            :value="item.value"
-            
-          >
-            {{ item.label }}
-          </AutocompleteItem>
+          <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
         </AutocompleteContent>
       </Autocomplete>
     `,
