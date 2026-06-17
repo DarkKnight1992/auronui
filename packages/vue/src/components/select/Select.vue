@@ -224,7 +224,7 @@ useSelectProvide({
               v-for="item in props.items"
               :key="item.value"
               :value="item.value"
-              :text-value="item.textValue"
+              :text-value="item.textValue ?? item.label"
               :is-disabled="item.isDisabled"
             >
               <slot

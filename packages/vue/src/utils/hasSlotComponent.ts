@@ -1,4 +1,4 @@
-import { Fragment, type VNode } from "vue";
+import { Fragment, type VNode } from 'vue'
 
 /**
  * Returns true if any vnode in `nodes` has a `type` referentially equal to one
@@ -14,12 +14,12 @@ export function hasSlotComponent(
   nodes: VNode[] | undefined,
   components: unknown[],
 ): boolean {
-  if (!nodes) return false;
+  if (!nodes) return false
   for (const node of nodes) {
-    if (components.includes(node.type)) return true;
+    if (components.includes(node.type)) return true
     if (node.type === Fragment && Array.isArray(node.children)) {
-      if (hasSlotComponent(node.children as VNode[], components)) return true;
+      if (hasSlotComponent(node.children as VNode[], components)) return true
     }
   }
-  return false;
+  return false
 }

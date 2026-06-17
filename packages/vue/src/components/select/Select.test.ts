@@ -395,6 +395,24 @@ describe('Select — terse API (items prop / bare children)', () => {
     expect(wrapper.text()).toContain('Pick a fruit')
     wrapper.unmount()
   })
+
+  it('Test 25: terse items-prop shows the selected label while closed (pre-set value)', async () => {
+    const Wrapper = makeWrapper(
+      `<Select model-value="banana" label="Fruit" placeholder="Pick" :items="items" />`,
+      undefined,
+      () => ({
+        items: [
+          { value: 'apple', label: 'Apple' },
+          { value: 'banana', label: 'Banana' },
+        ],
+      }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.text()).toContain('Banana')
+    wrapper.unmount()
+  })
 })
 
 describe('Select — accessibility (axe)', () => {
