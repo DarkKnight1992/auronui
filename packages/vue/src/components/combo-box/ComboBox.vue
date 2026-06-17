@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { computed, ref, toRef, useId, watch } from 'vue'
+import { computed, ref, toRef, useId, useSlots, watch } from 'vue'
 import { ComboboxRoot } from 'reka-ui'
 import { comboBoxVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useComboBoxProvide } from './ComboBox.context'
+import { hasSlotComponent } from '../../utils/hasSlotComponent'
+import ComboBoxInput from './ComboBoxInput.vue'
+import ComboBoxContent from './ComboBoxContent.vue'
+import ComboBoxItem from './ComboBoxItem.vue'
 
 export interface ComboBoxItem {
   value: string
@@ -55,6 +59,13 @@ const emit = defineEmits<{
 }>()
 
 const labelId = useId()
+
+const slots = useSlots()
+// Compound chrome present → pass slot through (advanced). Otherwise render the
+// input/content/items internally (short-form).
+const usesCustomChrome = computed(() =>
+  hasSlotComponent(slots.default?.(), [ComboBoxInput, ComboBoxContent]),
+)
 
 const slotFns = computed(() =>
   comboBoxVariants({
@@ -176,7 +187,23 @@ useComboBoxProvide({
       @update:model-value="handleModelValueUpdate($event)"
       @update:open="emit('update:open', $event)"
     >
-      <slot />
+      <slot v-if="usesCustomChrome" />
+      <template v-else>
+        <ComboBoxInput :placeholder="props.placeholder" />
+        <ComboBoxContent>
+          <ComboBoxItem
+            v-for="item in props.items"
+            :key="item.value"
+            :value="item.value"
+            :is-disabled="item.isDisabled"
+          >
+            <slot
+              name="item"
+              :item="item"
+            >{{ item.label ?? item.textValue ?? item.value }}</slot>
+          </ComboBoxItem>
+        </ComboBoxContent>
+      </template>
     </ComboboxRoot>
 
     <div

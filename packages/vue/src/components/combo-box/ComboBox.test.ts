@@ -207,3 +207,84 @@ describe('ComboBox', () => {
     expect(results).toHaveNoViolations()
   })
 })
+
+describe('ComboBox — short-form (items prop, no manual chrome)', () => {
+  it('renders an input without manual ComboBoxInput/Content', async () => {
+    const wrapper = mount({
+      components: { ComboBox },
+      setup: () => ({ items }),
+      template: `<ComboBox label="Fruit" placeholder="Pick" :items="items" aria-label="Fruit picker" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    expect(wrapper.find('input').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('renders option items from the items prop when open', async () => {
+    const wrapper = mount({
+      components: { ComboBox },
+      setup: () => ({ items }),
+      template: `<ComboBox :open="true" label="Fruit" placeholder="Pick" :items="items" aria-label="Fruit picker" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(items.length)
+    const texts = Array.from(options).map(o => (o as HTMLElement).textContent ?? '')
+    expect(texts.some(t => t.includes('Apple'))).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('#item slot customizes rendering', async () => {
+    const wrapper = mount({
+      components: { ComboBox },
+      setup: () => ({ items }),
+      template: `
+        <ComboBox :open="true" label="Fruit" placeholder="Pick" :items="items" aria-label="Fruit picker">
+          <template #item="{ item }"><span>★ {{ item.label }}</span></template>
+        </ComboBox>
+      `,
+    }, { attachTo: document.body })
+    await nextTick()
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(items.length)
+    expect((options[0] as HTMLElement).textContent).toContain('★')
+    wrapper.unmount()
+  })
+
+  it('short-form passes axe (closed)', async () => {
+    const wrapper = mount({
+      components: { ComboBox },
+      setup: () => ({ items }),
+      template: `<ComboBox label="Fruit" placeholder="Pick" :items="items" aria-label="Fruit picker" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    const results = await axe.run(wrapper.element, {
+      rules: { 'aria-required-attr': { enabled: false } },
+    })
+    if (results.violations.length > 0) {
+      console.log('AXE (combobox short closed):', JSON.stringify(results.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.html) })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
+
+  it('short-form passes axe (open)', async () => {
+    const wrapper = mount({
+      components: { ComboBox },
+      setup: () => ({ items }),
+      template: `<ComboBox :open="true" label="Fruit" placeholder="Pick" :items="items" aria-label="Fruit picker" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    await nextTick()
+    const results = await axe.run(wrapper.element, {
+      rules: { 'aria-required-attr': { enabled: false } },
+    })
+    if (results.violations.length > 0) {
+      console.log('AXE (combobox short open):', JSON.stringify(results.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.html) })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
+})
