@@ -172,7 +172,7 @@ export const DropdownOverflow: Story = {
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup() { return { args } },
     template: `
-      <div style="width: 400px; border: 1px dashed #ccc; padding: 8px; border-radius: 8px;">
+      <div style="width: 390px; border: 1px dashed #ccc; padding: 8px; border-radius: 8px;">
         <Tabs :default-value="args.defaultValue" :variant="args.variant" :orientation="args.orientation">
           <TabList :overflow="args.overflow">
             <Tab value="one">Overview</Tab>

@@ -54,15 +54,11 @@ interface OverflowTab {
 }
 
 const containerEl = useTemplateRef<HTMLElement>('containerEl')
-// Button component ref — use .$el to reach the underlying DOM element for offsetWidth
-const moreBtnEl = useTemplateRef<InstanceType<typeof Button>>('moreBtnEl')
 const dropdownEl = useTemplateRef<HTMLElement>('dropdownEl')
 
 const hiddenTabs = ref<OverflowTab[]>([])
 const dropdownOpen = ref(false)
 const hasOverflow = computed(() => hiddenTabs.value.length > 0)
-// Pre-measured natural width of the more button (measured once on mount before it's visible)
-let moreBtnNaturalWidth = 48
 
 onClickOutside(dropdownEl, () => { dropdownOpen.value = false })
 
@@ -87,7 +83,26 @@ function computeOverflow() {
     void listEl.offsetWidth // force reflow so offsetWidth reads below are accurate
   }
 
-  const containerWidth = containerEl.value.clientWidth
+  // Measure the more button's real width by temporarily revealing its wrapper.
+  // The wrapper is display:none when there's no overflow, so we can't rely on a
+  // pre-measured value — measure it here while the (always-visible) container holds it.
+  let moreWidth = 0
+  const moreEl = dropdownEl.value
+  if (moreEl) {
+    const prevDisplay = moreEl.style.display
+    moreEl.style.display = 'flex'
+    void moreEl.offsetWidth
+    moreWidth = moreEl.offsetWidth
+    moreEl.style.display = prevDisplay
+  }
+
+  // clientWidth includes the container's horizontal padding; the flex children only
+  // get the content box. Subtract padding so measurements compare against real space.
+  const cs = getComputedStyle(containerEl.value)
+  const padX = parseFloat(cs.paddingLeft) + parseFloat(cs.paddingRight)
+  const gap = parseFloat(cs.columnGap) || 0
+  const contentWidth = containerEl.value.clientWidth - padX
+
   const tabWidths = allTabs.map(t => t.offsetWidth)
   const totalWidth = tabWidths.reduce((sum, w) => sum + w, 0)
 
@@ -97,15 +112,15 @@ function computeOverflow() {
     allTabs.forEach(t => { t.style.flexShrink = ''; t.style.width = '' })
   }
 
-  if (totalWidth <= containerWidth) {
+  if (totalWidth <= contentWidth) {
     hiddenTabs.value = []
     return
   }
 
-  // More button is in-flow (display:none when no overflow, display:flex when visible).
-  // Use the pre-measured natural width so the calculation is accurate on the first run
-  // before the button becomes visible.
-  const available = containerWidth - moreBtnNaturalWidth
+  // When the more button is shown it sits beside the clipped list, separated by `gap`.
+  // Reserve its width + the gap (+1px sub-pixel safety) so the last visible tab can
+  // never extend under the button.
+  const available = contentWidth - moreWidth - gap - 1
 
   let accumulated = 0
   const newHidden: OverflowTab[] = []
@@ -156,15 +171,6 @@ function computeOverflow() {
 
 useResizeObserver(containerEl, () => nextTick(computeOverflow))
 onMounted(() => {
-  // Pre-measure the more button's natural width before it becomes visible (display:none).
-  // Temporarily show it, read offsetWidth, then hide again — happens before first paint.
-  const btnEl = (moreBtnEl.value as InstanceType<typeof Button> | null)?.$el as HTMLElement | null
-  if (btnEl) {
-    btnEl.style.display = 'flex'
-    void btnEl.offsetWidth
-    moreBtnNaturalWidth = btnEl.offsetWidth
-    btnEl.style.display = ''
-  }
   nextTick(computeOverflow)
 })
 
@@ -173,8 +179,9 @@ watch(() => ctx.currentValue.value, () => {
   if (props.overflow === 'dropdown') nextTick(computeOverflow)
 })
 
-// When overflow state first transitions false→true the more button enters the flex flow,
-// narrowing the container. Re-run once so the tab count reflects the reduced available space.
+// Safety re-check when overflow toggles. computeOverflow already reserves the more
+// button's width up front, so this is idempotent — it just guards against layout
+// settling (e.g. a scrollbar appearing) on the false→true transition.
 watch(hasOverflow, () => {
   if (props.overflow === 'dropdown') nextTick(computeOverflow)
 })
@@ -261,7 +268,6 @@ function selectOverflowTab(value: string) {
       :class="{ 'tabs__more--visible': hasOverflow }"
     >
       <Button
-        ref="moreBtnEl"
         variant="secondary"
         size="sm"
         radius="full"
