@@ -59,21 +59,25 @@ const disabledFruits = [
 
 export const Default: Story = {
   render: (args) => ({
-    components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
+    components: { ComboBox },
     setup: () => ({ args, items: fruits }),
     template: `
-      <ComboBox v-bind="args" :items="items" label="Favorite Fruit" aria-label="Favorite fruit picker">
-        <ComboBoxInput placeholder="Search a fruit..." />
+      <div style="max-width:360px">
+        <ComboBox v-bind="args" :items="items" :placeholder="args.placeholder" aria-label="Playground combobox" />
+      </div>
+    `,
+  }),
+};
+
+export const AdvancedComposition: Story = {
+  render: (args) => ({
+    components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem },
+    setup: () => ({ args, items: fruits }),
+    template: `
+      <ComboBox v-bind="args" :items="items" label="Favorite Fruit" aria-label="Fruit picker">
+        <ComboBoxInput placeholder="Select a fruit..." />
         <ComboBoxContent>
-          <ComboBoxItem
-            v-for="item in items"
-            :key="item.value"
-            :value="item.value"
-            
-          >
-            {{ item.label }}
-          </ComboBoxItem>
-          <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+          <ComboBoxItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</ComboBoxItem>
         </ComboBoxContent>
       </ComboBox>
     `,
