@@ -3,7 +3,7 @@ import { computed, reactive, toRef, useAttrs, useId } from 'vue'
 import { SelectRoot } from 'reka-ui'
 import { selectVariants, type SelectVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
-import { useSelectProvide } from './Select.context'
+import { useSelectProvide, type SelectItemValue } from './Select.context'
 
 defineOptions({ inheritAttrs: false })
 
@@ -25,7 +25,7 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: string | string[]]
+  'update:modelValue': [value: SelectItemValue | SelectItemValue[]]
   'update:open': [value: boolean]
 }>()
 
@@ -68,10 +68,10 @@ type Props = {
   class?: string
 
   /* ─── Select-specific ─────────────────────────────────────── */
-  /** Two-way bound selected value. */
-  modelValue?: string | string[]
-  /** Initial selected value (uncontrolled). */
-  defaultValue?: string | string[]
+  /** Two-way bound selected value. Accepts string or numeric keys. */
+  modelValue?: SelectItemValue | SelectItemValue[]
+  /** Initial selected value (uncontrolled). Accepts string or numeric keys. */
+  defaultValue?: SelectItemValue | SelectItemValue[]
   /** Allow selecting multiple values. modelValue becomes string[]. @default false */
   multiple?: boolean
   /** Controls open state of the dropdown. */
@@ -119,19 +119,25 @@ const showOutsideLabel = computed(
 // Persistent item registry. SelectItem populates on first mount; entries
 // survive SelectContent unmount so SelectValue can render the label while
 // the popover is closed.
-const itemRegistry = reactive(new Map<string, string>())
-const registerItem = (value: string, label: string) => {
+const itemRegistry = reactive(new Map<SelectItemValue, string>())
+const registerItem = (value: SelectItemValue, label: string) => {
   itemRegistry.set(value, label)
 }
-const itemLabel = (value: string | string[] | undefined | null): string => {
+const itemLabel = (value: SelectItemValue | SelectItemValue[] | undefined | null): string => {
   if (value == null) return ''
   if (Array.isArray(value)) {
-    return value.map(v => itemRegistry.get(v) ?? v).filter(Boolean).join(', ')
+    // Fall back to the stringified value (handles numeric keys) when no label is
+    // registered. Filter empty strings only — never use filter(Boolean), which
+    // would drop a registered label for the numeric key 0.
+    return value
+      .map(v => String(itemRegistry.get(v) ?? v))
+      .filter(s => s.length > 0)
+      .join(', ')
   }
-  return itemRegistry.get(value) ?? value
+  return itemRegistry.get(value) ?? String(value)
 }
 
-function removeValue(value: string) {
+function removeValue(value: SelectItemValue) {
   const current = Array.isArray(props.modelValue) ? props.modelValue : []
   emit('update:modelValue', current.filter(v => v !== value))
 }
@@ -184,7 +190,7 @@ useSelectProvide({
         :disabled="props.isDisabled"
         :required="props.isRequired"
         :name="props.name"
-        @update:model-value="emit('update:modelValue', $event as string | string[])"
+        @update:model-value="emit('update:modelValue', $event as SelectItemValue | SelectItemValue[])"
         @update:open="emit('update:open', $event)"
       >
         <slot />

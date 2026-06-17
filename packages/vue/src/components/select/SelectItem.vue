@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import { onMounted, useTemplateRef } from 'vue'
 import { SelectItem, SelectItemText, SelectItemIndicator } from 'reka-ui'
-import { useSelectInject } from './Select.context'
+import { useSelectInject, type SelectItemValue } from './Select.context'
 
 const props = withDefaults(defineProps<{
-  value: string
+  value: SelectItemValue
   /**
    * Explicit human-readable label for this item. When provided, the registry is
    * populated immediately at setup time (before the dropdown is ever opened),
@@ -36,7 +36,7 @@ onMounted(() => {
   // This refines the registry entry with actual DOM text (handles slot-text items
   // that don't have an explicit textValue prop).
   const el = (textRef.value as { $el?: HTMLElement } | null)?.$el
-  const label = props.textValue ?? el?.textContent?.trim() ?? props.value
+  const label = props.textValue ?? el?.textContent?.trim() ?? String(props.value)
   ctx.registerItem(props.value, label)
 })
 </script>
@@ -45,7 +45,7 @@ onMounted(() => {
   <SelectItem
     :value="props.value"
     :disabled="props.isDisabled"
-    :text-value="props.textValue ?? props.value"
+    :text-value="props.textValue ?? String(props.value)"
     class="list-box-item list-box-item--default"
     data-slot="list-box-item"
   >

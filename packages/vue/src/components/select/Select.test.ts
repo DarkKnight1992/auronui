@@ -222,6 +222,96 @@ describe('Select — label display', () => {
   })
 })
 
+describe('Select — numeric values', () => {
+  it('Test 14: renders numeric-value items with matching data-value when open', async () => {
+    const Wrapper = makeWrapper(`
+      <Select :open="true" label="Quantity">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem :value="1">One</SelectItem>
+          <SelectItem :value="2">Two</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(2)
+    const texts = Array.from(options).map(o => (o as HTMLElement).textContent ?? '')
+    expect(texts.some(t => t.includes('One'))).toBe(true)
+    expect(texts.some(t => t.includes('Two'))).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('Test 15: trigger shows item label for a pre-set numeric modelValue', async () => {
+    // textValue lets SelectItem register the label at setup time (before mount),
+    // so the trigger displays the correct label for a pre-set numeric value
+    // even though the dropdown has never been opened.
+    const Wrapper = makeWrapper(`
+      <Select :model-value="2" label="Quantity">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem :value="1" text-value="One">One</SelectItem>
+          <SelectItem :value="2" text-value="Two">Two</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.text()).toContain('Two')
+    wrapper.unmount()
+  })
+
+  it('Test 16: multiple-mode renders chip labels for a pre-set numeric array', async () => {
+    // Exercises the numeric path through SelectValue → SelectOverflowChips →
+    // itemLabel: a numeric modelValue[] must resolve to the registered labels.
+    const Wrapper = makeWrapper(`
+      <Select :multiple="true" :model-value="[1, 2]" label="Quantity">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem :value="1" text-value="One">One</SelectItem>
+          <SelectItem :value="2" text-value="Two">Two</SelectItem>
+          <SelectItem :value="3" text-value="Three">Three</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.text()).toContain('One')
+    expect(trigger.text()).toContain('Two')
+    wrapper.unmount()
+  })
+
+  it('Test 17: numeric key 0 with a registered label is not dropped by itemLabel', async () => {
+    // Guards the filter(Boolean) → filter(length) fix: the falsy numeric key 0
+    // must still resolve its label in multiple mode.
+    const Wrapper = makeWrapper(`
+      <Select :multiple="true" :model-value="[0]" label="Quantity">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem :value="0" text-value="Zero">Zero</SelectItem>
+          <SelectItem :value="1" text-value="One">One</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.text()).toContain('Zero')
+    wrapper.unmount()
+  })
+})
+
 describe('Select — accessibility (axe)', () => {
   it('Test 11: passes axe in closed state (zero violations)', async () => {
     const wrapper = mount(BasicSelect, { attachTo: document.body })

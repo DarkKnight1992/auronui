@@ -2,10 +2,11 @@
 import { ref, computed, nextTick, useTemplateRef, onMounted, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import Chip from '../chip/Chip.vue'
+import type { SelectItemValue } from './Select.context'
 
 const props = defineProps<{
-  values: string[]
-  getLabel: (value: string) => string
+  values: SelectItemValue[]
+  getLabel: (value: SelectItemValue) => string
 }>()
 
 const containerEl = useTemplateRef<HTMLElement>('container')

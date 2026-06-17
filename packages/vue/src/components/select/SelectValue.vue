@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { SelectValue } from 'reka-ui'
-import { useSelectInject } from './Select.context'
+import { useSelectInject, type SelectItemValue } from './Select.context'
 import SelectOverflowChips from './SelectOverflowChips.vue'
 
 const props = withDefaults(defineProps<{
@@ -24,7 +24,7 @@ const ctx = useSelectInject()
       <!-- Multiple mode: chips with overflow truncation -->
       <template v-if="ctx.multiple.value && Array.isArray(modelValue) && modelValue.length > 0">
         <SelectOverflowChips
-          :values="(modelValue as string[])"
+          :values="(modelValue as SelectItemValue[])"
           :get-label="ctx.itemLabel"
         />
       </template>
@@ -42,7 +42,7 @@ const ctx = useSelectInject()
         {{ selectedLabel.join(', ') }}
       </template>
       <template v-else-if="modelValue != null && (Array.isArray(modelValue) ? modelValue.length > 0 : modelValue !== '')">
-        {{ ctx.itemLabel(Array.isArray(modelValue) ? modelValue : modelValue.toString()) }}
+        {{ ctx.itemLabel(modelValue as SelectItemValue | SelectItemValue[]) }}
       </template>
       <template v-else>
         {{ props.placeholder }}

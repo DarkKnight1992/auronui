@@ -2,6 +2,14 @@ import { createContext } from '../../utils/context'
 import type { ComputedRef, Ref } from 'vue'
 import type { selectVariants } from '@auronui/styles'
 
+/**
+ * Acceptable value for a Select item / model. Numeric values are legitimate
+ * (e.g. entity IDs) and are preserved end-to-end — they are only coerced to a
+ * string where the underlying contract requires one (Reka `text-value`,
+ * registry display labels).
+ */
+export type SelectItemValue = string | number
+
 export interface SelectContext {
   isDisabled: Ref<boolean>
   isInvalid: Ref<boolean>
@@ -21,9 +29,9 @@ export interface SelectContext {
    * unmount so SelectValue can show the selected label while the popover
    * is closed (Reka clears its own optionsSet on unmount).
    */
-  registerItem: (value: string, label: string) => void
-  itemLabel: (value: string | string[] | undefined | null) => string
-  removeValue: (value: string) => void
+  registerItem: (value: SelectItemValue, label: string) => void
+  itemLabel: (value: SelectItemValue | SelectItemValue[] | undefined | null) => string
+  removeValue: (value: SelectItemValue) => void
 }
 
 export const {
