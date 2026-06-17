@@ -442,4 +442,50 @@ describe('Select — accessibility (axe)', () => {
     expect(results.violations).toHaveLength(0)
     wrapper.unmount()
   })
+
+  it('Test 23: terse items-prop Select passes axe (closed)', async () => {
+    const Wrapper = makeWrapper(
+      `<Select label="Fruit" placeholder="Pick" :items="items" />`,
+      undefined,
+      () => ({
+        items: [
+          { value: 'apple', label: 'Apple' },
+          { value: 'banana', label: 'Banana' },
+        ],
+      }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const results = await axe.run(wrapper.element)
+    if (results.violations.length > 0) {
+      console.log('AXE VIOLATIONS (terse closed):', JSON.stringify(results.violations.map(v => ({
+        id: v.id, description: v.description, nodes: v.nodes.map(n => n.html),
+      })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
+
+  it('Test 24: terse items-prop Select passes axe (open)', async () => {
+    const Wrapper = makeWrapper(
+      `<Select :open="true" label="Fruit" placeholder="Pick" :items="items" />`,
+      undefined,
+      () => ({
+        items: [
+          { value: 'apple', label: 'Apple' },
+          { value: 'banana', label: 'Banana' },
+        ],
+      }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const results = await axe.run(wrapper.element)
+    if (results.violations.length > 0) {
+      console.log('AXE VIOLATIONS (terse open):', JSON.stringify(results.violations.map(v => ({
+        id: v.id, description: v.description, nodes: v.nodes.map(n => n.html),
+      })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
 })
