@@ -262,7 +262,7 @@ describe('Autocomplete', () => {
     expect(wrapper.find('input').element.value).toBe('United States')
   })
 
-  it('axe: passes accessibility audit (closed state)', async () => {
+  it('axe: passes accessibility audit (closed state, compound chrome)', async () => {
     const wrapper = mount({
       components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
       template: `
@@ -273,7 +273,7 @@ describe('Autocomplete', () => {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -288,5 +288,91 @@ describe('Autocomplete', () => {
       rules: { 'aria-required-attr': { enabled: false } },
     })
     expect(results).toHaveNoViolations()
+  })
+})
+
+describe('Autocomplete — short-form (items prop, no manual chrome)', () => {
+  const items = [
+    { value: 'apple', label: 'Apple' },
+    { value: 'banana', label: 'Banana' },
+    { value: 'cherry', label: 'Cherry' },
+  ]
+
+  it('renders an input without manual AutocompleteInput/Content', async () => {
+    const wrapper = mount({
+      components: { Autocomplete },
+      setup: () => ({ items }),
+      template: `<Autocomplete label="Fruit" placeholder="Search" :items="items" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    expect(wrapper.find('input').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('renders option items from the items prop when open', async () => {
+    const wrapper = mount({
+      components: { Autocomplete },
+      setup: () => ({ items }),
+      template: `<Autocomplete :open="true" label="Fruit" placeholder="Search" :items="items" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(3)
+    const texts = Array.from(options).map(o => (o as HTMLElement).textContent ?? '')
+    expect(texts.some(t => t.includes('Apple'))).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('#item slot customizes rendering', async () => {
+    const wrapper = mount({
+      components: { Autocomplete },
+      setup: () => ({ items }),
+      template: `
+        <Autocomplete :open="true" label="Fruit" placeholder="Search" :items="items">
+          <template #item="{ item }"><span>★ {{ item.label }}</span></template>
+        </Autocomplete>
+      `,
+    }, { attachTo: document.body })
+    await nextTick()
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(3)
+    expect((options[0] as HTMLElement).textContent).toContain('★')
+    wrapper.unmount()
+  })
+
+  it('short-form passes axe (closed)', async () => {
+    const wrapper = mount({
+      components: { Autocomplete },
+      setup: () => ({ items }),
+      template: `<Autocomplete label="Fruit" placeholder="Search" :items="items" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    const results = await axe.run(wrapper.element)
+    if (results.violations.length > 0) {
+      console.log('AXE (autocomplete short closed):', JSON.stringify(results.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.html) })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
+
+  it('short-form passes axe (open)', async () => {
+    const wrapper = mount({
+      components: { Autocomplete },
+      setup: () => ({ items }),
+      template: `<Autocomplete :open="true" label="Fruit" placeholder="Search" :items="items" />`,
+    }, { attachTo: document.body })
+    await nextTick()
+    await nextTick()
+    // Same jsdom constraint as compound-chrome axe test: aria-controls="" in open state
+    const results = await axe.run(wrapper.element, {
+      rules: { 'aria-required-attr': { enabled: false } },
+    })
+    if (results.violations.length > 0) {
+      console.log('AXE (autocomplete short open):', JSON.stringify(results.violations.map(v => ({ id: v.id, nodes: v.nodes.map(n => n.html) })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
   })
 })

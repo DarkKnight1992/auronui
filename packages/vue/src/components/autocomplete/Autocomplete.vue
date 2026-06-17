@@ -1,9 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef, useAttrs, useId, watch } from 'vue'
+import { computed, onMounted, ref, toRef, useAttrs, useId, watch, useSlots } from 'vue'
 import { AutocompleteRoot } from 'reka-ui'
 import { autocompleteVariants, type AutocompleteVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useAutocompleteProvide } from './Autocomplete.context'
+import { hasSlotComponent } from '../../utils/hasSlotComponent'
+import AutocompleteInput from './AutocompleteInput.vue'
+import AutocompleteContent from './AutocompleteContent.vue'
+import AutocompleteItem from './AutocompleteItem.vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -121,6 +125,13 @@ const generatedId = useId()
 const inputId = computed(() => (attrs.id as string | undefined) ?? generatedId)
 
 const hasLabel = computed(() => !!props.label)
+
+const slots = useSlots()
+// Compound chrome present → pass slot through (advanced). Otherwise render the
+// input/content/items internally (short-form).
+const usesCustomChrome = computed(() =>
+  hasSlotComponent(slots.default?.(), [AutocompleteInput, AutocompleteContent]),
+)
 
 // Registry for slot-rendered items: value → label (populated by AutocompleteItem at mount).
 // Replaced with a new Map instance on each mutation so Vue's ref() reactivity tracks changes.
@@ -481,9 +492,26 @@ useAutocompleteProvide({
         @update:open="handleOpenChange"
       >
         <slot
+          v-if="usesCustomChrome"
           :is-loading="isLoading"
           :items="internalItems"
         />
+        <template v-else>
+          <AutocompleteInput :placeholder="props.placeholder" />
+          <AutocompleteContent>
+            <AutocompleteItem
+              v-for="item in internalItems"
+              :key="item.value"
+              :value="item.value"
+              :is-disabled="item.isDisabled"
+            >
+              <slot
+                name="item"
+                :item="item"
+              >{{ item.label ?? item.textValue ?? item.value }}</slot>
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </template>
       </AutocompleteRoot>
 
       <div
