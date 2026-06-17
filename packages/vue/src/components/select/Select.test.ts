@@ -312,6 +312,91 @@ describe('Select — numeric values', () => {
   })
 })
 
+describe('Select — terse API (items prop / bare children)', () => {
+  it('Test 18: renders options from the items prop without manual chrome', async () => {
+    const Wrapper = makeWrapper(
+      `<Select :open="true" label="Fruit" placeholder="Pick" :items="items" />`,
+      undefined,
+      () => ({
+        items: [
+          { value: 'apple', label: 'Apple' },
+          { value: 'banana', label: 'Banana' },
+        ],
+      }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(2)
+    const texts = Array.from(options).map(o => (o as HTMLElement).textContent ?? '')
+    expect(texts.some(t => t.includes('Apple'))).toBe(true)
+    expect(texts.some(t => t.includes('Banana'))).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('Test 19: items prop supports numeric values', async () => {
+    const Wrapper = makeWrapper(
+      `<Select :open="true" label="Qty" placeholder="Pick" :items="items" />`,
+      undefined,
+      () => ({
+        items: [
+          { value: 1, label: 'One' },
+          { value: 2, label: 'Two' },
+        ],
+      }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(2)
+    const texts = Array.from(options).map(o => (o as HTMLElement).textContent ?? '')
+    expect(texts.some(t => t.includes('One'))).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('Test 20: #item slot customizes rendering in data-driven mode', async () => {
+    const Wrapper = makeWrapper(
+      `<Select :open="true" label="Fruit" placeholder="Pick" :items="items">
+        <template #item="{ item }"><span>★ {{ item.label }}</span></template>
+      </Select>`,
+      undefined,
+      () => ({ items: [{ value: 'apple', label: 'Apple' }] }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(1)
+    expect((options[0] as HTMLElement).textContent).toContain('★')
+    wrapper.unmount()
+  })
+
+  it('Test 21: bare SelectItem children render without manual trigger/content', async () => {
+    const Wrapper = makeWrapper(`
+      <Select :open="true" label="Fruit" placeholder="Pick">
+        <SelectItem value="apple">Apple</SelectItem>
+        <SelectItem value="banana">Banana</SelectItem>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const options = document.querySelectorAll('[role="option"]')
+    expect(options.length).toBe(2)
+    wrapper.unmount()
+  })
+
+  it('Test 22: terse Select still shows a combobox trigger and placeholder', () => {
+    const Wrapper = makeWrapper(
+      `<Select label="Fruit" placeholder="Pick a fruit" :items="items" />`,
+      undefined,
+      () => ({ items: [{ value: 'apple', label: 'Apple' }] }),
+    )
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    expect(wrapper.find('button[role="combobox"]').exists()).toBe(true)
+    expect(wrapper.text()).toContain('Pick a fruit')
+    wrapper.unmount()
+  })
+})
+
 describe('Select — accessibility (axe)', () => {
   it('Test 11: passes axe in closed state (zero violations)', async () => {
     const wrapper = mount(BasicSelect, { attachTo: document.body })

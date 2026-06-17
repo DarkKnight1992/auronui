@@ -10,6 +10,18 @@ import type { selectVariants } from '@auronui/styles'
  */
 export type SelectItemValue = string | number
 
+/**
+ * Data-driven item shape for the terse `items` prop. `value` accepts numeric
+ * keys (see SelectItemValue). `label` is the display text (falls back to
+ * String(value)); `textValue` overrides the type-ahead / pre-set label.
+ */
+export interface SelectItemData {
+  value: SelectItemValue
+  label?: string
+  textValue?: string
+  isDisabled?: boolean
+}
+
 export interface SelectContext {
   isDisabled: Ref<boolean>
   isInvalid: Ref<boolean>

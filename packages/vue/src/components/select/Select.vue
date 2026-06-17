@@ -1,9 +1,14 @@
 <script setup lang="ts">
-import { computed, reactive, toRef, useAttrs, useId } from 'vue'
+import { computed, reactive, toRef, useAttrs, useId, useSlots } from 'vue'
 import { SelectRoot } from 'reka-ui'
 import { selectVariants, type SelectVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
-import { useSelectProvide, type SelectItemValue } from './Select.context'
+import { useSelectProvide, type SelectItemValue, type SelectItemData } from './Select.context'
+import { hasSlotComponent } from '../../utils/hasSlotComponent'
+import SelectTrigger from './SelectTrigger.vue'
+import SelectValue from './SelectValue.vue'
+import SelectContent from './SelectContent.vue'
+import SelectItem from './SelectItem.vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -22,6 +27,7 @@ const props = withDefaults(defineProps<Props>(), {
   defaultValue: undefined,
   open: undefined,
   defaultOpen: undefined,
+  items: () => [],
 })
 
 const emit = defineEmits<{
@@ -78,6 +84,12 @@ type Props = {
   open?: boolean
   /** Initial open state of the dropdown (uncontrolled). */
   defaultOpen?: boolean
+  /**
+   * Data-driven items for the terse API. When provided (and no SelectTrigger /
+   * SelectContent is passed as a child), the trigger, value, and popover are
+   * rendered internally. Use the `#item` slot to customize per-item rendering.
+   */
+  items?: SelectItemData[]
 }
 
 const attrs = useAttrs()
@@ -85,6 +97,13 @@ const generatedId = useId()
 const triggerId = computed(() => (attrs.id as string | undefined) ?? generatedId)
 
 const hasLabel = computed(() => !!props.label)
+
+const slots = useSlots()
+// Tier 3 (advanced): consumer supplied explicit compound chrome → pass through.
+// Tier 1/2 (terse): render trigger/value/content internally.
+const usesCustomChrome = computed(() =>
+  hasSlotComponent(slots.default?.(), [SelectTrigger, SelectContent]),
+)
 
 // Helper IDs / aria wiring
 const descriptionId = computed(() => `${triggerId.value}-description`)
@@ -193,7 +212,29 @@ useSelectProvide({
         @update:model-value="emit('update:modelValue', $event as SelectItemValue | SelectItemValue[])"
         @update:open="emit('update:open', $event)"
       >
-        <slot />
+        <!-- Tier 3: consumer-provided compound chrome -->
+        <slot v-if="usesCustomChrome" />
+        <!-- Tier 1/2: internally rendered chrome -->
+        <template v-else>
+          <SelectTrigger>
+            <SelectValue :placeholder="props.placeholder" />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectItem
+              v-for="item in props.items"
+              :key="item.value"
+              :value="item.value"
+              :text-value="item.textValue"
+              :is-disabled="item.isDisabled"
+            >
+              <slot
+                name="item"
+                :item="item"
+              >{{ item.label ?? String(item.value) }}</slot>
+            </SelectItem>
+            <slot />
+          </SelectContent>
+        </template>
       </SelectRoot>
 
       <div
