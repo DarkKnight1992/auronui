@@ -4,7 +4,14 @@ import { composeClassName } from '../../utils/composeClassName'
 import { useAccordionInject } from './accordion.context'
 import { motion } from '../../utils/motion'
 
-const props = defineProps<{ class?: string }>()
+const props = defineProps<{
+  class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    body: string
+    bodyInner: string
+  }>
+}>()
 const ctx = useAccordionInject()
 const rekaItem = injectAccordionItemContext()
 </script>
@@ -12,7 +19,7 @@ const rekaItem = injectAccordionItemContext()
 <template>
   <RekaAccordionContent
     :force-mount="true"
-    :class="composeClassName(ctx.slotFns.value.body(), props.class)"
+    :class="composeClassName(ctx.slotFns.value.body(), props.class, props.classNames?.body)"
   >
     <motion.div
       :initial="false"
@@ -20,7 +27,7 @@ const rekaItem = injectAccordionItemContext()
       :transition="{ duration: 0.2, ease: [0.4, 0, 0.2, 1] }"
       style="overflow: hidden;"
     >
-      <div :class="ctx.slotFns.value.bodyInner()">
+      <div :class="composeClassName(ctx.slotFns.value.bodyInner(), props.classNames?.bodyInner)">
         <slot />
       </div>
     </motion.div>

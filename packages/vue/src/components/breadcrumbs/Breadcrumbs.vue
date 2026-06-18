@@ -7,6 +7,11 @@ import { useBreadcrumbsProvide } from './breadcrumbs.context'
 const props = withDefaults(defineProps<{
   maxItems?: number
   class?: string
+  /** Override classes on any named slot. */
+  classNames?: Partial<{
+    base: string
+    item: string
+  }>
 }>(), {})
 
 const slots = defineSlots<{
@@ -41,7 +46,7 @@ const renderedChildren = computed(() => {
     const last = items.slice(items.length - (max - 2))
     const ellipsis = h(
       'li',
-      { class: slotFns.value.item(), 'aria-hidden': 'true' },
+      { class: composeClassName(slotFns.value.item(), props.classNames?.item), 'aria-hidden': 'true' },
       '…'
     )
     list = [first, ellipsis, ...last]
@@ -70,7 +75,7 @@ useBreadcrumbsProvide({
     aria-label="Breadcrumb"
     :class="props.class"
   >
-    <ol :class="composeClassName(slotFns.base(), undefined)">
+    <ol :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
       <component
         :is="child"
         v-for="(child, idx) in renderedChildren"

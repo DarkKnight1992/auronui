@@ -9,10 +9,16 @@ const props = withDefaults(defineProps<{
   id?: string
   disabled?: boolean
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    handle: string
+    handleBar: string
+  }>
 }>(), {
   id: undefined,
   disabled: false,
   class: undefined,
+  classNames: undefined,
 })
 
 defineEmits<{
@@ -29,12 +35,12 @@ const slotFns = computed(() =>
   <SplitterResizeHandle
     :id="id"
     :disabled="disabled"
-    :class="composeClassName(slotFns.handle(), props.class)"
+    :class="composeClassName(slotFns.handle(), props.class, props.classNames?.handle)"
     data-slot="splitter-handle"
     @dragging="$emit('dragging', $event)"
   >
     <slot>
-      <div :class="slotFns.handleBar()" />
+      <div :class="composeClassName(slotFns.handleBar(), props.classNames?.handleBar)" />
     </slot>
   </SplitterResizeHandle>
 </template>

@@ -6,6 +6,10 @@ const props = withDefaults(defineProps<{
   isExpanded?: boolean
   hasChildren?: boolean
   class?: string
+  /** Override classes for specific slots */
+  classNames?: Partial<{
+    itemToggle: string
+  }>
 }>(), {
   isExpanded: false,
   hasChildren: true,
@@ -18,7 +22,7 @@ const slotFns = treeVariants()
 <template>
   <button
     type="button"
-    :class="composeClassName(slotFns.itemToggle(), props.class)"
+    :class="composeClassName(slotFns.itemToggle(), props.class, props.classNames?.itemToggle)"
     :data-expanded="isExpanded ? '' : undefined"
     :data-no-children="!hasChildren ? '' : undefined"
     tabindex="-1"

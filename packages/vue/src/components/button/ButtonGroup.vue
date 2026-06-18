@@ -13,6 +13,10 @@ const props = withDefaults(defineProps<{
   fullWidth?: boolean
   orientation?: 'horizontal' | 'vertical'
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    base: string
+  }>
   selectionMode?: ButtonGroupSelectionMode
   modelValue?: ButtonGroupValue
 }>(), {
@@ -82,7 +86,7 @@ const slotFns = computed(() =>
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="props.orientation"
     role="group"
   >

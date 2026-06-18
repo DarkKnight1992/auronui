@@ -13,6 +13,10 @@ const props = withDefaults(defineProps<{
   collapsedSize?: number
   order?: number
   class?: string
+  /** Override classes for individual slots. */
+  classNames?: Partial<{
+    panel: string
+  }>
 }>(), {
   id: undefined,
   defaultSize: undefined,
@@ -22,6 +26,7 @@ const props = withDefaults(defineProps<{
   collapsedSize: undefined,
   order: undefined,
   class: undefined,
+  classNames: undefined,
 })
 
 defineEmits<{
@@ -41,7 +46,7 @@ const slotFns = computed(() => splitterVariants())
     :collapsible="collapsible"
     :collapsed-size="collapsedSize"
     :order="order"
-    :class="composeClassName(slotFns.panel(), props.class)"
+    :class="composeClassName(slotFns.panel(), props.class, props.classNames?.panel)"
     data-slot="splitter-panel"
     @collapse="$emit('collapse')"
     @expand="$emit('expand')"

@@ -16,6 +16,10 @@ const props = withDefaults(defineProps<{
   variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
   size?: 'sm' | 'md' | 'lg'
   class?: string
+  /** Override default classes for any slot. Keys correspond to slot names (e.g., base). */
+  classNames?: Partial<{
+    base: string
+  }>
   asChild?: boolean
 }>(), {
   variant: 'danger',
@@ -29,7 +33,7 @@ const slotFns = buttonVariants({ variant: props.variant, size: props.size })
 <template>
   <AlertDialogAction
     :as-child="props.asChild"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
     <slot />
   </AlertDialogAction>

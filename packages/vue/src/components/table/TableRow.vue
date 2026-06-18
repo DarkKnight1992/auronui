@@ -4,6 +4,18 @@
 import { computed } from 'vue'
 import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
+import { composeClassName } from '@auronui/utils'
+
+interface Props {
+  /** Additional classes to apply to the root element */
+  class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    row: string
+  }>
+}
+
+const props = defineProps<Props>()
 
 const ctx = useTableInject()
 const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
@@ -12,7 +24,7 @@ const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 <template>
   <tr
     role="row"
-    :class="slotFns.row()"
+    :class="composeClassName(slotFns.row(), props.class, props.classNames?.row)"
   >
     <slot />
   </tr>

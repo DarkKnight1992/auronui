@@ -15,6 +15,15 @@ const props = withDefaults(
     /** Aria-label for the close button */
     closeAriaLabel?: string;
     class?: string;
+    /** Override classes for named slots */
+    classNames?: Partial<{
+      base: string;
+      dot: string;
+      startContent: string;
+      label: string;
+      endContent: string;
+      closeButton: string;
+    }>;
   }>(),
   {
     color: "default",
@@ -39,27 +48,27 @@ const slotFns = computed(() =>
 </script>
 
 <template>
-  <span :class="composeClassName(slotFns.base(), props.class)">
+  <span :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
     <span
       v-if="dot"
-      :class="slotFns.dot()"
+      :class="composeClassName(slotFns.dot(), props.classNames?.dot)"
       aria-hidden="true"
     />
     <span
       v-if="$slots.startContent"
-      :class="slotFns.startContent()"
+      :class="composeClassName(slotFns.startContent(), props.classNames?.startContent)"
       aria-hidden="true"
     >
       <slot name="startContent" />
     </span>
 
-    <span :class="slotFns.label()">
+    <span :class="composeClassName(slotFns.label(), props.classNames?.label)">
       <slot />
     </span>
 
     <span
       v-if="$slots.endContent && !isClosable"
-      :class="slotFns.endContent()"
+      :class="composeClassName(slotFns.endContent(), props.classNames?.endContent)"
       aria-hidden="true"
     >
       <slot name="endContent" />
@@ -68,7 +77,7 @@ const slotFns = computed(() =>
     <button
       v-if="isClosable"
       type="button"
-      :class="slotFns.closeButton()"
+      :class="composeClassName(slotFns.closeButton(), props.classNames?.closeButton)"
       :aria-label="closeAriaLabel"
       @click="emit('close')"
     >

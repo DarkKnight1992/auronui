@@ -7,6 +7,10 @@ const props = defineProps<{
   value: string
   disabled?: boolean
   class?: string
+  /** Override classes for individual slots. */
+  classNames?: Partial<{
+    tab: string
+  }>
 }>()
 
 const ctx = useTabsInject()
@@ -17,7 +21,7 @@ const ctx = useTabsInject()
     :value="props.value"
     :disabled="props.disabled"
     :data-tab-value="props.value"
-    :class="composeClassName(ctx.slotFns.value.tab(), props.class)"
+    :class="composeClassName(ctx.slotFns.value.tab(), props.class, props.classNames?.tab)"
   >
     <slot />
   </TabsTrigger>

@@ -6,9 +6,15 @@ import { stepperContextKey } from './Stepper.context'
 
 const props = withDefaults(defineProps<{
   step: number
+  /** Custom CSS classes for the root element. */
   class?: string
+  /** Override CSS classes for individual slots. */
+  classNames?: Partial<{
+    item: string
+  }>
 }>(), {
   class: undefined,
+  classNames: undefined,
 })
 
 const ctx = inject(stepperContextKey)
@@ -26,7 +32,7 @@ const slotFns = computed(() =>
 
 <template>
   <div
-    :class="composeClassName(slotFns.item(), props.class)"
+    :class="composeClassName(slotFns.item(), props.class, props.classNames?.item)"
     :data-status="status"
     :data-step="step"
     data-slot="stepper-item"

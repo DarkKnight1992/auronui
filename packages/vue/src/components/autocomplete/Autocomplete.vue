@@ -85,6 +85,15 @@ type Props = {
   errorMessage?: string
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
   class?: string
+  /** Per-slot class overrides. Keys correspond to internal slot names (`base`, `label`, `mainWrapper`, `helperWrapper`, `errorMessage`, `description`). */
+  classNames?: Partial<{
+    base: string
+    label: string
+    mainWrapper: string
+    helperWrapper: string
+    errorMessage: string
+    description: string
+  }>
 
   /* ─── Autocomplete-specific ─────────────────────────────────────── */
   /** Two-way bound selected value. string in single mode, string[] in multiple mode. */
@@ -464,7 +473,7 @@ useAutocompleteProvide({
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
     :data-readonly="isReadonly || undefined"
@@ -475,13 +484,13 @@ useAutocompleteProvide({
     <label
       v-if="showOutsideLabel"
       :for="inputId"
-      :class="slotFns.label()"
+      :class="composeClassName(slotFns.label(), props.classNames?.label)"
     >{{ label }}<span
       v-if="isRequired"
       aria-hidden="true"
     > *</span></label>
 
-    <div :class="slotFns.mainWrapper()">
+    <div :class="composeClassName(slotFns.mainWrapper(), props.classNames?.mainWrapper)">
       <AutocompleteRoot
         v-model:model-value="searchTerm"
         :open="props.multiple ? internalOpen : singleOpen"
@@ -516,19 +525,19 @@ useAutocompleteProvide({
 
       <div
         v-if="hasHelper"
-        :class="slotFns.helperWrapper()"
+        :class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
       >
         <div
           v-if="showError"
           :id="errorMessageId"
-          :class="slotFns.errorMessage()"
+          :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
         >
           {{ errorMessage }}
         </div>
         <div
           v-else-if="showDescription"
           :id="descriptionId"
-          :class="slotFns.description()"
+          :class="composeClassName(slotFns.description(), props.classNames?.description)"
         >
           {{ description }}
         </div>

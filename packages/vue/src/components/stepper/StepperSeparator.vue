@@ -5,9 +5,15 @@ import { composeClassName } from '../../utils/composeClassName'
 import { stepperContextKey } from './Stepper.context'
 
 const props = withDefaults(defineProps<{
+  /** Additional CSS class for the root element. */
   class?: string
+  /** Per-slot class overrides. */
+  classNames?: Partial<{
+    separator: string
+  }>
 }>(), {
   class: undefined,
+  classNames: undefined,
 })
 
 const ctx = inject(stepperContextKey)
@@ -18,7 +24,7 @@ const slotFns = computed(() =>
 
 <template>
   <div
-    :class="composeClassName(slotFns.separator(), props.class)"
+    :class="composeClassName(slotFns.separator(), props.class, props.classNames?.separator)"
     role="none"
     data-slot="stepper-separator"
   />

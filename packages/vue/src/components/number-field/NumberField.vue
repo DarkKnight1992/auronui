@@ -30,6 +30,14 @@ const props = withDefaults(defineProps<{
   // camelCase prop; in templates users write aria-label="…" (Vue auto-converts)
   ariaLabel?: string
   class?: string
+  /** Per-slot classNames override object for custom styling */
+  classNames?: Partial<{
+    base: string
+    group: string
+    decrementButton: string
+    input: string
+    incrementButton: string
+  }>
 }>(), {
   variant: 'flat',
   size: 'md',
@@ -87,7 +95,7 @@ const isLabelVisible = computed(() => !!props.label)
     :format-options="props.formatOptions"
     :locale="props.locale"
     :name="props.name"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="props.isInvalid || undefined"
     :data-disabled="props.isDisabled || undefined"
     :data-readonly="props.isReadonly || undefined"
@@ -109,10 +117,10 @@ const isLabelVisible = computed(() => !!props.label)
 
     <!-- Number field control group -->
     <div
-      :class="slotFns.group()"
+      :class="composeClassName(slotFns.group(), props.classNames?.group)"
       data-slot="group"
     >
-      <NumberFieldDecrement :class="slotFns.decrementButton()">
+      <NumberFieldDecrement :class="composeClassName(slotFns.decrementButton(), props.classNames?.decrementButton)">
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
@@ -131,11 +139,11 @@ const isLabelVisible = computed(() => !!props.label)
       </NumberFieldDecrement>
 
       <NumberFieldInput
-        :class="slotFns.input()"
+        :class="composeClassName(slotFns.input(), props.classNames?.input)"
         :placeholder="props.placeholder"
       />
 
-      <NumberFieldIncrement :class="slotFns.incrementButton()">
+      <NumberFieldIncrement :class="composeClassName(slotFns.incrementButton(), props.classNames?.incrementButton)">
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"

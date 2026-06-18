@@ -1,11 +1,21 @@
 <script setup lang="ts">
 import { computed, h } from 'vue'
 import { useBreadcrumbsInject } from './breadcrumbs.context'
+import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   href?: string
   isLast?: boolean
   class?: string
+  /**
+   * Per-slot class overrides. Each key maps to a named slot in the component;
+   * the value is merged with the generated variant classes via `composeClassName`.
+   */
+  classNames?: Partial<{
+    item: string
+    link: string
+    separator: string
+  }>
 }>(), {
   isLast: false,
 })
@@ -23,25 +33,25 @@ const SeparatorRenderer = computed(() =>
 
 <template>
   <li
-    :class="[ctx.slotFns.value.item(), props.class]"
+    :class="composeClassName(ctx.slotFns.value.item(), props.class, props.classNames?.item)"
     :aria-current="props.isLast ? 'page' : undefined"
   >
     <a
       v-if="props.href && !props.isLast"
       :href="props.href"
-      :class="ctx.slotFns.value.link()"
+      :class="composeClassName(ctx.slotFns.value.link(), props.classNames?.link)"
     >
       <slot />
     </a>
     <span
       v-else
-      :class="ctx.slotFns.value.link()"
+      :class="composeClassName(ctx.slotFns.value.link(), props.classNames?.link)"
     >
       <slot />
     </span>
     <span
       v-if="!props.isLast"
-      :class="ctx.slotFns.value.separator()"
+      :class="composeClassName(ctx.slotFns.value.separator(), props.classNames?.separator)"
       aria-hidden="true"
     >
       <component

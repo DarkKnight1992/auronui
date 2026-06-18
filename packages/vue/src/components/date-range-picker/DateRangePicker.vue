@@ -48,6 +48,13 @@ const props = withDefaults(defineProps<{
   closeOnSelect?: boolean
   modal?: boolean
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    base: string
+    trigger: string
+    triggerIndicator: string
+    popover: string
+  }>
 }>(), {
   variant: 'flat',
   size: 'md',
@@ -101,7 +108,7 @@ const rangeValue = computed<DateRange | null>({
     :readonly="isReadOnly"
     :name="name"
     :number-of-months="visibleMonths"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     data-slot="date-range-picker"
   >
     <!-- DateRangeField hosts label/helper/field; trigger sits in its endContent slot -->
@@ -131,13 +138,13 @@ const rangeValue = computed<DateRange | null>({
     >
       <template #endContent>
         <DateRangePickerTrigger
-          :class="slotFns.trigger()"
+          :class="composeClassName(slotFns.trigger(), props.classNames?.trigger)"
           aria-label="Open date range picker"
           @mousedown.prevent
         >
           <slot name="selectorIcon">
             <svg
-              :class="slotFns.triggerIndicator()"
+              :class="composeClassName(slotFns.triggerIndicator(), props.classNames?.triggerIndicator)"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -184,7 +191,7 @@ const rangeValue = computed<DateRange | null>({
 
     <!-- Popover (portaled + positioned by Reka) -->
     <DateRangePickerContent
-      :class="slotFns.popover()"
+      :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
       :side-offset="8"
     >

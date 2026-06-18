@@ -15,6 +15,10 @@ const props = withDefaults(defineProps<{
   modelValue?: string | string[]
   defaultValue?: string | string[]
   class?: string
+  /** Additional class names to apply to component slots */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   variant: 'default',
   size: 'md',
@@ -92,7 +96,7 @@ const slotFns = computed(() =>
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="props.orientation"
     role="group"
   >

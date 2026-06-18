@@ -11,6 +11,8 @@ const props = withDefaults(defineProps<{
   variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
   size?: 'sm' | 'md' | 'lg'
   class?: string
+  /** Per-slot class name overrides */
+  classNames?: Partial<{ base: string }>
   asChild?: boolean
 }>(), {
   variant: 'secondary',
@@ -24,7 +26,7 @@ const slotFns = buttonVariants({ variant: props.variant, size: props.size })
 <template>
   <AlertDialogCancel
     :as-child="props.asChild"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
     <slot />
   </AlertDialogCancel>

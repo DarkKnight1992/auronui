@@ -12,6 +12,10 @@ const props = withDefaults(defineProps<{
   variant?: TabsVariants['variant']
   activationMode?: 'automatic' | 'manual'
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   orientation: 'horizontal',
   variant: 'primary',
@@ -48,7 +52,7 @@ useTabsProvide({
     :model-value="internalValue"
     :orientation="props.orientation"
     :activation-mode="props.activationMode"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="props.orientation"
     @update:model-value="changeTab"
   >

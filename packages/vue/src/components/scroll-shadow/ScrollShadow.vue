@@ -27,6 +27,10 @@ const props = withDefaults(defineProps<{
   offset?: number
   visibility?: 'auto' | 'top' | 'bottom' | 'left' | 'right' | 'both' | 'none'
   class?: string
+  /** Per-slot class overrides. */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   orientation: 'vertical',
   hideScrollBar: false,
@@ -58,7 +62,7 @@ const slotFns = computed(() =>
 <template>
   <div
     ref="container"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="orientation"
     :data-top-scroll="topScroll ? 'true' : undefined"
     :data-bottom-scroll="bottomScroll ? 'true' : undefined"

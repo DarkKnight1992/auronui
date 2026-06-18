@@ -16,6 +16,12 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   showFallback?: boolean
   class?: string
+  /** Per-slot class name overrides */
+  classNames?: Partial<{
+    base: string
+    image: string
+    fallback: string
+  }>
 }>(), {
   isBordered: false,
   isDisabled: false,
@@ -68,7 +74,7 @@ const inGroupClass = computed(() =>
 
 <template>
   <AvatarRoot
-    :class="composeClassName(slotFns.base(), borderedClass, inGroupClass, props.class)"
+    :class="composeClassName(slotFns.base(), borderedClass, inGroupClass, props.class, props.classNames?.base)"
     :data-disabled="isDisabled || undefined"
     :data-bordered="finalIsBordered || undefined"
   >
@@ -76,7 +82,7 @@ const inGroupClass = computed(() =>
       v-if="props.src && !props.showFallback"
       :src="props.src"
       :alt="props.alt ?? props.name ?? ''"
-      :class="slotFns.image()"
+      :class="composeClassName(slotFns.image(), props.classNames?.image)"
     />
     <!--
       delayMs: only pass a value when we have a src — Reka UI treats delayMs=undefined
@@ -84,7 +90,7 @@ const inGroupClass = computed(() =>
       not undefined, so the timeout never fires and fallback stays hidden forever.
     -->
     <AvatarFallback
-      :class="slotFns.fallback()"
+      :class="composeClassName(slotFns.fallback(), props.classNames?.fallback)"
       v-bind="props.src && !props.showFallback ? { 'delay-ms': 600 } : {}"
     >
       <slot name="fallback">

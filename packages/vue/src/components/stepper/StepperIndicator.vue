@@ -6,8 +6,13 @@ import { stepperContextKey } from './Stepper.context'
 
 const props = withDefaults(defineProps<{
   class?: string
+  /** Override classes on individual slots */
+  classNames?: Partial<{
+    indicator: string
+  }>
 }>(), {
   class: undefined,
+  classNames: undefined,
 })
 
 const ctx = inject(stepperContextKey)
@@ -22,7 +27,7 @@ const slotFns = computed(() =>
 
 <template>
   <div
-    :class="composeClassName(slotFns.indicator(), props.class)"
+    :class="composeClassName(slotFns.indicator(), props.class, props.classNames?.indicator)"
     aria-hidden="true"
     data-slot="stepper-indicator"
   >

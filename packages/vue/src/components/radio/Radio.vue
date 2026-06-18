@@ -13,10 +13,18 @@ const props = withDefaults(defineProps<{
   variant?: RadioGroupVariants['variant']
   disabled?: boolean
   class?: string
+  /** Override classNames for individual slots */
+  classNames?: Partial<{
+    base: string
+    control: string
+    indicator: string
+    content: string
+  }>
 }>(), {
   variant: undefined,
   disabled: false,
   class: undefined,
+  classNames: undefined,
 })
 
 const attrs = useAttrs()
@@ -42,12 +50,12 @@ const slotFns = computed(() => radioVariants())
     :value="props.value"
     :disabled="isDisabled"
     :data-variant="finalVariant"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
-    <span :class="slotFns.control()">
-      <RadioGroupIndicator :class="slotFns.indicator()" />
+    <span :class="composeClassName(slotFns.control(), props.classNames?.control)">
+      <RadioGroupIndicator :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)" />
     </span>
-    <span :class="slotFns.content()">
+    <span :class="composeClassName(slotFns.content(), props.classNames?.content)">
       <slot />
     </span>
   </RadioGroupItem>

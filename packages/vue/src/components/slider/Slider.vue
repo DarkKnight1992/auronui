@@ -24,6 +24,17 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   inverted?: boolean
   class?: string
+  /**
+   * Per-slot class overrides. Keys map to internal slot names (base, output, track, fill, marks, thumb).
+   */
+  classNames?: Partial<{
+    base: string
+    output: string
+    track: string
+    fill: string
+    marks: string
+    thumb: string
+  }>
 }>(), {
   min: 0,
   max: 100,
@@ -118,7 +129,7 @@ const positionAxis = computed(() =>
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="orientation"
     :data-disabled="disabled || undefined"
   >
@@ -135,7 +146,7 @@ const positionAxis = computed(() =>
       >{{ label }}</label>
       <output
         v-if="!hideValue"
-        :class="slotFns.output()"
+        :class="composeClassName(slotFns.output(), props.classNames?.output)"
       >{{ formatted }}</output>
     </template>
 
@@ -156,8 +167,8 @@ const positionAxis = computed(() =>
         class="relative flex items-center select-none touch-none w-full"
         :data-orientation="orientation"
       >
-        <SliderTrack :class="slotFns.track()">
-          <SliderRange :class="slotFns.fill()" />
+        <SliderTrack :class="composeClassName(slotFns.track(), props.classNames?.track)">
+          <SliderRange :class="composeClassName(slotFns.fill(), props.classNames?.fill)" />
 
           <!--
             FIX: tick spans have NO class from slotFns (was :class="slotFns.base()" = "slider" — wrong).
@@ -176,7 +187,7 @@ const positionAxis = computed(() =>
           <span
             v-for="mark in (marks || [])"
             :key="`mark-${mark.value}`"
-            :class="slotFns.marks()"
+            :class="composeClassName(slotFns.marks(), props.classNames?.marks)"
             :style="{ [positionAxis]: toPercent(mark.value) + '%' }"
             data-slider-mark
             class="absolute"
@@ -187,7 +198,7 @@ const positionAxis = computed(() =>
         <SliderThumb
           v-for="(_, idx) in internalValue"
           :key="idx"
-          :class="slotFns.thumb()"
+          :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)"
           :aria-label="label || 'Value'"
         />
       </SliderRoot>

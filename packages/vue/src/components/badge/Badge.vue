@@ -10,6 +10,12 @@ const props = withDefaults(
     variant?: BadgeVariants["variant"];
     placement?: BadgeVariants["placement"];
     class?: string;
+    /** Per-slot class name overrides. */
+    classNames?: Partial<{
+      anchor: string;
+      base: string;
+      label: string;
+    }>;
   }>(),
   {
     color: "default",
@@ -30,10 +36,10 @@ const slotFns = computed(() =>
 </script>
 
 <template>
-  <div :class="slotFns.anchor()">
+  <div :class="composeClassName(slotFns.anchor(), props.classNames?.anchor)">
     <slot />
-    <span :class="composeClassName(slotFns.base(), props.class)">
-      <span :class="slotFns.label()">
+    <span :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
+      <span :class="composeClassName(slotFns.label(), props.classNames?.label)">
         <slot name="label" />
       </span>
     </span>

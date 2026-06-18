@@ -2,10 +2,15 @@
 import { computed } from 'vue'
 import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
+import { composeClassName } from '../../utils/composeClassName'
 
 defineProps<{
   rowIndex?: number
   columnIndex?: number
+  /** Per-slot class name overrides merged via `composeClassName`. */
+  classNames?: Partial<{
+    cell: string
+  }>
 }>()
 
 const ctx = useTableInject()
@@ -15,7 +20,7 @@ const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 <template>
   <td
     role="gridcell"
-    :class="slotFns.cell()"
+    :class="composeClassName(slotFns.cell(), props.classNames?.cell)"
     :data-row-index="rowIndex"
     :data-col-index="columnIndex"
   >

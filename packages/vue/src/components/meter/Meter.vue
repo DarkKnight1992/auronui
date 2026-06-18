@@ -24,6 +24,14 @@ const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg'
   color?: 'default' | 'accent' | 'success' | 'warning' | 'danger'
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    base: string
+    label: string
+    output: string
+    track: string
+    fill: string
+  }>
 }>(), {
   value: 0,
   minValue: 0,
@@ -53,14 +61,15 @@ const slotFns = computed(() =>
 </script>
 
 <template>
-  <div :class="composeClassName(slotFns.base(), props.class)">
+  <div :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
     <span
       v-if="label"
       data-slot="label"
+      :class="composeClassName(slotFns.label(), props.classNames?.label)"
     >{{ label }}</span>
     <output
       v-if="showValueLabel"
-      :class="slotFns.output()"
+      :class="composeClassName(slotFns.output(), props.classNames?.output)"
     >{{ formattedValue }}</output>
     <div
       role="meter"
@@ -69,10 +78,10 @@ const slotFns = computed(() =>
       :aria-valuemax="maxValue"
       :aria-valuetext="formattedValue"
       :aria-label="label || 'Meter'"
-      :class="slotFns.track()"
+      :class="composeClassName(slotFns.track(), props.classNames?.track)"
     >
       <div
-        :class="slotFns.fill()"
+        :class="composeClassName(slotFns.fill(), props.classNames?.fill)"
         :style="{ width: percentage + '%' }"
       />
     </div>

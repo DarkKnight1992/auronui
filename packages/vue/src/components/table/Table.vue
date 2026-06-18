@@ -49,6 +49,11 @@ const props = withDefaults(
     estimatedRowHeight?: number
     /** Extra rows to render outside the visible viewport (default: 8) */
     virtualizerOverscan?: number
+    /** Per-slot CSS class overrides */
+    classNames?: Partial<{
+      base: string
+      scrollContainer: string
+    }>
   }>(),
   {
     variant: 'primary',
@@ -218,7 +223,7 @@ defineExpose({ table, keyboardNav, handleRowClick })
 </script>
 
 <template>
-  <div :class="composeClassName(slotFns.base(), $attrs.class as string)">
+  <div :class="composeClassName(slotFns.base(), $attrs.class as string, props.classNames?.base)">
     <!--
       scroll container: when virtualized, needs a fixed height + overflow:auto
       so the virtualizer can measure the viewport. Consumers should override
@@ -226,7 +231,7 @@ defineExpose({ table, keyboardNav, handleRowClick })
     -->
     <div
       ref="scrollContainerRef"
-      :class="slotFns.scrollContainer()"
+      :class="composeClassName(slotFns.scrollContainer(), props.classNames?.scrollContainer)"
       :style="useVirtual ? { height: '400px', overflow: 'auto' } : undefined"
     >
       <table

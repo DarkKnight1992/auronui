@@ -62,6 +62,30 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   calendarLabel?: string
   class?: string
+  /** Override classes for named slots */
+  classNames?: Partial<{
+    base: string
+    header: string
+    navButton: string
+    navButtonIcon: string
+    heading: string
+    headingButton: string
+    grid: string
+    gridHeader: string
+    gridRow: string
+    headerCell: string
+    gridBody: string
+    cell: string
+    cellButton: string
+    monthGrid: string
+    monthGridBody: string
+    monthGridRow: string
+    monthCell: string
+    yearGrid: string
+    yearGridBody: string
+    yearGridRow: string
+    yearCell: string
+  }>
 }>(), {
   weekdayFormat: 'narrow',
   fixedWeeks: false,
@@ -133,17 +157,17 @@ const nextViewLabel = computed(() =>
     :readonly="readonly"
     :disabled="disabled"
     :calendar-label="calendarLabel"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
     <template #default="{ grid, weekDays }">
       <template v-if="view === 'date'">
-        <RangeCalendarHeader :class="slotFns.header()">
+        <RangeCalendarHeader :class="composeClassName(slotFns.header(), props.classNames?.header)">
           <RangeCalendarPrev
-            :class="slotFns.navButton()"
+            :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
             aria-label="Previous month"
           >
             <svg
-              :class="slotFns.navButtonIcon()"
+              :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -161,11 +185,11 @@ const nextViewLabel = computed(() =>
 
           <RangeCalendarHeading
             v-slot="{ headingValue }"
-            :class="slotFns.heading()"
+            :class="composeClassName(slotFns.heading(), props.classNames?.heading)"
           >
             <button
               type="button"
-              :class="slotFns.headingButton()"
+              :class="composeClassName(slotFns.headingButton(), props.classNames?.headingButton)"
               :aria-label="`Switch to ${nextViewLabel} view`"
               @click="cycleView"
             >
@@ -174,11 +198,11 @@ const nextViewLabel = computed(() =>
           </RangeCalendarHeading>
 
           <RangeCalendarNext
-            :class="slotFns.navButton()"
+            :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
             aria-label="Next month"
           >
             <svg
-              :class="slotFns.navButtonIcon()"
+              :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -198,35 +222,35 @@ const nextViewLabel = computed(() =>
         <RangeCalendarGrid
           v-for="month in grid"
           :key="month.value.toString()"
-          :class="slotFns.grid()"
+          :class="composeClassName(slotFns.grid(), props.classNames?.grid)"
         >
-          <RangeCalendarGridHead :class="slotFns.gridHeader()">
-            <RangeCalendarGridRow :class="slotFns.gridRow()">
+          <RangeCalendarGridHead :class="composeClassName(slotFns.gridHeader(), props.classNames?.gridHeader)">
+            <RangeCalendarGridRow :class="composeClassName(slotFns.gridRow(), props.classNames?.gridRow)">
               <RangeCalendarHeadCell
                 v-for="day in weekDays"
                 :key="day"
-                :class="slotFns.headerCell()"
+                :class="composeClassName(slotFns.headerCell(), props.classNames?.headerCell)"
               >
                 {{ day }}
               </RangeCalendarHeadCell>
             </RangeCalendarGridRow>
           </RangeCalendarGridHead>
-          <RangeCalendarGridBody :class="slotFns.gridBody()">
+          <RangeCalendarGridBody :class="composeClassName(slotFns.gridBody(), props.classNames?.gridBody)">
             <RangeCalendarGridRow
               v-for="(week, weekIndex) in month.rows"
               :key="weekIndex"
-              :class="slotFns.gridRow()"
+              :class="composeClassName(slotFns.gridRow(), props.classNames?.gridRow)"
             >
               <RangeCalendarCell
                 v-for="day in week"
                 :key="day.toString()"
                 :date="day"
-                :class="slotFns.cell()"
+                :class="composeClassName(slotFns.cell(), props.classNames?.cell)"
               >
                 <RangeCalendarCellTrigger
                   :day="day"
                   :month="month.value"
-                  :class="slotFns.cellButton()"
+                  :class="composeClassName(slotFns.cellButton(), props.classNames?.cellButton)"
                 />
               </RangeCalendarCell>
             </RangeCalendarGridRow>
@@ -244,18 +268,18 @@ const nextViewLabel = computed(() =>
     :max-value="maxValue"
     :readonly="readonly"
     :disabled="disabled"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onMonthSelect"
     @update:placeholder="(val: DateValue | undefined) => { if (val) placeholder = val }"
   >
     <template #default="{ grid: monthGrid }">
-      <MonthPickerHeader :class="slotFns.header()">
+      <MonthPickerHeader :class="composeClassName(slotFns.header(), props.classNames?.header)">
         <MonthPickerPrev
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           aria-label="Previous year"
         >
           <svg
-            :class="slotFns.navButtonIcon()"
+            :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -273,11 +297,11 @@ const nextViewLabel = computed(() =>
 
         <MonthPickerHeading
           v-slot="{ headingValue }"
-          :class="slotFns.heading()"
+          :class="composeClassName(slotFns.heading(), props.classNames?.heading)"
         >
           <button
             type="button"
-            :class="slotFns.headingButton()"
+            :class="composeClassName(slotFns.headingButton(), props.classNames?.headingButton)"
             :aria-label="`Switch to ${nextViewLabel} view`"
             @click="cycleView"
           >
@@ -286,11 +310,11 @@ const nextViewLabel = computed(() =>
         </MonthPickerHeading>
 
         <MonthPickerNext
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           aria-label="Next year"
         >
           <svg
-            :class="slotFns.navButtonIcon()"
+            :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -307,12 +331,12 @@ const nextViewLabel = computed(() =>
         </MonthPickerNext>
       </MonthPickerHeader>
 
-      <MonthPickerGrid :class="slotFns.monthGrid()">
-        <MonthPickerGridBody :class="slotFns.monthGridBody()">
+      <MonthPickerGrid :class="composeClassName(slotFns.monthGrid(), props.classNames?.monthGrid)">
+        <MonthPickerGridBody :class="composeClassName(slotFns.monthGridBody(), props.classNames?.monthGridBody)">
           <MonthPickerGridRow
             v-for="(row, i) in monthGrid.rows"
             :key="i"
-            :class="slotFns.monthGridRow()"
+            :class="composeClassName(slotFns.monthGridRow(), props.classNames?.monthGridRow)"
           >
             <MonthPickerCell
               v-for="monthValue in row"
@@ -322,7 +346,7 @@ const nextViewLabel = computed(() =>
               <MonthPickerCellTrigger
                 :month="monthValue"
                 as="button"
-                :class="slotFns.monthCell()"
+                :class="composeClassName(slotFns.monthCell(), props.classNames?.monthCell)"
               />
             </MonthPickerCell>
           </MonthPickerGridRow>
@@ -339,18 +363,18 @@ const nextViewLabel = computed(() =>
     :max-value="maxValue"
     :readonly="readonly"
     :disabled="disabled"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onYearSelect"
     @update:placeholder="(val: DateValue | undefined) => { if (val) placeholder = val }"
   >
     <template #default="{ grid: yearGrid }">
-      <YearPickerHeader :class="slotFns.header()">
+      <YearPickerHeader :class="composeClassName(slotFns.header(), props.classNames?.header)">
         <YearPickerPrev
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           aria-label="Previous decade"
         >
           <svg
-            :class="slotFns.navButtonIcon()"
+            :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -368,11 +392,11 @@ const nextViewLabel = computed(() =>
 
         <YearPickerHeading
           v-slot="{ headingValue }"
-          :class="slotFns.heading()"
+          :class="composeClassName(slotFns.heading(), props.classNames?.heading)"
         >
           <button
             type="button"
-            :class="slotFns.headingButton()"
+            :class="composeClassName(slotFns.headingButton(), props.classNames?.headingButton)"
             :aria-label="`Switch to ${nextViewLabel} view`"
             @click="cycleView"
           >
@@ -381,11 +405,11 @@ const nextViewLabel = computed(() =>
         </YearPickerHeading>
 
         <YearPickerNext
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           aria-label="Next decade"
         >
           <svg
-            :class="slotFns.navButtonIcon()"
+            :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -402,12 +426,12 @@ const nextViewLabel = computed(() =>
         </YearPickerNext>
       </YearPickerHeader>
 
-      <YearPickerGrid :class="slotFns.yearGrid()">
-        <YearPickerGridBody :class="slotFns.yearGridBody()">
+      <YearPickerGrid :class="composeClassName(slotFns.yearGrid(), props.classNames?.yearGrid)">
+        <YearPickerGridBody :class="composeClassName(slotFns.yearGridBody(), props.classNames?.yearGridBody)">
           <YearPickerGridRow
             v-for="(row, i) in yearGrid.rows"
             :key="i"
-            :class="slotFns.yearGridRow()"
+            :class="composeClassName(slotFns.yearGridRow(), props.classNames?.yearGridRow)"
           >
             <YearPickerCell
               v-for="yearValue in row"
@@ -417,7 +441,7 @@ const nextViewLabel = computed(() =>
               <YearPickerCellTrigger
                 :year="yearValue"
                 as="button"
-                :class="slotFns.yearCell()"
+                :class="composeClassName(slotFns.yearCell(), props.classNames?.yearCell)"
               />
             </YearPickerCell>
           </YearPickerGridRow>

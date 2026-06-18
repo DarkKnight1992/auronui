@@ -9,6 +9,10 @@ const props = defineProps<{
   value: string
   disabled?: boolean
   class?: string
+  /** Override classes on named slots */
+  classNames?: Partial<{
+    item: string
+  }>
 }>()
 
 const ctx = useAccordionInject()
@@ -26,7 +30,7 @@ useAccordionItemProvide({ open })
     ref="reka"
     :value="props.value"
     :disabled="props.disabled"
-    :class="composeClassName(ctx.slotFns.value.item(), props.class)"
+    :class="composeClassName(ctx.slotFns.value.item(), props.class, props.classNames?.item)"
   >
     <slot />
   </RekaAccordionItem>

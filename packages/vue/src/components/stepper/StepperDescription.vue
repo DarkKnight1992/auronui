@@ -5,8 +5,13 @@ import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   class?: string
+  /** Override classes for individual slots. */
+  classNames?: Partial<{
+    description: string
+  }>
 }>(), {
   class: undefined,
+  classNames: undefined,
 })
 
 const slotFns = computed(() => stepperVariants())
@@ -14,7 +19,7 @@ const slotFns = computed(() => stepperVariants())
 
 <template>
   <p
-    :class="composeClassName(slotFns.description(), props.class)"
+    :class="composeClassName(slotFns.description(), props.class, props.classNames?.description)"
     data-slot="stepper-description"
   >
     <slot />

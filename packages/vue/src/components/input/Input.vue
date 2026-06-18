@@ -59,7 +59,7 @@
   ─── Reuse checklist for new form fields ───────────────────────────────
     1. Copy prop names verbatim (variant, size, color, labelPlacement,
        fullWidth, isInvalid, isDisabled, isReadonly, isRequired, label,
-       description, errorMessage, class).
+       description, errorMessage, class, classNames).
     2. Expose the same slot keys in tailwind-variants.
     3. Emit the same data-attributes on the root + data-filled on the
        field box.
@@ -151,6 +151,33 @@ type Props = {
   errorMessage?: string
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
   class?: string
+  /**
+   * Per-slot class overrides. Each key maps to a named slot in the anatomy;
+   * the value is merged with the generated variant classes via `composeClassName`.
+   *
+   * @example
+   * ```vue
+   * <Input :class-names="{ input: 'text-xl', inputWrapper: 'border-2 border-blue-500' }" />
+   * ```
+   *
+   * Available slots: `base`, `mainWrapper`, `inputWrapper`, `input`,
+   * `label`, `startContent`, `endContent`, `clearButton`, `passwordToggle`,
+   * `helperWrapper`, `description`, `errorMessage`.
+   */
+  classNames?: Partial<{
+    base: string
+    mainWrapper: string
+    inputWrapper: string
+    input: string
+    label: string
+    startContent: string
+    endContent: string
+    clearButton: string
+    passwordToggle: string
+    helperWrapper: string
+    description: string
+    errorMessage: string
+  }>
 }
 
 const attrs = useAttrs()
@@ -226,7 +253,7 @@ const showInsideLabel = computed(
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
     :data-readonly="isReadonly || undefined"
@@ -237,28 +264,28 @@ const showInsideLabel = computed(
     <label
       v-if="showOutsideLabel"
       :for="inputId"
-      :class="slotFns.label()"
+      :class="composeClassName(slotFns.label(), props.classNames?.label)"
     >{{ label }}<span
       v-if="isRequired"
       aria-hidden="true"
     > *</span></label>
 
-    <div :class="slotFns.mainWrapper()">
+    <div :class="composeClassName(slotFns.mainWrapper(), props.classNames?.mainWrapper)">
       <div
-        :class="slotFns.inputWrapper()"
+        :class="composeClassName(slotFns.inputWrapper(), props.classNames?.inputWrapper)"
         :data-filled="hasLabel ? (isFilled || undefined) : undefined"
       >
         <label
           v-if="showInsideLabel"
           :for="inputId"
-          :class="slotFns.label()"
+          :class="composeClassName(slotFns.label(), props.classNames?.label)"
         >{{ label }}<span
           v-if="isRequired"
           aria-hidden="true"
         > *</span></label>
         <span
           v-if="$slots.startContent"
-          :class="slotFns.startContent()"
+          :class="composeClassName(slotFns.startContent(), props.classNames?.startContent)"
         >
           <slot name="startContent" />
         </span>
@@ -275,11 +302,11 @@ const showInsideLabel = computed(
           :required="isRequired || undefined"
           :aria-invalid="isInvalid || undefined"
           :aria-describedby="ariaDescribedBy"
-          :class="slotFns.input()"
+          :class="composeClassName(slotFns.input(), props.classNames?.input)"
         >
         <span
           v-if="$slots.endContent"
-          :class="slotFns.endContent()"
+          :class="composeClassName(slotFns.endContent(), props.classNames?.endContent)"
         >
           <slot name="endContent" />
         </span>
@@ -287,7 +314,7 @@ const showInsideLabel = computed(
           v-if="showClearButton"
           type="button"
           tabindex="-1"
-          :class="slotFns.clearButton()"
+          :class="composeClassName(slotFns.clearButton(), props.classNames?.clearButton)"
           aria-label="Clear input"
           @click="handleClear"
         >
@@ -323,7 +350,7 @@ const showInsideLabel = computed(
         <button
           v-if="showPasswordToggleButton"
           type="button"
-          :class="slotFns.passwordToggle()"
+          :class="composeClassName(slotFns.passwordToggle(), props.classNames?.passwordToggle)"
           :aria-label="isPasswordVisible ? 'Hide password' : 'Show password'"
           :aria-pressed="isPasswordVisible"
           @click="togglePasswordVisibility"
@@ -370,19 +397,19 @@ const showInsideLabel = computed(
 
       <div
         v-if="hasHelper"
-        :class="slotFns.helperWrapper()"
+        :class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
       >
         <div
           v-if="showError"
           :id="errorMessageId"
-          :class="slotFns.errorMessage()"
+          :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
         >
           {{ errorMessage }}
         </div>
         <div
           v-else-if="showDescription"
           :id="descriptionId"
-          :class="slotFns.description()"
+          :class="composeClassName(slotFns.description(), props.classNames?.description)"
         >
           {{ description }}
         </div>

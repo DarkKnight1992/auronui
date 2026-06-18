@@ -16,6 +16,13 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   name?: string
   class?: string
+  /** Per-slot class overrides. Each key is a slot name (e.g. 'base', 'control', 'thumb', 'content'). */
+  classNames?: Partial<{
+    base: string
+    control: string
+    thumb: string
+    content: string
+  }>
 }>(), {
   size: undefined,
   value: undefined,
@@ -83,15 +90,15 @@ const slotFns = computed(() =>
     :disabled="isDisabled"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
   >
-    <span :class="slotFns.control()">
-      <SwitchThumb :class="slotFns.thumb()" />
+    <span :class="composeClassName(slotFns.control(), props.classNames?.control)">
+      <SwitchThumb :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)" />
     </span>
     <span
       v-if="$slots.default"
-      :class="slotFns.content()"
+      :class="composeClassName(slotFns.content(), props.classNames?.content)"
     >
       <slot />
     </span>

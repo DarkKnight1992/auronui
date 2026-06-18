@@ -16,6 +16,12 @@ const props = withDefaults(defineProps<{
   name?: string
   variant?: InputOTPVariants['variant']
   class?: string
+  /** Optional per-slot class overrides */
+  classNames?: Partial<{
+    base: string
+    group: string
+    slot: string
+  }>
 }>(), {
   length: 6,
   type: 'text',
@@ -28,6 +34,7 @@ const props = withDefaults(defineProps<{
   name: undefined,
   variant: 'primary',
   class: undefined,
+  classNames: undefined,
 })
 
 const emit = defineEmits<{
@@ -54,16 +61,16 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
     :otp="otp"
     :mask="mask"
     :name="name"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
     @complete="handleComplete"
   >
-    <div :class="slotFns.group()">
+    <div :class="composeClassName(slotFns.group(), props.classNames?.group)">
       <PinInputInput
         v-for="i in length"
         :key="i - 1"
         :index="i - 1"
-        :class="slotFns.slot()"
+        :class="composeClassName(slotFns.slot(), props.classNames?.slot)"
       />
     </div>
   </PinInputRoot>

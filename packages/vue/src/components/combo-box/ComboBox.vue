@@ -34,6 +34,10 @@ const props = withDefaults(defineProps<{
   /** Custom filter function: return true to include item */
   filterFunction?: (item: string, searchTerm: string) => boolean
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -51,6 +55,7 @@ const props = withDefaults(defineProps<{
   fullWidth: false,
   filterFunction: undefined,
   class: undefined,
+  classNames: undefined,
 })
 
 const emit = defineEmits<{
@@ -160,7 +165,7 @@ useComboBoxProvide({
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :aria-invalid="props.isInvalid || undefined"
     data-slot="combo-box"
   >

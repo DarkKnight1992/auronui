@@ -17,6 +17,13 @@ const props = withDefaults(defineProps<{
   isIndeterminate?: boolean
   name?: string
   class?: string
+  /** Per-slot class overrides for any slot in this component. */
+  classNames?: Partial<{
+    base: string
+    control: string
+    indicator: string
+    content: string
+  }>
 }>(), {
   variant: undefined,
   value: undefined,
@@ -89,11 +96,11 @@ const slotFns = computed(() =>
     :disabled="isDisabled"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
   >
-    <span :class="slotFns.control()">
-      <CheckboxIndicator :class="slotFns.indicator()">
+    <span :class="composeClassName(slotFns.control(), props.classNames?.control)">
+      <CheckboxIndicator :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)">
         <!-- Indeterminate: dash icon -->
         <svg
           v-if="props.isIndeterminate"
@@ -132,7 +139,7 @@ const slotFns = computed(() =>
         </svg>
       </CheckboxIndicator>
     </span>
-    <span :class="slotFns.content()">
+    <span :class="composeClassName(slotFns.content(), props.classNames?.content)">
       <slot />
     </span>
   </CheckboxRoot>

@@ -2,7 +2,29 @@
 import { computed } from 'vue'
 import { FlexRender, type Row, type RowData } from '@tanstack/vue-table'
 import { tableVariants } from '@auronui/styles'
+import { composeClassName } from '../../utils/composeClassName'
 import { useTableInject } from './table.context'
+
+interface Props {
+  /**
+   * Per-slot class overrides. Each key maps to a named slot in the anatomy;
+   * the value is merged with the generated variant classes via `composeClassName`.
+   *
+   * @example
+   * ```vue
+   * <TableBody :class-names="{ row: 'bg-blue-50', cell: 'border-blue-200' }" />
+   * ```
+   *
+   * Available slots: `body`, `row`, `cell`.
+   */
+  classNames?: Partial<{
+    body: string
+    row: string
+    cell: string
+  }>
+}
+
+defineProps<Props>()
 
 const ctx = useTableInject()
 const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
@@ -25,12 +47,12 @@ function onRowKeydown(row: Row<RowData>, event: KeyboardEvent) {
 </script>
 
 <template>
-  <tbody :class="slotFns.body()">
+  <tbody :class="composeClassName(slotFns.body(), props.classNames?.body)">
     <tr
       v-for="(row, rowIndex) in ctx.table.getRowModel().rows"
       :key="row.id"
       role="row"
-      :class="slotFns.row()"
+      :class="composeClassName(slotFns.row(), props.classNames?.row)"
       :aria-rowindex="rowIndex + 1"
       :aria-selected="ctx.selectionMode.value !== 'none' ? row.getIsSelected() : undefined"
       :data-state="row.getIsSelected() ? 'checked' : undefined"
@@ -41,7 +63,7 @@ function onRowKeydown(row: Row<RowData>, event: KeyboardEvent) {
         v-for="(cell, colIndex) in row.getVisibleCells()"
         :key="cell.id"
         role="gridcell"
-        :class="slotFns.cell()"
+        :class="composeClassName(slotFns.cell(), props.classNames?.cell)"
         :data-row-index="rowIndex"
         :data-col-index="colIndex"
         :tabindex="ctx.activeCell.value && ctx.activeCell.value.rowIndex === rowIndex && ctx.activeCell.value.columnIndex === colIndex ? 0 : (ctx.activeCell.value === null && rowIndex === 0 && colIndex === 0 ? 0 : -1)"

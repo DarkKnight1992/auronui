@@ -11,6 +11,10 @@ const props = withDefaults(defineProps<{
   // single-open = true means only one child open at a time
   singleOpen?: boolean
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   singleOpen: false,
 })
@@ -40,7 +44,7 @@ const slotFns = computed(() => collapsibleGroupVariants({}))
 </script>
 
 <template>
-  <div :class="composeClassName(slotFns.base(), props.class)">
+  <div :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
     <slot />
   </div>
 </template>

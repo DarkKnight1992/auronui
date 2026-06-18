@@ -39,6 +39,18 @@ const props = withDefaults(defineProps<{
   isRequired?: boolean
   name?: string
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    base: string
+    trigger: string
+    triggerIndicator: string
+    popover: string
+    stepHeader: string
+    navButton: string
+    stepTitle: string
+    doneLabel: string
+    panelWrap: string
+  }>
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24
   hideTimeZone?: boolean
@@ -195,7 +207,7 @@ const slotFns = computed(() =>
     :disabled="isDisabled"
     :readonly="isReadOnly"
     :name="name"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     data-slot="date-time-picker"
   >
     <DateInput
@@ -222,13 +234,13 @@ const slotFns = computed(() =>
     >
       <template #endContent>
         <DatePickerTrigger
-          :class="slotFns.trigger()"
+          :class="composeClassName(slotFns.trigger(), props.classNames?.trigger)"
           aria-label="Open date time picker"
           @mousedown.prevent
         >
           <slot name="selectorIcon">
             <svg
-              :class="slotFns.triggerIndicator()"
+              :class="composeClassName(slotFns.triggerIndicator(), props.classNames?.triggerIndicator)"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -274,18 +286,18 @@ const slotFns = computed(() =>
     </DateInput>
 
     <DatePickerContent
-      :class="slotFns.popover()"
+      :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
       :side-offset="8"
     >
       <!-- Step header -->
       <div
-        :class="slotFns.stepHeader()"
+        :class="composeClassName(slotFns.stepHeader(), props.classNames?.stepHeader)"
         data-slot="step-header"
       >
         <button
           type="button"
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           :data-hidden="activeStep === 'date' ? 'true' : undefined"
           aria-label="Previous step"
           data-slot="back-button"
@@ -306,18 +318,18 @@ const slotFns = computed(() =>
           </svg>
         </button>
 
-        <span :class="slotFns.stepTitle()">{{ STEP_TITLES[activeStep] }}</span>
+        <span :class="composeClassName(slotFns.stepTitle(), props.classNames?.stepTitle)">{{ STEP_TITLES[activeStep] }}</span>
 
         <button
           type="button"
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           :aria-label="activeStep === 'time' ? 'Done' : 'Next step'"
           data-slot="forward-button"
           @click="goForward"
         >
           <span
             v-if="activeStep === 'time'"
-            :class="slotFns.doneLabel()"
+            :class="composeClassName(slotFns.doneLabel(), props.classNames?.doneLabel)"
           >Done</span>
           <svg
             v-else
@@ -338,7 +350,7 @@ const slotFns = computed(() =>
 
       <!-- Sliding panels -->
       <div
-        :class="slotFns.panelWrap()"
+        :class="composeClassName(slotFns.panelWrap(), props.classNames?.panelWrap)"
         style="overflow: hidden;"
       >
         <AnimatePresence mode="popLayout">

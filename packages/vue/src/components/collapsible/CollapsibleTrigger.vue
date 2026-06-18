@@ -3,15 +3,22 @@ import { CollapsibleTrigger } from 'reka-ui'
 import { composeClassName } from '../../utils/composeClassName'
 import { useCollapsibleInject } from './collapsible.context'
 
-const props = defineProps<{ class?: string }>()
+const props = defineProps<{
+  class?: string
+  /** Classnames for individual slots */
+  classNames?: Partial<{
+    trigger: string
+    indicator: string
+  }>
+}>()
 const ctx = useCollapsibleInject()
 </script>
 
 <template>
-  <CollapsibleTrigger :class="composeClassName(ctx.slotFns.value.trigger(), props.class)">
+  <CollapsibleTrigger :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
     <slot />
     <span
-      :class="ctx.slotFns.value.indicator()"
+      :class="composeClassName(ctx.slotFns.value.indicator(), props.classNames?.indicator)"
       :data-state="ctx.isOpen.value ? 'open' : 'closed'"
       aria-hidden="true"
     >

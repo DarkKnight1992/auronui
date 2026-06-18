@@ -18,6 +18,10 @@ const props = withDefaults(defineProps<{
   propagateSelect?: boolean
   size?: TreeVariants['size']
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    root: string
+  }>
 }>(), {
   items: () => [],
   modelValue: undefined,
@@ -57,7 +61,7 @@ provide(treeContextKey, {
     :multiple="multiple"
     :selection-behavior="selectionBehavior"
     :propagate-select="propagateSelect"
-    :class="composeClassName(slotFns.root(), props.class)"
+    :class="composeClassName(slotFns.root(), props.class, props.classNames?.root)"
     data-slot="tree"
     @update:model-value="(v: any) => emit('update:modelValue', v)"
     @update:expanded="(v: string[]) => emit('update:expanded', v)"

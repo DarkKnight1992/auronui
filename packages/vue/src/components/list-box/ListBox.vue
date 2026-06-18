@@ -15,6 +15,13 @@ const props = withDefaults(defineProps<{
   variant?: ListBoxVariants['variant']
   isDisabled?: boolean
   class?: string
+  /**
+   * Per-slot class overrides. Each key maps to a named slot in the anatomy;
+   * the value is merged with the generated variant classes via `composeClassName`.
+   */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -55,7 +62,7 @@ const slotFns = computed(() =>
   >
     <ListboxContent
       v-bind="attrs"
-      :class="composeClassName(slotFns, props.class)"
+      :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     >
       <slot />
     </ListboxContent>

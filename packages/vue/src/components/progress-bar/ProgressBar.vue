@@ -19,6 +19,15 @@ const props = withDefaults(defineProps<{
   isIndeterminate?: boolean
   isDisabled?: boolean
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    base: string
+    labelWrapper: string
+    label: string
+    value: string
+    track: string
+    indicator: string
+  }>
 }>(), {
   minValue: 0,
   maxValue: 100,
@@ -61,30 +70,30 @@ const formattedValue = computed(() => {
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-disabled="isDisabled ? '' : undefined"
   >
     <div
       v-if="label || showValueLabel"
-      :class="slotFns.labelWrapper()"
+      :class="composeClassName(slotFns.labelWrapper(), props.classNames?.labelWrapper)"
     >
       <span
         v-if="label"
-        :class="slotFns.label()"
+        :class="composeClassName(slotFns.label(), props.classNames?.label)"
       >{{ label }}</span>
       <span
         v-if="showValueLabel"
-        :class="slotFns.value()"
+        :class="composeClassName(slotFns.value(), props.classNames?.value)"
       >{{ formattedValue }}</span>
     </div>
     <ProgressRoot
       :model-value="isInd ? null : (props.value as number)"
       :max="maxValue"
-      :class="slotFns.track()"
+      :class="composeClassName(slotFns.track(), props.classNames?.track)"
       :aria-label="label || 'Progress'"
     >
       <ProgressIndicator
-        :class="slotFns.indicator()"
+        :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
         :style="isInd ? {} : { transform: `translateX(-${100 - percentage}%)` }"
       />
     </ProgressRoot>

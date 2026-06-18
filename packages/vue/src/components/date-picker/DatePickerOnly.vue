@@ -42,6 +42,13 @@ const props = withDefaults(defineProps<{
   closeOnSelect?: boolean
   modal?: boolean
   class?: string
+  /** Override classes for specific slots */
+  classNames?: Partial<{
+    base: string
+    trigger: string
+    triggerIndicator: string
+    popover: string
+  }>
 }>(), {
   variant: 'flat',
   size: 'md',
@@ -94,7 +101,7 @@ const calendarValue = computed<DateValue | undefined>({
     :readonly="isReadOnly"
     :name="name"
     :number-of-months="visibleMonths"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     data-slot="date-picker"
   >
     <!-- DateInput hosts label/helper/field; trigger sits in its endContent slot -->
@@ -123,13 +130,13 @@ const calendarValue = computed<DateValue | undefined>({
     >
       <template #endContent>
         <DatePickerTrigger
-          :class="slotFns.trigger()"
+          :class="composeClassName(slotFns.trigger(), props.classNames?.trigger)"
           aria-label="Open date picker"
           @mousedown.prevent
         >
           <slot name="selectorIcon">
             <svg
-              :class="slotFns.triggerIndicator()"
+              :class="composeClassName(slotFns.triggerIndicator(), props.classNames?.triggerIndicator)"
               xmlns="http://www.w3.org/2000/svg"
               width="16"
               height="16"
@@ -176,7 +183,7 @@ const calendarValue = computed<DateValue | undefined>({
 
     <!-- Popover (portaled + positioned by Reka) -->
     <DatePickerContent
-      :class="slotFns.popover()"
+      :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
       :side-offset="8"
     >

@@ -16,6 +16,14 @@ const props = withDefaults(defineProps<{
   isLoading?: boolean
   as?: string | object
   class?: string
+  /** Override classes for individual slots (base, startContent, label, endContent, spinner) */
+  classNames?: Partial<{
+    base: string
+    startContent: string
+    label: string
+    endContent: string
+    spinner: string
+  }>
   value?: string | number
 }>(), {
   variant: undefined,
@@ -79,7 +87,7 @@ const spinnerSize = computed(() => {
 <template>
   <Primitive
     :as="props.as"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :disabled="isDisabled || props.isLoading || undefined"
     :data-disabled="isDisabled || undefined"
     :data-loading="props.isLoading || undefined"
@@ -91,20 +99,20 @@ const spinnerSize = computed(() => {
     <!-- startContent named slot -->
     <span
       v-if="$slots.startContent"
-      :class="slotFns.startContent()"
+      :class="composeClassName(slotFns.startContent(), props.classNames?.startContent)"
     >
       <slot name="startContent" />
     </span>
 
     <!-- default (label) slot -->
-    <span :class="slotFns.label()">
+    <span :class="composeClassName(slotFns.label(), props.classNames?.label)">
       <slot />
     </span>
 
     <!-- endContent named slot -->
     <span
       v-if="$slots.endContent"
-      :class="slotFns.endContent()"
+      :class="composeClassName(slotFns.endContent(), props.classNames?.endContent)"
     >
       <slot name="endContent" />
     </span>
@@ -113,7 +121,7 @@ const spinnerSize = computed(() => {
     <!-- color="current" inherits --button-fg so spinner contrasts with the button background -->
     <span
       v-if="props.isLoading"
-      :class="slotFns.spinner()"
+      :class="composeClassName(slotFns.spinner(), props.classNames?.spinner)"
       aria-hidden="true"
       data-slot="spinner"
     >

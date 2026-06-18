@@ -7,6 +7,10 @@ import { useCardInject } from './card.context'
 const props = withDefaults(defineProps<{
   divider?: boolean
   class?: string
+  /** Override styles for specific slots. */
+  classNames?: Partial<{
+    header: string
+  }>
 }>(), { divider: false })
 
 const ctx = useCardInject({
@@ -22,7 +26,7 @@ const slotFns = computed(() => cardVariants({ variant: ctx.variant.value }))
 </script>
 
 <template>
-  <div :class="composeClassName(slotFns.header(), divider && 'card__header--divided', props.class)">
+  <div :class="composeClassName(slotFns.header(), divider && 'card__header--divided', props.class, props.classNames?.header)">
     <slot />
   </div>
 </template>

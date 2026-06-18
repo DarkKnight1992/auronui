@@ -7,6 +7,10 @@ const props = defineProps<{
   value: string
   forceMount?: boolean
   class?: string
+  /** Custom classes to apply to specific slots */
+  classNames?: Partial<{
+    tabPanel: string
+  }>
 }>()
 
 const ctx = useTabsInject()
@@ -16,7 +20,7 @@ const ctx = useTabsInject()
   <TabsContent
     :value="props.value"
     :force-mount="props.forceMount"
-    :class="composeClassName(ctx.slotFns.value.tabPanel(), props.class)"
+    :class="composeClassName(ctx.slotFns.value.tabPanel(), props.class, props.classNames?.tabPanel)"
   >
     <slot />
   </TabsContent>

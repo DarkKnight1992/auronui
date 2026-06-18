@@ -12,6 +12,10 @@ const props = withDefaults(defineProps<{
   size?: StepperVariants['size']
   color?: StepperVariants['color']
   class?: string
+  /** Per-slot class name overrides. */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   modelValue: undefined,
   defaultValue: 1,
@@ -62,7 +66,7 @@ provide(stepperContextKey, {
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :aria-label="`Step ${currentStep} of ${totalSteps}`"
     data-slot="stepper"
   >

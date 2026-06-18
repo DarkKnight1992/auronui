@@ -17,6 +17,10 @@ const props = withDefaults(defineProps<{
   variant?: AccordionVariants['variant']
   size?: AccordionVariants['size']
   class?: string
+  /** Override classes for any slot */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   collapsible: true,
   disabled: false,
@@ -40,7 +44,7 @@ useAccordionProvide({ slotFns })
     :default-value="props.defaultValue"
     :collapsible="props.collapsible"
     :disabled="props.disabled"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="(v: SingleValue | MultipleValue | undefined) => { if (v !== undefined) emit('update:modelValue', v) }"
   >
     <slot />

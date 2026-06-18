@@ -30,6 +30,18 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   calendarLabel?: string
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    base: string
+    header: string
+    navButton: string
+    navButtonIcon: string
+    heading: string
+    yearGrid: string
+    yearGridBody: string
+    yearGridRow: string
+    yearCell: string
+  }>
 }>(), {
   yearsPerPage: 12,
   preventDeselect: false,
@@ -59,16 +71,16 @@ const slotFns = computed(() => calendarVariants())
     :readonly="readonly"
     :disabled="disabled"
     :calendar-label="calendarLabel"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
     <template #default="{ grid }">
-      <YearPickerHeader :class="slotFns.header()">
+      <YearPickerHeader :class="composeClassName(slotFns.header(), props.classNames?.header)">
         <YearPickerPrev
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           aria-label="Previous years"
         >
           <svg
-            :class="slotFns.navButtonIcon()"
+            :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -86,7 +98,7 @@ const slotFns = computed(() => calendarVariants())
 
         <YearPickerHeading
           v-slot="{ headingValue }"
-          :class="slotFns.heading()"
+          :class="composeClassName(slotFns.heading(), props.classNames?.heading)"
         >
           <slot
             name="heading"
@@ -97,11 +109,11 @@ const slotFns = computed(() => calendarVariants())
         </YearPickerHeading>
 
         <YearPickerNext
-          :class="slotFns.navButton()"
+          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
           aria-label="Next years"
         >
           <svg
-            :class="slotFns.navButtonIcon()"
+            :class="composeClassName(slotFns.navButtonIcon(), props.classNames?.navButtonIcon)"
             xmlns="http://www.w3.org/2000/svg"
             width="16"
             height="16"
@@ -118,12 +130,12 @@ const slotFns = computed(() => calendarVariants())
         </YearPickerNext>
       </YearPickerHeader>
 
-      <YearPickerGrid :class="slotFns.yearGrid()">
-        <YearPickerGridBody :class="slotFns.yearGridBody()">
+      <YearPickerGrid :class="composeClassName(slotFns.yearGrid(), props.classNames?.yearGrid)">
+        <YearPickerGridBody :class="composeClassName(slotFns.yearGridBody(), props.classNames?.yearGridBody)">
           <YearPickerGridRow
             v-for="(row, rowIndex) in grid.rows"
             :key="rowIndex"
-            :class="slotFns.yearGridRow()"
+            :class="composeClassName(slotFns.yearGridRow(), props.classNames?.yearGridRow)"
           >
             <YearPickerCell
               v-for="yearValue in row"
@@ -133,7 +145,7 @@ const slotFns = computed(() => calendarVariants())
               <YearPickerCellTrigger
                 :year="yearValue"
                 as="button"
-                :class="slotFns.yearCell()"
+                :class="composeClassName(slotFns.yearCell(), props.classNames?.yearCell)"
               />
             </YearPickerCell>
           </YearPickerGridRow>

@@ -14,6 +14,11 @@ const props = withDefaults(defineProps<{
   color?: LinkVariants['color']
   underline?: LinkVariants['underline']
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    base: string
+    icon: string
+  }>
 }>(), {
   as: 'a',
   isExternal: false,
@@ -46,7 +51,7 @@ const resolvedRel = computed(() => {
     :href="props.href"
     :target="resolvedTarget"
     :rel="resolvedRel"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :aria-disabled="props.disabled || undefined"
     v-bind="$attrs"
   >
@@ -54,7 +59,7 @@ const resolvedRel = computed(() => {
     <!-- External link indicator (D-19): inline SVG glyph, 12x12, aria-hidden -->
     <span
       v-if="props.isExternal"
-      :class="slotFns.icon()"
+      :class="composeClassName(slotFns.icon(), props.classNames?.icon)"
       aria-hidden="true"
     >
       <svg

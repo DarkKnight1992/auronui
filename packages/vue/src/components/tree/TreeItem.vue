@@ -9,8 +9,14 @@ const props = withDefaults(defineProps<{
   value: T
   level: number
   class?: string
+  /** Additional class names to apply to individual slots. */
+  classNames?: Partial<{
+    item: string
+    itemContent: string
+  }>
 }>(), {
   class: undefined,
+  classNames: undefined,
 })
 
 defineEmits<{
@@ -34,14 +40,14 @@ const indentStyle = computed(() => ({
   <TreeItem
     :value="value"
     :level="level"
-    :class="composeClassName(slotFns.item(), props.class)"
+    :class="composeClassName(slotFns.item(), props.class, props.classNames?.item)"
     data-slot="tree-item"
     @select="$emit('select')"
     @toggle="$emit('toggle')"
   >
     <template #default="s: any">
       <div
-        :class="slotFns.itemContent()"
+        :class="composeClassName(slotFns.itemContent(), props.classNames?.itemContent)"
         :style="indentStyle"
         :data-selected="s.isSelected ? '' : undefined"
         :data-expanded="s.isExpanded ? '' : undefined"

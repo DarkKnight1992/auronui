@@ -13,6 +13,10 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   fullWidth?: boolean
   class?: string
+  /** Override CSS classes for specific slots. */
+  classNames?: Partial<{
+    base: string
+  }>
 }>(), {
   variant: 'default',
   shadow: 'sm',
@@ -68,7 +72,7 @@ function onKeydown(event: KeyboardEvent) {
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :role="role"
     :tabindex="tabindex"
     :aria-disabled="isDisabled || undefined"

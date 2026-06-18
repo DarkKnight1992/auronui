@@ -3,7 +3,15 @@ import { CollapsibleContent } from 'reka-ui'
 import { useCollapsibleInject } from './collapsible.context'
 import { motion, AnimatePresence } from '../../utils/motion'
 
-const props = defineProps<{ class?: string }>()
+const props = defineProps<{
+  /** Override the default class for the root element. */
+  class?: string
+  /** Override classes for individual slots. */
+  classNames?: Partial<{
+    body: string
+    bodyInner: string
+  }>
+}>()
 const ctx = useCollapsibleInject()
 </script>
 
@@ -21,9 +29,9 @@ const ctx = useCollapsibleInject()
         :exit="{ height: 0, opacity: 0 }"
         :transition="{ duration: 0.2, ease: 'easeOut' }"
         style="overflow: hidden;"
-        :class="ctx.slotFns.value.body()"
+        :class="composeClassName(ctx.slotFns.value.body(), props.classNames?.body)"
       >
-        <div :class="ctx.slotFns.value.bodyInner()">
+        <div :class="composeClassName(ctx.slotFns.value.bodyInner(), props.classNames?.bodyInner)">
           <slot />
         </div>
       </motion.div>

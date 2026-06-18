@@ -18,6 +18,14 @@ const props = withDefaults(defineProps<{
   isIndeterminate?: boolean
   isDisabled?: boolean
   class?: string
+  /** Override classNames for individual slots */
+  classNames?: Partial<{
+    base: string
+    svg: string
+    track: string
+    indicator: string
+    value: string
+  }>
 }>(), {
   minValue: 0,
   maxValue: 100,
@@ -67,19 +75,19 @@ const formattedValue = computed(() => {
   <ProgressRoot
     :model-value="isInd ? null : (value as number)"
     :max="maxValue"
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :aria-label="label || 'Progress'"
     :data-disabled="isDisabled ? '' : undefined"
   >
     <svg
-      :class="slotFns.svg()"
+      :class="composeClassName(slotFns.svg(), props.classNames?.svg)"
       viewBox="0 0 32 32"
       fill="none"
       aria-hidden="true"
     >
       <!-- Track circle -->
       <circle
-        :class="slotFns.track()"
+        :class="composeClassName(slotFns.track(), props.classNames?.track)"
         cx="16"
         cy="16"
         :r="radius"
@@ -88,7 +96,7 @@ const formattedValue = computed(() => {
       />
       <!-- Indicator (progress) circle -->
       <circle
-        :class="slotFns.indicator()"
+        :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
         cx="16"
         cy="16"
         :r="radius"
@@ -103,7 +111,7 @@ const formattedValue = computed(() => {
     </svg>
     <span
       v-if="showValueLabel || label"
-      :class="slotFns.value()"
+      :class="composeClassName(slotFns.value(), props.classNames?.value)"
     >
       <slot>{{ formattedValue }}</slot>
     </span>

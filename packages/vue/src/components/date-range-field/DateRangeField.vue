@@ -61,6 +61,21 @@ type Props = {
   errorMessage?: string
   /** Extra classes merged onto the root wrapper. */
   class?: string
+  /** Per-slot class overrides. Merged with tailwind-variants styles. */
+  classNames?: Partial<{
+    base: string
+    label: string
+    mainWrapper: string
+    inputWrapper: string
+    startContent: string
+    segmentList: string
+    segment: string
+    separator: string
+    endContent: string
+    helperWrapper: string
+    errorMessage: string
+    description: string
+  }>
 
   /* ─── DateRangeField-specific ─────────────────────────────────── */
   defaultValue?: DateRange
@@ -217,7 +232,7 @@ const showInsideLabel = computed(
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
     :data-readonly="isReadOnly || undefined"
@@ -230,13 +245,13 @@ const showInsideLabel = computed(
       v-if="showOutsideLabel"
       :id="labelId"
       :for="fieldId"
-      :class="slotFns.label()"
+      :class="composeClassName(slotFns.label(), props.classNames?.label)"
     >{{ label }}<span
       v-if="isRequired"
       aria-hidden="true"
     > *</span></label>
 
-    <div :class="slotFns.mainWrapper()">
+    <div :class="composeClassName(slotFns.mainWrapper(), props.classNames?.mainWrapper)">
       <DateRangeFieldRoot
         :id="fieldId"
         ref="fieldRef"
@@ -256,7 +271,7 @@ const showInsideLabel = computed(
         :aria-describedby="ariaDescribedBy"
         :aria-required="isRequired || undefined"
         :aria-invalid="isInvalid || undefined"
-        :class="slotFns.inputWrapper()"
+        :class="composeClassName(slotFns.inputWrapper(), props.classNames?.inputWrapper)"
         :data-filled="hasLabel ? (effectiveFilled || undefined) : undefined"
         :data-focused="isFocused || undefined"
         :data-invalid="isInvalid || undefined"
@@ -269,7 +284,7 @@ const showInsideLabel = computed(
             v-if="showInsideLabel"
             :id="labelId"
             :for="fieldId"
-            :class="slotFns.label()"
+            :class="composeClassName(slotFns.label(), props.classNames?.label)"
           >{{ label }}<span
             v-if="isRequired"
             aria-hidden="true"
@@ -277,14 +292,14 @@ const showInsideLabel = computed(
 
           <span
             v-if="$slots.startContent"
-            :class="slotFns.startContent()"
+            :class="composeClassName(slotFns.startContent(), props.classNames?.startContent)"
             data-slot="start-content"
           >
             <slot name="startContent" />
           </span>
 
           <div
-            :class="slotFns.segmentList()"
+            :class="composeClassName(slotFns.segmentList(), props.classNames?.segmentList)"
             data-slot="segment-list"
             data-type="start"
           >
@@ -295,7 +310,7 @@ const showInsideLabel = computed(
               <DateRangeFieldInput
                 :part="segment.part"
                 type="start"
-                :class="slotFns.segment()"
+                :class="composeClassName(slotFns.segment(), props.classNames?.segment)"
               >
                 {{ segment.value }}
               </DateRangeFieldInput>
@@ -303,13 +318,13 @@ const showInsideLabel = computed(
           </div>
 
           <span
-            :class="slotFns.separator()"
+            :class="composeClassName(slotFns.separator(), props.classNames?.separator)"
             aria-hidden="true"
             data-slot="separator"
           >–</span>
 
           <div
-            :class="slotFns.segmentList()"
+            :class="composeClassName(slotFns.segmentList(), props.classNames?.segmentList)"
             data-slot="segment-list"
             data-type="end"
           >
@@ -320,7 +335,7 @@ const showInsideLabel = computed(
               <DateRangeFieldInput
                 :part="segment.part"
                 type="end"
-                :class="slotFns.segment()"
+                :class="composeClassName(slotFns.segment(), props.classNames?.segment)"
               >
                 {{ segment.value }}
               </DateRangeFieldInput>
@@ -329,7 +344,7 @@ const showInsideLabel = computed(
 
           <span
             v-if="$slots.endContent"
-            :class="slotFns.endContent()"
+            :class="composeClassName(slotFns.endContent(), props.classNames?.endContent)"
             data-slot="end-content"
           >
             <slot name="endContent" />
@@ -339,12 +354,12 @@ const showInsideLabel = computed(
 
       <div
         v-if="hasHelper"
-        :class="slotFns.helperWrapper()"
+        :class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
       >
         <div
           v-if="showError"
           :id="errorMessageId"
-          :class="slotFns.errorMessage()"
+          :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
           role="alert"
         >
           {{ errorMessage }}
@@ -352,7 +367,7 @@ const showInsideLabel = computed(
         <div
           v-else-if="showDescription"
           :id="descriptionId"
-          :class="slotFns.description()"
+          :class="composeClassName(slotFns.description(), props.classNames?.description)"
         >
           {{ description }}
         </div>

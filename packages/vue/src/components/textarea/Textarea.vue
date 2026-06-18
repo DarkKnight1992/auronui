@@ -87,6 +87,20 @@ type Props = {
   autoResize?: boolean
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
   class?: string
+  /** Per-slot class overrides. Each key accepts classes merged via `composeClassName`. */
+  classNames?: Partial<{
+    base: string
+    label: string
+    mainWrapper: string
+    inputWrapper: string
+    startContent: string
+    input: string
+    endContent: string
+    clearButton: string
+    helperWrapper: string
+    errorMessage: string
+    description: string
+  }>
 }
 
 const attrs = useAttrs()
@@ -154,7 +168,7 @@ const showInsideLabel = computed(
 
 <template>
   <div
-    :class="composeClassName(slotFns.base(), props.class)"
+    :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
     :data-readonly="isReadonly || undefined"
@@ -165,28 +179,28 @@ const showInsideLabel = computed(
     <label
       v-if="showOutsideLabel"
       :for="inputId"
-      :class="slotFns.label()"
+      :class="composeClassName(slotFns.label(), props.classNames?.label)"
     >{{ label }}<span
       v-if="isRequired"
       aria-hidden="true"
     > *</span></label>
 
-    <div :class="slotFns.mainWrapper()">
+    <div :class="composeClassName(slotFns.mainWrapper(), props.classNames?.mainWrapper)">
       <div
-        :class="slotFns.inputWrapper()"
+        :class="composeClassName(slotFns.inputWrapper(), props.classNames?.inputWrapper)"
         :data-filled="hasLabel ? (isFilled || undefined) : undefined"
       >
         <label
           v-if="showInsideLabel"
           :for="inputId"
-          :class="slotFns.label()"
+          :class="composeClassName(slotFns.label(), props.classNames?.label)"
         >{{ label }}<span
           v-if="isRequired"
           aria-hidden="true"
         > *</span></label>
         <span
           v-if="$slots.startContent"
-          :class="slotFns.startContent()"
+          :class="composeClassName(slotFns.startContent(), props.classNames?.startContent)"
         >
           <slot name="startContent" />
         </span>
@@ -203,11 +217,11 @@ const showInsideLabel = computed(
           :required="isRequired || undefined"
           :aria-invalid="isInvalid || undefined"
           :aria-describedby="ariaDescribedBy"
-          :class="slotFns.input()"
+          :class="composeClassName(slotFns.input(), props.classNames?.input)"
         />
         <span
           v-if="$slots.endContent"
-          :class="slotFns.endContent()"
+          :class="composeClassName(slotFns.endContent(), props.classNames?.endContent)"
         >
           <slot name="endContent" />
         </span>
@@ -215,7 +229,7 @@ const showInsideLabel = computed(
           v-if="showClearButton"
           type="button"
           tabindex="-1"
-          :class="slotFns.clearButton()"
+          :class="composeClassName(slotFns.clearButton(), props.classNames?.clearButton)"
           aria-label="Clear textarea"
           @click="handleClear"
         >
@@ -252,19 +266,19 @@ const showInsideLabel = computed(
 
       <div
         v-if="hasHelper"
-        :class="slotFns.helperWrapper()"
+        :class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
       >
         <div
           v-if="showError"
           :id="errorMessageId"
-          :class="slotFns.errorMessage()"
+          :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
         >
           {{ errorMessage }}
         </div>
         <div
           v-else-if="showDescription"
           :id="descriptionId"
-          :class="slotFns.description()"
+          :class="composeClassName(slotFns.description(), props.classNames?.description)"
         >
           {{ description }}
         </div>

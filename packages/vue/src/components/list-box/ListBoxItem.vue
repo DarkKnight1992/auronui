@@ -11,11 +11,17 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   variant?: ListBoxItemVariants['variant']
   class?: string
+  /** Override classes for individual slots */
+  classNames?: Partial<{
+    item: string
+    indicator: string
+  }>
 }>(), {
   textValue: undefined,
   isDisabled: false,
   variant: undefined,
   class: undefined,
+  classNames: undefined,
 })
 
 // Inject context with fallback (standalone usage)
@@ -38,12 +44,12 @@ const slotFns = computed(() =>
     :value="props.value"
     :disabled="finalDisabled"
     :text-value="props.textValue ?? props.value"
-    :class="composeClassName(slotFns.item(), props.class)"
+    :class="composeClassName(slotFns.item(), props.class, props.classNames?.item)"
   >
     <slot name="startContent" />
     <slot />
     <slot name="endContent" />
-    <ListboxItemIndicator :class="slotFns.indicator()">
+    <ListboxItemIndicator :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)">
       <slot name="selectedIcon">
         <!-- Default check icon -->
         <svg

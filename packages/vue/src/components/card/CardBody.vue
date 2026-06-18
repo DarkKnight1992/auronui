@@ -4,7 +4,18 @@ import { cardVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useCardInject } from './card.context'
 
-const props = defineProps<{ class?: string }>()
+const props = defineProps<{
+  /**
+   * Custom class to apply to the root element.
+   */
+  class?: string
+  /**
+   * Custom classes to apply to each slot.
+   */
+  classNames?: Partial<{
+    content: string
+  }>
+}>()
 
 const ctx = useCardInject({
   variant: ref('default'),
@@ -19,7 +30,7 @@ const slotFns = computed(() => cardVariants({ variant: ctx.variant.value }))
 </script>
 
 <template>
-  <div :class="composeClassName(slotFns.content(), props.class)">
+  <div :class="composeClassName(slotFns.content(), props.class, props.classNames?.content)">
     <slot />
   </div>
 </template>

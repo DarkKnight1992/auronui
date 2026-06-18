@@ -11,6 +11,10 @@ const props = defineProps<{
   loop?: boolean
   overflow?: 'arrows' | 'dropdown'
   class?: string
+  /** Override classes on individual slots */
+  classNames?: Partial<{
+    tabList: string
+  }>
 }>()
 
 const ctx = useTabsInject()
@@ -197,7 +201,7 @@ function selectOverflowTab(value: string) {
   <TabsList
     v-if="!props.overflow"
     :loop="props.loop ?? true"
-    :class="composeClassName(ctx.slotFns.value.tabList(), props.class)"
+    :class="composeClassName(ctx.slotFns.value.tabList(), props.class, props.classNames?.tabList)"
   >
     <slot />
   </TabsList>
@@ -226,7 +230,7 @@ function selectOverflowTab(value: string) {
     <div ref="scrollWrapperEl" class="tabs__scroll-wrapper">
       <TabsList
         :loop="props.loop ?? true"
-        :class="composeClassName(ctx.slotFns.value.tabList(), 'tabs__list--scroll', props.class)"
+        :class="composeClassName(ctx.slotFns.value.tabList(), 'tabs__list--scroll', props.class, props.classNames?.tabList)"
       >
         <slot />
       </TabsList>
@@ -256,7 +260,7 @@ function selectOverflowTab(value: string) {
   >
     <TabsList
       :loop="props.loop ?? true"
-      :class="composeClassName(ctx.slotFns.value.tabList(), 'tabs__list--clipped', props.class)"
+      :class="composeClassName(ctx.slotFns.value.tabList(), 'tabs__list--clipped', props.class, props.classNames?.tabList)"
     >
       <slot />
     </TabsList>

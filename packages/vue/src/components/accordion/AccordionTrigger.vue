@@ -4,13 +4,20 @@ import { composeClassName } from '../../utils/composeClassName'
 import { useAccordionInject } from './accordion.context'
 import { useAccordionItemInject } from './accordion-item.context'
 
-const props = defineProps<{ class?: string }>()
+const props = defineProps<{
+  class?: string
+  /** Per-slot class overrides. */
+  classNames?: Partial<{
+    trigger: string
+    indicator: string
+  }>
+}>()
 const ctx = useAccordionInject()
 const item = useAccordionItemInject()
 </script>
 
 <template>
-  <RekaAccordionTrigger :class="composeClassName(ctx.slotFns.value.trigger(), props.class)">
+  <RekaAccordionTrigger :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
     <slot />
     <!--
       Indicator slot. Users can replace the chevron with any icon.
@@ -19,7 +26,7 @@ const item = useAccordionItemInject()
       behaviour etc.), spread the slot's `open` prop.
     -->
     <span
-      :class="ctx.slotFns.value.indicator()"
+      :class="composeClassName(ctx.slotFns.value.indicator(), props.classNames?.indicator)"
       aria-hidden="true"
     >
       <slot

@@ -6,6 +6,10 @@ import { useTableInject } from './table.context'
 defineProps<{
   columnIndex?: number
   sortDirection?: 'ascending' | 'descending' | 'none'
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    column: string
+  }>
 }>()
 
 const ctx = useTableInject()
@@ -15,7 +19,7 @@ const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 <template>
   <th
     role="columnheader"
-    :class="slotFns.column()"
+    :class="composeClassName(slotFns.column(), props.classNames?.column)"
     :data-col-index="columnIndex"
     :aria-sort="sortDirection"
   >

@@ -3,12 +3,22 @@ import { computed } from 'vue'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { FlexRender, type Row, type RowData } from '@tanstack/vue-table'
 import { tableVariants } from '@auronui/styles'
+import { composeClassName } from '../../utils/composeClassName'
 import { useTableInject } from './table.context'
 
 const props = defineProps<{
   scrollElement: HTMLElement | null
   estimatedRowHeight?: number
   overscan?: number
+  /**
+   * Per-slot class overrides. Each key maps to a named slot in the anatomy;
+   * the value is merged with the generated variant classes via `composeClassName`.
+   */
+  classNames?: Partial<{
+    body: string
+    row: string
+    cell: string
+  }>
 }>()
 
 const ctx = useTableInject()
@@ -68,7 +78,7 @@ defineExpose({
     <table> structure and inherit column widths from <thead>.
     paddingTop/paddingBottom spacers replace the absolute-positioning approach.
   -->
-  <tbody :class="slotFns.body()">
+  <tbody :class="composeClassName(slotFns.body(), props.classNames?.body)">
     <tr
       v-if="paddingTop > 0"
       aria-hidden="true"
@@ -82,7 +92,7 @@ defineExpose({
       v-for="vItem in virtualItems"
       :key="rows[vItem.index].id"
       role="row"
-      :class="slotFns.row()"
+      :class="composeClassName(slotFns.row(), props.classNames?.row)"
       :aria-rowindex="vItem.index + 1"
       :aria-selected="
         ctx.selectionMode.value !== 'none'
@@ -97,7 +107,7 @@ defineExpose({
         v-for="(cell, colIndex) in rows[vItem.index].getVisibleCells()"
         :key="cell.id"
         role="gridcell"
-        :class="slotFns.cell()"
+        :class="composeClassName(slotFns.cell(), props.classNames?.cell)"
         :data-row-index="vItem.index"
         :data-col-index="colIndex"
         :tabindex="
