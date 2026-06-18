@@ -21,6 +21,7 @@ const meta: Meta<typeof InputOTP> = {
       control: 'select',
       options: ['primary', 'secondary'],
     },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     length: 6,
@@ -137,5 +138,25 @@ export const AllSizes: Story = {
         </div>
       </div>
     `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { InputOTP },
+    setup() {
+      const value = ref('')
+      return {
+        args,
+        value,
+        classNames: {
+          base: 'rounded-lg border-2 border-blue-500',
+          group: 'gap-3 p-4 bg-blue-50',
+          slot: 'bg-white border border-blue-300 rounded-md text-lg font-semibold text-blue-700',
+        },
+      }
+    },
+    template: '<InputOTP v-bind="args" :class-names="classNames" :length="6" v-model="value" aria-label="Styled one-time password" />',
   }),
 }

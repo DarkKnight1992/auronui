@@ -15,6 +15,7 @@ const meta: Meta<typeof ProgressBar> = {
       control: "select",
       options: ["none", "sm", "md", "lg", "full"],
     },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     value: 60,
@@ -119,4 +120,25 @@ export const Disabled: Story = {
     template: `<ProgressBar v-bind="args" />`,
   }),
   args: { value: 50, isDisabled: true, label: "Disabled" },
+};
+
+export const CustomStyles: Story = {
+  render: (args) => ({
+    components: { ProgressBar },
+    setup: () => ({ args }),
+    template: `<ProgressBar v-bind="args" />`,
+  }),
+  name: "Custom styles via classNames",
+  args: {
+    value: 65,
+    label: "Custom styled progress",
+    showValueLabel: true,
+    classNames: {
+      labelWrapper: "gap-3",
+      label: "text-blue-600 font-semibold",
+      value: "text-green-600 font-bold",
+      track: "border-2 border-blue-400 bg-blue-50",
+      indicator: "bg-gradient-to-r from-blue-500 to-purple-500",
+    },
+  },
 };

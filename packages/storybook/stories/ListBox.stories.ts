@@ -5,6 +5,12 @@ import { ref } from 'vue'
 const meta: Meta = {
   title: 'Components/ListBox',
   component: ListBox,
+  argTypes: {
+    classNames: {
+      control: 'object',
+      description: 'Per-slot class overrides. Keys match the component anatomy slot names.',
+    },
+  },
 }
 
 export default meta
@@ -149,6 +155,37 @@ export const WithDividers: Story = {
           <ListBoxItem value="wheat">Wheat</ListBoxItem>
         </ListBoxSection>
       </ListBox>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { ListBox, ListBoxItem },
+    setup() {
+      const selected = ref<string>('')
+      return { args, selected }
+    },
+    template: `
+      <div>
+        <p style="margin-bottom:8px;font-size:14px">Selected: {{ selected || 'none' }}</p>
+        <ListBox
+          v-bind="args"
+          v-model="selected"
+          aria-label="Select a fruit"
+          selection-mode="single"
+          :class-names="{
+            base: 'border-2 border-blue-500 rounded-lg bg-blue-50 shadow-md',
+          }"
+        >
+          <ListBoxItem value="apple">Apple</ListBoxItem>
+          <ListBoxItem value="banana">Banana</ListBoxItem>
+          <ListBoxItem value="cherry">Cherry</ListBoxItem>
+          <ListBoxItem value="date">Date</ListBoxItem>
+          <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+        </ListBox>
+      </div>
     `,
   }),
 }

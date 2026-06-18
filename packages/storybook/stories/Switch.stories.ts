@@ -5,6 +5,9 @@ import { ref } from 'vue'
 const meta: Meta = {
   title: 'Form/Switch',
   component: Switch,
+  argTypes: {
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+  },
 }
 
 export default meta
@@ -159,6 +162,29 @@ export const GroupHorizontal: Story = {
         <Switch v-bind="args" value="b" aria-label="Feature B">Feature B</Switch>
         <Switch v-bind="args" value="c" aria-label="Feature C">Feature C</Switch>
       </SwitchGroup>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Switch },
+    setup() {
+      const value = ref(false)
+      return { args, value }
+    },
+    template: `
+      <Switch
+        v-bind="args"
+        v-model="value"
+        :class-names="{
+          control: 'border-2 border-blue-500 rounded-lg',
+          thumb: 'bg-gradient-to-r from-blue-400 to-blue-600',
+          content: 'text-blue-700 font-semibold ml-3',
+        }"
+        aria-label="Custom styled switch"
+      >Custom Styled Switch</Switch>
     `,
   }),
 }

@@ -11,6 +11,7 @@ const meta: Meta<TabsArgs> = {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     variant: { control: 'select', options: ['primary', 'secondary'] },
     overflow: { control: 'select', options: [undefined, 'arrows', 'dropdown'], name: 'overflow (TabList)' },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
 }
 export default meta
@@ -193,6 +194,34 @@ export const DropdownOverflow: Story = {
           <TabPanel value="seven">Warranty content</TabPanel>
         </Tabs>
       </div>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  args: {
+    defaultValue: 'one',
+    variant: 'primary',
+    classNames: {
+      tabList: 'border-b-2 border-blue-500',
+    },
+  },
+  render: (args) => ({
+    components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
+    setup() { return { args } },
+    template: `
+      <Tabs v-bind="args">
+        <TabList :class-names="args.classNames">
+          <Tab value="one" :class-names="{ tab: 'text-blue-600 hover:bg-blue-50' }">Styled Tab 1</Tab>
+          <Tab value="two" :class-names="{ tab: 'text-blue-600 hover:bg-blue-50' }">Styled Tab 2</Tab>
+          <Tab value="three" :class-names="{ tab: 'text-blue-600 hover:bg-blue-50' }">Styled Tab 3</Tab>
+          <TabIndicator />
+        </TabList>
+        <TabPanel value="one" :class-names="{ tabPanel: 'bg-blue-50 p-4 rounded-lg' }">Custom styled content panel 1</TabPanel>
+        <TabPanel value="two" :class-names="{ tabPanel: 'bg-blue-50 p-4 rounded-lg' }">Custom styled content panel 2</TabPanel>
+        <TabPanel value="three" :class-names="{ tabPanel: 'bg-blue-50 p-4 rounded-lg' }">Custom styled content panel 3</TabPanel>
+      </Tabs>
     `,
   }),
 }

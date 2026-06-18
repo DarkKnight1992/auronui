@@ -14,6 +14,11 @@ const meta: Meta<typeof Meter> = {
     value: { control: { type: "range", min: 0, max: 100, step: 1 } },
     minValue: { control: { type: "number" } },
     maxValue: { control: { type: "number" } },
+    classNames: {
+      control: "object",
+      description:
+        "Per-slot class overrides. Keys match the component anatomy slot names: base, label, output, track, fill.",
+    },
   },
   args: {
     value: 50,
@@ -105,5 +110,28 @@ export const CustomRange: Story = {
     maxValue: 200,
     label: "Temperature (°C)",
     showValueLabel: true,
+  },
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Meter },
+    setup: () => ({ args }),
+    template: `<Meter v-bind="args" />`,
+  }),
+  args: {
+    value: 65,
+    minValue: 0,
+    maxValue: 100,
+    label: "System Load",
+    showValueLabel: true,
+    classNames: {
+      base: "gap-3",
+      label: "text-blue-600 font-semibold text-lg",
+      output: "text-blue-700 font-bold",
+      track: "border-2 border-blue-400 rounded-full bg-blue-50",
+      fill: "bg-gradient-to-r from-blue-500 to-blue-600 rounded-full",
+    },
   },
 };

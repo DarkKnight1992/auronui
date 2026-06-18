@@ -27,6 +27,7 @@ const meta: Meta<typeof Slider> = {
     showSteps: { control: "boolean" },
     hideValue: { control: "boolean" },
     label: { control: "text" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     min: 0,
@@ -209,6 +210,35 @@ export const StartEndContent: Story = {
           <span style="font-size: 18px;">🔊</span>
         </template>
       </Slider>
+    `,
+  }),
+  args: {
+    min: 0,
+    max: 100,
+  },
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Slider },
+    setup() {
+      const value = ref(65);
+      return { args, value };
+    },
+    template: `
+      <Slider
+        v-bind="args"
+        v-model="value"
+        label="Custom styled slider"
+        style="max-width: 400px;"
+        :class-names="{
+          output: 'text-lg font-bold text-blue-600',
+          track: 'bg-blue-100 border-2 border-blue-400 rounded-full',
+          fill: 'bg-gradient-to-r from-blue-500 to-blue-600',
+          thumb: 'border-2 border-blue-600 bg-white shadow-lg',
+        }"
+      />
     `,
   }),
   args: {

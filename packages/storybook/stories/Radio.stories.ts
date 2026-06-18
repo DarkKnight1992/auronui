@@ -5,6 +5,9 @@ import { ref } from 'vue'
 const meta: Meta = {
   title: 'Form/Radio',
   component: RadioGroup,
+  argTypes: {
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+  },
 }
 
 export default meta
@@ -162,6 +165,33 @@ export const VariantSecondary: Story = {
       <RadioGroup v-bind="args" v-model="selected" variant="secondary" label="Secondary variant">
         <Radio value="a">Option A</Radio>
         <Radio value="b">Option B</Radio>
+      </RadioGroup>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Radio, RadioGroup },
+    setup() {
+      const selected = ref('vue')
+      return { args, selected }
+    },
+    template: `
+      <RadioGroup
+        v-bind="args"
+        v-model="selected"
+        label="Choose a framework"
+        :class-names="{
+          control: 'border-2 border-blue-500 rounded-lg',
+          indicator: 'bg-blue-600',
+          content: 'text-blue-700 font-semibold',
+        }"
+      >
+        <Radio value="vue">Vue</Radio>
+        <Radio value="react">React</Radio>
+        <Radio value="svelte">Svelte</Radio>
       </RadioGroup>
     `,
   }),

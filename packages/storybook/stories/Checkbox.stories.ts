@@ -5,6 +5,9 @@ import { ref } from 'vue'
 const meta: Meta = {
   title: 'Form/Checkbox',
   component: Checkbox,
+  argTypes: {
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+  },
 }
 
 export default meta
@@ -158,6 +161,31 @@ export const GroupWithDescription: Story = {
         <Checkbox v-bind="args" value="sms" aria-label="SMS">SMS</Checkbox>
         <Checkbox v-bind="args" value="push" aria-label="Push notifications">Push notifications</Checkbox>
       </CheckboxGroup>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const value = ref(true)
+      return { args, value }
+    },
+    template: `
+      <Checkbox
+        v-bind="args"
+        v-model="value"
+        :class-names="{
+          control: 'border-2 border-blue-500 rounded-lg',
+          indicator: 'bg-blue-600',
+          content: 'text-blue-700 font-semibold ml-2',
+        }"
+        aria-label="Custom styled checkbox"
+      >
+        Custom styled checkbox
+      </Checkbox>
     `,
   }),
 }

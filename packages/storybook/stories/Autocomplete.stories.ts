@@ -39,6 +39,7 @@ const meta: Meta<typeof Autocomplete> = {
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
     debounceMs: { control: "number" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     variant: "flat",
@@ -1124,6 +1125,37 @@ export const CreatableMultiple: Story = {
           </AutocompleteContent>
         </Autocomplete>
         <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+    setup: () => ({ args, items: allFruits }),
+    template: `
+      <div style="max-width:360px">
+        <Autocomplete
+          v-bind="args"
+          :items="items"
+          label="Favorite Fruit"
+          variant="bordered"
+          :class-names="{
+            base: 'rounded-lg border-2 border-blue-500 p-4',
+            label: 'text-blue-600 font-semibold',
+            mainWrapper: 'rounded-md bg-blue-50',
+            description: 'text-blue-500 italic',
+          }"
+          description="Custom styled with per-slot class overrides."
+          aria-label="Autocomplete with custom styles"
+        >
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
       </div>
     `,
   }),

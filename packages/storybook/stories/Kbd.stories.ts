@@ -7,6 +7,7 @@ const meta: Meta<typeof Kbd> = {
   tags: ["autodocs"],
   argTypes: {
     variant: { control: "select", options: ["default", "light"] },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     variant: "default",
@@ -74,6 +75,30 @@ export const LightVariantShowcase: Story = {
         <Kbd v-bind="args" variant="default">⌘K</Kbd>
         <span style="font-size: 12px; color: #888;">vs</span>
         <Kbd v-bind="args" variant="light">⌘K</Kbd>
+      </div>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Kbd },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+        <Kbd v-bind="args" :class-names="{
+          base: 'border-2 border-blue-500 bg-blue-50 rounded-lg',
+          content: 'text-blue-700 font-semibold',
+        }">⌘K</Kbd>
+        <Kbd v-bind="args" :class-names="{
+          base: 'border-2 border-purple-500 bg-purple-50',
+          abbr: 'text-purple-600 font-bold',
+          content: 'text-purple-700',
+        }">
+          <template #abbr>Ctrl</template>
+          C
+        </Kbd>
       </div>
     `,
   }),

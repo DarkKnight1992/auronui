@@ -17,6 +17,11 @@ const meta: Meta<typeof ScrollShadow> = {
     },
     size: { control: { type: "number", min: 0, max: 200 } },
     hideScrollBar: { control: "boolean" },
+    classNames: {
+      control: "object",
+      description:
+        "Per-slot class overrides. Keys match the component anatomy slot names.",
+    },
   },
   args: {
     orientation: "vertical",
@@ -103,4 +108,26 @@ export const BothOrientations: Story = {
   args: {
     orientation: "both",
   },
+};
+
+export const CustomStyles: Story = {
+  render: (args) => ({
+    components: { ScrollShadow },
+    setup: () => ({ args, LOREM }),
+    template: `
+      <ScrollShadow
+        v-bind="args"
+        style="height: 200px; width: 400px; padding: 12px; border-radius: 8px;"
+        :class-names="{
+          base: 'rounded-2xl border-2 border-blue-500 bg-blue-50 shadow-lg',
+        }"
+      >
+        <p style="margin: 0; line-height: 1.6;">{{ LOREM }}</p>
+      </ScrollShadow>
+    `,
+  }),
+  args: {
+    orientation: "vertical",
+  },
+  name: "Custom styles via classNames",
 };

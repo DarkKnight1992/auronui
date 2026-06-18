@@ -16,6 +16,10 @@ const meta: Meta<typeof Badge> = {
       control: "select",
       options: ["top-right", "top-left", "bottom-right", "bottom-left"],
     },
+    classNames: {
+      control: "object",
+      description: "Per-slot class overrides. Keys match the component anatomy slot names.",
+    },
   },
   args: {
     color: "danger",
@@ -181,4 +185,19 @@ export const Placements: Story = {
       </div>
     `,
   }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Badge, Avatar },
+    setup: () => ({ args }),
+    template: `
+      <Badge v-bind="args" :class-names="{ anchor: 'ring-2 ring-blue-400', base: 'bg-blue-500 border-2 border-blue-700', label: 'text-white font-bold text-lg' }">
+        <Avatar name="CS" />
+        <template #label>7</template>
+      </Badge>
+    `,
+  }),
+  args: { color: "default", size: "md", variant: "primary", placement: "top-right" },
 };

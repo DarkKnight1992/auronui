@@ -20,6 +20,11 @@ const meta: Meta<typeof Calendar> = {
       control: "select",
       options: [0, 1, 2, 3, 4, 5, 6],
     },
+    classNames: {
+      control: "object",
+      description:
+        "Per-slot class overrides. Keys match the component anatomy slot names.",
+    },
   },
   args: {
     numberOfMonths: 1,
@@ -86,6 +91,21 @@ export const ViewSwitching: Story = {
         story:
           "Click the month+year heading to cycle through date → month → year → date views. Selecting a month returns to date view focused on that month; selecting a year returns to month view for that year.",
       },
+    },
+  },
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  args: {
+    defaultValue: new CalendarDate(2024, 6, 15),
+    classNames: {
+      base: "border-2 border-blue-500 rounded-lg p-4",
+      heading: "text-blue-700 font-semibold text-lg",
+      headingButton: "text-blue-600 hover:text-blue-800 hover:bg-blue-50 px-2 py-1 rounded",
+      navButton: "text-blue-500 hover:bg-blue-100 rounded-md p-1",
+      headerCell: "text-blue-600 font-medium bg-blue-50",
+      cellButton: "hover:bg-blue-200 data-[selected]:bg-blue-500 data-[selected]:text-white rounded",
     },
   },
 };

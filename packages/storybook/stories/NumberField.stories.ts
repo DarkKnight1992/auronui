@@ -25,6 +25,7 @@ const meta: Meta<typeof NumberField> = {
     step: { control: 'number' },
     min: { control: 'number' },
     max: { control: 'number' },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     variant: 'flat',
@@ -198,5 +199,27 @@ export const WithAriaLabel: Story = {
     components: { NumberField },
     setup() { return { args } },
     template: '<NumberField v-bind="args" aria-label="Quantity" :step="1" :min="0" :max="100" />',
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { NumberField },
+    setup() { return { args } },
+    template: `
+      <NumberField
+        v-bind="args"
+        label="Price with Custom Styles"
+        :model-value="99"
+        :class-names="{
+          base: 'border-2 border-blue-500 rounded-lg p-4',
+          group: 'gap-3',
+          input: 'text-blue-600 font-semibold text-lg',
+          incrementButton: 'bg-green-100 hover:bg-green-200 text-green-700 rounded-md',
+          decrementButton: 'bg-red-100 hover:bg-red-200 text-red-700 rounded-md',
+        }"
+      />
+    `,
   }),
 }

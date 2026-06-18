@@ -47,6 +47,7 @@ const meta: Meta<typeof DateTimePicker> = {
     errorMessage: { control: "text" },
     locale: { control: "text" },
     name: { control: "text" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     label: "Date & Time",
@@ -286,6 +287,26 @@ export const WithConstraints: Story = {
     defaultValue: BASE_VALUE,
     minValue: new CalendarDateTime(2024, 6, 1, 0, 0),
     maxValue: new CalendarDateTime(2024, 6, 30, 23, 59),
+  },
+  render: (args: any) => ({
+    components: { DateTimePicker },
+    setup: () => ({ args }),
+    template: `<DateTimePicker v-bind="args" />`,
+  }),
+};
+
+/* ─── Custom styles via classNames ─────────────────────────────────── */
+
+export const CustomStyles: Story = {
+  args: {
+    label: "Styled Date & Time",
+    defaultValue: BASE_VALUE,
+    classNames: {
+      trigger: "border-2 border-blue-500 rounded-lg",
+      stepHeader: "bg-blue-50 border-b-2 border-blue-200",
+      stepTitle: "text-blue-700 font-semibold",
+      navButton: "text-blue-600 hover:bg-blue-100 rounded-md",
+    },
   },
   render: (args: any) => ({
     components: { DateTimePicker },

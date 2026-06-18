@@ -8,6 +8,7 @@ const meta: Meta<typeof Link> = {
   argTypes: {
     isExternal: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
 }
 
@@ -86,5 +87,39 @@ export const DisabledLink: Story = {
     components: { Link },
     setup() { return { args } },
     template: '<Link v-bind="args" href="https://example.com" :disabled="true">Disabled link</Link>',
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Link },
+    setup() { return { args } },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <Link
+          v-bind="args"
+          href="https://example.com"
+          :class-names="{ base: 'border-b-2 border-blue-500 text-blue-600 font-semibold hover:text-blue-700' }"
+        >
+          Custom blue border and text
+        </Link>
+        <Link
+          v-bind="args"
+          href="https://example.com"
+          :is-external="true"
+          :class-names="{ base: 'px-3 py-1 rounded-lg bg-amber-100 text-amber-900 hover:bg-amber-200', icon: 'text-amber-700' }"
+        >
+          With custom icon color
+        </Link>
+        <Link
+          v-bind="args"
+          href="https://example.com"
+          :class-names="{ base: 'underline decoration-2 decoration-emerald-500 hover:decoration-emerald-600' }"
+        >
+          Custom underline decoration
+        </Link>
+      </div>
+    `,
   }),
 }

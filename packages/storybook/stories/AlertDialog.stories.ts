@@ -28,6 +28,9 @@ const meta: Meta = {
       },
     },
   },
+  argTypes: {
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names (e.g., base).' },
+  },
 }
 
 export default meta
@@ -247,6 +250,53 @@ export const WithoutIcon: Story = {
           <AlertDialogFooter>
             <AlertDialogCancel>Cancel</AlertDialogCancel>
             <AlertDialogAction>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: {
+      AlertDialog,
+      AlertDialogTrigger,
+      AlertDialogContent,
+      AlertDialogHeader,
+      AlertDialogBody,
+      AlertDialogFooter,
+      AlertDialogTitle,
+      AlertDialogDescription,
+      AlertDialogIcon,
+      AlertDialogAction,
+      AlertDialogCancel,
+      Button,
+    },
+    setup: () => ({ args }),
+    template: `
+      <AlertDialog v-bind="args" status="danger">
+        <AlertDialogTrigger as-child>
+          <Button variant="danger">Delete Item</Button>
+        </AlertDialogTrigger>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogIcon />
+            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+          </AlertDialogHeader>
+          <AlertDialogBody>
+            <AlertDialogDescription>
+              This action cannot be undone.
+            </AlertDialogDescription>
+          </AlertDialogBody>
+          <AlertDialogFooter>
+            <AlertDialogCancel :class-names="{ base: 'border-2 border-blue-500 text-blue-600 hover:bg-blue-50' }">
+              Cancel
+            </AlertDialogCancel>
+            <AlertDialogAction :class-names="{ base: 'bg-gradient-to-r from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 rounded-lg' }">
+              Yes, delete it
+            </AlertDialogAction>
           </AlertDialogFooter>
         </AlertDialogContent>
       </AlertDialog>

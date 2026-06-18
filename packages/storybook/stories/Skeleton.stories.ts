@@ -7,6 +7,7 @@ const meta: Meta<typeof Skeleton> = {
   tags: ["autodocs"],
   argTypes: {
     animationType: { control: "select", options: ["shimmer", "pulse", "none"] },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     animationType: "shimmer",
@@ -70,4 +71,19 @@ export const Card: Story = {
     `,
   }),
   args: { animationType: "shimmer" },
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Skeleton },
+    setup: () => ({ args }),
+    template: `<Skeleton v-bind="args" style="width: 200px; height: 16px;" />`,
+  }),
+  args: {
+    animationType: "shimmer",
+    classNames: {
+      base: "border-2 border-blue-500 rounded-lg",
+    },
+  },
 };

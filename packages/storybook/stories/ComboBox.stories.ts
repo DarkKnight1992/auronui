@@ -16,6 +16,7 @@ const meta: Meta<typeof ComboBox> = {
     isDisabled: { control: "boolean" },
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     fullWidth: false,
@@ -326,7 +327,7 @@ export const Controlled: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </ComboBoxItem>
@@ -337,6 +338,38 @@ export const Controlled: Story = {
           Selected: <strong>{{ selected || '(none)' }}</strong>
         </p>
       </div>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
+    setup: () => ({ args, items: fruits }),
+    template: `
+      <ComboBox
+        v-bind="args"
+        :items="items"
+        label="Favorite Fruit"
+        :class-names="{
+          base: 'border-2 border-blue-500 rounded-lg bg-blue-50 p-4',
+        }"
+        aria-label="Fruit picker with custom styles"
+      >
+        <ComboBoxInput placeholder="Search a fruit..." />
+        <ComboBoxContent>
+          <ComboBoxItem
+            v-for="item in items"
+            :key="item.value"
+            :value="item.value"
+
+          >
+            {{ item.label }}
+          </ComboBoxItem>
+          <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+        </ComboBoxContent>
+      </ComboBox>
     `,
   }),
 };

@@ -12,6 +12,7 @@ const meta: Meta<typeof ProgressCircle> = {
       options: ["default", "primary", "secondary", "success", "warning", "danger"],
     },
     strokeWidth: { control: "number" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     value: 75,
@@ -112,4 +113,24 @@ export const Disabled: Story = {
     template: `<ProgressCircle v-bind="args" />`,
   }),
   args: { value: 50, isDisabled: true, label: "Disabled" },
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { ProgressCircle },
+    setup: () => ({ args }),
+    template: `<ProgressCircle v-bind="args" />`,
+  }),
+  args: {
+    value: 65,
+    label: "Custom styled",
+    showValueLabel: true,
+    classNames: {
+      svg: "drop-shadow-lg",
+      track: "stroke-blue-200",
+      indicator: "stroke-blue-600",
+      value: "text-blue-700 font-bold text-sm",
+    },
+  },
 };

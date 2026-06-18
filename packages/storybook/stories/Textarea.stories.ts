@@ -35,6 +35,7 @@ const meta: Meta<typeof Textarea> = {
     fullWidth: { control: 'boolean' },
     autoResize: { control: 'boolean' },
     rows: { control: 'number' },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     variant: 'flat',
@@ -746,6 +747,34 @@ export const AllStates: Story = {
           label="Required"
           :isRequired="true"
           placeholder="A required field"
+        />
+      </div>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  args: {
+    variant: 'bordered',
+    label: 'Bio',
+    labelPlacement: 'outside',
+    placeholder: 'Tell us about yourself…',
+    description: 'You can customize each slot with Tailwind classes.',
+  },
+  render: (args) => ({
+    components: { Textarea },
+    setup() { return { args } },
+    template: `
+      <div style="max-width:420px">
+        <Textarea
+          v-bind="args"
+          :class-names="{
+            inputWrapper: 'border-2 border-blue-500 rounded-lg',
+            label: 'text-blue-600 font-semibold',
+            input: 'text-base italic bg-blue-50',
+            description: 'text-blue-700 font-medium',
+          }"
         />
       </div>
     `,

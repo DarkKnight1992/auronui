@@ -39,6 +39,10 @@ const meta: Meta<typeof TimeField> = {
       control: "select",
       options: [12, 24],
     },
+    classNames: {
+      control: "object",
+      description: "Per-slot class overrides. Keys match the component anatomy slot names.",
+    },
   },
   args: {
     label: "Time",
@@ -352,4 +356,34 @@ export const FullWidth: Story = {
     template: `<TimeField v-bind="args" v-model="value" />`,
   }),
   args: { label: "Full Width Time", fullWidth: true },
+};
+
+/* ─── Custom Styles ─────────────────────────────────────────────────────── */
+
+export const CustomStyles: Story = {
+  render: (args) => ({
+    components: { TimeField },
+    setup: () => {
+      const value = ref(new Time(14, 30));
+      return { args, value };
+    },
+    template: `
+      <TimeField
+        v-bind="args"
+        v-model="value"
+        :class-names="{
+          label: 'text-blue-600 font-semibold',
+          inputWrapper: 'border-2 border-blue-500 rounded-xl',
+          segment: 'font-mono text-lg',
+          helperWrapper: 'text-blue-500 text-sm',
+        }"
+      />
+    `,
+  }),
+  args: {
+    label: "Custom Styled Time",
+    variant: "bordered",
+    description: "Styled with custom Tailwind classes",
+  },
+  name: "Custom styles via classNames",
 };

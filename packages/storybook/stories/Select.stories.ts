@@ -45,6 +45,7 @@ const meta: Meta<typeof Select> = {
     isReadonly: { control: "boolean" },
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     variant: "flat",
@@ -646,6 +647,34 @@ export const MultipleWithInitialValues: Story = {
           </SelectContent>
         </Select>
         <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+      </div>
+    `,
+  }),
+};
+
+/* ─── Custom Styles ──────────────────────────────────────────────────── */
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
+    setup: () => ({ args, items: allFruits }),
+    template: `
+      <div style="max-width:360px">
+        <Select
+          v-bind="args"
+          variant="bordered"
+          label="Favorite Fruit"
+          placeholder="Pick a fruit"
+          :items="items"
+          :class-names="{
+            base: 'border-2 border-blue-500 rounded-lg',
+            label: 'text-blue-600 font-semibold',
+            mainWrapper: 'bg-blue-50',
+            description: 'text-blue-500 italic',
+          }"
+          description="Custom styled with blue theme"
+        />
       </div>
     `,
   }),

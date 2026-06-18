@@ -18,6 +18,7 @@ const meta: Meta<typeof Stepper> = {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
     color: { control: 'select', options: ['default', 'accent', 'success', 'warning', 'danger'] },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     orientation: 'horizontal',
@@ -192,6 +193,48 @@ export const WithIcons: Story = {
           <StepperContent>
             <StepperTitle>Confirm</StepperTitle>
             <StepperDescription>Review & submit</StepperDescription>
+          </StepperContent>
+        </StepperItem>
+      </Stepper>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  args: { orientation: 'horizontal', size: 'md', color: 'accent' },
+  render: (args) => ({
+    components: { Stepper, StepperItem, StepperIndicator, StepperTitle, StepperDescription, StepperContent, StepperSeparator },
+    setup() {
+      const currentStep = ref(2)
+      return { args, currentStep, steps }
+    },
+    template: `
+      <Stepper
+        v-bind="args"
+        v-model="currentStep"
+        :total-steps="steps.length"
+        :class-names="{
+          base: 'border-l-4 border-blue-500 pl-4',
+        }"
+      >
+        <StepperItem
+          v-for="(step, index) in steps"
+          :key="index"
+          :step="index + 1"
+          :class-names="{
+            item: 'bg-slate-50 rounded-lg px-4 py-3',
+          }"
+        >
+          <StepperIndicator>{{ index + 1 }}</StepperIndicator>
+          <StepperSeparator v-if="index < steps.length - 1" />
+          <StepperContent
+            :class-names="{
+              content: 'text-blue-700 font-semibold',
+            }"
+          >
+            <StepperTitle>{{ step.label }}</StepperTitle>
+            <StepperDescription>{{ step.description }}</StepperDescription>
           </StepperContent>
         </StepperItem>
       </Stepper>

@@ -46,6 +46,7 @@ const meta: Meta<typeof DateRangePicker> = {
     errorMessage: { control: "text" },
     locale: { control: "text" },
     name: { control: "text" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     label: "Date Range",
@@ -248,6 +249,24 @@ export const DefaultOpen: Story = {
     defaultValue: {
       start: today(getLocalTimeZone()),
       end: today(getLocalTimeZone()).add({ days: 3 }),
+    },
+  },
+};
+
+/* ─── Custom styles via classNames ─────────────────────────────────────── */
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  args: {
+    label: "Styled Range",
+    defaultValue: {
+      start: new CalendarDate(2024, 6, 10),
+      end: new CalendarDate(2024, 6, 20),
+    },
+    classNames: {
+      trigger: "border-2 border-blue-500 rounded-lg hover:bg-blue-50",
+      triggerIndicator: "text-blue-600 group-hover:text-blue-700",
+      popover: "border-2 border-blue-300 shadow-lg",
     },
   },
 };

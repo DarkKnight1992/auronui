@@ -22,6 +22,10 @@ const meta: Meta<typeof Card> = {
     isPressable: { control: "boolean" },
     isDisabled: { control: "boolean" },
     fullWidth: { control: "boolean" },
+    classNames: {
+      control: "object",
+      description: "Per-slot class overrides. Keys match the component anatomy slot names (base, header, content, footer).",
+    },
   },
   args: {
     variant: "default",
@@ -488,6 +492,41 @@ export const WithDividers: Story = {
         </CardBody>
         <CardFooter divider>
           <Button variant="primary" size="sm" fullWidth>Pay invoice</Button>
+        </CardFooter>
+      </Card>
+    `,
+  }),
+};
+
+/* ============================================================
+ * Custom styles via classNames
+ * ============================================================ */
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Card, CardHeader, CardBody, CardFooter, Button },
+    setup: () => ({ args }),
+    template: `
+      <Card
+        v-bind="args"
+        :class-names="{
+          base: 'border-2 border-blue-500 rounded-2xl shadow-lg',
+          header: 'bg-blue-50 border-b-2 border-blue-200',
+          content: 'text-blue-900 font-medium',
+          footer: 'bg-gradient-to-r from-blue-50 to-blue-100',
+        }"
+        style="width: 360px;"
+      >
+        <CardHeader>
+          <div class="card__title">Customized Card</div>
+          <div class="card__description">Using classNames for per-slot styling</div>
+        </CardHeader>
+        <CardBody>
+          Override individual card sections with Tailwind utilities without CSS files. The classNames prop accepts partial overrides for base, header, content, and footer slots.
+        </CardBody>
+        <CardFooter>
+          <Button variant="primary" size="sm">Learn more</Button>
+          <Button variant="outline" size="sm">Cancel</Button>
         </CardFooter>
       </Card>
     `,

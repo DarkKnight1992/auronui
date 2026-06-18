@@ -21,6 +21,10 @@ const meta: Meta<typeof Avatar> = {
     isBordered: { control: "boolean" },
     isDisabled: { control: "boolean" },
     showFallback: { control: "boolean" },
+    classNames: {
+      control: "object",
+      description: "Per-slot class overrides. Keys match the component anatomy slot names.",
+    },
   },
   args: {
     size: "md",
@@ -132,6 +136,27 @@ export const CustomFallback: Story = {
           <span style="font-size: 1.25rem;">🎭</span>
         </template>
       </Avatar>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  args: {
+    name: "Alex Rivera",
+    size: "lg",
+  },
+  render: (args) => ({
+    components: { Avatar },
+    setup: () => ({ args }),
+    template: `
+      <Avatar
+        v-bind="args"
+        :class-names="{
+          base: 'ring-4 ring-blue-500 shadow-lg',
+          fallback: 'bg-gradient-to-br from-blue-600 to-blue-700 text-white font-bold',
+        }"
+      />
     `,
   }),
 };

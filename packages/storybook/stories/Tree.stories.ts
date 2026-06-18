@@ -64,6 +64,7 @@ const meta: Meta<typeof Tree> = {
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
     multiple: { control: 'boolean' },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     size: 'md',
@@ -238,6 +239,61 @@ export const Sizes: Story = {
           </Tree>
         </div>
       </div>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: () => ({
+    components: { Tree, TreeItem, TreeItemToggle },
+    setup() {
+      const simpleTree: FileNode[] = [
+        {
+          id: 'root',
+          label: 'project',
+          icon: 'folder',
+          children: [
+            { id: 'index', label: 'index.ts', icon: 'file' },
+            { id: 'config', label: 'config.ts', icon: 'config' },
+          ],
+        },
+      ]
+      return { simpleTree, iconSvg }
+    },
+    template: `
+      <Tree
+        :items="simpleTree"
+        :get-key="(item) => item.id"
+        :get-children="(item) => item.children"
+        :default-expanded="['root']"
+        :class-names="{
+          root: 'border-2 border-blue-500 rounded-lg p-2 bg-blue-50',
+        }"
+      >
+        <template #default="{ flattenItems }">
+          <TreeItem
+            v-for="item in flattenItems"
+            :key="item._id"
+            v-bind="item.bind"
+            :class-names="{
+              item: 'hover:bg-blue-100 rounded-md transition-colors',
+              itemContent: 'font-semibold text-blue-900',
+            }"
+          >
+            <template #default="{ isExpanded, hasChildren, toggleClass, iconClass }">
+              <TreeItemToggle
+                :is-expanded="isExpanded"
+                :has-children="hasChildren"
+                :class="toggleClass"
+                :class-names="{ itemToggle: 'text-blue-600' }"
+              />
+              <span :class="iconClass" v-html="iconSvg[item.value.icon || 'file']" />
+              <span>{{ item.value.label }}</span>
+            </template>
+          </TreeItem>
+        </template>
+      </Tree>
     `,
   }),
 }

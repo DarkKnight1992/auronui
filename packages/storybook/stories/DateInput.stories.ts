@@ -32,6 +32,10 @@ const meta: Meta<typeof DateInput> = {
       control: "select",
       options: [12, 24],
     },
+    classNames: {
+      control: "object",
+      description: "Per-slot class overrides. Keys match the component anatomy slot names.",
+    },
   },
   args: {
     label: "Date",
@@ -333,5 +337,28 @@ export const WithTime12Hour: Story = {
       return { args, value };
     },
     template: `<DateInput v-bind="args" v-model="value" />`,
+  }),
+};
+
+/* ─── Custom styles via classNames ──────────────────────────────────── */
+
+export const CustomStyles: Story = {
+  args: { label: "Styled Date" },
+  render: (args) => ({
+    components: { DateInput },
+    setup: () => {
+      const value = ref(undefined);
+      return {
+        args,
+        value,
+        classNames: {
+          inputWrapper: "border-2 border-blue-500 rounded-xl",
+          label: "text-blue-600 font-semibold",
+          segment: "text-lg font-mono",
+          helperWrapper: "text-blue-500 text-sm",
+        },
+      };
+    },
+    template: `<DateInput v-bind="args" v-model="value" :class-names="classNames" description="Custom styled date input" />`,
   }),
 };

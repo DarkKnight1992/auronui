@@ -7,6 +7,7 @@ const meta: Meta<typeof AspectRatio> = {
   tags: ['autodocs'],
   argTypes: {
     ratio: { control: { type: 'number', min: 0.1, max: 4, step: 0.1 } },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     ratio: 16 / 9,
@@ -133,6 +134,23 @@ export const Ratios: Story = {
           </AspectRatio>
         </div>
       </div>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  args: { ratio: 16 / 9, classNames: { base: 'border-4 border-blue-500 rounded-lg shadow-lg' } },
+  render: (args) => ({
+    components: { AspectRatio },
+    setup: () => ({ args }),
+    template: `
+      <AspectRatio v-bind="args">
+        <img
+          src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=600"
+          alt="Landscape"
+          style="width:100%;height:100%;object-fit:cover;"
+        />
+      </AspectRatio>
     `,
   }),
 }

@@ -5,6 +5,12 @@ import { ref } from 'vue'
 const meta: Meta = {
   title: 'Components/ButtonGroup',
   component: ButtonGroup,
+  argTypes: {
+    classNames: {
+      control: 'object',
+      description: 'Per-slot class overrides. Keys match the component anatomy slot names.',
+    },
+  },
 }
 
 export default meta
@@ -184,6 +190,27 @@ export const MultiSelectVertical: Story = {
         </ButtonGroup>
         <div>Channels: {{ selected.join(', ') || 'none' }}</div>
       </div>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Button, ButtonGroup },
+    setup: () => ({ args }),
+    template: `
+      <ButtonGroup
+        v-bind="args"
+        orientation="horizontal"
+        :class-names="{
+          base: 'border-2 border-blue-500 rounded-xl bg-blue-50 p-2',
+        }"
+      >
+        <Button variant="outline">Option One</Button>
+        <Button variant="outline">Option Two</Button>
+        <Button variant="outline">Option Three</Button>
+      </ButtonGroup>
     `,
   }),
 }

@@ -9,6 +9,9 @@ import {
 const meta: Meta<typeof Collapsible> = {
   title: 'Components/Collapsible',
   component: Collapsible,
+  argTypes: {
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+  },
 }
 export default meta
 type Story = StoryObj<typeof Collapsible>
@@ -68,6 +71,27 @@ export const GroupSingleOpen: Story = {
           <CollapsibleContent>Content C</CollapsibleContent>
         </Collapsible>
       </CollapsibleGroup>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Collapsible, CollapsibleTrigger, CollapsibleContent },
+    setup: () => ({
+      args: {
+        ...args,
+        classNames: {
+          base: 'border-2 border-blue-500 rounded-lg bg-blue-50',
+        },
+      },
+    }),
+    template: `
+      <Collapsible v-bind="args" :default-open="true">
+        <CollapsibleTrigger>Show more details</CollapsibleTrigger>
+        <CollapsibleContent>This collapsible has a custom blue border and light blue background styling applied via classNames.</CollapsibleContent>
+      </Collapsible>
     `,
   }),
 }

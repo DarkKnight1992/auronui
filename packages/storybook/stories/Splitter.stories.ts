@@ -7,6 +7,7 @@ const meta: Meta<typeof SplitterGroup> = {
   tags: ['autodocs'],
   argTypes: {
     direction: { control: 'select', options: ['horizontal', 'vertical'] },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     direction: 'horizontal',
@@ -128,4 +129,28 @@ export const Nested: Story = {
       </SplitterGroup>
     `,
   }),
+}
+
+export const CustomStyles: Story = {
+  args: { direction: 'horizontal' },
+  render: (args) => ({
+    components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
+    setup: () => ({ args, panelStyle }),
+    template: `
+      <SplitterGroup
+        v-bind="args"
+        :class-names="{ group: 'border-2 border-blue-500 rounded-lg' }"
+        style="height:100%;overflow:hidden;"
+      >
+        <SplitterPanel :default-size="50" :min-size="20" :class-names="{ panel: 'bg-blue-50' }">
+          <div :style="panelStyle">Left panel</div>
+        </SplitterPanel>
+        <SplitterResizeHandle :class-names="{ handle: 'bg-blue-600', handleBar: 'bg-blue-400' }" />
+        <SplitterPanel :default-size="50" :min-size="20" :class-names="{ panel: 'bg-slate-50' }">
+          <div :style="panelStyle">Right panel</div>
+        </SplitterPanel>
+      </SplitterGroup>
+    `,
+  }),
+  name: 'Custom styles via classNames',
 }

@@ -48,6 +48,11 @@ const meta: Meta<typeof Table> = {
   argTypes: {
     variant: { control: "select", options: ["primary", "secondary"] },
     selection: { control: "select", options: ["none", "single", "multiple"] },
+    classNames: {
+      control: "object",
+      description:
+        "Per-slot class overrides. Keys match the component anatomy slot names (base, scrollContainer).",
+    },
   },
   args: {
     variant: "primary",
@@ -205,6 +210,33 @@ export const CustomCellRendering: Story = {
           <span v-else>{{ value }}</span>
         </template>
       </Table>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Table },
+    setup() {
+      return {
+        args,
+        columns,
+        data: makePeople(5),
+        customClassNames: {
+          base: "border-2 border-blue-500 rounded-lg shadow-lg",
+          scrollContainer: "bg-blue-50",
+        },
+      };
+    },
+    template: `
+      <Table
+        v-bind="args"
+        :columns="columns"
+        :data="data"
+        :class-names="customClassNames"
+        ariaLabel="Custom styled table"
+      />
     `,
   }),
 };

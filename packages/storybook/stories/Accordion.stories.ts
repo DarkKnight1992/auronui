@@ -16,6 +16,7 @@ const meta: Meta<typeof Accordion> = {
     type: { control: 'select', options: ['single', 'multiple'] },
     variant: { control: 'select', options: ['default', 'surface'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
 }
 export default meta
@@ -166,6 +167,39 @@ export const WithDisabledItem: Story = {
         <AccordionItem value="disabled" disabled>
           <AccordionHeader><AccordionTrigger>Disabled</AccordionTrigger></AccordionHeader>
           <AccordionContent>I am locked.</AccordionContent>
+        </AccordionItem>
+      </Accordion>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  args: { type: 'single', collapsible: true, defaultValue: 'item-1' },
+  render: (args) => ({
+    components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args" :class-names="{ base: 'border-2 border-blue-500 rounded-lg overflow-hidden' }">
+        <AccordionItem value="item-1" :class-names="{ item: 'border-b-2 border-blue-200' }">
+          <AccordionHeader>
+            <AccordionTrigger :class-names="{ trigger: 'bg-blue-50 hover:bg-blue-100', indicator: 'text-blue-600' }">
+              Styled trigger with custom colors
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionContent :class-names="{ body: 'bg-blue-50', bodyInner: 'text-blue-900' }">
+            This accordion uses custom Tailwind classes to style the base container with a blue border, triggers with blue background, and content with blue tinting.
+          </AccordionContent>
+        </AccordionItem>
+        <AccordionItem value="item-2" :class-names="{ item: 'border-b-2 border-blue-200' }">
+          <AccordionHeader>
+            <AccordionTrigger :class-names="{ trigger: 'bg-blue-50 hover:bg-blue-100', indicator: 'text-blue-600' }">
+              Another styled item
+            </AccordionTrigger>
+          </AccordionHeader>
+          <AccordionContent :class-names="{ body: 'bg-blue-50', bodyInner: 'text-blue-900' }">
+            All slots support the classNames prop for fine-grained styling without CSS files.
+          </AccordionContent>
         </AccordionItem>
       </Accordion>
     `,

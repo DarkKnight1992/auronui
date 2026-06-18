@@ -17,6 +17,7 @@ const meta: Meta<typeof RangeCalendar> = {
       control: "select",
       options: ["narrow", "short", "long"],
     },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     numberOfMonths: 1,
@@ -108,5 +109,24 @@ export const ViewSwitching: Story = {
 export const Today: Story = {
   args: {
     defaultPlaceholder: today(getLocalTimeZone()),
+  },
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  args: {
+    defaultValue: {
+      start: new CalendarDate(2024, 6, 10),
+      end: new CalendarDate(2024, 6, 20),
+    },
+    classNames: {
+      base: "border-2 border-purple-500 rounded-lg p-4",
+      header: "bg-purple-50 mb-4",
+      heading: "text-purple-700 font-bold text-lg",
+      headingButton: "hover:bg-purple-100 rounded px-2 py-1",
+      navButton: "text-purple-600 hover:bg-purple-100 rounded",
+      grid: "border border-purple-200 rounded",
+      cellButton: "hover:bg-purple-200 data-[selected]:bg-purple-500 data-[selected]:text-white rounded",
+    },
   },
 };

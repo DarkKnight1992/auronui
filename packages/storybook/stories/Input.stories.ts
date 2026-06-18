@@ -34,6 +34,7 @@ const meta: Meta<typeof Input> = {
     isClearable: { control: "boolean" },
     showPasswordToggle: { control: "boolean" },
     fullWidth: { control: "boolean" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     variant: "flat",
@@ -891,6 +892,36 @@ export const AllStates: Story = {
           label="Required"
           :isRequired="true"
           placeholder="A required field"
+        />
+      </div>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  args: {
+    variant: "bordered",
+    label: "Email",
+    labelPlacement: "outside",
+    placeholder: "you@example.com",
+  },
+  render: (args: Story["args"]) => ({
+    components: { Input },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div style="max-width:400px">
+        <Input
+          v-bind="args"
+          :class-names="{
+            inputWrapper: 'border-2 border-blue-500 rounded-lg',
+            label: 'text-blue-600 font-semibold',
+            input: 'text-base placeholder-blue-300',
+            helperWrapper: 'text-blue-600',
+          }"
+          description="Custom styling applied via classNames prop"
         />
       </div>
     `,

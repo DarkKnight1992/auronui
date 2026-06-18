@@ -4,6 +4,12 @@ import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
 const meta: Meta<typeof Breadcrumbs> = {
   title: 'Components/Breadcrumbs',
   component: Breadcrumbs,
+  argTypes: {
+    classNames: {
+      control: 'object',
+      description: 'Per-slot class overrides. Keys match the component anatomy slot names.',
+    },
+  },
 }
 export default meta
 type Story = StoryObj<typeof Breadcrumbs>
@@ -49,6 +55,25 @@ export const CustomSeparator: Story = {
         <BreadcrumbItem href="/">Home</BreadcrumbItem>
         <BreadcrumbItem href="/docs">Docs</BreadcrumbItem>
         <BreadcrumbItem>Guide</BreadcrumbItem>
+      </Breadcrumbs>
+    `,
+  }),
+}
+
+export const CustomStyles: Story = {
+  name: 'Custom styles via classNames',
+  render: (args) => ({
+    components: { Breadcrumbs, BreadcrumbItem },
+    setup: () => ({ args }),
+    template: `
+      <Breadcrumbs v-bind="args" :class-names="{
+        base: 'gap-4 px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200',
+        item: 'font-medium',
+      }">
+        <BreadcrumbItem href="/" :class-names="{ link: 'text-blue-600 hover:text-blue-800 font-semibold', separator: 'text-blue-400' }">Home</BreadcrumbItem>
+        <BreadcrumbItem href="/products" :class-names="{ link: 'text-blue-600 hover:text-blue-800 font-semibold', separator: 'text-blue-400' }">Products</BreadcrumbItem>
+        <BreadcrumbItem href="/products/shoes" :class-names="{ link: 'text-blue-600 hover:text-blue-800 font-semibold', separator: 'text-blue-400' }">Shoes</BreadcrumbItem>
+        <BreadcrumbItem :class-names="{ link: 'text-indigo-700 font-bold' }">Sneakers</BreadcrumbItem>
       </Breadcrumbs>
     `,
   }),

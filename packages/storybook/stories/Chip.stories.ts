@@ -17,6 +17,11 @@ const meta: Meta<typeof Chip> = {
     },
     dot: { control: "boolean" },
     isClosable: { control: "boolean" },
+    classNames: {
+      control: "object",
+      description:
+        "Per-slot class overrides. Keys match the component anatomy slot names: base, dot, startContent, label, endContent, closeButton.",
+    },
   },
   args: {
     color: "default",
@@ -229,4 +234,45 @@ export const FilterChips: Story = {
       </div>
     `,
   }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Chip },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+        <Chip
+          v-bind="args"
+          :class-names="{
+            base: 'border-2 border-blue-500 rounded-lg',
+            label: 'text-blue-600 font-semibold',
+          }"
+        >
+          Custom Border
+        </Chip>
+        <Chip
+          v-bind="args"
+          :class-names="{
+            base: 'bg-purple-100 shadow-lg',
+            label: 'text-purple-700 font-bold',
+          }"
+        >
+          Styled Base
+        </Chip>
+        <Chip
+          v-bind="args"
+          dot
+          :class-names="{
+            dot: 'bg-green-500 shadow-md',
+            label: 'text-green-800',
+          }"
+        >
+          Custom Dot
+        </Chip>
+      </div>
+    `,
+  }),
+  args: { variant: "soft" },
 };

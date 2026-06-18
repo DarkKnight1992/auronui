@@ -46,6 +46,7 @@ const meta: Meta<typeof DatePicker> = {
     errorMessage: { control: "text" },
     locale: { control: "text" },
     name: { control: "text" },
+    classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
     label: "Date",
@@ -411,6 +412,25 @@ export const WithName: Story = {
     label: "Hidden form input",
     name: "birth_date",
     defaultValue: new CalendarDate(1990, 1, 1),
+  },
+  render: (args: any) => ({
+    components: { DatePicker },
+    setup: () => ({ args }),
+    template: `<DatePicker v-bind="args" />`,
+  }),
+};
+
+/* ─── Custom styles via classNames ────────────────────────────────────── */
+
+export const CustomStyles: Story = {
+  args: {
+    label: "Custom Styled Date",
+    defaultValue: new CalendarDate(2024, 6, 15),
+    classNames: {
+      trigger: "border-2 border-blue-500 rounded-lg bg-blue-50",
+      triggerIndicator: "text-blue-600",
+      popover: "border-2 border-blue-500 rounded-lg shadow-lg",
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },

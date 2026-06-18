@@ -34,6 +34,11 @@ const meta: Meta<typeof Button> = {
     fullWidth: { control: "boolean" },
     disabled: { control: "boolean" },
     isLoading: { control: "boolean" },
+    classNames: {
+      control: "object",
+      description:
+        "Per-slot class overrides. Keys match the component anatomy slot names: base, startContent, label, endContent, spinner.",
+    },
   },
   args: {
     variant: "primary",
@@ -179,6 +184,41 @@ export const AllRadii: Story = {
         <Button v-bind="args" radius="md">Medium</Button>
         <Button v-bind="args" radius="lg">Large</Button>
         <Button v-bind="args" radius="full">Full</Button>
+      </div>
+    `,
+  }),
+};
+
+export const CustomStyles: Story = {
+  name: "Custom styles via classNames",
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div style="display:flex;gap:16px">
+        <Button
+          v-bind="args"
+          :class-names="{
+            base: 'border-2 border-blue-500 rounded-xl',
+            label: 'text-blue-700 font-semibold',
+            startContent: 'text-blue-600',
+          }"
+        >
+          <template #startContent>★</template>
+          Custom Styled
+        </Button>
+        <Button
+          v-bind="args"
+          variant="outline"
+          :class-names="{
+            base: 'border-2 border-emerald-400 bg-emerald-50',
+            label: 'text-emerald-700 font-bold',
+          }"
+        >
+          Success Theme
+        </Button>
       </div>
     `,
   }),
