@@ -8,7 +8,7 @@ import {
   NumberFieldDecrement,
 } from 'reka-ui'
 import { numberFieldVariants, type NumberFieldVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   variant?: NumberFieldVariants['variant']
@@ -29,14 +29,14 @@ const props = withDefaults(defineProps<{
   label?: string
   // camelCase prop; in templates users write aria-label="…" (Vue auto-converts)
   ariaLabel?: string
-  class?: string
+  class?: ClassValue
   /** Per-slot classNames override object for custom styling */
   classNames?: Partial<{
-    base: string
-    group: string
-    decrementButton: string
-    input: string
-    incrementButton: string
+    base: ClassValue
+    group: ClassValue
+    decrementButton: ClassValue
+    input: ClassValue
+    incrementButton: ClassValue
   }>
 }>(), {
   variant: 'flat',

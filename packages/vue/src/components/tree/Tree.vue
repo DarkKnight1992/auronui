@@ -2,7 +2,7 @@
 import { computed, provide } from 'vue'
 import { TreeRoot } from 'reka-ui'
 import { treeVariants, type TreeVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { treeContextKey } from './Tree.context'
 
 const props = withDefaults(defineProps<{
@@ -17,10 +17,10 @@ const props = withDefaults(defineProps<{
   selectionBehavior?: 'toggle' | 'replace'
   propagateSelect?: boolean
   size?: TreeVariants['size']
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    root: string
+    root: ClassValue
   }>
 }>(), {
   items: () => [],

@@ -1,20 +1,20 @@
 <script setup lang="ts">
 import { computed, h } from 'vue'
 import { useBreadcrumbsInject } from './breadcrumbs.context'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   href?: string
   isLast?: boolean
-  class?: string
+  class?: ClassValue
   /**
    * Per-slot class overrides. Each key maps to a named slot in the component;
    * the value is merged with the generated variant classes via `composeClassName`.
    */
   classNames?: Partial<{
-    item: string
-    link: string
-    separator: string
+    item: ClassValue
+    link: ClassValue
+    separator: ClassValue
   }>
 }>(), {
   isLast: false,

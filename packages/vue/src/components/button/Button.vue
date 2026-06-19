@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { Primitive } from 'reka-ui'
 import { buttonVariants, type ButtonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useButtonGroupInject } from './button-group.context'
 import Spinner from '../spinner/Spinner.vue'
 
@@ -15,14 +15,14 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   isLoading?: boolean
   as?: string | object
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots (base, startContent, label, endContent, spinner) */
   classNames?: Partial<{
-    base: string
-    startContent: string
-    label: string
-    endContent: string
-    spinner: string
+    base: ClassValue
+    startContent: ClassValue
+    label: ClassValue
+    endContent: ClassValue
+    spinner: ClassValue
   }>
   value?: string | number
 }>(), {

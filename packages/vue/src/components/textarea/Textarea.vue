@@ -22,7 +22,7 @@
 import { computed, nextTick, toRef, useAttrs, useId, useTemplateRef } from 'vue'
 import { useTextareaAutosize } from '@vueuse/core'
 import { textAreaVariants, type TextAreaVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 defineOptions({ inheritAttrs: false })
 
@@ -86,20 +86,20 @@ type Props = {
   /** Auto-grow the textarea height to fit content (uses `useTextareaAutosize`). @default false */
   autoResize?: boolean
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. Each key accepts classes merged via `composeClassName`. */
   classNames?: Partial<{
-    base: string
-    label: string
-    mainWrapper: string
-    inputWrapper: string
-    startContent: string
-    input: string
-    endContent: string
-    clearButton: string
-    helperWrapper: string
-    errorMessage: string
-    description: string
+    base: ClassValue
+    label: ClassValue
+    mainWrapper: ClassValue
+    inputWrapper: ClassValue
+    startContent: ClassValue
+    input: ClassValue
+    endContent: ClassValue
+    clearButton: ClassValue
+    helperWrapper: ClassValue
+    errorMessage: ClassValue
+    description: ClassValue
   }>
 }
 

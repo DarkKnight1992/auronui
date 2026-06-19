@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { FlexRender, type Row, type RowData } from '@tanstack/vue-table'
 import { tableVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTableInject } from './table.context'
 
 interface Props {
@@ -18,9 +18,9 @@ interface Props {
    * Available slots: `body`, `row`, `cell`.
    */
   classNames?: Partial<{
-    body: string
-    row: string
-    cell: string
+    body: ClassValue
+    row: ClassValue
+    cell: ClassValue
   }>
 }
 

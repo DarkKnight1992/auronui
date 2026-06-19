@@ -15,7 +15,7 @@ import {
   type Row,
 } from '@tanstack/vue-table'
 import { tableVariants, type TableVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTableProvide } from './table.context'
 import { useTableKeyboardNav } from './useTableKeyboardNav'
 import TableHeader from './TableHeader.vue'
@@ -51,8 +51,8 @@ const props = withDefaults(
     virtualizerOverscan?: number
     /** Per-slot CSS class overrides */
     classNames?: Partial<{
-      base: string
-      scrollContainer: string
+      base: ClassValue
+      scrollContainer: ClassValue
     }>
   }>(),
   {

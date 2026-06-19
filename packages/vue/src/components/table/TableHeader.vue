@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { FlexRender, type Header } from '@tanstack/vue-table'
 import { tableVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTableInject } from './table.context'
 
 const ctx = useTableInject()
@@ -16,9 +16,9 @@ type Props = {
    * the value is merged with the generated variant classes via `composeClassName`.
    */
   classNames?: Partial<{
-    header: string
-    row: string
-    column: string
+    header: ClassValue
+    row: ClassValue
+    column: ClassValue
   }>
 }
 

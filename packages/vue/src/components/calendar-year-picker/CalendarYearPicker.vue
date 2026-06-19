@@ -14,7 +14,7 @@ import {
 } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
 import { calendarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   defaultValue?: DateValue
@@ -29,18 +29,18 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   disabled?: boolean
   calendarLabel?: string
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    base: string
-    header: string
-    navButton: string
-    navButtonIcon: string
-    heading: string
-    yearGrid: string
-    yearGridBody: string
-    yearGridRow: string
-    yearCell: string
+    base: ClassValue
+    header: ClassValue
+    navButton: ClassValue
+    navButtonIcon: ClassValue
+    heading: ClassValue
+    yearGrid: ClassValue
+    yearGridBody: ClassValue
+    yearGridRow: ClassValue
+    yearCell: ClassValue
   }>
 }>(), {
   yearsPerPage: 12,

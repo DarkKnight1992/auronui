@@ -2,7 +2,7 @@
 import { computed, ref, useAttrs } from 'vue'
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
 import { switchVariants, type SwitchVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useSwitchGroupInject } from './switch-group.context'
 
 // Disable Vue attribute fallthrough — we manually forward $attrs to SwitchRoot
@@ -15,13 +15,13 @@ const props = withDefaults(defineProps<{
   defaultValue?: boolean
   disabled?: boolean
   name?: string
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. Each key is a slot name (e.g. 'base', 'control', 'thumb', 'content'). */
   classNames?: Partial<{
-    base: string
-    control: string
-    thumb: string
-    content: string
+    base: ClassValue
+    control: ClassValue
+    thumb: ClassValue
+    content: ClassValue
   }>
 }>(), {
   size: undefined,

@@ -10,7 +10,7 @@ import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } fro
 import { TimeFieldRoot, TimeFieldInput } from 'reka-ui'
 import type { TimeValue } from 'reka-ui'
 import { timeFieldVariants, type TimeFieldVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 defineOptions({ inheritAttrs: false })
 
@@ -56,20 +56,20 @@ type Props = {
   /** Error text below the field. Only rendered when isInvalid is true. */
   errorMessage?: string
   /** Extra classes merged onto the root wrapper. */
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. */
   classNames?: Partial<{
-    base: string
-    label: string
-    mainWrapper: string
-    inputWrapper: string
-    startContent: string
-    segmentList: string
-    segment: string
-    endContent: string
-    helperWrapper: string
-    errorMessage: string
-    description: string
+    base: ClassValue
+    label: ClassValue
+    mainWrapper: ClassValue
+    inputWrapper: ClassValue
+    startContent: ClassValue
+    segmentList: ClassValue
+    segment: ClassValue
+    endContent: ClassValue
+    helperWrapper: ClassValue
+    errorMessage: ClassValue
+    description: ClassValue
   }>
 
   /* ─── TimeField-specific ──────────────────────────────────────── */

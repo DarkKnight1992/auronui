@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, h, cloneVNode, type VNode } from 'vue'
 import { breadcrumbsVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useBreadcrumbsProvide } from './breadcrumbs.context'
 
 const props = withDefaults(defineProps<{
   maxItems?: number
-  class?: string
+  class?: ClassValue
   /** Override classes on any named slot. */
   classNames?: Partial<{
-    base: string
-    item: string
+    base: ClassValue
+    item: ClassValue
   }>
 }>(), {})
 

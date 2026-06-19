@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { PinInputRoot, PinInputInput } from 'reka-ui'
 import { inputOTPVariants, type InputOTPVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   length?: number
@@ -15,12 +15,12 @@ const props = withDefaults(defineProps<{
   defaultValue?: string
   name?: string
   variant?: InputOTPVariants['variant']
-  class?: string
+  class?: ClassValue
   /** Optional per-slot class overrides */
   classNames?: Partial<{
-    base: string
-    group: string
-    slot: string
+    base: ClassValue
+    group: ClassValue
+    slot: ClassValue
   }>
 }>(), {
   length: 6,

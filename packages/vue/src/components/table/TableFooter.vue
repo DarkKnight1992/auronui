@@ -12,7 +12,7 @@ interface Props {
    * Override classes for specific slots.
    */
   classNames?: Partial<{
-    footer: string
+    footer: ClassValue
   }>
 }
 

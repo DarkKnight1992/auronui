@@ -18,7 +18,7 @@
 import { computed, useTemplateRef } from 'vue'
 import { useScroll } from '@vueuse/core'
 import { scrollShadowVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   orientation?: 'vertical' | 'horizontal' | 'both'
@@ -26,10 +26,10 @@ const props = withDefaults(defineProps<{
   size?: number
   offset?: number
   visibility?: 'auto' | 'top' | 'bottom' | 'left' | 'right' | 'both' | 'none'
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   orientation: 'vertical',

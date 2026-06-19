@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { treeVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   isExpanded?: boolean
   hasChildren?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classes for specific slots */
   classNames?: Partial<{
-    itemToggle: string
+    itemToggle: ClassValue
   }>
 }>(), {
   isExpanded: false,

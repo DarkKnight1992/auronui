@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { cardVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCardInject } from './card.context'
 
 const props = withDefaults(defineProps<{
   divider?: boolean
-  class?: string
+  class?: ClassValue
   /** Override the default classes applied to individual slots. */
   classNames?: Partial<{
-    footer: string
+    footer: ClassValue
   }>
 }>(), { divider: false })
 

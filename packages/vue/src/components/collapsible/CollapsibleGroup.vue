@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import { collapsibleGroupVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import {
   provideCollapsibleGroup,
   type CollapsibleGroupRegistryEntry,
@@ -10,10 +10,10 @@ import {
 const props = withDefaults(defineProps<{
   // single-open = true means only one child open at a time
   singleOpen?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   singleOpen: false,

@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { kbdVariants, type KbdVariants } from "@auronui/styles";
-import { composeClassName } from "../../utils/composeClassName";
+import { composeClassName , type ClassValue} from "../../utils/composeClassName";
 
 const props = withDefaults(
   defineProps<{
     variant?: KbdVariants["variant"];
-    class?: string;
+    class?: ClassValue;
     /** Override classes on individual slots */
     classNames?: Partial<{
-      base: string;
-      abbr: string;
-      content: string;
+      base: ClassValue;
+      abbr: ClassValue;
+      content: ClassValue;
     }>;
   }>(),
   {

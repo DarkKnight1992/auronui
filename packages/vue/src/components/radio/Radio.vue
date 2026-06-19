@@ -2,7 +2,7 @@
 import { computed, ref, useAttrs } from 'vue'
 import { RadioGroupItem, RadioGroupIndicator } from 'reka-ui'
 import { radioVariants, type RadioGroupVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useRadioGroupInject } from './radio-group.context'
 
 // Disable Vue attribute fallthrough — we manually forward $attrs to RadioGroupItem
@@ -12,13 +12,13 @@ const props = withDefaults(defineProps<{
   value: string
   variant?: RadioGroupVariants['variant']
   disabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classNames for individual slots */
   classNames?: Partial<{
-    base: string
-    control: string
-    indicator: string
-    content: string
+    base: ClassValue
+    control: ClassValue
+    indicator: ClassValue
+    content: ClassValue
   }>
 }>(), {
   variant: undefined,

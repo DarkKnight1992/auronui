@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { ProgressRoot } from 'reka-ui'
 import { progressCircleVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   value?: number | null
@@ -17,14 +17,14 @@ const props = withDefaults(defineProps<{
   strokeWidth?: number
   isIndeterminate?: boolean
   isDisabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classNames for individual slots */
   classNames?: Partial<{
-    base: string
-    svg: string
-    track: string
-    indicator: string
-    value: string
+    base: ClassValue
+    svg: ClassValue
+    track: ClassValue
+    indicator: ClassValue
+    value: ClassValue
   }>
 }>(), {
   minValue: 0,

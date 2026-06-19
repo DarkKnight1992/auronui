@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { SliderRoot, SliderTrack, SliderRange, SliderThumb } from 'reka-ui'
 import { sliderVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   modelValue?: number | number[]
@@ -23,17 +23,17 @@ const props = withDefaults(defineProps<{
   hideThumb?: boolean
   disabled?: boolean
   inverted?: boolean
-  class?: string
+  class?: ClassValue
   /**
    * Per-slot class overrides. Keys map to internal slot names (base, output, track, fill, marks, thumb).
    */
   classNames?: Partial<{
-    base: string
-    output: string
-    track: string
-    fill: string
-    marks: string
-    thumb: string
+    base: ClassValue
+    output: ClassValue
+    track: ClassValue
+    fill: ClassValue
+    marks: ClassValue
+    thumb: ClassValue
   }>
 }>(), {
   min: 0,

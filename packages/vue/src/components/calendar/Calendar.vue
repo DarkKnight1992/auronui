@@ -26,7 +26,7 @@ import {
 } from 'reka-ui'
 import { today, getLocalTimeZone, type DateValue } from '@internationalized/date'
 import { calendarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import CalendarYearPicker from '../calendar-year-picker/CalendarYearPicker.vue'
 
 const props = withDefaults(defineProps<{
@@ -46,26 +46,26 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   disabled?: boolean
   calendarLabel?: string
-  class?: string
+  class?: ClassValue
   /** Override classes on any named slot */
   classNames?: Partial<{
-    base: string
-    header: string
-    navButton: string
-    navButtonIcon: string
-    heading: string
-    headingButton: string
-    grid: string
-    gridHeader: string
-    gridRow: string
-    headerCell: string
-    gridBody: string
-    cell: string
-    cellButton: string
-    monthGrid: string
-    monthGridBody: string
-    monthGridRow: string
-    monthCell: string
+    base: ClassValue
+    header: ClassValue
+    navButton: ClassValue
+    navButtonIcon: ClassValue
+    heading: ClassValue
+    headingButton: ClassValue
+    grid: ClassValue
+    gridHeader: ClassValue
+    gridRow: ClassValue
+    headerCell: ClassValue
+    gridBody: ClassValue
+    cell: ClassValue
+    cellButton: ClassValue
+    monthGrid: ClassValue
+    monthGridBody: ClassValue
+    monthGridRow: ClassValue
+    monthCell: ClassValue
   }>
 }>(), {
   weekdayFormat: 'narrow',

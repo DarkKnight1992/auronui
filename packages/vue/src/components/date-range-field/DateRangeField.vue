@@ -10,7 +10,7 @@ import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } fro
 import { DateRangeFieldRoot, DateRangeFieldInput } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
 import { dateRangeFieldVariants, type DateRangeFieldVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 defineOptions({ inheritAttrs: false })
 
@@ -60,21 +60,21 @@ type Props = {
   /** Error text below the field. Only rendered when isInvalid is true. */
   errorMessage?: string
   /** Extra classes merged onto the root wrapper. */
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. Merged with tailwind-variants styles. */
   classNames?: Partial<{
-    base: string
-    label: string
-    mainWrapper: string
-    inputWrapper: string
-    startContent: string
-    segmentList: string
-    segment: string
-    separator: string
-    endContent: string
-    helperWrapper: string
-    errorMessage: string
-    description: string
+    base: ClassValue
+    label: ClassValue
+    mainWrapper: ClassValue
+    inputWrapper: ClassValue
+    startContent: ClassValue
+    segmentList: ClassValue
+    segment: ClassValue
+    separator: ClassValue
+    endContent: ClassValue
+    helperWrapper: ClassValue
+    errorMessage: ClassValue
+    description: ClassValue
   }>
 
   /* ─── DateRangeField-specific ─────────────────────────────────── */

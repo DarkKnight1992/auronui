@@ -36,7 +36,7 @@ import {
 } from 'reka-ui'
 import { today, getLocalTimeZone, type DateValue } from '@internationalized/date'
 import { rangeCalendarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 export interface DateRange {
   start: DateValue
@@ -61,30 +61,30 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   disabled?: boolean
   calendarLabel?: string
-  class?: string
+  class?: ClassValue
   /** Override classes for named slots */
   classNames?: Partial<{
-    base: string
-    header: string
-    navButton: string
-    navButtonIcon: string
-    heading: string
-    headingButton: string
-    grid: string
-    gridHeader: string
-    gridRow: string
-    headerCell: string
-    gridBody: string
-    cell: string
-    cellButton: string
-    monthGrid: string
-    monthGridBody: string
-    monthGridRow: string
-    monthCell: string
-    yearGrid: string
-    yearGridBody: string
-    yearGridRow: string
-    yearCell: string
+    base: ClassValue
+    header: ClassValue
+    navButton: ClassValue
+    navButtonIcon: ClassValue
+    heading: ClassValue
+    headingButton: ClassValue
+    grid: ClassValue
+    gridHeader: ClassValue
+    gridRow: ClassValue
+    headerCell: ClassValue
+    gridBody: ClassValue
+    cell: ClassValue
+    cellButton: ClassValue
+    monthGrid: ClassValue
+    monthGridBody: ClassValue
+    monthGridRow: ClassValue
+    monthCell: ClassValue
+    yearGrid: ClassValue
+    yearGridBody: ClassValue
+    yearGridRow: ClassValue
+    yearCell: ClassValue
   }>
 }>(), {
   weekdayFormat: 'narrow',

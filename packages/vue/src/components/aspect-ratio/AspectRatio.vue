@@ -2,14 +2,14 @@
 import { computed } from 'vue'
 import { AspectRatio } from 'reka-ui'
 import { aspectRatioVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   ratio?: number
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   ratio: 1,

@@ -5,11 +5,11 @@ import { motion, AnimatePresence } from '../../utils/motion'
 
 const props = defineProps<{
   /** Override the default class for the root element. */
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots. */
   classNames?: Partial<{
-    body: string
-    bodyInner: string
+    body: ClassValue
+    bodyInner: ClassValue
   }>
 }>()
 const ctx = useCollapsibleInject()

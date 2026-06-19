@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { ListboxItem, ListboxItemIndicator } from 'reka-ui'
 import { listboxItemVariants, type ListBoxItemVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxInject } from './ListBox.context'
 
 const props = withDefaults(defineProps<{
@@ -10,11 +10,11 @@ const props = withDefaults(defineProps<{
   textValue?: string
   isDisabled?: boolean
   variant?: ListBoxItemVariants['variant']
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    item: string
-    indicator: string
+    item: ClassValue
+    indicator: ClassValue
   }>
 }>(), {
   textValue: undefined,

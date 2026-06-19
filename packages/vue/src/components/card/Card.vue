@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import { cardVariants, type CardVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCardProvide } from './card.context'
 
 const props = withDefaults(defineProps<{
@@ -12,10 +12,10 @@ const props = withDefaults(defineProps<{
   isPressable?: boolean
   isDisabled?: boolean
   fullWidth?: boolean
-  class?: string
+  class?: ClassValue
   /** Override CSS classes for specific slots. */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   variant: 'default',

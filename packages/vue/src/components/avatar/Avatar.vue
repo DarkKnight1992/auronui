@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { AvatarRoot, AvatarImage, AvatarFallback } from 'reka-ui'
 import { avatarVariants, type AvatarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAvatarGroupInject } from './avatar-group.context'
 
 const props = withDefaults(defineProps<{
@@ -15,12 +15,12 @@ const props = withDefaults(defineProps<{
   isBordered?: boolean
   isDisabled?: boolean
   showFallback?: boolean
-  class?: string
+  class?: ClassValue
   /** Per-slot class name overrides */
   classNames?: Partial<{
-    base: string
-    image: string
-    fallback: string
+    base: ClassValue
+    image: ClassValue
+    fallback: ClassValue
   }>
 }>(), {
   isBordered: false,

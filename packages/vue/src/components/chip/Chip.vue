@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { chipVariants, type ChipVariants } from "@auronui/styles";
-import { composeClassName } from "../../utils/composeClassName";
+import { composeClassName , type ClassValue} from "../../utils/composeClassName";
 
 const props = withDefaults(
   defineProps<{
@@ -14,15 +14,15 @@ const props = withDefaults(
     isClosable?: boolean;
     /** Aria-label for the close button */
     closeAriaLabel?: string;
-    class?: string;
+    class?: ClassValue;
     /** Override classes for named slots */
     classNames?: Partial<{
-      base: string;
-      dot: string;
-      startContent: string;
-      label: string;
-      endContent: string;
-      closeButton: string;
+      base: ClassValue;
+      dot: ClassValue;
+      startContent: ClassValue;
+      label: ClassValue;
+      endContent: ClassValue;
+      closeButton: ClassValue;
     }>;
   }>(),
   {

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { AccordionRoot } from 'reka-ui'
 import { accordionVariants, type AccordionVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAccordionProvide } from './accordion.context'
 
 type SingleValue = string
@@ -16,10 +16,10 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   variant?: AccordionVariants['variant']
   size?: AccordionVariants['size']
-  class?: string
+  class?: ClassValue
   /** Override classes for any slot */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   collapsible: true,

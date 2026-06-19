@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { TabsTrigger } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTabsInject } from './tabs.context'
 
 const props = defineProps<{
   value: string
   disabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots. */
   classNames?: Partial<{
-    tab: string
+    tab: ClassValue
   }>
 }>()
 

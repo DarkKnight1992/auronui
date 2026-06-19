@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AlertDialogAction } from 'reka-ui'
 import { buttonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 /**
  * AlertDialogAction — confirm button for destructive flows.
@@ -15,10 +15,10 @@ import { composeClassName } from '../../utils/composeClassName'
 const props = withDefaults(defineProps<{
   variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
   size?: 'sm' | 'md' | 'lg'
-  class?: string
+  class?: ClassValue
   /** Override default classes for any slot. Keys correspond to slot names (e.g., base). */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
   asChild?: boolean
 }>(), {

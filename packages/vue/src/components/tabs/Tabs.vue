@@ -2,7 +2,7 @@
 import { computed, ref, toRef, watch } from 'vue'
 import { TabsRoot } from 'reka-ui'
 import { tabsVariants, type TabsVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTabsProvide } from './tabs.context'
 
 const props = withDefaults(defineProps<{
@@ -11,10 +11,10 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   variant?: TabsVariants['variant']
   activationMode?: 'automatic' | 'manual'
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   orientation: 'horizontal',

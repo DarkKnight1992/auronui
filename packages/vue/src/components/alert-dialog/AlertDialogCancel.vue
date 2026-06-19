@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AlertDialogCancel } from 'reka-ui'
 import { buttonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 /**
  * AlertDialogCancel — dismiss button for alert dialogs.
@@ -10,9 +10,9 @@ import { composeClassName } from '../../utils/composeClassName'
 const props = withDefaults(defineProps<{
   variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
   size?: 'sm' | 'md' | 'lg'
-  class?: string
+  class?: ClassValue
   /** Per-slot class name overrides */
-  classNames?: Partial<{ base: string }>
+  classNames?: Partial<{ base: ClassValue }>
   asChild?: boolean
 }>(), {
   variant: 'secondary',

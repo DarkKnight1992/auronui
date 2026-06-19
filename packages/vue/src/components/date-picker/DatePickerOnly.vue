@@ -7,7 +7,7 @@ import {
 } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
 import { datePickerVariants, type DateInputVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
 
@@ -41,13 +41,13 @@ const props = withDefaults(defineProps<{
   pageBehavior?: 'visible' | 'single'
   closeOnSelect?: boolean
   modal?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classes for specific slots */
   classNames?: Partial<{
-    base: string
-    trigger: string
-    triggerIndicator: string
-    popover: string
+    base: ClassValue
+    trigger: ClassValue
+    triggerIndicator: ClassValue
+    popover: ClassValue
   }>
 }>(), {
   variant: 'flat',

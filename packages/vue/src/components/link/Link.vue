@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { linkVariants, type LinkVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   as?: string | object
@@ -13,11 +13,11 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   color?: LinkVariants['color']
   underline?: LinkVariants['underline']
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
-    icon: string
+    base: ClassValue
+    icon: ClassValue
   }>
 }>(), {
   as: 'a',

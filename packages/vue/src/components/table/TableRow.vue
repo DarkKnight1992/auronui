@@ -8,10 +8,10 @@ import { composeClassName } from '@auronui/utils'
 
 interface Props {
   /** Additional classes to apply to the root element */
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    row: string
+    row: ClassValue
   }>
 }
 

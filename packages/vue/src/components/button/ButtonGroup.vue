@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue'
 import { buttonGroupVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useButtonGroupProvide } from './button-group.context'
 import type { ButtonGroupSelectionMode, ButtonGroupValue } from './button-group.context'
 import type { ButtonVariants } from '@auronui/styles'
@@ -12,10 +12,10 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   fullWidth?: boolean
   orientation?: 'horizontal' | 'vertical'
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
   selectionMode?: ButtonGroupSelectionMode
   modelValue?: ButtonGroupValue

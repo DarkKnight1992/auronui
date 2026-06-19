@@ -2,17 +2,17 @@
 import { computed, inject } from 'vue'
 import { SplitterResizeHandle } from 'reka-ui'
 import { splitterVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { splitterContextKey } from './Splitter.context'
 
 const props = withDefaults(defineProps<{
   id?: string
   disabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    handle: string
-    handleBar: string
+    handle: ClassValue
+    handleBar: ClassValue
   }>
 }>(), {
   id: undefined,

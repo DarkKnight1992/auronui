@@ -7,7 +7,7 @@ import {
 } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
 import { dateRangePickerVariants, type DateRangeFieldVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import RangeCalendar from '../range-calendar/RangeCalendar.vue'
 import DateRangeField from '../date-range-field/DateRangeField.vue'
 
@@ -47,13 +47,13 @@ const props = withDefaults(defineProps<{
   pageBehavior?: 'visible' | 'single'
   closeOnSelect?: boolean
   modal?: boolean
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    base: string
-    trigger: string
-    triggerIndicator: string
-    popover: string
+    base: ClassValue
+    trigger: ClassValue
+    triggerIndicator: ClassValue
+    popover: ClassValue
   }>
 }>(), {
   variant: 'flat',

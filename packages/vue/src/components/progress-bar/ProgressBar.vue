@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { ProgressRoot, ProgressIndicator } from 'reka-ui'
 import { progressBarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   value?: number | null
@@ -18,15 +18,15 @@ const props = withDefaults(defineProps<{
   isStriped?: boolean
   isIndeterminate?: boolean
   isDisabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    base: string
-    labelWrapper: string
-    label: string
-    value: string
-    track: string
-    indicator: string
+    base: ClassValue
+    labelWrapper: ClassValue
+    label: ClassValue
+    value: ClassValue
+    track: ClassValue
+    indicator: ClassValue
   }>
 }>(), {
   minValue: 0,

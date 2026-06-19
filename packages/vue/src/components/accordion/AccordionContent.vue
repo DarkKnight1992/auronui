@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { AccordionContent as RekaAccordionContent, injectAccordionItemContext } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAccordionInject } from './accordion.context'
 import { motion } from '../../utils/motion'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    body: string
-    bodyInner: string
+    body: ClassValue
+    bodyInner: ClassValue
   }>
 }>()
 const ctx = useAccordionInject()

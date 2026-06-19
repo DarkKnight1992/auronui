@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue'
 import { toggleButtonGroupVariants, type ToggleButtonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useToggleButtonGroupProvide } from './toggle-button-group.context'
 
 const props = withDefaults(defineProps<{
@@ -14,10 +14,10 @@ const props = withDefaults(defineProps<{
   selectionMode?: 'single' | 'multiple'
   modelValue?: string | string[]
   defaultValue?: string | string[]
-  class?: string
+  class?: ClassValue
   /** Additional class names to apply to component slots */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   variant: 'default',

@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { AccordionTrigger as RekaAccordionTrigger } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAccordionInject } from './accordion.context'
 import { useAccordionItemInject } from './accordion-item.context'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. */
   classNames?: Partial<{
-    trigger: string
-    indicator: string
+    trigger: ClassValue
+    indicator: ClassValue
   }>
 }>()
 const ctx = useAccordionInject()

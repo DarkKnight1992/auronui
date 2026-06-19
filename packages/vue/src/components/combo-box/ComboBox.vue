@@ -2,7 +2,7 @@
 import { computed, ref, toRef, useId, useSlots, watch } from 'vue'
 import { ComboboxRoot } from 'reka-ui'
 import { comboBoxVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useComboBoxProvide } from './ComboBox.context'
 import { hasSlotComponent } from '../../utils/hasSlotComponent'
 import ComboBoxInput from './ComboBoxInput.vue'
@@ -33,10 +33,10 @@ const props = withDefaults(defineProps<{
   fullWidth?: boolean
   /** Custom filter function: return true to include item */
   filterFunction?: (item: string, searchTerm: string) => boolean
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   modelValue: undefined,

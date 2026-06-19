@@ -8,7 +8,7 @@ defineProps<{
   sortDirection?: 'ascending' | 'descending' | 'none'
   /** Per-slot class overrides */
   classNames?: Partial<{
-    column: string
+    column: ClassValue
   }>
 }>()
 

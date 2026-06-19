@@ -4,17 +4,29 @@ import { twMerge } from "tailwind-merge";
 export { cx };
 
 /**
+ * Mirrors Vue's class binding — string, object, or array (recursive).
+ * Matches what Vue 3 accepts on any :class binding so components can
+ * pass the user's value straight through without narrowing it to string.
+ */
+export type ClassValue =
+  | string
+  | number
+  | boolean
+  | null
+  | undefined
+  | Record<string, unknown>
+  | ClassValue[];
+
+/**
  * Merges Tailwind CSS classes, resolving conflicts via tailwind-merge.
- * Uses cx() from tailwind-variants to join classes, then twMerge() to
- * deduplicate conflicting utilities (e.g. "p-4 p-2" → "p-2").
+ * Accepts strings, objects ({ 'p-4': true }), arrays, and falsy values —
+ * matching the full set of values Vue's :class binding accepts.
  *
  * Requires tailwind-merge 3.5.0 (Tailwind 4 compatible).
  *
- * @param classes - Class strings, undefined, null, or false values
+ * @param classes - Any combination of ClassValue inputs
  * @returns Merged class string with conflicts resolved
  */
-export function composeClassName(
-  ...classes: (string | undefined | null | false)[]
-): string {
+export function composeClassName(...classes: ClassValue[]): string {
   return twMerge(cx(...(classes as Parameters<typeof cx>)));
 }

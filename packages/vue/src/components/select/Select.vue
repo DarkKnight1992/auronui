@@ -2,7 +2,7 @@
 import { computed, reactive, toRef, useAttrs, useId, useSlots } from 'vue'
 import { SelectRoot } from 'reka-ui'
 import { selectVariants, type SelectVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useSelectProvide, type SelectItemValue, type SelectItemData } from './Select.context'
 import { hasSlotComponent } from '../../utils/hasSlotComponent'
 import SelectTrigger from './SelectTrigger.vue'
@@ -71,15 +71,15 @@ type Props = {
   /** Error text displayed below the field. Only rendered when `isInvalid` is also true. */
   errorMessage?: string
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
-  class?: string
+  class?: ClassValue
   /** Per-slot class name overrides via `composeClassName`. */
   classNames?: Partial<{
-    base: string
-    label: string
-    mainWrapper: string
-    helperWrapper: string
-    errorMessage: string
-    description: string
+    base: ClassValue
+    label: ClassValue
+    mainWrapper: ClassValue
+    helperWrapper: ClassValue
+    errorMessage: ClassValue
+    description: ClassValue
   }>
 
   /* ─── Select-specific ─────────────────────────────────────── */

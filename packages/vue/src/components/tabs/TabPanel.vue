@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import { TabsContent } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTabsInject } from './tabs.context'
 
 const props = defineProps<{
   value: string
   forceMount?: boolean
-  class?: string
+  class?: ClassValue
   /** Custom classes to apply to specific slots */
   classNames?: Partial<{
-    tabPanel: string
+    tabPanel: ClassValue
   }>
 }>()
 

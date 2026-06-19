@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, provide, ref } from 'vue'
 import { stepperVariants, type StepperVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { stepperContextKey, type StepStatus } from './Stepper.context'
 
 const props = withDefaults(defineProps<{
@@ -11,10 +11,10 @@ const props = withDefaults(defineProps<{
   orientation?: StepperVariants['orientation']
   size?: StepperVariants['size']
   color?: StepperVariants['color']
-  class?: string
+  class?: ClassValue
   /** Per-slot class name overrides. */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   modelValue: undefined,

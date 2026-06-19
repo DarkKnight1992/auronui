@@ -2,17 +2,17 @@
 import { computed, inject } from 'vue'
 import { TreeItem } from 'reka-ui'
 import { treeVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { treeContextKey } from './Tree.context'
 
 const props = withDefaults(defineProps<{
   value: T
   level: number
-  class?: string
+  class?: ClassValue
   /** Additional class names to apply to individual slots. */
   classNames?: Partial<{
-    item: string
-    itemContent: string
+    item: ClassValue
+    itemContent: ClassValue
   }>
 }>(), {
   class: undefined,

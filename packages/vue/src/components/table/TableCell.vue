@@ -2,14 +2,14 @@
 import { computed } from 'vue'
 import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 defineProps<{
   rowIndex?: number
   columnIndex?: number
   /** Per-slot class name overrides merged via `composeClassName`. */
   classNames?: Partial<{
-    cell: string
+    cell: ClassValue
   }>
 }>()
 

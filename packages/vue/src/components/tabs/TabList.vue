@@ -3,17 +3,17 @@ import { ref, computed, nextTick, onMounted, watch } from 'vue'
 import { useTemplateRef } from 'vue'
 import { TabsList } from 'reka-ui'
 import { useResizeObserver, onClickOutside } from '@vueuse/core'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTabsInject } from './tabs.context'
 import Button from '../button/Button.vue'
 
 const props = defineProps<{
   loop?: boolean
   overflow?: 'arrows' | 'dropdown'
-  class?: string
+  class?: ClassValue
   /** Override classes on individual slots */
   classNames?: Partial<{
-    tabList: string
+    tabList: ClassValue
   }>
 }>()
 

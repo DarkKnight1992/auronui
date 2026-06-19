@@ -73,7 +73,7 @@
 <script setup lang="ts">
 import { computed, nextTick, ref, useAttrs, useId, useTemplateRef } from 'vue'
 import { inputVariants, type InputVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 defineOptions({ inheritAttrs: false })
 
@@ -150,7 +150,7 @@ type Props = {
   /** Error text displayed below the field. Only rendered when `isInvalid` is also true. Takes precedence over `description`. */
   errorMessage?: string
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
-  class?: string
+  class?: ClassValue
   /**
    * Per-slot class overrides. Each key maps to a named slot in the anatomy;
    * the value is merged with the generated variant classes via `composeClassName`.
@@ -165,18 +165,18 @@ type Props = {
    * `helperWrapper`, `description`, `errorMessage`.
    */
   classNames?: Partial<{
-    base: string
-    mainWrapper: string
-    inputWrapper: string
-    input: string
-    label: string
-    startContent: string
-    endContent: string
-    clearButton: string
-    passwordToggle: string
-    helperWrapper: string
-    description: string
-    errorMessage: string
+    base: ClassValue
+    mainWrapper: ClassValue
+    inputWrapper: ClassValue
+    input: ClassValue
+    label: ClassValue
+    startContent: ClassValue
+    endContent: ClassValue
+    clearButton: ClassValue
+    passwordToggle: ClassValue
+    helperWrapper: ClassValue
+    description: ClassValue
+    errorMessage: ClassValue
   }>
 }
 

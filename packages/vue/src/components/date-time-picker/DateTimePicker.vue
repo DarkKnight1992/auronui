@@ -15,7 +15,7 @@ import {
 } from '@internationalized/date'
 import { AnimatePresence, motion } from 'motion-v'
 import { dateTimePickerVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
 import DateTimePickerTimeScroller from './DateTimePickerTimeScroller.vue'
@@ -38,18 +38,18 @@ const props = withDefaults(defineProps<{
   isReadOnly?: boolean
   isRequired?: boolean
   name?: string
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
-    trigger: string
-    triggerIndicator: string
-    popover: string
-    stepHeader: string
-    navButton: string
-    stepTitle: string
-    doneLabel: string
-    panelWrap: string
+    base: ClassValue
+    trigger: ClassValue
+    triggerIndicator: ClassValue
+    popover: ClassValue
+    stepHeader: ClassValue
+    navButton: ClassValue
+    stepTitle: ClassValue
+    doneLabel: ClassValue
+    panelWrap: ClassValue
   }>
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24

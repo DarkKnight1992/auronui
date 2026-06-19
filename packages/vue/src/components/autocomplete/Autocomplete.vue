@@ -2,7 +2,7 @@
 import { computed, onMounted, ref, toRef, useAttrs, useId, watch, useSlots } from 'vue'
 import { AutocompleteRoot } from 'reka-ui'
 import { autocompleteVariants, type AutocompleteVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAutocompleteProvide } from './Autocomplete.context'
 import { hasSlotComponent } from '../../utils/hasSlotComponent'
 import AutocompleteInput from './AutocompleteInput.vue'
@@ -84,15 +84,15 @@ type Props = {
   /** Error text displayed below the field. Only rendered when `isInvalid` is also true. */
   errorMessage?: string
   /** Extra classes merged onto the root wrapper via `composeClassName`. */
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides. Keys correspond to internal slot names (`base`, `label`, `mainWrapper`, `helperWrapper`, `errorMessage`, `description`). */
   classNames?: Partial<{
-    base: string
-    label: string
-    mainWrapper: string
-    helperWrapper: string
-    errorMessage: string
-    description: string
+    base: ClassValue
+    label: ClassValue
+    mainWrapper: ClassValue
+    helperWrapper: ClassValue
+    errorMessage: ClassValue
+    description: ClassValue
   }>
 
   /* ─── Autocomplete-specific ─────────────────────────────────────── */

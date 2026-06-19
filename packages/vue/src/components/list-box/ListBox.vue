@@ -2,7 +2,7 @@
 import { computed, toRef, useAttrs } from 'vue'
 import { ListboxRoot, ListboxContent } from 'reka-ui'
 import { listboxVariants, type ListBoxVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxProvide } from './ListBox.context'
 
 // Disable Vue attribute fallthrough — we manually forward ARIA attrs to ListboxContent
@@ -14,13 +14,13 @@ const props = withDefaults(defineProps<{
   selectionMode?: 'single' | 'multiple'
   variant?: ListBoxVariants['variant']
   isDisabled?: boolean
-  class?: string
+  class?: ClassValue
   /**
    * Per-slot class overrides. Each key maps to a named slot in the anatomy;
    * the value is merged with the generated variant classes via `composeClassName`.
    */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   modelValue: undefined,

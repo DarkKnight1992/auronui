@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { SplitterPanel } from 'reka-ui'
 import { splitterVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   id?: string
@@ -12,10 +12,10 @@ const props = withDefaults(defineProps<{
   collapsible?: boolean
   collapsedSize?: number
   order?: number
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots. */
   classNames?: Partial<{
-    panel: string
+    panel: ClassValue
   }>
 }>(), {
   id: undefined,

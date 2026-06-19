@@ -61,3 +61,5 @@ execSync(`git tag ${tag}`, { cwd: root, stdio: 'inherit' })
 
 console.log(`\n✓ Released ${tag}`)
 console.log(`  Push with: git push && git push origin ${tag}`)
+execSync(`git push`, { cwd: root, stdio: 'inherit' })
+execSync(`git push origin ${tag}`, { cwd: root, stdio: 'inherit' })

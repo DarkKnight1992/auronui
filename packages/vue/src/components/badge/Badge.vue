@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from "vue";
 import { badgeVariants, type BadgeVariants } from "@auronui/styles";
-import { composeClassName } from "../../utils/composeClassName";
+import { composeClassName , type ClassValue} from "../../utils/composeClassName";
 
 const props = withDefaults(
   defineProps<{
@@ -9,12 +9,12 @@ const props = withDefaults(
     size?: BadgeVariants["size"];
     variant?: BadgeVariants["variant"];
     placement?: BadgeVariants["placement"];
-    class?: string;
+    class?: ClassValue;
     /** Per-slot class name overrides. */
     classNames?: Partial<{
-      anchor: string;
-      base: string;
-      label: string;
+      anchor: ClassValue;
+      base: ClassValue;
+      label: ClassValue;
     }>;
   }>(),
   {

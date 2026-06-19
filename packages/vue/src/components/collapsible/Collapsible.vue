@@ -2,7 +2,7 @@
 import { computed, onMounted, onBeforeUnmount, ref, useId, watch } from 'vue'
 import { CollapsibleRoot } from 'reka-ui'
 import { collapsibleVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCollapsibleProvide } from './collapsible.context'
 import { injectCollapsibleGroup } from './collapsible-group.context'
 
@@ -14,10 +14,10 @@ const props = withDefaults(defineProps<{
   open?: boolean | null
   defaultOpen?: boolean
   disabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   open: null,

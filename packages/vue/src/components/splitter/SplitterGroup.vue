@@ -2,17 +2,17 @@
 import { computed, provide } from 'vue'
 import { SplitterGroup } from 'reka-ui'
 import { splitterVariants, type SplitterVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { splitterContextKey } from './Splitter.context'
 
 const props = withDefaults(defineProps<{
   id?: string
   direction?: SplitterVariants['direction']
   autoSaveId?: string
-  class?: string
+  class?: ClassValue
   /** Per-slot class name overrides. */
   classNames?: Partial<{
-    group: string
+    group: ClassValue
   }>
 }>(), {
   id: undefined,

@@ -1,17 +1,17 @@
 <script setup lang="ts">
 import { computed, useTemplateRef } from 'vue'
 import { AccordionItem as RekaAccordionItem } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAccordionInject } from './accordion.context'
 import { useAccordionItemProvide } from './accordion-item.context'
 
 const props = defineProps<{
   value: string
   disabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Override classes on named slots */
   classNames?: Partial<{
-    item: string
+    item: ClassValue
   }>
 }>()
 

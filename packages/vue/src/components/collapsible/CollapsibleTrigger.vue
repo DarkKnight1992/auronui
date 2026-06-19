@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { CollapsibleTrigger } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCollapsibleInject } from './collapsible.context'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
   /** Classnames for individual slots */
   classNames?: Partial<{
-    trigger: string
-    indicator: string
+    trigger: ClassValue
+    indicator: ClassValue
   }>
 }>()
 const ctx = useCollapsibleInject()

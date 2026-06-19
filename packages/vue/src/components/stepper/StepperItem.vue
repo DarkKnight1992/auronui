@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, inject } from 'vue'
 import { stepperVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { stepperContextKey } from './Stepper.context'
 
 const props = withDefaults(defineProps<{
   step: number
   /** Custom CSS classes for the root element. */
-  class?: string
+  class?: ClassValue
   /** Override CSS classes for individual slots. */
   classNames?: Partial<{
-    item: string
+    item: ClassValue
   }>
 }>(), {
   class: undefined,

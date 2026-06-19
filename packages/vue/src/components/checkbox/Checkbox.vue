@@ -2,7 +2,7 @@
 import { computed, ref, useAttrs } from 'vue'
 import { CheckboxRoot, CheckboxIndicator } from 'reka-ui'
 import { checkboxVariants, type CheckboxVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCheckboxGroupInject } from './checkbox-group.context'
 
 // Disable Vue attribute fallthrough — we manually forward $attrs to CheckboxRoot
@@ -16,13 +16,13 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   isIndeterminate?: boolean
   name?: string
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides for any slot in this component. */
   classNames?: Partial<{
-    base: string
-    control: string
-    indicator: string
-    content: string
+    base: ClassValue
+    control: ClassValue
+    indicator: ClassValue
+    content: ClassValue
   }>
 }>(), {
   variant: undefined,

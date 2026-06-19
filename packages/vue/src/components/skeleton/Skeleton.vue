@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { skeletonVariants, type SkeletonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   animationType?: SkeletonVariants['animationType']
-  class?: string
+  class?: ClassValue
   /** Custom class overrides for named slots. */
   classNames?: Partial<{
-    base: string
+    base: ClassValue
   }>
 }>(), {
   animationType: 'shimmer',

@@ -11,7 +11,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { meterVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   value?: number
@@ -23,14 +23,14 @@ const props = withDefaults(defineProps<{
   formatOptions?: Intl.NumberFormatOptions
   size?: 'sm' | 'md' | 'lg'
   color?: 'default' | 'accent' | 'success' | 'warning' | 'danger'
-  class?: string
+  class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
-    base: string
-    label: string
-    output: string
-    track: string
-    fill: string
+    base: ClassValue
+    label: ClassValue
+    output: ClassValue
+    track: ClassValue
+    fill: ClassValue
   }>
 }>(), {
   value: 0,
