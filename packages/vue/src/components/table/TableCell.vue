@@ -4,7 +4,7 @@ import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
-defineProps<{
+const props = defineProps<{
   rowIndex?: number
   columnIndex?: number
   /** Per-slot class name overrides merged via `composeClassName`. */

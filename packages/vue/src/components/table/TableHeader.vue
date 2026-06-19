@@ -5,11 +5,6 @@ import { tableVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useTableInject } from './table.context'
 
-const ctx = useTableInject()
-const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
-
-const props = defineProps<Props>()
-
 type Props = {
   /**
    * Per-slot class overrides. Each key maps to a named slot in the anatomy;
@@ -21,6 +16,11 @@ type Props = {
     column: ClassValue
   }>
 }
+
+const props = defineProps<Props>()
+const ctx = useTableInject()
+const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
+
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function getAriaSort(header: Header<any, unknown>): 'ascending' | 'descending' | 'none' | undefined {

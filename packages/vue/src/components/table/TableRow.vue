@@ -4,7 +4,7 @@
 import { computed } from 'vue'
 import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
-import { composeClassName } from '@auronui/utils'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 interface Props {
   /** Additional classes to apply to the root element */

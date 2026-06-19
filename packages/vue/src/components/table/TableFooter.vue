@@ -2,10 +2,7 @@
 import { computed } from 'vue'
 import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
-import { composeClassName } from '@/utils/compose-class-name'
-
-const ctx = useTableInject()
-const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 interface Props {
   /**
@@ -16,7 +13,10 @@ interface Props {
   }>
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
+const ctx = useTableInject()
+const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
+
 </script>
 
 <template>

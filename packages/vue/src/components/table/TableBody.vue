@@ -24,7 +24,7 @@ interface Props {
   }>
 }
 
-defineProps<Props>()
+const props = defineProps<Props>()
 
 const ctx = useTableInject()
 const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))

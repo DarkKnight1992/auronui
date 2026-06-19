@@ -2,6 +2,7 @@
 import { CollapsibleContent } from 'reka-ui'
 import { useCollapsibleInject } from './collapsible.context'
 import { motion, AnimatePresence } from '../../utils/motion'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = defineProps<{
   /** Override the default class for the root element. */

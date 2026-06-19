@@ -2,8 +2,9 @@
 import { computed } from 'vue'
 import { tableVariants } from '@auronui/styles'
 import { useTableInject } from './table.context'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
-defineProps<{
+const props = defineProps<{
   columnIndex?: number
   sortDirection?: 'ascending' | 'descending' | 'none'
   /** Per-slot class overrides */
