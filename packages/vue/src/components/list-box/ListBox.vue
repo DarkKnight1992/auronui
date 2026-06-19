@@ -62,7 +62,7 @@ const slotFns = computed(() =>
   >
     <ListboxContent
       v-bind="attrs"
-      :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
+      :class="composeClassName(slotFns, props.class, props.classNames?.base)"
     >
       <slot />
     </ListboxContent>

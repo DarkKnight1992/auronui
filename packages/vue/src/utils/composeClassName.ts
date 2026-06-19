@@ -10,6 +10,7 @@ export { cx };
  */
 export type ClassValue =
   | string
+  | false
   | null
   | undefined
   | Record<string, unknown>

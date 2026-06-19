@@ -10,6 +10,7 @@ export const meterVariants = tv({
   slots: {
     base: "meter",
     fill: "meter__fill",
+    label: "meter__label",
     output: "meter__output",
     track: "meter__track",
   },
