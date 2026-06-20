@@ -36,6 +36,20 @@ type Story = StoryObj<typeof ColorSwatchPicker>
 
 export const Default: Story = {
   name: 'Default Palette',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatchPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSwatchPicker aria-label="Color palette" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatchPicker },
     setup() { return { args } },

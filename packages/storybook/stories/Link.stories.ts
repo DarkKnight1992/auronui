@@ -16,6 +16,20 @@ export default meta
 type Story = StoryObj<typeof Link>
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <Link href="https://auron.dev">Visit Auron</Link>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   args: { href: 'https://auron.dev' },
   render: (args) => ({
     components: { Link },

@@ -20,6 +20,30 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@auronui/vue'
+</script>
+
+<template>
+  <TooltipProvider>
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button variant="outline">Hover me</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        Tooltip content
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
+
   render: (args) => ({
     components: { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent },
     setup: () => ({ args }),

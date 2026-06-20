@@ -35,6 +35,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<ProgressBar v-bind="args" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressBar } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressBar />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Determinate: Story = {

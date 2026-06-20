@@ -44,6 +44,46 @@ const steps = [
 
 export const Default: Story = {
   args: { orientation: 'horizontal', size: 'md', color: 'accent' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Stepper,
+  StepperItem,
+  StepperIndicator,
+  StepperTitle,
+  StepperDescription,
+  StepperContent,
+  StepperSeparator,
+} from '@auronui/vue'
+
+const currentStep = ref(1)
+const steps = [
+  { label: 'Account', description: 'Create your account' },
+  { label: 'Profile', description: 'Set up your profile' },
+  { label: 'Review', description: 'Review your details' },
+  { label: 'Done', description: "You're all set!" },
+]
+</script>
+
+<template>
+  <Stepper v-model="currentStep" :total-steps="steps.length" orientation="horizontal" color="accent">
+    <StepperItem v-for="(step, index) in steps" :key="index" :step="index + 1">
+      <StepperIndicator>{{ index + 1 }}</StepperIndicator>
+      <StepperSeparator v-if="index < steps.length - 1" />
+      <StepperContent>
+        <StepperTitle>{{ step.label }}</StepperTitle>
+        <StepperDescription>{{ step.description }}</StepperDescription>
+      </StepperContent>
+    </StepperItem>
+  </Stepper>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Stepper, StepperItem, StepperIndicator, StepperTitle, StepperDescription, StepperContent, StepperSeparator },
     setup() {

@@ -18,6 +18,20 @@ export default meta;
 type Story = StoryObj<typeof Kbd>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Kbd } from '@auronui/vue'
+</script>
+
+<template>
+  <Kbd>⌘K</Kbd>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Kbd },
     setup: () => ({ args }),

@@ -19,6 +19,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<Checkbox v-bind="args" aria-label="Accept terms" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+</script>
+
+<template>
+  <Checkbox aria-label="Accept terms" />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 }
 
 export const Checked: Story = {

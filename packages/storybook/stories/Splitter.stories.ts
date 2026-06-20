@@ -26,6 +26,28 @@ const panelStyle = 'width:100%;height:100%;padding:16px;font-family:sans-serif;f
 
 export const Horizontal: Story = {
   args: { direction: 'horizontal' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue'
+</script>
+
+<template>
+  <SplitterGroup direction="horizontal" style="height: 400px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+    <SplitterPanel :default-size="50" :min-size="20">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Left panel</div>
+    </SplitterPanel>
+    <SplitterResizeHandle />
+    <SplitterPanel :default-size="50" :min-size="20">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Right panel</div>
+    </SplitterPanel>
+  </SplitterGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
     setup: () => ({ args, panelStyle }),

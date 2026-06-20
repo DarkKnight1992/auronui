@@ -29,6 +29,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<Text v-bind="args">The quick brown fox jumps over the lazy dog.</Text>`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text>The quick brown fox jumps over the lazy dog.</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const ExtraSmall: Story = {

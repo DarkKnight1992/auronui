@@ -19,6 +19,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<Switch v-bind="args" aria-label="Enable feature" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Switch } from '@auronui/vue'
+</script>
+
+<template>
+  <Switch aria-label="Enable feature" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Checked: Story = {

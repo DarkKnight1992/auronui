@@ -26,6 +26,20 @@ type Story = StoryObj<typeof ColorPicker>
 
 export const Default: Story = {
   name: 'Default (Blue, hex)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#3b82f6" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup() { return { args } },

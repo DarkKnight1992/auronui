@@ -30,6 +30,20 @@ export const Default: Story = {
     setup() { return { args } },
     template: '<ColorField v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorField } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorField />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 }
 
 export const WithLabel: Story = {

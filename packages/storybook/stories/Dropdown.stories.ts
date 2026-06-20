@@ -43,6 +43,30 @@ type Story = StoryObj<typeof Dropdown>;
 // Default — trigger + 4 items
 // ---------------------------------------------------------------------------
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@auronui/vue'
+</script>
+
+<template>
+  <Dropdown>
+    <DropdownTrigger>
+      <Button variant="flat">Open Menu</Button>
+    </DropdownTrigger>
+    <DropdownMenu aria-label="Default menu">
+      <DropdownItem>New File</DropdownItem>
+      <DropdownItem>Open File</DropdownItem>
+      <DropdownItem>Save</DropdownItem>
+      <DropdownItem>Close</DropdownItem>
+    </DropdownMenu>
+  </Dropdown>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: allComponents,
     setup: () => ({ args }),

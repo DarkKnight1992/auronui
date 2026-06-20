@@ -119,6 +119,33 @@ export const Default: Story = {
       <Autocomplete v-bind="args" :items="items" label="Favorite Fruit" placeholder="Search fruits..." aria-label="Fruit autocomplete" />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Autocomplete } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'blueberry', label: 'Blueberry' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+]
+</script>
+
+<template>
+  <Autocomplete
+    :items="items"
+    label="Favorite Fruit"
+    placeholder="Search fruits..."
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AdvancedComposition: Story = {

@@ -23,6 +23,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<Skeleton v-bind="args" style="width: 200px; height: 16px; border-radius: 4px;" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Skeleton } from '@auronui/vue'
+</script>
+
+<template>
+  <Skeleton style="width: 200px; height: 16px; border-radius: 4px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Shimmer: Story = {

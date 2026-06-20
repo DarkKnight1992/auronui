@@ -41,6 +41,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<Chip v-bind="args">Label</Chip>`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Chip } from '@auronui/vue'
+</script>
+
+<template>
+  <Chip>Label</Chip>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 };
 
 export const Solid: Story = {

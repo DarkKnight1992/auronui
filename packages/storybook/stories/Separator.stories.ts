@@ -18,7 +18,22 @@ const meta: Meta<typeof Separator> = {
 export default meta;
 type Story = StoryObj<typeof Separator>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Separator } from '@auronui/vue'
+</script>
+
+<template>
+  <Separator />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+};
 
 export const Vertical: Story = {
   args: { orientation: "vertical" },

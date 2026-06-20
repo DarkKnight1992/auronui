@@ -12,6 +12,24 @@ type Story = StoryObj
 
 // 1. Default (unpressed)
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ToggleButton } from '@auronui/vue'
+
+const pressed = ref(false)
+</script>
+
+<template>
+  <ToggleButton v-model="pressed" aria-label="Toggle bold">Bold</ToggleButton>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
+
   render: (args) => ({
     components: { ToggleButton },
     setup() {

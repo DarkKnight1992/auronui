@@ -17,6 +17,24 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ListBox, ListBoxItem } from '@auronui/vue'
+</script>
+
+<template>
+  <ListBox aria-label="Favorite fruit">
+    <ListBoxItem value="apple">Apple</ListBoxItem>
+    <ListBoxItem value="banana">Banana</ListBoxItem>
+    <ListBoxItem value="cherry">Cherry</ListBoxItem>
+  </ListBox>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem },
     setup: () => ({ args }),

@@ -107,6 +107,27 @@ export const Default: Story = {
       <Select v-bind="args" label="Favorite Fruit" placeholder="Pick a fruit" :items="items" />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Select } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Select label="Favorite Fruit" placeholder="Pick a fruit" :items="items" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AdvancedComposition: Story = {

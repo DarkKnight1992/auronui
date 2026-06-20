@@ -37,6 +37,23 @@ export default meta
 type Story = StoryObj<typeof InputOTP>
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <InputOTP v-model="value" />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {

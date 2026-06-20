@@ -51,6 +51,23 @@ export const Default: Story = {
     },
     template: `<Slider v-bind="args" v-model="value" style="max-width: 400px;" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(50)
+</script>
+
+<template>
+  <Slider v-model="value" style="max-width: 400px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Range: Story = {

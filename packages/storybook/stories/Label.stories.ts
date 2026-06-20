@@ -21,6 +21,20 @@ export default meta;
 type Story = StoryObj<typeof Label>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Label } from '@auronui/vue'
+</script>
+
+<template>
+  <Label>Email address</Label>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Label },
     setup: () => ({ args }),

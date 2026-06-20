@@ -48,6 +48,20 @@ export const Default: Story = {
     setup() { return { args } },
     template: '<NumberField v-bind="args" label="Quantity" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField label="Quantity" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithStepMinMax: Story = {

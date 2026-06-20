@@ -99,6 +99,20 @@ export const Playground: Story = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Input } from '@auronui/vue'
+</script>
+
+<template>
+  <Input variant="underlined" size="sm" color="warning" placeholder="Type something..." />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   args: {
     variant: "underlined",
     size: "sm",

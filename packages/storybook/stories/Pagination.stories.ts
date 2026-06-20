@@ -60,6 +60,36 @@ const numericTemplate = `
 /** Story 1: Numeric — Small (5 pages, size=sm) */
 export const NumericSmall: Story = {
   name: "Numeric — Small",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationEllipsis,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Pagination size="sm" :total-items="50" :items-per-page="10" :page="1">
+    <PaginationContent v-slot="{ items }">
+      <PaginationPrev />
+      <template v-for="item in items" :key="item.type === 'page' ? item.value : ('e-' + item.value)">
+        <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+        <PaginationEllipsis v-else />
+      </template>
+      <PaginationNext />
+    </PaginationContent>
+  </Pagination>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       Pagination,

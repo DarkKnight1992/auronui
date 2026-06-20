@@ -81,6 +81,56 @@ export default meta
 type Story = StoryObj<typeof Tree>
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Tree, TreeItem, TreeItemToggle } from '@auronui/vue'
+
+const items = [
+  {
+    id: 'src',
+    label: 'src',
+    children: [
+      { id: 'main.ts', label: 'main.ts' },
+      { id: 'app.vue', label: 'App.vue' },
+    ],
+  },
+  { id: 'package.json', label: 'package.json' },
+]
+
+const selected = ref(null)
+const expanded = ref(['src'])
+</script>
+
+<template>
+  <Tree
+    :items="items"
+    :get-key="(item) => item.id"
+    :get-children="(item) => item.children"
+    v-model="selected"
+    v-model:expanded="expanded"
+  >
+    <template #default="{ flattenItems }">
+      <TreeItem
+        v-for="item in flattenItems"
+        :key="item._id"
+        v-bind="item.bind"
+      >
+        <template #default="{ isExpanded, hasChildren, toggleClass }">
+          <TreeItemToggle :is-expanded="isExpanded" :has-children="hasChildren" :class="toggleClass" />
+          <span>{{ item.value.label }}</span>
+        </template>
+      </TreeItem>
+    </template>
+  </Tree>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
+
   render: (args) => ({
     components: { Tree, TreeItem, TreeItemToggle },
     setup() {

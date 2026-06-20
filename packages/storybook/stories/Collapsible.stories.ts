@@ -17,6 +17,23 @@ export default meta
 type Story = StoryObj<typeof Collapsible>
 
 export const Standalone: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vue'
+</script>
+
+<template>
+  <Collapsible :default-open="true">
+    <CollapsibleTrigger>Show more</CollapsibleTrigger>
+    <CollapsibleContent>Extra detail revealed inside the collapsible.</CollapsibleContent>
+  </Collapsible>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Collapsible, CollapsibleTrigger, CollapsibleContent },
     setup: () => ({ args }),

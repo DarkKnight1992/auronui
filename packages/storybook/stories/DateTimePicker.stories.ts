@@ -87,6 +87,20 @@ export const Default: Story = {
     label: "Appointment",
     defaultValue: BASE_VALUE,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker label="Appointment" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),

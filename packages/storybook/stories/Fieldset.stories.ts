@@ -18,6 +18,23 @@ type Story = StoryObj<typeof Fieldset>;
  * Default fieldset with a legend and slot content showing labeled inputs.
  */
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Fieldset, Input } from '@auronui/vue'
+</script>
+
+<template>
+  <Fieldset legend="Personal Information">
+    <Input label="First Name" placeholder="Jane" variant="bordered" />
+    <Input label="Last Name" placeholder="Doe" variant="bordered" />
+  </Fieldset>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Fieldset, Input },
     setup() { return { args } },

@@ -19,6 +19,30 @@ type Story = StoryObj<TabsArgs>
 
 export const Horizontal: Story = {
   args: { orientation: 'horizontal', variant: 'primary', defaultValue: 'one' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs orientation="horizontal" variant="primary" default-value="one">
+    <TabList>
+      <Tab value="one">Overview</Tab>
+      <Tab value="two">Specifications</Tab>
+      <Tab value="three">Reviews</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one">Overview content</TabPanel>
+    <TabPanel value="two">Specs content</TabPanel>
+    <TabPanel value="three">Reviews content</TabPanel>
+  </Tabs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup() { return { args } },

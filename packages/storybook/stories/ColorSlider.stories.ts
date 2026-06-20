@@ -31,6 +31,20 @@ type Story = StoryObj<typeof ColorSlider>
 
 export const Hue: Story = {
   name: 'Hue',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="hue" default-value="#ff0000" aria-label="Hue" style="width: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),

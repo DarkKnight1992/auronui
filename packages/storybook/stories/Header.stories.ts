@@ -17,6 +17,20 @@ export default meta;
 type Story = StoryObj<typeof Header>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Header } from '@auronui/vue'
+</script>
+
+<template>
+  <Header>Section Heading</Header>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Header },
     setup: () => ({ args }),

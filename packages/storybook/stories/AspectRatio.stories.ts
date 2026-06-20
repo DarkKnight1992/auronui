@@ -36,6 +36,26 @@ export const Default: Story = {
       </AspectRatio>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <AspectRatio :ratio="16 / 9">
+    <img
+      src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=600"
+      alt="Landscape"
+      style="width:100%;height:100%;object-fit:cover;border-radius:8px;"
+    />
+  </AspectRatio>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Widescreen: Story = {

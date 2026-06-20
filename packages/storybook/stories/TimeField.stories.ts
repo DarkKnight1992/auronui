@@ -70,6 +70,23 @@ export const Default: Story = {
     },
     template: `<TimeField v-bind="args" v-model="value" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { TimeField } from '@auronui/vue'
+
+const value = ref(undefined)
+</script>
+
+<template>
+  <TimeField v-model="value" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Variants ──────────────────────────────────────────────────────────── */

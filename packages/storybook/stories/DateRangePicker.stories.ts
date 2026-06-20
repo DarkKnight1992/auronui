@@ -83,6 +83,23 @@ export const Playground: Story = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DateRangePicker } from '@auronui/vue'
+
+const value = ref(undefined)
+</script>
+
+<template>
+  <DateRangePicker v-model="value" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateRangePicker },
     setup: () => {

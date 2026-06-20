@@ -32,6 +32,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<ProgressCircle v-bind="args" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressCircle />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Determinate: Story = {

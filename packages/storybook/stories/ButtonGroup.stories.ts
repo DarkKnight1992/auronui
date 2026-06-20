@@ -17,6 +17,24 @@ export default meta
 type Story = StoryObj
 
 export const HorizontalDefault: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <ButtonGroup orientation="horizontal">
+    <Button variant="outline">One</Button>
+    <Button variant="outline">Two</Button>
+    <Button variant="outline">Three</Button>
+  </ButtonGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup: () => ({ args }),

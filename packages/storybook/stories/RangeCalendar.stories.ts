@@ -31,7 +31,22 @@ const meta: Meta<typeof RangeCalendar> = {
 export default meta;
 type Story = StoryObj<typeof RangeCalendar>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { RangeCalendar } from '@auronui/vue'
+</script>
+
+<template>
+  <RangeCalendar />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+};
 
 export const WithDefaultRange: Story = {
   args: {

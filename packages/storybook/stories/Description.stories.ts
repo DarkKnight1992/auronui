@@ -17,6 +17,20 @@ export default meta;
 type Story = StoryObj<typeof Description>;
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Description } from '@auronui/vue'
+</script>
+
+<template>
+  <Description>This is a helpful description for the form field above.</Description>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Description },
     setup: () => ({ args }),

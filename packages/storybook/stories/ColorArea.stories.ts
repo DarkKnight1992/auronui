@@ -36,6 +36,20 @@ export const Default: Story = {
     setup() { return { args } },
     template: '<ColorArea v-bind="args" aria-label="Color area" style="width: 200px; height: 200px;" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorArea } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorArea aria-label="Color area" style="width: 200px; height: 200px;" />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 }
 
 export const HueLightness: Story = {

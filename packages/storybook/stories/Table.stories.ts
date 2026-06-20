@@ -72,6 +72,40 @@ export const Default: Story = {
     template:
       '<Table v-bind="args" :columns="columns" :data="data" ariaLabel="People" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer' },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer' },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager' },
+]
+</script>
+
+<template>
+  <Table :columns="columns" :data="data" ariaLabel="People" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Secondary: Story = {

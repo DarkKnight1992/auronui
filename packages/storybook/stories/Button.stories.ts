@@ -62,6 +62,20 @@ export const Default: Story = {
     },
     template: '<Button v-bind="args">Click me</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <Button variant="primary">Click me</Button>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AllVariants: Story = {

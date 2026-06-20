@@ -45,6 +45,32 @@ type Story = StoryObj<typeof Card>;
  * Playground — tweak all props from the Storybook controls
  * ============================================================ */
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Card, CardHeader, CardBody, CardFooter, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <Card variant="default" shadow="sm" radius="lg" style="width: 340px;">
+    <CardHeader>
+      <div class="card__title">Onboarding checklist</div>
+      <div class="card__description">Finish setup to unlock your workspace.</div>
+    </CardHeader>
+    <CardBody>
+      Complete the remaining 3 steps to publish your first project. Your progress is saved automatically.
+    </CardBody>
+    <CardFooter>
+      <Button variant="primary" size="sm">Continue</Button>
+      <Button variant="ghost" size="sm">Skip</Button>
+    </CardFooter>
+  </Card>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Card, CardHeader, CardBody, CardFooter, Button },
     setup: () => ({ args }),

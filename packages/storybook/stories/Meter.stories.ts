@@ -38,6 +38,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `<Meter v-bind="args" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Meter } from '@auronui/vue'
+</script>
+
+<template>
+  <Meter />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithLabel: Story = {

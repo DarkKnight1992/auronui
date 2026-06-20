@@ -45,6 +45,28 @@ export const Default: Story = {
       </CheckboxGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { CheckboxGroup, Checkbox } from '@auronui/vue'
+
+const selected = ref([])
+</script>
+
+<template>
+  <CheckboxGroup v-model="selected" label="Choose frameworks">
+    <Checkbox value="vue">Vue</Checkbox>
+    <Checkbox value="react">React</Checkbox>
+    <Checkbox value="svelte">Svelte</Checkbox>
+    <Checkbox value="solid">Solid</Checkbox>
+  </CheckboxGroup>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 }
 
 /* ─── Variants ──────────────────────────────────────────────────────────── */

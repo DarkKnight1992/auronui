@@ -65,6 +65,28 @@ export const Default: Story = {
     position: "bottom-right",
   },
 
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Toast, ToastTitle, ToastDescription, ToastClose } from '@auronui/vue'
+
+const open = ref(true)
+</script>
+
+<template>
+  <Toast :open="open" :duration="0" position="bottom-right" @update:open="open = $event">
+    <ToastTitle>Notification</ToastTitle>
+    <ToastDescription>This is a default toast message.</ToastDescription>
+    <ToastClose />
+  </Toast>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
+
   render: (args) => ({
     components: { Toast, ToastTitle, ToastDescription, ToastClose },
     setup() {

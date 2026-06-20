@@ -34,6 +34,20 @@ export const Default: Story = {
     setup() { return { args } },
     template: '<ColorInputGroup v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorInputGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorInputGroup />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 }
 
 export const WithLabel: Story = {

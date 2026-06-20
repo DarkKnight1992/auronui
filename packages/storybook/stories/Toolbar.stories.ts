@@ -20,6 +20,31 @@ type Story = StoryObj<typeof Toolbar>
 
 export const Horizontal: Story = {
   args: { orientation: 'horizontal' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem, ToolbarLink } from '@auronui/vue'
+</script>
+
+<template>
+  <Toolbar orientation="horizontal">
+    <ToolbarButton>New</ToolbarButton>
+    <ToolbarButton>Open</ToolbarButton>
+    <ToolbarSeparator />
+    <ToolbarToggleGroup type="multiple">
+      <ToolbarToggleItem value="bold">B</ToolbarToggleItem>
+      <ToolbarToggleItem value="italic">I</ToolbarToggleItem>
+      <ToolbarToggleItem value="underline">U</ToolbarToggleItem>
+    </ToolbarToggleGroup>
+    <ToolbarSeparator />
+    <ToolbarLink href="https://example.com/docs">Docs</ToolbarLink>
+  </Toolbar>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Toolbar, ToolbarButton, ToolbarLink, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem },
     setup() { return { args } },

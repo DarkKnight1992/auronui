@@ -41,6 +41,20 @@ type Story = StoryObj<typeof Avatar>;
 
 export const Default: Story = {
   args: { name: "Jane Doe" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Avatar name="Jane Doe" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithImage: Story = {

@@ -64,6 +64,49 @@ export const Default: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal>
+    <ModalTrigger as-child>
+      <Button>Open Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader>
+        <ModalTitle>Modal Title</ModalTitle>
+        <ModalDescription>This is a description for the modal dialog.</ModalDescription>
+      </ModalHeader>
+      <ModalBody>
+        <p>Modal content goes here. Press Escape or click outside to close.</p>
+      </ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const SizeSm: Story = {

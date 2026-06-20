@@ -36,6 +36,24 @@ export const Default: Story = {
       </AvatarGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AvatarGroup, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <AvatarGroup aria-label="Team members">
+    <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026704d" name="Alice" />
+    <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026705e" name="Bob" />
+    <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026706f" name="Carol" />
+  </AvatarGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithMax: Story = {

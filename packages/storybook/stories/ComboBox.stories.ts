@@ -59,6 +59,25 @@ const disabledFruits = [
 ];
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" placeholder="Select a fruit..." />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox },
     setup: () => ({ args, items: fruits }),

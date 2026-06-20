@@ -104,6 +104,20 @@ export const Default: Story = {
     setup() { return { args } },
     template: '<Textarea v-bind="args" placeholder="Type something..." aria-label="Default textarea" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <Textarea placeholder="Type something..." />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── Variants ───────────────────────────────────────────────────────────── */

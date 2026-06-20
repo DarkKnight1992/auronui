@@ -23,7 +23,22 @@ const meta: Meta<typeof CalendarYearPicker> = {
 export default meta;
 type Story = StoryObj<typeof CalendarYearPicker>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarYearPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <CalendarYearPicker />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
+};
 
 export const WithSelected: Story = {
   args: {

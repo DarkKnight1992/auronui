@@ -22,7 +22,22 @@ const meta: Meta<typeof Spinner> = {
 export default meta;
 type Story = StoryObj<typeof Spinner>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Spinner } from '@auronui/vue'
+</script>
+
+<template>
+  <Spinner />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+};
 
 export const Small: Story = { args: { size: "sm" } };
 export const Large: Story = { args: { size: "lg" } };

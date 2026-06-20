@@ -48,6 +48,23 @@ export const Default: Story = {
       </Badge>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Badge color="danger" size="md" variant="primary" placement="top-right">
+    <Avatar name="JD" />
+    <template #label>5</template>
+  </Badge>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const OnAvatar: Story = {

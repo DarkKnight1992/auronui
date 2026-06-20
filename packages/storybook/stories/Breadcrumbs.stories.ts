@@ -27,6 +27,25 @@ export const Default: Story = {
       </Breadcrumbs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
+</script>
+
+<template>
+  <Breadcrumbs>
+    <BreadcrumbItem href="/">Home</BreadcrumbItem>
+    <BreadcrumbItem href="/products">Products</BreadcrumbItem>
+    <BreadcrumbItem href="/products/shoes">Shoes</BreadcrumbItem>
+    <BreadcrumbItem>Sneakers</BreadcrumbItem>
+  </Breadcrumbs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Truncated: Story = {

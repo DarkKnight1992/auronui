@@ -38,6 +38,24 @@ const baseComponents = {
 };
 
 export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { EmptyState, EmptyStateContent } from '@auronui/vue'
+</script>
+
+<template>
+  <EmptyState>
+    <EmptyStateContent>
+      <p>Your inbox is empty</p>
+    </EmptyStateContent>
+  </EmptyState>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: () => ({
     components: baseComponents,
     setup: () => ({ InboxIcon }),

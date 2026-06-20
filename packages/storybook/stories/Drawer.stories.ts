@@ -46,6 +46,37 @@ const closeButton = `
 
 export const Right: Story = {
   name: 'Placement: Right (default)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <Drawer placement="right">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Right Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Right Drawer</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p style="margin: 0; font-size: 14px;">
+          This drawer slides in from the right edge. Press Escape or click outside to close.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: baseComponents,
     setup: () => ({ args }),

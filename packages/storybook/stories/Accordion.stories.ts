@@ -24,6 +24,33 @@ type Story = StoryObj<typeof Accordion>
 
 export const Single: Story = {
   args: { type: 'single', collapsible: true, defaultValue: 'faq-1' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent } from '@auronui/vue'
+</script>
+
+<template>
+  <Accordion type="single" :collapsible="true" default-value="faq-1">
+    <AccordionItem value="faq-1">
+      <AccordionHeader><AccordionTrigger>What is Auron?</AccordionTrigger></AccordionHeader>
+      <AccordionContent>A Vue 3 designed component library.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="faq-2">
+      <AccordionHeader><AccordionTrigger>What is Reka UI?</AccordionTrigger></AccordionHeader>
+      <AccordionContent>Reka UI is Radix UI for Vue — accessibility primitives used by Auron.</AccordionContent>
+    </AccordionItem>
+    <AccordionItem value="faq-3">
+      <AccordionHeader><AccordionTrigger>Is it MIT licensed?</AccordionTrigger></AccordionHeader>
+      <AccordionContent>Yes — MIT, clean-room</AccordionContent>
+    </AccordionItem>
+  </Accordion>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent },
     setup() { return { args } },

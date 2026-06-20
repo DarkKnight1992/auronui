@@ -31,6 +31,22 @@ export const Default: Story = {
       </Surface>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Surface } from '@auronui/vue'
+</script>
+
+<template>
+  <Surface style="padding: 16px; border-radius: 8px;">
+    <p style="margin: 0;">Surface content area</p>
+  </Surface>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Secondary: Story = {

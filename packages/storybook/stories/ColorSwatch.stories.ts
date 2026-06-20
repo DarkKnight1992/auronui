@@ -30,6 +30,20 @@ type Story = StoryObj<typeof ColorSwatch>
 
 export const Default: Story = {
   name: 'Default (Red)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatch } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSwatch color="#ff0000" colorName="Red" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatch },
     setup() { return { args } },

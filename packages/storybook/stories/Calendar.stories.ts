@@ -37,7 +37,22 @@ const meta: Meta<typeof Calendar> = {
 export default meta;
 type Story = StoryObj<typeof Calendar>;
 
-export const Default: Story = {};
+export const Default: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Calendar } from '@auronui/vue'
+</script>
+
+<template>
+  <Calendar />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
+};
 
 export const WithDefaultValue: Story = {
   args: {

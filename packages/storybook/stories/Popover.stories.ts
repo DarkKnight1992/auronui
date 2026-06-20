@@ -41,6 +41,32 @@ export const Default: Story = {
       </Popover>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Popover, PopoverTrigger, PopoverContent, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <Popover>
+    <PopoverTrigger as-child>
+      <Button>Open Popover</Button>
+    </PopoverTrigger>
+    <PopoverContent>
+      <div style="padding: 16px; max-width: 280px;">
+        <h3 style="margin: 0 0 8px; font-size: 14px; font-weight: 600;">Popover Title</h3>
+        <p style="margin: 0; font-size: 13px; color: #555;">
+          This is the popover content. Click outside or press Escape to close.
+        </p>
+      </div>
+    </PopoverContent>
+  </Popover>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const SideTop: Story = {

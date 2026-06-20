@@ -28,6 +28,20 @@ export const Default: Story = {
     setup() { return { args } },
     template: '<Alert v-bind="args">This is a default alert message.</Alert>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Alert } from '@auronui/vue'
+</script>
+
+<template>
+  <Alert severity="default">This is a default alert message.</Alert>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const AllSeverities: Story = {

@@ -22,6 +22,20 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: '<CloseButton v-bind="args" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <CloseButton />
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
 }
 
 export const AllSizes: Story = {

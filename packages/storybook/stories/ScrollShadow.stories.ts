@@ -34,6 +34,24 @@ export default meta;
 type Story = StoryObj<typeof ScrollShadow>;
 
 export const Vertical: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ScrollShadow } from '@auronui/vue'
+</script>
+
+<template>
+  <ScrollShadow orientation="vertical" style="height: 200px; width: 400px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+    <p style="margin: 0; line-height: 1.6;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua...
+    </p>
+  </ScrollShadow>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ScrollShadow },
     setup: () => ({ args, LOREM }),

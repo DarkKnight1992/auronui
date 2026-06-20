@@ -20,6 +20,49 @@ type Story = StoryObj<typeof Form>
 
 export const OnSubmit: Story = {
   name: 'On Submit (default)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Form, FormField, Input } from '@auronui/vue'
+
+const email = ref('')
+const password = ref('')
+const submitted = ref(null)
+
+function handleSubmit({ values, setErrors }) {
+  if (values.email === 'taken@example.com') {
+    setErrors({ email: 'This email is already registered' })
+    return
+  }
+  submitted.value = values
+}
+</script>
+
+<template>
+  <div style="max-width: 360px; display: flex; flex-direction: column; gap: 24px;">
+    <Form validation-mode="on-submit" @submit="handleSubmit" style="display: flex; flex-direction: column; gap: 16px;">
+      <FormField name="email" v-model="email" :rules="{ required: true, email: true }">
+        <template #default="{ fieldProps }">
+          <Input v-bind="fieldProps" label="Email" type="email" />
+        </template>
+      </FormField>
+
+      <FormField name="password" v-model="password" :rules="{ required: true, minLength: 8 }">
+        <template #default="{ fieldProps }">
+          <Input v-bind="fieldProps" label="Password" type="password" show-password-toggle />
+        </template>
+      </FormField>
+
+      <button type="submit">Sign up</button>
+    </Form>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: () => ({
     components: { Form, FormField, Input },
     setup() {

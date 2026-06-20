@@ -38,6 +38,53 @@ type Story = StoryObj
 
 export const Default: Story = {
   name: 'Default (Delete Confirm)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogIcon,
+  AlertDialogAction,
+  AlertDialogCancel,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <AlertDialog status="danger">
+    <AlertDialogTrigger as-child>
+      <Button variant="danger">Delete Item</Button>
+    </AlertDialogTrigger>
+    <AlertDialogContent>
+      <AlertDialogHeader>
+        <AlertDialogIcon />
+        <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+      </AlertDialogHeader>
+      <AlertDialogBody>
+        <AlertDialogDescription>
+          This action cannot be undone. This will permanently delete the item
+          and remove it from our servers.
+        </AlertDialogDescription>
+      </AlertDialogBody>
+      <AlertDialogFooter>
+        <AlertDialogCancel>Cancel</AlertDialogCancel>
+        <AlertDialogAction>Yes, delete it</AlertDialogAction>
+      </AlertDialogFooter>
+    </AlertDialogContent>
+  </AlertDialog>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       AlertDialog,

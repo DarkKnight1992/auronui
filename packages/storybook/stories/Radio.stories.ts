@@ -28,6 +28,27 @@ export const Default: Story = {
       </RadioGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Radio, RadioGroup } from '@auronui/vue'
+
+const selected = ref('')
+</script>
+
+<template>
+  <RadioGroup v-model="selected" label="Choose a framework">
+    <Radio value="vue">Vue</Radio>
+    <Radio value="react">React</Radio>
+    <Radio value="svelte">Svelte</Radio>
+  </RadioGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Preselected: Story = {
