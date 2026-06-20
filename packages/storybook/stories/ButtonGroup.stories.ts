@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 const meta: Meta = {
   title: 'Components/ButtonGroup',
+  tags: ['autodocs'],
   component: ButtonGroup,
   argTypes: {
     classNames: {

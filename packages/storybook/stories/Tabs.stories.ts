@@ -6,6 +6,7 @@ type TabsArgs = InstanceType<typeof Tabs>['$props'] & { overflow?: 'arrows' | 'd
 
 const meta: Meta<TabsArgs> = {
   title: 'Components/Tabs',
+  tags: ['autodocs'],
   component: Tabs,
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },

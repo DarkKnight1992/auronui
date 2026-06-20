@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 const meta: Meta = {
   title: 'Form/Checkbox',
+  tags: ['autodocs'],
   component: Checkbox,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },

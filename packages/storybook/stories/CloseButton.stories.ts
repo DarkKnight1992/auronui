@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 const meta: Meta<typeof CloseButton> = {
   title: 'Components/CloseButton',
+  tags: ['autodocs'],
   component: CloseButton,
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },

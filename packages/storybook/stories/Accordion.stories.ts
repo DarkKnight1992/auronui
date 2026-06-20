@@ -10,6 +10,7 @@ import {
 const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',
   component: Accordion,
+  tags: ["autodocs"],
   argTypes: {
     type: { control: 'select', options: ['single', 'multiple'] },
     variant: { control: 'select', options: ['default', 'surface'] },

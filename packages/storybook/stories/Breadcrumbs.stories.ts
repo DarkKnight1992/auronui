@@ -3,6 +3,7 @@ import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
 
 const meta: Meta<typeof Breadcrumbs> = {
   title: 'Components/Breadcrumbs',
+  tags: ['autodocs'],
   component: Breadcrumbs,
   argTypes: {
     classNames: {

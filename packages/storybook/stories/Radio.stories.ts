@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 const meta: Meta = {
   title: 'Form/Radio',
+  tags: ['autodocs'],
   component: RadioGroup,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },

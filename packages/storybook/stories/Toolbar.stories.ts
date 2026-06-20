@@ -10,6 +10,7 @@ import {
 
 const meta: Meta<typeof Toolbar> = {
   title: 'Components/Toolbar',
+  tags: ['autodocs'],
   component: Toolbar,
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },

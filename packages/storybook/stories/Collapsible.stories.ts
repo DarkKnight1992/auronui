@@ -8,6 +8,7 @@ import {
 
 const meta: Meta<typeof Collapsible> = {
   title: 'Components/Collapsible',
+  tags: ['autodocs'],
   component: Collapsible,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },

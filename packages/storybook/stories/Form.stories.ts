@@ -4,6 +4,7 @@ import { Form, FormField, Input } from '@auronui/vue'
 
 const meta: Meta<typeof Form> = {
   title: 'Components/Form',
+  tags: ['autodocs'],
   component: Form,
   argTypes: {
     validationMode: {

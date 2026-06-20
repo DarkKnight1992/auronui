@@ -4,6 +4,7 @@ import { ref } from 'vue'
 
 const meta: Meta = {
   title: 'Components/ToggleButton',
+  tags: ['autodocs'],
   component: ToggleButton,
 }
 
