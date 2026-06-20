@@ -44,19 +44,18 @@ export const decorators = [
   }),
 ];
 
-const preview: Preview = {
-  parameters: {
-    controls: {
-      matchers: {
-        color: /(background|color)$/i,
-        date: /Date$/i,
-      },
+export const parameters = {
+  controls: {
+    matchers: {
+      color: /(background|color)$/i,
+      date: /Date$/i,
     },
-    backgrounds: { disable: true },
-    docs: {
-      codePanel: true,
-    },
+  },
+  backgrounds: { disable: true },
+  docs: {
+    codePanel: true,
   },
 };
 
+const preview: Preview = {};
 export default preview;
