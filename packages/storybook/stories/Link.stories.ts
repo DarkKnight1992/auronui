@@ -26,6 +26,7 @@ import { Link } from '@auronui/vue'
 <template>
   <Link href="https://auron.dev">Visit Auron</Link>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

@@ -103,6 +103,7 @@ import {
     </ModalContent>
   </Modal>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

@@ -83,6 +83,7 @@ const value = ref(undefined)
 <template>
   <TimeField v-model="value" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

@@ -36,6 +36,7 @@ import { ColorPicker } from '@auronui/vue'
 <template>
   <ColorPicker defaultValue="#3b82f6" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

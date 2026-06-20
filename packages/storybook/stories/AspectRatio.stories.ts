@@ -52,6 +52,7 @@ import { AspectRatio } from '@auronui/vue'
     />
   </AspectRatio>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

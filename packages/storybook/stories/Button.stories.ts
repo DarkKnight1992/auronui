@@ -72,6 +72,7 @@ import { Button } from '@auronui/vue'
 <template>
   <Button variant="primary">Click me</Button>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

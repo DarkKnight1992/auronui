@@ -42,6 +42,7 @@ import { RangeCalendar } from '@auronui/vue'
 <template>
   <RangeCalendar />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

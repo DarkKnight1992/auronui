@@ -51,6 +51,7 @@ import { Chip } from '@auronui/vue'
 <template>
   <Chip>Label</Chip>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

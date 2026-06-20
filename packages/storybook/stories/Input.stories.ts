@@ -109,6 +109,7 @@ import { Input } from '@auronui/vue'
 <template>
   <Input variant="underlined" size="sm" color="warning" placeholder="Type something..." />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

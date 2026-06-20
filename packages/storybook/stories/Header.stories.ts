@@ -27,6 +27,7 @@ import { Header } from '@auronui/vue'
 <template>
   <Header>Section Heading</Header>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

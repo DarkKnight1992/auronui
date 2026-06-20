@@ -33,6 +33,7 @@ import { Spinner } from '@auronui/vue'
 <template>
   <Spinner />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

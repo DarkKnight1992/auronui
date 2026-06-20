@@ -45,6 +45,7 @@ import { ProgressBar } from '@auronui/vue'
 <template>
   <ProgressBar />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

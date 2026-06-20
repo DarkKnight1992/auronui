@@ -124,6 +124,7 @@ const items = [
 <template>
   <Select label="Favorite Fruit" placeholder="Pick a fruit" :items="items" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

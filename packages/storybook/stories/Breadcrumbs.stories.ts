@@ -42,6 +42,7 @@ import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
     <BreadcrumbItem>Sneakers</BreadcrumbItem>
   </Breadcrumbs>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

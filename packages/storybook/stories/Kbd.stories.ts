@@ -28,6 +28,7 @@ import { Kbd } from '@auronui/vue'
 <template>
   <Kbd>⌘K</Kbd>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

@@ -30,6 +30,7 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vu
     <CollapsibleContent>Extra detail revealed inside the collapsible.</CollapsibleContent>
   </Collapsible>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

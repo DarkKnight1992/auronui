@@ -64,6 +64,7 @@ const value = ref(50)
 <template>
   <Slider v-model="value" style="max-width: 400px;" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

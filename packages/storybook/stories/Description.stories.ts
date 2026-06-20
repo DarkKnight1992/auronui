@@ -27,6 +27,7 @@ import { Description } from '@auronui/vue'
 <template>
   <Description>This is a helpful description for the form field above.</Description>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

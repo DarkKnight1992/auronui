@@ -102,6 +102,7 @@ const data: Person[] = [
 <template>
   <Table :columns="columns" :data="data" ariaLabel="People" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

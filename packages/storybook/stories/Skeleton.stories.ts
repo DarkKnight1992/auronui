@@ -33,6 +33,7 @@ import { Skeleton } from '@auronui/vue'
 <template>
   <Skeleton style="width: 200px; height: 16px; border-radius: 4px;" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

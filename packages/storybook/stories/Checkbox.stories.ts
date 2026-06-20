@@ -29,6 +29,7 @@ import { Checkbox } from '@auronui/vue'
 <template>
   <Checkbox aria-label="Accept terms" />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

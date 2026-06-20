@@ -48,6 +48,7 @@ import { Meter } from '@auronui/vue'
 <template>
   <Meter />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

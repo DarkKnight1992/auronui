@@ -88,6 +88,7 @@ const value = ref(undefined)
 <template>
   <DateInput v-model="value" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

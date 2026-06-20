@@ -142,6 +142,7 @@ const items = [
     placeholder="Search fruits..."
   />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

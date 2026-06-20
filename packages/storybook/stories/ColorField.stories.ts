@@ -40,6 +40,7 @@ import { ColorField } from '@auronui/vue'
 <template>
   <ColorField />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

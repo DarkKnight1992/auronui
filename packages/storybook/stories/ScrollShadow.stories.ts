@@ -48,6 +48,7 @@ import { ScrollShadow } from '@auronui/vue'
     </p>
   </ScrollShadow>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

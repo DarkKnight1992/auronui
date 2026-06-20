@@ -126,6 +126,7 @@ const expanded = ref(['src'])
     </template>
   </Tree>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

@@ -29,6 +29,7 @@ import { Separator } from '@auronui/vue'
 <template>
   <Separator />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

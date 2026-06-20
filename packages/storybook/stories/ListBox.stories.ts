@@ -31,6 +31,7 @@ import { ListBox, ListBoxItem } from '@auronui/vue'
     <ListBoxItem value="cherry">Cherry</ListBoxItem>
   </ListBox>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

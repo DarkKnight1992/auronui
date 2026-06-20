@@ -40,6 +40,7 @@ import { ColorSwatch } from '@auronui/vue'
 <template>
   <ColorSwatch color="#ff0000" colorName="Red" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

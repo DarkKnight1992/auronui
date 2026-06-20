@@ -61,6 +61,7 @@ import { Badge, Avatar } from '@auronui/vue'
     <template #label>5</template>
   </Badge>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

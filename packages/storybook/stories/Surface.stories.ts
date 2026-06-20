@@ -43,6 +43,7 @@ import { Surface } from '@auronui/vue'
     <p style="margin: 0;">Surface content area</p>
   </Surface>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

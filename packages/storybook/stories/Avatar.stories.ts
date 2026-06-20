@@ -51,6 +51,7 @@ import { Avatar } from '@auronui/vue'
 <template>
   <Avatar name="Jane Doe" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

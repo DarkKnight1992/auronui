@@ -63,6 +63,7 @@ import { Popover, PopoverTrigger, PopoverContent, Button } from '@auronui/vue'
     </PopoverContent>
   </Popover>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

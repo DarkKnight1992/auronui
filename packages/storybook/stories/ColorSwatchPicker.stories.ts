@@ -46,6 +46,7 @@ import { ColorSwatchPicker } from '@auronui/vue'
 <template>
   <ColorSwatchPicker aria-label="Color palette" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

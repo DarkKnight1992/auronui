@@ -31,6 +31,7 @@ import { Label } from '@auronui/vue'
 <template>
   <Label>Email address</Label>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

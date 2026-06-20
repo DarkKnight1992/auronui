@@ -80,6 +80,7 @@ const steps = [
     </StepperItem>
   </Stepper>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

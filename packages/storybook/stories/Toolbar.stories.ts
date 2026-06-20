@@ -41,6 +41,7 @@ import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarTo
     <ToolbarLink href="https://example.com/docs">Docs</ToolbarLink>
   </Toolbar>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

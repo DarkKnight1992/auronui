@@ -63,6 +63,7 @@ const selected = ref([])
     <Checkbox value="solid">Solid</Checkbox>
   </CheckboxGroup>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

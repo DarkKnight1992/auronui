@@ -52,6 +52,7 @@ import { EmptyState, EmptyStateContent } from '@auronui/vue'
     </EmptyStateContent>
   </EmptyState>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

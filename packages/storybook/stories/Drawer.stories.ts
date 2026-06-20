@@ -73,6 +73,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerF
     </DrawerContent>
   </Drawer>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

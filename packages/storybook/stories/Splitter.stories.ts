@@ -44,6 +44,7 @@ import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue
     </SplitterPanel>
   </SplitterGroup>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

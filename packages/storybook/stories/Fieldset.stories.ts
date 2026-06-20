@@ -31,6 +31,7 @@ import { Fieldset, Input } from '@auronui/vue'
     <Input label="Last Name" placeholder="Doe" variant="bordered" />
   </Fieldset>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

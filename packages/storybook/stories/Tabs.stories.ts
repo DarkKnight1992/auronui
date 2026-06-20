@@ -39,6 +39,7 @@ import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
     <TabPanel value="three">Reviews content</TabPanel>
   </Tabs>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

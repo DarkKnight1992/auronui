@@ -44,6 +44,7 @@ import { ColorInputGroup } from '@auronui/vue'
 <template>
   <ColorInputGroup />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

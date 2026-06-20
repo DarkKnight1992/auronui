@@ -50,6 +50,7 @@ import { AvatarGroup, Avatar } from '@auronui/vue'
     <Avatar src="https://i.pravatar.cc/150?u=a042581f4e29026706f" name="Carol" />
   </AvatarGroup>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

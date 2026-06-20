@@ -59,6 +59,7 @@ function handleSubmit({ values, setErrors }) {
     </Form>
   </div>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

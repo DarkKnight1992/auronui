@@ -114,6 +114,7 @@ import { Textarea } from '@auronui/vue'
 <template>
   <Textarea placeholder="Type something..." />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

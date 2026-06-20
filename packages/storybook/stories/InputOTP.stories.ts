@@ -50,6 +50,7 @@ const value = ref('')
 <template>
   <InputOTP v-model="value" />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

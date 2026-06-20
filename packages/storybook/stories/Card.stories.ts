@@ -67,6 +67,7 @@ import { Card, CardHeader, CardBody, CardFooter, Button } from '@auronui/vue'
     </CardFooter>
   </Card>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

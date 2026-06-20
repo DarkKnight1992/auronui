@@ -41,6 +41,7 @@ import { ColorSlider } from '@auronui/vue'
 <template>
   <ColorSlider channel="hue" default-value="#ff0000" aria-label="Hue" style="width: 200px;" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

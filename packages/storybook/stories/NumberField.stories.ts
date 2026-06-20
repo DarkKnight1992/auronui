@@ -58,6 +58,7 @@ import { NumberField } from '@auronui/vue'
 <template>
   <NumberField label="Quantity" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

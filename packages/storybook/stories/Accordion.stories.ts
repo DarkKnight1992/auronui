@@ -7,8 +7,6 @@ import {
   AccordionContent,
 } from '@auronui/vue'
 
-console.log(Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent)
-
 const meta: Meta<typeof Accordion> = {
   title: 'Components/Accordion',
   component: Accordion,
@@ -47,6 +45,7 @@ import { Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionC
     </AccordionItem>
   </Accordion>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

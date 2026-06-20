@@ -97,6 +97,7 @@ import { DateTimePicker } from '@auronui/vue'
 <template>
   <DateTimePicker label="Appointment" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

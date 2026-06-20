@@ -45,6 +45,7 @@ const selected = ref('')
     <Radio value="svelte">Svelte</Radio>
   </RadioGroup>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

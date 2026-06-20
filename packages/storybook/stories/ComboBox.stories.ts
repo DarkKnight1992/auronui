@@ -74,6 +74,7 @@ const items = [
 <template>
   <ComboBox :items="items" placeholder="Select a fruit..." />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

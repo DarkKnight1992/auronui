@@ -48,6 +48,7 @@ import { Calendar } from '@auronui/vue'
 <template>
   <Calendar />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

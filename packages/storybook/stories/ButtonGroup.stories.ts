@@ -31,6 +31,7 @@ import { ButtonGroup, Button } from '@auronui/vue'
     <Button variant="outline">Three</Button>
   </ButtonGroup>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

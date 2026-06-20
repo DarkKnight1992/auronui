@@ -81,6 +81,7 @@ import {
     </AlertDialogContent>
   </AlertDialog>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

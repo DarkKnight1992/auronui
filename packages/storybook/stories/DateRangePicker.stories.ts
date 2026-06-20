@@ -96,6 +96,7 @@ const value = ref(undefined)
 <template>
   <DateRangePicker v-model="value" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

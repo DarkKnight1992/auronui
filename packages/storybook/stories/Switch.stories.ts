@@ -29,6 +29,7 @@ import { Switch } from '@auronui/vue'
 <template>
   <Switch aria-label="Enable feature" />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

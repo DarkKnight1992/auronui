@@ -34,6 +34,7 @@ import { CalendarYearPicker } from '@auronui/vue'
 <template>
   <CalendarYearPicker />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

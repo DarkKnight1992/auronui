@@ -39,6 +39,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
     </Tooltip>
   </TooltipProvider>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

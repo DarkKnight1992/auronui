@@ -42,6 +42,7 @@ import { ProgressCircle } from '@auronui/vue'
 <template>
   <ProgressCircle />
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

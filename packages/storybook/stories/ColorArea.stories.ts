@@ -46,6 +46,7 @@ import { ColorArea } from '@auronui/vue'
 <template>
   <ColorArea aria-label="Color area" style="width: 200px; height: 200px;" />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

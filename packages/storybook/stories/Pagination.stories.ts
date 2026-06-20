@@ -86,6 +86,7 @@ import {
     </PaginationContent>
   </Pagination>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

@@ -32,6 +32,7 @@ import { CloseButton } from '@auronui/vue'
 <template>
   <CloseButton />
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

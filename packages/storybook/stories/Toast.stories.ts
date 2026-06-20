@@ -82,6 +82,7 @@ const open = ref(true)
     <ToastClose />
   </Toast>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

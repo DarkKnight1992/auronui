@@ -63,6 +63,7 @@ import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@
     </DropdownMenu>
   </Dropdown>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

@@ -38,6 +38,7 @@ import { Alert } from '@auronui/vue'
 <template>
   <Alert severity="default">This is a default alert message.</Alert>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },

@@ -25,6 +25,7 @@ const pressed = ref(false)
 <template>
   <ToggleButton v-model="pressed" aria-label="Toggle bold">Bold</ToggleButton>
 </template>`,
+        type: 'code',
         language: 'vue',
       }
     }

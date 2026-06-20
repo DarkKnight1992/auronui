@@ -39,6 +39,7 @@ import { Text } from '@auronui/vue'
 <template>
   <Text>The quick brown fox jumps over the lazy dog.</Text>
 </template>`,
+        type: 'code',
         language: 'vue',
       },
     },
