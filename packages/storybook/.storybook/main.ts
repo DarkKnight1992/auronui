@@ -12,7 +12,7 @@ const config: StorybookConfig = {
   ],
   // In Storybook 10, @storybook/addon-essentials was absorbed into the core storybook package.
   // Essential addons (controls, actions, docs, etc.) are built-in and do not require separate installation.
-  addons: ["@storybook/addon-vitest"],
+  addons: ["@storybook/addon-vitest", "@storybook/addon-essentials", "@storybook/addon-docs"],
   framework: {
     name: "@storybook/vue3-vite",
     options: {},
