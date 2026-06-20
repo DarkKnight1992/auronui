@@ -1,5 +1,5 @@
 .input {
-  @apply flex items-center gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+  @apply flex items-center gap-2 rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none sm:text-xs;
 
   /* Default size - matches input--md (height equivalent to h-9) */
   height: 2.25rem;
@@ -175,8 +175,12 @@
 /* ─── Size modifiers ─────────────────────────────────────────────────────────── */
 
 .input--sm {
-  @apply text-xs px-2 py-1;
+  @apply text-xs;
   height: 1.75rem;
+}
+
+.input--sm .input__input {
+  padding: 0.25rem 0.5rem;
 }
 
 .input--md {
@@ -184,8 +188,12 @@
 }
 
 .input--lg {
-  @apply text-base px-4 py-2.5;
+  @apply text-base;
   height: 2.75rem;
+}
+
+.input--lg .input__input {
+  padding: 0.625rem 1rem;
 }
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
@@ -297,31 +305,44 @@
 /* ─── Slots ──────────────────────────────────────────────────────────────────── */
 
 .input__input {
-  @apply flex-1 bg-transparent outline-none border-0 p-0 h-auto text-inherit;
+  @apply flex-1 bg-transparent outline-none border-0 text-inherit;
   @apply placeholder:text-field-placeholder;
+  align-self: stretch;
+  padding: 0.5rem 0.75rem;
+  border-radius: inherit;
 
   &:focus,
   &:focus-visible {
     outline: none;
     box-shadow: none;
   }
-
-  /* Suppress browser autofill background — use inset shadow to paint over it */
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 1000px var(--color-field) inset;
-    box-shadow: 0 0 0px 1000px var(--color-field) inset;
-    -webkit-text-fill-color: var(--color-field-foreground);
-    caret-color: var(--color-field-foreground);
-  }
 }
 
-.input__start-content,
+/* Underlined: no horizontal padding on the input — underline spans edge-to-edge */
+.input--underlined .input__input {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.input__start-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+  padding-left: 0.75rem;
+}
+
+.input--sm .input__start-content { padding-left: 0.5rem; }
+.input--lg .input__start-content { padding-left: 1rem; }
+.input--underlined .input__start-content { padding-left: 0; }
+
 .input__end-content {
   @apply inline-flex items-center justify-center shrink-0;
   color: var(--color-field-placeholder);
+  padding-right: 0.75rem;
 }
+
+.input--sm .input__end-content { padding-right: 0.5rem; }
+.input--lg .input__end-content { padding-right: 1rem; }
+.input--underlined .input__end-content { padding-right: 0; }
 
 .input__start-content svg,
 .input__end-content svg {
@@ -406,26 +427,27 @@
   transform: translateY(-110%) scale(0.85);
 }
 
-/* Start-content pushes the label's left anchor so it doesn't overlap the icon */
+/* Start-content pushes the label's left anchor so it doesn't overlap the icon.
+   Formula: start-content-pl + icon(1rem) + gap + input-pl */
 .input--label-inside:has(> .input__start-content) .input__label {
-  left: calc(0.75rem + 1rem + 0.5rem); /* px-3 + size-4 icon + gap-2 */
+  left: calc(0.75rem + 1rem + 0.5rem + 0.75rem); /* start-content-pl + size-4 + gap-2 + input-pl */
 }
 .input--label-inside.input--underlined:has(> .input__start-content) .input__label {
-  left: calc(1rem + 0.5rem); /* px-3 + size-4 icon + gap-2 */
+  left: calc(1rem + 0.5rem); /* icon + gap-2 (underlined has no pl on start-content or input) */
 }
 
 /* Size-aware offsets for the inside variant */
 .input--label-inside.input--sm .input__label {
   font-size: var(--text-xs, 0.75rem);
-  left: 0.5rem; /* matches .input--sm px-2 */
+  left: 0.5rem; /* matches input--sm input pl-2 */
 }
 
 .input--label-inside.input--sm:has(> .input__start-content) .input__label {
-  left: calc(0.5rem + 1rem + 0.4rem); /* px-3 + size-4 icon + gap-2 */
+  left: calc(0.5rem + 1rem + 0.4rem + 0.5rem); /* start-content-pl + size-4 + gap + input-pl */
 }
 
 .input--label-inside.input--underlined.input--sm:has(> .input__start-content) .input__label {
-  left: calc(1rem + 0.4rem); /* px-3 + size-4 icon + gap-2 */
+  left: calc(1rem + 0.4rem); /* icon + gap (underlined has no pl) */
 }
 
 .input--label-inside.input--sm .input__input {
@@ -439,14 +461,14 @@
 
 .input--label-inside.input--lg .input__label {
   font-size: var(--text-base, 1rem);
-  left: 1rem; /* matches .input--lg px-4 */
+  left: 1rem; /* matches input--lg input pl-4 */
 }
 .input--label-inside.input--lg:has(> .input__start-content) .input__label {
-  left: calc(1rem + 1rem + 1rem); /* px-3 + size-4 icon + gap-2 */
+  left: calc(1rem + 1rem + 1rem + 1rem); /* start-content-pl + size-4 + gap-4 + input-pl */
 }
 
 .input--label-inside.input--underlined.input--lg:has(> .input__start-content) .input__label {
-  left: calc(1rem + 1rem); /* px-3 + size-4 icon + gap-2 */
+  left: calc(1rem + 1rem); /* icon + gap-4 (underlined has no pl) */
 }
 
 .input--label-inside.input--lg .input__input {
@@ -539,7 +561,8 @@
 .input__clear-button,
 .input__password-toggle {
   @apply inline-flex items-center justify-center shrink-0;
-  @apply bg-transparent border-0 p-0 cursor-pointer outline-none;
+  @apply bg-transparent border-0 cursor-pointer outline-none;
+  padding: 0 0.75rem 0 0;
   color: var(--color-field-placeholder);
   transition:
     color 300ms var(--ease-smooth),
@@ -552,15 +575,30 @@
   @apply size-4;
 }
 
+.input--sm .input__clear-button,
+.input--sm .input__password-toggle {
+  padding-right: 0.5rem;
+}
+
 .input--sm .input__clear-button svg,
 .input--sm .input__password-toggle svg {
   width: 0.875rem;
   height: 0.875rem;
 }
 
+.input--lg .input__clear-button,
+.input--lg .input__password-toggle {
+  padding-right: 1rem;
+}
+
 .input--lg .input__clear-button svg,
 .input--lg .input__password-toggle svg {
   @apply size-5;
+}
+
+.input--underlined .input__clear-button,
+.input--underlined .input__password-toggle {
+  padding-right: 0;
 }
 
 @media (hover: hover) {

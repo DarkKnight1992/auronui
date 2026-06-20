@@ -1,6 +1,6 @@
 /* use textarea instead of text-area to avoid conflict with Tailwind `text-` prefix */
 .textarea {
-  @apply flex items-start gap-2 rounded-field border bg-field px-3 py-2 text-sm text-field-foreground shadow-field outline-none sm:text-xs;
+  @apply flex items-start gap-2 rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none sm:text-xs;
 
   border-width: var(--border-width-field);
   border-color: var(--color-field-border);
@@ -124,7 +124,7 @@
 
 .textarea--underlined {
   /* Bottom border only — always-visible underline */
-  @apply rounded-none shadow-none bg-transparent !px-0;
+  @apply rounded-none shadow-none bg-transparent;
   border-top: none;
   border-left: none;
   border-right: none;
@@ -174,7 +174,11 @@
 /* ─── Size modifiers ─────────────────────────────────────────────────────────── */
 
 .textarea--sm {
-  @apply text-xs px-2 py-1;
+  @apply text-xs;
+}
+
+.textarea--sm .textarea__input {
+  padding: 0.25rem 0.5rem;
 }
 
 .textarea--md {
@@ -182,7 +186,11 @@
 }
 
 .textarea--lg {
-  @apply text-base px-4 py-2.5;
+  @apply text-base;
+}
+
+.textarea--lg .textarea__input {
+  padding: 0.625rem 1rem;
 }
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
@@ -284,9 +292,11 @@
 /* ─── Slots ──────────────────────────────────────────────────────────────────── */
 
 .textarea__input {
-  @apply flex-1 bg-transparent outline-none border-0 p-0 text-inherit resize-none;
+  @apply flex-1 bg-transparent outline-none border-0 text-inherit resize-none;
   @apply placeholder:text-field-placeholder;
   min-height: 1.5rem;
+  padding: 0.5rem 0.75rem;
+  border-radius: inherit;
 
   &:focus,
   &:focus-visible {
@@ -297,19 +307,40 @@
   &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus {
-    -webkit-box-shadow: 0 0 0px 1000px var(--color-field) inset;
-    box-shadow: 0 0 0px 1000px var(--color-field) inset;
+    -webkit-box-shadow: 0 0 0px 1000px color-mix(in oklch, #006fee 8%, var(--color-field, white)) inset;
+    box-shadow: 0 0 0px 1000px color-mix(in oklch, #006fee 8%, var(--color-field, white)) inset;
     -webkit-text-fill-color: var(--color-field-foreground);
     caret-color: var(--color-field-foreground);
   }
 }
 
-.textarea__start-content,
+.textarea--underlined .textarea__input {
+  padding-left: 0;
+  padding-right: 0;
+}
+
+.textarea__start-content {
+  @apply inline-flex items-center justify-center shrink-0;
+  color: var(--color-field-placeholder);
+  padding-top: 0.125rem;
+  padding-left: 0.75rem;
+}
+
 .textarea__end-content {
   @apply inline-flex items-center justify-center shrink-0;
   color: var(--color-field-placeholder);
   padding-top: 0.125rem;
+  padding-right: 0.75rem;
 }
+
+.textarea--sm .textarea__start-content { padding-left: 0.5rem; }
+.textarea--lg .textarea__start-content { padding-left: 1rem; }
+
+.textarea--sm .textarea__end-content { padding-right: 0.5rem; }
+.textarea--lg .textarea__end-content { padding-right: 1rem; }
+
+.textarea--underlined .textarea__start-content { padding-left: 0; }
+.textarea--underlined .textarea__end-content { padding-right: 0; }
 
 .textarea__start-content svg,
 .textarea__end-content svg {
@@ -333,6 +364,9 @@
 
 .textarea--label-inside {
   position: relative;
+}
+
+.textarea--label-inside .textarea__input {
   padding-top: 1.5rem;
 }
 
@@ -372,7 +406,7 @@
 }
 
 .textarea--label-inside:has(> .textarea__start-content) .textarea__label {
-  left: calc(0.75rem + 1rem + 0.5rem);
+  left: calc(0.75rem + 1rem + 0.5rem + 0.75rem);
 }
 .textarea--label-inside.textarea--underlined:has(> .textarea__start-content) .textarea__label {
   left: calc(1rem + 0.5rem);
@@ -384,7 +418,7 @@
 }
 
 .textarea--label-inside.textarea--sm:has(> .textarea__start-content) .textarea__label {
-  left: calc(0.5rem + 1rem + 0.4rem);
+  left: calc(0.5rem + 1rem + 0.4rem + 0.5rem);
 }
 
 .textarea--label-inside.textarea--underlined.textarea--sm:has(> .textarea__start-content) .textarea__label {
@@ -396,7 +430,7 @@
   left: 1rem;
 }
 .textarea--label-inside.textarea--lg:has(> .textarea__start-content) .textarea__label {
-  left: calc(1rem + 1rem + 1rem);
+  left: calc(1rem + 1rem + 1rem + 1rem);
 }
 
 .textarea--label-inside.textarea--underlined.textarea--lg:has(> .textarea__start-content) .textarea__label {
@@ -482,7 +516,8 @@
 
 .textarea__clear-button {
   @apply inline-flex items-center justify-center shrink-0;
-  @apply bg-transparent border-0 p-0 cursor-pointer outline-none;
+  @apply bg-transparent border-0 cursor-pointer outline-none;
+  padding: 0 0.75rem 0 0;
   color: var(--color-field-placeholder);
   transition:
     color 300ms var(--ease-smooth),
@@ -492,6 +527,18 @@
 
 .textarea__clear-button svg {
   @apply size-4;
+}
+
+.textarea--sm .textarea__clear-button {
+  padding-right: 0.5rem;
+}
+
+.textarea--lg .textarea__clear-button {
+  padding-right: 1rem;
+}
+
+.textarea--underlined .textarea__clear-button {
+  padding-right: 0;
 }
 
 .textarea--sm .textarea__clear-button svg {
