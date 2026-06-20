@@ -53,6 +53,9 @@ const preview: Preview = {
       },
     },
     backgrounds: { disable: true },
+    docs: {
+      codePanel: true,
+    },
   },
 };
 
