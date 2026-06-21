@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref, watch } from 'vue'
 import { SelectTrigger, SelectIcon, injectSelectRootContext } from 'reka-ui'
 import { useSelectInject } from './Select.context'
 
@@ -22,6 +22,27 @@ const isFilled = computed(() => {
 const showInsideLabel = computed(
   () => ctx.hasLabel.value && ctx.labelPlacement.value === 'inside',
 )
+
+// Guard re-open when Reka returns focus to the trigger after close (value
+// selection, Escape, Tab). Set to true whenever open transitions true→false,
+// reset after a microtask once the focus-return event has been processed.
+const skipNextFocus = ref(false)
+
+// flush:'sync' fires the moment open.value changes (synchronously, before any
+// Vue scheduling), so skipNextFocus is true before Reka's FocusScope can call
+// trigger.focus(). setTimeout defers the reset until after all pending
+// microtasks (render + focus-return) have flushed.
+watch(() => rootContext.open.value, (open, wasOpen) => {
+  if (!open && wasOpen) {
+    skipNextFocus.value = true
+    setTimeout(() => { skipNextFocus.value = false }, 0)
+  }
+}, { flush: 'sync' })
+
+function handleFocus() {
+  if (ctx.isDisabled.value || ctx.isReadonly.value || skipNextFocus.value || rootContext.open.value) return
+  rootContext.onOpenChange(true)
+}
 </script>
 
 <template>
@@ -34,6 +55,7 @@ const showInsideLabel = computed(
     :aria-invalid="ctx.isInvalid.value || undefined"
     :aria-describedby="ctx.ariaDescribedBy.value"
     data-slot="trigger"
+    @focus="handleFocus"
   >
     <label
       v-if="showInsideLabel"

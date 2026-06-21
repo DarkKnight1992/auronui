@@ -31,6 +31,12 @@ watch(() => rootContext.open.value, (open) => {
     setTimeout(() => { justOpened.value = false }, 100)
   }
 })
+
+function handleKeydown(e: KeyboardEvent) {
+  if (e.key === 'Tab') {
+    rootContext.onOpenChange(false)
+  }
+}
 </script>
 
 <template>
@@ -62,6 +68,7 @@ watch(() => rootContext.open.value, (open) => {
           :class="[ctx.slots.value.popover(), { 'select__popover--opening': justOpened }]"
           :animate="rootContext.open.value ? { opacity: 1, scale: 1 } : { opacity: 0, scale: 0.95 }"
           :transition="{ duration: 0.15 }"
+          @keydown="handleKeydown"
         >
           <SelectViewport data-slot="list-box">
             <slot />
