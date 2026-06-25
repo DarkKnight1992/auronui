@@ -136,29 +136,33 @@
 .button--default {
   --button-bg: var(--color-default);
   --button-bg-hover: var(--color-default-hover);
+  --button-bg-pressed: color-mix(in oklab, var(--color-default-hover) 72%, black);
   --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
 }
 
-/* ghost: transparent bg, colored text, light tinted hover */
+/* ghost: transparent bg — hover is a light tint, pressed steps up to the stronger tint */
 .button--ghost {
   --button-bg: transparent;
   --button-bg-hover: var(--btn-tint-bg, var(--color-default));
+  --button-bg-pressed: var(--btn-tint-bg-hover, var(--color-default-hover));
   --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
 }
 
-/* outline: transparent bg + colored border via currentColor */
+/* outline: same press logic as ghost */
 .button--outline {
   --button-bg: transparent;
   --button-bg-hover: var(--btn-tint-bg, var(--color-default));
+  --button-bg-pressed: var(--btn-tint-bg-hover, var(--color-default-hover));
   --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
   @apply border;
   border-color: currentColor;
 }
 
-/* soft: muted/tinted background from color palette */
+/* soft: muted palette — darken more aggressively than solid */
 .button--soft {
   --button-bg: var(--btn-soft-bg, var(--color-default));
   --button-bg-hover: var(--btn-soft-bg-hover, var(--color-default-hover));
+  --button-bg-pressed: color-mix(in oklab, var(--btn-soft-bg-hover, var(--color-default-hover)) 72%, black);
   --button-fg: var(--btn-soft-fg, var(--color-default-foreground));
 }
 
