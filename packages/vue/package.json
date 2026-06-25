@@ -1,6 +1,6 @@
 {
   "name": "@auronui/vue",
-  "version": "1.0.20",
+  "version": "1.0.21",
   "description": "Vue 3 85 components with full visual and functional parity",
   "type": "module",
   "license": "MIT",
