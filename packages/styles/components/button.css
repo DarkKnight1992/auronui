@@ -119,52 +119,114 @@
   }
 }
 
-/* Color variants - only set custom property values */
-.button--primary {
-  --button-bg: var(--color-accent);
-  --button-bg-hover: var(--color-accent-hover);
-  --button-bg-pressed: var(--color-accent-hover);
-  --button-fg: var(--color-accent-foreground);
+/* ============================================================
+   Variant classes — visual behavior (structural)
+   ============================================================ */
+
+/* solid: filled background from color palette */
+.button--solid {
+  --button-bg: var(--btn-solid-bg, var(--color-default));
+  --button-bg-hover: var(--btn-solid-bg-hover, var(--color-default-hover));
+  --button-bg-pressed: var(--btn-solid-bg-hover, var(--color-default-hover));
+  --button-fg: var(--btn-solid-fg, var(--color-default-foreground));
 }
 
-.button--secondary {
+/* default (tertiary): neutral bg, text tinted by color */
+.button--default {
   --button-bg: var(--color-default);
   --button-bg-hover: var(--color-default-hover);
   --button-bg-pressed: var(--color-default-hover);
-  --button-fg: var(--color-accent-soft-foreground);
+  --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
 }
 
-.button--tertiary {
-  --button-bg: var(--color-default);
-  --button-bg-hover: var(--color-default-hover);
-  --button-bg-pressed: var(--color-default-hover);
+/* ghost: transparent bg, colored text, light tinted hover */
+.button--ghost {
+  --button-bg: transparent;
+  --button-bg-hover: var(--btn-tint-bg, var(--color-default));
+  --button-bg-pressed: var(--btn-tint-bg-hover, var(--color-default-hover));
+  --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
 }
 
-.button--ghost,
+/* outline: transparent bg + colored border via currentColor */
 .button--outline {
   --button-bg: transparent;
-  --button-bg-hover: var(--color-default);
-  --button-bg-pressed: var(--color-default);
-  --button-fg: var(--color-default-foreground);
+  --button-bg-hover: var(--btn-tint-bg, var(--color-default));
+  --button-bg-pressed: var(--btn-tint-bg-hover, var(--color-default-hover));
+  --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
+  @apply border;
+  border-color: currentColor;
 }
 
-.button--outline {
-  @apply border border-border;
-  --button-bg-hover: color-mix(in srgb, var(--color-default) 60%, transparent);
+/* soft: muted/tinted background from color palette */
+.button--soft {
+  --button-bg: var(--btn-soft-bg, var(--color-default));
+  --button-bg-hover: var(--btn-soft-bg-hover, var(--color-default-hover));
+  --button-bg-pressed: var(--btn-soft-bg-hover, var(--color-default-hover));
+  --button-fg: var(--btn-soft-fg, var(--color-default-foreground));
 }
 
-.button--danger {
-  --button-bg: var(--color-danger);
-  --button-bg-hover: var(--color-danger-hover);
-  --button-bg-pressed: var(--color-danger-hover);
-  --button-fg: var(--color-danger-foreground);
+/* ============================================================
+   Color classes — palette values consumed by variant classes
+   ============================================================ */
+
+.button--color-default {
+  --btn-solid-bg: var(--color-default);
+  --btn-solid-bg-hover: var(--color-default-hover);
+  --btn-solid-fg: var(--color-default-foreground);
+  --btn-soft-bg: var(--color-default);
+  --btn-soft-bg-hover: var(--color-default-hover);
+  --btn-soft-fg: var(--color-default-foreground);
+  --btn-tint-bg: var(--color-default);
+  --btn-tint-bg-hover: var(--color-default-hover);
+  --btn-tint-fg: var(--color-default-foreground);
 }
 
-.button--danger-soft {
-  --button-bg: var(--color-danger-soft);
-  --button-bg-hover: var(--color-danger-soft-hover);
-  --button-bg-pressed: var(--color-danger-soft-hover);
-  --button-fg: var(--color-danger-soft-foreground);
+.button--color-primary {
+  --btn-solid-bg: var(--color-accent);
+  --btn-solid-bg-hover: var(--color-accent-hover);
+  --btn-solid-fg: var(--color-accent-foreground);
+  --btn-soft-bg: var(--color-accent-soft);
+  --btn-soft-bg-hover: var(--color-accent-soft-hover);
+  --btn-soft-fg: var(--color-accent-soft-foreground);
+  --btn-tint-bg: color-mix(in oklab, var(--color-accent) 12%, transparent);
+  --btn-tint-bg-hover: color-mix(in oklab, var(--color-accent) 18%, transparent);
+  --btn-tint-fg: var(--color-accent);
+}
+
+.button--color-success {
+  --btn-solid-bg: var(--color-success);
+  --btn-solid-bg-hover: var(--color-success-hover);
+  --btn-solid-fg: var(--color-success-foreground);
+  --btn-soft-bg: var(--color-success-soft);
+  --btn-soft-bg-hover: var(--color-success-soft-hover);
+  --btn-soft-fg: var(--color-success-soft-foreground);
+  --btn-tint-bg: color-mix(in oklab, var(--color-success) 12%, transparent);
+  --btn-tint-bg-hover: color-mix(in oklab, var(--color-success) 18%, transparent);
+  --btn-tint-fg: var(--color-success);
+}
+
+.button--color-warning {
+  --btn-solid-bg: var(--color-warning);
+  --btn-solid-bg-hover: var(--color-warning-hover);
+  --btn-solid-fg: var(--color-warning-foreground);
+  --btn-soft-bg: var(--color-warning-soft);
+  --btn-soft-bg-hover: var(--color-warning-soft-hover);
+  --btn-soft-fg: var(--color-warning-soft-foreground);
+  --btn-tint-bg: color-mix(in oklab, var(--color-warning) 12%, transparent);
+  --btn-tint-bg-hover: color-mix(in oklab, var(--color-warning) 18%, transparent);
+  --btn-tint-fg: var(--color-warning);
+}
+
+.button--color-danger {
+  --btn-solid-bg: var(--color-danger);
+  --btn-solid-bg-hover: var(--color-danger-hover);
+  --btn-solid-fg: var(--color-danger-foreground);
+  --btn-soft-bg: var(--color-danger-soft);
+  --btn-soft-bg-hover: var(--color-danger-soft-hover);
+  --btn-soft-fg: var(--color-danger-soft-foreground);
+  --btn-tint-bg: color-mix(in oklab, var(--color-danger) 12%, transparent);
+  --btn-tint-bg-hover: color-mix(in oklab, var(--color-danger) 18%, transparent);
+  --btn-tint-fg: var(--color-danger);
 }
 
 /* Radius modifiers - compound selector wins over base/size rounding */
@@ -212,40 +274,6 @@
 /* Full width modifier */
 .button--full-width {
   @apply w-full;
-}
-
-/* ============================================================
-   Button — Phase 2 extensions (02-01-STYLES)
-   ============================================================ */
-
-/* --- New color variants --- */
-
-.button--success {
-  --button-bg: var(--color-success);
-  --button-bg-hover: var(--color-success-hover);
-  --button-bg-pressed: var(--color-success-hover);
-  --button-fg: var(--color-success-foreground);
-}
-
-.button--success-soft {
-  --button-bg: var(--color-success-soft);
-  --button-bg-hover: var(--color-success-soft-hover);
-  --button-bg-pressed: var(--color-success-soft-hover);
-  --button-fg: var(--color-success-soft-foreground);
-}
-
-.button--warning {
-  --button-bg: var(--color-warning);
-  --button-bg-hover: var(--color-warning-hover);
-  --button-bg-pressed: var(--color-warning-hover);
-  --button-fg: var(--color-warning-foreground);
-}
-
-.button--warning-soft {
-  --button-bg: var(--color-warning-soft);
-  --button-bg-hover: var(--color-warning-soft-hover);
-  --button-bg-pressed: var(--color-warning-soft-hover);
-  --button-fg: var(--color-warning-soft-foreground);
 }
 
 /* --- Loading state --- */

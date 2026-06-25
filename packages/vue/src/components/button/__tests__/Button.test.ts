@@ -11,8 +11,13 @@ describe('Button', () => {
   })
 
   it('applies variant class', () => {
-    const wrapper = mount(Button, { props: { variant: 'success' }, slots: { default: 'OK' } })
-    expect(wrapper.classes()).toContain('button--success')
+    const wrapper = mount(Button, { props: { variant: 'soft' }, slots: { default: 'OK' } })
+    expect(wrapper.classes()).toContain('button--soft')
+  })
+
+  it('applies color class', () => {
+    const wrapper = mount(Button, { props: { color: 'danger' }, slots: { default: 'OK' } })
+    expect(wrapper.classes()).toContain('button--color-danger')
   })
 
   it('applies size class', () => {
@@ -46,11 +51,11 @@ describe('Button', () => {
   it('uses group variant when child variant is unset', () => {
     const Wrapper = defineComponent({
       components: { ButtonGroup, Button },
-      template: '<ButtonGroup variant="warning"><Button>Test</Button></ButtonGroup>',
+      template: '<ButtonGroup variant="ghost"><Button>Test</Button></ButtonGroup>',
     })
     const wrapper = mount(Wrapper)
     const btn = wrapper.findComponent(Button)
-    expect(btn.classes()).toContain('button--warning')
+    expect(btn.classes()).toContain('button--ghost')
   })
 
   it('group disabled=true wins over child disabled=false (D-13)', async () => {

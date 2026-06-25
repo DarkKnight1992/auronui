@@ -7,6 +7,7 @@ export type ButtonGroupValue = string | number | null | Array<string | number>
 
 export interface ButtonGroupContext {
   variant: Ref<ButtonVariants['variant']>
+  color: Ref<ButtonVariants['color']>
   size: Ref<ButtonVariants['size']>
   disabled: Ref<boolean>
   fullWidth: Ref<boolean>

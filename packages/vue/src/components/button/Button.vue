@@ -8,6 +8,7 @@ import Spinner from '../spinner/Spinner.vue'
 
 const props = withDefaults(defineProps<{
   variant?: ButtonVariants['variant']
+  color?: ButtonVariants['color']
   size?: ButtonVariants['size']
   radius?: ButtonVariants['radius']
   isIconOnly?: boolean
@@ -27,6 +28,7 @@ const props = withDefaults(defineProps<{
   value?: string | number
 }>(), {
   variant: undefined,
+  color: undefined,
   size: undefined,
   radius: undefined,
   isIconOnly: false,
@@ -40,7 +42,8 @@ const props = withDefaults(defineProps<{
 // Inject ButtonGroup context unconditionally with fallback defaults (D-12)
 // When no ButtonGroup is present, inject returns these fallback values (no-op)
 const groupCtx = useButtonGroupInject({
-  variant: ref('primary'),
+  variant: ref('solid'),
+  color: ref('primary'),
   size: ref('md'),
   disabled: ref(false),
   fullWidth: ref(false),
@@ -62,12 +65,14 @@ function handleClick() {
 // - all other props: child prop wins over group value (child ?? group)
 const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
+const finalColor = computed(() => props.color ?? groupCtx.color.value)
 const finalSize = computed(() => props.size ?? groupCtx.size.value)
 const finalFullWidth = computed(() => props.fullWidth || groupCtx.fullWidth.value)
 
 const slotFns = computed(() =>
   buttonVariants({
     variant: finalVariant.value,
+    color: finalColor.value,
     size: finalSize.value,
     radius: props.radius,
     isIconOnly: props.isIconOnly,

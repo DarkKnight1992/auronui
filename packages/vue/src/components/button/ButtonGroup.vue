@@ -8,6 +8,7 @@ import type { ButtonVariants } from '@auronui/styles'
 
 const props = withDefaults(defineProps<{
   variant?: ButtonVariants['variant']
+  color?: ButtonVariants['color']
   size?: ButtonVariants['size']
   disabled?: boolean
   fullWidth?: boolean
@@ -20,7 +21,8 @@ const props = withDefaults(defineProps<{
   selectionMode?: ButtonGroupSelectionMode
   modelValue?: ButtonGroupValue
 }>(), {
-  variant: 'primary',
+  variant: 'solid',
+  color: 'primary',
   size: 'md',
   disabled: false,
   fullWidth: false,
@@ -66,6 +68,7 @@ function selectValue(value: string | number) {
 // Provide context using toRef() for reactivity (D-11)
 useButtonGroupProvide({
   variant: toRef(props, 'variant'),
+  color: toRef(props, 'color'),
   size: toRef(props, 'size'),
   disabled: toRef(props, 'disabled'),
   fullWidth: toRef(props, 'fullWidth'),

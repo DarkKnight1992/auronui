@@ -14,7 +14,8 @@ export const buttonVariants = tv({
     isIconOnly: false,
     isLoading: false,
     size: "md",
-    variant: "primary",
+    variant: "solid",
+    color: "primary",
   },
   variants: {
     fullWidth: {
@@ -47,17 +48,18 @@ export const buttonVariants = tv({
       xs: { base: "button--xs" },
     },
     variant: {
-      danger: { base: "button--danger" },
-      "danger-soft": { base: "button--danger-soft" },
-      ghost: { base: "button--ghost" },
+      solid: { base: "button--solid" },
+      default: { base: "button--default" },
       outline: { base: "button--outline" },
-      primary: { base: "button--primary" },
-      secondary: { base: "button--secondary" },
-      success: { base: "button--success" },
-      "success-soft": { base: "button--success-soft" },
-      tertiary: { base: "button--tertiary" },
-      warning: { base: "button--warning" },
-      "warning-soft": { base: "button--warning-soft" },
+      ghost: { base: "button--ghost" },
+      soft: { base: "button--soft" },
+    },
+    color: {
+      default: { base: "button--color-default" },
+      primary: { base: "button--color-primary" },
+      success: { base: "button--color-success" },
+      warning: { base: "button--color-warning" },
+      danger: { base: "button--color-danger" },
     },
   },
 });

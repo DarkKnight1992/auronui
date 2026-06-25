@@ -8,19 +8,11 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: [
-        "primary",
-        "secondary",
-        "tertiary",
-        "outline",
-        "ghost",
-        "danger",
-        "danger-soft",
-        "success",
-        "success-soft",
-        "warning",
-        "warning-soft",
-      ],
+      options: ["solid", "default", "outline", "ghost", "soft"],
+    },
+    color: {
+      control: "select",
+      options: ["default", "primary", "success", "warning", "danger"],
     },
     size: {
       control: "select",
@@ -41,7 +33,8 @@ const meta: Meta<typeof Button> = {
     },
   },
   args: {
-    variant: "primary",
+    variant: "solid",
+    color: "primary",
     size: "md",
     radius: undefined,
     isIconOnly: false,
@@ -83,6 +76,7 @@ export const AllVariants: Story = {
   args: {
     isLoading: false,
     size: "sm",
+    color: "primary",
   },
 
   render: (args) => ({
@@ -92,17 +86,35 @@ export const AllVariants: Story = {
     },
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:8px">
-        <Button v-bind="args" variant="primary">Primary</Button>
-        <Button v-bind="args" variant="secondary">Secondary</Button>
-        <Button v-bind="args" variant="tertiary">Tertiary</Button>
+        <Button v-bind="args" variant="solid">Solid</Button>
+        <Button v-bind="args" variant="soft">Soft</Button>
+        <Button v-bind="args" variant="default">Default</Button>
         <Button v-bind="args" variant="outline">Outline</Button>
         <Button v-bind="args" variant="ghost">Ghost</Button>
-        <Button v-bind="args" variant="danger">Danger</Button>
-        <Button v-bind="args" variant="danger-soft">Danger Soft</Button>
-        <Button v-bind="args" variant="success">Success</Button>
-        <Button v-bind="args" variant="success-soft">Success Soft</Button>
-        <Button v-bind="args" variant="warning">Warning</Button>
-        <Button v-bind="args" variant="warning-soft">Warning Soft</Button>
+      </div>
+    `,
+  }),
+};
+
+export const AllColors: Story = {
+  args: {
+    isLoading: false,
+    size: "sm",
+    variant: "solid",
+  },
+
+  render: (args) => ({
+    components: { Button },
+    setup() {
+      return { args };
+    },
+    template: `
+      <div style="display:flex;flex-wrap:wrap;gap:8px">
+        <Button v-bind="args" color="default">Default</Button>
+        <Button v-bind="args" color="primary">Primary</Button>
+        <Button v-bind="args" color="success">Success</Button>
+        <Button v-bind="args" color="warning">Warning</Button>
+        <Button v-bind="args" color="danger">Danger</Button>
       </div>
     `,
   }),
@@ -148,7 +160,7 @@ export const DisabledState: Story = {
     },
     template: `
       <div style="display:flex;gap:8px">
-        <Button v-bind="args" :disabled="true" variant="primary">Disabled Primary</Button>
+        <Button v-bind="args" :disabled="true" variant="solid">Disabled Solid</Button>
         <Button v-bind="args" :disabled="true" variant="outline">Disabled Outline</Button>
       </div>
     `,

@@ -34,22 +34,22 @@ describe('ButtonGroup', () => {
   it('propagates variant to child Buttons', () => {
     const Wrapper = defineComponent({
       components: { ButtonGroup, Button },
-      template: '<ButtonGroup variant="success"><Button id="btn">A</Button></ButtonGroup>',
+      template: '<ButtonGroup variant="soft"><Button id="btn">A</Button></ButtonGroup>',
     })
     const wrapper = mount(Wrapper)
     const btn = wrapper.findComponent(Button)
-    expect(btn.classes()).toContain('button--success')
+    expect(btn.classes()).toContain('button--soft')
   })
 
   it('child explicit variant overrides group variant (D-13)', () => {
     const Wrapper = defineComponent({
       components: { ButtonGroup, Button },
-      template: '<ButtonGroup variant="success"><Button variant="danger">A</Button></ButtonGroup>',
+      template: '<ButtonGroup variant="soft"><Button variant="outline">A</Button></ButtonGroup>',
     })
     const wrapper = mount(Wrapper)
     const btn = wrapper.findComponent(Button)
-    expect(btn.classes()).toContain('button--danger')
-    expect(btn.classes()).not.toContain('button--success')
+    expect(btn.classes()).toContain('button--outline')
+    expect(btn.classes()).not.toContain('button--soft')
   })
 
   it('reactive group disabled=true disables all children (D-22)', async () => {
