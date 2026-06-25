@@ -1,7 +1,9 @@
 <script setup lang="ts">
 import { AlertDialogAction } from 'reka-ui'
-import { buttonVariants } from '@auronui/styles'
+import { buttonVariants, type ButtonVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { warnDeprecatedVariant } from '../../utils/warnDeprecated'
+import { computed } from 'vue'
 
 /**
  * AlertDialogAction — confirm button for destructive flows.
@@ -13,7 +15,8 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
  * and prevents accidental form submission / Enter-key propagation.
  */
 const props = withDefaults(defineProps<{
-  variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
+  /** variant — use 'bordered' for the outline style; 'outline' is @deprecated */
+  variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'bordered' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
   size?: 'sm' | 'md' | 'lg'
   class?: ClassValue
   /** Override default classes for any slot. Keys correspond to slot names (e.g., base). */
@@ -27,7 +30,32 @@ const props = withDefaults(defineProps<{
   asChild: false,
 })
 
-const slotFns = buttonVariants({ variant: props.variant, size: props.size })
+// Map legacy variant names to buttonVariants-compatible variants
+const LEGACY_VARIANTS: Record<string, ButtonVariants['variant']> = {
+  primary: 'primary',
+  secondary: 'secondary',
+  tertiary: 'secondary',
+  danger: 'danger',
+  'danger-soft': 'danger-soft',
+  success: 'success',
+  'success-soft': 'success-soft',
+  warning: 'warning',
+  'warning-soft': 'warning-soft',
+  ghost: 'ghost',
+  bordered: 'bordered',
+}
+
+const resolvedVariant = computed(() => {
+  const v = props.variant
+  if (!v) return v
+  if (v === 'outline') {
+    warnDeprecatedVariant('AlertDialogAction', 'outline', 'bordered')
+    return 'bordered' as ButtonVariants['variant']
+  }
+  return (LEGACY_VARIANTS[v] ?? v) as ButtonVariants['variant']
+})
+
+const slotFns = computed(() => buttonVariants({ variant: resolvedVariant.value, size: props.size }))
 </script>
 
 <template>
