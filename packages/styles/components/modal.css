@@ -39,11 +39,27 @@
 }
 
 /**
+ * Element: portal - stacking context wrapper for each modal instance.
+ * Wrapping backdrop + container in a single fixed element means each modal
+ * occupies its own stacking context. Later-opened modals render after this
+ * element in the DOM, so at equal z-index their entire portal (backdrop
+ * included) paints on top of the previous one, fixing the issue where the
+ * second modal's backdrop would appear behind the first modal's content.
+ */
+.modal__portal {
+  position: fixed;
+  inset: 0;
+  z-index: var(--z-modal);
+  pointer-events: none;
+}
+
+/**
  * Element: backdrop - the overlay behind the dialog
  */
 .modal__backdrop {
   @apply fixed inset-0;
   z-index: var(--z-modal-backdrop);
+  pointer-events: auto;
   @apply flex flex-row items-center justify-center;
   @apply h-(--visual-viewport-height) w-full;
 
@@ -173,7 +189,6 @@
   @apply relative;
   @apply flex w-full flex-col;
   @apply rounded-3xl bg-overlay shadow-overlay outline-none;
-  @apply p-6;
   @apply pointer-events-auto;
 
   &[data-placement="auto"] {
@@ -256,8 +271,7 @@
  * Element: header - the top section with the title
  */
 .modal__header {
-  @apply flex flex-col gap-3;
-  @apply mb-0;
+  @apply flex flex-col gap-3 mb-0  p-5;
 
   /* When header contains icon, use flex-col layout with gap */
   & > .modal__icon {
@@ -286,9 +300,7 @@
  * Element: body - the main content area
  */
 .modal__body {
-  @apply min-h-0 flex-1;
-  @apply text-sm leading-[1.43] text-muted;
-  @apply my-0;
+  @apply min-h-0 flex-1 text-sm leading-[1.43] text-muted my-0 p-5 pt-0;
 }
 
 /**

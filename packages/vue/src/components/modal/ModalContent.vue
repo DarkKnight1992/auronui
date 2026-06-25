@@ -29,6 +29,7 @@ const styles = modalVariants()
 
 <template>
   <DialogPortal>
+    <div class="modal__portal">
     <ModalOverlay />
     <DialogContent
       :class="composeClassName(styles.container({ scroll: ctx.scroll }), props.class)"
@@ -54,5 +55,6 @@ const styles = modalVariants()
         </motion.div>
       </AnimatePresence>
     </DialogContent>
+    </div>
   </DialogPortal>
 </template>

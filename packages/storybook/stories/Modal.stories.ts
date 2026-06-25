@@ -258,6 +258,55 @@ export const WithScrollableContent: Story = {
   }),
 }
 
+export const NestedModals: Story = {
+  name: 'Nested Modals (stacking)',
+  render: (args) => ({
+    components,
+    setup: () => ({ args }),
+    template: `
+      <Modal v-bind="args">
+        <ModalTrigger as-child>
+          <Button>Open First Modal</Button>
+        </ModalTrigger>
+        <ModalContent>
+          <ModalHeader>
+            <ModalTitle>First Modal</ModalTitle>
+            <ModalDescription>This is the first modal. Open a second one on top.</ModalDescription>
+          </ModalHeader>
+          <ModalBody>
+            <Modal>
+              <ModalTrigger as-child>
+                <Button color="primary" variant="solid">Open Second Modal</Button>
+              </ModalTrigger>
+              <ModalContent>
+                <ModalHeader>
+                  <ModalTitle>Second Modal</ModalTitle>
+                  <ModalDescription>The second modal's backdrop should cover the first modal completely.</ModalDescription>
+                </ModalHeader>
+                <ModalBody>
+                  <p style="margin: 0; font-size: 14px; color: #555;">
+                    If the backdrop covers the first modal, stacking is working correctly.
+                  </p>
+                </ModalBody>
+                <ModalFooter>
+                  <ModalClose as-child>
+                    <Button variant="default">Close Second</Button>
+                  </ModalClose>
+                </ModalFooter>
+              </ModalContent>
+            </Modal>
+          </ModalBody>
+          <ModalFooter>
+            <ModalClose as-child>
+              <Button variant="default">Close First</Button>
+            </ModalClose>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    `,
+  }),
+}
+
 export const BlurBackdrop: Story = {
   name: 'Variant: Blur Backdrop',
   render: (args) => ({
