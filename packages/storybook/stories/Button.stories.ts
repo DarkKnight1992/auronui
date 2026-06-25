@@ -47,6 +47,72 @@ const meta: Meta<typeof Button> = {
 export default meta;
 type Story = StoryObj<typeof Button>;
 
+export const LegacyVariants: Story = {
+  name: '⚠️ Legacy Variants (deprecated)',
+  parameters: {
+    docs: {
+      description: {
+        story: `
+> **Deprecated** — these single-prop variant names still work but are superseded by the \`variant\` + \`color\` API introduced in v1.1.
+>
+> | Old | New equivalent |
+> |-----|----------------|
+> | \`variant="primary"\` | \`variant="solid" color="primary"\` |
+> | \`variant="secondary"\` | \`variant="default"\` |
+> | \`variant="tertiary"\` | \`variant="default"\` |
+> | \`variant="danger"\` | \`variant="solid" color="danger"\` |
+> | \`variant="danger-soft"\` | \`variant="soft" color="danger"\` |
+> | \`variant="success"\` | \`variant="solid" color="success"\` |
+> | \`variant="success-soft"\` | \`variant="soft" color="success"\` |
+> | \`variant="warning"\` | \`variant="solid" color="warning"\` |
+> | \`variant="warning-soft"\` | \`variant="soft" color="warning"\` |
+        `,
+      },
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<!-- These still work, but prefer the new variant+color API -->
+<template>
+  <Button variant="primary">Primary</Button>
+  <Button variant="danger">Danger</Button>
+  <Button variant="danger-soft">Danger soft</Button>
+  <Button variant="success">Success</Button>
+  <Button variant="warning">Warning</Button>
+
+  <!-- New equivalent -->
+  <Button variant="solid" color="primary">Primary</Button>
+  <Button variant="solid" color="danger">Danger</Button>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Button },
+    setup() { return { args } },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+          <Button v-bind="args" size="sm" variant="primary">primary</Button>
+          <Button v-bind="args" size="sm" variant="secondary">secondary</Button>
+          <Button v-bind="args" size="sm" variant="tertiary">tertiary</Button>
+        </div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;align-items:center">
+          <Button v-bind="args" size="sm" variant="danger">danger</Button>
+          <Button v-bind="args" size="sm" variant="danger-soft">danger-soft</Button>
+          <Button v-bind="args" size="sm" variant="success">success</Button>
+          <Button v-bind="args" size="sm" variant="success-soft">success-soft</Button>
+          <Button v-bind="args" size="sm" variant="warning">warning</Button>
+          <Button v-bind="args" size="sm" variant="warning-soft">warning-soft</Button>
+        </div>
+      </div>
+    `,
+  }),
+}
+
 export const Default: Story = {
   render: (args) => ({
     components: { Button },
