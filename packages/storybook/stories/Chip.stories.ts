@@ -13,7 +13,7 @@ const meta: Meta<typeof Chip> = {
     size: { control: "select", options: ["sm", "md", "lg"] },
     variant: {
       control: "select",
-      options: ["solid", "soft", "outlined", "text"],
+      options: ["solid", "soft", "bordered", "text"],
     },
     dot: { control: "boolean" },
     isClosable: { control: "boolean" },
@@ -80,9 +80,9 @@ export const Outlined: Story = {
   render: (args) => ({
     components: { Chip },
     setup: () => ({ args }),
-    template: `<Chip v-bind="args">Outlined</Chip>`,
+    template: `<Chip v-bind="args">Bordered</Chip>`,
   }),
-  args: { variant: "outlined", color: "accent" },
+  args: { variant: "bordered", color: "accent" },
 };
 
 export const Text: Story = {
@@ -188,11 +188,11 @@ export const AllColors: Story = {
           <Chip v-bind="args" variant="soft" color="danger">Danger</Chip>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <Chip v-bind="args" variant="outlined" color="default">Default</Chip>
-          <Chip v-bind="args" variant="outlined" color="accent">Accent</Chip>
-          <Chip v-bind="args" variant="outlined" color="success">Success</Chip>
-          <Chip v-bind="args" variant="outlined" color="warning">Warning</Chip>
-          <Chip v-bind="args" variant="outlined" color="danger">Danger</Chip>
+          <Chip v-bind="args" variant="bordered" color="default">Default</Chip>
+          <Chip v-bind="args" variant="bordered" color="accent">Accent</Chip>
+          <Chip v-bind="args" variant="bordered" color="success">Success</Chip>
+          <Chip v-bind="args" variant="bordered" color="warning">Warning</Chip>
+          <Chip v-bind="args" variant="bordered" color="danger">Danger</Chip>
         </div>
         <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
           <Chip v-bind="args" variant="text" color="default">Default</Chip>
@@ -214,7 +214,7 @@ export const AllVariants: Story = {
       <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
         <Chip v-bind="args" variant="solid" color="accent">Solid</Chip>
         <Chip v-bind="args" variant="soft" color="accent">Soft</Chip>
-        <Chip v-bind="args" variant="outlined" color="accent">Outlined</Chip>
+        <Chip v-bind="args" variant="bordered" color="accent">Bordered</Chip>
         <Chip v-bind="args" variant="text" color="accent">Text</Chip>
       </div>
     `,

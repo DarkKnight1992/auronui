@@ -8,7 +8,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["solid", "default", "outline", "ghost", "soft"],
+      options: ["solid", "default", "bordered", "ghost", "soft"],
     },
     color: {
       control: "select",
@@ -155,7 +155,7 @@ export const AllVariants: Story = {
         <Button v-bind="args" variant="solid">Solid</Button>
         <Button v-bind="args" variant="soft">Soft</Button>
         <Button v-bind="args" variant="default">Default</Button>
-        <Button v-bind="args" variant="outline">Outline</Button>
+        <Button v-bind="args" variant="bordered">Bordered</Button>
         <Button v-bind="args" variant="ghost">Ghost</Button>
       </div>
     `,
@@ -227,7 +227,7 @@ export const DisabledState: Story = {
     template: `
       <div style="display:flex;gap:8px">
         <Button v-bind="args" :disabled="true" variant="solid">Disabled Solid</Button>
-        <Button v-bind="args" :disabled="true" variant="outline">Disabled Outline</Button>
+        <Button v-bind="args" :disabled="true" variant="bordered">Disabled Bordered</Button>
       </div>
     `,
   }),
@@ -304,7 +304,7 @@ export const CustomStyles: Story = {
         </Button>
         <Button
           v-bind="args"
-          variant="outline"
+          variant="bordered"
           :class-names="{
             base: 'border-2 border-emerald-400 bg-emerald-50',
             label: 'text-emerald-700 font-bold',

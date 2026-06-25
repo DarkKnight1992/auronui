@@ -27,9 +27,9 @@ import { ButtonGroup, Button } from '@auronui/vue'
 
 <template>
   <ButtonGroup orientation="horizontal">
-    <Button variant="outline">One</Button>
-    <Button variant="outline">Two</Button>
-    <Button variant="outline">Three</Button>
+    <Button variant="bordered">One</Button>
+    <Button variant="bordered">Two</Button>
+    <Button variant="bordered">Three</Button>
   </ButtonGroup>
 </template>`,
         type: 'code',
@@ -42,9 +42,9 @@ import { ButtonGroup, Button } from '@auronui/vue'
     setup: () => ({ args }),
     template: `
       <ButtonGroup v-bind="args" orientation="horizontal">
-        <Button variant="outline">One</Button>
-        <Button variant="outline">Two</Button>
-        <Button variant="outline">Three</Button>
+        <Button variant="bordered">One</Button>
+        <Button variant="bordered">Two</Button>
+        <Button variant="bordered">Three</Button>
       </ButtonGroup>
     `,
   }),
@@ -56,9 +56,9 @@ export const VerticalGroup: Story = {
     setup: () => ({ args }),
     template: `
       <ButtonGroup v-bind="args" orientation="vertical">
-        <Button variant="outline">Top</Button>
-        <Button variant="outline">Middle</Button>
-        <Button variant="outline">Bottom</Button>
+        <Button variant="bordered">Top</Button>
+        <Button variant="bordered">Middle</Button>
+        <Button variant="bordered">Bottom</Button>
       </ButtonGroup>
     `,
   }),
@@ -142,7 +142,7 @@ export const SelectableVertical: Story = {
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px">
-        <ButtonGroup v-bind="args" orientation="vertical" variant="outline" v-model="selected">
+        <ButtonGroup v-bind="args" orientation="vertical" variant="bordered" v-model="selected">
           <Button value="top">Top</Button>
           <Button value="middle">Middle</Button>
           <Button value="bottom">Bottom</Button>
@@ -162,7 +162,7 @@ export const SelectableHorizontal: Story = {
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px">
-        <ButtonGroup v-bind="args" orientation="horizontal" variant="outline" v-model="selected">
+        <ButtonGroup v-bind="args" orientation="horizontal" variant="bordered" v-model="selected">
           <Button value="left">Left</Button>
           <Button value="center">Center</Button>
           <Button value="right">Right</Button>
@@ -182,7 +182,7 @@ export const MultiSelect: Story = {
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px">
-        <ButtonGroup v-bind="args" variant="outline" selection-mode="multiple" v-model="selected">
+        <ButtonGroup v-bind="args" variant="bordered" selection-mode="multiple" v-model="selected">
           <Button value="bold">Bold</Button>
           <Button value="italic">Italic</Button>
           <Button value="underline">Underline</Button>
@@ -203,7 +203,7 @@ export const MultiSelectVertical: Story = {
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:12px">
-        <ButtonGroup v-bind="args" orientation="vertical" variant="outline" selection-mode="multiple" v-model="selected">
+        <ButtonGroup v-bind="args" orientation="vertical" variant="bordered" selection-mode="multiple" v-model="selected">
           <Button value="email">Email</Button>
           <Button value="sms">SMS</Button>
           <Button value="push">Push</Button>
@@ -227,9 +227,9 @@ export const CustomStyles: Story = {
           base: 'border-2 border-blue-500 rounded-xl bg-blue-50 p-2',
         }"
       >
-        <Button variant="outline">Option One</Button>
-        <Button variant="outline">Option Two</Button>
-        <Button variant="outline">Option Three</Button>
+        <Button variant="bordered">Option One</Button>
+        <Button variant="bordered">Option Two</Button>
+        <Button variant="bordered">Option Three</Button>
       </ButtonGroup>
     `,
   }),
@@ -254,7 +254,7 @@ import { ButtonGroup } from '@auronui/vue'
   />
 
   <ButtonGroup
-    variant="outline"
+    variant="bordered"
     :buttons="[
       { label: 'Day', value: 'day' },
       { label: 'Week', value: 'week' },
@@ -278,7 +278,7 @@ import { ButtonGroup } from '@auronui/vue'
           { label: 'Copy', value: 'copy' },
           { label: 'Paste', value: 'paste' },
         ]" />
-        <ButtonGroup v-bind="args" variant="outline" :buttons="[
+        <ButtonGroup v-bind="args" variant="bordered" :buttons="[
           { label: 'Day', value: 'day' },
           { label: 'Week', value: 'week' },
           { label: 'Month', value: 'month' },
