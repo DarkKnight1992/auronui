@@ -1,7 +1,12 @@
-import { describe, it, expect } from "vitest";
+import { describe, it, expect, vi, beforeEach } from "vitest";
 import { mount } from "@vue/test-utils";
 import axe from "axe-core";
 import Chip from "../Chip.vue";
+import { _clearWarnedCache } from '../../../utils/warnDeprecated';
+
+beforeEach(() => {
+  _clearWarnedCache()
+})
 
 describe("Chip", () => {
   it("renders a <span> element at root", () => {
@@ -65,10 +70,25 @@ describe("Chip", () => {
     expect(wrapper.classes()).toContain("chip--soft");
   });
 
-  it("applies 'chip--outlined' with variant='outlined'", () => {
-    const wrapper = mount(Chip, { props: { variant: "outlined" } });
-    expect(wrapper.classes()).toContain("chip--outlined");
-  });
+  it("applies 'chip--bordered' with variant='bordered'", () => {
+    const wrapper = mount(Chip, { props: { variant: 'bordered' } })
+    expect(wrapper.classes()).toContain('chip--bordered')
+  })
+
+  it("applies 'chip--bordered' with deprecated variant='outlined' (backward compat)", () => {
+    const wrapper = mount(Chip, { props: { variant: 'outlined' as any } })
+    expect(wrapper.classes()).toContain('chip--bordered')
+    expect(wrapper.classes()).not.toContain('chip--outlined')
+  })
+
+  it("emits a deprecation warning when variant='outlined' is used", () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mount(Chip, { props: { variant: 'outlined' as any } })
+    expect(warn).toHaveBeenCalledWith(
+      '[AuronUI] Chip: variant="outlined" is deprecated, use variant="bordered" instead.'
+    )
+    warn.mockRestore()
+  })
 
   it("applies 'chip--text' with variant='text'", () => {
     const wrapper = mount(Chip, { props: { variant: "text" } });

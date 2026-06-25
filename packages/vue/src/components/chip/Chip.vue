@@ -2,12 +2,17 @@
 import { computed } from "vue";
 import { chipVariants, type ChipVariants } from "@auronui/styles";
 import { composeClassName , type ClassValue} from "../../utils/composeClassName";
+import { warnDeprecatedVariant } from '../../utils/warnDeprecated';
 
 const props = withDefaults(
   defineProps<{
     color?: ChipVariants["color"];
     size?: ChipVariants["size"];
-    variant?: ChipVariants["variant"];
+    /**
+     * Visual style of the chip.
+     * @deprecated 'outlined' — use 'bordered' instead.
+     */
+    variant?: ChipVariants["variant"] | 'outlined';
     /** Show a colored dot indicator before the label */
     dot?: boolean;
     /** Render a built-in close button that emits `close` */
@@ -38,11 +43,19 @@ const emit = defineEmits<{
   (e: "close"): void;
 }>();
 
+const resolvedVariant = computed(() => {
+  if (props.variant === 'outlined') {
+    warnDeprecatedVariant('Chip', 'outlined', 'bordered')
+    return 'bordered' as ChipVariants['variant']
+  }
+  return props.variant
+})
+
 const slotFns = computed(() =>
   chipVariants({
     color: props.color,
     size: props.size,
-    variant: props.variant,
+    variant: resolvedVariant.value,
   })
 );
 </script>
