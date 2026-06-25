@@ -48,11 +48,22 @@ export const buttonVariants = tv({
       xs: { base: "button--xs" },
     },
     variant: {
+      // Current API
       solid: { base: "button--solid" },
       default: { base: "button--default" },
       outline: { base: "button--outline" },
       ghost: { base: "button--ghost" },
       soft: { base: "button--soft" },
+      // Legacy aliases — resolved to new variant+color in Button.vue
+      primary: { base: "button--solid" },
+      secondary: { base: "button--default" },
+      tertiary: { base: "button--default" },
+      danger: { base: "button--solid" },
+      "danger-soft": { base: "button--soft" },
+      success: { base: "button--solid" },
+      "success-soft": { base: "button--soft" },
+      warning: { base: "button--solid" },
+      "warning-soft": { base: "button--soft" },
     },
     color: {
       default: { base: "button--color-default" },

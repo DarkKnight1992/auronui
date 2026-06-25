@@ -69,10 +69,35 @@ const finalColor = computed(() => props.color ?? groupCtx.color.value)
 const finalSize = computed(() => props.size ?? groupCtx.size.value)
 const finalFullWidth = computed(() => props.fullWidth || groupCtx.fullWidth.value)
 
+// Map legacy variant names to new variant+color so old usage keeps working
+const LEGACY_VARIANTS: Record<string, { variant: string; color: string }> = {
+  primary:       { variant: 'solid',   color: 'primary' },
+  secondary:     { variant: 'default', color: 'default' },
+  tertiary:      { variant: 'default', color: 'default' },
+  danger:        { variant: 'solid',   color: 'danger' },
+  'danger-soft': { variant: 'soft',    color: 'danger' },
+  success:       { variant: 'solid',   color: 'success' },
+  'success-soft':{ variant: 'soft',    color: 'success' },
+  warning:       { variant: 'solid',   color: 'warning' },
+  'warning-soft':{ variant: 'soft',    color: 'warning' },
+}
+
+const resolvedVariant = computed(() => {
+  const v = finalVariant.value
+  return (LEGACY_VARIANTS[v]?.variant ?? v) as ButtonVariants['variant']
+})
+
+const resolvedColor = computed(() => {
+  const v = finalVariant.value
+  // If caller explicitly set color, respect it; otherwise infer from legacy variant
+  if (props.color === undefined && LEGACY_VARIANTS[v]) return LEGACY_VARIANTS[v].color as ButtonVariants['color']
+  return finalColor.value
+})
+
 const slotFns = computed(() =>
   buttonVariants({
-    variant: finalVariant.value,
-    color: finalColor.value,
+    variant: resolvedVariant.value,
+    color: resolvedColor.value,
     size: finalSize.value,
     radius: props.radius,
     isIconOnly: props.isIconOnly,
