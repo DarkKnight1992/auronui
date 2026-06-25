@@ -3,6 +3,7 @@ import {
   Drawer,
   DrawerTrigger,
   DrawerContent,
+  DrawerMain,
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
@@ -29,6 +30,7 @@ const baseComponents = {
   Drawer,
   DrawerTrigger,
   DrawerContent,
+  DrawerMain,
   DrawerHeader,
   DrawerBody,
   DrawerFooter,
@@ -206,7 +208,326 @@ export const WithScrollableBody: Story = {
   }),
 }
 
+export const Dock: Story = {
+  name: 'Dock (shifts content in DOM)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Drawer, DrawerTrigger, DrawerMain, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+const open = ref(false)
+</script>
+
+<template>
+  <!--
+    Drawer with dock=true renders a flex container.
+    DrawerMain holds the page content; DrawerContent slides in as a flex sibling.
+    No overlay — both areas remain in the normal document flow.
+  -->
+  <Drawer dock placement="right" v-model:open="open" style="height: 400px;">
+    <DrawerMain>
+      <div style="padding: 24px;">
+        <p>Main content — the drawer pushes this area when it opens.</p>
+        <DrawerTrigger as-child>
+          <Button variant="bordered" style="margin-top: 16px;">
+            {{ open ? 'Close Sidebar' : 'Open Sidebar' }}
+          </Button>
+        </DrawerTrigger>
+      </div>
+    </DrawerMain>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Sidebar</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p style="margin: 0; font-size: 14px;">
+          This panel lives in the DOM alongside the main content.
+          It does not use a portal or overlay.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: baseComponents,
+    setup() {
+      const { ref } = require('vue')
+      const open = ref(false)
+      return { args, open }
+    },
+    template: `
+      <Drawer dock placement="right" v-model:open="open" style="height: 400px; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
+        <DrawerMain>
+          <div style="padding: 24px; height: 100%; box-sizing: border-box;">
+            <p style="margin: 0 0 8px; font-size: 14px;">Main content — the drawer shifts this area when it opens.</p>
+            <DrawerTrigger as-child>
+              <Button variant="bordered">{{ open ? 'Close Sidebar' : 'Open Sidebar' }}</Button>
+            </DrawerTrigger>
+          </div>
+        </DrawerMain>
+        <DrawerContent>
+          ${closeButton}
+          <DrawerHeader>
+            <DrawerTitle>Sidebar</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>
+            <p style="margin: 0; font-size: 14px;">
+              This panel is in the DOM flow — no portal, no overlay.
+            </p>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    `,
+  }),
+}
+
+export const DockFullPage: Story = {
+  name: 'Dock — Full Page',
+  parameters: {
+    layout: 'fullscreen',
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Drawer, DrawerTrigger, DrawerMain, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+const open = ref(false)
+</script>
+
+<template>
+  <Drawer dock placement="right" v-model:open="open" style="height: 100vh;">
+    <DrawerMain>
+      <!-- Topbar -->
+      <header style="display: flex; align-items: center; gap: 12px; padding: 0 24px; height: 56px; border-bottom: 1px solid #e5e7eb;">
+        <DrawerTrigger as-child>
+          <Button variant="light" size="sm">☰ Menu</Button>
+        </DrawerTrigger>
+        <span style="font-weight: 600;">My App</span>
+      </header>
+      <!-- Page content -->
+      <main style="padding: 24px;">
+        <p>Main page content. The sidebar slides in alongside this without covering it.</p>
+      </main>
+    </DrawerMain>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close sidebar" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Navigation</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <nav style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+          <a href="#" style="padding: 8px 0;">Dashboard</a>
+          <a href="#" style="padding: 8px 0;">Settings</a>
+          <a href="#" style="padding: 8px 0;">Profile</a>
+        </nav>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: baseComponents,
+    setup() {
+      const { ref } = require('vue')
+      const open = ref(false)
+      return { args, open }
+    },
+    template: `
+      <Drawer dock placement="right" v-model:open="open" style="height: 100vh;">
+        <DrawerMain>
+          <header style="display: flex; align-items: center; gap: 12px; padding: 0 24px; height: 56px; border-bottom: 1px solid #e5e7eb; flex-shrink: 0;">
+            <DrawerTrigger as-child>
+              <Button variant="light" size="sm">☰ Menu</Button>
+            </DrawerTrigger>
+            <span style="font-weight: 600; font-size: 16px;">My App</span>
+          </header>
+          <main style="padding: 24px; overflow: auto; flex: 1;">
+            <h2 style="margin: 0 0 12px; font-size: 18px; font-weight: 600;">Dashboard</h2>
+            <p style="margin: 0 0 8px; font-size: 14px; color: #6b7280;">
+              The sidebar slides in as a flex sibling — this content area narrows
+              instead of being covered by an overlay.
+            </p>
+            <p style="margin: 0; font-size: 14px; color: #6b7280;">
+              Click ☰ Menu to toggle the sidebar.
+            </p>
+          </main>
+        </DrawerMain>
+        <DrawerContent>
+          ${closeButton}
+          <DrawerHeader>
+            <DrawerTitle>Navigation</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>
+            <nav style="display: flex; flex-direction: column; gap: 8px; font-size: 14px;">
+              <a href="#" style="padding: 8px 0; text-decoration: none; color: inherit;">Dashboard</a>
+              <a href="#" style="padding: 8px 0; text-decoration: none; color: inherit;">Settings</a>
+              <a href="#" style="padding: 8px 0; text-decoration: none; color: inherit;">Profile</a>
+              <a href="#" style="padding: 8px 0; text-decoration: none; color: inherit;">Help</a>
+            </nav>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    `,
+  }),
+}
+
+export const Inline: Story = {
+  name: 'Inline (scoped to container)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+const open = ref(false)
+</script>
+
+<template>
+  <!--
+    The container must have position:relative and overflow:hidden.
+    The drawer renders position:absolute within it instead of fixed to the viewport.
+  -->
+  <div style="position: relative; overflow: hidden; height: 400px; border: 1px solid #e5e7eb; border-radius: 12px;">
+    <Drawer inline v-model:open="open" placement="right">
+      <div style="padding: 24px;">
+        <p>Main content lives here and remains interactive while the drawer is open.</p>
+        <DrawerTrigger as-child>
+          <Button variant="bordered" style="margin-top: 16px;">Open Inline Drawer</Button>
+        </DrawerTrigger>
+      </div>
+      <DrawerContent>
+        <DrawerClose as-child class="absolute top-3 right-3">
+          <CloseButton aria-label="Close drawer" size="sm" />
+        </DrawerClose>
+        <DrawerHeader>
+          <DrawerTitle>Inline Drawer</DrawerTitle>
+        </DrawerHeader>
+        <DrawerBody>
+          <p style="margin: 0; font-size: 14px;">
+            This drawer is scoped to the container. It does not cover the whole page.
+          </p>
+        </DrawerBody>
+      </DrawerContent>
+    </Drawer>
+  </div>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: baseComponents,
+    setup() {
+      const { ref } = require('vue')
+      const open = ref(false)
+      return { args, open }
+    },
+    template: `
+      <div style="position: relative; overflow: hidden; height: 400px; width: 600px; border: 1px solid #e5e7eb; border-radius: 12px;">
+        <Drawer inline v-model:open="open" placement="right">
+          <div style="padding: 24px;">
+            <p style="margin: 0 0 8px; font-size: 14px;">Main content — stays interactive while the drawer is open.</p>
+            <DrawerTrigger as-child>
+              <Button variant="bordered">Open Inline Drawer</Button>
+            </DrawerTrigger>
+          </div>
+          <DrawerContent>
+            ${closeButton}
+            <DrawerHeader>
+              <DrawerTitle>Inline Drawer</DrawerTitle>
+            </DrawerHeader>
+            <DrawerBody>
+              <p style="margin: 0; font-size: 14px;">
+                Scoped to the container above — no viewport overlay.
+              </p>
+            </DrawerBody>
+          </DrawerContent>
+        </Drawer>
+      </div>
+    `,
+  }),
+}
+
+export const HideBackdrop: Story = {
+  name: 'Hide Backdrop (no overlay, close via icon only)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <!--
+    No backdrop is rendered. Clicking outside the panel does not close the drawer.
+    The user must click the close icon to dismiss it.
+  -->
+  <Drawer hide-backdrop placement="right">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>No Backdrop</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p style="margin: 0; font-size: 14px;">
+          The rest of the page is visible and interactive. Close using the × icon above.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: baseComponents,
+    setup: () => ({ args }),
+    template: `
+      <Drawer v-bind="args" hide-backdrop placement="right">
+        <DrawerTrigger as-child>
+          <Button variant="bordered">Open (No Backdrop)</Button>
+        </DrawerTrigger>
+        <DrawerContent>
+          ${closeButton}
+          <DrawerHeader>
+            <DrawerTitle>No Backdrop</DrawerTitle>
+          </DrawerHeader>
+          <DrawerBody>
+            <p style="margin: 0; font-size: 14px;">
+              No overlay is shown. The page stays visible and interactive behind the drawer.
+              Click the × icon to close — clicking outside does nothing.
+            </p>
+          </DrawerBody>
+        </DrawerContent>
+      </Drawer>
+    `,
+  }),
+}
+
 export const WithForm: Story = {
+  name: 'With Form',
   name: 'With Form',
   render: (args) => ({
     components: { ...baseComponents, Input, Textarea },

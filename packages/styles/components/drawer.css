@@ -160,6 +160,129 @@
 }
 
 /**
+ * Modifier: dialog--inline
+ * Overrides fixed positioning to absolute so the panel is scoped to the nearest
+ * positioned ancestor instead of the viewport. The container must have
+ * position:relative and overflow:hidden set by the consumer.
+ */
+.drawer__dialog--inline {
+  position: absolute;
+}
+
+/* -------------------------------------------------------------------------------------------------
+ * Dock mode — panel shifts content in the DOM rather than overlaying it
+ * -----------------------------------------------------------------------------------------------*/
+
+/**
+ * Container: dock-container
+ * The Drawer root element in dock mode. Wrap both DrawerMain and DrawerContent.
+ */
+.drawer__dock-container {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+}
+
+.drawer__dock-container--right,
+.drawer__dock-container--left {
+  flex-direction: row;
+}
+
+.drawer__dock-container--top,
+.drawer__dock-container--bottom {
+  flex-direction: column;
+}
+
+/**
+ * Element: main
+ * The main content area inside a dock Drawer. Fills remaining flex space.
+ */
+.drawer__main {
+  flex: 1;
+  min-width: 0;
+  min-height: 0;
+  overflow: auto;
+}
+
+/**
+ * Modifier: dialog--dock
+ * The drawer panel in dock mode. Renders as a flex item alongside DrawerMain.
+ * Overrides the fixed/absolute positioning from the base dialog class.
+ */
+.drawer__dialog--dock {
+  position: relative;
+  flex-shrink: 0;
+}
+
+/* Reset viewport-anchored positioning from placement modifiers */
+.drawer__dialog--dock.drawer__dialog--right,
+.drawer__dialog--dock.drawer__dialog--left {
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  max-width: none;
+}
+
+.drawer__dialog--dock.drawer__dialog--right {
+  order: 1; /* appears after main content */
+}
+
+.drawer__dialog--dock.drawer__dialog--left {
+  order: -1; /* appears before main content */
+}
+
+.drawer__dialog--dock.drawer__dialog--top,
+.drawer__dialog--dock.drawer__dialog--bottom {
+  top: auto;
+  right: auto;
+  bottom: auto;
+  left: auto;
+  width: 100%;
+  max-height: none;
+  border-radius: 0;
+}
+
+.drawer__dialog--dock.drawer__dialog--top {
+  order: -1; /* appears above main content */
+}
+
+.drawer__dialog--dock.drawer__dialog--bottom {
+  order: 1; /* appears below main content */
+}
+
+/**
+ * Vue Transition: drawer-dock-h — horizontal slide (left / right placement)
+ */
+.drawer-dock-h-enter-active,
+.drawer-dock-h-leave-active {
+  transition: width 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow: hidden !important;
+  @apply motion-reduce:transition-none;
+}
+
+.drawer-dock-h-enter-from,
+.drawer-dock-h-leave-to {
+  width: 0 !important;
+}
+
+/**
+ * Vue Transition: drawer-dock-v — vertical slide (top / bottom placement)
+ */
+.drawer-dock-v-enter-active,
+.drawer-dock-v-leave-active {
+  transition: height 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+  overflow: hidden !important;
+  @apply motion-reduce:transition-none;
+}
+
+.drawer-dock-v-enter-from,
+.drawer-dock-v-leave-to {
+  height: 0 !important;
+}
+
+/**
  * Element: header
  */
 .drawer__header {

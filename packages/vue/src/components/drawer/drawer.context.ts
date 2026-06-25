@@ -7,6 +7,13 @@ export type DrawerSize = 'sm' | 'md' | 'lg' | 'xl' | 'full'
 export interface DrawerContext {
   placement: Ref<DrawerPlacement>
   size: Ref<DrawerSize>
+  inline: Ref<boolean>
+  hideBackdrop: Ref<boolean>
+  dock: Ref<boolean>
+  /** Open state for dock mode (managed by Drawer, not Reka) */
+  dockOpen: Ref<boolean>
+  toggleDock: () => void
+  closeDock: () => void
 }
 
 export const {

@@ -148,6 +148,7 @@ export {
   DrawerTrigger,
   DrawerContent,
   DrawerOverlay,
+  DrawerMain,
   DrawerHeader,
   DrawerBody,
   DrawerFooter,

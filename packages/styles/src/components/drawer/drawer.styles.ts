@@ -18,24 +18,40 @@ export const drawerVariants = tv({
     header: "drawer__header",
     heading: "drawer__heading",
     trigger: "drawer__trigger",
+    dockContainer: "drawer__dock-container",
+    main: "drawer__main",
   },
   variants: {
+    inline: {
+      true: {
+        dialog: "drawer__dialog--inline",
+      },
+    },
+    dock: {
+      true: {
+        dialog: "drawer__dialog--dock",
+      },
+    },
     placement: {
       bottom: {
         content: "drawer__content--bottom",
         dialog: "drawer__dialog--bottom",
+        dockContainer: "drawer__dock-container--bottom",
       },
       left: {
         content: "drawer__content--left",
         dialog: "drawer__dialog--left",
+        dockContainer: "drawer__dock-container--left",
       },
       right: {
         content: "drawer__content--right",
         dialog: "drawer__dialog--right",
+        dockContainer: "drawer__dock-container--right",
       },
       top: {
         content: "drawer__content--top",
         dialog: "drawer__dialog--top",
+        dockContainer: "drawer__dock-container--top",
       },
     },
     variant: {
