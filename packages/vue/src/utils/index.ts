@@ -5,3 +5,4 @@ export { dataAttr } from "./dataAttr";
 export { createContext } from "./context";
 export { motion, AnimatePresence } from "./motion";
 export { hasSlotComponent } from "./hasSlotComponent";
+export { warnDeprecatedVariant } from "./warnDeprecated";
