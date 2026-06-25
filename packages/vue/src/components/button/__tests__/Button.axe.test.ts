@@ -3,7 +3,7 @@ import { mount } from '@vue/test-utils'
 import axe from 'axe-core'
 import Button from '../Button.vue'
 
-const variants = ['primary', 'secondary', 'tertiary', 'outline', 'ghost', 'danger', 'danger-soft', 'success', 'success-soft', 'warning', 'warning-soft'] as const
+const variants = ['primary', 'secondary', 'tertiary', 'bordered', 'ghost', 'danger', 'danger-soft', 'success', 'success-soft', 'warning', 'warning-soft'] as const
 
 describe('Button axe audit', () => {
   const mountedWrappers: ReturnType<typeof mount>[] = []

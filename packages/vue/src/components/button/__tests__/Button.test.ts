@@ -1,10 +1,15 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref, defineComponent, nextTick } from 'vue'
 import Button from '../Button.vue'
 import ButtonGroup from '../ButtonGroup.vue'
+import { _clearWarnedCache } from '../../../utils/warnDeprecated'
 
 describe('Button', () => {
+  beforeEach(() => {
+    _clearWarnedCache()
+  })
+
   it('renders as <button> element by default', () => {
     const wrapper = mount(Button, { slots: { default: 'Click' } })
     expect(wrapper.element.tagName.toLowerCase()).toBe('button')
@@ -86,5 +91,25 @@ describe('Button', () => {
     })
     expect(wrapper.html()).toContain('button__start-content')
     expect(wrapper.html()).toContain('button__end-content')
+  })
+
+  it("applies 'button--bordered' with variant='bordered'", () => {
+    const wrapper = mount(Button, { props: { variant: 'bordered' }, slots: { default: 'OK' } })
+    expect(wrapper.classes()).toContain('button--bordered')
+  })
+
+  it("applies 'button--bordered' with deprecated variant='outline' (backward compat)", () => {
+    const wrapper = mount(Button, { props: { variant: 'outline' as any }, slots: { default: 'OK' } })
+    expect(wrapper.classes()).toContain('button--bordered')
+    expect(wrapper.classes()).not.toContain('button--outline')
+  })
+
+  it("emits a deprecation warning when variant='outline' is used", () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    mount(Button, { props: { variant: 'outline' as any }, slots: { default: 'OK' } })
+    expect(warn).toHaveBeenCalledWith(
+      '[AuronUI] Button: variant="outline" is deprecated, use variant="bordered" instead.'
+    )
+    warn.mockRestore()
   })
 })

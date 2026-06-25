@@ -5,9 +5,14 @@ import { buttonVariants, type ButtonVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useButtonGroupInject } from './button-group.context'
 import Spinner from '../spinner/Spinner.vue'
+import { warnDeprecatedVariant } from '../../utils/warnDeprecated'
 
 const props = withDefaults(defineProps<{
-  variant?: ButtonVariants['variant']
+  /**
+   * Visual style of the button.
+   * @deprecated 'outline' — use 'bordered' instead.
+   */
+  variant?: ButtonVariants['variant'] | 'outline'
   color?: ButtonVariants['color']
   size?: ButtonVariants['size']
   radius?: ButtonVariants['radius']
@@ -85,6 +90,10 @@ const LEGACY_VARIANTS: Record<string, { variant: string; color: string }> = {
 const resolvedVariant = computed(() => {
   const v = finalVariant.value
   if (!v) return v
+  if (v === 'outline') {
+    warnDeprecatedVariant('Button', 'outline', 'bordered')
+    return 'bordered' as ButtonVariants['variant']
+  }
   return (LEGACY_VARIANTS[v]?.variant ?? v) as ButtonVariants['variant']
 })
 

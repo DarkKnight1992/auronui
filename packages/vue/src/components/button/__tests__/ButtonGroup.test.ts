@@ -44,11 +44,11 @@ describe('ButtonGroup', () => {
   it('child explicit variant overrides group variant (D-13)', () => {
     const Wrapper = defineComponent({
       components: { ButtonGroup, Button },
-      template: '<ButtonGroup variant="soft"><Button variant="outline">A</Button></ButtonGroup>',
+      template: '<ButtonGroup variant="soft"><Button variant="bordered">A</Button></ButtonGroup>',
     })
     const wrapper = mount(Wrapper)
     const btn = wrapper.findComponent(Button)
-    expect(btn.classes()).toContain('button--outline')
+    expect(btn.classes()).toContain('button--bordered')
     expect(btn.classes()).not.toContain('button--soft')
   })
 

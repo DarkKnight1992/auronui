@@ -13,3 +13,8 @@ export function warnDeprecatedVariant(
     `[AuronUI] ${component}: variant="${deprecated}" is deprecated, use variant="${canonical}" instead.`,
   )
 }
+
+/** @internal — test helper to reset the deduplication cache between tests */
+export function _clearWarnedCache(): void {
+  warned.clear()
+}
