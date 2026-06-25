@@ -222,6 +222,33 @@ export const CustomStyles: Story = {
 
 export const ArrayAPI: Story = {
   name: 'Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { RadioGroup } from '@auronui/vue'
+
+const selected = ref('react')
+</script>
+
+<template>
+  <RadioGroup
+    v-model="selected"
+    label="Favourite framework"
+    :items="[
+      { value: 'vue', label: 'Vue' },
+      { value: 'react', label: 'React' },
+      { value: 'svelte', label: 'Svelte' },
+      { value: 'solid', label: 'Solid', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { RadioGroup },
     setup() {

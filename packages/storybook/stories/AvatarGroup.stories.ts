@@ -129,6 +129,32 @@ export const Sizes: Story = {
 
 export const ArrayAPI: Story = {
   name: 'Array API (avatars prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AvatarGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <AvatarGroup
+    :is-bordered="true"
+    :max="4"
+    :avatars="[
+      { name: 'Alice Martin', src: 'https://i.pravatar.cc/150?u=alice' },
+      { name: 'Bob Chen' },
+      { name: 'Carol White', src: 'https://i.pravatar.cc/150?u=carol' },
+      { name: 'Dave Kim', src: 'https://i.pravatar.cc/150?u=dave' },
+      { name: 'Eve Torres' },
+      { name: 'Frank Lee' },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { AvatarGroup },
     setup() { return { args } },

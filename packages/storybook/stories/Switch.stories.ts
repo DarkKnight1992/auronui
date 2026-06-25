@@ -207,6 +207,33 @@ export const CustomStyles: Story = {
 
 export const GroupArrayAPI: Story = {
   name: 'SwitchGroup: Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { SwitchGroup } from '@auronui/vue'
+
+const selected = ref(['email', 'push'])
+</script>
+
+<template>
+  <SwitchGroup
+    v-model="selected"
+    label="Notification channels"
+    :items="[
+      { value: 'email', label: 'Email notifications' },
+      { value: 'sms', label: 'SMS notifications' },
+      { value: 'push', label: 'Push notifications' },
+      { value: 'slack', label: 'Slack notifications', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SwitchGroup },
     setup() {

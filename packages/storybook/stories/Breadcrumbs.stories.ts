@@ -102,6 +102,40 @@ export const CustomStyles: Story = {
 
 export const ArrayAPI: Story = {
   name: 'Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Breadcrumbs } from '@auronui/vue'
+</script>
+
+<template>
+  <!-- Basic -->
+  <Breadcrumbs
+    :items="[
+      { label: 'Home', href: '/' },
+      { label: 'Components', href: '/components' },
+      { label: 'Breadcrumbs' },
+    ]"
+  />
+
+  <!-- With max-items truncation -->
+  <Breadcrumbs
+    :max-items="3"
+    :items="[
+      { label: 'Home', href: '/' },
+      { label: 'Docs', href: '/docs' },
+      { label: 'Components', href: '/components' },
+      { label: 'Navigation', href: '/components/navigation' },
+      { label: 'Breadcrumbs' },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Breadcrumbs },
     setup() { return { args } },

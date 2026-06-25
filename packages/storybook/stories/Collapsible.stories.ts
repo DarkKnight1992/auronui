@@ -117,6 +117,29 @@ export const CustomStyles: Story = {
 
 export const GroupArrayAPI: Story = {
   name: 'Group: Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CollapsibleGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <CollapsibleGroup
+    :single-open="true"
+    :items="[
+      { title: 'Getting Started', content: 'Install with pnpm add @auronui/vue', defaultOpen: true },
+      { title: 'Configuration', content: 'Import and register components globally or locally.' },
+      { title: 'Theming', content: 'Override CSS custom properties to match your brand.' },
+      { title: 'Advanced Usage', content: 'Use the classNames prop for per-slot style overrides.', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { CollapsibleGroup },
     setup() { return { args } },

@@ -237,6 +237,37 @@ export const CustomStyles: Story = {
 
 export const ArrayAPI: Story = {
   name: 'Array API (buttons prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ButtonGroup
+    :buttons="[
+      { label: 'Cut', value: 'cut' },
+      { label: 'Copy', value: 'copy' },
+      { label: 'Paste', value: 'paste' },
+    ]"
+  />
+
+  <ButtonGroup
+    variant="outline"
+    :buttons="[
+      { label: 'Day', value: 'day' },
+      { label: 'Week', value: 'week' },
+      { label: 'Month', value: 'month' },
+      { label: 'Year', value: 'year', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ButtonGroup },
     setup() { return { args } },

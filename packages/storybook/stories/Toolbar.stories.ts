@@ -100,6 +100,30 @@ export const SingleSelectToggle: Story = {
 
 export const ToggleGroupArrayAPI: Story = {
   name: 'ToggleGroup: Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Toolbar, ToolbarToggleGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <Toolbar>
+    <ToolbarToggleGroup
+      type="multiple"
+      :items="[
+        { value: 'bold', label: 'Bold' },
+        { value: 'italic', label: 'Italic' },
+        { value: 'underline', label: 'Underline' },
+      ]"
+    />
+  </Toolbar>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Toolbar, ToolbarToggleGroup },
     setup() { return { args } },

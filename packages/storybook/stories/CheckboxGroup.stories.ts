@@ -240,6 +240,33 @@ export const WithName: Story = {
 
 export const ArrayAPI: Story = {
   name: 'Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { CheckboxGroup } from '@auronui/vue'
+
+const selected = ref(['vue', 'svelte'])
+</script>
+
+<template>
+  <CheckboxGroup
+    v-model="selected"
+    label="Choose frameworks"
+    :items="[
+      { value: 'vue', label: 'Vue' },
+      { value: 'react', label: 'React' },
+      { value: 'svelte', label: 'Svelte' },
+      { value: 'solid', label: 'Solid', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { CheckboxGroup },
     setup() {

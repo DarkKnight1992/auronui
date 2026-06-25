@@ -254,6 +254,28 @@ export const CustomStyles: Story = {
 
 export const ArrayAPI: Story = {
   name: 'Array API (items prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs
+    :items="[
+      { value: 'overview', label: 'Overview', content: 'High-level product summary and key benefits.' },
+      { value: 'specs', label: 'Specifications', content: 'Technical details, dimensions, and compatibility.' },
+      { value: 'reviews', label: 'Reviews', content: 'Customer ratings and written feedback.' },
+      { value: 'support', label: 'Support', content: 'FAQs, documentation links, and contact options.', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tabs },
     setup() { return { args } },

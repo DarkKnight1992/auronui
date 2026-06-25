@@ -247,6 +247,33 @@ export const DetachedGroup: Story = {
 
 export const GroupArrayAPI: Story = {
   name: 'Group: Array API (buttons prop)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ToggleButtonGroup } from '@auronui/vue'
+
+const selected = ref(['bold'])
+</script>
+
+<template>
+  <ToggleButtonGroup
+    v-model="selected"
+    selection-mode="multiple"
+    :buttons="[
+      { value: 'bold', label: 'Bold' },
+      { value: 'italic', label: 'Italic' },
+      { value: 'underline', label: 'Underline' },
+      { value: 'strike', label: 'Strike', disabled: true },
+    ]"
+  />
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ToggleButtonGroup },
     setup() {
