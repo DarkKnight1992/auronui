@@ -48,7 +48,7 @@
   &:active,
   &[data-pressed="true"] {
     background-color: var(--button-bg-pressed);
-    transform: scale(0.97);
+    transform: scale(0.95);
     transition-duration: 60ms;
   }
 
@@ -80,11 +80,6 @@
   & svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
     @apply size-3.5;
   }
-
-  &:active,
-  &[data-pressed="true"] {
-    transform: scale(0.98);
-  }
 }
 
 .button--sm {
@@ -92,11 +87,6 @@
 
   & svg:not([data-slot="spinner"] svg, [data-slot="link-icon"] svg) {
     @apply size-3.5;
-  }
-
-  &:active,
-  &[data-pressed="true"] {
-    transform: scale(0.98);
   }
 }
 
@@ -115,10 +105,6 @@
     @apply size-5;
   }
 
-  &:active,
-  &[data-pressed="true"] {
-    transform: scale(0.96);
-  }
 }
 
 /* ============================================================
