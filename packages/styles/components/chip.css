@@ -108,7 +108,7 @@
 }
 
 /* Outlined: transparent background with a colored border */
-.chip--outlined {
+.chip--bordered {
   --chip-bg: transparent;
   --chip-border: color-mix(in srgb, currentColor 45%, transparent);
 }

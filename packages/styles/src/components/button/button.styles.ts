@@ -51,7 +51,7 @@ export const buttonVariants = tv({
       // Current API
       solid: { base: "button--solid" },
       default: { base: "button--default" },
-      outline: { base: "button--outline" },
+      bordered: { base: "button--bordered" },
       ghost: { base: "button--ghost" },
       soft: { base: "button--soft" },
       // Legacy aliases — resolved to new variant+color in Button.vue

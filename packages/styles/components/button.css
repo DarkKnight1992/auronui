@@ -135,7 +135,7 @@
 }
 
 /* outline: same press logic as ghost */
-.button--outline {
+.button--bordered {
   --button-bg: transparent;
   --button-bg-hover: var(--btn-tint-bg, var(--color-default));
   --button-bg-pressed: var(--btn-tint-bg-hover, var(--color-default-hover));

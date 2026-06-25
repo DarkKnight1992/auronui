@@ -47,11 +47,11 @@
    Outline variant — group owns the single outer border
    ========================================================================== */
 
-.button-group:has(.button--outline) {
+.button-group:has(.button--bordered) {
   @apply border border-border;
 }
 
-.button-group .button--outline {
+.button-group .button--bordered {
   @apply border-0;
 }
 

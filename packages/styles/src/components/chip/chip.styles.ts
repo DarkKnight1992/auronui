@@ -52,8 +52,8 @@ export const chipVariants = tv({
       soft: {
         base: "chip--soft",
       },
-      outlined: {
-        base: "chip--outlined",
+      bordered: {
+        base: "chip--bordered",
       },
       text: {
         base: "chip--text",
