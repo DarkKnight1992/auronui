@@ -1,16 +1,16 @@
 <script setup lang="ts">
 import { computed, toRef, ref, h, Fragment, type VNode } from 'vue'
+import { type AvatarVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useAvatarGroupProvide } from './avatar-group.context'
 import Avatar from './Avatar.vue'
-
 
 type AvatarShorthandItem = {
   src?: string
   alt?: string
   name?: string
-  color?: string
-  variant?: string
+  color?: AvatarVariants['color']
+  variant?: AvatarVariants['variant']
   isBordered?: boolean
   isDisabled?: boolean
   showFallback?: boolean

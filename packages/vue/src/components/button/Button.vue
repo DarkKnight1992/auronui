@@ -84,13 +84,14 @@ const LEGACY_VARIANTS: Record<string, { variant: string; color: string }> = {
 
 const resolvedVariant = computed(() => {
   const v = finalVariant.value
+  if (!v) return v
   return (LEGACY_VARIANTS[v]?.variant ?? v) as ButtonVariants['variant']
 })
 
 const resolvedColor = computed(() => {
   const v = finalVariant.value
   // If caller explicitly set color, respect it; otherwise infer from legacy variant
-  if (props.color === undefined && LEGACY_VARIANTS[v]) return LEGACY_VARIANTS[v].color as ButtonVariants['color']
+  if (props.color === undefined && v && LEGACY_VARIANTS[v]) return LEGACY_VARIANTS[v].color as ButtonVariants['color']
   return finalColor.value
 })
 

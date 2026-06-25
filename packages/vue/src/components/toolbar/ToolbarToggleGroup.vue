@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ToolbarToggleGroup as RekaToolbarToggleGroup } from 'reka-ui'
-import { toggleButtonGroupVariants } from '@auronui/styles'
+import { toggleButtonGroupVariants, type ToggleButtonVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useToolbarInject } from './toolbar.context'
 import ToolbarToggleItem from './ToolbarToggleItem.vue'
 
 type Single = string
 type Multi = string[]
-type ToolbarToggleShorthandItem = { value: string; label?: string; variant?: string; size?: string; isIconOnly?: boolean; disabled?: boolean; class?: string }
+type ToolbarToggleShorthandItem = { value: string; label?: string; variant?: ToggleButtonVariants['variant']; size?: ToggleButtonVariants['size']; isIconOnly?: boolean; disabled?: boolean; class?: string }
 
 const props = defineProps<{
   type: 'single' | 'multiple'
