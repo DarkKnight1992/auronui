@@ -6,10 +6,10 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxProvide } from './ListBox.context'
 import ListBoxItem from './ListBoxItem.vue'
 
+type ListBoxShorthandItem = { value: string; label?: string; disabled?: boolean; textValue?: string }
+
 // Disable Vue attribute fallthrough — we manually forward ARIA attrs to ListboxContent
 defineOptions({ inheritAttrs: false })
-
-type ListBoxShorthandItem = { value: string; label?: string; disabled?: boolean; textValue?: string }
 
 const props = withDefaults(defineProps<{
   modelValue?: string | string[]
