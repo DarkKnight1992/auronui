@@ -15,32 +15,32 @@ describe('buttonVariants (slots)', () => {
     expect(buttonVariants({}).base()).toContain('button')
   })
 
-  it('primary variant (default)', () => {
-    expect(buttonVariants({ variant: 'primary' }).base()).toContain('button--primary')
+  it('primary variant (legacy alias → solid)', () => {
+    expect(buttonVariants({ variant: 'primary' }).base()).toContain('button--solid')
   })
 
-  it('success variant', () => {
-    expect(buttonVariants({ variant: 'success' }).base()).toContain('button--success')
+  it('success variant (legacy alias → solid)', () => {
+    expect(buttonVariants({ variant: 'success' }).base()).toContain('button--solid')
   })
 
-  it('success-soft variant', () => {
-    expect(buttonVariants({ variant: 'success-soft' }).base()).toContain('button--success-soft')
+  it('success-soft variant (legacy alias → soft)', () => {
+    expect(buttonVariants({ variant: 'success-soft' }).base()).toContain('button--soft')
   })
 
-  it('warning variant', () => {
-    expect(buttonVariants({ variant: 'warning' }).base()).toContain('button--warning')
+  it('warning variant (legacy alias → solid)', () => {
+    expect(buttonVariants({ variant: 'warning' }).base()).toContain('button--solid')
   })
 
-  it('warning-soft variant', () => {
-    expect(buttonVariants({ variant: 'warning-soft' }).base()).toContain('button--warning-soft')
+  it('warning-soft variant (legacy alias → soft)', () => {
+    expect(buttonVariants({ variant: 'warning-soft' }).base()).toContain('button--soft')
   })
 
-  it('danger variant', () => {
-    expect(buttonVariants({ variant: 'danger' }).base()).toContain('button--danger')
+  it('danger variant (legacy alias → solid)', () => {
+    expect(buttonVariants({ variant: 'danger' }).base()).toContain('button--solid')
   })
 
-  it('danger-soft variant', () => {
-    expect(buttonVariants({ variant: 'danger-soft' }).base()).toContain('button--danger-soft')
+  it('danger-soft variant (legacy alias → soft)', () => {
+    expect(buttonVariants({ variant: 'danger-soft' }).base()).toContain('button--soft')
   })
 
   it('isLoading=true adds button--loading to base', () => {
