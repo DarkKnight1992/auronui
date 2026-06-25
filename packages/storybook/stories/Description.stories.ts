@@ -40,6 +40,24 @@ import { Description } from '@auronui/vue'
 };
 
 export const WithLabel: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Description, Input, Label } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-1">
+    <Label for="email-input">Email address</Label>
+    <Input id="email-input" type="email" aria-describedby="email-desc" placeholder="you@example.com" />
+    <Description id="email-desc">We'll never share your email with anyone else.</Description>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Description, Input, Label },
     setup: () => ({ args }),

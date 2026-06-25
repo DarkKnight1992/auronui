@@ -74,6 +74,26 @@ export const Widescreen: Story = {
       </AspectRatio>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <AspectRatio :ratio="16 / 9">
+    <img
+      src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?w=800"
+      alt="Mountain"
+      style="width:100%;height:100%;object-fit:cover;border-radius:8px;"
+    />
+  </AspectRatio>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Square: Story = {
@@ -91,6 +111,26 @@ export const Square: Story = {
       </AspectRatio>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <AspectRatio :ratio="1" style="max-width:300px;">
+    <img
+      src="https://images.unsplash.com/photo-1529626455594-4ff0802cfb7e?w=400"
+      alt="Portrait"
+      style="width:100%;height:100%;object-fit:cover;border-radius:50%;"
+    />
+  </AspectRatio>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Portrait: Story = {
@@ -108,6 +148,26 @@ export const Portrait: Story = {
       </AspectRatio>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <AspectRatio :ratio="3 / 4" style="max-width:280px;">
+    <img
+      src="https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400"
+      alt="Portrait"
+      style="width:100%;height:100%;object-fit:cover;border-radius:12px;"
+    />
+  </AspectRatio>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithVideo: Story = {
@@ -123,6 +183,24 @@ export const WithVideo: Story = {
       </AspectRatio>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <AspectRatio :ratio="16 / 9">
+    <div style="width:100%;height:100%;background:#0f172a;border-radius:8px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-family:sans-serif;font-size:14px;">
+      Video placeholder (16:9)
+    </div>
+  </AspectRatio>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Ratios: Story = {
@@ -157,6 +235,45 @@ export const Ratios: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:6px;font-family:sans-serif;">21:9 Ultrawide</p>
+      <AspectRatio :ratio="21/9">
+        <div style="width:100%;height:100%;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-family:sans-serif;font-size:12px;">21:9</div>
+      </AspectRatio>
+    </div>
+    <div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:6px;font-family:sans-serif;">16:9 Widescreen</p>
+      <AspectRatio :ratio="16/9">
+        <div style="width:100%;height:100%;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-family:sans-serif;font-size:12px;">16:9</div>
+      </AspectRatio>
+    </div>
+    <div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:6px;font-family:sans-serif;">4:3 Classic</p>
+      <AspectRatio :ratio="4/3">
+        <div style="width:100%;height:100%;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-family:sans-serif;font-size:12px;">4:3</div>
+      </AspectRatio>
+    </div>
+    <div>
+      <p style="font-size:12px;color:#64748b;margin-bottom:6px;font-family:sans-serif;">1:1 Square</p>
+      <AspectRatio :ratio="1" style="max-width:200px;">
+        <div style="width:100%;height:100%;background:#1e293b;border-radius:6px;display:flex;align-items:center;justify-content:center;color:#94a3b8;font-family:sans-serif;font-size:12px;">1:1</div>
+      </AspectRatio>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomStyles: Story = {
@@ -174,4 +291,24 @@ export const CustomStyles: Story = {
       </AspectRatio>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AspectRatio } from '@auronui/vue'
+</script>
+
+<template>
+  <AspectRatio :ratio="16 / 9" :classNames="{ base: 'border-4 border-blue-500 rounded-lg shadow-lg' }">
+    <img
+      src="https://images.unsplash.com/photo-1535025183041-0991a977e25b?w=600"
+      alt="Landscape"
+      style="width:100%;height:100%;object-fit:cover;"
+    />
+  </AspectRatio>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

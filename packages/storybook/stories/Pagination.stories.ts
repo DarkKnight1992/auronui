@@ -111,6 +111,40 @@ import {
 /** Story 2: Numeric — Default (10 pages, shows ellipsis, showEdges) */
 export const NumericDefault: Story = {
   name: "Numeric — Default (with Ellipsis)",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Pagination size="md" :total-items="100" :items-per-page="10" :page="5" :show-edges="true" :sibling-count="2">
+    <PaginationContent v-slot="{ items }">
+      <PaginationFirst />
+      <PaginationPrev />
+      <template v-for="item in items" :key="item.type === 'page' ? item.value : ('e-' + item.value)">
+        <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+        <PaginationEllipsis v-else />
+      </template>
+      <PaginationNext />
+      <PaginationLast />
+    </PaginationContent>
+  </Pagination>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       Pagination,
@@ -131,6 +165,40 @@ export const NumericDefault: Story = {
 /** Story 3: Numeric — Large (50 pages, size=lg, showEdges) */
 export const NumericLarge: Story = {
   name: "Numeric — Large (50 pages)",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Pagination size="lg" :total-items="500" :items-per-page="10" :page="25" :show-edges="true" :sibling-count="1">
+    <PaginationContent v-slot="{ items }">
+      <PaginationFirst />
+      <PaginationPrev />
+      <template v-for="item in items" :key="item.type === 'page' ? item.value : ('e-' + item.value)">
+        <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+        <PaginationEllipsis v-else />
+      </template>
+      <PaginationNext />
+      <PaginationLast />
+    </PaginationContent>
+  </Pagination>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       Pagination,
@@ -151,6 +219,72 @@ export const NumericLarge: Story = {
 /** Story 4: Numeric — Disabled (Prev on page 1, Next on last page) */
 export const NumericDisabledBoundaries: Story = {
   name: "Numeric — Disabled Boundaries",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-6">
+    <div>
+      <p class="mb-2 text-xs text-gray-500">Page 1 — Prev/First disabled:</p>
+      <Pagination :page="1" :items-per-page="10" :total-items="50" :show-edges="true">
+        <PaginationContent v-slot="{ items }">
+          <PaginationFirst />
+          <PaginationPrev />
+          <template v-for="item in items" :key="item.type === 'page' ? item.value : 'ellipsis'">
+            <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+            <PaginationEllipsis v-else />
+          </template>
+          <PaginationNext />
+          <PaginationLast />
+        </PaginationContent>
+      </Pagination>
+    </div>
+    <div>
+      <p class="mb-2 text-xs text-gray-500">Page 5 — Next/Last disabled:</p>
+      <Pagination :page="5" :items-per-page="10" :total-items="50" :show-edges="true">
+        <PaginationContent v-slot="{ items }">
+          <PaginationFirst />
+          <PaginationPrev />
+          <template v-for="item in items" :key="item.type === 'page' ? item.value : 'ellipsis'">
+            <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+            <PaginationEllipsis v-else />
+          </template>
+          <PaginationNext />
+          <PaginationLast />
+        </PaginationContent>
+      </Pagination>
+    </div>
+    <div>
+      <p class="mb-2 text-xs text-gray-500">Globally disabled:</p>
+      <Pagination :page="3" :items-per-page="10" :total-items="50" :disabled="true">
+        <PaginationContent v-slot="{ items }">
+          <PaginationPrev />
+          <template v-for="item in items" :key="item.type === 'page' ? item.value : 'ellipsis'">
+            <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+          </template>
+          <PaginationNext />
+        </PaginationContent>
+      </Pagination>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       Pagination,
@@ -215,6 +349,43 @@ export const NumericDisabledBoundaries: Story = {
 /** Story 5: Cursor mode */
 export const CursorMode: Story = {
   name: "Cursor Mode",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Pagination, PaginationContent } from '@auronui/vue'
+
+const beforeCursor = ref<string | null>(null)
+const afterCursor = ref<string | null>('cursor_page2')
+const pageInfo = ref('Page 1')
+
+function onCursorChange(before: string | null, after: string | null) {
+  beforeCursor.value = before
+  afterCursor.value = after
+  pageInfo.value = before ? 'Page 2+' : 'Page 1'
+}
+</script>
+
+<template>
+  <Pagination
+    type="cursor"
+    :page="1"
+    :items-per-page="10"
+    :total-items="100"
+    :before-cursor="beforeCursor"
+    :after-cursor="afterCursor"
+    @update:cursor="onCursorChange"
+  >
+    <PaginationContent>
+      <template #page-info>{{ pageInfo }}</template>
+    </PaginationContent>
+  </Pagination>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Pagination, PaginationContent },
     setup() {
@@ -258,6 +429,64 @@ export const CursorMode: Story = {
 /** Story 6: Interactive — v-model:page with controls */
 export const Interactive: Story = {
   name: "Interactive — v-model:page",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Button,
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+  PaginationFirst,
+  PaginationLast,
+  PaginationEllipsis,
+} from '@auronui/vue'
+
+const page = ref(1)
+</script>
+
+<template>
+  <div class="flex flex-col gap-4">
+    <p class="text-sm text-gray-500">Current page: <strong>{{ page }}</strong></p>
+    <Pagination
+      v-model:page="page"
+      :items-per-page="10"
+      :total-items="100"
+      :show-edges="true"
+      :sibling-count="2"
+    >
+      <PaginationContent v-slot="{ items }">
+        <PaginationFirst />
+        <PaginationPrev />
+        <template v-for="item in items" :key="item.type === 'page' ? item.value : ('e-' + item.value)">
+          <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+          <PaginationEllipsis v-else />
+        </template>
+        <PaginationNext />
+        <PaginationLast />
+      </PaginationContent>
+    </Pagination>
+    <div class="flex flex-wrap gap-2">
+      <Button
+        v-for="p in [1, 3, 5, 7, 10]"
+        :key="p"
+        variant="flat"
+        size="sm"
+        @click="page = p"
+      >
+        Jump to {{ p }}
+      </Button>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       Button,
@@ -315,6 +544,39 @@ export const Interactive: Story = {
 /** Story 7: All Sizes comparison */
 export const AllSizes: Story = {
   name: "All Sizes",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationPrev,
+  PaginationNext,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-6">
+    <div v-for="size in ['sm', 'md', 'lg']" :key="size">
+      <p class="mb-2 text-xs font-semibold uppercase text-gray-500">{{ size }}</p>
+      <Pagination :page="3" :items-per-page="10" :total-items="50" :size="size">
+        <PaginationContent v-slot="{ items }">
+          <PaginationPrev />
+          <template v-for="item in items" :key="item.type === 'page' ? item.value : 'ellipsis'">
+            <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+          </template>
+          <PaginationNext />
+        </PaginationContent>
+      </Pagination>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: {
       Pagination,

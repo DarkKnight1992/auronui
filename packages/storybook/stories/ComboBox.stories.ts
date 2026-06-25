@@ -91,6 +91,31 @@ const items = [
 };
 
 export const AdvancedComposition: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" label="Favorite Fruit" aria-label="Fruit picker">
+    <ComboBoxInput placeholder="Select a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</ComboBoxItem>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem },
     setup: () => ({ args, items: fruits }),
@@ -106,6 +131,43 @@ export const AdvancedComposition: Story = {
 };
 
 export const WithDescription: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox
+    :items="items"
+    label="Favorite Fruit"
+    description="Choose your favorite fruit from the list."
+    aria-label="Favorite fruit picker"
+  >
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),
@@ -123,7 +185,7 @@ export const WithDescription: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -135,6 +197,44 @@ export const WithDescription: Story = {
 };
 
 export const WithErrorMessage: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox
+    :items="items"
+    label="Favorite Fruit"
+    error-message="Please select a valid fruit."
+    :is-invalid="true"
+    aria-label="Favorite fruit picker"
+  >
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),
@@ -153,7 +253,7 @@ export const WithErrorMessage: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -165,6 +265,41 @@ export const WithErrorMessage: Story = {
 };
 
 export const WithDisabledItems: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana', isDisabled: true },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'date', label: 'Date', isDisabled: true },
+  { value: 'elderberry', label: 'Elderberry' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" label="Favorite Fruit" aria-label="Favorite fruit picker">
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+        :is-disabled="item.isDisabled"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: disabledFruits }),
@@ -176,7 +311,7 @@ export const WithDisabledItems: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
             :is-disabled="item.isDisabled"
           >
             {{ item.label }}
@@ -189,6 +324,38 @@ export const WithDisabledItems: Story = {
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" label="Favorite Fruit" :is-disabled="true" aria-label="Favorite fruit picker">
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),
@@ -200,7 +367,7 @@ export const Disabled: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -213,6 +380,38 @@ export const Disabled: Story = {
 };
 
 export const Required: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" label="Favorite Fruit" :is-required="true" aria-label="Favorite fruit picker">
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),
@@ -224,7 +423,7 @@ export const Required: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -237,6 +436,38 @@ export const Required: Story = {
 };
 
 export const AllowsCustomValue: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" label="Favorite Fruit" :allows-custom-value="true" aria-label="Favorite fruit picker">
+    <ComboBoxInput placeholder="Type anything..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No match — your input will be used as-is</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),
@@ -248,7 +479,7 @@ export const AllowsCustomValue: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -261,6 +492,38 @@ export const AllowsCustomValue: Story = {
 };
 
 export const FullWidth: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox :items="items" label="Favorite Fruit" :full-width="true" aria-label="Favorite fruit picker">
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),
@@ -272,7 +535,7 @@ export const FullWidth: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </ComboBoxItem>
@@ -285,6 +548,59 @@ export const FullWidth: Story = {
 };
 
 export const MultipleCategories: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const animals = [
+  { value: 'cat', label: 'Cat' },
+  { value: 'dog', label: 'Dog' },
+  { value: 'elephant', label: 'Elephant' },
+]
+</script>
+
+<template>
+  <div style="display: flex; gap: 24px; flex-wrap: wrap;">
+    <ComboBox :items="fruits" label="Fruits" aria-label="Fruit picker">
+      <ComboBoxInput placeholder="Search fruits..." />
+      <ComboBoxContent>
+        <ComboBoxItem
+          v-for="item in fruits"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </ComboBoxItem>
+        <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+      </ComboBoxContent>
+    </ComboBox>
+    <ComboBox :items="animals" label="Animals" aria-label="Animal picker">
+      <ComboBoxInput placeholder="Search animals..." />
+      <ComboBoxContent>
+        <ComboBoxItem
+          v-for="item in animals"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </ComboBoxItem>
+        <ComboBoxEmpty>No animals found</ComboBoxEmpty>
+      </ComboBoxContent>
+    </ComboBox>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, fruits, animals }),
@@ -297,7 +613,7 @@ export const MultipleCategories: Story = {
               v-for="item in fruits"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </ComboBoxItem>
@@ -311,7 +627,7 @@ export const MultipleCategories: Story = {
               v-for="item in animals"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </ComboBoxItem>
@@ -324,6 +640,52 @@ export const MultipleCategories: Story = {
 };
 
 export const Controlled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const selected = ref('')
+</script>
+
+<template>
+  <div>
+    <ComboBox
+      :items="items"
+      :model-value="selected"
+      @update:model-value="selected = $event"
+      label="Favorite Fruit"
+      aria-label="Controlled fruit picker"
+    >
+      <ComboBoxInput placeholder="Search a fruit..." />
+      <ComboBoxContent>
+        <ComboBoxItem
+          v-for="item in items"
+          :key="item.value"
+          :value="item.value"
+        >
+          {{ item.label }}
+        </ComboBoxItem>
+        <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+      </ComboBoxContent>
+    </ComboBox>
+    <p style="margin-top: 12px; font-size: 14px; color: #64748b;">
+      Selected: <strong>{{ selected || '(none)' }}</strong>
+    </p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup() {
@@ -364,6 +726,45 @@ export const Controlled: Story = {
 
 export const CustomStyles: Story = {
   name: "Custom styles via classNames",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <ComboBox
+    :items="items"
+    label="Favorite Fruit"
+    :class-names="{
+      base: 'border-2 border-blue-500 rounded-lg bg-blue-50 p-4',
+    }"
+    aria-label="Fruit picker with custom styles"
+  >
+    <ComboBoxInput placeholder="Search a fruit..." />
+    <ComboBoxContent>
+      <ComboBoxItem
+        v-for="item in items"
+        :key="item.value"
+        :value="item.value"
+      >
+        {{ item.label }}
+      </ComboBoxItem>
+      <ComboBoxEmpty>No fruits found</ComboBoxEmpty>
+    </ComboBoxContent>
+  </ComboBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
     setup: () => ({ args, items: fruits }),

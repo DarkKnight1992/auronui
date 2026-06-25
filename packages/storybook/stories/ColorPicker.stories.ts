@@ -53,6 +53,20 @@ import { ColorPicker } from '@auronui/vue'
 
 export const HslFormat: Story = {
   name: 'HSL Format',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#ff0000" format="hsl" label="HSL color" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup() { return { args } },
@@ -67,6 +81,20 @@ export const HslFormat: Story = {
 
 export const RgbFormat: Story = {
   name: 'RGB Format',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#00ff00" format="rgb" label="RGB color" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup() { return { args } },
@@ -81,6 +109,26 @@ export const RgbFormat: Story = {
 
 export const Controlled: Story = {
   name: 'Controlled Mode',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ColorPicker } from '@auronui/vue'
+
+const color = ref('#3b82f6')
+</script>
+
+<template>
+  <div>
+    <ColorPicker :modelValue="color" format="hex" label="Controlled color" @update:modelValue="color = $event" />
+    <p style="margin-top: 8px; font-family: monospace; font-size: 14px;">Current: {{ color }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup: () => ({ args }),
@@ -98,6 +146,20 @@ export const Controlled: Story = {
 
 export const Disabled: Story = {
   name: 'Disabled',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#3b82f6" :disabled="true" label="Disabled color picker" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup: () => ({ args }),
@@ -107,6 +169,20 @@ export const Disabled: Story = {
 
 export const WithLabel: Story = {
   name: 'With Label',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#8b5cf6" label="Background color" format="hex" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup: () => ({ args }),
@@ -116,6 +192,20 @@ export const WithLabel: Story = {
 
 export const StartingFromBlack: Story = {
   name: 'Starting from Black',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#000000" label="Black color picker" format="hex" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup: () => ({ args }),
@@ -125,6 +215,20 @@ export const StartingFromBlack: Story = {
 
 export const StartingFromWhite: Story = {
   name: 'Starting from White',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorPicker } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorPicker defaultValue="#ffffff" label="White color picker" format="hex" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorPicker },
     setup: () => ({ args }),

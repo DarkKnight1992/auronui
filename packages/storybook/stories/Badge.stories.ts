@@ -80,6 +80,23 @@ export const OnAvatar: Story = {
     `,
   }),
   args: { color: "danger", placement: "top-right" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Badge color="danger" placement="top-right">
+    <Avatar src="https://i.pravatar.cc/150?u=alex" />
+    <template #label>3</template>
+  </Badge>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const OnButton: Story = {
@@ -94,6 +111,23 @@ export const OnButton: Story = {
     `,
   }),
   args: { color: "danger" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <Badge color="danger">
+    <Button variant="secondary">Inbox</Button>
+    <template #label>12</template>
+  </Badge>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Dot: Story = {
@@ -107,6 +141,22 @@ export const Dot: Story = {
     `,
   }),
   args: { size: "xs", color: "success", placement: "bottom-right" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Badge size="xs" color="success" placement="bottom-right">
+    <Avatar name="ON" />
+  </Badge>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -133,6 +183,36 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 32px; align-items: center;">
+    <Badge size="xs" color="success" placement="bottom-right">
+      <Avatar name="X" />
+    </Badge>
+    <Badge size="sm" color="danger">
+      <Avatar name="S" />
+      <template #label>2</template>
+    </Badge>
+    <Badge size="md" color="danger">
+      <Avatar name="M" />
+      <template #label>5</template>
+    </Badge>
+    <Badge size="lg" color="danger">
+      <Avatar name="L" />
+      <template #label>9+</template>
+    </Badge>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Colors: Story = {
@@ -149,6 +229,26 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+    <Badge color="default"><Avatar name="D" /><template #label>1</template></Badge>
+    <Badge color="accent"><Avatar name="A" /><template #label>2</template></Badge>
+    <Badge color="success"><Avatar name="S" /><template #label>3</template></Badge>
+    <Badge color="warning"><Avatar name="W" /><template #label>4</template></Badge>
+    <Badge color="danger"><Avatar name="E" /><template #label>5</template></Badge>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Variants: Story = {
@@ -172,6 +272,33 @@ export const Variants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+    <Badge variant="primary" color="danger">
+      <Avatar name="P" />
+      <template #label>5</template>
+    </Badge>
+    <Badge variant="secondary" color="danger">
+      <Avatar name="S" />
+      <template #label>5</template>
+    </Badge>
+    <Badge variant="soft" color="danger">
+      <Avatar name="So" />
+      <template #label>5</template>
+    </Badge>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Placements: Story = {
@@ -203,6 +330,37 @@ export const Placements: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: grid; grid-template-columns: repeat(4, auto); gap: 32px; align-items: center; justify-content: center;">
+    <Badge size="xs" placement="top-left" color="danger">
+      <Avatar name="TL" size="lg" />
+      <template #label>1</template>
+    </Badge>
+    <Badge size="xs" placement="top-right" color="danger">
+      <Avatar name="TR" size="lg" />
+      <template #label>2</template>
+    </Badge>
+    <Badge size="xs" placement="bottom-left" color="danger">
+      <Avatar name="BL" size="lg" />
+      <template #label>3</template>
+    </Badge>
+    <Badge size="xs" placement="bottom-right" color="danger">
+      <Avatar name="BR" size="lg" />
+      <template #label>4</template>
+    </Badge>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -218,4 +376,27 @@ export const CustomStyles: Story = {
     `,
   }),
   args: { color: "default", size: "md", variant: "primary", placement: "top-right" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Badge, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Badge
+    color="default"
+    size="md"
+    variant="primary"
+    placement="top-right"
+    :class-names="{ anchor: 'ring-2 ring-blue-400', base: 'bg-blue-500 border-2 border-blue-700', label: 'text-white font-bold text-lg' }"
+  >
+    <Avatar name="CS" />
+    <template #label>7</template>
+  </Badge>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

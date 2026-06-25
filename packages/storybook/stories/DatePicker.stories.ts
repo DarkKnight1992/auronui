@@ -72,6 +72,23 @@ type Story = StoryObj<typeof DatePicker>;
 /* ─── Playground / Default ──────────────────────────────────────────────── */
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DatePicker } from '@auronui/vue'
+
+const value = ref(undefined)
+</script>
+
+<template>
+  <DatePicker label="Date" v-model="value" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => {
@@ -114,6 +131,22 @@ const value = ref(undefined)
 /* ─── Variants / Sizes / Colors ─────────────────────────────────────────── */
 
 export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+    <DatePicker v-for="v in ['flat','bordered','faded','underlined','raised']" :key="v" :variant="v" :label="v" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -126,6 +159,22 @@ export const Variants: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+    <DatePicker v-for="s in ['sm','md','lg']" :key="s" :size="s" :label="'size ' + s" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -138,6 +187,27 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+    <DatePicker
+      v-for="c in ['default','primary','secondary','success','warning','danger']"
+      :key="c"
+      :color="c"
+      :label="c"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -159,6 +229,20 @@ export const Colors: Story = {
 
 export const LabelPlacementInside: Story = {
   args: { label: "Birth Date", labelPlacement: "inside" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Birth Date" label-placement="inside" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -168,6 +252,20 @@ export const LabelPlacementInside: Story = {
 
 export const LabelPlacementOutside: Story = {
   args: { label: "Birth Date", labelPlacement: "outside" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Birth Date" label-placement="outside" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -177,6 +275,20 @@ export const LabelPlacementOutside: Story = {
 
 export const LabelPlacementOutsideLeft: Story = {
   args: { label: "Birth Date", labelPlacement: "outside-left" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Birth Date" label-placement="outside-left" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -188,6 +300,24 @@ export const LabelPlacementOutsideLeft: Story = {
 
 export const WithDefaultValue: Story = {
   args: { label: "Appointment Date" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+
+const value = ref(new CalendarDate(2024, 6, 15))
+</script>
+
+<template>
+  <DatePicker label="Appointment Date" v-model="value" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => {
@@ -202,6 +332,24 @@ export const WithPlaceholderValue: Story = {
   args: {
     label: "Next Appointment",
     placeholderValue: new CalendarDate(2030, 1, 1),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Next Appointment"
+    :placeholder-value="new CalendarDate(2030, 1, 1)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -218,6 +366,27 @@ export const MinMax: Story = {
     minValue: new CalendarDate(2024, 6, 1),
     maxValue: new CalendarDate(2024, 6, 30),
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Constrained Date"
+    description="Select a date in June 2024"
+    :default-value="new CalendarDate(2024, 6, 15)"
+    :min-value="new CalendarDate(2024, 6, 1)"
+    :max-value="new CalendarDate(2024, 6, 30)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -230,6 +399,31 @@ export const UnavailableDates: Story = {
     label: "Business days only",
     description: "Weekends are unavailable",
     defaultValue: today(getLocalTimeZone()),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { today, getLocalTimeZone } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+
+const isDateUnavailable = (date) => {
+  const d = date.toDate(getLocalTimeZone()).getDay()
+  return d === 0 || d === 6
+}
+</script>
+
+<template>
+  <DatePicker
+    label="Business days only"
+    description="Weekends are unavailable"
+    :default-value="today(getLocalTimeZone())"
+    :is-date-unavailable="isDateUnavailable"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -248,6 +442,20 @@ export const UnavailableDates: Story = {
 
 export const WithDescription: Story = {
   args: { label: "Birth Date", description: "Enter your date of birth" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Birth Date" description="Enter your date of birth" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -257,6 +465,20 @@ export const WithDescription: Story = {
 
 export const Required: Story = {
   args: { label: "Due Date", isRequired: true },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Due Date" is-required />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -271,6 +493,26 @@ export const Invalid: Story = {
     errorMessage: "Please select a valid date",
     defaultValue: new CalendarDate(2024, 6, 15),
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Event Date"
+    is-invalid
+    error-message="Please select a valid date"
+    :default-value="new CalendarDate(2024, 6, 15)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -283,6 +525,25 @@ export const Disabled: Story = {
     label: "Locked Date",
     isDisabled: true,
     defaultValue: new CalendarDate(2024, 3, 20),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Locked Date"
+    is-disabled
+    :default-value="new CalendarDate(2024, 3, 20)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -297,6 +558,25 @@ export const ReadOnly: Story = {
     isReadOnly: true,
     defaultValue: new CalendarDate(2024, 12, 31),
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Fixed Date"
+    is-read-only
+    :default-value="new CalendarDate(2024, 12, 31)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -306,6 +586,20 @@ export const ReadOnly: Story = {
 
 export const FullWidth: Story = {
   args: { label: "Full Width Date", fullWidth: true },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Full Width Date" full-width />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -321,6 +615,25 @@ export const TimeGranularity: Story = {
     granularity: "minute",
     defaultValue: toZoned(new CalendarDateTime(2024, 6, 15, 10, 30), "America/New_York"),
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime, toZoned } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Date and Time"
+    granularity="minute"
+    :default-value="toZoned(new CalendarDateTime(2024, 6, 15, 10, 30), 'America/New_York')"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -334,6 +647,26 @@ export const TwelveHourCycle: Story = {
     granularity: "hour",
     hourCycle: 12,
     defaultValue: toZoned(new CalendarDateTime(2024, 6, 15, 14, 0), "America/New_York"),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime, toZoned } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Date and Time (12h)"
+    granularity="hour"
+    :hour-cycle="12"
+    :default-value="toZoned(new CalendarDateTime(2024, 6, 15, 14, 0), 'America/New_York')"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -351,6 +684,26 @@ export const HideTimeZone: Story = {
     // for CalendarDateTime). toZoned promotes a CalendarDateTime to a ZonedDateTime.
     defaultValue: toZoned(new CalendarDateTime(2024, 6, 15, 10, 30), "America/New_York"),
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime, toZoned } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Date and Time — TZ hidden"
+    granularity="minute"
+    hide-time-zone
+    :default-value="toZoned(new CalendarDateTime(2024, 6, 15, 10, 30), 'America/New_York')"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -363,6 +716,25 @@ export const LocaleGerman: Story = {
     label: "Geburtsdatum",
     locale: "de-DE",
     defaultValue: new CalendarDate(1990, 1, 1),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Geburtsdatum"
+    locale="de-DE"
+    :default-value="new CalendarDate(1990, 1, 1)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -379,6 +751,25 @@ export const MultipleMonths: Story = {
     defaultValue: new CalendarDate(2024, 6, 15),
     visibleMonths: 2,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Date (2 months)"
+    :default-value="new CalendarDate(2024, 6, 15)"
+    :visible-months="2"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -390,6 +781,20 @@ export const CloseOnSelectDisabled: Story = {
   args: {
     label: "Stays open after select",
     closeOnSelect: false,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Stays open after select" :close-on-select="false" />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -403,6 +808,20 @@ export const ModalPopover: Story = {
     label: "Modal popover",
     modal: true,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker label="Modal popover" modal />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DatePicker },
     setup: () => ({ args }),
@@ -415,6 +834,25 @@ export const DefaultOpen: Story = {
     label: "Open by default",
     defaultOpen: true,
     defaultValue: today(getLocalTimeZone()),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { today, getLocalTimeZone } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Open by default"
+    default-open
+    :default-value="today(getLocalTimeZone())"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -430,6 +868,25 @@ export const WithName: Story = {
     label: "Hidden form input",
     name: "birth_date",
     defaultValue: new CalendarDate(1990, 1, 1),
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Hidden form input"
+    name="birth_date"
+    :default-value="new CalendarDate(1990, 1, 1)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DatePicker },
@@ -448,6 +905,29 @@ export const CustomStyles: Story = {
       trigger: "border-2 border-blue-500 rounded-lg bg-blue-50",
       triggerIndicator: "text-blue-600",
       popover: "border-2 border-blue-500 rounded-lg shadow-lg",
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDate } from '@internationalized/date'
+import { DatePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DatePicker
+    label="Custom Styled Date"
+    :default-value="new CalendarDate(2024, 6, 15)"
+    :class-names="{
+      trigger: 'border-2 border-blue-500 rounded-lg bg-blue-50',
+      triggerIndicator: 'text-blue-600',
+      popover: 'border-2 border-blue-500 rounded-lg shadow-lg',
+    }"
+  />
+</template>`,
+        language: 'vue',
+      },
     },
   },
   render: (args: any) => ({

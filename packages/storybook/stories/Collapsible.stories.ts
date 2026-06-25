@@ -49,6 +49,33 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vu
 }
 
 export const GroupMultiOpen: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CollapsibleGroup, Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vue'
+</script>
+
+<template>
+  <CollapsibleGroup>
+    <Collapsible>
+      <CollapsibleTrigger>Shipping</CollapsibleTrigger>
+      <CollapsibleContent>Free over $50</CollapsibleContent>
+    </Collapsible>
+    <Collapsible>
+      <CollapsibleTrigger>Returns</CollapsibleTrigger>
+      <CollapsibleContent>30-day window</CollapsibleContent>
+    </Collapsible>
+    <Collapsible>
+      <CollapsibleTrigger>Warranty</CollapsibleTrigger>
+      <CollapsibleContent>2-year limited</CollapsibleContent>
+    </Collapsible>
+  </CollapsibleGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { CollapsibleGroup, Collapsible, CollapsibleTrigger, CollapsibleContent },
     setup: () => ({ args }),
@@ -72,6 +99,33 @@ export const GroupMultiOpen: Story = {
 }
 
 export const GroupSingleOpen: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CollapsibleGroup, Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vue'
+</script>
+
+<template>
+  <CollapsibleGroup :single-open="true">
+    <Collapsible :default-open="true">
+      <CollapsibleTrigger>Section A</CollapsibleTrigger>
+      <CollapsibleContent>Content A</CollapsibleContent>
+    </Collapsible>
+    <Collapsible>
+      <CollapsibleTrigger>Section B</CollapsibleTrigger>
+      <CollapsibleContent>Content B</CollapsibleContent>
+    </Collapsible>
+    <Collapsible>
+      <CollapsibleTrigger>Section C</CollapsibleTrigger>
+      <CollapsibleContent>Content C</CollapsibleContent>
+    </Collapsible>
+  </CollapsibleGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { CollapsibleGroup, Collapsible, CollapsibleTrigger, CollapsibleContent },
     setup: () => ({ args }),
@@ -96,6 +150,26 @@ export const GroupSingleOpen: Story = {
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vue'
+</script>
+
+<template>
+  <Collapsible
+    :default-open="true"
+    :class-names="{ base: 'border-2 border-blue-500 rounded-lg bg-blue-50' }"
+  >
+    <CollapsibleTrigger>Show more details</CollapsibleTrigger>
+    <CollapsibleContent>This collapsible has a custom blue border and light blue background styling applied via classNames.</CollapsibleContent>
+  </Collapsible>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Collapsible, CollapsibleTrigger, CollapsibleContent },
     setup: () => ({

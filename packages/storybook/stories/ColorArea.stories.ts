@@ -60,6 +60,20 @@ export const HueLightness: Story = {
     setup: () => ({ args }),
     template: '<ColorArea v-bind="args" defaultValue="#ff0000" xChannel="hue" yChannel="lightness" aria-label="Hue lightness area" style="width: 200px; height: 200px;" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorArea } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorArea defaultValue="#ff0000" xChannel="hue" yChannel="lightness" aria-label="Hue lightness area" style="width: 200px; height: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const ShowDots: Story = {
@@ -69,6 +83,20 @@ export const ShowDots: Story = {
     setup: () => ({ args }),
     template: '<ColorArea v-bind="args" defaultValue="#ff0000" :showDots="true" aria-label="Color area with dots" style="width: 200px; height: 200px;" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorArea } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorArea defaultValue="#ff0000" :showDots="true" aria-label="Color area with dots" style="width: 200px; height: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -78,6 +106,20 @@ export const Disabled: Story = {
     setup: () => ({ args }),
     template: '<ColorArea v-bind="args" defaultValue="#ff0000" :disabled="true" aria-label="Disabled color area" style="width: 200px; height: 200px;" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorArea } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorArea defaultValue="#ff0000" :disabled="true" aria-label="Disabled color area" style="width: 200px; height: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithAriaLabel: Story = {
@@ -87,4 +129,18 @@ export const WithAriaLabel: Story = {
     setup: () => ({ args }),
     template: '<ColorArea v-bind="args" defaultValue="#0066ff" aria-label="Select color saturation and brightness" style="width: 200px; height: 200px;" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorArea } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorArea defaultValue="#0066ff" aria-label="Select color saturation and brightness" style="width: 200px; height: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

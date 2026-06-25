@@ -72,6 +72,23 @@ type Story = StoryObj<typeof DateTimePicker>;
 /* ─── Playground / Default ──────────────────────────────────────────────── */
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DateTimePicker } from '@auronui/vue'
+
+const value = ref(undefined)
+</script>
+
+<template>
+  <DateTimePicker v-model="value" label="Date & Time" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => {
@@ -117,6 +134,25 @@ export const TwelveHour: Story = {
     hourCycle: 12,
     defaultValue: BASE_VALUE,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Date & Time (12h)"
+    :hour-cycle="12"
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -129,6 +165,25 @@ export const WithSeconds: Story = {
     label: "Date & Time with Seconds",
     granularity: "second",
     defaultValue: BASE_VALUE_WITH_SECONDS,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Date & Time with Seconds"
+    granularity="second"
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30, 45)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DateTimePicker },
@@ -143,6 +198,25 @@ export const HideTimeZone: Story = {
     hideTimeZone: true,
     defaultValue: BASE_VALUE,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Date & Time — TZ hidden"
+    hide-time-zone
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -153,6 +227,26 @@ export const HideTimeZone: Story = {
 /* ─── Variants / Sizes / Colors ─────────────────────────────────────────── */
 
 export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+    <DateTimePicker variant="flat" label="flat" />
+    <DateTimePicker variant="bordered" label="bordered" />
+    <DateTimePicker variant="faded" label="faded" />
+    <DateTimePicker variant="underlined" label="underlined" />
+    <DateTimePicker variant="raised" label="raised" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -165,6 +259,24 @@ export const Variants: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+    <DateTimePicker size="sm" label="size sm" />
+    <DateTimePicker size="md" label="size md" />
+    <DateTimePicker size="lg" label="size lg" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -178,6 +290,27 @@ export const Sizes: Story = {
 
 export const Colors: Story = {
   args: { variant: "bordered" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+    <DateTimePicker variant="bordered" color="default" label="default" />
+    <DateTimePicker variant="bordered" color="primary" label="primary" />
+    <DateTimePicker variant="bordered" color="secondary" label="secondary" />
+    <DateTimePicker variant="bordered" color="success" label="success" />
+    <DateTimePicker variant="bordered" color="warning" label="warning" />
+    <DateTimePicker variant="bordered" color="danger" label="danger" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -198,6 +331,24 @@ export const Colors: Story = {
 /* ─── Label placements ──────────────────────────────────────────────────── */
 
 export const LabelPlacements: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+    <DateTimePicker label-placement="inside" label="inside" />
+    <DateTimePicker label-placement="outside" label="outside" />
+    <DateTimePicker label-placement="outside-left" label="outside-left" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -217,6 +368,25 @@ export const Disabled: Story = {
     isDisabled: true,
     defaultValue: BASE_VALUE,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Locked Date & Time"
+    is-disabled
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -229,6 +399,25 @@ export const ReadOnly: Story = {
     label: "Fixed Date & Time",
     isReadOnly: true,
     defaultValue: BASE_VALUE,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Fixed Date & Time"
+    is-read-only
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DateTimePicker },
@@ -244,6 +433,26 @@ export const Invalid: Story = {
     errorMessage: "Please select a valid date and time",
     defaultValue: BASE_VALUE,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Event Date & Time"
+    is-invalid
+    error-message="Please select a valid date and time"
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -255,6 +464,20 @@ export const Required: Story = {
   args: {
     label: "Due Date & Time",
     isRequired: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker label="Due Date & Time" is-required />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args: any) => ({
     components: { DateTimePicker },
@@ -268,6 +491,20 @@ export const FullWidth: Story = {
     label: "Full Width Date & Time",
     fullWidth: true,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker label="Full Width Date & Time" full-width />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -278,6 +515,27 @@ export const FullWidth: Story = {
 /* ─── Controlled value ──────────────────────────────────────────────────── */
 
 export const ControlledValue: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+
+const value = ref(new CalendarDateTime(2024, 6, 15, 10, 30))
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:420px">
+    <DateTimePicker v-model="value" label="Date & Time" />
+    <p style="font-size:0.875rem;color:#666">Emitted value: {{ value ? value.toString() : 'none' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => {
@@ -303,6 +561,27 @@ export const WithConstraints: Story = {
     minValue: new CalendarDateTime(2024, 6, 1, 0, 0),
     maxValue: new CalendarDateTime(2024, 6, 30, 23, 59),
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Constrained Date & Time"
+    description="Select a date and time within June 2024"
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+    :min-value="new CalendarDateTime(2024, 6, 1, 0, 0)"
+    :max-value="new CalendarDateTime(2024, 6, 30, 23, 59)"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateTimePicker },
     setup: () => ({ args }),
@@ -321,6 +600,30 @@ export const CustomStyles: Story = {
       stepHeader: "bg-blue-50 border-b-2 border-blue-200",
       stepTitle: "text-blue-700 font-semibold",
       navButton: "text-blue-600 hover:bg-blue-100 rounded-md",
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CalendarDateTime } from '@internationalized/date'
+import { DateTimePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <DateTimePicker
+    label="Styled Date & Time"
+    :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
+    :class-names="{
+      trigger: 'border-2 border-blue-500 rounded-lg',
+      stepHeader: 'bg-blue-50 border-b-2 border-blue-200',
+      stepTitle: 'text-blue-700 font-semibold',
+      navButton: 'text-blue-600 hover:bg-blue-100 rounded-md',
+    }"
+  />
+</template>`,
+        language: 'vue',
+      },
     },
   },
   render: (args: any) => ({

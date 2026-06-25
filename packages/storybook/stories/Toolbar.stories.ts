@@ -69,6 +69,24 @@ import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarTo
 
 export const Vertical: Story = {
   args: { orientation: 'vertical' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Toolbar, ToolbarButton } from '@auronui/vue'
+</script>
+
+<template>
+  <Toolbar orientation="vertical">
+    <ToolbarButton>Up</ToolbarButton>
+    <ToolbarButton>Down</ToolbarButton>
+    <ToolbarButton>Delete</ToolbarButton>
+  </Toolbar>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Toolbar, ToolbarButton },
     setup() { return { args } },
@@ -83,6 +101,26 @@ export const Vertical: Story = {
 }
 
 export const SingleSelectToggle: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Toolbar, ToolbarToggleGroup, ToolbarToggleItem } from '@auronui/vue'
+</script>
+
+<template>
+  <Toolbar>
+    <ToolbarToggleGroup type="single" default-value="center">
+      <ToolbarToggleItem value="left">Left</ToolbarToggleItem>
+      <ToolbarToggleItem value="center">Center</ToolbarToggleItem>
+      <ToolbarToggleItem value="right">Right</ToolbarToggleItem>
+    </ToolbarToggleGroup>
+  </Toolbar>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Toolbar, ToolbarToggleGroup, ToolbarToggleItem },
     setup: () => ({ args }),

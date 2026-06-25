@@ -64,6 +64,26 @@ export const Truncated: Story = {
       </Breadcrumbs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
+</script>
+
+<template>
+  <Breadcrumbs :max-items="3">
+    <BreadcrumbItem href="/">Home</BreadcrumbItem>
+    <BreadcrumbItem href="/a">Category</BreadcrumbItem>
+    <BreadcrumbItem href="/a/b">Subcategory</BreadcrumbItem>
+    <BreadcrumbItem href="/a/b/c">Item</BreadcrumbItem>
+    <BreadcrumbItem>Detail</BreadcrumbItem>
+  </Breadcrumbs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomSeparator: Story = {
@@ -79,6 +99,25 @@ export const CustomSeparator: Story = {
       </Breadcrumbs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
+</script>
+
+<template>
+  <Breadcrumbs>
+    <template #separator>›</template>
+    <BreadcrumbItem href="/">Home</BreadcrumbItem>
+    <BreadcrumbItem href="/docs">Docs</BreadcrumbItem>
+    <BreadcrumbItem>Guide</BreadcrumbItem>
+  </Breadcrumbs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomStyles: Story = {
@@ -98,6 +137,28 @@ export const CustomStyles: Story = {
       </Breadcrumbs>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Breadcrumbs, BreadcrumbItem } from '@auronui/vue'
+</script>
+
+<template>
+  <Breadcrumbs :class-names="{
+    base: 'gap-4 px-4 py-3 bg-gradient-to-r from-blue-50 to-indigo-50 rounded-lg border border-blue-200',
+    item: 'font-medium',
+  }">
+    <BreadcrumbItem href="/" :class-names="{ link: 'text-blue-600 hover:text-blue-800 font-semibold', separator: 'text-blue-400' }">Home</BreadcrumbItem>
+    <BreadcrumbItem href="/products" :class-names="{ link: 'text-blue-600 hover:text-blue-800 font-semibold', separator: 'text-blue-400' }">Products</BreadcrumbItem>
+    <BreadcrumbItem href="/products/shoes" :class-names="{ link: 'text-blue-600 hover:text-blue-800 font-semibold', separator: 'text-blue-400' }">Shoes</BreadcrumbItem>
+    <BreadcrumbItem :class-names="{ link: 'text-indigo-700 font-bold' }">Sneakers</BreadcrumbItem>
+  </Breadcrumbs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const ArrayAPI: Story = {

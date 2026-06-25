@@ -52,7 +52,7 @@ export const Right: Story = {
     docs: {
       source: {
         code: `<script setup>
-import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
 </script>
 
 <template>
@@ -106,6 +106,37 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerF
 
 export const Left: Story = {
   name: 'Placement: Left',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <Drawer placement="left">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Left Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Left Drawer</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p style="margin: 0; font-size: 14px;">
+          This drawer slides in from the left edge.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: baseComponents,
     setup: () => ({ args }),
@@ -132,6 +163,37 @@ export const Left: Story = {
 
 export const Top: Story = {
   name: 'Placement: Top',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <Drawer placement="top">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Top Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Top Drawer</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p style="margin: 0; font-size: 14px;">
+          This drawer slides in from the top edge.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: baseComponents,
     setup: () => ({ args }),
@@ -158,6 +220,37 @@ export const Top: Story = {
 
 export const Bottom: Story = {
   name: 'Placement: Bottom',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <Drawer placement="bottom">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Bottom Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Bottom Drawer</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p style="margin: 0; font-size: 14px;">
+          This drawer slides in from the bottom edge.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: baseComponents,
     setup: () => ({ args }),
@@ -184,6 +277,37 @@ export const Bottom: Story = {
 
 export const WithScrollableBody: Story = {
   name: 'With Scrollable Body',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerClose, DrawerTitle, Button, CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <Drawer placement="right">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Scrollable Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Scrollable Content</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <p v-for="i in 20" :key="i" style="margin: 0 0 12px; font-size: 14px;">
+          Item {{ i }}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+      </DrawerBody>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: baseComponents,
     setup: () => ({ args }),
@@ -528,7 +652,47 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
 
 export const WithForm: Story = {
   name: 'With Form',
-  name: 'With Form',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerFooter, DrawerClose, DrawerTitle, Button, CloseButton, Input, Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <Drawer placement="right">
+    <DrawerTrigger as-child>
+      <Button variant="bordered">Open Form Drawer</Button>
+    </DrawerTrigger>
+    <DrawerContent>
+      <DrawerClose as-child class="absolute top-3 right-3">
+        <CloseButton aria-label="Close drawer" size="sm" />
+      </DrawerClose>
+      <DrawerHeader>
+        <DrawerTitle>Edit Profile</DrawerTitle>
+      </DrawerHeader>
+      <DrawerBody>
+        <div style="display: flex; flex-direction: column; gap: 16px;">
+          <Input label="Name" placeholder="Enter your name" />
+          <Input label="Email" type="email" placeholder="Enter your email" />
+          <Textarea label="Bio" placeholder="Tell us about yourself" />
+        </div>
+      </DrawerBody>
+      <DrawerFooter>
+        <DrawerClose as-child>
+          <Button variant="light">Cancel</Button>
+        </DrawerClose>
+        <DrawerClose as-child>
+          <Button color="primary">Save</Button>
+        </DrawerClose>
+      </DrawerFooter>
+    </DrawerContent>
+  </Drawer>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ...baseComponents, Input, Textarea },
     setup: () => ({ args }),

@@ -71,6 +71,26 @@ export const WithMax: Story = {
       </AvatarGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AvatarGroup, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <AvatarGroup :max="3" aria-label="Team members (5 total, showing 3)">
+    <Avatar name="Alice Bob" />
+    <Avatar name="Carol Dan" />
+    <Avatar name="Eve Frank" />
+    <Avatar name="Grace Hopper" />
+    <Avatar name="Ivan Jones" />
+  </AvatarGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Bordered: Story = {
@@ -85,6 +105,24 @@ export const Bordered: Story = {
       </AvatarGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AvatarGroup, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <AvatarGroup :is-bordered="true" aria-label="Bordered team">
+    <Avatar name="Alice Bob" />
+    <Avatar name="Carol Dan" />
+    <Avatar name="Eve Frank" />
+  </AvatarGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Disabled: Story = {
@@ -99,6 +137,24 @@ export const Disabled: Story = {
       </AvatarGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AvatarGroup, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <AvatarGroup :is-disabled="true" aria-label="Disabled team">
+    <Avatar name="Alice Bob" />
+    <Avatar name="Carol Dan" />
+    <Avatar name="Eve Frank" />
+  </AvatarGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -125,6 +181,36 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { AvatarGroup, Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-4">
+    <AvatarGroup size="sm" aria-label="Small group">
+      <Avatar name="Alice Bob" />
+      <Avatar name="Carol Dan" />
+      <Avatar name="Eve Frank" />
+    </AvatarGroup>
+    <AvatarGroup size="md" aria-label="Medium group">
+      <Avatar name="Alice Bob" />
+      <Avatar name="Carol Dan" />
+      <Avatar name="Eve Frank" />
+    </AvatarGroup>
+    <AvatarGroup size="lg" aria-label="Large group">
+      <Avatar name="Alice Bob" />
+      <Avatar name="Carol Dan" />
+      <Avatar name="Eve Frank" />
+    </AvatarGroup>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const ArrayAPI: Story = {

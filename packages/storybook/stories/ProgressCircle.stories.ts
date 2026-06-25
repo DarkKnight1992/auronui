@@ -40,9 +40,8 @@ import { ProgressCircle } from '@auronui/vue'
 </script>
 
 <template>
-  <ProgressCircle />
+  <ProgressCircle :value="75" :max-value="100" size="md" color="primary" :stroke-width="3" />
 </template>`,
-        type: 'code',
         language: 'vue',
       },
     },
@@ -56,6 +55,20 @@ export const Determinate: Story = {
     template: `<ProgressCircle v-bind="args" />`,
   }),
   args: { value: 75, label: "Upload progress", showValueLabel: true },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressCircle :value="75" label="Upload progress" :show-value-label="true" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Indeterminate: Story = {
@@ -65,6 +78,20 @@ export const Indeterminate: Story = {
     template: `<ProgressCircle v-bind="args" />`,
   }),
   args: { value: null, label: "Loading" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressCircle :value="null" label="Loading" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -79,6 +106,24 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 24px; align-items: center;">
+    <ProgressCircle :value="60" size="sm" label="Small" />
+    <ProgressCircle :value="60" size="md" label="Medium" />
+    <ProgressCircle :value="60" size="lg" label="Large" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Colors: Story = {
@@ -96,6 +141,27 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+    <ProgressCircle :value="60" color="default" label="Default" />
+    <ProgressCircle :value="60" color="primary" label="Primary" />
+    <ProgressCircle :value="60" color="secondary" label="Secondary" />
+    <ProgressCircle :value="60" color="success" label="Success" />
+    <ProgressCircle :value="60" color="warning" label="Warning" />
+    <ProgressCircle :value="60" color="danger" label="Danger" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithValueLabel: Story = {
@@ -105,6 +171,20 @@ export const WithValueLabel: Story = {
     template: `<ProgressCircle v-bind="args" />`,
   }),
   args: { value: 75, showValueLabel: true, label: "Progress" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressCircle :value="75" :show-value-label="true" label="Progress" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStrokeWidth: Story = {
@@ -119,6 +199,24 @@ export const CustomStrokeWidth: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 24px; align-items: center;">
+    <ProgressCircle :value="60" :stroke-width="1" label="Thin (1)" />
+    <ProgressCircle :value="60" :stroke-width="3" label="Default (3)" />
+    <ProgressCircle :value="60" :stroke-width="5" label="Thick (5)" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Disabled: Story = {
@@ -128,6 +226,20 @@ export const Disabled: Story = {
     template: `<ProgressCircle v-bind="args" />`,
   }),
   args: { value: 50, isDisabled: true, label: "Disabled" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressCircle :value="50" :is-disabled="true" label="Disabled" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -146,6 +258,30 @@ export const CustomStyles: Story = {
       track: "stroke-blue-200",
       indicator: "stroke-blue-600",
       value: "text-blue-700 font-bold text-sm",
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ProgressCircle } from '@auronui/vue'
+</script>
+
+<template>
+  <ProgressCircle
+    :value="65"
+    label="Custom styled"
+    :show-value-label="true"
+    :class-names="{
+      svg: 'drop-shadow-lg',
+      track: 'stroke-blue-200',
+      indicator: 'stroke-blue-600',
+      value: 'text-blue-700 font-bold text-sm',
+    }"
+  />
+</template>`,
+        language: 'vue',
+      },
     },
   },
 };

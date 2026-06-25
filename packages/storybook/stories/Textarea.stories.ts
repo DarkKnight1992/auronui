@@ -96,6 +96,27 @@ export const Playground: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      label="Bio"
+      placeholder="Tell us about yourself…"
+      description="A short public bio shown on your profile."
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Default: Story = {
@@ -152,6 +173,26 @@ export const Variants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+    <Textarea variant="flat" placeholder="Flat textarea" />
+    <Textarea variant="bordered" placeholder="Bordered textarea" />
+    <Textarea variant="faded" placeholder="Faded textarea" />
+    <Textarea variant="underlined" placeholder="Underlined textarea" />
+    <Textarea variant="raised" placeholder="Raised textarea" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -166,6 +207,24 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:360px">
+    <Textarea size="sm" variant="bordered" placeholder="Small (sm)" />
+    <Textarea size="md" variant="bordered" placeholder="Medium (md) — default" />
+    <Textarea size="lg" variant="bordered" placeholder="Large (lg)" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Colors: Story = {
@@ -183,6 +242,27 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:360px">
+    <Textarea variant="bordered" color="default" placeholder="default" />
+    <Textarea variant="bordered" color="primary" placeholder="primary" />
+    <Textarea variant="bordered" color="secondary" placeholder="secondary" />
+    <Textarea variant="bordered" color="success" placeholder="success" />
+    <Textarea variant="bordered" color="warning" placeholder="warning" />
+    <Textarea variant="bordered" color="danger" placeholder="danger" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const FocusByColor: Story = {
@@ -241,6 +321,42 @@ export const FocusByColor: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <!-- flat -->
+  <Textarea variant="flat" color="default" placeholder="default" />
+  <Textarea variant="flat" color="primary" placeholder="primary" />
+  <Textarea variant="flat" color="secondary" placeholder="secondary" />
+  <Textarea variant="flat" color="success" placeholder="success" />
+  <Textarea variant="flat" color="warning" placeholder="warning" />
+  <Textarea variant="flat" color="danger" placeholder="danger" />
+
+  <!-- faded -->
+  <Textarea variant="faded" color="default" placeholder="default" />
+  <Textarea variant="faded" color="primary" placeholder="primary" />
+
+  <!-- bordered -->
+  <Textarea variant="bordered" color="default" placeholder="default" />
+  <Textarea variant="bordered" color="primary" placeholder="primary" />
+
+  <!-- underlined -->
+  <Textarea variant="underlined" color="default" placeholder="default" />
+  <Textarea variant="underlined" color="primary" placeholder="primary" />
+
+  <!-- raised -->
+  <Textarea variant="raised" color="default" placeholder="default" />
+  <Textarea variant="raised" color="primary" placeholder="primary" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── labelPlacement ─────────────────────────────────────────────────── */
@@ -257,6 +373,27 @@ export const LabelPlacementInside: Story = {
     setup() { return { args } },
     template: '<div style="max-width:400px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      label="Bio"
+      label-placement="inside"
+      placeholder="Tell us about yourself…"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const LabelPlacementOutside: Story = {
@@ -271,6 +408,27 @@ export const LabelPlacementOutside: Story = {
     setup() { return { args } },
     template: '<div style="max-width:400px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      label="Bio"
+      label-placement="outside"
+      placeholder="Tell us about yourself…"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const LabelPlacementOutsideLeft: Story = {
@@ -285,6 +443,27 @@ export const LabelPlacementOutsideLeft: Story = {
     setup() { return { args } },
     template: '<div style="max-width:560px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:560px">
+    <Textarea
+      variant="bordered"
+      label="Bio"
+      label-placement="outside-left"
+      placeholder="Tell us about yourself…"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const LabelPlacementMatrix: Story = {
@@ -322,6 +501,35 @@ export const LabelPlacementMatrix: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:32px;max-width:560px">
+    <!-- Inside (default) -->
+    <Textarea variant="flat" label="Notes" placeholder="Jot something down" />
+    <Textarea variant="bordered" label="Bio" placeholder="About you" />
+    <Textarea variant="underlined" label="Comments" placeholder="Any feedback?" />
+
+    <!-- Outside -->
+    <Textarea variant="flat" label-placement="outside" label="Notes" placeholder="Jot something down" />
+    <Textarea variant="bordered" label-placement="outside" label="Bio" placeholder="About you" />
+    <Textarea variant="underlined" label-placement="outside" label="Comments" placeholder="Any feedback?" />
+
+    <!-- Outside-left -->
+    <Textarea variant="flat" label-placement="outside-left" label="Notes" placeholder="Jot something down" />
+    <Textarea variant="bordered" label-placement="outside-left" label="Bio" placeholder="About you" />
+    <Textarea variant="underlined" label-placement="outside-left" label="Comments" placeholder="Any feedback?" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── description / errorMessage / isRequired ────────────────────────── */
@@ -339,6 +547,28 @@ export const WithDescription: Story = {
     setup() { return { args } },
     template: '<div style="max-width:420px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:420px">
+    <Textarea
+      variant="bordered"
+      label="Bio"
+      label-placement="outside"
+      placeholder="Tell us about yourself…"
+      description="Max 500 characters. Shown publicly on your profile."
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithErrorMessage: Story = {
@@ -355,6 +585,29 @@ export const WithErrorMessage: Story = {
     setup() { return { args } },
     template: '<div style="max-width:420px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:420px">
+    <Textarea
+      variant="bordered"
+      label="Feedback"
+      label-placement="outside"
+      placeholder="Describe the issue…"
+      :is-invalid="true"
+      error-message="Please provide at least 20 characters."
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const ErrorSupersedesDescription: Story = {
@@ -373,6 +626,30 @@ export const ErrorSupersedesDescription: Story = {
     setup() { return { args } },
     template: '<div style="max-width:420px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:420px">
+    <Textarea
+      variant="bordered"
+      label="Review"
+      label-placement="outside"
+      placeholder="Your review…"
+      description="Reviews help other customers decide."
+      error-message="Review cannot be empty."
+      :is-invalid="true"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Required: Story = {
@@ -389,6 +666,29 @@ export const Required: Story = {
     setup() { return { args } },
     template: '<div style="max-width:420px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:420px">
+    <Textarea
+      variant="bordered"
+      label="Summary"
+      label-placement="outside"
+      placeholder="One-paragraph summary"
+      :is-required="true"
+      description="Required field — asterisk is rendered next to the label."
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const RequiredAcrossPlacements: Story = {
@@ -403,6 +703,24 @@ export const RequiredAcrossPlacements: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:560px">
+    <Textarea variant="bordered" label="Inside" :is-required="true" placeholder="Required inside" />
+    <Textarea variant="bordered" label="Outside" label-placement="outside" :is-required="true" placeholder="Required outside" />
+    <Textarea variant="bordered" label="Outside-left" label-placement="outside-left" :is-required="true" placeholder="Required outside-left" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── State primitives ─────────────────────────────────────────────── */
@@ -421,6 +739,29 @@ export const Invalid: Story = {
     setup() { return { args } },
     template: '<div style="max-width:400px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      label="Comments"
+      label-placement="outside"
+      :is-invalid="true"
+      error-message="This field has an error."
+      placeholder="Your comments…"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -433,6 +774,25 @@ export const Disabled: Story = {
     setup() { return { args } },
     template: '<Textarea v-bind="args" placeholder="Disabled textarea" aria-label="Disabled textarea" style="max-width:400px" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <Textarea
+    variant="bordered"
+    :is-disabled="true"
+    placeholder="Disabled textarea"
+    style="max-width:400px"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Readonly: Story = {
@@ -445,6 +805,25 @@ export const Readonly: Story = {
     setup() { return { args } },
     template: '<Textarea v-bind="args" modelValue="This content is read-only and cannot be edited." aria-label="Readonly textarea" style="max-width:400px" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <Textarea
+    variant="bordered"
+    :is-readonly="true"
+    model-value="This content is read-only and cannot be edited."
+    style="max-width:400px"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const FullWidth: Story = {
@@ -459,6 +838,26 @@ export const FullWidth: Story = {
     setup() { return { args } },
     template: '<Textarea v-bind="args" placeholder="Takes the entire available width" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <Textarea
+    variant="bordered"
+    :full-width="true"
+    label="Full width"
+    label-placement="outside"
+    placeholder="Takes the entire available width"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── Clearable ──────────────────────────────────────────────────────── */
@@ -479,6 +878,33 @@ export const Clearable: Story = {
     },
     template: '<div style="max-width:400px"><Textarea v-bind="args" v-model="model" @clear="() => console.log(\'cleared\')" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Textarea } from '@auronui/vue'
+
+const message = ref('Hello world — this textarea has a clear button.')
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      label="Message"
+      label-placement="outside"
+      placeholder="Type your message…"
+      :is-clearable="true"
+      v-model="message"
+      @clear="message = ''"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const ClearableEmpty: Story = {
@@ -496,6 +922,29 @@ export const ClearableEmpty: Story = {
     setup() { return { args } },
     template: '<div style="max-width:400px"><Textarea v-bind="args" /></div>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      label="Notes"
+      label-placement="outside"
+      placeholder="Type something…"
+      :is-clearable="true"
+      description="Clear button appears only when the textarea has content."
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const ClearableSizes: Story = {
@@ -515,6 +964,29 @@ export const ClearableSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Textarea } from '@auronui/vue'
+
+const sm = ref('small value')
+const md = ref('medium value')
+const lg = ref('large value')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:400px">
+    <Textarea size="sm" variant="bordered" label="Small" label-placement="outside" :is-clearable="true" v-model="sm" />
+    <Textarea size="md" variant="bordered" label="Medium" label-placement="outside" :is-clearable="true" v-model="md" />
+    <Textarea size="lg" variant="bordered" label="Large" label-placement="outside" :is-clearable="true" v-model="lg" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── autoResize / rows ──────────────────────────────────────────────── */
@@ -539,6 +1011,27 @@ export const AutoResize: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea
+      variant="bordered"
+      :full-width="true"
+      :auto-resize="true"
+      placeholder="Start typing here to see auto-resize in action..."
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Rows: Story = {
@@ -553,6 +1046,24 @@ export const Rows: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:400px">
+    <Textarea variant="bordered" :rows="2" placeholder="rows=2" />
+    <Textarea variant="bordered" :rows="4" placeholder="rows=4 (default is 3)" />
+    <Textarea variant="bordered" :rows="8" placeholder="rows=8" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── Icons (start/end content slots) ────────────────────────────────── */
@@ -575,6 +1086,29 @@ export const WithStartIcon: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea variant="bordered" placeholder="Leave a note…">
+      <template #startContent>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </template>
+    </Textarea>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithEndIcon: Story = {
@@ -594,6 +1128,28 @@ export const WithEndIcon: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea variant="bordered" placeholder="Type to confirm…">
+      <template #endContent>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </template>
+    </Textarea>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithBothIcons: Story = {
@@ -619,6 +1175,34 @@ export const WithBothIcons: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea variant="bordered" placeholder="Rich note…">
+      <template #startContent>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </template>
+      <template #endContent>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <polyline points="20 6 9 17 4 12"/>
+        </svg>
+      </template>
+    </Textarea>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithLabelInsideAndIcons: Story = {
@@ -643,6 +1227,29 @@ export const WithLabelInsideAndIcons: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Textarea variant="bordered" size="sm" label="Note">
+      <template #startContent>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+          <polyline points="14 2 14 8 20 8"/>
+        </svg>
+      </template>
+    </Textarea>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 /* ─── Matrix / showcase ─────────────────────────────────────────────── */
@@ -676,6 +1283,32 @@ export const LabelStatesMatrix: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <!-- label inside -->
+  <Textarea variant="bordered" label="Bio" />
+  <Textarea variant="bordered" label="Bio" model-value="Short bio here" />
+  <Textarea variant="bordered" label="Bio" :is-invalid="true" />
+  <Textarea variant="bordered" label="Bio" :is-disabled="true" />
+  <Textarea variant="bordered" label="Bio" :is-readonly="true" model-value="read-only" />
+
+  <!-- label outside -->
+  <Textarea variant="bordered" label-placement="outside" label="Bio" placeholder="About you" />
+  <Textarea variant="bordered" label-placement="outside" label="Bio" model-value="Short bio here" />
+  <Textarea variant="bordered" label-placement="outside" label="Bio" :is-invalid="true" error-message="Invalid" />
+  <Textarea variant="bordered" label-placement="outside" label="Bio" :is-disabled="true" />
+  <Textarea variant="bordered" label-placement="outside" label="Bio" :is-readonly="true" model-value="read-only" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const FormFieldShowcase: Story = {
@@ -714,6 +1347,44 @@ export const FormFieldShowcase: Story = {
       </form>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <form style="display:flex;flex-direction:column;gap:20px;max-width:440px" @submit.prevent>
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Bio"
+      placeholder="Tell us about yourself…"
+      :is-required="true"
+      description="Max 500 characters. Shown publicly on your profile."
+    />
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Shipping notes"
+      placeholder="Any special delivery instructions?"
+      :is-clearable="true"
+      :rows="4"
+    />
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Feedback"
+      :is-invalid="true"
+      error-message="Please provide at least 20 characters."
+    />
+  </form>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const AllStates: Story = {
@@ -766,6 +1437,57 @@ export const AllStates: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:420px">
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Normal"
+      placeholder="Normal state"
+      description="Everything is fine."
+    />
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Disabled"
+      :is-disabled="true"
+      placeholder="Disabled textarea"
+    />
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Readonly"
+      :is-readonly="true"
+      model-value="Read only value"
+    />
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Invalid"
+      :is-invalid="true"
+      placeholder="Invalid textarea"
+      error-message="This field has an error."
+    />
+    <Textarea
+      variant="bordered"
+      label-placement="outside"
+      label="Required"
+      :is-required="true"
+      placeholder="A required field"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomStyles: Story = {
@@ -794,4 +1516,32 @@ export const CustomStyles: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Textarea } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="max-width:420px">
+    <Textarea
+      variant="bordered"
+      label="Bio"
+      label-placement="outside"
+      placeholder="Tell us about yourself…"
+      description="You can customize each slot with Tailwind classes."
+      :class-names="{
+        inputWrapper: 'border-2 border-blue-500 rounded-lg',
+        label: 'text-blue-600 font-semibold',
+        input: 'text-base italic bg-blue-50',
+        description: 'text-blue-700 font-medium',
+      }"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

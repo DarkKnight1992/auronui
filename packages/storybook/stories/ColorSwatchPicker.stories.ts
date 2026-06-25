@@ -41,10 +41,12 @@ export const Default: Story = {
       source: {
         code: `<script setup>
 import { ColorSwatchPicker } from '@auronui/vue'
+
+const colors = ['#ff0000', '#ff6b00', '#ffcc00', '#00cc44', '#0066ff', '#aa00ff']
 </script>
 
 <template>
-  <ColorSwatchPicker aria-label="Color palette" />
+  <ColorSwatchPicker :colors="colors" layout="grid" size="md" variant="circle" aria-label="Color palette" />
 </template>`,
         type: 'code',
         language: 'vue',
@@ -60,6 +62,22 @@ import { ColorSwatchPicker } from '@auronui/vue'
 
 export const PastelPalette: Story = {
   name: 'Pastel Palette',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatchPicker } from '@auronui/vue'
+
+const colors = ['#ffb3ba', '#ffdfba', '#ffffba', '#baffc9', '#bae1ff', '#e8baff']
+</script>
+
+<template>
+  <ColorSwatchPicker :colors="colors" aria-label="Pastel colors" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatchPicker },
     setup() { return { args, colors: pastelPalette } },
@@ -69,6 +87,22 @@ export const PastelPalette: Story = {
 
 export const NeutralPalette: Story = {
   name: 'Neutral / Grayscale',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatchPicker } from '@auronui/vue'
+
+const colors = ['#ffffff', '#d4d4d4', '#a3a3a3', '#737373', '#404040', '#000000']
+</script>
+
+<template>
+  <ColorSwatchPicker :colors="colors" variant="square" aria-label="Neutral colors" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatchPicker },
     setup() { return { args, colors: neutralPalette } },
@@ -78,6 +112,22 @@ export const NeutralPalette: Story = {
 
 export const WithSelection: Story = {
   name: 'With Pre-selected',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatchPicker } from '@auronui/vue'
+
+const colors = ['#ff0000', '#ff6b00', '#ffcc00', '#00cc44', '#0066ff', '#aa00ff']
+</script>
+
+<template>
+  <ColorSwatchPicker :colors="colors" defaultValue="#00cc44" aria-label="Color palette with selection" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatchPicker },
     setup() { return { args, colors: defaultPalette } },
@@ -87,6 +137,22 @@ export const WithSelection: Story = {
 
 export const SquareVariant: Story = {
   name: 'Square Swatches',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatchPicker } from '@auronui/vue'
+
+const colors = ['#ff0000', '#ff6b00', '#ffcc00', '#00cc44', '#0066ff', '#aa00ff']
+</script>
+
+<template>
+  <ColorSwatchPicker :colors="colors" variant="square" aria-label="Square color swatches" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatchPicker },
     setup() { return { args, colors: defaultPalette } },

@@ -168,6 +168,61 @@ const expanded = ref(['src'])
 
 export const SingleSelection: Story = {
   args: { size: 'md', multiple: false },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Tree, TreeItem, TreeItemToggle } from '@auronui/vue'
+
+const fileTree = [
+  {
+    id: 'src',
+    label: 'src',
+    icon: 'folder',
+    children: [
+      { id: 'components', label: 'components', icon: 'folder', children: [
+        { id: 'button.vue', label: 'Button.vue', icon: 'file' },
+        { id: 'input.vue', label: 'Input.vue', icon: 'file' },
+      ]},
+      { id: 'main.ts', label: 'main.ts', icon: 'file' },
+    ],
+  },
+  { id: 'package.json', label: 'package.json', icon: 'config' },
+]
+
+const selected = ref(null)
+</script>
+
+<template>
+  <Tree
+    size="md"
+    :multiple="false"
+    :items="fileTree"
+    :get-key="(item) => item.id"
+    :get-children="(item) => item.children"
+    v-model="selected"
+    :default-expanded="['src']"
+  >
+    <template #default="{ flattenItems }">
+      <TreeItem
+        v-for="item in flattenItems"
+        :key="item._id"
+        v-bind="item.bind"
+      >
+        <template #default="{ isExpanded, hasChildren, toggleClass }">
+          <TreeItemToggle :is-expanded="isExpanded" :has-children="hasChildren" :class="toggleClass" />
+          <span>{{ item.value.label }}</span>
+        </template>
+      </TreeItem>
+    </template>
+  </Tree>
+  <p>Selected: {{ selected?.label ?? 'none' }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tree, TreeItem, TreeItemToggle },
     setup() {
@@ -208,6 +263,61 @@ export const SingleSelection: Story = {
 
 export const MultiSelection: Story = {
   args: { size: 'md', multiple: true },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Tree, TreeItem, TreeItemToggle } from '@auronui/vue'
+
+const fileTree = [
+  {
+    id: 'src',
+    label: 'src',
+    icon: 'folder',
+    children: [
+      { id: 'components', label: 'components', icon: 'folder', children: [
+        { id: 'button.vue', label: 'Button.vue', icon: 'file' },
+        { id: 'input.vue', label: 'Input.vue', icon: 'file' },
+      ]},
+      { id: 'main.ts', label: 'main.ts', icon: 'file' },
+    ],
+  },
+  { id: 'package.json', label: 'package.json', icon: 'config' },
+]
+
+const selected = ref([])
+</script>
+
+<template>
+  <Tree
+    size="md"
+    :multiple="true"
+    :items="fileTree"
+    :get-key="(item) => item.id"
+    :get-children="(item) => item.children"
+    v-model="selected"
+    :default-expanded="['src', 'components']"
+  >
+    <template #default="{ flattenItems }">
+      <TreeItem
+        v-for="item in flattenItems"
+        :key="item._id"
+        v-bind="item.bind"
+      >
+        <template #default="{ isExpanded, hasChildren, toggleClass }">
+          <TreeItemToggle :is-expanded="isExpanded" :has-children="hasChildren" :class="toggleClass" />
+          <span>{{ item.value.label }}</span>
+        </template>
+      </TreeItem>
+    </template>
+  </Tree>
+  <p>Selected: {{ selected.map(i => i.label).join(', ') || 'none' }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tree, TreeItem, TreeItemToggle },
     setup() {
@@ -247,6 +357,56 @@ export const MultiSelection: Story = {
 }
 
 export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tree, TreeItem, TreeItemToggle } from '@auronui/vue'
+
+const simpleTree = [
+  {
+    id: 'root',
+    label: 'project',
+    icon: 'folder',
+    children: [
+      { id: 'index', label: 'index.ts', icon: 'file' },
+      { id: 'config', label: 'config.ts', icon: 'config' },
+    ],
+  },
+]
+</script>
+
+<template>
+  <div style="display:flex;gap:32px;align-items:flex-start;">
+    <div v-for="size in ['sm', 'md', 'lg']" :key="size">
+      <p style="font-size:12px;color:#64748b;margin-bottom:8px;">size="{{ size }}"</p>
+      <Tree
+        :size="size"
+        :items="simpleTree"
+        :get-key="(item) => item.id"
+        :get-children="(item) => item.children"
+        :default-expanded="['root']"
+      >
+        <template #default="{ flattenItems }">
+          <TreeItem
+            v-for="item in flattenItems"
+            :key="item._id"
+            v-bind="item.bind"
+          >
+            <template #default="{ isExpanded, hasChildren, toggleClass }">
+              <TreeItemToggle :is-expanded="isExpanded" :has-children="hasChildren" :class="toggleClass" />
+              <span>{{ item.value.label }}</span>
+            </template>
+          </TreeItem>
+        </template>
+      </Tree>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: () => ({
     components: { Tree, TreeItem, TreeItemToggle },
     setup() {
@@ -296,6 +456,62 @@ export const Sizes: Story = {
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tree, TreeItem, TreeItemToggle } from '@auronui/vue'
+
+const simpleTree = [
+  {
+    id: 'root',
+    label: 'project',
+    icon: 'folder',
+    children: [
+      { id: 'index', label: 'index.ts', icon: 'file' },
+      { id: 'config', label: 'config.ts', icon: 'config' },
+    ],
+  },
+]
+</script>
+
+<template>
+  <Tree
+    :items="simpleTree"
+    :get-key="(item) => item.id"
+    :get-children="(item) => item.children"
+    :default-expanded="['root']"
+    :class-names="{
+      root: 'border-2 border-blue-500 rounded-lg p-2 bg-blue-50',
+    }"
+  >
+    <template #default="{ flattenItems }">
+      <TreeItem
+        v-for="item in flattenItems"
+        :key="item._id"
+        v-bind="item.bind"
+        :class-names="{
+          item: 'hover:bg-blue-100 rounded-md transition-colors',
+          itemContent: 'font-semibold text-blue-900',
+        }"
+      >
+        <template #default="{ isExpanded, hasChildren, toggleClass }">
+          <TreeItemToggle
+            :is-expanded="isExpanded"
+            :has-children="hasChildren"
+            :class="toggleClass"
+            :class-names="{ itemToggle: 'text-blue-600' }"
+          />
+          <span>{{ item.value.label }}</span>
+        </template>
+      </TreeItem>
+    </template>
+  </Tree>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: () => ({
     components: { Tree, TreeItem, TreeItemToggle },
     setup() {

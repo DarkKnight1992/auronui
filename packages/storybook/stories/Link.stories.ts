@@ -40,6 +40,22 @@ import { Link } from '@auronui/vue'
 }
 
 export const ExternalLink: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <Link href="https://github.com/auron-inc/auron" :isExternal="true">
+    View on GitHub
+  </Link>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Link },
     setup() { return { args } },
@@ -52,6 +68,27 @@ export const ExternalLink: Story = {
 }
 
 export const AllColorVariants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-wrap:wrap;gap:16px">
+    <Link href="#" color="default">Default</Link>
+    <Link href="#" color="primary">Primary</Link>
+    <Link href="#" color="success">Success</Link>
+    <Link href="#" color="warning">Warning</Link>
+    <Link href="#" color="danger">Danger</Link>
+    <Link href="#" color="foreground">Foreground</Link>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Link },
     setup() { return { args } },
@@ -69,6 +106,26 @@ export const AllColorVariants: Story = {
 }
 
 export const UnderlineVariants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-wrap:wrap;gap:16px">
+    <Link href="#" class="link--underline-none">No underline</Link>
+    <Link href="#" class="link--underline-hover">Underline on hover</Link>
+    <Link href="#" class="link--underline-always">Always underline</Link>
+    <Link href="#" class="link--underline-active">Underline when active</Link>
+    <Link href="#" class="link--underline-focus">Underline when focused</Link>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Link },
     setup() { return { args } },
@@ -85,6 +142,23 @@ export const UnderlineVariants: Story = {
 }
 
 export const PolymorphicAs: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;gap:16px">
+    <Link href="https://example.com">Native anchor</Link>
+    <Link as="button" type="button">As button element</Link>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Link },
     setup() { return { args } },
@@ -98,6 +172,20 @@ export const PolymorphicAs: Story = {
 }
 
 export const DisabledLink: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <Link href="https://example.com" :disabled="true">Disabled link</Link>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Link },
     setup() { return { args } },
@@ -107,6 +195,40 @@ export const DisabledLink: Story = {
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Link } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <Link
+      href="https://example.com"
+      :class-names="{ base: 'border-b-2 border-blue-500 text-blue-600 font-semibold hover:text-blue-700' }"
+    >
+      Custom blue border and text
+    </Link>
+    <Link
+      href="https://example.com"
+      :is-external="true"
+      :class-names="{ base: 'px-3 py-1 rounded-lg bg-amber-100 text-amber-900 hover:bg-amber-200', icon: 'text-amber-700' }"
+    >
+      With custom icon color
+    </Link>
+    <Link
+      href="https://example.com"
+      :class-names="{ base: 'underline decoration-2 decoration-emerald-500 hover:decoration-emerald-600' }"
+    >
+      Custom underline decoration
+    </Link>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Link },
     setup() { return { args } },

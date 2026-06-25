@@ -53,6 +53,20 @@ export const ExtraSmall: Story = {
     template: `<Text v-bind="args">Extra small text</Text>`,
   }),
   args: { size: "xs" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text size="xs">Extra small text</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Small: Story = {
@@ -62,6 +76,20 @@ export const Small: Story = {
     template: `<Text v-bind="args">Small text</Text>`,
   }),
   args: { size: "sm" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text size="sm">Small text</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Large: Story = {
@@ -71,6 +99,20 @@ export const Large: Story = {
     template: `<Text v-bind="args">Large text</Text>`,
   }),
   args: { size: "lg" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text size="lg">Large text</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const ExtraLarge: Story = {
@@ -80,6 +122,20 @@ export const ExtraLarge: Story = {
     template: `<Text v-bind="args">Extra large text</Text>`,
   }),
   args: { size: "xl" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text size="xl">Extra large text</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Muted: Story = {
@@ -89,6 +145,20 @@ export const Muted: Story = {
     template: `<Text v-bind="args">Muted text variant</Text>`,
   }),
   args: { variant: "muted" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text variant="muted">Muted text variant</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Accent: Story = {
@@ -98,6 +168,20 @@ export const Accent: Story = {
     template: `<Text v-bind="args">Accent text variant</Text>`,
   }),
   args: { variant: "accent" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text variant="accent">Accent text variant</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Danger: Story = {
@@ -107,6 +191,20 @@ export const Danger: Story = {
     template: `<Text v-bind="args">Danger text variant</Text>`,
   }),
   args: { variant: "danger" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text variant="danger">Danger text variant</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Success: Story = {
@@ -116,6 +214,20 @@ export const Success: Story = {
     template: `<Text v-bind="args">Success text variant</Text>`,
   }),
   args: { variant: "success" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text variant="success">Success text variant</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AsSpan: Story = {
@@ -125,4 +237,18 @@ export const AsSpan: Story = {
     template: `<Text v-bind="args">Rendered as a span element</Text>`,
   }),
   args: { as: "span" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Text } from '@auronui/vue'
+</script>
+
+<template>
+  <Text as="span">Rendered as a span element</Text>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

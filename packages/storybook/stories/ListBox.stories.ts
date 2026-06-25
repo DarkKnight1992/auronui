@@ -30,6 +30,8 @@ import { ListBox, ListBoxItem } from '@auronui/vue'
     <ListBoxItem value="apple">Apple</ListBoxItem>
     <ListBoxItem value="banana">Banana</ListBoxItem>
     <ListBoxItem value="cherry">Cherry</ListBoxItem>
+    <ListBoxItem value="date">Date</ListBoxItem>
+    <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
   </ListBox>
 </template>`,
         type: 'code',
@@ -53,6 +55,32 @@ import { ListBox, ListBoxItem } from '@auronui/vue'
 }
 
 export const SingleSelection: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem } from '@auronui/vue'
+
+const selected = ref('')
+</script>
+
+<template>
+  <div>
+    <p style="margin-bottom:8px;font-size:14px">Selected: {{ selected || 'none' }}</p>
+    <ListBox v-model="selected" aria-label="Select a fruit" selection-mode="single">
+      <ListBoxItem value="apple">Apple</ListBoxItem>
+      <ListBoxItem value="banana">Banana</ListBoxItem>
+      <ListBoxItem value="cherry">Cherry</ListBoxItem>
+      <ListBoxItem value="date">Date</ListBoxItem>
+      <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+    </ListBox>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem },
     setup() {
@@ -75,6 +103,32 @@ export const SingleSelection: Story = {
 }
 
 export const MultipleSelection: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem } from '@auronui/vue'
+
+const selected = ref(['apple', 'cherry'])
+</script>
+
+<template>
+  <div>
+    <p style="margin-bottom:8px;font-size:14px">Selected: {{ selected.join(', ') || 'none' }}</p>
+    <ListBox v-model="selected" aria-label="Select fruits" selection-mode="multiple">
+      <ListBoxItem value="apple">Apple</ListBoxItem>
+      <ListBoxItem value="banana">Banana</ListBoxItem>
+      <ListBoxItem value="cherry">Cherry</ListBoxItem>
+      <ListBoxItem value="date">Date</ListBoxItem>
+      <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+    </ListBox>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem },
     setup() {
@@ -97,6 +151,34 @@ export const MultipleSelection: Story = {
 }
 
 export const WithSections: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem, ListBoxSection } from '@auronui/vue'
+
+const selected = ref('')
+</script>
+
+<template>
+  <ListBox v-model="selected" aria-label="Select food" selection-mode="single">
+    <ListBoxSection title="Fruits">
+      <ListBoxItem value="apple">Apple</ListBoxItem>
+      <ListBoxItem value="banana">Banana</ListBoxItem>
+      <ListBoxItem value="cherry">Cherry</ListBoxItem>
+    </ListBoxSection>
+    <ListBoxSection title="Vegetables">
+      <ListBoxItem value="carrot">Carrot</ListBoxItem>
+      <ListBoxItem value="broccoli">Broccoli</ListBoxItem>
+      <ListBoxItem value="spinach">Spinach</ListBoxItem>
+    </ListBoxSection>
+  </ListBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem, ListBoxSection },
     setup() {
@@ -121,6 +203,29 @@ export const WithSections: Story = {
 }
 
 export const WithDisabledItems: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem } from '@auronui/vue'
+
+const selected = ref('')
+</script>
+
+<template>
+  <ListBox v-model="selected" aria-label="Select a fruit" selection-mode="single">
+    <ListBoxItem value="apple">Apple</ListBoxItem>
+    <ListBoxItem value="banana" :is-disabled="true">Banana (unavailable)</ListBoxItem>
+    <ListBoxItem value="cherry">Cherry</ListBoxItem>
+    <ListBoxItem value="date" :is-disabled="true">Date (unavailable)</ListBoxItem>
+    <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+  </ListBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem },
     setup() {
@@ -140,6 +245,24 @@ export const WithDisabledItems: Story = {
 }
 
 export const FullyDisabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ListBox, ListBoxItem } from '@auronui/vue'
+</script>
+
+<template>
+  <ListBox aria-label="Disabled list" :is-disabled="true" selection-mode="single">
+    <ListBoxItem value="apple">Apple</ListBoxItem>
+    <ListBoxItem value="banana">Banana</ListBoxItem>
+    <ListBoxItem value="cherry">Cherry</ListBoxItem>
+  </ListBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem },
     setup: () => ({ args }),
@@ -154,6 +277,36 @@ export const FullyDisabled: Story = {
 }
 
 export const WithDividers: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem, ListBoxSection } from '@auronui/vue'
+
+const selected = ref('')
+</script>
+
+<template>
+  <ListBox v-model="selected" aria-label="Select food" selection-mode="single">
+    <ListBoxSection title="Fruits" :show-divider="true">
+      <ListBoxItem value="apple">Apple</ListBoxItem>
+      <ListBoxItem value="banana">Banana</ListBoxItem>
+    </ListBoxSection>
+    <ListBoxSection title="Vegetables" :show-divider="true">
+      <ListBoxItem value="carrot">Carrot</ListBoxItem>
+      <ListBoxItem value="broccoli">Broccoli</ListBoxItem>
+    </ListBoxSection>
+    <ListBoxSection title="Grains">
+      <ListBoxItem value="rice">Rice</ListBoxItem>
+      <ListBoxItem value="wheat">Wheat</ListBoxItem>
+    </ListBoxSection>
+  </ListBox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem, ListBoxSection },
     setup() {
@@ -181,6 +334,39 @@ export const WithDividers: Story = {
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem } from '@auronui/vue'
+
+const selected = ref('')
+</script>
+
+<template>
+  <div>
+    <p style="margin-bottom:8px;font-size:14px">Selected: {{ selected || 'none' }}</p>
+    <ListBox
+      v-model="selected"
+      aria-label="Select a fruit"
+      selection-mode="single"
+      :class-names="{
+        base: 'border-2 border-blue-500 rounded-lg bg-blue-50 shadow-md',
+      }"
+    >
+      <ListBoxItem value="apple">Apple</ListBoxItem>
+      <ListBoxItem value="banana">Banana</ListBoxItem>
+      <ListBoxItem value="cherry">Cherry</ListBoxItem>
+      <ListBoxItem value="date">Date</ListBoxItem>
+      <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+    </ListBox>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ListBox, ListBoxItem },
     setup() {

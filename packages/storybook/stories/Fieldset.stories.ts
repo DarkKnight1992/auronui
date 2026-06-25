@@ -14,7 +14,7 @@ const meta: Meta<typeof Fieldset> = {
 export default meta;
 type Story = StoryObj<typeof Fieldset>;
 
-/** 
+/**
  * Default fieldset with a legend and slot content showing labeled inputs.
  */
 export const Default: Story = {
@@ -56,6 +56,24 @@ import { Fieldset, Input } from '@auronui/vue'
 
 /** Disabled fieldset — all contained controls are disabled. */
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Fieldset, Input } from '@auronui/vue'
+</script>
+
+<template>
+  <Fieldset legend="Account Settings" :disabled="true">
+    <Input label="First Name" placeholder="Jane" variant="bordered" />
+    <Input label="Email" placeholder="john@example.com" variant="bordered" />
+    <p>(All controls inside are natively disabled)</p>
+  </Fieldset>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Fieldset, Input },
     setup() { return { args } },
@@ -77,6 +95,25 @@ export const Disabled: Story = {
 
 /** Fieldset without a legend — useful for structural grouping only. */
 export const WithoutLegend: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Fieldset, Input } from '@auronui/vue'
+</script>
+
+<template>
+  <Fieldset>
+    <div style="display: flex; gap: 12px;">
+      <Input label="City" placeholder="New York" variant="bordered" />
+      <Input label="ZIP" placeholder="10001" variant="bordered" />
+    </div>
+  </Fieldset>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Fieldset, Input },
     setup() { return { args } },
@@ -100,6 +137,22 @@ export const WithCustomClass: Story = {
   args: {
     legend: "Custom Styled",
     class: "my-fieldset",
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Fieldset, Input } from '@auronui/vue'
+</script>
+
+<template>
+  <Fieldset legend="Custom Styled" class="my-fieldset">
+    <Input label="Custom Field" placeholder="Custom fieldset" variant="bordered" />
+  </Fieldset>
+</template>`,
+        language: 'vue',
+      },
+    },
   },
   render: (args) => ({
     components: { Fieldset, Input },

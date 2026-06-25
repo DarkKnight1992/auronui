@@ -54,4 +54,18 @@ export const WithLabel: Story = {
     template: `<Separator v-bind="args"><template #default>OR</template></Separator>`,
   }),
   args: { orientation: "horizontal" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Separator } from '@auronui/vue'
+</script>
+
+<template>
+  <Separator orientation="horizontal">OR</Separator>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

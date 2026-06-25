@@ -52,6 +52,24 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;align-items:center;gap:8px">
+    <CloseButton size="sm" />
+    <CloseButton size="md" />
+    <CloseButton size="lg" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const DisabledState: Story = {
@@ -60,6 +78,20 @@ export const DisabledState: Story = {
     setup: () => ({ args }),
     template: '<CloseButton v-bind="args" :disabled="true" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <CloseButton :disabled="true" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomAriaLabel: Story = {
@@ -68,6 +100,20 @@ export const CustomAriaLabel: Story = {
     setup: () => ({ args }),
     template: '<CloseButton v-bind="args" ariaLabel="Dismiss notification" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <CloseButton ariaLabel="Dismiss notification" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const InButtonGroup: Story = {
@@ -89,4 +135,29 @@ export const InButtonGroup: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Button, CloseButton, ButtonGroup } from '@auronui/vue'
+
+const disabled = ref(false)
+</script>
+
+<template>
+  <div>
+    <Button variant="flat" style="margin-bottom:16px" @click="disabled = !disabled">
+      Toggle Group Disabled
+    </Button>
+    <ButtonGroup :disabled="disabled">
+      <CloseButton ariaLabel="Close first" />
+      <CloseButton ariaLabel="Close second" />
+    </ButtonGroup>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

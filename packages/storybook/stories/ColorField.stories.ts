@@ -54,6 +54,20 @@ export const WithLabel: Story = {
     setup: () => ({ args }),
     template: '<ColorField v-bind="args" defaultValue="#0066ff" label="Background color" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorField } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorField defaultValue="#0066ff" label="Background color" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithDescription: Story = {
@@ -63,6 +77,20 @@ export const WithDescription: Story = {
     setup: () => ({ args }),
     template: '<ColorField v-bind="args" defaultValue="#00cc44" label="Accent color" description="Enter a hex, hsl, or rgb color value" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorField } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorField defaultValue="#00cc44" label="Accent color" description="Enter a hex, hsl, or rgb color value" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithError: Story = {
@@ -72,6 +100,20 @@ export const WithError: Story = {
     setup: () => ({ args }),
     template: '<ColorField v-bind="args" defaultValue="#ff0000" label="Color" errorMessage="Please enter a valid color" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorField } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorField defaultValue="#ff0000" label="Color" errorMessage="Please enter a valid color" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -81,6 +123,20 @@ export const Disabled: Story = {
     setup: () => ({ args }),
     template: '<ColorField v-bind="args" defaultValue="#888888" label="Color (disabled)" :disabled="true" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorField } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorField defaultValue="#888888" label="Color (disabled)" :disabled="true" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Readonly: Story = {
@@ -90,4 +146,18 @@ export const Readonly: Story = {
     setup: () => ({ args }),
     template: '<ColorField v-bind="args" defaultValue="#ff6b00" label="Fixed color" :readonly="true" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorField } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorField defaultValue="#ff6b00" label="Fixed color" :readonly="true" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

@@ -77,6 +77,23 @@ export const WithStepMinMax: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <NumberField label="Count (min=10, max=50, step=5)" :min="10" :max="50" :step="5" :model-value="10" />
+    <NumberField label="Percentage (0-100)" :min="0" :max="100" :step="1" :model-value="50" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Currency: Story = {
@@ -93,6 +110,24 @@ export const Currency: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField
+    label="Price"
+    :format-options="{ style: 'currency', currency: 'USD' }"
+    :model-value="1000"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Percentage: Story = {
@@ -110,6 +145,25 @@ export const Percentage: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField
+    label="Percentage"
+    :format-options="{ style: 'percent', maximumFractionDigits: 0 }"
+    :model-value="0.42"
+    :step="0.01"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Variants: Story = {
@@ -127,6 +181,26 @@ export const Variants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <NumberField label="Flat (default)" variant="flat" />
+    <NumberField label="Bordered" variant="bordered" />
+    <NumberField label="Faded" variant="faded" />
+    <NumberField label="Underlined" variant="underlined" />
+    <NumberField label="Raised" variant="raised" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Sizes: Story = {
@@ -142,6 +216,24 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <NumberField label="Small" size="sm" />
+    <NumberField label="Medium (default)" size="md" />
+    <NumberField label="Large" size="lg" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Colors: Story = {
@@ -160,6 +252,27 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <NumberField label="Default" color="default" />
+    <NumberField label="Primary" color="primary" />
+    <NumberField label="Secondary" color="secondary" />
+    <NumberField label="Success" color="success" />
+    <NumberField label="Warning" color="warning" />
+    <NumberField label="Danger" color="danger" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Invalid: Story = {
@@ -174,6 +287,23 @@ export const Invalid: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <NumberField label="Invalid Flat" :is-invalid="true" />
+    <NumberField label="Invalid Bordered" variant="bordered" :is-invalid="true" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -188,6 +318,23 @@ export const Disabled: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <NumberField label="Disabled (no value)" :is-disabled="true" />
+    <NumberField label="Disabled (with value)" :is-disabled="true" :model-value="42" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Readonly: Story = {
@@ -197,6 +344,20 @@ export const Readonly: Story = {
     setup() { return { args } },
     template: '<NumberField v-bind="args" label="Readonly Field" :is-readonly="true" :model-value="100" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField label="Readonly Field" :is-readonly="true" :model-value="100" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const FullWidth: Story = {
@@ -206,6 +367,20 @@ export const FullWidth: Story = {
     setup() { return { args } },
     template: '<NumberField v-bind="args" label="Full Width Field" :full-width="true" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField label="Full Width Field" :full-width="true" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithAriaLabel: Story = {
@@ -215,6 +390,20 @@ export const WithAriaLabel: Story = {
     setup() { return { args } },
     template: '<NumberField v-bind="args" aria-label="Quantity" :step="1" :min="0" :max="100" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField aria-label="Quantity" :step="1" :min="0" :max="100" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomStyles: Story = {
@@ -237,4 +426,28 @@ export const CustomStyles: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { NumberField } from '@auronui/vue'
+</script>
+
+<template>
+  <NumberField
+    label="Price with Custom Styles"
+    :model-value="99"
+    :class-names="{
+      base: 'border-2 border-blue-500 rounded-lg p-4',
+      group: 'gap-3',
+      input: 'text-blue-600 font-semibold text-lg',
+      incrementButton: 'bg-green-100 hover:bg-green-200 text-green-700 rounded-md',
+      decrementButton: 'bg-red-100 hover:bg-red-200 text-red-700 rounded-md',
+    }"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

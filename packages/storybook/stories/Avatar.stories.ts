@@ -86,6 +86,24 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 12px; align-items: center;">
+    <Avatar size="sm" name="SM" />
+    <Avatar size="md" name="MD" />
+    <Avatar size="lg" name="LG" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Colors: Story = {
@@ -102,6 +120,26 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <Avatar color="default" name="DF" />
+    <Avatar color="accent" name="AC" />
+    <Avatar color="success" name="SC" />
+    <Avatar color="warning" name="WA" />
+    <Avatar color="danger" name="DG" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const SoftVariant: Story = {
@@ -117,6 +155,25 @@ export const SoftVariant: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <Avatar variant="soft" color="accent" name="AC" />
+    <Avatar variant="soft" color="success" name="SC" />
+    <Avatar variant="soft" color="warning" name="WA" />
+    <Avatar variant="soft" color="danger" name="DG" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Bordered: Story = {
@@ -153,6 +210,24 @@ export const CustomFallback: Story = {
       </Avatar>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Avatar>
+    <template #fallback>
+      <span style="font-size: 1.25rem;">🎭</span>
+    </template>
+  </Avatar>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -174,4 +249,25 @@ export const CustomStyles: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <Avatar
+    name="Alex Rivera"
+    size="lg"
+    :class-names="{
+      base: 'ring-4 ring-blue-500 shadow-lg',
+      fallback: 'bg-gradient-to-br from-blue-600 to-blue-700 text-white font-bold',
+    }"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

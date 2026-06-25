@@ -42,9 +42,8 @@ import { ColorInputGroup } from '@auronui/vue'
 </script>
 
 <template>
-  <ColorInputGroup />
+  <ColorInputGroup default-value="#ff0000" suffix-label="HEX" />
 </template>`,
-        type: 'code',
         language: 'vue',
       }
     }
@@ -58,6 +57,20 @@ export const WithLabel: Story = {
     setup: () => ({ args }),
     template: '<ColorInputGroup v-bind="args" defaultValue="#0066ff" label="Background color" suffixLabel="HEX" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorInputGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorInputGroup default-value="#0066ff" label="Background color" suffix-label="HEX" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithDescription: Story = {
@@ -67,6 +80,25 @@ export const WithDescription: Story = {
     setup: () => ({ args }),
     template: '<ColorInputGroup v-bind="args" defaultValue="#00cc44" label="Accent color" description="Pick a color for accent elements" suffixLabel="HEX" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorInputGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorInputGroup
+    default-value="#00cc44"
+    label="Accent color"
+    description="Pick a color for accent elements"
+    suffix-label="HEX"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithError: Story = {
@@ -76,6 +108,25 @@ export const WithError: Story = {
     setup: () => ({ args }),
     template: '<ColorInputGroup v-bind="args" defaultValue="#ff0000" label="Color" errorMessage="Please enter a valid color" suffixLabel="HEX" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorInputGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorInputGroup
+    default-value="#ff0000"
+    label="Color"
+    error-message="Please enter a valid color"
+    suffix-label="HEX"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const FullWidth: Story = {
@@ -85,6 +136,25 @@ export const FullWidth: Story = {
     setup: () => ({ args }),
     template: '<ColorInputGroup v-bind="args" defaultValue="#aa00ff" label="Theme color" :fullWidth="true" suffixLabel="HEX" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorInputGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorInputGroup
+    default-value="#aa00ff"
+    label="Theme color"
+    :full-width="true"
+    suffix-label="HEX"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Secondary: Story = {
@@ -94,4 +164,23 @@ export const Secondary: Story = {
     setup: () => ({ args }),
     template: '<ColorInputGroup v-bind="args" defaultValue="#ff6b00" label="Border color" variant="secondary" suffixLabel="HEX" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorInputGroup } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorInputGroup
+    default-value="#ff6b00"
+    label="Border color"
+    variant="secondary"
+    suffix-label="HEX"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

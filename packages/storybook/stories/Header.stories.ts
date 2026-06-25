@@ -27,7 +27,6 @@ import { Header } from '@auronui/vue'
 <template>
   <Header>Section Heading</Header>
 </template>`,
-        type: 'code',
         language: 'vue',
       }
     }
@@ -40,6 +39,20 @@ import { Header } from '@auronui/vue'
 };
 
 export const H1: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Header } from '@auronui/vue'
+</script>
+
+<template>
+  <Header as="h1">Page Title (h1)</Header>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Header },
     setup: () => ({ args }),
@@ -49,6 +62,20 @@ export const H1: Story = {
 };
 
 export const H2: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Header } from '@auronui/vue'
+</script>
+
+<template>
+  <Header as="h2">Section Heading (h2)</Header>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Header },
     setup: () => ({ args }),
@@ -58,6 +85,20 @@ export const H2: Story = {
 };
 
 export const H3: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Header } from '@auronui/vue'
+</script>
+
+<template>
+  <Header as="h3">Subsection Heading (h3)</Header>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Header },
     setup: () => ({ args }),
@@ -67,6 +108,27 @@ export const H3: Story = {
 };
 
 export const AllLevels: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Header } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-1">
+    <Header as="h1">Heading Level 1</Header>
+    <Header as="h2">Heading Level 2</Header>
+    <Header as="h3">Heading Level 3</Header>
+    <Header as="h4">Heading Level 4</Header>
+    <Header as="h5">Heading Level 5</Header>
+    <Header as="h6">Heading Level 6</Header>
+  </div>
+</template>`,
+        language: 'vue',
+      }
+    }
+  },
   render: (args) => ({
     components: { Header },
     setup: () => ({ args }),

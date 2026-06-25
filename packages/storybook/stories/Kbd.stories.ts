@@ -41,6 +41,20 @@ import { Kbd } from '@auronui/vue'
 };
 
 export const Light: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Kbd } from '@auronui/vue'
+</script>
+
+<template>
+  <Kbd variant="light">⌘K</Kbd>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Kbd },
     setup: () => ({ args }),
@@ -50,6 +64,23 @@ export const Light: Story = {
 };
 
 export const WithAbbr: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Kbd } from '@auronui/vue'
+</script>
+
+<template>
+  <Kbd>
+    <template #abbr>Ctrl</template>
+    C
+  </Kbd>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Kbd },
     setup: () => ({ args }),
@@ -63,6 +94,29 @@ export const WithAbbr: Story = {
 };
 
 export const CommonShortcuts: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Kbd } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 8px; align-items: center; flex-wrap: wrap;">
+    <Kbd>⌘</Kbd>
+    <Kbd>⌥</Kbd>
+    <Kbd>⇧</Kbd>
+    <Kbd>⌃</Kbd>
+    <Kbd>⌫</Kbd>
+    <Kbd>↵</Kbd>
+    <Kbd>⎋</Kbd>
+    <Kbd>⇥</Kbd>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Kbd },
     setup: () => ({ args }),
@@ -82,6 +136,24 @@ export const CommonShortcuts: Story = {
 };
 
 export const LightVariantShowcase: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Kbd } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 8px; align-items: center;">
+    <Kbd variant="default">⌘K</Kbd>
+    <span style="font-size: 12px; color: #888;">vs</span>
+    <Kbd variant="light">⌘K</Kbd>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Kbd },
     setup: () => ({ args }),
@@ -97,6 +169,33 @@ export const LightVariantShowcase: Story = {
 
 export const CustomStyles: Story = {
   name: "Custom styles via classNames",
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Kbd } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 16px; align-items: center; flex-wrap: wrap;">
+    <Kbd :class-names="{
+      base: 'border-2 border-blue-500 bg-blue-50 rounded-lg',
+      content: 'text-blue-700 font-semibold',
+    }">⌘K</Kbd>
+    <Kbd :class-names="{
+      base: 'border-2 border-purple-500 bg-purple-50',
+      abbr: 'text-purple-600 font-bold',
+      content: 'text-purple-700',
+    }">
+      <template #abbr>Ctrl</template>
+      C
+    </Kbd>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Kbd },
     setup: () => ({ args }),

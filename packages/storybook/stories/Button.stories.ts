@@ -129,7 +129,7 @@ import { Button } from '@auronui/vue'
 </script>
 
 <template>
-  <Button variant="primary">Click me</Button>
+  <Button variant="solid" color="primary">Click me</Button>
 </template>`,
         type: 'code',
         language: 'vue',
@@ -160,6 +160,26 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    <Button size="sm" color="primary" variant="solid">Solid</Button>
+    <Button size="sm" color="primary" variant="soft">Soft</Button>
+    <Button size="sm" color="primary" variant="default">Default</Button>
+    <Button size="sm" color="primary" variant="bordered">Bordered</Button>
+    <Button size="sm" color="primary" variant="ghost">Ghost</Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AllColors: Story = {
@@ -184,6 +204,26 @@ export const AllColors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-wrap:wrap;gap:8px">
+    <Button size="sm" variant="solid" color="default">Default</Button>
+    <Button size="sm" variant="solid" color="primary">Primary</Button>
+    <Button size="sm" variant="solid" color="success">Success</Button>
+    <Button size="sm" variant="solid" color="warning">Warning</Button>
+    <Button size="sm" variant="solid" color="danger">Danger</Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AllSizes: Story = {
@@ -200,6 +240,24 @@ export const AllSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;align-items:center;gap:8px">
+    <Button size="sm">Small</Button>
+    <Button size="md">Medium</Button>
+    <Button size="lg">Large</Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Loading: Story = {
@@ -216,6 +274,24 @@ export const Loading: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;gap:8px">
+    <Button :isLoading="true" size="sm">Loading</Button>
+    <Button :isLoading="true" size="md">Loading</Button>
+    <Button :isLoading="true" size="lg">Loading</Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const DisabledState: Story = {
@@ -231,6 +307,23 @@ export const DisabledState: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;gap:8px">
+    <Button :disabled="true" variant="solid">Disabled Solid</Button>
+    <Button :disabled="true" variant="bordered">Disabled Bordered</Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const FullWidth: Story = {
@@ -241,6 +334,20 @@ export const FullWidth: Story = {
     },
     template: '<Button v-bind="args" :fullWidth="true">Full Width Button</Button>',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <Button :fullWidth="true">Full Width Button</Button>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithContentSlots: Story = {
@@ -262,6 +369,29 @@ export const WithContentSlots: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;gap:8px">
+    <Button>
+      <template #startContent><span>★</span></template>
+      With Icon
+    </Button>
+    <Button>
+      With Icon
+      <template #endContent><span>→</span></template>
+    </Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AllRadii: Story = {
@@ -280,6 +410,26 @@ export const AllRadii: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-wrap:wrap;align-items:center;gap:8px">
+    <Button radius="none">None</Button>
+    <Button radius="sm">Small</Button>
+    <Button radius="md">Medium</Button>
+    <Button radius="lg">Large</Button>
+    <Button radius="full">Full</Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -315,4 +465,38 @@ export const CustomStyles: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;gap:16px">
+    <Button
+      :class-names="{
+        base: 'border-2 border-blue-500 rounded-xl',
+        label: 'text-blue-700 font-semibold',
+        startContent: 'text-blue-600',
+      }"
+    >
+      <template #startContent>★</template>
+      Custom Styled
+    </Button>
+    <Button
+      variant="bordered"
+      :class-names="{
+        base: 'border-2 border-emerald-400 bg-emerald-50',
+        label: 'text-emerald-700 font-bold',
+      }"
+    >
+      Success Theme
+    </Button>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

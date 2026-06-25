@@ -38,7 +38,6 @@ import { Alert } from '@auronui/vue'
 <template>
   <Alert severity="default">This is a default alert message.</Alert>
 </template>`,
-        type: 'code',
         language: 'vue',
       },
     },
@@ -74,6 +73,41 @@ export const AllSeverities: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Alert, AlertTitle, AlertDescription } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <Alert severity="default">
+      <AlertTitle>Default</AlertTitle>
+      <AlertDescription>This is a default informational alert.</AlertDescription>
+    </Alert>
+    <Alert severity="primary">
+      <AlertTitle>Primary</AlertTitle>
+      <AlertDescription>This is a primary branded alert.</AlertDescription>
+    </Alert>
+    <Alert severity="success">
+      <AlertTitle>Success</AlertTitle>
+      <AlertDescription>Your action was completed successfully.</AlertDescription>
+    </Alert>
+    <Alert severity="warning">
+      <AlertTitle>Warning</AlertTitle>
+      <AlertDescription>Please review before proceeding.</AlertDescription>
+    </Alert>
+    <Alert severity="danger">
+      <AlertTitle>Danger</AlertTitle>
+      <AlertDescription>Something went wrong. Please try again.</AlertDescription>
+    </Alert>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Closable: Story = {
@@ -97,6 +131,33 @@ export const Closable: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Alert, AlertTitle, AlertDescription } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <Alert severity="success" :isClosable="true">
+      <AlertTitle>Dismissible Success</AlertTitle>
+      <AlertDescription>Click the X button to dismiss this alert.</AlertDescription>
+    </Alert>
+    <Alert severity="warning" :isClosable="true">
+      <AlertTitle>Dismissible Warning</AlertTitle>
+      <AlertDescription>This alert can be closed by the user.</AlertDescription>
+    </Alert>
+    <Alert severity="danger" :isClosable="true">
+      <AlertTitle>Dismissible Danger</AlertTitle>
+      <AlertDescription>Dismiss this error once acknowledged.</AlertDescription>
+    </Alert>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const FullStructure: Story = {
@@ -129,6 +190,41 @@ export const FullStructure: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Alert, AlertIcon, AlertTitle, AlertDescription } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;">
+    <Alert severity="success">
+      <template #icon><AlertIcon>✓</AlertIcon></template>
+      <AlertTitle>Upload complete</AlertTitle>
+      <AlertDescription>Your file has been uploaded and is ready to use.</AlertDescription>
+    </Alert>
+    <Alert severity="warning">
+      <template #icon><AlertIcon>⚠</AlertIcon></template>
+      <AlertTitle>Session expiring</AlertTitle>
+      <AlertDescription>Your session will expire in 5 minutes. Save your work.</AlertDescription>
+    </Alert>
+    <Alert severity="danger">
+      <template #icon><AlertIcon class="text-sm">✕</AlertIcon></template>
+      <AlertTitle>Payment failed</AlertTitle>
+      <AlertDescription>Your card was declined. Please update your payment method.</AlertDescription>
+    </Alert>
+    <Alert severity="primary">
+      <template #icon><AlertIcon>ℹ</AlertIcon></template>
+      <AlertTitle>New features available</AlertTitle>
+      <AlertDescription>We shipped several improvements. Check the changelog.</AlertDescription>
+    </Alert>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithAnimation: Story = {
@@ -152,4 +248,32 @@ export const WithAnimation: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Button, Alert, AlertTitle, AlertDescription } from '@auronui/vue'
+
+const shown = ref(true)
+
+function reset() {
+  shown.value = false
+  setTimeout(() => { shown.value = true }, 500)
+}
+</script>
+
+<template>
+  <div>
+    <Button variant="flat" style="margin-bottom:16px" @click="reset">Dismiss &amp; Reset</Button>
+    <Alert v-if="shown" severity="warning" :isClosable="true" @close="reset">
+      <AlertTitle>Dismiss animation</AlertTitle>
+      <AlertDescription>Click X or the button above to see the fade + collapse animation.</AlertDescription>
+    </Alert>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

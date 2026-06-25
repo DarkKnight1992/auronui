@@ -68,6 +68,28 @@ import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue
 
 export const Vertical: Story = {
   args: { direction: 'vertical' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue'
+</script>
+
+<template>
+  <SplitterGroup direction="vertical" style="height: 400px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+    <SplitterPanel :default-size="50" :min-size="20">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Top panel</div>
+    </SplitterPanel>
+    <SplitterResizeHandle />
+    <SplitterPanel :default-size="50" :min-size="20">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Bottom panel</div>
+    </SplitterPanel>
+  </SplitterGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
     setup: () => ({ args, panelStyle }),
@@ -87,6 +109,32 @@ export const Vertical: Story = {
 
 export const ThreePanels: Story = {
   args: { direction: 'horizontal' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue'
+</script>
+
+<template>
+  <SplitterGroup direction="horizontal" style="height: 400px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+    <SplitterPanel :default-size="25" :min-size="15">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Sidebar</div>
+    </SplitterPanel>
+    <SplitterResizeHandle />
+    <SplitterPanel :default-size="50" :min-size="20">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Main content</div>
+    </SplitterPanel>
+    <SplitterResizeHandle />
+    <SplitterPanel :default-size="25" :min-size="15">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Inspector</div>
+    </SplitterPanel>
+  </SplitterGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
     setup: () => ({ args, panelStyle }),
@@ -110,6 +158,28 @@ export const ThreePanels: Story = {
 
 export const Collapsible: Story = {
   args: { direction: 'horizontal' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue'
+</script>
+
+<template>
+  <SplitterGroup direction="horizontal" style="height: 400px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+    <SplitterPanel :default-size="25" :min-size="15" :collapsible="true" :collapsed-size="0">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Collapsible sidebar (drag to collapse)</div>
+    </SplitterPanel>
+    <SplitterResizeHandle />
+    <SplitterPanel :default-size="75" :min-size="40">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Main content</div>
+    </SplitterPanel>
+  </SplitterGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
     setup: () => ({ args, panelStyle }),
@@ -129,6 +199,36 @@ export const Collapsible: Story = {
 
 export const Nested: Story = {
   args: { direction: 'horizontal' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue'
+</script>
+
+<template>
+  <SplitterGroup direction="horizontal" style="height: 400px; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0;">
+    <SplitterPanel :default-size="30" :min-size="20">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">File tree</div>
+    </SplitterPanel>
+    <SplitterResizeHandle />
+    <SplitterPanel :default-size="70" :min-size="40">
+      <SplitterGroup direction="vertical" style="height: 100%;">
+        <SplitterPanel :default-size="70" :min-size="20">
+          <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Editor</div>
+        </SplitterPanel>
+        <SplitterResizeHandle />
+        <SplitterPanel :default-size="30" :min-size="15">
+          <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Terminal</div>
+        </SplitterPanel>
+      </SplitterGroup>
+    </SplitterPanel>
+  </SplitterGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
     setup: () => ({ args, panelStyle }),
@@ -156,6 +256,32 @@ export const Nested: Story = {
 
 export const CustomStyles: Story = {
   args: { direction: 'horizontal' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { SplitterGroup, SplitterPanel, SplitterResizeHandle } from '@auronui/vue'
+</script>
+
+<template>
+  <SplitterGroup
+    direction="horizontal"
+    :class-names="{ group: 'border-2 border-blue-500 rounded-lg' }"
+    style="height: 400px; overflow: hidden;"
+  >
+    <SplitterPanel :default-size="50" :min-size="20" :class-names="{ panel: 'bg-blue-50' }">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Left panel</div>
+    </SplitterPanel>
+    <SplitterResizeHandle :class-names="{ handle: 'bg-blue-600', handleBar: 'bg-blue-400' }" />
+    <SplitterPanel :default-size="50" :min-size="20" :class-names="{ panel: 'bg-slate-50' }">
+      <div style="width: 100%; height: 100%; padding: 16px; display: flex; align-items: center; justify-content: center;">Right panel</div>
+    </SplitterPanel>
+  </SplitterGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { SplitterGroup, SplitterPanel, SplitterResizeHandle },
     setup: () => ({ args, panelStyle }),

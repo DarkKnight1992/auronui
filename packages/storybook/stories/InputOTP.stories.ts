@@ -48,9 +48,8 @@ const value = ref('')
 </script>
 
 <template>
-  <InputOTP v-model="value" />
+  <InputOTP v-model="value" aria-label="One-time password" />
 </template>`,
-        type: 'code',
         language: 'vue',
       }
     }
@@ -66,6 +65,23 @@ const value = ref('')
 }
 
 export const Length4: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <InputOTP :length="4" v-model="value" aria-label="4-digit code" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -77,6 +93,23 @@ export const Length4: Story = {
 }
 
 export const Alphanumeric: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <InputOTP type="alphanumeric" :length="6" v-model="value" aria-label="Alphanumeric code" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -88,6 +121,23 @@ export const Alphanumeric: Story = {
 }
 
 export const Numeric: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <InputOTP type="numeric" :length="6" v-model="value" aria-label="Numeric code" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -99,6 +149,23 @@ export const Numeric: Story = {
 }
 
 export const Masked: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <InputOTP :mask="true" :length="6" v-model="value" aria-label="Masked one-time password" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -110,6 +177,23 @@ export const Masked: Story = {
 }
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('123456')
+</script>
+
+<template>
+  <InputOTP :disabled="true" :length="6" v-model="value" aria-label="Disabled one-time password" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -121,6 +205,23 @@ export const Disabled: Story = {
 }
 
 export const Prefilled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('123456')
+</script>
+
+<template>
+  <InputOTP :length="6" v-model="value" aria-label="Pre-filled one-time password" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -132,6 +233,38 @@ export const Prefilled: Story = {
 }
 
 export const AllSizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const sm = ref('')
+const md = ref('')
+const lg = ref('')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <div>
+      <p style="margin-bottom:4px;font-size:12px;color:#666">sm</p>
+      <InputOTP size="sm" :length="6" v-model="sm" aria-label="Small OTP" />
+    </div>
+    <div>
+      <p style="margin-bottom:4px;font-size:12px;color:#666">md (default)</p>
+      <InputOTP size="md" :length="6" v-model="md" aria-label="Medium OTP" />
+    </div>
+    <div>
+      <p style="margin-bottom:4px;font-size:12px;color:#666">lg</p>
+      <InputOTP size="lg" :length="6" v-model="lg" aria-label="Large OTP" />
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {
@@ -161,6 +294,28 @@ export const AllSizes: Story = {
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+const classNames = {
+  base: 'rounded-lg border-2 border-blue-500',
+  group: 'gap-3 p-4 bg-blue-50',
+  slot: 'bg-white border border-blue-300 rounded-md text-lg font-semibold text-blue-700',
+}
+</script>
+
+<template>
+  <InputOTP :class-names="classNames" :length="6" v-model="value" aria-label="Styled one-time password" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { InputOTP },
     setup() {

@@ -84,6 +84,23 @@ export const Range: Story = {
     min: 0,
     max: 100,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref([20, 80])
+</script>
+
+<template>
+  <Slider v-model="value" label="Price range" :min="0" :max="100" style="max-width: 400px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -103,6 +120,29 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const sm = ref(30)
+const md = ref(50)
+const lg = ref(70)
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px;">
+    <Slider v-model="sm" size="sm" label="Small" :min="0" :max="100" />
+    <Slider v-model="md" size="md" label="Medium" :min="0" :max="100" />
+    <Slider v-model="lg" size="lg" label="Large" :min="0" :max="100" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Colors: Story = {
@@ -126,6 +166,33 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const primary = ref(40)
+const secondary = ref(50)
+const success = ref(60)
+const warning = ref(70)
+const danger = ref(80)
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px;">
+    <Slider v-model="primary" color="primary" label="Primary" :min="0" :max="100" />
+    <Slider v-model="secondary" color="secondary" label="Secondary" :min="0" :max="100" />
+    <Slider v-model="success" color="success" label="Success" :min="0" :max="100" />
+    <Slider v-model="warning" color="warning" label="Warning" :min="0" :max="100" />
+    <Slider v-model="danger" color="danger" label="Danger" :min="0" :max="100" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithLabel: Story = {
@@ -140,6 +207,23 @@ export const WithLabel: Story = {
   args: {
     min: 0,
     max: 100,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(30)
+</script>
+
+<template>
+  <Slider v-model="value" label="Volume" :min="0" :max="100" style="max-width: 400px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
 };
 
@@ -157,6 +241,23 @@ export const WithSteps: Story = {
     max: 100,
     step: 10,
     showSteps: true,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(40)
+</script>
+
+<template>
+  <Slider v-model="value" label="Brightness" :min="0" :max="100" :step="10" show-steps style="max-width: 400px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
 };
 
@@ -178,6 +279,28 @@ export const WithMarks: Story = {
     min: 0,
     max: 100,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(50)
+const marks = [
+  { value: 25, label: '1/4' },
+  { value: 50, label: '1/2' },
+  { value: 75, label: '3/4' },
+]
+</script>
+
+<template>
+  <Slider v-model="value" label="Progress" :min="0" :max="100" :marks="marks" style="max-width: 400px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Vertical: Story = {
@@ -194,6 +317,23 @@ export const Vertical: Story = {
     min: 0,
     max: 100,
   },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(50)
+</script>
+
+<template>
+  <Slider v-model="value" orientation="vertical" label="Level" :min="0" :max="100" style="height: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Disabled: Story = {
@@ -209,6 +349,23 @@ export const Disabled: Story = {
     disabled: true,
     min: 0,
     max: 100,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(40)
+</script>
+
+<template>
+  <Slider v-model="value" label="Disabled slider" :min="0" :max="100" disabled style="max-width: 400px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
 };
 
@@ -233,6 +390,30 @@ export const StartEndContent: Story = {
   args: {
     min: 0,
     max: 100,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(50)
+</script>
+
+<template>
+  <Slider v-model="value" label="Volume" :min="0" :max="100" style="max-width: 440px;">
+    <template #startContent>
+      <span style="font-size: 18px;">🔇</span>
+    </template>
+    <template #endContent>
+      <span style="font-size: 18px;">🔊</span>
+    </template>
+  </Slider>
+</template>`,
+        language: 'vue',
+      },
+    },
   },
 };
 
@@ -262,5 +443,34 @@ export const CustomStyles: Story = {
   args: {
     min: 0,
     max: 100,
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(65)
+</script>
+
+<template>
+  <Slider
+    v-model="value"
+    label="Custom styled slider"
+    :min="0"
+    :max="100"
+    style="max-width: 400px;"
+    :class-names="{
+      output: 'text-lg font-bold text-blue-600',
+      track: 'bg-blue-100 border-2 border-blue-400 rounded-full',
+      fill: 'bg-gradient-to-r from-blue-500 to-blue-600',
+      thumb: 'border-2 border-blue-600 bg-white shadow-lg',
+    }"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
   },
 };

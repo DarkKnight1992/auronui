@@ -66,6 +66,30 @@ import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
 
 export const Vertical: Story = {
   args: { orientation: 'vertical', defaultValue: 'one' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs orientation="vertical" default-value="one">
+    <TabList>
+      <Tab value="one">Profile</Tab>
+      <Tab value="two">Security</Tab>
+      <Tab value="three">Billing</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one">Profile form</TabPanel>
+    <TabPanel value="two">Security settings</TabPanel>
+    <TabPanel value="three">Billing info</TabPanel>
+  </Tabs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup() { return { args } },
@@ -87,6 +111,28 @@ export const Vertical: Story = {
 
 export const SecondaryVariant: Story = {
   args: { variant: 'secondary', defaultValue: 'one' },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs variant="secondary" default-value="one">
+    <TabList>
+      <Tab value="one">Alpha</Tab>
+      <Tab value="two">Beta</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one">Alpha panel</TabPanel>
+    <TabPanel value="two">Beta panel</TabPanel>
+  </Tabs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup() { return { args } },
@@ -105,6 +151,30 @@ export const SecondaryVariant: Story = {
 }
 
 export const DisabledTab: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs default-value="one">
+    <TabList>
+      <Tab value="one">Enabled</Tab>
+      <Tab value="two" disabled>Disabled</Tab>
+      <Tab value="three">Enabled</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one">One</TabPanel>
+    <TabPanel value="two">Two</TabPanel>
+    <TabPanel value="three">Three</TabPanel>
+  </Tabs>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup: () => ({ args }),
@@ -125,6 +195,34 @@ export const DisabledTab: Story = {
 }
 
 export const Controlled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+
+const selected = ref('one')
+</script>
+
+<template>
+  <div>
+    <p>Selected: {{ selected }}</p>
+    <Tabs v-model="selected">
+      <TabList>
+        <Tab value="one">One</Tab>
+        <Tab value="two">Two</Tab>
+        <TabIndicator />
+      </TabList>
+      <TabPanel value="one">One</TabPanel>
+      <TabPanel value="two">Two</TabPanel>
+    </Tabs>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup: () => ({ args }),
@@ -153,6 +251,36 @@ export const ArrowOverflow: Story = {
     docs: {
       description: {
         story: 'When `overflow="arrows"` is set on `TabList`, left/right arrow buttons appear as tabs overflow the container width.',
+      },
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="w-[400px] border border-dashed border-gray-300 p-2 rounded-lg">
+    <Tabs default-value="one" variant="primary">
+      <TabList overflow="arrows">
+        <Tab value="one">Overview</Tab>
+        <Tab value="two">Specifications</Tab>
+        <Tab value="three">Reviews</Tab>
+        <Tab value="four">Questions</Tab>
+        <Tab value="five">Shipping</Tab>
+        <Tab value="six">Returns</Tab>
+        <Tab value="seven">Warranty</Tab>
+        <TabIndicator />
+      </TabList>
+      <TabPanel value="one">Overview content</TabPanel>
+      <TabPanel value="two">Specifications content</TabPanel>
+      <TabPanel value="three">Reviews content</TabPanel>
+      <TabPanel value="four">Questions content</TabPanel>
+      <TabPanel value="five">Shipping content</TabPanel>
+      <TabPanel value="six">Returns content</TabPanel>
+      <TabPanel value="seven">Warranty content</TabPanel>
+    </Tabs>
+  </div>
+</template>`,
+        language: 'vue',
       },
     },
   },
@@ -193,6 +321,36 @@ export const DropdownOverflow: Story = {
       description: {
         story: 'When `overflow="dropdown"` is set on `TabList`, tabs that don\'t fit collapse into a "+N" dropdown button.',
       },
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="w-[390px] border border-dashed border-gray-300 p-2 rounded-lg">
+    <Tabs default-value="one" variant="primary">
+      <TabList overflow="dropdown">
+        <Tab value="one">Overview</Tab>
+        <Tab value="two">Specifications</Tab>
+        <Tab value="three">Reviews</Tab>
+        <Tab value="four">Questions</Tab>
+        <Tab value="five">Shipping</Tab>
+        <Tab value="six">Returns</Tab>
+        <Tab value="seven">Warranty</Tab>
+        <TabIndicator />
+      </TabList>
+      <TabPanel value="one">Overview content</TabPanel>
+      <TabPanel value="two">Specifications content</TabPanel>
+      <TabPanel value="three">Reviews content</TabPanel>
+      <TabPanel value="four">Questions content</TabPanel>
+      <TabPanel value="five">Shipping content</TabPanel>
+      <TabPanel value="six">Returns content</TabPanel>
+      <TabPanel value="seven">Warranty content</TabPanel>
+    </Tabs>
+  </div>
+</template>`,
+        language: 'vue',
+      },
     },
   },
   render: (args) => ({
@@ -231,6 +389,30 @@ export const CustomStyles: Story = {
     variant: 'primary',
     classNames: {
       tabList: 'border-b-2 border-blue-500',
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs default-value="one" variant="primary" :class-names="{ tabList: 'border-b-2 border-blue-500' }">
+    <TabList :class-names="{ tabList: 'border-b-2 border-blue-500' }">
+      <Tab value="one" :class-names="{ tab: 'text-blue-600 hover:bg-blue-50' }">Styled Tab 1</Tab>
+      <Tab value="two" :class-names="{ tab: 'text-blue-600 hover:bg-blue-50' }">Styled Tab 2</Tab>
+      <Tab value="three" :class-names="{ tab: 'text-blue-600 hover:bg-blue-50' }">Styled Tab 3</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one" :class-names="{ tabPanel: 'bg-blue-50 p-4 rounded-lg' }">Custom styled content panel 1</TabPanel>
+    <TabPanel value="two" :class-names="{ tabPanel: 'bg-blue-50 p-4 rounded-lg' }">Custom styled content panel 2</TabPanel>
+    <TabPanel value="three" :class-names="{ tabPanel: 'bg-blue-50 p-4 rounded-lg' }">Custom styled content panel 3</TabPanel>
+  </Tabs>
+</template>`,
+        language: 'vue',
+      },
     },
   },
   render: (args) => ({

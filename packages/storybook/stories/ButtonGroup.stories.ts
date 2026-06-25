@@ -51,6 +51,24 @@ import { ButtonGroup, Button } from '@auronui/vue'
 }
 
 export const VerticalGroup: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <ButtonGroup orientation="vertical">
+    <Button variant="bordered">Top</Button>
+    <Button variant="bordered">Middle</Button>
+    <Button variant="bordered">Bottom</Button>
+  </ButtonGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup: () => ({ args }),
@@ -65,6 +83,30 @@ export const VerticalGroup: Story = {
 }
 
 export const VariantPropagation: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px">
+    <ButtonGroup variant="success">
+      <Button>A</Button>
+      <Button>B</Button>
+      <Button variant="danger">Override</Button>
+    </ButtonGroup>
+    <ButtonGroup variant="warning">
+      <Button>X</Button>
+      <Button>Y</Button>
+    </ButtonGroup>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup: () => ({ args }),
@@ -85,6 +127,32 @@ export const VariantPropagation: Story = {
 }
 
 export const GroupDisabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+import { ref } from 'vue'
+
+const disabled = ref(false)
+</script>
+
+<template>
+  <div>
+    <Button variant="flat" style="margin-bottom:16px" @click="disabled = !disabled">
+      Toggle Group Disabled (currently: {{ disabled }})
+    </Button>
+    <ButtonGroup :disabled="disabled">
+      <Button>Save</Button>
+      <Button>Discard</Button>
+      <Button>Cancel</Button>
+    </ButtonGroup>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup() {
@@ -107,6 +175,24 @@ export const GroupDisabled: Story = {
 }
 
 export const DisabledHorizontal: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <ButtonGroup orientation="horizontal" :disabled="true">
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
+  </ButtonGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup: () => ({ args }),
@@ -121,6 +207,23 @@ export const DisabledHorizontal: Story = {
 }
 
 export const DisabledVertical: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <ButtonGroup orientation="vertical" :disabled="true">
+    <Button>Top</Button>
+    <Button>Bottom</Button>
+  </ButtonGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup: () => ({ args }),
@@ -134,6 +237,30 @@ export const DisabledVertical: Story = {
 }
 
 export const SelectableVertical: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref('middle')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <ButtonGroup orientation="vertical" variant="bordered" v-model="selected">
+      <Button value="top">Top</Button>
+      <Button value="middle">Middle</Button>
+      <Button value="bottom">Bottom</Button>
+    </ButtonGroup>
+    <div>Selected: {{ selected }}</div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup() {
@@ -154,6 +281,30 @@ export const SelectableVertical: Story = {
 }
 
 export const SelectableHorizontal: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref(null)
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <ButtonGroup orientation="horizontal" variant="bordered" v-model="selected">
+      <Button value="left">Left</Button>
+      <Button value="center">Center</Button>
+      <Button value="right">Right</Button>
+    </ButtonGroup>
+    <div>Selected: {{ selected ?? 'none' }}</div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup() {
@@ -174,6 +325,31 @@ export const SelectableHorizontal: Story = {
 }
 
 export const MultiSelect: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref(['bold', 'italic'])
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <ButtonGroup variant="bordered" selection-mode="multiple" v-model="selected">
+      <Button value="bold">Bold</Button>
+      <Button value="italic">Italic</Button>
+      <Button value="underline">Underline</Button>
+      <Button value="strike">Strike</Button>
+    </ButtonGroup>
+    <div>Selected: {{ selected.join(', ') || 'none' }}</div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup() {
@@ -195,6 +371,30 @@ export const MultiSelect: Story = {
 }
 
 export const MultiSelectVertical: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref([])
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px">
+    <ButtonGroup orientation="vertical" variant="bordered" selection-mode="multiple" v-model="selected">
+      <Button value="email">Email</Button>
+      <Button value="sms">SMS</Button>
+      <Button value="push">Push</Button>
+    </ButtonGroup>
+    <div>Channels: {{ selected.join(', ') || 'none' }}</div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup() {
@@ -216,6 +416,29 @@ export const MultiSelectVertical: Story = {
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ButtonGroup, Button } from '@auronui/vue'
+</script>
+
+<template>
+  <ButtonGroup
+    orientation="horizontal"
+    :class-names="{
+      base: 'border-2 border-blue-500 rounded-xl bg-blue-50 p-2',
+    }"
+  >
+    <Button variant="bordered">Option One</Button>
+    <Button variant="bordered">Option Two</Button>
+    <Button variant="bordered">Option Three</Button>
+  </ButtonGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, ButtonGroup },
     setup: () => ({ args }),

@@ -31,7 +31,6 @@ import { Label } from '@auronui/vue'
 <template>
   <Label>Email address</Label>
 </template>`,
-        type: 'code',
         language: 'vue',
       }
     }
@@ -44,6 +43,20 @@ import { Label } from '@auronui/vue'
 };
 
 export const Disabled: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Label } from '@auronui/vue'
+</script>
+
+<template>
+  <Label :isDisabled="true">Disabled label</Label>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Label },
     setup: () => ({ args }),
@@ -53,6 +66,20 @@ export const Disabled: Story = {
 };
 
 export const Invalid: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Label } from '@auronui/vue'
+</script>
+
+<template>
+  <Label :isInvalid="true">Invalid field label</Label>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Label },
     setup: () => ({ args }),
@@ -62,6 +89,20 @@ export const Invalid: Story = {
 };
 
 export const Required: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Label } from '@auronui/vue'
+</script>
+
+<template>
+  <Label :isRequired="true">Required field *</Label>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Label },
     setup: () => ({ args }),
@@ -71,6 +112,25 @@ export const Required: Story = {
 };
 
 export const AllStates: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Label } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <Label>Default label</Label>
+    <Label :isDisabled="true">Disabled label</Label>
+    <Label :isInvalid="true">Invalid label</Label>
+    <Label :isRequired="true">Required label *</Label>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Label },
     setup: () => ({ args }),

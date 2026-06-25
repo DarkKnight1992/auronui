@@ -109,6 +109,36 @@ export const Playground: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Autocomplete } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'apricot', label: 'Apricot' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'blueberry', label: 'Blueberry' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Autocomplete
+      variant="bordered"
+      label="Favorite Fruit"
+      placeholder="Search fruits..."
+      description="Type to filter the list."
+      :items="items"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Default: Story = {
@@ -162,6 +192,40 @@ export const AdvancedComposition: Story = {
       </Autocomplete>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'blueberry', label: 'Blueberry' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+]
+</script>
+
+<template>
+  <Autocomplete :items="items" label="Favorite Fruit">
+    <AutocompleteInput placeholder="Search fruits..." />
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Variants / Sizes / Colors ──────────────────────────────────────── */
@@ -188,13 +252,79 @@ export const Variants: Story = {
           <AutocompleteContent>
             <AutocompleteItem
               v-for="item in items" :key="item.value"
-              :value="item.value" 
+              :value="item.value"
             >{{ item.label }}</AutocompleteItem>
           </AutocompleteContent>
         </Autocomplete>
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 20px; max-width: 360px;">
+    <Autocomplete variant="flat" label="Flat" :items="items">
+      <AutocompleteInput placeholder="flat variant..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Bordered" :items="items">
+      <AutocompleteInput placeholder="bordered variant..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="faded" label="Faded" :items="items">
+      <AutocompleteInput placeholder="faded variant..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="underlined" label="Underlined" :items="items">
+      <AutocompleteInput placeholder="underlined variant..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="raised" label="Raised" :items="items">
+      <AutocompleteInput placeholder="raised variant..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -224,6 +354,56 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
+    <Autocomplete size="sm" variant="bordered" :items="items">
+      <AutocompleteInput placeholder="Small (sm)" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete size="md" variant="bordered" :items="items">
+      <AutocompleteInput placeholder="Medium (md) — default" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete size="lg" variant="bordered" :items="items">
+      <AutocompleteInput placeholder="Large (lg)" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Colors: Story = {
@@ -241,6 +421,68 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
+    <Autocomplete variant="bordered" color="default" :items="items">
+      <AutocompleteInput placeholder="default" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" color="primary" :items="items">
+      <AutocompleteInput placeholder="primary" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" color="secondary" :items="items">
+      <AutocompleteInput placeholder="secondary" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" color="success" :items="items">
+      <AutocompleteInput placeholder="success" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" color="warning" :items="items">
+      <AutocompleteInput placeholder="warning" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" color="danger" :items="items">
+      <AutocompleteInput placeholder="danger" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const FocusByColor: Story = {
@@ -276,6 +518,56 @@ export const FocusByColor: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const variants = ['flat', 'faded', 'bordered', 'underlined', 'raised'] as const
+const colors = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] as const
+</script>
+
+<template>
+  <div style="display:grid;grid-template-columns:80px repeat(6,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
+    <div></div>
+    <div v-for="c in colors" :key="c" style="font-size:11px;color:#666">{{ c }}</div>
+
+    <template v-for="v in variants" :key="v">
+      <div style="font-size:11px;color:#666">{{ v }}</div>
+      <Autocomplete
+        v-for="c in colors"
+        :key="v + '-' + c"
+        :variant="v"
+        :color="c"
+        :items="items"
+        :aria-label="v + ' ' + c"
+      >
+        <AutocompleteInput :placeholder="c" />
+        <AutocompleteContent>
+          <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+            {{ item.label }}
+          </AutocompleteItem>
+        </AutocompleteContent>
+      </Autocomplete>
+    </template>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── labelPlacement ─────────────────────────────────────────────────── */
@@ -300,6 +592,40 @@ export const LabelPlacementInside: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Autocomplete variant="bordered" label="Favorite Fruit" label-placement="inside" :items="items">
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LabelPlacementOutside: Story = {
@@ -322,6 +648,40 @@ export const LabelPlacementOutside: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Autocomplete variant="bordered" label="Favorite Fruit" label-placement="outside" :items="items">
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LabelPlacementOutsideLeft: Story = {
@@ -344,6 +704,40 @@ export const LabelPlacementOutsideLeft: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:520px">
+    <Autocomplete variant="bordered" label="Favorite Fruit" label-placement="outside-left" :items="items">
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LabelPlacementMatrix: Story = {
@@ -408,6 +802,103 @@ export const LabelPlacementMatrix: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:32px;max-width:520px">
+    <div>
+      <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Inside (default)</h4>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <Autocomplete variant="flat" label="Full name" :items="items">
+          <AutocompleteInput placeholder="Jane Doe" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <Autocomplete variant="bordered" label="Email" :items="items">
+          <AutocompleteInput placeholder="jane@example.com" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <Autocomplete variant="underlined" label="Phone" :items="items">
+          <AutocompleteInput placeholder="+1 555 000 0000" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Outside</h4>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <Autocomplete variant="flat" label-placement="outside" label="Full name" :items="items">
+          <AutocompleteInput placeholder="Jane Doe" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <Autocomplete variant="bordered" label-placement="outside" label="Email" :items="items">
+          <AutocompleteInput placeholder="jane@example.com" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <Autocomplete variant="underlined" label-placement="outside" label="Phone" :items="items">
+          <AutocompleteInput placeholder="+1 555 000 0000" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Outside-left</h4>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <Autocomplete variant="flat" label-placement="outside-left" label="Full name" :items="items">
+          <AutocompleteInput placeholder="Jane Doe" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <Autocomplete variant="bordered" label-placement="outside-left" label="Email" :items="items">
+          <AutocompleteInput placeholder="jane@example.com" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+        <Autocomplete variant="underlined" label-placement="outside-left" label="Phone" :items="items">
+          <AutocompleteInput placeholder="+1 555 000 0000" />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      </div>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── description / errorMessage / isRequired ────────────────────────── */
@@ -433,6 +924,46 @@ export const WithDescription: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Autocomplete
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      description="Type or pick from the list. Sorted alphabetically."
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithErrorMessage: Story = {
@@ -457,6 +988,47 @@ export const WithErrorMessage: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Autocomplete
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      :is-invalid="true"
+      error-message="Please select a valid option."
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const ErrorSupersedesDescription: Story = {
@@ -483,6 +1055,49 @@ export const ErrorSupersedesDescription: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <!-- When both description and errorMessage are set, the error takes precedence -->
+    <Autocomplete
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      description="Sorted alphabetically."
+      error-message="That fruit is not in the catalog."
+      :is-invalid="true"
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Required: Story = {
@@ -507,6 +1122,47 @@ export const Required: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Autocomplete
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      :is-required="true"
+      description="Required field — asterisk is rendered next to the label."
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const RequiredAcrossPlacements: Story = {
@@ -530,6 +1186,50 @@ export const RequiredAcrossPlacements: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:520px">
+    <Autocomplete variant="bordered" label="Inside" :is-required="true" :items="items">
+      <AutocompleteInput placeholder="Required inside" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Outside" label-placement="outside" :is-required="true" :items="items">
+      <AutocompleteInput placeholder="Required outside" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Outside-left" label-placement="outside-left" :is-required="true" :items="items">
+      <AutocompleteInput placeholder="Required outside-left" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── State primitives ─────────────────────────────────────────────── */
@@ -556,6 +1256,47 @@ export const Invalid: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Autocomplete
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      :is-invalid="true"
+      error-message="This field has an error."
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Disabled: Story = {
@@ -575,6 +1316,38 @@ export const Disabled: Story = {
       </Autocomplete>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Autocomplete variant="bordered" :is-disabled="true" :items="items">
+    <AutocompleteInput placeholder="Disabled autocomplete" />
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Readonly: Story = {
@@ -595,6 +1368,38 @@ export const Readonly: Story = {
       </Autocomplete>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Autocomplete variant="bordered" :is-readonly="true" model-value="apple" :items="items">
+    <AutocompleteInput placeholder="Readonly value" />
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const FullWidth: Story = {
@@ -612,7 +1417,7 @@ export const FullWidth: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </AutocompleteItem>
@@ -620,6 +1425,38 @@ export const FullWidth: Story = {
       </Autocomplete>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Autocomplete :full-width="true" label="Full Width" :items="items">
+    <AutocompleteInput placeholder="Search fruits..." />
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithStartContent: Story = {
@@ -641,7 +1478,7 @@ export const WithStartContent: Story = {
             v-for="item in items"
             :key="item.value"
             :value="item.value"
-            
+
           >
             {{ item.label }}
           </AutocompleteItem>
@@ -649,6 +1486,45 @@ export const WithStartContent: Story = {
       </Autocomplete>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Autocomplete label="Search Fruit" :items="items">
+    <AutocompleteInput placeholder="Search fruits...">
+      <template #startContent>
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="11" cy="11" r="8" />
+          <path d="m21 21-4.3-4.3" />
+        </svg>
+      </template>
+    </AutocompleteInput>
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const StartContentAcrossVariants: Story = {
@@ -671,7 +1547,7 @@ export const StartContentAcrossVariants: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -680,6 +1556,53 @@ export const StartContentAcrossVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+    <Autocomplete
+      v-for="v in ['flat', 'bordered', 'faded', 'underlined', 'raised']"
+      :key="v"
+      :variant="v"
+      :label="v"
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits...">
+        <template #startContent>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        </template>
+      </AutocompleteInput>
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const StartContentAcrossSizes: Story = {
@@ -702,7 +1625,7 @@ export const StartContentAcrossSizes: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -711,6 +1634,53 @@ export const StartContentAcrossSizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
+    <Autocomplete
+      v-for="s in ['sm', 'md', 'lg']"
+      :key="s"
+      :size="s"
+      :label="'size ' + s"
+      :items="items"
+    >
+      <AutocompleteInput placeholder="Search fruits...">
+        <template #startContent>
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+        </template>
+      </AutocompleteInput>
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Matrix stories ─────────────────────────────────────────────── */
@@ -744,6 +1714,74 @@ export const LabelStatesMatrix: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:grid;grid-template-columns:80px repeat(5,minmax(0,1fr));gap:12px;max-width:900px;align-items:end">
+    <div></div>
+    <div style="font-size:11px;color:#666">empty</div>
+    <div style="font-size:11px;color:#666">filled</div>
+    <div style="font-size:11px;color:#666">invalid</div>
+    <div style="font-size:11px;color:#666">disabled</div>
+    <div style="font-size:11px;color:#666">readonly</div>
+
+    <!-- inside label placement row -->
+    <div style="font-size:11px;color:#666">inside</div>
+    <Autocomplete variant="bordered" label="Fruit" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Fruit" model-value="apple" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Fruit" :is-invalid="true" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Fruit" :is-disabled="true" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label="Fruit" :is-readonly="true" model-value="apple" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+
+    <!-- outside label placement row -->
+    <div style="font-size:11px;color:#666">outside</div>
+    <Autocomplete variant="bordered" label-placement="outside" label="Fruit" :items="items">
+      <AutocompleteInput placeholder="Pick one" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Fruit" model-value="apple" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Fruit" :is-invalid="true" error-message="Invalid" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Fruit" :is-disabled="true" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Fruit" :is-readonly="true" model-value="apple" :items="items">
+      <AutocompleteInput /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem></AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AllStates: Story = {
@@ -775,6 +1813,62 @@ export const AllStates: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:400px">
+    <Autocomplete variant="bordered" label-placement="outside" label="Normal" description="Everything is fine." :items="items">
+      <AutocompleteInput placeholder="Normal state" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Disabled" :is-disabled="true" :items="items">
+      <AutocompleteInput placeholder="Disabled autocomplete" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Readonly" :is-readonly="true" model-value="apple" :items="items">
+      <AutocompleteInput />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Invalid" :is-invalid="true" error-message="This field has an error." :items="items">
+      <AutocompleteInput placeholder="Invalid autocomplete" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" label-placement="outside" label="Required" :is-required="true" :items="items">
+      <AutocompleteInput placeholder="A required field" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Async behavior (preserved verbatim) ─────────────────────────────── */
@@ -809,7 +1903,7 @@ export const AsyncLoad: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -818,6 +1912,47 @@ export const AsyncLoad: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = ref([])
+
+async function loadItems(query) {
+  // Replace with your actual API call
+  const response = await fetch(\`/api/fruits?q=\${query}\`)
+  const results = await response.json()
+  items.value = results
+  return results
+}
+</script>
+
+<template>
+  <Autocomplete
+    :load-items="loadItems"
+    :debounce-ms="300"
+    label="Fruit Search"
+  >
+    <AutocompleteInput placeholder="Type to search..." />
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AsyncWithDebounce: Story = {
@@ -851,7 +1986,7 @@ export const AsyncWithDebounce: Story = {
               v-for="item in items"
               :key="item.value"
               :value="item.value"
-              
+
             >
               {{ item.label }}
             </AutocompleteItem>
@@ -860,6 +1995,48 @@ export const AsyncWithDebounce: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = ref([])
+
+async function loadItems(query) {
+  // Replace with your actual API call — debounced by the component
+  const response = await fetch(\`/api/fruits?q=\${query}\`)
+  const results = await response.json()
+  items.value = results
+  return results
+}
+</script>
+
+<template>
+  <Autocomplete
+    :load-items="loadItems"
+    :debounce-ms="300"
+    label="Debounced Search"
+    description="Waits 300ms after you stop typing before searching."
+  >
+    <AutocompleteInput placeholder="Type to search (debounced)..." />
+    <AutocompleteContent>
+      <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+        {{ item.label }}
+      </AutocompleteItem>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const EmptyState: Story = {
@@ -893,6 +2070,39 @@ export const EmptyState: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+} from '@auronui/vue'
+
+async function loadItems(query) {
+  // Replace with your actual API call
+  const response = await fetch(\`/api/search?q=\${query}\`)
+  return response.json()
+}
+</script>
+
+<template>
+  <Autocomplete :load-items="loadItems" :debounce-ms="0" label="Empty Results">
+    <AutocompleteInput placeholder="Type anything..." />
+    <AutocompleteContent>
+      <template #empty>
+        <div style="padding: 12px; text-align: center; color: #94a3b8;">
+          No results for your search. Try a different term.
+        </div>
+      </template>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LoadingState: Story = {
@@ -928,6 +2138,39 @@ export const LoadingState: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+} from '@auronui/vue'
+
+async function loadItems(query) {
+  // Replace with your actual API call
+  const response = await fetch(\`/api/search?q=\${query}\`)
+  return response.json()
+}
+</script>
+
+<template>
+  <Autocomplete :load-items="loadItems" :debounce-ms="0" label="Search">
+    <AutocompleteInput placeholder="Type to search..." />
+    <AutocompleteContent>
+      <template #loading>
+        <div style="padding: 16px; text-align: center; color: #94a3b8;">
+          Searching the database...
+        </div>
+      </template>
+    </AutocompleteContent>
+  </Autocomplete>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Multiple selection ──────────────────────────────────────────────────── */
@@ -973,6 +2216,51 @@ export const Multiple: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+  { value: 'mango', label: 'Mango' },
+]
+
+const selected = ref([])
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <Autocomplete
+      v-model="selected"
+      :multiple="true"
+      :items="fruits"
+      label="Favourite fruits"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+          {{ f.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const MultipleWithInitialValues: Story = {
@@ -1004,6 +2292,54 @@ export const MultipleWithInitialValues: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+  { value: 'mango', label: 'Mango' },
+  { value: 'strawberry', label: 'Strawberry' },
+]
+
+// Pre-selected values on mount
+const selected = ref(['apple', 'mango', 'strawberry'])
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <Autocomplete
+      v-model="selected"
+      :multiple="true"
+      :items="fruits"
+      label="Favourite fruits"
+      variant="bordered"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+          {{ f.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const MultipleWrap: Story = {
@@ -1036,6 +2372,53 @@ export const MultipleWrap: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+  { value: 'mango', label: 'Mango' },
+]
+
+const selected = ref(['apple', 'banana', 'cherry', 'grape'])
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <Autocomplete
+      v-model="selected"
+      :multiple="true"
+      multiple-overflow="wrap"
+      :items="fruits"
+      label="Favourite fruits"
+      variant="bordered"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+          {{ f.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const MultipleCollapse: Story = {
@@ -1068,6 +2451,53 @@ export const MultipleCollapse: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const fruits = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+  { value: 'mango', label: 'Mango' },
+]
+
+const selected = ref(['apple', 'banana', 'cherry', 'grape'])
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <Autocomplete
+      v-model="selected"
+      :multiple="true"
+      multiple-overflow="collapse"
+      :items="fruits"
+      label="Favourite fruits"
+      variant="bordered"
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="f in fruits" :key="f.value" :value="f.value">
+          {{ f.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Creatable ───────────────────────────────────────────────────────────── */
@@ -1115,6 +2545,60 @@ export const CreatableComponent: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+  AutocompleteCreateItem,
+} from '@auronui/vue'
+
+const selected = ref('')
+const items = ref([
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+  { value: 'svelte', label: 'Svelte' },
+])
+
+function onCreate(value) {
+  items.value = [...items.value, { value, label: value }]
+  selected.value = value
+}
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <Autocomplete
+      v-model="selected"
+      :items="items"
+      label="Framework"
+      variant="bordered"
+      @create="onCreate"
+    >
+      <AutocompleteInput placeholder="Search or create..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="i in items" :key="i.value" :value="i.value">
+          {{ i.label }}
+        </AutocompleteItem>
+        <AutocompleteCreateItem>
+          <template #default="{ term }">
+            ✦ New framework: {{ term }}
+          </template>
+        </AutocompleteCreateItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CreatableMultiple: Story = {
@@ -1156,6 +2640,56 @@ export const CreatableMultiple: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+  AutocompleteCreateItem,
+} from '@auronui/vue'
+
+const selected = ref([])
+const items = ref([
+  { value: 'react', label: 'React' },
+  { value: 'vue', label: 'Vue' },
+  { value: 'svelte', label: 'Svelte' },
+])
+
+function onCreate(value) {
+  items.value = [...items.value, { value, label: value }]
+}
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 400px;">
+    <Autocomplete
+      v-model="selected"
+      :multiple="true"
+      :items="items"
+      label="Frameworks"
+      variant="bordered"
+      @create="onCreate"
+    >
+      <AutocompleteInput placeholder="Search or create..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="i in items" :key="i.value" :value="i.value">
+          {{ i.label }}
+        </AutocompleteItem>
+        <AutocompleteCreateItem />
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -1187,4 +2721,49 @@ export const CustomStyles: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Autocomplete
+      :items="items"
+      label="Favorite Fruit"
+      variant="bordered"
+      :class-names="{
+        base: 'rounded-lg border-2 border-blue-500 p-4',
+        label: 'text-blue-600 font-semibold',
+        mainWrapper: 'rounded-md bg-blue-50',
+        description: 'text-blue-500 italic',
+      }"
+      description="Custom styled with per-slot class overrides."
+    >
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

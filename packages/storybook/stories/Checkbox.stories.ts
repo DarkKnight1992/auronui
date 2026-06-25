@@ -46,6 +46,23 @@ export const Checked: Story = {
     },
     template: `<Checkbox v-bind="args" v-model="value" aria-label="Checked option" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <Checkbox v-model="value" aria-label="Checked option" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Indeterminate: Story = {
@@ -54,6 +71,20 @@ export const Indeterminate: Story = {
     setup: () => ({ args }),
     template: `<Checkbox v-bind="args" :isIndeterminate="true" aria-label="Select all" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+</script>
+
+<template>
+  <Checkbox :isIndeterminate="true" aria-label="Select all" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const Disabled: Story = {
@@ -62,6 +93,20 @@ export const Disabled: Story = {
     setup: () => ({ args }),
     template: `<Checkbox v-bind="args" :disabled="true" aria-label="Disabled option" />`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+</script>
+
+<template>
+  <Checkbox :disabled="true" aria-label="Disabled option" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithLabel: Story = {
@@ -73,6 +118,23 @@ export const WithLabel: Story = {
     },
     template: `<Checkbox v-bind="args" v-model="value" aria-label="Subscribe to newsletter">Subscribe to newsletter</Checkbox>`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+import { ref } from 'vue'
+
+const value = ref(false)
+</script>
+
+<template>
+  <Checkbox v-model="value" aria-label="Subscribe to newsletter">Subscribe to newsletter</Checkbox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const SecondaryVariant: Story = {
@@ -84,6 +146,23 @@ export const SecondaryVariant: Story = {
     },
     template: `<Checkbox v-bind="args" v-model="value" variant="secondary" aria-label="Secondary variant">Secondary</Checkbox>`,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <Checkbox v-model="value" variant="secondary" aria-label="Secondary variant">Secondary</Checkbox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const GroupDefault: Story = {
@@ -101,6 +180,27 @@ export const GroupDefault: Story = {
       </CheckboxGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox, CheckboxGroup } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref([])
+</script>
+
+<template>
+  <CheckboxGroup v-model="selected" label="Choose frameworks">
+    <Checkbox value="vue" aria-label="Vue">Vue</Checkbox>
+    <Checkbox value="react" aria-label="React">React</Checkbox>
+    <Checkbox value="svelte" aria-label="Svelte">Svelte</Checkbox>
+  </CheckboxGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const GroupPreselected: Story = {
@@ -118,6 +218,27 @@ export const GroupPreselected: Story = {
       </CheckboxGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox, CheckboxGroup } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref(['vue', 'svelte'])
+</script>
+
+<template>
+  <CheckboxGroup v-model="selected" label="Choose frameworks">
+    <Checkbox value="vue" aria-label="Vue">Vue</Checkbox>
+    <Checkbox value="react" aria-label="React">React</Checkbox>
+    <Checkbox value="svelte" aria-label="Svelte">Svelte</Checkbox>
+  </CheckboxGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const GroupDisabled: Story = {
@@ -141,6 +262,33 @@ export const GroupDisabled: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, Checkbox, CheckboxGroup } from '@auronui/vue'
+import { ref } from 'vue'
+
+const groupDisabled = ref(false)
+const selected = ref(['vue'])
+</script>
+
+<template>
+  <div>
+    <Button variant="flat" class="mb-4" @click="groupDisabled = !groupDisabled">
+      Toggle Group Disabled ({{ groupDisabled }})
+    </Button>
+    <CheckboxGroup v-model="selected" :disabled="groupDisabled" label="Choose frameworks (group disabled wins)">
+      <Checkbox value="vue" aria-label="Vue">Vue</Checkbox>
+      <Checkbox value="react" aria-label="React">React</Checkbox>
+      <Checkbox value="svelte" aria-label="Svelte" :disabled="true">Svelte (also disabled)</Checkbox>
+    </CheckboxGroup>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const GroupHorizontal: Story = {
@@ -158,6 +306,27 @@ export const GroupHorizontal: Story = {
       </CheckboxGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox, CheckboxGroup } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref([])
+</script>
+
+<template>
+  <CheckboxGroup v-model="selected" orientation="horizontal" label="Pick options">
+    <Checkbox value="a" aria-label="Option A">Option A</Checkbox>
+    <Checkbox value="b" aria-label="Option B">Option B</Checkbox>
+    <Checkbox value="c" aria-label="Option C">Option C</Checkbox>
+  </CheckboxGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const GroupWithDescription: Story = {
@@ -179,6 +348,31 @@ export const GroupWithDescription: Story = {
       </CheckboxGroup>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox, CheckboxGroup } from '@auronui/vue'
+import { ref } from 'vue'
+
+const selected = ref([])
+</script>
+
+<template>
+  <CheckboxGroup
+    v-model="selected"
+    label="Notification preferences"
+    description="Select which notifications you'd like to receive."
+  >
+    <Checkbox value="email" aria-label="Email">Email</Checkbox>
+    <Checkbox value="sms" aria-label="SMS">SMS</Checkbox>
+    <Checkbox value="push" aria-label="Push notifications">Push notifications</Checkbox>
+  </CheckboxGroup>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const CustomStyles: Story = {
@@ -204,4 +398,31 @@ export const CustomStyles: Story = {
       </Checkbox>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Checkbox } from '@auronui/vue'
+import { ref } from 'vue'
+
+const value = ref(true)
+</script>
+
+<template>
+  <Checkbox
+    v-model="value"
+    :class-names="{
+      control: 'border-2 border-blue-500 rounded-lg',
+      indicator: 'bg-blue-600',
+      content: 'text-blue-700 font-semibold ml-2',
+    }"
+    aria-label="Custom styled checkbox"
+  >
+    Custom styled checkbox
+  </Checkbox>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

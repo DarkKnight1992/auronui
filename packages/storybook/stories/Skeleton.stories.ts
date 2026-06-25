@@ -33,7 +33,6 @@ import { Skeleton } from '@auronui/vue'
 <template>
   <Skeleton style="width: 200px; height: 16px; border-radius: 4px;" />
 </template>`,
-        type: 'code',
         language: 'vue',
       },
     },
@@ -53,6 +52,24 @@ export const Shimmer: Story = {
     `,
   }),
   args: { animationType: "shimmer" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Skeleton } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 8px;">
+    <Skeleton animation-type="shimmer" style="width: 300px; height: 16px; border-radius: 4px;" />
+    <Skeleton animation-type="shimmer" style="width: 240px; height: 16px; border-radius: 4px;" />
+    <Skeleton animation-type="shimmer" style="width: 180px; height: 16px; border-radius: 4px;" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Pulse: Story = {
@@ -62,6 +79,20 @@ export const Pulse: Story = {
     template: `<Skeleton v-bind="args" style="width: 200px; height: 100px; border-radius: 8px;" />`,
   }),
   args: { animationType: "pulse" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Skeleton } from '@auronui/vue'
+</script>
+
+<template>
+  <Skeleton animation-type="pulse" style="width: 200px; height: 100px; border-radius: 8px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const NoAnimation: Story = {
@@ -71,6 +102,20 @@ export const NoAnimation: Story = {
     template: `<Skeleton v-bind="args" style="width: 200px; height: 16px; border-radius: 4px;" />`,
   }),
   args: { animationType: "none" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Skeleton } from '@auronui/vue'
+</script>
+
+<template>
+  <Skeleton animation-type="none" style="width: 200px; height: 16px; border-radius: 4px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Card: Story = {
@@ -86,6 +131,24 @@ export const Card: Story = {
     `,
   }),
   args: { animationType: "shimmer" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Skeleton } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 12px; width: 300px; padding: 16px; border: 1px solid #e2e8f0; border-radius: 8px;">
+    <Skeleton animation-type="shimmer" style="width: 100%; height: 160px; border-radius: 6px;" />
+    <Skeleton animation-type="shimmer" style="width: 80%; height: 16px; border-radius: 4px;" />
+    <Skeleton animation-type="shimmer" style="width: 60%; height: 14px; border-radius: 4px;" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -99,6 +162,24 @@ export const CustomStyles: Story = {
     animationType: "shimmer",
     classNames: {
       base: "border-2 border-blue-500 rounded-lg",
+    },
+  },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Skeleton } from '@auronui/vue'
+</script>
+
+<template>
+  <Skeleton
+    animation-type="shimmer"
+    :class-names="{ base: 'border-2 border-blue-500 rounded-lg' }"
+    style="width: 200px; height: 16px;"
+  />
+</template>`,
+        language: 'vue',
+      },
     },
   },
 };

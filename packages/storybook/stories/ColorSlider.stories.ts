@@ -55,6 +55,20 @@ import { ColorSlider } from '@auronui/vue'
 
 export const Saturation: Story = {
   name: 'Saturation',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="saturation" default-value="#ff0000" aria-label="Saturation" style="width: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),
@@ -64,6 +78,20 @@ export const Saturation: Story = {
 
 export const Lightness: Story = {
   name: 'Lightness',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="lightness" default-value="#ff0000" aria-label="Lightness" style="width: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),
@@ -73,6 +101,20 @@ export const Lightness: Story = {
 
 export const Alpha: Story = {
   name: 'Alpha',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="alpha" default-value="#ff0000" aria-label="Alpha" style="width: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),
@@ -82,6 +124,20 @@ export const Alpha: Story = {
 
 export const Vertical: Story = {
   name: 'Vertical',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="hue" default-value="#ff0000" orientation="vertical" aria-label="Hue vertical" style="height: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),
@@ -91,6 +147,20 @@ export const Vertical: Story = {
 
 export const WithOutput: Story = {
   name: 'With Output',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="hue" default-value="#ff0000" :show-output="true" aria-label="Hue with output" style="width: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),
@@ -100,6 +170,20 @@ export const WithOutput: Story = {
 
 export const Disabled: Story = {
   name: 'Disabled',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSlider } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSlider channel="hue" default-value="#ff0000" :disabled="true" aria-label="Disabled hue" style="width: 200px;" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSlider },
     setup: () => ({ args }),

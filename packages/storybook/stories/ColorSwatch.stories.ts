@@ -54,6 +54,20 @@ import { ColorSwatch } from '@auronui/vue'
 
 export const Green: Story = {
   name: 'Green',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatch } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSwatch color="#00cc44" colorName="Green" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatch },
     setup: () => ({ args }),
@@ -63,6 +77,20 @@ export const Green: Story = {
 
 export const Blue: Story = {
   name: 'Blue',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatch } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSwatch color="#0066ff" colorName="Blue" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatch },
     setup: () => ({ args }),
@@ -72,6 +100,20 @@ export const Blue: Story = {
 
 export const Square: Story = {
   name: 'Square Shape',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatch } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSwatch color="#ff6b00" colorName="Orange" shape="square" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatch },
     setup: () => ({ args }),
@@ -81,6 +123,26 @@ export const Square: Story = {
 
 export const Sizes: Story = {
   name: 'All Sizes',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatch } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; align-items: center; gap: 8px;">
+    <ColorSwatch color="#aa00ff" colorName="Purple xs" size="xs" />
+    <ColorSwatch color="#aa00ff" colorName="Purple sm" size="sm" />
+    <ColorSwatch color="#aa00ff" colorName="Purple md" size="md" />
+    <ColorSwatch color="#aa00ff" colorName="Purple lg" size="lg" />
+    <ColorSwatch color="#aa00ff" colorName="Purple xl" size="xl" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatch },
     setup: () => ({ args }),
@@ -96,6 +158,20 @@ export const Sizes: Story = {
 
 export const WithName: Story = {
   name: 'Custom Color with Name',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ColorSwatch } from '@auronui/vue'
+</script>
+
+<template>
+  <ColorSwatch color="#ff1493" colorName="Deep Pink" size="lg" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ColorSwatch },
     setup: () => ({ args }),

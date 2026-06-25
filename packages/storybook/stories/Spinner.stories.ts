@@ -31,9 +31,8 @@ import { Spinner } from '@auronui/vue'
 </script>
 
 <template>
-  <Spinner />
+  <Spinner size="md" color="accent" label="Loading" />
 </template>`,
-        type: 'code',
         language: 'vue',
       },
     },

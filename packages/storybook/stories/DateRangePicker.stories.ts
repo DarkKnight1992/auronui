@@ -72,6 +72,23 @@ type Story = StoryObj<typeof DateRangePicker>;
 /* ─── Playground / Default ──────────────────────────────────────────────── */
 
 export const Playground: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DateRangePicker } from '@auronui/vue'
+
+const value = ref(undefined)
+</script>
+
+<template>
+  <DateRangePicker label="Date Range" v-model="value" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateRangePicker },
     setup: () => {
@@ -114,6 +131,22 @@ const value = ref(undefined)
 /* ─── Variants / Sizes / Colors ─────────────────────────────────────────── */
 
 export const Variants: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateRangePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-4 max-w-[420px]">
+    <DateRangePicker v-for="v in ['flat', 'bordered', 'faded', 'underlined', 'raised']" :key="v" :variant="v" :label="v" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateRangePicker },
     setup: () => ({ args }),
@@ -126,6 +159,22 @@ export const Variants: Story = {
 };
 
 export const Sizes: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateRangePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-4 max-w-[420px]">
+    <DateRangePicker v-for="s in ['sm', 'md', 'lg']" :key="s" :size="s" :label="'size ' + s" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateRangePicker },
     setup: () => ({ args }),
@@ -138,6 +187,27 @@ export const Sizes: Story = {
 };
 
 export const Colors: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { DateRangePicker } from '@auronui/vue'
+</script>
+
+<template>
+  <div class="flex flex-col gap-4 max-w-[420px]">
+    <DateRangePicker
+      v-for="c in ['default', 'primary', 'secondary', 'success', 'warning', 'danger']"
+      :key="c"
+      :color="c"
+      :label="c"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args: any) => ({
     components: { DateRangePicker },
     setup: () => ({ args }),

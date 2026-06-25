@@ -119,6 +119,40 @@ export const Secondary: Story = {
     template:
       '<Table v-bind="args" :columns="columns" :data="data" ariaLabel="People" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer' },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer' },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager' },
+]
+</script>
+
+<template>
+  <Table variant="secondary" :columns="columns" :data="data" ariaLabel="People" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sortable: Story = {
@@ -131,6 +165,42 @@ export const Sortable: Story = {
     template:
       '<Table v-bind="args" :columns="columns" :data="data" ariaLabel="Sortable people" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer', age: 22 },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer', age: 23 },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager', age: 24 },
+]
+</script>
+
+<template>
+  <Table :columns="columns" :data="data" ariaLabel="Sortable people" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const SingleSelection: Story = {
@@ -150,6 +220,47 @@ export const SingleSelection: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer', age: 22 },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer', age: 23 },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager', age: 24 },
+]
+</script>
+
+<template>
+  <Table
+    :columns="columns"
+    :data="data"
+    selection="single"
+    ariaLabel="Single-select people"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const MultipleSelection: Story = {
@@ -169,6 +280,47 @@ export const MultipleSelection: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer', age: 22 },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer', age: 23 },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager', age: 24 },
+]
+</script>
+
+<template>
+  <Table
+    :columns="columns"
+    :data="data"
+    selection="multiple"
+    ariaLabel="Multi-select people"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const EmptyState: Story = {
@@ -180,6 +332,36 @@ export const EmptyState: Story = {
     },
     template: '<Table v-bind="args" :columns="columns" :data="data" ariaLabel="Empty" />',
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+]
+
+const data: Person[] = []
+</script>
+
+<template>
+  <Table :columns="columns" :data="data" ariaLabel="Empty" />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const VirtualizedLarge: Story = {
@@ -203,6 +385,54 @@ export const VirtualizedLarge: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+// Generate large dataset
+const data: Person[] = Array.from({ length: 10000 }, (_, i) => ({
+  id: String(i + 1),
+  name: \`User \${i + 1}\`,
+  email: \`user\${i + 1}@example.com\`,
+  role: ['Engineer', 'Designer', 'Manager'][i % 3],
+  age: 22 + (i % 40),
+}))
+</script>
+
+<template>
+  <div style="height: 500px">
+    <Table
+      :columns="columns"
+      :data="data"
+      :virtualRows="true"
+      :estimatedRowHeight="44"
+      selection="multiple"
+      ariaLabel="10K people (virtualized)"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const VirtualizedThreshold: Story = {
@@ -224,6 +454,52 @@ export const VirtualizedThreshold: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+const data: Person[] = Array.from({ length: 100 }, (_, i) => ({
+  id: String(i + 1),
+  name: \`User \${i + 1}\`,
+  email: \`user\${i + 1}@example.com\`,
+  role: ['Engineer', 'Designer', 'Manager'][i % 3],
+  age: 22 + (i % 40),
+}))
+</script>
+
+<template>
+  <!-- virtualRows="50" enables virtualization once the row count exceeds 50 -->
+  <div style="height: 500px">
+    <Table
+      :columns="columns"
+      :data="data"
+      :virtualRows="50"
+      ariaLabel="100 people (threshold virtualization)"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomCellRendering: Story = {
@@ -247,6 +523,52 @@ export const CustomCellRendering: Story = {
       </Table>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer', age: 22 },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer', age: 23 },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager', age: 24 },
+]
+</script>
+
+<template>
+  <Table :columns="columns" :data="data" ariaLabel="Custom cells">
+    <template #cell="{ row, column, value }">
+      <span v-if="column.id === 'email'">
+        <a :href="'mailto:' + value">{{ value }}</a>
+      </span>
+      <span v-else-if="column.id === 'age'">
+        <strong>{{ value }} yrs</strong>
+      </span>
+      <span v-else>{{ value }}</span>
+    </template>
+  </Table>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const CustomStyles: Story = {
@@ -274,4 +596,50 @@ export const CustomStyles: Story = {
       />
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer', age: 22 },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer', age: 23 },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager', age: 24 },
+]
+
+const customClassNames = {
+  base: 'border-2 border-blue-500 rounded-lg shadow-lg',
+  scrollContainer: 'bg-blue-50',
+}
+</script>
+
+<template>
+  <Table
+    :columns="columns"
+    :data="data"
+    :class-names="customClassNames"
+    ariaLabel="Custom styled table"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

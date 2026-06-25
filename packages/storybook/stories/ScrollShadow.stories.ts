@@ -48,7 +48,6 @@ import { ScrollShadow } from '@auronui/vue'
     </p>
   </ScrollShadow>
 </template>`,
-        type: 'code',
         language: 'vue',
       },
     },
@@ -65,6 +64,26 @@ import { ScrollShadow } from '@auronui/vue'
 };
 
 export const Horizontal: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ScrollShadow } from '@auronui/vue'
+</script>
+
+<template>
+  <ScrollShadow orientation="horizontal" style="width: 300px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px;">
+    <div style="display: flex; flex-direction: row; gap: 12px; width: max-content; padding: 4px 0;">
+      <div v-for="n in 20" :key="n" style="width: 80px; height: 60px; background: #e2e8f0; border-radius: 6px; display: flex; align-items: center; justify-content: center; flex-shrink: 0;">
+        {{ n }}
+      </div>
+    </div>
+  </ScrollShadow>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ScrollShadow },
     setup: () => ({ args }),
@@ -81,6 +100,24 @@ export const Horizontal: Story = {
 };
 
 export const HideScrollBar: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ScrollShadow } from '@auronui/vue'
+</script>
+
+<template>
+  <ScrollShadow :hide-scroll-bar="true" style="height: 200px; width: 400px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+    <p style="margin: 0; line-height: 1.6;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+    </p>
+  </ScrollShadow>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ScrollShadow },
     setup: () => ({ args, LOREM }),
@@ -96,6 +133,24 @@ export const HideScrollBar: Story = {
 };
 
 export const CustomSize: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ScrollShadow } from '@auronui/vue'
+</script>
+
+<template>
+  <ScrollShadow :size="80" style="height: 200px; width: 400px; padding: 12px; border: 1px solid #e2e8f0; border-radius: 8px;">
+    <p style="margin: 0; line-height: 1.6;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+    </p>
+  </ScrollShadow>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ScrollShadow },
     setup: () => ({ args, LOREM }),
@@ -111,6 +166,26 @@ export const CustomSize: Story = {
 };
 
 export const BothOrientations: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ScrollShadow } from '@auronui/vue'
+</script>
+
+<template>
+  <ScrollShadow orientation="both" style="height: 200px; width: 300px; padding: 8px; border: 1px solid #e2e8f0; border-radius: 8px; overflow: auto;">
+    <div style="width: 600px;">
+      <p v-for="n in 20" :key="n" style="margin: 0 0 8px; line-height: 1.6; white-space: nowrap;">
+        Line {{ n }}: This is a very long line that extends beyond the container width to trigger horizontal scrolling.
+      </p>
+    </div>
+  </ScrollShadow>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ScrollShadow },
     setup: () => ({ args }),
@@ -130,6 +205,30 @@ export const BothOrientations: Story = {
 };
 
 export const CustomStyles: Story = {
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ScrollShadow } from '@auronui/vue'
+</script>
+
+<template>
+  <ScrollShadow
+    orientation="vertical"
+    style="height: 200px; width: 400px; padding: 12px; border-radius: 8px;"
+    :class-names="{
+      base: 'rounded-2xl border-2 border-blue-500 bg-blue-50 shadow-lg',
+    }"
+  >
+    <p style="margin: 0; line-height: 1.6;">
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit...
+    </p>
+  </ScrollShadow>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { ScrollShadow },
     setup: () => ({ args, LOREM }),

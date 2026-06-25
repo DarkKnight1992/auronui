@@ -34,7 +34,9 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
         <Button variant="outline">Hover me</Button>
       </TooltipTrigger>
       <TooltipContent>
-        Tooltip content
+        <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
+          Tooltip content
+        </div>
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -67,6 +69,31 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
 
 export const WithDelay: Story = {
   name: 'With Delay (1200ms)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@auronui/vue'
+</script>
+
+<template>
+  <TooltipProvider :delay-duration="1200">
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button variant="outline">Hover (slow)</Button>
+      </TooltipTrigger>
+      <TooltipContent>
+        <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
+          Appears after 1200ms delay
+        </div>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent },
     setup: () => ({ args }),
@@ -89,6 +116,33 @@ export const WithDelay: Story = {
 
 export const FourSides: Story = {
   name: 'Four Sides',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@auronui/vue'
+</script>
+
+<template>
+  <TooltipProvider :delay-duration="300">
+    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 16px; align-items: center;">
+      <Tooltip v-for="side in ['top', 'right', 'bottom', 'left']" :key="side">
+        <TooltipTrigger as-child>
+          <Button variant="outline" style="text-transform: capitalize;">{{ side }}</Button>
+        </TooltipTrigger>
+        <TooltipContent :side="side">
+          <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
+            Appears on {{ side }}
+          </div>
+        </TooltipContent>
+      </Tooltip>
+    </div>
+  </TooltipProvider>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent },
     setup: () => ({ args }),
@@ -113,6 +167,32 @@ export const FourSides: Story = {
 
 export const WithArrow: Story = {
   name: 'With Arrow',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow } from '@auronui/vue'
+</script>
+
+<template>
+  <TooltipProvider :delay-duration="300">
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button variant="outline">Hover for arrow</Button>
+      </TooltipTrigger>
+      <TooltipContent side="bottom" :side-offset="8">
+        <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
+          Tooltip with directional arrow
+        </div>
+        <TooltipArrow style="fill: #222;" />
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, TooltipArrow },
     setup: () => ({ args }),
@@ -136,6 +216,32 @@ export const WithArrow: Story = {
 
 export const WithCustomContent: Story = {
   name: 'With Custom Content',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@auronui/vue'
+</script>
+
+<template>
+  <TooltipProvider :delay-duration="300">
+    <Tooltip>
+      <TooltipTrigger as-child>
+        <Button color="primary">Rich Tooltip</Button>
+      </TooltipTrigger>
+      <TooltipContent :side-offset="8">
+        <div style="padding: 10px 14px; max-width: 220px; background: #1e1b4b; color: #e0e7ff; border-radius: 8px; font-size: 13px;">
+          <strong style="display: block; margin-bottom: 4px; color: #a5b4fc;">Pro tip</strong>
+          <span>You can add rich content including icons, links, and formatted text inside a tooltip.</span>
+        </div>
+      </TooltipContent>
+    </Tooltip>
+  </TooltipProvider>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
   render: (args) => ({
     components: { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent },
     setup: () => ({ args }),

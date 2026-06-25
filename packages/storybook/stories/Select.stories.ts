@@ -97,6 +97,35 @@ export const Playground: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Select } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      placeholder="Pick a fruit"
+      description="Pick from the list."
+      errorMessage="Please select a valid option."
+      :items="items"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Default: Story = {
@@ -146,6 +175,39 @@ export const AdvancedComposition: Story = {
       </Select>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Select label="Favorite Fruit">
+    <SelectTrigger>
+      <SelectValue placeholder="Pick a fruit" />
+    </SelectTrigger>
+    <SelectContent>
+      <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+    </SelectContent>
+  </Select>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Controlled: Story = {
@@ -169,6 +231,45 @@ export const Controlled: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const fruit = ref('banana')
+</script>
+
+<template>
+  <div>
+    <p style="margin-bottom:8px;font-size:14px">Selected: {{ fruit }}</p>
+    <Select v-model="fruit" label="Favorite Fruit">
+      <SelectTrigger>
+        <SelectValue placeholder="Pick a fruit" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Variants / Sizes / Colors ──────────────────────────────────────── */
@@ -199,6 +300,63 @@ export const Variants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 20px; max-width: 360px;">
+    <Select variant="flat" label="Flat">
+      <SelectTrigger><SelectValue placeholder="flat variant..." /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" label="Bordered">
+      <SelectTrigger><SelectValue placeholder="bordered variant..." /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="faded" label="Faded">
+      <SelectTrigger><SelectValue placeholder="faded variant..." /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="underlined" label="Underlined">
+      <SelectTrigger><SelectValue placeholder="underlined variant..." /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="raised" label="Raised">
+      <SelectTrigger><SelectValue placeholder="raised variant..." /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Sizes: Story = {
@@ -222,6 +380,51 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
+    <Select size="sm" variant="bordered" aria-label="Small select">
+      <SelectTrigger><SelectValue placeholder="Small (sm)" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select size="md" variant="bordered" aria-label="Medium select">
+      <SelectTrigger><SelectValue placeholder="Medium (md) — default" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select size="lg" variant="bordered" aria-label="Large select">
+      <SelectTrigger><SelectValue placeholder="Large (lg)" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Colors: Story = {
@@ -239,6 +442,69 @@ export const Colors: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:12px;max-width:320px">
+    <Select variant="bordered" color="default" aria-label="Default color">
+      <SelectTrigger><SelectValue placeholder="default" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" color="primary" aria-label="Primary color">
+      <SelectTrigger><SelectValue placeholder="primary" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" color="secondary" aria-label="Secondary color">
+      <SelectTrigger><SelectValue placeholder="secondary" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" color="success" aria-label="Success color">
+      <SelectTrigger><SelectValue placeholder="success" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" color="warning" aria-label="Warning color">
+      <SelectTrigger><SelectValue placeholder="warning" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" color="danger" aria-label="Danger color">
+      <SelectTrigger><SelectValue placeholder="danger" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const FocusByColor: Story = {
@@ -271,6 +537,54 @@ export const FocusByColor: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const variants = ['flat', 'faded', 'bordered', 'underlined', 'raised'] as const
+const colors = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] as const
+</script>
+
+<template>
+  <div style="display:grid;grid-template-columns:80px repeat(6,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
+    <div></div>
+    <div v-for="c in colors" :key="c" style="font-size:11px;color:#666">{{ c }}</div>
+
+    <template v-for="v in variants" :key="v">
+      <div style="font-size:11px;color:#666">{{ v }}</div>
+      <Select
+        v-for="c in colors"
+        :key="v + '-' + c"
+        :variant="v"
+        :color="c"
+        :aria-label="v + ' ' + c"
+      >
+        <SelectTrigger><SelectValue :placeholder="c" /></SelectTrigger>
+        <SelectContent>
+          <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+        </SelectContent>
+      </Select>
+    </template>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── labelPlacement ─────────────────────────────────────────────────── */
@@ -293,6 +607,39 @@ export const LabelPlacementInside: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Select variant="bordered" label="Favorite Fruit" label-placement="inside">
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LabelPlacementOutside: Story = {
@@ -313,6 +660,39 @@ export const LabelPlacementOutside: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Select variant="bordered" label="Favorite Fruit" label-placement="outside">
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LabelPlacementOutsideLeft: Story = {
@@ -333,6 +713,39 @@ export const LabelPlacementOutsideLeft: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:520px">
+    <Select variant="bordered" label="Favorite Fruit" label-placement="outside-left">
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const LabelPlacementMatrix: Story = {
@@ -370,6 +783,104 @@ export const LabelPlacementMatrix: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:32px;max-width:520px">
+    <div>
+      <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Inside (default)</h4>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <Select variant="flat" label="Full name">
+          <SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select variant="bordered" label="Email">
+          <SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select variant="underlined" label="Phone">
+          <SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Outside</h4>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <Select variant="flat" label-placement="outside" label="Full name">
+          <SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select variant="bordered" label-placement="outside" label="Email">
+          <SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select variant="underlined" label-placement="outside" label="Phone">
+          <SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+
+    <div>
+      <h4 style="margin:0 0 8px;font-size:12px;color:#666;text-transform:uppercase">Outside-left</h4>
+      <div style="display:flex;flex-direction:column;gap:12px">
+        <Select variant="flat" label-placement="outside-left" label="Full name">
+          <SelectTrigger><SelectValue placeholder="Jane Doe" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select variant="bordered" label-placement="outside-left" label="Email">
+          <SelectTrigger><SelectValue placeholder="jane@example.com" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+        <Select variant="underlined" label-placement="outside-left" label="Phone">
+          <SelectTrigger><SelectValue placeholder="+1 555 000 0000" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── description / errorMessage / isRequired ────────────────────────── */
@@ -393,6 +904,44 @@ export const WithDescription: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      description="Pick from the list. Sorted alphabetically."
+    >
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithErrorMessage: Story = {
@@ -415,6 +964,45 @@ export const WithErrorMessage: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      :is-invalid="true"
+      error-message="Please select a valid option."
+    >
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const ErrorSupersedesDescription: Story = {
@@ -439,6 +1027,46 @@ export const ErrorSupersedesDescription: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      description="Sorted alphabetically."
+      error-message="That fruit is not in the catalog."
+      :is-invalid="true"
+    >
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Required: Story = {
@@ -461,6 +1089,45 @@ export const Required: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:400px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      :is-required="true"
+      description="Required field — asterisk is rendered next to the label."
+    >
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const RequiredAcrossPlacements: Story = {
@@ -484,6 +1151,51 @@ export const RequiredAcrossPlacements: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:16px;max-width:520px">
+    <Select variant="bordered" label="Inside" :is-required="true">
+      <SelectTrigger><SelectValue placeholder="Required inside" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" label="Outside" label-placement="outside" :is-required="true">
+      <SelectTrigger><SelectValue placeholder="Required outside" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+    <Select variant="bordered" label="Outside-left" label-placement="outside-left" :is-required="true">
+      <SelectTrigger><SelectValue placeholder="Required outside-left" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── State primitives ─────────────────────────────────────────────── */
@@ -508,6 +1220,45 @@ export const Invalid: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      label-placement="outside"
+      :is-invalid="true"
+      error-message="This field has an error."
+    >
+      <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Disabled: Story = {
@@ -525,6 +1276,37 @@ export const Disabled: Story = {
       </Select>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Select variant="bordered" :is-disabled="true" aria-label="Disabled select">
+    <SelectTrigger><SelectValue placeholder="Disabled select" /></SelectTrigger>
+    <SelectContent>
+      <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+    </SelectContent>
+  </Select>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Readonly: Story = {
@@ -545,6 +1327,43 @@ export const Readonly: Story = {
       </Select>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Select
+    variant="bordered"
+    :is-readonly="true"
+    label="Favorite Fruit"
+    label-placement="outside"
+    default-value="banana"
+  >
+    <SelectTrigger><SelectValue placeholder="Readonly" /></SelectTrigger>
+    <SelectContent>
+      <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+    </SelectContent>
+  </Select>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const FullWidth: Story = {
@@ -566,6 +1385,39 @@ export const FullWidth: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="width:100%">
+    <Select variant="bordered" :full-width="true" label="Framework" label-placement="outside">
+      <SelectTrigger><SelectValue placeholder="Choose..." /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const WithDisabledItems: Story = {
@@ -585,6 +1437,35 @@ export const WithDisabledItems: Story = {
       </Select>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Select label="Favorite Fruit" variant="bordered">
+    <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+    <SelectContent>
+      <SelectItem value="apple">Apple</SelectItem>
+      <SelectItem value="banana" :is-disabled="true">Banana (unavailable)</SelectItem>
+      <SelectItem value="cherry">Cherry</SelectItem>
+      <SelectItem value="date" :is-disabled="true">Date (unavailable)</SelectItem>
+      <SelectItem value="elderberry">Elderberry</SelectItem>
+    </SelectContent>
+  </Select>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Z-index regression ─────────────────────────────────────────────── */
@@ -618,6 +1499,59 @@ export const InsideModal: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalBody,
+  ModalTitle,
+  Button,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <Modal>
+    <ModalTrigger as-child>
+      <Button color="primary">Open modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader>
+        <ModalTitle>Select inside a modal</ModalTitle>
+      </ModalHeader>
+      <ModalBody>
+        <p style="margin-bottom:16px;font-size:14px;color:var(--color-default-500)">
+          The dropdown must appear above the modal overlay — not behind it.
+        </p>
+        <Select label="Favorite Fruit" variant="bordered" label-placement="outside">
+          <SelectTrigger><SelectValue placeholder="Pick a fruit" /></SelectTrigger>
+          <SelectContent>
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+      </ModalBody>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Multiple selection ──────────────────────────────────────────────────── */
@@ -646,6 +1580,47 @@ export const Multiple: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+
+const selected = ref<string[]>([])
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px;">
+    <Select v-model="selected" :multiple="true" label="Favourite fruits">
+      <SelectTrigger>
+        <SelectValue placeholder="Pick one or more fruits" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </SelectItem>
+      </SelectContent>
+    </Select>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const MultipleWithInitialValues: Story = {
@@ -672,6 +1647,48 @@ export const MultipleWithInitialValues: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'grape', label: 'Grape' },
+]
+
+const selected = ref<string[]>(['apple', 'cherry', 'grape'])
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 16px; max-width: 360px;">
+    <Select v-model="selected" :multiple="true" label="Favourite fruits" variant="bordered">
+      <SelectTrigger>
+        <SelectValue placeholder="Pick one or more fruits" />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </SelectItem>
+      </SelectContent>
+    </Select>
+    <p style="font-size:12px;color:#64748b">Selected: {{ selected.join(', ') || '—' }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 /* ─── Custom Styles ──────────────────────────────────────────────────── */
@@ -700,4 +1717,38 @@ export const CustomStyles: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Select } from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+]
+</script>
+
+<template>
+  <div style="max-width:360px">
+    <Select
+      variant="bordered"
+      label="Favorite Fruit"
+      placeholder="Pick a fruit"
+      :items="items"
+      :class-names="{
+        base: 'border-2 border-blue-500 rounded-lg',
+        label: 'text-blue-600 font-semibold',
+        mainWrapper: 'bg-blue-50',
+        description: 'text-blue-500 italic',
+      }"
+      description="Custom styled with blue theme"
+    />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };

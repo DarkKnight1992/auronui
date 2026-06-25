@@ -132,6 +132,43 @@ export const SizeSm: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal size="sm">
+    <ModalTrigger as-child>
+      <Button>Open Small Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Small Modal</ModalTitle></ModalHeader>
+      <ModalBody><p>This is a small modal.</p></ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const SizeLg: Story = {
@@ -156,6 +193,43 @@ export const SizeLg: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal size="lg">
+    <ModalTrigger as-child>
+      <Button>Open Large Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Large Modal</ModalTitle></ModalHeader>
+      <ModalBody><p>This is a large modal with more space for content.</p></ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const SizeFull: Story = {
@@ -180,6 +254,43 @@ export const SizeFull: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal size="full">
+    <ModalTrigger as-child>
+      <Button>Open Full Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Full Screen Modal</ModalTitle></ModalHeader>
+      <ModalBody><p>This modal takes up the full screen.</p></ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const PlacementTop: Story = {
@@ -204,6 +315,43 @@ export const PlacementTop: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal placement="top">
+    <ModalTrigger as-child>
+      <Button>Open Top Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Top Placement</ModalTitle></ModalHeader>
+      <ModalBody><p>This modal aligns to the top.</p></ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const PlacementBottom: Story = {
@@ -228,6 +376,43 @@ export const PlacementBottom: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal placement="bottom">
+    <ModalTrigger as-child>
+      <Button>Open Bottom Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Bottom Placement</ModalTitle></ModalHeader>
+      <ModalBody><p>This modal aligns to the bottom.</p></ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const WithScrollableContent: Story = {
@@ -256,6 +441,47 @@ export const WithScrollableContent: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal scroll="inside" size="md">
+    <ModalTrigger as-child>
+      <Button>Open Scrollable Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Scrollable Content</ModalTitle></ModalHeader>
+      <ModalBody>
+        <p v-for="i in 20" :key="i">
+          Paragraph {{ i }}: Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+        </p>
+      </ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const NestedModals: Story = {
@@ -305,6 +531,67 @@ export const NestedModals: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalDescription,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal>
+    <ModalTrigger as-child>
+      <Button>Open First Modal</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader>
+        <ModalTitle>First Modal</ModalTitle>
+        <ModalDescription>This is the first modal. Open a second one on top.</ModalDescription>
+      </ModalHeader>
+      <ModalBody>
+        <Modal>
+          <ModalTrigger as-child>
+            <Button color="primary" variant="solid">Open Second Modal</Button>
+          </ModalTrigger>
+          <ModalContent>
+            <ModalHeader>
+              <ModalTitle>Second Modal</ModalTitle>
+              <ModalDescription>The second modal's backdrop should cover the first modal completely.</ModalDescription>
+            </ModalHeader>
+            <ModalBody>
+              <p>If the backdrop covers the first modal, stacking is working correctly.</p>
+            </ModalBody>
+            <ModalFooter>
+              <ModalClose as-child>
+                <Button variant="default">Close Second</Button>
+              </ModalClose>
+            </ModalFooter>
+          </ModalContent>
+        </Modal>
+      </ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="default">Close First</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }
 
 export const BlurBackdrop: Story = {
@@ -329,4 +616,41 @@ export const BlurBackdrop: Story = {
       </Modal>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import {
+  Modal,
+  ModalTrigger,
+  ModalContent,
+  ModalHeader,
+  ModalTitle,
+  ModalBody,
+  ModalFooter,
+  ModalClose,
+  Button,
+} from '@auronui/vue'
+</script>
+
+<template>
+  <Modal variant="blur">
+    <ModalTrigger as-child>
+      <Button>Open with Blur Backdrop</Button>
+    </ModalTrigger>
+    <ModalContent>
+      <ModalHeader><ModalTitle>Blur Backdrop</ModalTitle></ModalHeader>
+      <ModalBody><p>The backdrop has a blur effect behind the dialog.</p></ModalBody>
+      <ModalFooter>
+        <ModalClose as-child>
+          <Button variant="flat">Close</Button>
+        </ModalClose>
+      </ModalFooter>
+    </ModalContent>
+  </Modal>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 }

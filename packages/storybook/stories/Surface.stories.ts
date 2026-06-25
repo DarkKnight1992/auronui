@@ -61,6 +61,22 @@ export const Secondary: Story = {
     `,
   }),
   args: { variant: "secondary" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Surface } from '@auronui/vue'
+</script>
+
+<template>
+  <Surface variant="secondary" style="padding: 16px; border-radius: 8px;">
+    <p style="margin: 0;">Secondary surface</p>
+  </Surface>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Tertiary: Story = {
@@ -74,6 +90,22 @@ export const Tertiary: Story = {
     `,
   }),
   args: { variant: "tertiary" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Surface } from '@auronui/vue'
+</script>
+
+<template>
+  <Surface variant="tertiary" style="padding: 16px; border-radius: 8px;">
+    <p style="margin: 0;">Tertiary surface</p>
+  </Surface>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const Transparent: Story = {
@@ -87,6 +119,22 @@ export const Transparent: Story = {
     `,
   }),
   args: { variant: "transparent" },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Surface } from '@auronui/vue'
+</script>
+
+<template>
+  <Surface variant="transparent" style="padding: 16px; border-radius: 8px; border: 1px dashed #ccc;">
+    <p style="margin: 0;">Transparent surface (border added for visibility)</p>
+  </Surface>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
 
 export const AllVariants: Story = {
@@ -114,4 +162,35 @@ export const AllVariants: Story = {
       </div>
     `,
   }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Surface } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; flex-direction: column; gap: 12px;">
+    <Surface variant="default" style="padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-weight: 600;">Default</p>
+      <p style="margin: 4px 0 0;">Base background surface</p>
+    </Surface>
+    <Surface variant="secondary" style="padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-weight: 600;">Secondary</p>
+      <p style="margin: 4px 0 0;">Slightly elevated surface</p>
+    </Surface>
+    <Surface variant="tertiary" style="padding: 16px; border-radius: 8px;">
+      <p style="margin: 0; font-weight: 600;">Tertiary</p>
+      <p style="margin: 4px 0 0;">Most elevated surface</p>
+    </Surface>
+    <Surface variant="transparent" style="padding: 16px; border-radius: 8px; border: 1px dashed #ccc;">
+      <p style="margin: 0; font-weight: 600;">Transparent</p>
+      <p style="margin: 4px 0 0;">No background (border for visibility)</p>
+    </Surface>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
 };
