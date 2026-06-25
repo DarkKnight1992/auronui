@@ -234,3 +234,26 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (buttons prop)',
+  render: (args) => ({
+    components: { ButtonGroup },
+    setup() { return { args } },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <ButtonGroup v-bind="args" :buttons="[
+          { label: 'Cut', value: 'cut' },
+          { label: 'Copy', value: 'copy' },
+          { label: 'Paste', value: 'paste' },
+        ]" />
+        <ButtonGroup v-bind="args" variant="outline" :buttons="[
+          { label: 'Day', value: 'day' },
+          { label: 'Week', value: 'week' },
+          { label: 'Month', value: 'month' },
+          { label: 'Year', value: 'year', disabled: true },
+        ]" />
+      </div>
+    `,
+  }),
+}

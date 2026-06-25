@@ -237,3 +237,27 @@ export const WithName: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (items prop)',
+  render: (args) => ({
+    components: { CheckboxGroup },
+    setup() {
+      const selected = ref(['vue', 'svelte'])
+      return { args, selected }
+    },
+    template: `
+      <CheckboxGroup
+        v-bind="args"
+        v-model="selected"
+        label="Choose frameworks"
+        :items="[
+          { value: 'vue', label: 'Vue' },
+          { value: 'react', label: 'React' },
+          { value: 'svelte', label: 'Svelte' },
+          { value: 'solid', label: 'Solid', disabled: true },
+        ]"
+      />
+    `,
+  }),
+}

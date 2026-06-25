@@ -282,3 +282,22 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (items prop)',
+  render: (args) => ({
+    components: { Stepper },
+    setup() {
+      const currentStep = ref(2)
+      return { args, currentStep }
+    },
+    template: `
+      <Stepper v-bind="args" v-model="currentStep" :items="[
+        { title: 'Account', description: 'Create your account' },
+        { title: 'Profile', description: 'Set up your profile' },
+        { title: 'Review', description: 'Review your details' },
+        { title: 'Done', description: 'You are all set!' },
+      ]" />
+    `,
+  }),
+}

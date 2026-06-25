@@ -3,6 +3,14 @@ import { computed, provide, ref } from 'vue'
 import { stepperVariants, type StepperVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { stepperContextKey, type StepStatus } from './Stepper.context'
+import StepperItem from './StepperItem.vue'
+import StepperIndicator from './StepperIndicator.vue'
+import StepperTitle from './StepperTitle.vue'
+import StepperDescription from './StepperDescription.vue'
+import StepperSeparator from './StepperSeparator.vue'
+import StepperContent from './StepperContent.vue'
+
+type StepperShorthandItem = { title?: string; description?: string }
 
 const props = withDefaults(defineProps<{
   modelValue?: number
@@ -16,6 +24,8 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
   }>
+  /** Shorthand API: render steps from an array instead of the compound slot API */
+  items?: StepperShorthandItem[]
 }>(), {
   modelValue: undefined,
   defaultValue: 1,
@@ -54,12 +64,14 @@ function getStepStatus(step: number): StepStatus {
   return 'pending'
 }
 
+const resolvedTotalSteps = computed(() => props.items ? props.items.length : props.totalSteps)
+
 provide(stepperContextKey, {
   currentStep: computed(() => currentStep.value),
   orientation: computed(() => props.orientation ?? 'horizontal'),
   size: computed(() => props.size ?? 'md'),
   color: computed(() => props.color ?? 'accent'),
-  totalSteps: computed(() => props.totalSteps),
+  totalSteps: resolvedTotalSteps,
   getStepStatus,
 })
 </script>
@@ -67,9 +79,23 @@ provide(stepperContextKey, {
 <template>
   <div
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
-    :aria-label="`Step ${currentStep} of ${totalSteps}`"
+    :aria-label="`Step ${currentStep} of ${resolvedTotalSteps}`"
     data-slot="stepper"
   >
-    <slot />
+    <template v-if="props.items">
+      <StepperItem
+        v-for="(item, idx) in props.items"
+        :key="idx + 1"
+        :step="idx + 1"
+      >
+        <StepperIndicator>{{ idx + 1 }}</StepperIndicator>
+        <StepperSeparator v-if="idx < props.items.length - 1" />
+        <StepperContent>
+          <StepperTitle v-if="item.title">{{ item.title }}</StepperTitle>
+          <StepperDescription v-if="item.description">{{ item.description }}</StepperDescription>
+        </StepperContent>
+      </StepperItem>
+    </template>
+    <slot v-else />
   </div>
 </template>

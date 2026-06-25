@@ -3,6 +3,9 @@ import { computed, ref, toRef } from 'vue'
 import { switchGroupVariants, type SwitchGroupVariants, type SwitchVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useSwitchGroupProvide } from './switch-group.context'
+import SwitchInput from './Switch.vue'
+
+type SwitchShorthandItem = { value: string; label?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   size?: SwitchVariants['size']
@@ -14,6 +17,8 @@ const props = withDefaults(defineProps<{
   label?: string
   description?: string
   class?: string
+  /** Shorthand API: render switches from an array instead of the compound slot API */
+  items?: SwitchShorthandItem[]
 }>(), {
   size: 'md',
   disabled: false,
@@ -73,7 +78,15 @@ const groupSlots = computed(() =>
       class="switch-group__label"
     >{{ props.label }}</span>
     <div :class="groupSlots.items()">
-      <slot />
+      <template v-if="props.items">
+        <SwitchInput
+          v-for="item in props.items"
+          :key="item.value"
+          :value="item.value"
+          :disabled="item.disabled"
+        >{{ item.label ?? item.value }}</SwitchInput>
+      </template>
+      <slot v-else />
     </div>
     <span
       v-if="props.description"

@@ -3,6 +3,9 @@ import { computed, ref, toRef } from 'vue'
 import { checkboxGroupVariants, type CheckboxGroupVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useCheckboxGroupProvide } from './checkbox-group.context'
+import Checkbox from './Checkbox.vue'
+
+type CheckboxShorthandItem = { value: string; label?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   variant?: CheckboxGroupVariants['variant']
@@ -14,6 +17,8 @@ const props = withDefaults(defineProps<{
   label?: string
   description?: string
   class?: string
+  /** Shorthand API: render checkboxes from an array instead of the compound slot API */
+  items?: CheckboxShorthandItem[]
 }>(), {
   variant: 'primary',
   disabled: false,
@@ -73,7 +78,15 @@ const groupClasses = computed(() =>
       class="checkbox-group__label"
     >{{ props.label }}</span>
     <div class="checkbox-group__wrapper">
-      <slot />
+      <template v-if="props.items">
+        <Checkbox
+          v-for="item in props.items"
+          :key="item.value"
+          :value="item.value"
+          :disabled="item.disabled"
+        >{{ item.label ?? item.value }}</Checkbox>
+      </template>
+      <slot v-else />
     </div>
     <span
       v-if="props.description"

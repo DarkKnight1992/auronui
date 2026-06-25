@@ -3,6 +3,9 @@ import { computed, h, cloneVNode, type VNode } from 'vue'
 import { breadcrumbsVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useBreadcrumbsProvide } from './breadcrumbs.context'
+import BreadcrumbItem from './BreadcrumbItem.vue'
+
+type BreadcrumbShorthandItem = { label: string; href?: string }
 
 const props = withDefaults(defineProps<{
   maxItems?: number
@@ -12,6 +15,8 @@ const props = withDefaults(defineProps<{
     base: ClassValue
     item: ClassValue
   }>
+  /** Shorthand API: render breadcrumb items from an array instead of the compound slot API */
+  items?: BreadcrumbShorthandItem[]
 }>(), {})
 
 const slots = defineSlots<{
@@ -63,6 +68,15 @@ const renderedChildren = computed(() => {
 
 const total = computed(() => renderedChildren.value.length)
 
+const renderedItems = computed((): BreadcrumbShorthandItem[] => {
+  if (!props.items) return []
+  const max = props.maxItems
+  if (!max || props.items.length <= max || max < 2) return props.items
+  const first = props.items[0]
+  const tail = props.items.slice(props.items.length - (max - 2))
+  return [first, { label: '…' }, ...tail]
+})
+
 useBreadcrumbsProvide({
   slotFns,
   total,
@@ -76,11 +90,21 @@ useBreadcrumbsProvide({
     :class="props.class"
   >
     <ol :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
-      <component
-        :is="child"
-        v-for="(child, idx) in renderedChildren"
-        :key="idx"
-      />
+      <template v-if="props.items">
+        <BreadcrumbItem
+          v-for="(item, idx) in renderedItems"
+          :key="idx"
+          :href="item.href"
+          :is-last="idx === renderedItems.length - 1"
+        >{{ item.label }}</BreadcrumbItem>
+      </template>
+      <template v-else>
+        <component
+          :is="child"
+          v-for="(child, idx) in renderedChildren"
+          :key="idx"
+        />
+      </template>
     </ol>
   </nav>
 </template>

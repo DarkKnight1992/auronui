@@ -204,3 +204,27 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const GroupArrayAPI: Story = {
+  name: 'SwitchGroup: Array API (items prop)',
+  render: (args) => ({
+    components: { SwitchGroup },
+    setup() {
+      const selected = ref(['email', 'push'])
+      return { args, selected }
+    },
+    template: `
+      <SwitchGroup
+        v-bind="args"
+        v-model="selected"
+        label="Notification channels"
+        :items="[
+          { value: 'email', label: 'Email notifications' },
+          { value: 'sms', label: 'SMS notifications' },
+          { value: 'push', label: 'Push notifications' },
+          { value: 'slack', label: 'Slack notifications', disabled: true },
+        ]"
+      />
+    `,
+  }),
+}

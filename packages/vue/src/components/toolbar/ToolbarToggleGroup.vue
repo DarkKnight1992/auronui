@@ -4,9 +4,11 @@ import { ToolbarToggleGroup as RekaToolbarToggleGroup } from 'reka-ui'
 import { toggleButtonGroupVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useToolbarInject } from './toolbar.context'
+import ToolbarToggleItem from './ToolbarToggleItem.vue'
 
 type Single = string
 type Multi = string[]
+type ToolbarToggleShorthandItem = { value: string; label?: string; variant?: string; size?: string; isIconOnly?: boolean; disabled?: boolean; class?: string }
 
 const props = defineProps<{
   type: 'single' | 'multiple'
@@ -16,6 +18,8 @@ const props = defineProps<{
   orientation?: 'horizontal' | 'vertical'
   isDetached?: boolean
   class?: string
+  /** Shorthand API: render toggle items from an array instead of the compound slot API */
+  items?: ToolbarToggleShorthandItem[]
 }>()
 
 const emit = defineEmits<{
@@ -39,6 +43,18 @@ const classes = computed(() =>
     :class="composeClassName(classes, props.class)"
     @update:model-value="(v) => emit('update:modelValue', v as Single | Multi)"
   >
-    <slot />
+    <template v-if="props.items">
+      <ToolbarToggleItem
+        v-for="item in props.items"
+        :key="item.value"
+        :value="item.value"
+        :variant="item.variant"
+        :size="item.size"
+        :is-icon-only="item.isIconOnly"
+        :disabled="item.disabled"
+        :class="item.class"
+      >{{ item.label }}</ToolbarToggleItem>
+    </template>
+    <slot v-else />
   </RekaToolbarToggleGroup>
 </template>

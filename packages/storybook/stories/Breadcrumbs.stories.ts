@@ -99,3 +99,27 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (items prop)',
+  render: (args) => ({
+    components: { Breadcrumbs },
+    setup() { return { args } },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <Breadcrumbs v-bind="args" :items="[
+          { label: 'Home', href: '/' },
+          { label: 'Components', href: '/components' },
+          { label: 'Breadcrumbs' },
+        ]" />
+        <Breadcrumbs v-bind="args" :max-items="3" :items="[
+          { label: 'Home', href: '/' },
+          { label: 'Docs', href: '/docs' },
+          { label: 'Components', href: '/components' },
+          { label: 'Navigation', href: '/components/navigation' },
+          { label: 'Breadcrumbs' },
+        ]" />
+      </div>
+    `,
+  }),
+}

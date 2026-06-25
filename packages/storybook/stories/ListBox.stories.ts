@@ -209,3 +209,23 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (items prop)',
+  render: (args) => ({
+    components: { ListBox },
+    setup() {
+      const selected = ref('react')
+      return { args, selected }
+    },
+    template: `
+      <ListBox v-bind="args" v-model="selected" aria-label="Select a framework" :items="[
+        { value: 'vue', label: 'Vue' },
+        { value: 'react', label: 'React' },
+        { value: 'svelte', label: 'Svelte' },
+        { value: 'solid', label: 'Solid' },
+        { value: 'angular', label: 'Angular', disabled: true },
+      ]" />
+    `,
+  }),
+}

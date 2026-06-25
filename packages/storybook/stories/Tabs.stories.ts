@@ -251,3 +251,19 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (items prop)',
+  render: (args) => ({
+    components: { Tabs },
+    setup() { return { args } },
+    template: `
+      <Tabs v-bind="args" :items="[
+        { value: 'overview', label: 'Overview', content: 'High-level product summary and key benefits.' },
+        { value: 'specs', label: 'Specifications', content: 'Technical details, dimensions, and compatibility.' },
+        { value: 'reviews', label: 'Reviews', content: 'Customer ratings and written feedback.' },
+        { value: 'support', label: 'Support', content: 'FAQs, documentation links, and contact options.', disabled: true },
+      ]" />
+    `,
+  }),
+}

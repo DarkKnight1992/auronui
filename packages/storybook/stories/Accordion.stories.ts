@@ -232,3 +232,19 @@ export const CustomStyles: Story = {
     `,
   }),
 }
+
+export const ArrayAPI: Story = {
+  name: 'Array API (items prop)',
+  render: (args) => ({
+    components: { Accordion },
+    setup() { return { args } },
+    template: `
+      <Accordion v-bind="args" type="single" :collapsible="true" :items="[
+        { value: 'q1', title: 'What is Auron?', content: 'A Vue 3 component library with full HeroUI visual parity.' },
+        { value: 'q2', title: 'What is Reka UI?', content: 'Reka UI is the accessibility primitive layer — Radix for Vue.' },
+        { value: 'q3', title: 'Is it MIT licensed?', content: 'Yes — MIT, clean-room implementation.' },
+        { value: 'q4', title: 'Does it support dark mode?', content: 'Yes, via CSS custom properties and Tailwind dark class.', disabled: true },
+      ]" />
+    `,
+  }),
+}

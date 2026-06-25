@@ -4,9 +4,14 @@ import { AccordionRoot } from 'reka-ui'
 import { accordionVariants, type AccordionVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAccordionProvide } from './accordion.context'
+import AccordionItem from './AccordionItem.vue'
+import AccordionHeader from './AccordionHeader.vue'
+import AccordionTrigger from './AccordionTrigger.vue'
+import AccordionContent from './AccordionContent.vue'
 
 type SingleValue = string
 type MultipleValue = string[]
+type AccordionShorthandItem = { value: string; title: string; content?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   type: 'single' | 'multiple'
@@ -21,7 +26,10 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
   }>
+  /** Shorthand API: render items from an array instead of the compound slot API */
+  items?: AccordionShorthandItem[]
 }>(), {
+
   collapsible: true,
   disabled: false,
   variant: 'default',
@@ -47,6 +55,19 @@ useAccordionProvide({ slotFns })
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="(v: SingleValue | MultipleValue | undefined) => { if (v !== undefined) emit('update:modelValue', v) }"
   >
-    <slot />
+    <template v-if="props.items">
+      <AccordionItem
+        v-for="item in props.items"
+        :key="item.value"
+        :value="item.value"
+        :disabled="item.disabled"
+      >
+        <AccordionHeader>
+          <AccordionTrigger>{{ item.title }}</AccordionTrigger>
+        </AccordionHeader>
+        <AccordionContent>{{ item.content }}</AccordionContent>
+      </AccordionItem>
+    </template>
+    <slot v-else />
   </AccordionRoot>
 </template>

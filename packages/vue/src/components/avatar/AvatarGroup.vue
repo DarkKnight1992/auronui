@@ -5,6 +5,17 @@ import { useAvatarGroupProvide } from './avatar-group.context'
 import Avatar from './Avatar.vue'
 
 
+type AvatarShorthandItem = {
+  src?: string
+  alt?: string
+  name?: string
+  color?: string
+  variant?: string
+  isBordered?: boolean
+  isDisabled?: boolean
+  showFallback?: boolean
+}
+
 const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg'
   isBordered?: boolean
@@ -14,8 +25,11 @@ const props = withDefaults(defineProps<{
   total?: number
   renderCount?: (count: number) => string
   class?: string
+  /** Shorthand API: render avatars from an array instead of the compound slot API */
+  avatars?: AvatarShorthandItem[]
 }>(), {
   size: 'md',
+
   isBordered: false,
   isDisabled: false,
   isGrid: false,
@@ -37,6 +51,20 @@ useAvatarGroupProvide({
 const containerClass = computed(() =>
   composeClassName('flex items-center flex-row', props.class)
 )
+
+const visibleAvatars = computed(() => {
+  if (!props.avatars) return []
+  return props.max !== undefined ? props.avatars.slice(0, props.max) : props.avatars
+})
+const avatarOverflowCount = computed(() => {
+  if (!props.avatars || props.max === undefined) return 0
+  const total = props.total ?? props.avatars.length
+  return total - props.max
+})
+const avatarOverflowLabel = computed(() => {
+  if (avatarOverflowCount.value <= 0) return ''
+  return props.renderCount ? props.renderCount(avatarOverflowCount.value) : `+${avatarOverflowCount.value}`
+})
 
 // Flatten slot vnodes (handles Fragments from v-for etc.)
 function flattenVNodes(vnodes: VNode[]): VNode[] {
@@ -88,7 +116,19 @@ function getSlicedNodes(): VNode[] {
     role="group"
     :class="containerClass"
   >
-    <template v-if="props.max !== undefined">
+    <template v-if="props.avatars">
+      <Avatar
+        v-for="(avatar, idx) in visibleAvatars"
+        :key="idx"
+        v-bind="avatar"
+      />
+      <Avatar v-if="avatarOverflowCount > 0">
+        <template #fallback>
+          <span class="avatar__name text-xs font-medium leading-none">{{ avatarOverflowLabel }}</span>
+        </template>
+      </Avatar>
+    </template>
+    <template v-else-if="props.max !== undefined">
       <!-- Use render function output for sliced vnodes -->
       <template
         v-for="(node, _i) in getSlicedNodes()"

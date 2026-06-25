@@ -6,6 +6,11 @@ import {
   provideCollapsibleGroup,
   type CollapsibleGroupRegistryEntry,
 } from './collapsible-group.context'
+import Collapsible from './Collapsible.vue'
+import CollapsibleTrigger from './CollapsibleTrigger.vue'
+import CollapsibleContent from './CollapsibleContent.vue'
+
+type CollapsibleShorthandItem = { title: string; content?: string; defaultOpen?: boolean; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   // single-open = true means only one child open at a time
@@ -15,6 +20,8 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
   }>
+  /** Shorthand API: render collapsibles from an array instead of the compound slot API */
+  items?: CollapsibleShorthandItem[]
 }>(), {
   singleOpen: false,
 })
@@ -45,6 +52,17 @@ const slotFns = computed(() => collapsibleGroupVariants({}))
 
 <template>
   <div :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)">
-    <slot />
+    <template v-if="props.items">
+      <Collapsible
+        v-for="(item, idx) in props.items"
+        :key="idx"
+        :default-open="item.defaultOpen"
+        :disabled="item.disabled"
+      >
+        <CollapsibleTrigger>{{ item.title }}</CollapsibleTrigger>
+        <CollapsibleContent>{{ item.content }}</CollapsibleContent>
+      </Collapsible>
+    </template>
+    <slot v-else />
   </div>
 </template>

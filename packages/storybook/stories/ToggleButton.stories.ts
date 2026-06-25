@@ -244,3 +244,24 @@ export const DetachedGroup: Story = {
     `,
   }),
 }
+
+export const GroupArrayAPI: Story = {
+  name: 'Group: Array API (buttons prop)',
+  render: (args) => ({
+    components: { ToggleButtonGroup },
+    setup() {
+      const selected = ref(['bold'])
+      return { args, selected }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px">
+        <ToggleButtonGroup v-bind="args" v-model="selected" selection-mode="multiple" :buttons="[
+          { value: 'bold', label: 'Bold' },
+          { value: 'italic', label: 'Italic' },
+          { value: 'underline', label: 'Underline' },
+          { value: 'strike', label: 'Strike', disabled: true },
+        ]" />
+      </div>
+    `,
+  }),
+}

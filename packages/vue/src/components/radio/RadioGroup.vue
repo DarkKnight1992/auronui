@@ -4,6 +4,9 @@ import { RadioGroupRoot } from 'reka-ui'
 import { radioGroupVariants, type RadioGroupVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useRadioGroupProvide } from './radio-group.context'
+import Radio from './Radio.vue'
+
+type RadioShorthandItem = { value: string; label?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   variant?: RadioGroupVariants['variant']
@@ -15,6 +18,8 @@ const props = withDefaults(defineProps<{
   label?: string
   description?: string
   class?: string
+  /** Shorthand API: render radio options from an array instead of the compound slot API */
+  items?: RadioShorthandItem[]
 }>(), {
   variant: 'primary',
   disabled: false,
@@ -60,7 +65,15 @@ const groupClasses = computed(() =>
       class="radio-group__label"
     >{{ props.label }}</span>
     <div class="radio-group__wrapper">
-      <slot />
+      <template v-if="props.items">
+        <Radio
+          v-for="item in props.items"
+          :key="item.value"
+          :value="item.value"
+          :disabled="item.disabled"
+        >{{ item.label ?? item.value }}</Radio>
+      </template>
+      <slot v-else />
     </div>
     <span
       v-if="props.description"

@@ -5,6 +5,17 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useButtonGroupProvide } from './button-group.context'
 import type { ButtonGroupSelectionMode, ButtonGroupValue } from './button-group.context'
 import type { ButtonVariants } from '@auronui/styles'
+import Button from './Button.vue'
+
+type ButtonShorthandItem = {
+  label: string
+  value?: string | number
+  disabled?: boolean
+  isLoading?: boolean
+  variant?: ButtonVariants['variant']
+  color?: ButtonVariants['color']
+  class?: string
+}
 
 const props = withDefaults(defineProps<{
   variant?: ButtonVariants['variant']
@@ -20,6 +31,8 @@ const props = withDefaults(defineProps<{
   }>
   selectionMode?: ButtonGroupSelectionMode
   modelValue?: ButtonGroupValue
+  /** Shorthand API: render buttons from an array instead of the compound slot API */
+  buttons?: ButtonShorthandItem[]
 }>(), {
   variant: 'solid',
   color: 'primary',
@@ -93,6 +106,18 @@ const slotFns = computed(() =>
     :data-orientation="props.orientation"
     role="group"
   >
-    <slot />
+    <template v-if="props.buttons">
+      <Button
+        v-for="(btn, idx) in props.buttons"
+        :key="idx"
+        :value="btn.value"
+        :disabled="btn.disabled"
+        :is-loading="btn.isLoading"
+        :variant="btn.variant"
+        :color="btn.color"
+        :class="btn.class"
+      >{{ btn.label }}</Button>
+    </template>
+    <slot v-else />
   </div>
 </template>

@@ -4,9 +4,12 @@ import { ListboxRoot, ListboxContent } from 'reka-ui'
 import { listboxVariants, type ListBoxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxProvide } from './ListBox.context'
+import ListBoxItem from './ListBoxItem.vue'
 
 // Disable Vue attribute fallthrough — we manually forward ARIA attrs to ListboxContent
 defineOptions({ inheritAttrs: false })
+
+type ListBoxShorthandItem = { value: string; label?: string; disabled?: boolean; textValue?: string }
 
 const props = withDefaults(defineProps<{
   modelValue?: string | string[]
@@ -22,6 +25,8 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
   }>
+  /** Shorthand API: render list items from an array instead of the compound slot API */
+  items?: ListBoxShorthandItem[]
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -64,7 +69,16 @@ const slotFns = computed(() =>
       v-bind="attrs"
       :class="composeClassName(slotFns, props.class, props.classNames?.base)"
     >
-      <slot />
+      <template v-if="props.items">
+        <ListBoxItem
+          v-for="item in props.items"
+          :key="item.value"
+          :value="item.value"
+          :is-disabled="item.disabled"
+          :text-value="item.textValue"
+        >{{ item.label ?? item.value }}</ListBoxItem>
+      </template>
+      <slot v-else />
     </ListboxContent>
   </ListboxRoot>
 </template>

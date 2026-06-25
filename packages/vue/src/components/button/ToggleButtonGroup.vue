@@ -3,6 +3,9 @@ import { computed, ref, toRef } from 'vue'
 import { toggleButtonGroupVariants, type ToggleButtonVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useToggleButtonGroupProvide } from './toggle-button-group.context'
+import ToggleButton from './ToggleButton.vue'
+
+type ToggleButtonShorthandItem = { value: string; label?: string; isIconOnly?: boolean; disabled?: boolean; class?: string }
 
 const props = withDefaults(defineProps<{
   variant?: ToggleButtonVariants['variant']
@@ -19,6 +22,8 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
   }>
+  /** Shorthand API: render toggle buttons from an array instead of the compound slot API */
+  buttons?: ToggleButtonShorthandItem[]
 }>(), {
   variant: 'default',
   size: 'md',
@@ -100,6 +105,16 @@ const slotFns = computed(() =>
     :data-orientation="props.orientation"
     role="group"
   >
-    <slot />
+    <template v-if="props.buttons">
+      <ToggleButton
+        v-for="btn in props.buttons"
+        :key="btn.value"
+        :value="btn.value"
+        :is-icon-only="btn.isIconOnly"
+        :disabled="btn.disabled"
+        :class="btn.class"
+      >{{ btn.label }}</ToggleButton>
+    </template>
+    <slot v-else />
   </div>
 </template>

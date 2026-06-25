@@ -97,3 +97,20 @@ export const SingleSelectToggle: Story = {
     `,
   }),
 }
+
+export const ToggleGroupArrayAPI: Story = {
+  name: 'ToggleGroup: Array API (items prop)',
+  render: (args) => ({
+    components: { Toolbar, ToolbarToggleGroup },
+    setup() { return { args } },
+    template: `
+      <Toolbar v-bind="args">
+        <ToolbarToggleGroup type="multiple" :items="[
+          { value: 'bold', label: 'Bold' },
+          { value: 'italic', label: 'Italic' },
+          { value: 'underline', label: 'Underline' },
+        ]" />
+      </Toolbar>
+    `,
+  }),
+}
