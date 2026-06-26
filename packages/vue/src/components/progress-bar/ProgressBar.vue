@@ -90,6 +90,7 @@ const formattedValue = computed(() => {
   <div
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-disabled="isDisabled ? '' : undefined"
+    :style="isInd ? undefined : { '--progress-bar-value': `${percentage}%` }"
   >
     <div
       v-if="label || showValueLabel"
@@ -118,7 +119,6 @@ const formattedValue = computed(() => {
         :as="props.indicatorAs"
         :as-child="props.indicatorAsChild"
         :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
-        :style="isInd ? {} : { '--progress-bar-value': `${percentage}%` }"
       />
     </ProgressRoot>
   </div>

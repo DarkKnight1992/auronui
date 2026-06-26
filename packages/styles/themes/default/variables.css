@@ -61,6 +61,12 @@
     --default: oklch(94% 0.001 286.375);
     --default-foreground: var(--eclipse);
 
+    --primary: oklch(0.55 0.2 262);
+    --primary-foreground: var(--snow);
+
+    --secondary: oklch(0.55 0.22 305);
+    --secondary-foreground: var(--snow);
+
     --accent: oklch(0.6204 0.195 253.83);
     --accent-foreground: var(--snow);
 
