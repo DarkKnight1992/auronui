@@ -118,7 +118,7 @@ const formattedValue = computed(() => {
         :as="props.indicatorAs"
         :as-child="props.indicatorAsChild"
         :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
-        :style="isInd ? {} : { width: `${percentage}%` }"
+        :style="isInd ? {} : { '--progress-bar-value': `${percentage}%` }"
       />
     </ProgressRoot>
   </div>

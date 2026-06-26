@@ -35,8 +35,10 @@
   }
 
   .progress-bar__fill {
-    @apply absolute top-0 left-0 h-full rounded-full w-full;
+    @apply absolute top-0 left-0 h-full rounded-full;
 
+    /* Width is driven by the CSS custom property set from JS */
+    width: var(--progress-bar-value, 0%);
     background-color: var(--progress-bar-fill);
 
     /**
@@ -50,7 +52,7 @@
   /* Indeterminate state — Reka sets data-state="indeterminate" when modelValue is null */
   .progress-bar__fill[data-state="indeterminate"],
   .progress-bar__fill--indeterminate {
-    @apply w-2/5;
+    width: 40%;
 
     animation: progress-bar-indeterminate 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
 
