@@ -10,6 +10,12 @@ const props = withDefaults(defineProps<{
   loop?: boolean
   isAttached?: boolean
   class?: string
+  /** Text direction */
+  dir?: 'ltr' | 'rtl'
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   orientation: 'horizontal',
   loop: true,

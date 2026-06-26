@@ -125,13 +125,21 @@ export const Default: Story = {
     setup: () => ({ args }),
     template: `
       <Modal v-bind="args">
-        <ModalTrigger as-child>
+        <ModalTrigger :as="args.triggerAs" as-child>
           <Button>Open Modal</Button>
         </ModalTrigger>
-        <ModalContent>
+        <ModalContent
+          :as="args.contentAs"
+          :as-child="args.contentAsChild"
+          :force-mount="args.contentForceMount"
+          :disable-outside-pointer-events="args.contentDisableOutsidePointerEvents"
+          :to="args.contentTo"
+          :disabled="args.contentDisabled"
+          :defer="args.contentDefer"
+        >
           <ModalHeader>
-            <ModalTitle>Modal Title</ModalTitle>
-            <ModalDescription>This is a description for the modal dialog.</ModalDescription>
+            <ModalTitle :as-child="args.titleAsChild">Modal Title</ModalTitle>
+            <ModalDescription :as-child="args.descriptionAsChild">This is a description for the modal dialog.</ModalDescription>
           </ModalHeader>
           <ModalBody>
             <p style="margin: 0; font-size: 14px; color: #555;">
@@ -139,7 +147,7 @@ export const Default: Story = {
             </p>
           </ModalBody>
           <ModalFooter>
-            <ModalClose as-child>
+            <ModalClose :as="args.closeAs" as-child>
               <Button variant="flat">Close</Button>
             </ModalClose>
           </ModalFooter>
