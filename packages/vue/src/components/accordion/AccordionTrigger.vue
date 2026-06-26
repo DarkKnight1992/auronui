@@ -11,13 +11,15 @@ const props = defineProps<{
     trigger: ClassValue
     indicator: ClassValue
   }>
+  as?: string
+  asChild?: boolean
 }>()
 const ctx = useAccordionInject()
 const item = useAccordionItemInject()
 </script>
 
 <template>
-  <RekaAccordionTrigger :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
+  <RekaAccordionTrigger :as="props.as" :as-child="props.asChild" :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
     <slot />
     <!--
       Indicator slot. Users can replace the chevron with any icon.

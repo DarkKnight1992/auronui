@@ -6,6 +6,8 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   ratio?: number
+  as?: string
+  asChild?: boolean
   class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
@@ -22,6 +24,8 @@ const slotFns = computed(() => aspectRatioVariants())
 <template>
   <AspectRatio
     :ratio="ratio"
+    :as="as"
+    :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     data-slot="aspect-ratio"
   >

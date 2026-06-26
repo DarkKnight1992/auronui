@@ -7,12 +7,29 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   variant?: 'default' | 'danger'
   class?: string
+  /** Controlled checked state. */
+  modelValue?: boolean
+  /** Whether this item is disabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   textValue: undefined,
   isDisabled: false,
   variant: 'default',
   class: undefined,
+  modelValue: undefined,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
 })
+
+const emit = defineEmits<{
+  select: [event: Event]
+  'update:modelValue': [value: boolean]
+}>()
 
 const isSelected = defineModel<boolean>('isSelected', { default: false })
 
@@ -21,11 +38,14 @@ const slots = menuItemVariants({ variant: props.variant })
 
 <template>
   <DropdownMenuCheckboxItem
-    :model-value="isSelected"
+    :model-value="props.modelValue ?? isSelected"
     :text-value="props.textValue"
-    :disabled="props.isDisabled"
+    :disabled="props.disabled ?? props.isDisabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="[slots.item(), props.class]"
-    @update:model-value="isSelected = $event"
+    @update:model-value="isSelected = $event; emit('update:modelValue', $event)"
+    @select="emit('select', $event)"
   >
     <DropdownMenuItemIndicator
       :class="slots.indicator()"

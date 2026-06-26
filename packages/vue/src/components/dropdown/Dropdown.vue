@@ -13,6 +13,10 @@ const props = withDefaults(defineProps<{
   closeOnSelect?: boolean
   disableAnimation?: boolean
   class?: string
+  /** Controlled open state of the dropdown. */
+  open?: boolean
+  /** Text direction for the dropdown. */
+  dir?: 'ltr' | 'rtl'
 }>(), {
   isOpen: undefined,
   defaultOpen: undefined,
@@ -23,10 +27,13 @@ const props = withDefaults(defineProps<{
   closeOnSelect: true,
   disableAnimation: false,
   class: undefined,
+  open: undefined,
+  dir: undefined,
 })
 
 const emit = defineEmits<{
   'update:isOpen': [value: boolean]
+  'update:open': [value: boolean]
 }>()
 
 useDropdownProvide({
@@ -40,10 +47,11 @@ useDropdownProvide({
 
 <template>
   <DropdownMenuRoot
-    :open="props.isOpen"
+    :open="props.open ?? props.isOpen"
     :default-open="props.defaultOpen"
     :modal="props.modal"
-    @update:open="emit('update:isOpen', $event)"
+    :dir="props.dir"
+    @update:open="emit('update:isOpen', $event); emit('update:open', $event)"
   >
     <slot />
   </DropdownMenuRoot>

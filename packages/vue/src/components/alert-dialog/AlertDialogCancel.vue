@@ -17,6 +17,7 @@ const props = withDefaults(defineProps<{
   /** Per-slot class name overrides */
   classNames?: Partial<{ base: ClassValue }>
   asChild?: boolean
+  as?: string
 }>(), {
   variant: 'secondary',
   size: 'md',
@@ -53,6 +54,7 @@ const slotFns = computed(() => buttonVariants({ variant: resolvedVariant.value, 
 
 <template>
   <AlertDialogCancel
+    :as="props.as"
     :as-child="props.asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >

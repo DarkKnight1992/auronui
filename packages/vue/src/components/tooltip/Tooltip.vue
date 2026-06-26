@@ -16,6 +16,10 @@ export default defineComponent({
     defaultOpen: { type: Boolean, default: false },
     open: { type: Boolean, default: undefined },
     delayDuration: { type: Number, default: undefined },
+    disableHoverableContent: { type: Boolean, default: undefined },
+    disableClosingTrigger: { type: Boolean, default: undefined },
+    disabled: { type: Boolean, default: undefined },
+    ignoreNonKeyboardFocus: { type: Boolean, default: undefined },
   },
   emits: ['update:open'],
   setup(props, { slots, emit }) {
@@ -29,6 +33,18 @@ export default defineComponent({
       }
       if (props.delayDuration !== undefined) {
         p.delayDuration = props.delayDuration
+      }
+      if (props.disableHoverableContent !== undefined) {
+        p.disableHoverableContent = props.disableHoverableContent
+      }
+      if (props.disableClosingTrigger !== undefined) {
+        p.disableClosingTrigger = props.disableClosingTrigger
+      }
+      if (props.disabled !== undefined) {
+        p.disabled = props.disabled
+      }
+      if (props.ignoreNonKeyboardFocus !== undefined) {
+        p.ignoreNonKeyboardFocus = props.ignoreNonKeyboardFocus
       }
       return p
     })

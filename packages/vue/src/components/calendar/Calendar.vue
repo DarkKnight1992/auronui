@@ -46,6 +46,26 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   disabled?: boolean
   calendarLabel?: string
+  /** Initial focus state. */
+  initialFocus?: boolean
+  /** Text direction. */
+  dir?: 'ltr' | 'rtl'
+  /** Navigate to next page. */
+  nextPage?: (placeholder: DateValue) => DateValue
+  /** Navigate to previous page. */
+  prevPage?: (placeholder: DateValue) => DateValue
+  /** Allow multiple date selections. */
+  multiple?: boolean
+  /** Disable days outside the current view. */
+  disableDaysOutsideCurrentView?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Render child as root element. */
+  asChild?: boolean
+  /** MonthPicker: disable specific months. */
+  isMonthDisabled?: (date: DateValue) => boolean
+  /** MonthPicker: mark specific months as unavailable. */
+  isMonthUnavailable?: (date: DateValue) => boolean
   class?: ClassValue
   /** Override classes on any named slot */
   classNames?: Partial<{
@@ -137,6 +157,14 @@ const nextViewLabel = computed(() =>
     :readonly="readonly"
     :disabled="disabled"
     :calendar-label="calendarLabel"
+    :initial-focus="initialFocus"
+    :dir="dir"
+    :next-page="nextPage"
+    :prev-page="prevPage"
+    :multiple="multiple"
+    :disable-days-outside-current-view="disableDaysOutsideCurrentView"
+    :as="as"
+    :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
     <template #default="{ grid, weekDays }">
@@ -248,6 +276,15 @@ const nextViewLabel = computed(() =>
     :max-value="maxValue"
     :readonly="readonly"
     :disabled="disabled"
+    :initial-focus="initialFocus"
+    :dir="dir"
+    :next-page="nextPage"
+    :prev-page="prevPage"
+    :multiple="multiple"
+    :is-month-disabled="isMonthDisabled"
+    :is-month-unavailable="isMonthUnavailable"
+    :as="as"
+    :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onMonthSelect"
     @update:placeholder="(val: DateValue | undefined) => { if (val) placeholder = val }"

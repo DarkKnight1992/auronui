@@ -15,6 +15,18 @@ const props = withDefaults(defineProps<{
   isBordered?: boolean
   isDisabled?: boolean
   showFallback?: boolean
+  /** AvatarRoot props */
+  as?: string
+  asChild?: boolean
+  /** AvatarImage props */
+  referrerPolicy?: string
+  crossOrigin?: string
+  imageAs?: string
+  imageAsChild?: boolean
+  /** AvatarFallback props */
+  delayMs?: number
+  fallbackAs?: string
+  fallbackAsChild?: boolean
   class?: ClassValue
   /** Per-slot class name overrides */
   classNames?: Partial<{
@@ -27,6 +39,10 @@ const props = withDefaults(defineProps<{
   isDisabled: false,
   showFallback: false,
 })
+
+const emit = defineEmits<{
+  'loading-status-change': [status: string]
+}>()
 
 // Inject AvatarGroup context with ref-based fallbacks (mirrors Button.vue pattern)
 const groupCtx = useAvatarGroupInject({
@@ -74,6 +90,8 @@ const inGroupClass = computed(() =>
 
 <template>
   <AvatarRoot
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.base(), borderedClass, inGroupClass, props.class, props.classNames?.base)"
     :data-disabled="isDisabled || undefined"
     :data-bordered="finalIsBordered || undefined"
@@ -82,7 +100,12 @@ const inGroupClass = computed(() =>
       v-if="props.src && !props.showFallback"
       :src="props.src"
       :alt="props.alt ?? props.name ?? ''"
+      :as="props.imageAs"
+      :as-child="props.imageAsChild"
+      :referrer-policy="props.referrerPolicy"
+      :cross-origin="props.crossOrigin"
       :class="composeClassName(slotFns.image(), props.classNames?.image)"
+      @loading-status-change="emit('loading-status-change', $event)"
     />
     <!--
       delayMs: only pass a value when we have a src — Reka UI treats delayMs=undefined
@@ -90,8 +113,11 @@ const inGroupClass = computed(() =>
       not undefined, so the timeout never fires and fallback stays hidden forever.
     -->
     <AvatarFallback
+      :as="props.fallbackAs"
+      :as-child="props.fallbackAsChild"
+      :delay-ms="props.delayMs"
       :class="composeClassName(slotFns.fallback(), props.classNames?.fallback)"
-      v-bind="props.src && !props.showFallback ? { 'delay-ms': 600 } : {}"
+      v-bind="props.src && !props.showFallback && props.delayMs === undefined ? { 'delay-ms': 600 } : {}"
     >
       <slot name="fallback">
         <span

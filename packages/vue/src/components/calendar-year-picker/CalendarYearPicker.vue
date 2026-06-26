@@ -29,6 +29,20 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   disabled?: boolean
   calendarLabel?: string
+  /** Initial focus state. @default false */
+  initialFocus?: boolean
+  /** Text direction. */
+  dir?: 'ltr' | 'rtl'
+  /** Navigate to next page. */
+  nextPage?: (placeholder: DateValue) => DateValue
+  /** Navigate to previous page. */
+  prevPage?: (placeholder: DateValue) => DateValue
+  /** Allow multiple selections. */
+  multiple?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Render child as root element. */
+  asChild?: boolean
   class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
@@ -71,6 +85,13 @@ const slotFns = computed(() => calendarVariants())
     :readonly="readonly"
     :disabled="disabled"
     :calendar-label="calendarLabel"
+    :initial-focus="initialFocus"
+    :dir="dir"
+    :next-page="nextPage"
+    :prev-page="prevPage"
+    :multiple="multiple"
+    :as="as"
+    :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >
     <template #default="{ grid }">

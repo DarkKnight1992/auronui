@@ -11,6 +11,8 @@ const props = defineProps<{
     body: ClassValue
     bodyInner: ClassValue
   }>
+  as?: string
+  asChild?: boolean
 }>()
 const ctx = useAccordionInject()
 const rekaItem = injectAccordionItemContext()
@@ -19,6 +21,8 @@ const rekaItem = injectAccordionItemContext()
 <template>
   <RekaAccordionContent
     :force-mount="true"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(ctx.slotFns.value.body(), props.class, props.classNames?.body)"
   >
     <motion.div

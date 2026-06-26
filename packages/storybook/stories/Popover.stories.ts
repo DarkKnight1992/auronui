@@ -16,21 +16,55 @@ const meta: Meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    defaultOpen: {
+      control: 'boolean',
+      description: 'Initial open state (uncontrolled).',
+      table: { category: 'Popover', defaultValue: { summary: 'false' } },
+    },
+    open: {
+      control: 'boolean',
+      description: 'Controlled open state.',
+      table: { category: 'Popover', defaultValue: { summary: 'undefined' } },
+    },
+    modal: {
+      control: 'boolean',
+      description: 'When true, interaction with outside elements is blocked.',
+      table: { category: 'Popover', defaultValue: { summary: 'false' } },
+    },
+    contentOpenAutoFocus: {
+      control: false,
+      description: 'Event fired when focus moves into the content after opening.',
+      table: { category: 'PopoverContent' },
+    },
+    contentCloseAutoFocus: {
+      control: false,
+      description: 'Event fired when focus moves to the trigger after closing.',
+      table: { category: 'PopoverContent' },
+    },
+  },
 }
 
 export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  args: {
+    defaultOpen: false,
+    modal: false,
+  },
   render: (args) => ({
     components: { Button, Popover, PopoverTrigger, PopoverContent },
     setup: () => ({ args }),
     template: `
-      <Popover v-bind="args">
+      <Popover :default-open="args.defaultOpen" :open="args.open" :modal="args.modal" @update:open="args['onUpdate:open']">
         <PopoverTrigger as-child>
           <Button>Open Popover</Button>
         </PopoverTrigger>
-        <PopoverContent>
+        <PopoverContent
+          @open-auto-focus="args.contentOpenAutoFocus"
+          @close-auto-focus="args.contentCloseAutoFocus"
+        >
           <div style="padding: 16px; max-width: 280px;">
             <h3 style="margin: 0 0 8px; font-size: 14px; font-weight: 600;">Popover Title</h3>
             <p style="margin: 0; font-size: 13px; color: #555;">

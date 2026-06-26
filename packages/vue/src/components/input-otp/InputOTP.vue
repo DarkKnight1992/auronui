@@ -15,6 +15,20 @@ const props = withDefaults(defineProps<{
   defaultValue?: string
   name?: string
   variant?: InputOTPVariants['variant']
+  /** Text direction forwarded to PinInputRoot. */
+  dir?: 'ltr' | 'rtl'
+  /** HTML id attribute forwarded to PinInputRoot. */
+  id?: string
+  /** Whether PinInputRoot renders as a child element. */
+  asChild?: boolean
+  /** Element or component to render PinInputRoot as. */
+  as?: string
+  /** Whether the input is required. */
+  required?: boolean
+  /** Whether each PinInputInput renders as a child element. */
+  inputAsChild?: boolean
+  /** Element or component to render each PinInputInput as. */
+  inputAs?: string
   class?: ClassValue
   /** Optional per-slot class overrides */
   classNames?: Partial<{
@@ -33,6 +47,13 @@ const props = withDefaults(defineProps<{
   defaultValue: undefined,
   name: undefined,
   variant: 'primary',
+  dir: undefined,
+  id: undefined,
+  asChild: false,
+  as: undefined,
+  required: false,
+  inputAsChild: false,
+  inputAs: undefined,
   class: undefined,
   classNames: undefined,
 })
@@ -61,6 +82,11 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
     :otp="otp"
     :mask="mask"
     :name="name"
+    :dir="props.dir"
+    :id="props.id"
+    :as-child="props.asChild"
+    :as="props.as"
+    :required="props.required"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
     @complete="handleComplete"
@@ -70,6 +96,8 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
         v-for="i in length"
         :key="i - 1"
         :index="i - 1"
+        :as-child="props.inputAsChild"
+        :as="props.inputAs"
         :class="composeClassName(slotFns.slot(), props.classNames?.slot)"
       />
     </div>

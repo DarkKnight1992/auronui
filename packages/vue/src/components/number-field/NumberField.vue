@@ -29,6 +29,34 @@ const props = withDefaults(defineProps<{
   label?: string
   // camelCase prop; in templates users write aria-label="…" (Vue auto-converts)
   ariaLabel?: string
+  /** Default value when uncontrolled. */
+  defaultValue?: number
+  /** Whether to snap the value to the nearest step. */
+  stepSnapping?: boolean
+  /** Whether to focus the input on increment/decrement. */
+  focusOnChange?: boolean
+  /** Disable changing value with mouse wheel. */
+  disableWheelChange?: boolean
+  /** Invert the direction of mouse wheel change. */
+  invertWheelChange?: boolean
+  /** Whether NumberFieldRoot renders as a child element. */
+  asChild?: boolean
+  /** Element or component to render NumberFieldRoot as. */
+  as?: string
+  /** Whether the field is required. */
+  required?: boolean
+  /** Whether NumberFieldInput renders as a child element. */
+  inputAsChild?: boolean
+  /** Element or component to render NumberFieldInput as. */
+  inputAs?: string
+  /** Whether NumberFieldIncrement renders as a child element. */
+  incrementAsChild?: boolean
+  /** Element or component to render NumberFieldIncrement as. */
+  incrementAs?: string
+  /** Whether NumberFieldDecrement renders as a child element. */
+  decrementAsChild?: boolean
+  /** Element or component to render NumberFieldDecrement as. */
+  decrementAs?: string
   class?: ClassValue
   /** Per-slot classNames override object for custom styling */
   classNames?: Partial<{

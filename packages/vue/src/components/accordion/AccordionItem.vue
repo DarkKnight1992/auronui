@@ -8,6 +8,9 @@ import { useAccordionItemProvide } from './accordion-item.context'
 const props = defineProps<{
   value: string
   disabled?: boolean
+  unmountOnHide?: boolean
+  as?: string
+  asChild?: boolean
   class?: ClassValue
   /** Override classes on named slots */
   classNames?: Partial<{
@@ -30,6 +33,9 @@ useAccordionItemProvide({ open })
     ref="reka"
     :value="props.value"
     :disabled="props.disabled"
+    :unmount-on-hide="props.unmountOnHide"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(ctx.slotFns.value.item(), props.class, props.classNames?.item)"
   >
     <slot />

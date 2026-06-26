@@ -14,6 +14,9 @@ const props = withDefaults(defineProps<{
   open?: boolean | null
   defaultOpen?: boolean
   disabled?: boolean
+  unmountOnHide?: boolean
+  as?: string
+  asChild?: boolean
   class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
@@ -77,6 +80,9 @@ onBeforeUnmount(() => {
     :open="isControlled ? internalOpen : undefined"
     :default-open="!isControlled ? props.defaultOpen : undefined"
     :disabled="props.disabled"
+    :unmount-on-hide="props.unmountOnHide"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:open="onUpdateOpen"
   >

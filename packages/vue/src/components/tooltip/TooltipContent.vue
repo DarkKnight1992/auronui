@@ -19,6 +19,11 @@ const props = withDefaults(defineProps<{
   avoidCollisions: true,
 })
 
+const emit = defineEmits<{
+  'escape-key-down': [event: KeyboardEvent]
+  'pointer-down-outside': [event: Event]
+}>()
+
 // Inject the Tooltip root context to read open state for AnimatePresence
 const rootContext = injectTooltipRootContext()
 
@@ -35,6 +40,8 @@ const styles = tooltipVariants()
       :align-offset="props.alignOffset"
       :avoid-collisions="props.avoidCollisions"
       v-bind="$attrs"
+      @escape-key-down="emit('escape-key-down', $event)"
+      @pointer-down-outside="emit('pointer-down-outside', $event)"
     >
       <AnimatePresence>
         <motion.div

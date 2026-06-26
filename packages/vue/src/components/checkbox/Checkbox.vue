@@ -16,6 +16,24 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   isIndeterminate?: boolean
   name?: string
+  /** HTML id attribute forwarded to CheckboxRoot. */
+  id?: string
+  /** The value for the checked state (forwarded to CheckboxRoot). */
+  trueValue?: boolean | string | number
+  /** The value for the unchecked state (forwarded to CheckboxRoot). */
+  falseValue?: boolean | string | number
+  /** Whether CheckboxRoot should render as a child element. */
+  asChild?: boolean
+  /** Element or component to render CheckboxRoot as. */
+  as?: string
+  /** Whether the checkbox is required. */
+  required?: boolean
+  /** Whether CheckboxIndicator should force-mount even when unchecked. */
+  indicatorForceMount?: boolean
+  /** Whether CheckboxIndicator renders as a child element. */
+  indicatorAsChild?: boolean
+  /** Element or component to render CheckboxIndicator as. */
+  indicatorAs?: string
   class?: ClassValue
   /** Per-slot class overrides for any slot in this component. */
   classNames?: Partial<{
@@ -32,6 +50,15 @@ const props = withDefaults(defineProps<{
   disabled: false,
   isIndeterminate: false,
   name: undefined,
+  id: undefined,
+  trueValue: undefined,
+  falseValue: undefined,
+  asChild: false,
+  as: undefined,
+  required: false,
+  indicatorForceMount: undefined,
+  indicatorAsChild: false,
+  indicatorAs: undefined,
 })
 
 const emit = defineEmits<{
@@ -96,11 +123,22 @@ const slotFns = computed(() =>
     :disabled="isDisabled"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
+    :id="props.id"
+    :true-value="props.trueValue"
+    :false-value="props.falseValue"
+    :as-child="props.asChild"
+    :as="props.as"
+    :required="props.required"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
   >
     <span :class="composeClassName(slotFns.control(), props.classNames?.control)">
-      <CheckboxIndicator :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)">
+      <CheckboxIndicator
+        :force-mount="props.indicatorForceMount"
+        :as-child="props.indicatorAsChild"
+        :as="props.indicatorAs"
+        :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
+      >
         <!-- Indeterminate: dash icon -->
         <svg
           v-if="props.isIndeterminate"

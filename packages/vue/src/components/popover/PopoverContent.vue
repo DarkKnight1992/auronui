@@ -24,6 +24,8 @@ const emit = defineEmits<{
   'pointer-down-outside': [event: Event]
   'focus-outside': [event: Event]
   'interact-outside': [event: Event]
+  'open-auto-focus': [event: Event]
+  'close-auto-focus': [event: Event]
 }>()
 
 // Inject the Popover root context to read open state
@@ -47,6 +49,8 @@ const styles = popoverVariants()
       @pointer-down-outside="emit('pointer-down-outside', $event)"
       @focus-outside="emit('focus-outside', $event)"
       @interact-outside="emit('interact-outside', $event)"
+      @open-auto-focus="emit('open-auto-focus', $event)"
+      @close-auto-focus="emit('close-auto-focus', $event)"
     >
       <AnimatePresence>
         <motion.div

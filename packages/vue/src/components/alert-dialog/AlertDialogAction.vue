@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<{
     base: ClassValue
   }>
   asChild?: boolean
+  as?: string
 }>(), {
   variant: 'danger',
   size: 'md',
@@ -60,6 +61,7 @@ const slotFns = computed(() => buttonVariants({ variant: resolvedVariant.value, 
 
 <template>
   <AlertDialogAction
+    :as="props.as"
     :as-child="props.asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
   >

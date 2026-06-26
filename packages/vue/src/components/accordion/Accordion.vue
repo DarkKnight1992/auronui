@@ -19,6 +19,11 @@ const props = withDefaults(defineProps<{
   defaultValue?: SingleValue | MultipleValue
   collapsible?: boolean
   disabled?: boolean
+  dir?: 'ltr' | 'rtl'
+  orientation?: 'horizontal' | 'vertical'
+  unmountOnHide?: boolean
+  as?: string
+  asChild?: boolean
   variant?: AccordionVariants['variant']
   size?: AccordionVariants['size']
   class?: ClassValue
@@ -52,6 +57,11 @@ useAccordionProvide({ slotFns })
     :default-value="props.defaultValue"
     :collapsible="props.collapsible"
     :disabled="props.disabled"
+    :dir="props.dir"
+    :orientation="props.orientation"
+    :unmount-on-hide="props.unmountOnHide"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="(v: SingleValue | MultipleValue | undefined) => { if (v !== undefined) emit('update:modelValue', v) }"
   >

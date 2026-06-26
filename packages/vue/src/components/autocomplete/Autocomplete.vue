@@ -39,6 +39,8 @@ const emit = defineEmits<{
   'update:open': [value: boolean]
   /** Fired when the user creates a new value via `creatable` or `<AutocompleteCreateItem>`. */
   'create': [value: string]
+  /** Fired when an item is highlighted. */
+  'highlight': [context: { ref: Element; value: string } | undefined]
 }>()
 
 export interface AutocompleteItem {
@@ -94,6 +96,24 @@ type Props = {
     errorMessage: ClassValue
     description: ClassValue
   }>
+
+  /* ─── Reka AutocompleteRoot pass-through props ───────────────────── */
+  /** Reading direction for the component. */
+  dir?: 'ltr' | 'rtl'
+  /** Reset the search term when the trigger loses focus. */
+  resetSearchTermOnBlur?: boolean
+  /** Open the dropdown when the input gains focus. */
+  openOnFocus?: boolean
+  /** Open the dropdown when the input is clicked. */
+  openOnClick?: boolean
+  /** Disable Reka's built-in filter; handle filtering externally. */
+  ignoreFilter?: boolean
+  /** Highlight the matching item on hover. */
+  highlightOnHover?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 
   /* ─── Autocomplete-specific ─────────────────────────────────────── */
   /** Two-way bound selected value. string in single mode, string[] in multiple mode. */
@@ -496,9 +516,17 @@ useAutocompleteProvide({
         :open="props.multiple ? internalOpen : singleOpen"
         :disabled="props.isDisabled"
         :required="props.isRequired"
+        :name="props.name"
+        :dir="props.dir"
         :ignore-filter="effectiveIgnoreFilter"
-        :open-on-focus="true"
+        :open-on-focus="props.openOnFocus ?? true"
+        :open-on-click="props.openOnClick"
+        :highlight-on-hover="props.highlightOnHover"
+        :reset-search-term-on-blur="props.resetSearchTermOnBlur"
+        :as="props.as"
+        :as-child="props.asChild"
         @update:open="handleOpenChange"
+        @highlight="emit('highlight', $event)"
       >
         <slot
           v-if="usesCustomChrome"

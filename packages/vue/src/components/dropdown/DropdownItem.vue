@@ -9,6 +9,12 @@ const props = withDefaults(defineProps<{
   shortcut?: string
   description?: string
   class?: string
+  /** Whether this item is disabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   textValue: undefined,
   isDisabled: false,
@@ -16,6 +22,9 @@ const props = withDefaults(defineProps<{
   shortcut: undefined,
   description: undefined,
   class: undefined,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
 })
 
 const emit = defineEmits<{
@@ -28,7 +37,9 @@ const slots = menuItemVariants({ variant: props.variant })
 <template>
   <DropdownMenuItem
     :text-value="props.textValue"
-    :disabled="props.isDisabled"
+    :disabled="props.disabled ?? props.isDisabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="[slots.item(), props.class]"
     @select="emit('select', $event)"
   >
