@@ -27,7 +27,7 @@
   }
 
   .slider__fill {
-    @apply pointer-events-none absolute rounded-full bg-accent;
+    @apply pointer-events-none absolute bg-accent;
   }
 
   .slider__thumb {
@@ -91,7 +91,8 @@
     flex-direction: column;
 
     .slider__track {
-      @apply h-5 w-full overflow-visible;
+      /* overflow-hidden clips the fill to the rounded track shape; thumb is a sibling so it is unaffected */
+      @apply h-5 w-full overflow-hidden;
     }
 
     .slider__fill {
@@ -132,7 +133,7 @@
     }
 
     .slider__track {
-      @apply h-full w-5 overflow-visible;
+      @apply h-full w-5 overflow-hidden;
       justify-self: center;
     }
 

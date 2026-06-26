@@ -71,7 +71,7 @@ const props = withDefaults(defineProps<{
   disabled: false,
   inverted: false,
   dir: undefined,
-  thumbAlignment: undefined,
+  thumbAlignment: 'overflow',
   asChild: false,
   as: undefined,
   name: undefined,
