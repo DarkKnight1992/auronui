@@ -47,6 +47,96 @@ const meta: Meta<typeof DateRangePicker> = {
     locale: { control: "text" },
     name: { control: "text" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Text direction.",
+      table: { category: "DateRangePickerRoot", defaultValue: { summary: "ltr" } },
+    },
+    pagedNavigation: {
+      control: "boolean",
+      description: "Advance by numberOfMonths when navigating.",
+      table: { category: "DateRangePickerRoot", defaultValue: { summary: "false" } },
+    },
+    fixedWeeks: {
+      control: "boolean",
+      description: "Always show 6 weeks per month.",
+      table: { category: "DateRangePickerRoot", defaultValue: { summary: "false" } },
+    },
+    preventDeselect: {
+      control: "boolean",
+      description: "Prevent deselecting a selected date.",
+      table: { category: "DateRangePickerRoot", defaultValue: { summary: "false" } },
+    },
+    allowNonContiguousRanges: {
+      control: "boolean",
+      description: "Allow non-contiguous date ranges.",
+      table: { category: "DateRangePickerRoot", defaultValue: { summary: "false" } },
+    },
+    maximumDays: {
+      control: "number",
+      description: "Maximum number of days in the range.",
+      table: { category: "DateRangePickerRoot" },
+    },
+    triggerAs: {
+      control: "text",
+      description: "Render trigger as a different element.",
+      table: { category: "DateRangePickerTrigger", defaultValue: { summary: "button" } },
+    },
+    triggerAsChild: {
+      control: "boolean",
+      description: "Render trigger child as root element.",
+      table: { category: "DateRangePickerTrigger", defaultValue: { summary: "false" } },
+    },
+    forceMount: {
+      control: "boolean",
+      description: "Force the content to stay mounted.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "false" } },
+    },
+    side: {
+      control: { type: "select" },
+      options: ["top", "right", "bottom", "left"],
+      description: "Side of the anchor the content appears on.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "bottom" } },
+    },
+    sideOffset: {
+      control: "number",
+      description: "Distance in px from the anchor.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "8" } },
+    },
+    align: {
+      control: { type: "select" },
+      options: ["start", "center", "end"],
+      description: "Alignment of the content relative to the anchor.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "start" } },
+    },
+    avoidCollisions: {
+      control: "boolean",
+      description: "Avoid collisions with the viewport.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "true" } },
+    },
+    collisionPadding: {
+      control: false,
+      description: "Padding for collision detection.",
+      table: { category: "DateRangePickerContent" },
+    },
+    sticky: {
+      control: { type: "select" },
+      options: ["partial", "always"],
+      description: "Sticky behavior when overflowing.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "partial" } },
+    },
+    positionStrategy: {
+      control: { type: "select" },
+      options: ["fixed", "absolute"],
+      description: "CSS position strategy.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "fixed" } },
+    },
+    disableOutsidePointerEvents: {
+      control: "boolean",
+      description: "Disable pointer events outside the content.",
+      table: { category: "DateRangePickerContent", defaultValue: { summary: "false" } },
+    },
   },
   args: {
     label: "Date Range",
@@ -63,6 +153,14 @@ const meta: Meta<typeof DateRangePicker> = {
     visibleMonths: 1,
     closeOnSelect: true,
     modal: false,
+    pagedNavigation: false,
+    fixedWeeks: false,
+    preventDeselect: false,
+    allowNonContiguousRanges: false,
+    triggerAsChild: false,
+    forceMount: false,
+    avoidCollisions: true,
+    disableOutsidePointerEvents: false,
   },
 };
 

@@ -43,6 +43,27 @@ const meta: Meta<typeof TimeField> = {
       control: "object",
       description: "Per-slot class overrides. Keys match the component anatomy slot names.",
     },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Text direction for the field.",
+      table: { category: "TimeFieldRoot", defaultValue: { summary: "ltr" } },
+    },
+    hideTimeZone: {
+      control: "boolean",
+      description: "Hide the time zone display.",
+      table: { category: "TimeFieldRoot", defaultValue: { summary: "false" } },
+    },
+    stepSnapping: {
+      control: "boolean",
+      description: "Enable step snapping behavior.",
+      table: { category: "TimeFieldRoot", defaultValue: { summary: "true" } },
+    },
+    required: {
+      control: "boolean",
+      description: "Marks the field as required for form submission.",
+      table: { category: "TimeFieldRoot", defaultValue: { summary: "false" } },
+    },
   },
   args: {
     label: "Time",
@@ -55,6 +76,9 @@ const meta: Meta<typeof TimeField> = {
     isReadOnly: false,
     isRequired: false,
     fullWidth: false,
+    hideTimeZone: false,
+    stepSnapping: true,
+    required: false,
   },
 };
 

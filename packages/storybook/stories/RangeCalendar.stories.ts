@@ -17,6 +17,37 @@ const meta: Meta<typeof RangeCalendar> = {
       control: "select",
       options: ["narrow", "short", "long"],
     },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Text direction for the calendar.",
+      table: { category: "RangeCalendarRoot", defaultValue: { summary: "ltr" } },
+    },
+    pagedNavigation: {
+      control: "boolean",
+      description: "Advance by numberOfMonths when navigating.",
+      table: { category: "RangeCalendarRoot", defaultValue: { summary: "false" } },
+    },
+    preventDeselect: {
+      control: "boolean",
+      description: "Prevent deselecting a selected date.",
+      table: { category: "RangeCalendarRoot", defaultValue: { summary: "false" } },
+    },
+    initialFocus: {
+      control: "boolean",
+      description: "Focus the calendar on mount.",
+      table: { category: "RangeCalendarRoot", defaultValue: { summary: "false" } },
+    },
+    disableDaysOutsideCurrentView: {
+      control: "boolean",
+      description: "Disable days outside the current month view.",
+      table: { category: "RangeCalendarRoot", defaultValue: { summary: "false" } },
+    },
+    maximumDays: {
+      control: "number",
+      description: "Maximum number of days in the range.",
+      table: { category: "RangeCalendarRoot" },
+    },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
   },
   args: {
@@ -25,6 +56,10 @@ const meta: Meta<typeof RangeCalendar> = {
     readonly: false,
     disabled: false,
     allowNonContiguousRanges: false,
+    pagedNavigation: false,
+    preventDeselect: false,
+    initialFocus: false,
+    disableDaysOutsideCurrentView: false,
   },
 };
 

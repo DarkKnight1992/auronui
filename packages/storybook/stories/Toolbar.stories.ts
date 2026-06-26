@@ -14,13 +14,49 @@ const meta: Meta<typeof Toolbar> = {
   component: Toolbar,
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'Text direction for the toolbar.',
+      table: { category: 'Toolbar', defaultValue: { summary: 'undefined' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Render Toolbar as a different HTML element.',
+      table: { category: 'Toolbar', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge Toolbar props onto the child element.',
+      table: { category: 'Toolbar', defaultValue: { summary: 'false' } },
+    },
+    toggleGroupRovingFocus: {
+      control: 'boolean',
+      description: 'Whether ToolbarToggleGroup uses roving focus for keyboard navigation.',
+      table: { category: 'ToolbarToggleGroup', defaultValue: { summary: 'true' } },
+    },
+    toggleGroupLoop: {
+      control: 'boolean',
+      description: 'Whether keyboard navigation loops around in ToolbarToggleGroup.',
+      table: { category: 'ToolbarToggleGroup', defaultValue: { summary: 'true' } },
+    },
+    toggleGroupName: {
+      control: 'text',
+      description: 'Form field name for ToolbarToggleGroup.',
+      table: { category: 'ToolbarToggleGroup', defaultValue: { summary: 'undefined' } },
+    },
+    toggleGroupRequired: {
+      control: 'boolean',
+      description: 'Whether a value is required in ToolbarToggleGroup.',
+      table: { category: 'ToolbarToggleGroup', defaultValue: { summary: 'false' } },
+    },
   },
 }
 export default meta
 type Story = StoryObj<typeof Toolbar>
 
 export const Horizontal: Story = {
-  args: { orientation: 'horizontal' },
+  args: { orientation: 'horizontal', asChild: false, toggleGroupRovingFocus: true, toggleGroupLoop: true, toggleGroupRequired: false },
   parameters: {
     docs: {
       source: {
@@ -51,11 +87,17 @@ import { Toolbar, ToolbarButton, ToolbarSeparator, ToolbarToggleGroup, ToolbarTo
     components: { Toolbar, ToolbarButton, ToolbarLink, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem },
     setup() { return { args } },
     template: `
-      <Toolbar v-bind="args">
+      <Toolbar v-bind="args" :dir="args.dir" :as="args.as" :as-child="args.asChild">
         <ToolbarButton>New</ToolbarButton>
         <ToolbarButton>Open</ToolbarButton>
         <ToolbarSeparator />
-        <ToolbarToggleGroup type="multiple">
+        <ToolbarToggleGroup
+          type="multiple"
+          :roving-focus="args.toggleGroupRovingFocus"
+          :loop="args.toggleGroupLoop"
+          :name="args.toggleGroupName"
+          :required="args.toggleGroupRequired"
+        >
           <ToolbarToggleItem value="bold">B</ToolbarToggleItem>
           <ToolbarToggleItem value="italic">I</ToolbarToggleItem>
           <ToolbarToggleItem value="underline">U</ToolbarToggleItem>

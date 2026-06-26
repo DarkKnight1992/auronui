@@ -33,11 +33,56 @@ const meta: Meta<typeof Toast> = {
       options: ["default", "success", "warning", "danger", "accent"],
     },
     duration: { control: "number" },
+    defaultOpen: {
+      control: 'boolean',
+      description: 'Default open state for uncontrolled usage.',
+      table: { category: 'Toast', defaultValue: { summary: 'false' } },
+    },
+    forceMount: {
+      control: 'boolean',
+      description: 'Keep the toast mounted in the DOM even when closed.',
+      table: { category: 'Toast', defaultValue: { summary: 'false' } },
+    },
+    type: {
+      control: { type: 'select' },
+      options: ['foreground', 'background'],
+      description: 'Toast urgency type: foreground for urgent, background for passive.',
+      table: { category: 'Toast', defaultValue: { summary: 'undefined' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Render Toast as a different HTML element.',
+      table: { category: 'Toast', defaultValue: { summary: 'li' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge Toast props onto the child element.',
+      table: { category: 'Toast', defaultValue: { summary: 'false' } },
+    },
+    viewportDuration: {
+      control: 'number',
+      description: 'Default duration for all toasts in the viewport provider (ms).',
+      table: { category: 'ToastViewport', defaultValue: { summary: '5000' } },
+    },
+    viewportDisableSwipe: {
+      control: 'boolean',
+      description: 'Disable swipe gestures for all toasts in the viewport.',
+      table: { category: 'ToastViewport', defaultValue: { summary: 'false' } },
+    },
+    viewportSwipeThreshold: {
+      control: 'number',
+      description: 'Distance in pixels before a swipe is recognised.',
+      table: { category: 'ToastViewport', defaultValue: { summary: '50' } },
+    },
   },
   args: {
     position: "bottom-right",
     variant: "default",
     duration: 5000,
+    defaultOpen: false,
+    forceMount: false,
+    asChild: false,
+    viewportDisableSwipe: false,
   },
   decorators: [
     () => ({
@@ -98,7 +143,18 @@ const open = ref(true)
     },
     template: `
       <div style="min-height:100px;">
-        <Toast v-bind="args" :open="open" :duration="0" position="bottom-right" @update:open="open = $event">
+        <Toast
+          v-bind="args"
+          :open="open"
+          :duration="0"
+          position="bottom-right"
+          :default-open="args.defaultOpen"
+          :force-mount="args.forceMount"
+          :type="args.type"
+          :as="args.as"
+          :as-child="args.asChild"
+          @update:open="open = $event"
+        >
           <ToastTitle>Notification</ToastTitle>
           <ToastDescription>This is a default toast message.</ToastDescription>
           <ToastClose />

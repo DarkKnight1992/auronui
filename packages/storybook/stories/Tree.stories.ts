@@ -65,10 +65,39 @@ const meta: Meta<typeof Tree> = {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
     multiple: { control: 'boolean' },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'Text direction for the tree.',
+      table: { category: 'Tree', defaultValue: { summary: 'undefined' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether the entire tree is disabled.',
+      table: { category: 'Tree', defaultValue: { summary: 'false' } },
+    },
+    bubbleSelect: {
+      control: 'boolean',
+      description: 'Whether selection bubbles up to parent nodes.',
+      table: { category: 'Tree', defaultValue: { summary: 'false' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Render Tree as a different HTML element.',
+      table: { category: 'Tree', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge Tree props onto the child element.',
+      table: { category: 'Tree', defaultValue: { summary: 'false' } },
+    },
   },
   args: {
     size: 'md',
     multiple: false,
+    disabled: false,
+    bubbleSelect: false,
+    asChild: false,
   },
   decorators: [
     () => ({
@@ -145,6 +174,11 @@ const expanded = ref(['src'])
         :items="fileTree"
         :get-key="(item) => item.id"
         :get-children="(item) => item.children"
+        :dir="args.dir"
+        :disabled="args.disabled"
+        :bubble-select="args.bubbleSelect"
+        :as="args.as"
+        :as-child="args.asChild"
         v-model="selected"
         v-model:expanded="expanded"
       >

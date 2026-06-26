@@ -8,9 +8,25 @@ const meta: Meta<typeof SplitterGroup> = {
   argTypes: {
     direction: { control: 'select', options: ['horizontal', 'vertical'] },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    keyboardResizeBy: {
+      control: 'number',
+      description: 'Keyboard resize increment in pixels.',
+      table: { category: 'SplitterGroup', defaultValue: { summary: 'undefined' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Render SplitterGroup as a different HTML element.',
+      table: { category: 'SplitterGroup', defaultValue: { summary: 'undefined' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge SplitterGroup props onto the child element.',
+      table: { category: 'SplitterGroup', defaultValue: { summary: 'false' } },
+    },
   },
   args: {
     direction: 'horizontal',
+    asChild: false,
   },
   decorators: [
     () => ({
