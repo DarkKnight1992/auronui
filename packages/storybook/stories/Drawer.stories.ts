@@ -477,9 +477,7 @@ const open = ref(false)
   render: (args) => ({
     components: baseComponents,
     setup() {
-      const { ref } = require('vue')
-      const open = ref(false)
-      return { args, open }
+      return { args }
     },
     template: `
       <Drawer dock placement="right" v-model:open="open" style="height: 400px; border: 1px solid #e5e7eb; border-radius: 12px; overflow: hidden;">
@@ -559,9 +557,7 @@ const open = ref(false)
   render: (args) => ({
     components: baseComponents,
     setup() {
-      const { ref } = require('vue')
-      const open = ref(false)
-      return { args, open }
+      return { args }
     },
     template: `
       <Drawer dock placement="right" v-model:open="open" style="height: 100vh;">
@@ -650,9 +646,7 @@ const open = ref(false)
   render: (args) => ({
     components: baseComponents,
     setup() {
-      const { ref } = require('vue')
-      const open = ref(false)
-      return { args, open }
+      return { args }
     },
     template: `
       <div style="position: relative; overflow: hidden; height: 400px; width: 600px; border: 1px solid #e5e7eb; border-radius: 12px;">
