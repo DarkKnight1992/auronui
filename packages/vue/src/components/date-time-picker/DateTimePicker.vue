@@ -70,6 +70,10 @@ const props = withDefaults(defineProps<{
   step?: Partial<Record<'hour' | 'minute' | 'second' | 'millisecond', number>>
   /** Text direction. */
   dir?: 'ltr' | 'rtl'
+  /** HTML id attribute forwarded to the root element. */
+  id?: string
+  /** Whether the calendar popover is modal (traps focus). */
+  modal?: boolean
   /** Marks the field as required. */
   required?: boolean
   /** Use paged navigation in the calendar. */
@@ -293,6 +297,7 @@ const slotFns = computed(() =>
     :readonly="isReadOnly"
     :name="name"
     :dir="dir"
+    :id="id"
     :required="required"
     :modal="modal"
     :paged-navigation="pagedNavigation"

@@ -1,0 +1,356 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/checkbox/Checkbox.vue",
+    "storyFile": "packages/storybook/stories/Checkbox.stories.ts",
+    "rekaImports": [
+      "CheckboxRoot",
+      "CheckboxIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "CheckboxIndicator"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/input-otp/InputOTP.vue",
+    "storyFile": "packages/storybook/stories/InputOTP.stories.ts",
+    "rekaImports": [
+      "PinInputRoot",
+      "PinInputInput"
+    ],
+    "missingProps": [
+      {
+        "prop": "index",
+        "fromReka": "PinInputInput"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/number-field/NumberField.vue",
+    "storyFile": "packages/storybook/stories/NumberField.stories.ts",
+    "rekaImports": [
+      "NumberFieldRoot",
+      "NumberFieldInput",
+      "NumberFieldIncrement",
+      "NumberFieldDecrement"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "NumberFieldRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "NumberFieldRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "NumberFieldRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "NumberFieldIncrement"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "NumberFieldDecrement"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "NumberFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/progress-bar/ProgressBar.vue",
+    "storyFile": "packages/storybook/stories/ProgressBar.stories.ts",
+    "rekaImports": [
+      "ProgressRoot",
+      "ProgressIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "max",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "getValueLabel",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "getValueText",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ProgressIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ProgressIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "emit": "update:max",
+        "fromReka": "ProgressRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/progress-circle/ProgressCircle.vue",
+    "storyFile": "packages/storybook/stories/ProgressCircle.stories.ts",
+    "rekaImports": [
+      "ProgressRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "max",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "getValueLabel",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "getValueText",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ProgressRoot"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "ProgressRoot"
+      },
+      {
+        "emit": "update:max",
+        "fromReka": "ProgressRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/radio/Radio.vue",
+    "storyFile": "packages/storybook/stories/Radio.stories.ts",
+    "rekaImports": [
+      "RadioGroupItem",
+      "RadioGroupIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "id",
+        "fromReka": "RadioGroupItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RadioGroupItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RadioGroupItem"
+      },
+      {
+        "prop": "name",
+        "fromReka": "RadioGroupItem"
+      },
+      {
+        "prop": "required",
+        "fromReka": "RadioGroupItem"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "RadioGroupIndicator"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RadioGroupIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RadioGroupIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "RadioGroupItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/radio/RadioGroup.vue",
+    "storyFile": "packages/storybook/stories/Radio.stories.ts",
+    "rekaImports": [
+      "RadioGroupRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "RadioGroupRoot"
+      },
+      {
+        "prop": "loop",
+        "fromReka": "RadioGroupRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RadioGroupRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RadioGroupRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "RadioGroupRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/slider/Slider.vue",
+    "storyFile": "packages/storybook/stories/Slider.stories.ts",
+    "rekaImports": [
+      "SliderRoot",
+      "SliderTrack",
+      "SliderRange",
+      "SliderThumb"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "prop": "thumbAlignment",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SliderTrack"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SliderTrack"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SliderRange"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SliderRange"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SliderThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SliderThumb"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "SliderRoot"
+      },
+      {
+        "emit": "value-commit",
+        "fromReka": "SliderRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/switch/Switch.vue",
+    "storyFile": "packages/storybook/stories/Switch.stories.ts",
+    "rekaImports": [
+      "SwitchRoot",
+      "SwitchThumb"
+    ],
+    "missingProps": [
+      {
+        "prop": "id",
+        "fromReka": "SwitchRoot"
+      },
+      {
+        "prop": "trueValue",
+        "fromReka": "SwitchRoot"
+      },
+      {
+        "prop": "falseValue",
+        "fromReka": "SwitchRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SwitchRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SwitchRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "SwitchRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SwitchThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SwitchThumb"
+      }
+    ],
+    "missingEmits": []
+  }
+]

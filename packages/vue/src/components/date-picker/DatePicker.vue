@@ -48,6 +48,8 @@ const props = withDefaults(defineProps<{
   modal?: boolean
   /** Text direction. */
   dir?: 'ltr' | 'rtl'
+  /** HTML id attribute forwarded to the root DatePickerRoot element. */
+  id?: string
   /** Marks the field as required. */
   required?: boolean
   /** Use paged navigation (advance by numberOfMonths). */
@@ -193,6 +195,7 @@ const calendarValue = computed<DateValue | undefined>({
     :readonly="isReadOnly"
     :name="name"
     :dir="dir"
+    :id="id"
     :required="required"
     :paged-navigation="pagedNavigation"
     :week-starts-on="weekStartsOn"

@@ -1,0 +1,423 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/button/ToggleButton.vue",
+    "storyFile": null,
+    "rekaImports": [
+      "Toggle"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "Toggle"
+      },
+      {
+        "prop": "as",
+        "fromReka": "Toggle"
+      },
+      {
+        "prop": "name",
+        "fromReka": "Toggle"
+      },
+      {
+        "prop": "required",
+        "fromReka": "Toggle"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-area/ColorArea.vue",
+    "storyFile": "packages/storybook/stories/ColorArea.stories.ts",
+    "rekaImports": [
+      "ColorAreaRoot",
+      "ColorAreaArea",
+      "ColorAreaThumb",
+      "getAreaBackgroundStyle",
+      "getChannelValue",
+      "type Color",
+      "type ColorChannel",
+      "type ColorSpace"
+    ],
+    "missingProps": [
+      {
+        "prop": "xName",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "yName",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorAreaArea"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorAreaArea"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorAreaThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorAreaThumb"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "change",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "emit": "change-end",
+        "fromReka": "ColorAreaRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-field/ColorField.vue",
+    "storyFile": "packages/storybook/stories/ColorField.stories.ts",
+    "rekaImports": [
+      "ColorFieldRoot",
+      "ColorFieldInput",
+      "getChannelValue",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "colorSpace",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "channel",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "disableWheelChange",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:color",
+        "fromReka": "ColorFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-input-group/ColorInputGroup.vue",
+    "storyFile": null,
+    "rekaImports": [
+      "ColorFieldRoot",
+      "ColorFieldInput",
+      "getChannelValue",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "colorSpace",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "channel",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "disableWheelChange",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:color",
+        "fromReka": "ColorFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-slider/ColorSlider.vue",
+    "storyFile": "packages/storybook/stories/ColorSlider.stories.ts",
+    "rekaImports": [
+      "ColorSliderRoot",
+      "ColorSliderTrack",
+      "ColorSliderThumb",
+      "getSliderBackgroundStyle",
+      "getChannelValue",
+      "type Color",
+      "type ColorChannel",
+      "type ColorSpace"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "inverted",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSliderTrack"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSliderTrack"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSliderThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSliderThumb"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "change",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "emit": "change-end",
+        "fromReka": "ColorSliderRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-swatch-picker/ColorSwatchPicker.vue",
+    "storyFile": "packages/storybook/stories/ColorSwatchPicker.stories.ts",
+    "rekaImports": [
+      "ColorSwatchPickerRoot",
+      "ColorSwatchPickerItem",
+      "ColorSwatchPickerItemIndicator",
+      "ColorSwatchPickerItemSwatch",
+      "parseColor",
+      "colorToHex",
+      "getChannelValue",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "multiple",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "orientation",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "selectionBehavior",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "highlightOnHover",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "value",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerItemIndicator"
+      },
+      {
+        "prop": "label",
+        "fromReka": "ColorSwatchPickerItemSwatch"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerItemSwatch"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerItemSwatch"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "highlight",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "emit": "entry-focus",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "emit": "leave",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "emit": "select",
+        "fromReka": "ColorSwatchPickerItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-swatch/ColorSwatch.vue",
+    "storyFile": "packages/storybook/stories/ColorSwatch.stories.ts",
+    "rekaImports": [
+      "ColorSwatch",
+      "parseColor",
+      "colorToHex",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "label",
+        "fromReka": "ColorSwatch"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatch"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatch"
+      }
+    ],
+    "missingEmits": []
+  }
+]

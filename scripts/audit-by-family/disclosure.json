@@ -1,0 +1,141 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/collapsible/CollapsibleContent.vue",
+    "storyFile": "packages/storybook/stories/Collapsible.stories.ts",
+    "rekaImports": [
+      "CollapsibleContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "CollapsibleContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "CollapsibleContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "content-found",
+        "fromReka": "CollapsibleContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/collapsible/CollapsibleTrigger.vue",
+    "storyFile": "packages/storybook/stories/Collapsible.stories.ts",
+    "rekaImports": [
+      "CollapsibleTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "CollapsibleTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "CollapsibleTrigger"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tabs/Tab.vue",
+    "storyFile": "packages/storybook/stories/Tabs.stories.ts",
+    "rekaImports": [
+      "TabsTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "TabsTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TabsTrigger"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tabs/TabIndicator.vue",
+    "storyFile": "packages/storybook/stories/Tabs.stories.ts",
+    "rekaImports": [
+      "TabsIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "TabsIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TabsIndicator"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tabs/TabList.vue",
+    "storyFile": "packages/storybook/stories/Tabs.stories.ts",
+    "rekaImports": [
+      "TabsList"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "TabsList"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TabsList"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tabs/TabPanel.vue",
+    "storyFile": "packages/storybook/stories/Tabs.stories.ts",
+    "rekaImports": [
+      "TabsContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "TabsContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TabsContent"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tabs/Tabs.vue",
+    "storyFile": "packages/storybook/stories/Tabs.stories.ts",
+    "rekaImports": [
+      "TabsRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "TabsRoot"
+      },
+      {
+        "prop": "unmountOnHide",
+        "fromReka": "TabsRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "TabsRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TabsRoot"
+      }
+    ],
+    "missingEmits": []
+  }
+]

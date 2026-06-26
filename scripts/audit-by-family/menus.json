@@ -1,0 +1,621 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownCheckboxItem.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuCheckboxItem",
+      "DropdownMenuItemIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "DropdownMenuItemIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "DropdownMenuCheckboxItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownItem.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuItem"
+    ],
+    "missingProps": [],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "DropdownMenuItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownMenu.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuPortal",
+      "DropdownMenuContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "DropdownMenuPortal"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownRadioGroup.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuRadioGroup"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "DropdownMenuRadioGroup"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuRadioGroup"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuRadioGroup"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "DropdownMenuRadioGroup"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownRadioItem.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuRadioItem",
+      "DropdownMenuItemIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "DropdownMenuRadioItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuRadioItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuRadioItem"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DropdownMenuItemIndicator"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuItemIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "DropdownMenuRadioItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownSection.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuGroup",
+      "DropdownMenuLabel",
+      "DropdownMenuSeparator"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuGroup"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuGroup"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuLabel"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuLabel"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuSeparator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuSeparator"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownSubContent.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuSubContent",
+      "DropdownMenuPortal"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "loop",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "prop": "to",
+        "fromReka": "DropdownMenuPortal"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DropdownMenuPortal"
+      },
+      {
+        "prop": "defer",
+        "fromReka": "DropdownMenuPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DropdownMenuPortal"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "escape-key-down",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "emit": "focus-outside",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "emit": "interact-outside",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "emit": "entry-focus",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "emit": "open-auto-focus",
+        "fromReka": "DropdownMenuSubContent"
+      },
+      {
+        "emit": "close-auto-focus",
+        "fromReka": "DropdownMenuSubContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownSubTrigger.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuSubTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "DropdownMenuSubTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuSubTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuSubTrigger"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/dropdown/DropdownTrigger.vue",
+    "storyFile": "packages/storybook/stories/Dropdown.stories.ts",
+    "rekaImports": [
+      "DropdownMenuTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "DropdownMenuTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DropdownMenuTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DropdownMenuTrigger"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/select/Select.vue",
+    "storyFile": "packages/storybook/stories/Select.stories.ts",
+    "rekaImports": [
+      "SelectRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "open",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "defaultOpen",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "defaultValue",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "by",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "multiple",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "autocomplete",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "SelectRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "SelectRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/select/SelectContent.vue",
+    "storyFile": "packages/storybook/stories/Select.stories.ts",
+    "rekaImports": [
+      "SelectContent",
+      "SelectViewport",
+      "SelectPortal",
+      "injectSelectRootContext"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "bodyLock",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "side",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "align",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "alignOffset",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "SelectContent"
+      },
+      {
+        "prop": "nonce",
+        "fromReka": "SelectViewport"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectViewport"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectViewport"
+      },
+      {
+        "prop": "to",
+        "fromReka": "SelectPortal"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "SelectPortal"
+      },
+      {
+        "prop": "defer",
+        "fromReka": "SelectPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "SelectPortal"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "close-auto-focus",
+        "fromReka": "SelectContent"
+      },
+      {
+        "emit": "escape-key-down",
+        "fromReka": "SelectContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "SelectContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/select/SelectItem.vue",
+    "storyFile": "packages/storybook/stories/Select.stories.ts",
+    "rekaImports": [
+      "SelectItem",
+      "SelectItemText",
+      "SelectItemIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "SelectItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectItemText"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectItemText"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectItemIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "SelectItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/select/SelectTrigger.vue",
+    "storyFile": "packages/storybook/stories/Select.stories.ts",
+    "rekaImports": [
+      "SelectTrigger",
+      "SelectIcon",
+      "injectSelectRootContext"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "SelectTrigger"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "SelectTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SelectIcon"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectIcon"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/select/SelectValue.vue",
+    "storyFile": "packages/storybook/stories/Select.stories.ts",
+    "rekaImports": [
+      "SelectValue"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "SelectValue"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SelectValue"
+      }
+    ],
+    "missingEmits": []
+  }
+]

@@ -1,0 +1,1089 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/button/ToggleButton.vue",
+    "storyFile": null,
+    "rekaImports": [
+      "Toggle"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "Toggle"
+      },
+      {
+        "prop": "as",
+        "fromReka": "Toggle"
+      },
+      {
+        "prop": "name",
+        "fromReka": "Toggle"
+      },
+      {
+        "prop": "required",
+        "fromReka": "Toggle"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-area/ColorArea.vue",
+    "storyFile": "packages/storybook/stories/ColorArea.stories.ts",
+    "rekaImports": [
+      "ColorAreaRoot",
+      "ColorAreaArea",
+      "ColorAreaThumb",
+      "getAreaBackgroundStyle",
+      "getChannelValue",
+      "type Color",
+      "type ColorChannel",
+      "type ColorSpace"
+    ],
+    "missingProps": [
+      {
+        "prop": "xName",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "yName",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorAreaArea"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorAreaArea"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorAreaThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorAreaThumb"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "change",
+        "fromReka": "ColorAreaRoot"
+      },
+      {
+        "emit": "change-end",
+        "fromReka": "ColorAreaRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-field/ColorField.vue",
+    "storyFile": "packages/storybook/stories/ColorField.stories.ts",
+    "rekaImports": [
+      "ColorFieldRoot",
+      "ColorFieldInput",
+      "getChannelValue",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "colorSpace",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "channel",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "disableWheelChange",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:color",
+        "fromReka": "ColorFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-input-group/ColorInputGroup.vue",
+    "storyFile": null,
+    "rekaImports": [
+      "ColorFieldRoot",
+      "ColorFieldInput",
+      "getChannelValue",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "colorSpace",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "channel",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "disableWheelChange",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:color",
+        "fromReka": "ColorFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-slider/ColorSlider.vue",
+    "storyFile": "packages/storybook/stories/ColorSlider.stories.ts",
+    "rekaImports": [
+      "ColorSliderRoot",
+      "ColorSliderTrack",
+      "ColorSliderThumb",
+      "getSliderBackgroundStyle",
+      "getChannelValue",
+      "type Color",
+      "type ColorChannel",
+      "type ColorSpace"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "inverted",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSliderTrack"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSliderTrack"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSliderThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSliderThumb"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "change",
+        "fromReka": "ColorSliderRoot"
+      },
+      {
+        "emit": "change-end",
+        "fromReka": "ColorSliderRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-swatch-picker/ColorSwatchPicker.vue",
+    "storyFile": "packages/storybook/stories/ColorSwatchPicker.stories.ts",
+    "rekaImports": [
+      "ColorSwatchPickerRoot",
+      "ColorSwatchPickerItem",
+      "ColorSwatchPickerItemIndicator",
+      "ColorSwatchPickerItemSwatch",
+      "parseColor",
+      "colorToHex",
+      "getChannelValue",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "multiple",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "orientation",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "selectionBehavior",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "highlightOnHover",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "prop": "value",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerItemIndicator"
+      },
+      {
+        "prop": "label",
+        "fromReka": "ColorSwatchPickerItemSwatch"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatchPickerItemSwatch"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatchPickerItemSwatch"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "highlight",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "emit": "entry-focus",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "emit": "leave",
+        "fromReka": "ColorSwatchPickerRoot"
+      },
+      {
+        "emit": "select",
+        "fromReka": "ColorSwatchPickerItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/color-swatch/ColorSwatch.vue",
+    "storyFile": "packages/storybook/stories/ColorSwatch.stories.ts",
+    "rekaImports": [
+      "ColorSwatch",
+      "parseColor",
+      "colorToHex",
+      "type Color"
+    ],
+    "missingProps": [
+      {
+        "prop": "label",
+        "fromReka": "ColorSwatch"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ColorSwatch"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ColorSwatch"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/Pagination.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "total",
+        "fromReka": "PaginationRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationContent.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationList"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationList"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationList"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationEllipsis.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationEllipsis"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationEllipsis"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationEllipsis"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationFirst.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationFirst"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationFirst"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationFirst"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationItem.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationListItem"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationListItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationListItem"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationLast.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationLast"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationLast"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationLast"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationNext.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationNext"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationNext"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationNext"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/pagination/PaginationPrev.vue",
+    "storyFile": "packages/storybook/stories/Pagination.stories.ts",
+    "rekaImports": [
+      "PaginationPrev"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "PaginationPrev"
+      },
+      {
+        "prop": "as",
+        "fromReka": "PaginationPrev"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/scroll-area/ScrollArea.vue",
+    "storyFile": "packages/storybook/stories/ScrollArea.stories.ts",
+    "rekaImports": [
+      "ScrollAreaRoot",
+      "ScrollAreaViewport",
+      "ScrollAreaScrollbar",
+      "ScrollAreaThumb",
+      "ScrollAreaCorner"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "ScrollAreaRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ScrollAreaRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ScrollAreaRoot"
+      },
+      {
+        "prop": "nonce",
+        "fromReka": "ScrollAreaViewport"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ScrollAreaViewport"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ScrollAreaViewport"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "ScrollAreaScrollbar"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ScrollAreaScrollbar"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ScrollAreaScrollbar"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ScrollAreaThumb"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ScrollAreaThumb"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ScrollAreaCorner"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ScrollAreaCorner"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/splitter/SplitterGroup.vue",
+    "storyFile": "packages/storybook/stories/Splitter.stories.ts",
+    "rekaImports": [
+      "SplitterGroup"
+    ],
+    "missingProps": [
+      {
+        "prop": "keyboardResizeBy",
+        "fromReka": "SplitterGroup"
+      },
+      {
+        "prop": "storage",
+        "fromReka": "SplitterGroup"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SplitterGroup"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SplitterGroup"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "layout",
+        "fromReka": "SplitterGroup"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/splitter/SplitterPanel.vue",
+    "storyFile": "packages/storybook/stories/Splitter.stories.ts",
+    "rekaImports": [
+      "SplitterPanel"
+    ],
+    "missingProps": [
+      {
+        "prop": "sizeUnit",
+        "fromReka": "SplitterPanel"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SplitterPanel"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SplitterPanel"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "collapse",
+        "fromReka": "SplitterPanel"
+      },
+      {
+        "emit": "expand",
+        "fromReka": "SplitterPanel"
+      },
+      {
+        "emit": "resize",
+        "fromReka": "SplitterPanel"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/splitter/SplitterResizeHandle.vue",
+    "storyFile": "packages/storybook/stories/Splitter.stories.ts",
+    "rekaImports": [
+      "SplitterResizeHandle"
+    ],
+    "missingProps": [
+      {
+        "prop": "hitAreaMargins",
+        "fromReka": "SplitterResizeHandle"
+      },
+      {
+        "prop": "tabindex",
+        "fromReka": "SplitterResizeHandle"
+      },
+      {
+        "prop": "nonce",
+        "fromReka": "SplitterResizeHandle"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "SplitterResizeHandle"
+      },
+      {
+        "prop": "as",
+        "fromReka": "SplitterResizeHandle"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "dragging",
+        "fromReka": "SplitterResizeHandle"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/toast/Toast.vue",
+    "storyFile": "packages/storybook/stories/Toast.stories.ts",
+    "rekaImports": [
+      "ToastRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultOpen",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "prop": "type",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToastRoot"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "escape-key-down",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "emit": "pause",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "emit": "resume",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "emit": "swipe-start",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "emit": "swipe-move",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "emit": "swipe-cancel",
+        "fromReka": "ToastRoot"
+      },
+      {
+        "emit": "swipe-end",
+        "fromReka": "ToastRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/toast/ToastAction.vue",
+    "storyFile": "packages/storybook/stories/Toast.stories.ts",
+    "rekaImports": [
+      "ToastAction"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToastAction"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToastAction"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toast/ToastClose.vue",
+    "storyFile": "packages/storybook/stories/Toast.stories.ts",
+    "rekaImports": [
+      "ToastClose"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToastClose"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToastClose"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toast/ToastDescription.vue",
+    "storyFile": "packages/storybook/stories/Toast.stories.ts",
+    "rekaImports": [
+      "ToastDescription"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToastDescription"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToastDescription"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toast/ToastTitle.vue",
+    "storyFile": "packages/storybook/stories/Toast.stories.ts",
+    "rekaImports": [
+      "ToastTitle"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToastTitle"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToastTitle"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toast/ToastViewport.vue",
+    "storyFile": "packages/storybook/stories/Toast.stories.ts",
+    "rekaImports": [
+      "ToastProvider",
+      "ToastViewport"
+    ],
+    "missingProps": [
+      {
+        "prop": "duration",
+        "fromReka": "ToastProvider"
+      },
+      {
+        "prop": "disableSwipe",
+        "fromReka": "ToastProvider"
+      },
+      {
+        "prop": "swipeThreshold",
+        "fromReka": "ToastProvider"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ToastViewport"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToastViewport"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toolbar/Toolbar.vue",
+    "storyFile": "packages/storybook/stories/Toolbar.stories.ts",
+    "rekaImports": [
+      "ToolbarRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "ToolbarRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ToolbarRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToolbarRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toolbar/ToolbarButton.vue",
+    "storyFile": "packages/storybook/stories/Toolbar.stories.ts",
+    "rekaImports": [
+      "ToolbarButton"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToolbarButton"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToolbarButton"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toolbar/ToolbarLink.vue",
+    "storyFile": "packages/storybook/stories/Toolbar.stories.ts",
+    "rekaImports": [
+      "ToolbarLink"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToolbarLink"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToolbarLink"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toolbar/ToolbarSeparator.vue",
+    "storyFile": "packages/storybook/stories/Toolbar.stories.ts",
+    "rekaImports": [
+      "ToolbarSeparator"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToolbarSeparator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToolbarSeparator"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toolbar/ToolbarToggleGroup.vue",
+    "storyFile": "packages/storybook/stories/Toolbar.stories.ts",
+    "rekaImports": [
+      "ToolbarToggleGroup"
+    ],
+    "missingProps": [
+      {
+        "prop": "rovingFocus",
+        "fromReka": "ToolbarToggleGroup"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "ToolbarToggleGroup"
+      },
+      {
+        "prop": "loop",
+        "fromReka": "ToolbarToggleGroup"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ToolbarToggleGroup"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToolbarToggleGroup"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ToolbarToggleGroup"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ToolbarToggleGroup"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/toolbar/ToolbarToggleItem.vue",
+    "storyFile": "packages/storybook/stories/Toolbar.stories.ts",
+    "rekaImports": [
+      "ToolbarToggleItem"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ToolbarToggleItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ToolbarToggleItem"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tree/Tree.vue",
+    "storyFile": "packages/storybook/stories/Tree.stories.ts",
+    "rekaImports": [
+      "TreeRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "dir",
+        "fromReka": "TreeRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "TreeRoot"
+      },
+      {
+        "prop": "bubbleSelect",
+        "fromReka": "TreeRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "TreeRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TreeRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tree/TreeItem.vue",
+    "storyFile": "packages/storybook/stories/Tree.stories.ts",
+    "rekaImports": [
+      "TreeItem"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "TreeItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TreeItem"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "TreeItem"
+      },
+      {
+        "emit": "toggle",
+        "fromReka": "TreeItem"
+      }
+    ]
+  }
+]

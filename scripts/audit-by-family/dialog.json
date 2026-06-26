@@ -1,0 +1,301 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/alert-dialog/AlertDialogOverlay.vue",
+    "storyFile": "packages/storybook/stories/AlertDialog.stories.ts",
+    "rekaImports": [
+      "AlertDialogOverlay"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "AlertDialogOverlay"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AlertDialogOverlay"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AlertDialogOverlay"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/alert-dialog/AlertDialogTitle.vue",
+    "storyFile": "packages/storybook/stories/AlertDialog.stories.ts",
+    "rekaImports": [
+      "AlertDialogTitle"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "AlertDialogTitle"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue",
+    "storyFile": "packages/storybook/stories/AlertDialog.stories.ts",
+    "rekaImports": [
+      "AlertDialogTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "as",
+        "fromReka": "AlertDialogTrigger"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/drawer/DrawerClose.vue",
+    "storyFile": "packages/storybook/stories/Drawer.stories.ts",
+    "rekaImports": [
+      "DialogClose",
+      "Primitive"
+    ],
+    "missingProps": [
+      {
+        "prop": "as",
+        "fromReka": "DialogClose"
+      },
+      {
+        "prop": "as",
+        "fromReka": "Primitive"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/drawer/DrawerContent.vue",
+    "storyFile": "packages/storybook/stories/Drawer.stories.ts",
+    "rekaImports": [
+      "DialogPortal",
+      "DialogContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "to",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "defer",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DialogContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "DialogContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DialogContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DialogContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "focus-outside",
+        "fromReka": "DialogContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/drawer/DrawerOverlay.vue",
+    "storyFile": "packages/storybook/stories/Drawer.stories.ts",
+    "rekaImports": [
+      "DialogOverlay"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "DialogOverlay"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DialogOverlay"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DialogOverlay"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/drawer/DrawerTitle.vue",
+    "storyFile": "packages/storybook/stories/Drawer.stories.ts",
+    "rekaImports": [
+      "DialogTitle"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "DialogTitle"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/drawer/DrawerTrigger.vue",
+    "storyFile": "packages/storybook/stories/Drawer.stories.ts",
+    "rekaImports": [
+      "DialogTrigger",
+      "Primitive"
+    ],
+    "missingProps": [
+      {
+        "prop": "as",
+        "fromReka": "DialogTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "Primitive"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/modal/ModalClose.vue",
+    "storyFile": "packages/storybook/stories/Modal.stories.ts",
+    "rekaImports": [
+      "DialogClose"
+    ],
+    "missingProps": [
+      {
+        "prop": "as",
+        "fromReka": "DialogClose"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/modal/ModalContent.vue",
+    "storyFile": "packages/storybook/stories/Modal.stories.ts",
+    "rekaImports": [
+      "DialogPortal",
+      "DialogContent",
+      "injectDialogRootContext"
+    ],
+    "missingProps": [
+      {
+        "prop": "to",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "defer",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DialogPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DialogContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "DialogContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DialogContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DialogContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "focus-outside",
+        "fromReka": "DialogContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/modal/ModalDescription.vue",
+    "storyFile": "packages/storybook/stories/Modal.stories.ts",
+    "rekaImports": [
+      "DialogDescription"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "DialogDescription"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/modal/ModalOverlay.vue",
+    "storyFile": "packages/storybook/stories/Modal.stories.ts",
+    "rekaImports": [
+      "DialogOverlay"
+    ],
+    "missingProps": [
+      {
+        "prop": "forceMount",
+        "fromReka": "DialogOverlay"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DialogOverlay"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DialogOverlay"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/modal/ModalTitle.vue",
+    "storyFile": "packages/storybook/stories/Modal.stories.ts",
+    "rekaImports": [
+      "DialogTitle"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "DialogTitle"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/modal/ModalTrigger.vue",
+    "storyFile": "packages/storybook/stories/Modal.stories.ts",
+    "rekaImports": [
+      "DialogTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "as",
+        "fromReka": "DialogTrigger"
+      }
+    ],
+    "missingEmits": []
+  }
+]

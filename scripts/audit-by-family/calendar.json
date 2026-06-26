@@ -1,0 +1,1848 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/calendar-year-picker/CalendarYearPicker.vue",
+    "storyFile": null,
+    "rekaImports": [
+      "YearPickerRoot",
+      "YearPickerHeader",
+      "YearPickerHeading",
+      "YearPickerPrev",
+      "YearPickerNext",
+      "YearPickerGrid",
+      "YearPickerGridBody",
+      "YearPickerGridRow",
+      "YearPickerCell",
+      "YearPickerCellTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "placeholder",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "date",
+        "fromReka": "YearPickerCell"
+      },
+      {
+        "prop": "year",
+        "fromReka": "YearPickerCellTrigger"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "YearPickerRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/calendar/Calendar.vue",
+    "storyFile": "packages/storybook/stories/Calendar.stories.ts",
+    "rekaImports": [
+      "CalendarRoot",
+      "CalendarHeader",
+      "CalendarHeading",
+      "CalendarGrid",
+      "CalendarGridHead",
+      "CalendarGridRow",
+      "CalendarHeadCell",
+      "CalendarGridBody",
+      "CalendarCell",
+      "CalendarCellTrigger",
+      "CalendarNext",
+      "CalendarPrev",
+      "MonthPickerRoot",
+      "MonthPickerHeader",
+      "MonthPickerHeading",
+      "MonthPickerPrev",
+      "MonthPickerNext",
+      "MonthPickerGrid",
+      "MonthPickerGridBody",
+      "MonthPickerGridRow",
+      "MonthPickerCell",
+      "MonthPickerCellTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "placeholder",
+        "fromReka": "CalendarRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "CalendarRoot"
+      },
+      {
+        "prop": "date",
+        "fromReka": "CalendarCell"
+      },
+      {
+        "prop": "day",
+        "fromReka": "CalendarCellTrigger"
+      },
+      {
+        "prop": "month",
+        "fromReka": "CalendarCellTrigger"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "date",
+        "fromReka": "MonthPickerCell"
+      },
+      {
+        "prop": "month",
+        "fromReka": "MonthPickerCellTrigger"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "CalendarRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "CalendarRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "MonthPickerRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/date-input/DateInput.vue",
+    "storyFile": null,
+    "rekaImports": [
+      "DateFieldRoot",
+      "DateFieldInput"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultValue",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "hourCycle",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "granularity",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "hideTimeZone",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "maxValue",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "minValue",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "isDateUnavailable",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "prop": "part",
+        "fromReka": "DateFieldInput"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DateFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DateFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "DateFieldRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "DateFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/date-picker/DatePicker.vue",
+    "storyFile": "packages/storybook/stories/DatePicker.stories.ts",
+    "rekaImports": [
+      "DatePickerRoot",
+      "DatePickerTrigger",
+      "DatePickerContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "open",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "pagedNavigation",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "weekStartsOn",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "weekdayFormat",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "fixedWeeks",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "numberOfMonths",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "preventDeselect",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DatePickerTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DatePickerTrigger"
+      },
+      {
+        "prop": "portal",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "side",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sideOffset",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "align",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "alignOffset",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "DatePickerContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:open",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "escape-key-down",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "focus-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "interact-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "open-auto-focus",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "close-auto-focus",
+        "fromReka": "DatePickerContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/date-picker/DatePickerOnly.vue",
+    "storyFile": "packages/storybook/stories/DatePicker.stories.ts",
+    "rekaImports": [
+      "DatePickerRoot",
+      "DatePickerTrigger",
+      "DatePickerContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "hideTimeZone",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "open",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "pagedNavigation",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "weekStartsOn",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "weekdayFormat",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "fixedWeeks",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "numberOfMonths",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "preventDeselect",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DatePickerTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DatePickerTrigger"
+      },
+      {
+        "prop": "portal",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "side",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sideOffset",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "align",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "alignOffset",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "DatePickerContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:open",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "escape-key-down",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "focus-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "interact-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "open-auto-focus",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "close-auto-focus",
+        "fromReka": "DatePickerContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/date-range-field/DateRangeField.vue",
+    "storyFile": "packages/storybook/stories/DateRangeField.stories.ts",
+    "rekaImports": [
+      "DateRangeFieldRoot",
+      "DateRangeFieldInput"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultValue",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "hourCycle",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "granularity",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "hideTimeZone",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "maxValue",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "minValue",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "isDateUnavailable",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "prop": "part",
+        "fromReka": "DateRangeFieldInput"
+      },
+      {
+        "prop": "type",
+        "fromReka": "DateRangeFieldInput"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DateRangeFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DateRangeFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "DateRangeFieldRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "DateRangeFieldRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/date-range-picker/DateRangePicker.vue",
+    "storyFile": "packages/storybook/stories/DateRangePicker.stories.ts",
+    "rekaImports": [
+      "DateRangePickerRoot",
+      "DateRangePickerTrigger",
+      "DateRangePickerContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "open",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "pagedNavigation",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "weekStartsOn",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "weekdayFormat",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "fixedWeeks",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "numberOfMonths",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "preventDeselect",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "isDateHighlightable",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "allowNonContiguousRanges",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "fixedDate",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "maximumDays",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DateRangePickerTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DateRangePickerTrigger"
+      },
+      {
+        "prop": "portal",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "side",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "sideOffset",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "align",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "alignOffset",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "DateRangePickerContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:open",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "emit": "update:start-value",
+        "fromReka": "DateRangePickerRoot"
+      },
+      {
+        "emit": "escape-key-down",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "emit": "focus-outside",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "emit": "interact-outside",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "emit": "open-auto-focus",
+        "fromReka": "DateRangePickerContent"
+      },
+      {
+        "emit": "close-auto-focus",
+        "fromReka": "DateRangePickerContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/date-time-picker/DateTimePicker.vue",
+    "storyFile": "packages/storybook/stories/DateTimePicker.stories.ts",
+    "rekaImports": [
+      "DatePickerRoot",
+      "DatePickerTrigger",
+      "DatePickerContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "open",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "modal",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "pagedNavigation",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "weekStartsOn",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "weekdayFormat",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "fixedWeeks",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "numberOfMonths",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "preventDeselect",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DatePickerTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DatePickerTrigger"
+      },
+      {
+        "prop": "portal",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "side",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sideOffset",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "align",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "alignOffset",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "DatePickerContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:open",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "DatePickerRoot"
+      },
+      {
+        "emit": "escape-key-down",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "focus-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "interact-outside",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "open-auto-focus",
+        "fromReka": "DatePickerContent"
+      },
+      {
+        "emit": "close-auto-focus",
+        "fromReka": "DatePickerContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/range-calendar/RangeCalendar.vue",
+    "storyFile": "packages/storybook/stories/RangeCalendar.stories.ts",
+    "rekaImports": [
+      "RangeCalendarRoot",
+      "RangeCalendarHeader",
+      "RangeCalendarHeading",
+      "RangeCalendarGrid",
+      "RangeCalendarGridHead",
+      "RangeCalendarGridRow",
+      "RangeCalendarHeadCell",
+      "RangeCalendarGridBody",
+      "RangeCalendarCell",
+      "RangeCalendarCellTrigger",
+      "RangeCalendarNext",
+      "RangeCalendarPrev",
+      "MonthPickerRoot",
+      "MonthPickerHeader",
+      "MonthPickerHeading",
+      "MonthPickerPrev",
+      "MonthPickerNext",
+      "MonthPickerGrid",
+      "MonthPickerGridBody",
+      "MonthPickerGridRow",
+      "MonthPickerCell",
+      "MonthPickerCellTrigger",
+      "YearPickerRoot",
+      "YearPickerHeader",
+      "YearPickerHeading",
+      "YearPickerPrev",
+      "YearPickerNext",
+      "YearPickerGrid",
+      "YearPickerGridBody",
+      "YearPickerGridRow",
+      "YearPickerCell",
+      "YearPickerCellTrigger"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "maximumDays",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "initialFocus",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "isDateHighlightable",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "nextPage",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "prevPage",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "disableDaysOutsideCurrentView",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "fixedDate",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarHeader"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarHeader"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarHeading"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarHeading"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarGrid"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarGrid"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarGridHead"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarGridHead"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarGridRow"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarGridRow"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarHeadCell"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarHeadCell"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarGridBody"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarGridBody"
+      },
+      {
+        "prop": "date",
+        "fromReka": "RangeCalendarCell"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarCell"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarCell"
+      },
+      {
+        "prop": "day",
+        "fromReka": "RangeCalendarCellTrigger"
+      },
+      {
+        "prop": "month",
+        "fromReka": "RangeCalendarCellTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarCellTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarCellTrigger"
+      },
+      {
+        "prop": "nextPage",
+        "fromReka": "RangeCalendarNext"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarNext"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarNext"
+      },
+      {
+        "prop": "prevPage",
+        "fromReka": "RangeCalendarPrev"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "RangeCalendarPrev"
+      },
+      {
+        "prop": "as",
+        "fromReka": "RangeCalendarPrev"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "initialFocus",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "isMonthDisabled",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "isMonthUnavailable",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "nextPage",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "prevPage",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "multiple",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerHeader"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerHeader"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerHeading"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerHeading"
+      },
+      {
+        "prop": "prevPage",
+        "fromReka": "MonthPickerPrev"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerPrev"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerPrev"
+      },
+      {
+        "prop": "nextPage",
+        "fromReka": "MonthPickerNext"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerNext"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerNext"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerGrid"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerGrid"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerGridBody"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerGridBody"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerGridRow"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerGridRow"
+      },
+      {
+        "prop": "date",
+        "fromReka": "MonthPickerCell"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerCell"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerCell"
+      },
+      {
+        "prop": "month",
+        "fromReka": "MonthPickerCellTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "MonthPickerCellTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "MonthPickerCellTrigger"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "initialFocus",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "isYearDisabled",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "isYearUnavailable",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "nextPage",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "prevPage",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "multiple",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "yearsPerPage",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerHeader"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerHeader"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerHeading"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerHeading"
+      },
+      {
+        "prop": "prevPage",
+        "fromReka": "YearPickerPrev"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerPrev"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerPrev"
+      },
+      {
+        "prop": "nextPage",
+        "fromReka": "YearPickerNext"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerNext"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerNext"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerGrid"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerGrid"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerGridBody"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerGridBody"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerGridRow"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerGridRow"
+      },
+      {
+        "prop": "date",
+        "fromReka": "YearPickerCell"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerCell"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerCell"
+      },
+      {
+        "prop": "year",
+        "fromReka": "YearPickerCellTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "YearPickerCellTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "YearPickerCellTrigger"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "emit": "update:valid-model-value",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "emit": "update:start-value",
+        "fromReka": "RangeCalendarRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "MonthPickerRoot"
+      },
+      {
+        "emit": "update:model-value",
+        "fromReka": "YearPickerRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "YearPickerRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/time-field/TimeField.vue",
+    "storyFile": "packages/storybook/stories/TimeField.stories.ts",
+    "rekaImports": [
+      "TimeFieldRoot",
+      "TimeFieldInput"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultValue",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "defaultPlaceholder",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "placeholder",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "hourCycle",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "step",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "stepSnapping",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "granularity",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "hideTimeZone",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "maxValue",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "minValue",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "locale",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "readonly",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "id",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "prop": "part",
+        "fromReka": "TimeFieldInput"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "TimeFieldInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "TimeFieldInput"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "TimeFieldRoot"
+      },
+      {
+        "emit": "update:placeholder",
+        "fromReka": "TimeFieldRoot"
+      }
+    ]
+  }
+]

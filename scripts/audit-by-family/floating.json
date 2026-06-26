@@ -1,0 +1,30 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/popover/Popover.vue",
+    "storyFile": "packages/storybook/stories/Popover.stories.ts",
+    "rekaImports": [
+      "PopoverRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultOpen",
+        "fromReka": "PopoverRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/tooltip/Tooltip.vue",
+    "storyFile": "packages/storybook/stories/Tooltip.stories.ts",
+    "rekaImports": [
+      "TooltipRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "defaultOpen",
+        "fromReka": "TooltipRoot"
+      }
+    ],
+    "missingEmits": []
+  }
+]

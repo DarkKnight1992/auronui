@@ -1,0 +1,722 @@
+[
+  {
+    "componentFile": "packages/vue/src/components/autocomplete/Autocomplete.vue",
+    "storyFile": "packages/storybook/stories/Autocomplete.stories.ts",
+    "rekaImports": [
+      "AutocompleteRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "defaultValue",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "open",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "defaultOpen",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "resetSearchTermOnBlur",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "openOnFocus",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "openOnClick",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "ignoreFilter",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "highlightOnHover",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteRoot"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/autocomplete/AutocompleteCreateItem.vue",
+    "storyFile": "packages/storybook/stories/Autocomplete.stories.ts",
+    "rekaImports": [
+      "AutocompleteItem",
+      "injectComboboxRootContext"
+    ],
+    "missingProps": [
+      {
+        "prop": "textValue",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "value",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteItem"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "AutocompleteItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/autocomplete/AutocompleteInput.vue",
+    "storyFile": "packages/storybook/stories/Autocomplete.stories.ts",
+    "rekaImports": [
+      "AutocompleteInput",
+      "AutocompleteTrigger",
+      "AutocompleteCancel",
+      "AutocompleteAnchor"
+    ],
+    "missingProps": [
+      {
+        "prop": "modelValue",
+        "fromReka": "AutocompleteInput"
+      },
+      {
+        "prop": "autoFocus",
+        "fromReka": "AutocompleteInput"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "AutocompleteInput"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteInput"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "AutocompleteTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteCancel"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteCancel"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "AutocompleteAnchor"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteAnchor"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteAnchor"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "AutocompleteInput"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/autocomplete/AutocompleteItem.vue",
+    "storyFile": "packages/storybook/stories/Autocomplete.stories.ts",
+    "rekaImports": [
+      "AutocompleteItem",
+      "ComboboxItemIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "textValue",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "AutocompleteItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxItemIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "AutocompleteItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/combo-box/ComboBox.vue",
+    "storyFile": "packages/storybook/stories/ComboBox.stories.ts",
+    "rekaImports": [
+      "ComboboxRoot"
+    ],
+    "missingProps": [
+      {
+        "prop": "resetSearchTermOnBlur",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "resetSearchTermOnSelect",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "openOnFocus",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "openOnClick",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "ignoreFilter",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "resetModelValueOnClear",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "multiple",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "highlightOnHover",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "by",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ComboboxRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ComboboxRoot"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "highlight",
+        "fromReka": "ComboboxRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/combo-box/ComboBoxContent.vue",
+    "storyFile": "packages/storybook/stories/ComboBox.stories.ts",
+    "rekaImports": [
+      "ComboboxPortal",
+      "ComboboxContent",
+      "ComboboxViewport",
+      "injectComboboxRootContext"
+    ],
+    "missingProps": [
+      {
+        "prop": "to",
+        "fromReka": "ComboboxPortal"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ComboboxPortal"
+      },
+      {
+        "prop": "defer",
+        "fromReka": "ComboboxPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "ComboboxPortal"
+      },
+      {
+        "prop": "forceMount",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "position",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "bodyLock",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "hideWhenEmpty",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "side",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "sideFlip",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "align",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "alignOffset",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "alignFlip",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "avoidCollisions",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "collisionBoundary",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "collisionPadding",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "arrowPadding",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "hideShiftedArrow",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "sticky",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "hideWhenDetached",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "positionStrategy",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "updatePositionStrategy",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "disableUpdateOnLayoutShift",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "prioritizePosition",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "reference",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "disableOutsidePointerEvents",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "prop": "nonce",
+        "fromReka": "ComboboxViewport"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxViewport"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxViewport"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "escape-key-down",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "emit": "pointer-down-outside",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "emit": "focus-outside",
+        "fromReka": "ComboboxContent"
+      },
+      {
+        "emit": "interact-outside",
+        "fromReka": "ComboboxContent"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/combo-box/ComboBoxEmpty.vue",
+    "storyFile": "packages/storybook/stories/ComboBox.stories.ts",
+    "rekaImports": [
+      "ComboboxEmpty"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxEmpty"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxEmpty"
+      }
+    ],
+    "missingEmits": []
+  },
+  {
+    "componentFile": "packages/vue/src/components/combo-box/ComboBoxInput.vue",
+    "storyFile": "packages/storybook/stories/ComboBox.stories.ts",
+    "rekaImports": [
+      "ComboboxAnchor",
+      "ComboboxInput",
+      "ComboboxTrigger",
+      "ComboboxCancel"
+    ],
+    "missingProps": [
+      {
+        "prop": "reference",
+        "fromReka": "ComboboxAnchor"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxAnchor"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxAnchor"
+      },
+      {
+        "prop": "displayValue",
+        "fromReka": "ComboboxInput"
+      },
+      {
+        "prop": "modelValue",
+        "fromReka": "ComboboxInput"
+      },
+      {
+        "prop": "autoFocus",
+        "fromReka": "ComboboxInput"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ComboboxInput"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxInput"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxInput"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ComboboxTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxTrigger"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxTrigger"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxCancel"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxCancel"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "update:model-value",
+        "fromReka": "ComboboxInput"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/combo-box/ComboBoxItem.vue",
+    "storyFile": "packages/storybook/stories/ComboBox.stories.ts",
+    "rekaImports": [
+      "ComboboxItem",
+      "ComboboxItemIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "textValue",
+        "fromReka": "ComboboxItem"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ComboboxItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ComboboxItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ComboboxItemIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "ComboboxItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/list-box/ListBox.vue",
+    "storyFile": "packages/storybook/stories/ListBox.stories.ts",
+    "rekaImports": [
+      "ListboxRoot",
+      "ListboxContent"
+    ],
+    "missingProps": [
+      {
+        "prop": "multiple",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "orientation",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "dir",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "disabled",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "selectionBehavior",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "highlightOnHover",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "by",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "name",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "required",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ListboxContent"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ListboxContent"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "highlight",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "emit": "entry-focus",
+        "fromReka": "ListboxRoot"
+      },
+      {
+        "emit": "leave",
+        "fromReka": "ListboxRoot"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/list-box/ListBoxItem.vue",
+    "storyFile": "packages/storybook/stories/ListBox.stories.ts",
+    "rekaImports": [
+      "ListboxItem",
+      "ListboxItemIndicator"
+    ],
+    "missingProps": [
+      {
+        "prop": "disabled",
+        "fromReka": "ListboxItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ListboxItem"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ListboxItem"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ListboxItemIndicator"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ListboxItemIndicator"
+      }
+    ],
+    "missingEmits": [
+      {
+        "emit": "select",
+        "fromReka": "ListboxItem"
+      }
+    ]
+  },
+  {
+    "componentFile": "packages/vue/src/components/list-box/ListBoxSection.vue",
+    "storyFile": "packages/storybook/stories/ListBox.stories.ts",
+    "rekaImports": [
+      "ListboxGroup",
+      "ListboxGroupLabel"
+    ],
+    "missingProps": [
+      {
+        "prop": "asChild",
+        "fromReka": "ListboxGroup"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ListboxGroup"
+      },
+      {
+        "prop": "for",
+        "fromReka": "ListboxGroupLabel"
+      },
+      {
+        "prop": "asChild",
+        "fromReka": "ListboxGroupLabel"
+      },
+      {
+        "prop": "as",
+        "fromReka": "ListboxGroupLabel"
+      }
+    ],
+    "missingEmits": []
+  }
+]
