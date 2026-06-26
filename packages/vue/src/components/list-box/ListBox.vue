@@ -99,13 +99,26 @@ const slotFns = computed(() =>
   <ListboxRoot
     :model-value="props.modelValue == null ? undefined : ([] as string[]).concat(props.modelValue)"
     :default-value="props.defaultValue == null ? undefined : ([] as string[]).concat(props.defaultValue)"
-    :multiple="props.selectionMode === 'multiple'"
-    :selection-behavior="props.selectionMode === 'multiple' ? 'toggle' : 'replace'"
+    :multiple="props.multiple ?? props.selectionMode === 'multiple'"
+    :selection-behavior="props.selectionBehavior ?? (props.selectionMode === 'multiple' ? 'toggle' : 'replace')"
     :disabled="props.isDisabled"
+    :orientation="props.orientation"
+    :dir="props.dir"
+    :highlight-on-hover="props.highlightOnHover"
+    :by="props.by"
+    :as="props.as"
+    :as-child="props.asChild"
+    :name="props.name"
+    :required="props.required"
     @update:model-value="emit('update:modelValue', props.selectionMode === 'single' ? (Array.isArray($event) ? ($event as string[])[0] : $event as string) : $event as string[])"
+    @highlight="emit('highlight', $event)"
+    @entry-focus="emit('entry-focus', $event)"
+    @leave="emit('leave', $event)"
   >
     <ListboxContent
       v-bind="attrs"
+      :as="props.contentAs"
+      :as-child="props.contentAsChild"
       :class="composeClassName(slotFns, props.class, props.classNames?.base)"
     >
       <template v-if="props.items">

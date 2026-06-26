@@ -11,6 +11,71 @@ const meta: Meta = {
       control: 'object',
       description: 'Per-slot class overrides. Keys match the component anatomy slot names.',
     },
+    // ListboxRoot pass-through props
+    multiple: {
+      control: 'boolean',
+      description: 'Allow selecting multiple values (alias for selectionMode="multiple").',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'false' } },
+    },
+    orientation: {
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical'],
+      description: 'Orientation of the listbox for keyboard navigation.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'Reading direction for the component.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    selectionBehavior: {
+      control: { type: 'select' },
+      options: ['toggle', 'replace'],
+      description: 'Selection behavior when multiple is true.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    highlightOnHover: {
+      control: 'boolean',
+      description: 'Highlight item on hover.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    by: {
+      control: 'text',
+      description: 'Key used to compare items for equality.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Render as a different element or component.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge props onto child element instead of rendering a wrapper.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: 'text',
+      description: 'Form field name for native form submission.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Mark the field as required.',
+      table: { category: 'ListboxRoot', defaultValue: { summary: 'undefined' } },
+    },
+    // ListboxContent pass-through props
+    contentAs: {
+      control: 'text',
+      description: 'Render the ListboxContent as a different element.',
+      table: { category: 'ListboxContent', defaultValue: { summary: 'undefined' } },
+    },
+    contentAsChild: {
+      control: 'boolean',
+      description: 'Merge content props onto child element.',
+      table: { category: 'ListboxContent', defaultValue: { summary: 'false' } },
+    },
   },
 }
 

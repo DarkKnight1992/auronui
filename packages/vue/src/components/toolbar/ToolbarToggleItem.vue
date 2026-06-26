@@ -11,6 +11,10 @@ const props = defineProps<{
   isIconOnly?: boolean
   disabled?: boolean
   class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>()
 
 const classes = computed(() =>
@@ -26,6 +30,8 @@ const classes = computed(() =>
   <RekaToolbarToggleItem
     :value="props.value"
     :disabled="props.disabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(classes, props.class)"
   >
     <slot />

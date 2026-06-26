@@ -17,12 +17,157 @@ const meta: Meta<typeof ComboBox> = {
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    // ComboboxRoot pass-through props
+    resetSearchTermOnBlur: {
+      control: "boolean",
+      description: "Reset the search term when the input loses focus.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    resetSearchTermOnSelect: {
+      control: "boolean",
+      description: "Reset the search term after an item is selected.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    openOnFocus: {
+      control: "boolean",
+      description: "Open the dropdown when the input gains focus.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    openOnClick: {
+      control: "boolean",
+      description: "Open the dropdown when the input is clicked.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    ignoreFilter: {
+      control: "boolean",
+      description: "Disable Reka's built-in filter; handle filtering externally.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    resetModelValueOnClear: {
+      control: "boolean",
+      description: "Reset modelValue when the input is cleared.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    multiple: {
+      control: "boolean",
+      description: "Allow selecting multiple values.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "false" } },
+    },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Reading direction for the component.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    highlightOnHover: {
+      control: "boolean",
+      description: "Highlight the matching item on hover.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    by: {
+      control: "text",
+      description: "Key used to compare items for equality.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    as: {
+      control: "text",
+      description: "Render as a different element or component.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    asChild: {
+      control: "boolean",
+      description: "Merge props onto child element instead of rendering a wrapper.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "false" } },
+    },
+    name: {
+      control: "text",
+      description: "Form field name for native form submission.",
+      table: { category: "ComboboxRoot", defaultValue: { summary: "undefined" } },
+    },
+    // ComboBoxContent pass-through props
+    contentForceMount: {
+      control: "boolean",
+      description: "Force-mount the content even when closed.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentPosition: {
+      control: { type: "select" },
+      options: ["item-aligned", "popper"],
+      description: "Positioning strategy for the content.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "popper" } },
+    },
+    contentSide: {
+      control: { type: "select" },
+      options: ["top", "right", "bottom", "left"],
+      description: "Side of the anchor to render on.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentAlign: {
+      control: { type: "select" },
+      options: ["start", "center", "end"],
+      description: "Alignment relative to the anchor.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentSideOffset: {
+      control: "number",
+      description: "Side offset in pixels.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "8" } },
+    },
+    contentAlignOffset: {
+      control: "number",
+      description: "Alignment offset in pixels.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentAvoidCollisions: {
+      control: "boolean",
+      description: "Avoid collisions with boundary.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentCollisionPadding: {
+      control: false,
+      description: "Padding from collision boundary.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentArrowPadding: {
+      control: "number",
+      description: "Padding from arrow.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentSticky: {
+      control: { type: "select" },
+      options: ["partial", "always"],
+      description: "Sticky behavior on scroll.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentHideWhenDetached: {
+      control: "boolean",
+      description: "Hide when anchor is detached.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentPositionStrategy: {
+      control: { type: "select" },
+      options: ["fixed", "absolute"],
+      description: "CSS position strategy.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentDisableOutsidePointerEvents: {
+      control: "boolean",
+      description: "Disable outside pointer events when open.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
+    contentBodyLock: {
+      control: "boolean",
+      description: "Lock body scroll when open.",
+      table: { category: "ComboBoxContent", defaultValue: { summary: "undefined" } },
+    },
   },
   args: {
     fullWidth: false,
     isDisabled: false,
     isInvalid: false,
     isRequired: false,
+    multiple: false,
+    asChild: false,
   },
 };
 

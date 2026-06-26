@@ -4,7 +4,13 @@ import { ToolbarSeparator as RekaToolbarSeparator } from 'reka-ui'
 import { composeClassName } from '../../utils/composeClassName'
 import { useToolbarInject } from './toolbar.context'
 
-const props = defineProps<{ class?: string }>()
+const props = defineProps<{
+  class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
+}>()
 
 const ctx = useToolbarInject({ orientation: computed(() => 'horizontal' as const) })
 
@@ -14,5 +20,5 @@ const separatorClass = computed(() =>
 </script>
 
 <template>
-  <RekaToolbarSeparator :class="composeClassName(separatorClass, props.class)" />
+  <RekaToolbarSeparator :as="props.as" :as-child="props.asChild" :class="composeClassName(separatorClass, props.class)" />
 </template>

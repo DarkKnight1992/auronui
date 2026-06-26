@@ -33,6 +33,9 @@ const baseClass = computed(() =>
   <ToolbarRoot
     :orientation="props.orientation"
     :loop="props.loop"
+    :dir="props.dir"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(baseClass, props.class)"
     :data-orientation="props.orientation"
   >

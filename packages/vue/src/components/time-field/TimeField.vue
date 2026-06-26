@@ -74,14 +74,27 @@ type Props = {
 
   /* ─── TimeField-specific ──────────────────────────────────────── */
   defaultValue?: TimeValue
+  defaultPlaceholder?: TimeValue
   placeholderValue?: TimeValue
   minValue?: TimeValue
   maxValue?: TimeValue
   granularity?: 'hour' | 'minute' | 'second'
   hourCycle?: 12 | 24
+  /** Steps for segment keyboard navigation. */
+  step?: Partial<Record<'hour' | 'minute' | 'second' | 'millisecond', number>>
+  /** Enable step snapping behavior. */
+  stepSnapping?: boolean
   locale?: string
   name?: string
   hideTimeZone?: boolean
+  /** Marks the field as required for form submission. */
+  required?: boolean
+  /** Text direction for the field. */
+  dir?: 'ltr' | 'rtl'
+  /** Render root as a different element or component. */
+  as?: string
+  /** Render root child as root element. */
+  asChild?: boolean
 }
 
 const attrs = useAttrs()
@@ -266,16 +279,23 @@ const showInsideLabel = computed(
         ref="fieldRef"
         v-model="modelValue"
         :default-value="defaultValue"
+        :default-placeholder="defaultPlaceholder"
         :placeholder="placeholderValue"
         :min-value="minValue"
         :max-value="maxValue"
         :granularity="granularity"
         :hour-cycle="hourCycle"
+        :step="step"
+        :step-snapping="stepSnapping"
         :locale="locale"
         :disabled="isDisabled"
         :readonly="isReadOnly"
         :name="name"
         :hide-time-zone="hideTimeZone"
+        :required="required"
+        :dir="dir"
+        :as="as"
+        :as-child="asChild"
         :aria-labelledby="hasLabel ? labelId : undefined"
         :aria-describedby="ariaDescribedBy"
         :aria-required="isRequired || undefined"

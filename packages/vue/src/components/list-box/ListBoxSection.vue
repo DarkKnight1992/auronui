@@ -7,10 +7,25 @@ const props = withDefaults(defineProps<{
   title?: string
   showDivider?: boolean
   class?: string
+  /** Render the ListboxGroup as a different element. */
+  as?: string
+  /** Merge group props onto child element. */
+  asChild?: boolean
+  /** The id of the element the label describes (for ListboxGroupLabel). */
+  for?: string
+  /** Render the ListboxGroupLabel as a different element. */
+  labelAs?: string
+  /** Merge label props onto child element. */
+  labelAsChild?: boolean
 }>(), {
   title: undefined,
   showDivider: false,
   class: undefined,
+  as: undefined,
+  asChild: false,
+  for: undefined,
+  labelAs: undefined,
+  labelAsChild: false,
 })
 
 const sectionClass = computed(() =>
@@ -19,9 +34,16 @@ const sectionClass = computed(() =>
 </script>
 
 <template>
-  <ListboxGroup :class="sectionClass.base()">
+  <ListboxGroup
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="sectionClass.base()"
+  >
     <ListboxGroupLabel
       v-if="props.title"
+      :for="props.for"
+      :as="props.labelAs"
+      :as-child="props.labelAsChild"
       :class="sectionClass.label()"
     >
       {{ props.title }}

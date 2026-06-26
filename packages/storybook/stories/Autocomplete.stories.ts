@@ -40,6 +40,48 @@ const meta: Meta<typeof Autocomplete> = {
     isRequired: { control: "boolean" },
     debounceMs: { control: "number" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    // AutocompleteRoot pass-through props
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Reading direction for the component.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "undefined" } },
+    },
+    resetSearchTermOnBlur: {
+      control: "boolean",
+      description: "Reset the search term when the trigger loses focus.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "undefined" } },
+    },
+    openOnFocus: {
+      control: "boolean",
+      description: "Open the dropdown when the input gains focus.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "true" } },
+    },
+    openOnClick: {
+      control: "boolean",
+      description: "Open the dropdown when the input is clicked.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "undefined" } },
+    },
+    ignoreFilter: {
+      control: "boolean",
+      description: "Disable Reka's built-in filter; handle filtering externally.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "undefined" } },
+    },
+    highlightOnHover: {
+      control: "boolean",
+      description: "Highlight the matching item on hover.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "undefined" } },
+    },
+    as: {
+      control: "text",
+      description: "Render as a different element or component.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "undefined" } },
+    },
+    asChild: {
+      control: "boolean",
+      description: "Merge props onto child element instead of rendering a wrapper.",
+      table: { category: "AutocompleteRoot", defaultValue: { summary: "false" } },
+    },
   },
   args: {
     variant: "flat",

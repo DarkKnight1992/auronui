@@ -20,6 +20,37 @@ const meta: Meta<typeof Calendar> = {
       control: "select",
       options: [0, 1, 2, 3, 4, 5, 6],
     },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Text direction for the calendar.",
+      table: { category: "CalendarRoot", defaultValue: { summary: "ltr" } },
+    },
+    pagedNavigation: {
+      control: "boolean",
+      description: "Advance by numberOfMonths when navigating.",
+      table: { category: "CalendarRoot", defaultValue: { summary: "false" } },
+    },
+    preventDeselect: {
+      control: "boolean",
+      description: "Prevent deselecting a selected date.",
+      table: { category: "CalendarRoot", defaultValue: { summary: "false" } },
+    },
+    multiple: {
+      control: "boolean",
+      description: "Allow multiple date selections.",
+      table: { category: "CalendarRoot", defaultValue: { summary: "false" } },
+    },
+    initialFocus: {
+      control: "boolean",
+      description: "Focus the calendar on mount.",
+      table: { category: "CalendarRoot", defaultValue: { summary: "false" } },
+    },
+    disableDaysOutsideCurrentView: {
+      control: "boolean",
+      description: "Disable days outside the current month view.",
+      table: { category: "CalendarRoot", defaultValue: { summary: "false" } },
+    },
     classNames: {
       control: "object",
       description:
@@ -31,6 +62,11 @@ const meta: Meta<typeof Calendar> = {
     fixedWeeks: false,
     readonly: false,
     disabled: false,
+    pagedNavigation: false,
+    preventDeselect: false,
+    multiple: false,
+    initialFocus: false,
+    disableDaysOutsideCurrentView: false,
   },
 };
 

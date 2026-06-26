@@ -20,6 +20,20 @@ const props = defineProps<{
   class?: string
   /** Shorthand API: render toggle items from an array instead of the compound slot API */
   items?: ToolbarToggleShorthandItem[]
+  /** Whether to use roving focus for keyboard navigation */
+  rovingFocus?: boolean
+  /** Text direction */
+  dir?: 'ltr' | 'rtl'
+  /** Whether keyboard navigation loops around */
+  loop?: boolean
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
+  /** Form field name */
+  name?: string
+  /** Whether a value is required */
+  required?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -40,6 +54,13 @@ const classes = computed(() =>
     :model-value="props.modelValue"
     :default-value="props.defaultValue"
     :disabled="props.disabled"
+    :roving-focus="props.rovingFocus"
+    :dir="props.dir"
+    :loop="props.loop"
+    :as="props.as"
+    :as-child="props.asChild"
+    :name="props.name"
+    :required="props.required"
     :class="composeClassName(classes, props.class)"
     @update:model-value="(v) => emit('update:modelValue', v as Single | Multi)"
   >

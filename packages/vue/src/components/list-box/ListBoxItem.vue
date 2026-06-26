@@ -16,13 +16,32 @@ const props = withDefaults(defineProps<{
     item: ClassValue
     indicator: ClassValue
   }>
+  /** Whether the item is disabled. Alias for isDisabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
+  /** Render the ListboxItemIndicator as a different element. */
+  indicatorAs?: string
+  /** Merge indicator props onto child element. */
+  indicatorAsChild?: boolean
 }>(), {
   textValue: undefined,
   isDisabled: false,
   variant: undefined,
   class: undefined,
   classNames: undefined,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
+  indicatorAs: undefined,
+  indicatorAsChild: false,
 })
+
+const emit = defineEmits<{
+  'select': [event: Event]
+}>()
 
 // Inject context with fallback (standalone usage)
 const ctx = useListBoxInject({
@@ -42,14 +61,21 @@ const slotFns = computed(() =>
 <template>
   <ListboxItem
     :value="props.value"
-    :disabled="finalDisabled"
+    :disabled="props.disabled ?? finalDisabled"
     :text-value="props.textValue ?? props.value"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.item(), props.class, props.classNames?.item)"
+    @select="emit('select', $event)"
   >
     <slot name="startContent" />
     <slot />
     <slot name="endContent" />
-    <ListboxItemIndicator :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)">
+    <ListboxItemIndicator
+      :as="props.indicatorAs"
+      :as-child="props.indicatorAsChild"
+      :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
+    >
       <slot name="selectedIcon">
         <!-- Default check icon -->
         <svg

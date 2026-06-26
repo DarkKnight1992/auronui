@@ -22,6 +22,16 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     root: ClassValue
   }>
+  /** Text direction */
+  dir?: 'ltr' | 'rtl'
+  /** Whether the entire tree is disabled */
+  disabled?: boolean
+  /** Whether selection bubbles up to parent nodes */
+  bubbleSelect?: boolean
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   items: () => [],
   modelValue: undefined,
@@ -61,6 +71,11 @@ provide(treeContextKey, {
     :multiple="multiple"
     :selection-behavior="selectionBehavior"
     :propagate-select="propagateSelect"
+    :dir="props.dir"
+    :disabled="props.disabled"
+    :bubble-select="props.bubbleSelect"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.root(), props.class, props.classNames?.root)"
     data-slot="tree"
     @update:model-value="(v: any) => emit('update:modelValue', v)"

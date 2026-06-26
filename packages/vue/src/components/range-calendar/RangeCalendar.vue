@@ -61,6 +61,26 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   disabled?: boolean
   calendarLabel?: string
+  /** Initial focus state. */
+  initialFocus?: boolean
+  /** Whether a date is highlightable in the range. */
+  isDateHighlightable?: (date: DateValue) => boolean
+  /** Text direction. */
+  dir?: 'ltr' | 'rtl'
+  /** Navigate to next page. */
+  nextPage?: (placeholder: DateValue) => DateValue
+  /** Navigate to previous page. */
+  prevPage?: (placeholder: DateValue) => DateValue
+  /** Disable days outside the current view. */
+  disableDaysOutsideCurrentView?: boolean
+  /** Fix one end of the range. */
+  fixedDate?: DateValue
+  /** Maximum number of days in the range. */
+  maximumDays?: number
+  /** Render as a different element or component. */
+  as?: string
+  /** Render child as root element. */
+  asChild?: boolean
   class?: ClassValue
   /** Override classes for named slots */
   classNames?: Partial<{
@@ -96,6 +116,11 @@ const props = withDefaults(defineProps<{
   readonly: false,
   disabled: false,
 })
+
+const emit = defineEmits<{
+  'update:valid-model-value': [value: DateRange | undefined]
+  'update:start-value': [value: DateValue | undefined]
+}>()
 
 const modelValue = defineModel<DateRange | null>()
 
@@ -157,7 +182,19 @@ const nextViewLabel = computed(() =>
     :readonly="readonly"
     :disabled="disabled"
     :calendar-label="calendarLabel"
+    :initial-focus="initialFocus"
+    :is-date-highlightable="isDateHighlightable"
+    :dir="dir"
+    :next-page="nextPage"
+    :prev-page="prevPage"
+    :disable-days-outside-current-view="disableDaysOutsideCurrentView"
+    :fixed-date="fixedDate"
+    :maximum-days="maximumDays"
+    :as="as"
+    :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
+    @update:valid-model-value="emit('update:valid-model-value', $event)"
+    @update:start-value="emit('update:start-value', $event)"
   >
     <template #default="{ grid, weekDays }">
       <template v-if="view === 'date'">

@@ -47,6 +47,86 @@ const meta: Meta<typeof DatePicker> = {
     locale: { control: "text" },
     name: { control: "text" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Text direction.",
+      table: { category: "DatePickerRoot", defaultValue: { summary: "ltr" } },
+    },
+    pagedNavigation: {
+      control: "boolean",
+      description: "Advance by numberOfMonths when navigating.",
+      table: { category: "DatePickerRoot", defaultValue: { summary: "false" } },
+    },
+    fixedWeeks: {
+      control: "boolean",
+      description: "Always show 6 weeks per month.",
+      table: { category: "DatePickerRoot", defaultValue: { summary: "false" } },
+    },
+    preventDeselect: {
+      control: "boolean",
+      description: "Prevent deselecting a selected date.",
+      table: { category: "DatePickerRoot", defaultValue: { summary: "false" } },
+    },
+    triggerAs: {
+      control: "text",
+      description: "Render trigger as a different element.",
+      table: { category: "DatePickerTrigger", defaultValue: { summary: "button" } },
+    },
+    triggerAsChild: {
+      control: "boolean",
+      description: "Render trigger child as root element.",
+      table: { category: "DatePickerTrigger", defaultValue: { summary: "false" } },
+    },
+    forceMount: {
+      control: "boolean",
+      description: "Force the content to stay mounted.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "false" } },
+    },
+    side: {
+      control: { type: "select" },
+      options: ["top", "right", "bottom", "left"],
+      description: "Side of the anchor the content appears on.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "bottom" } },
+    },
+    sideOffset: {
+      control: "number",
+      description: "Distance in px from the anchor.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "8" } },
+    },
+    align: {
+      control: { type: "select" },
+      options: ["start", "center", "end"],
+      description: "Alignment of the content relative to the anchor.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "start" } },
+    },
+    avoidCollisions: {
+      control: "boolean",
+      description: "Avoid collisions with the viewport.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "true" } },
+    },
+    collisionPadding: {
+      control: false,
+      description: "Padding for collision detection.",
+      table: { category: "DatePickerContent" },
+    },
+    sticky: {
+      control: { type: "select" },
+      options: ["partial", "always"],
+      description: "Sticky behavior when overflowing.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "partial" } },
+    },
+    positionStrategy: {
+      control: { type: "select" },
+      options: ["fixed", "absolute"],
+      description: "CSS position strategy.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "fixed" } },
+    },
+    disableOutsidePointerEvents: {
+      control: "boolean",
+      description: "Disable pointer events outside the content.",
+      table: { category: "DatePickerContent", defaultValue: { summary: "false" } },
+    },
   },
   args: {
     label: "Date",
@@ -63,6 +143,13 @@ const meta: Meta<typeof DatePicker> = {
     visibleMonths: 1,
     closeOnSelect: true,
     modal: false,
+    pagedNavigation: false,
+    fixedWeeks: false,
+    preventDeselect: false,
+    triggerAsChild: false,
+    forceMount: false,
+    avoidCollisions: true,
+    disableOutsidePointerEvents: false,
   },
 };
 

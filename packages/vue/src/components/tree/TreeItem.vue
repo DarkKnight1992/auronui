@@ -14,6 +14,10 @@ const props = withDefaults(defineProps<{
     item: ClassValue
     itemContent: ClassValue
   }>
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   class: undefined,
   classNames: undefined,
@@ -40,6 +44,8 @@ const indentStyle = computed(() => ({
   <TreeItem
     :value="value"
     :level="level"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.item(), props.class, props.classNames?.item)"
     data-slot="tree-item"
     @select="$emit('select')"

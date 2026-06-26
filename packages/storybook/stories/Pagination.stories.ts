@@ -25,6 +25,16 @@ const meta: Meta<typeof Pagination> = {
     siblingCount: { control: "number" },
     showEdges: { control: "boolean" },
     disabled: { control: "boolean" },
+    as: {
+      control: 'text',
+      description: 'Render the root pagination element as a different HTML element.',
+      table: { category: 'Pagination', defaultValue: { summary: 'nav' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge root props onto the child element instead of rendering a wrapper.',
+      table: { category: 'Pagination', defaultValue: { summary: 'false' } },
+    },
   },
   args: {
     size: "md",
@@ -35,6 +45,7 @@ const meta: Meta<typeof Pagination> = {
     siblingCount: 2,
     showEdges: false,
     disabled: false,
+    asChild: false,
   },
 };
 
