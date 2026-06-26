@@ -9,6 +9,7 @@
 import { computed, onBeforeUnmount, onMounted, ref, useAttrs, useId, watch } from 'vue'
 import { DateFieldRoot, DateFieldInput } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
+
 import { dateInputVariants, type DateInputVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
@@ -28,6 +29,14 @@ const props = withDefaults(defineProps<Props>(), {
 })
 
 const modelValue = defineModel<DateValue | null | undefined>()
+
+// Reka treats `undefined` as "uncontrolled mode". Passing undefined back causes
+// DateFieldRoot to drop its controlled state mid-type, breaking updates from a
+// ref that starts with a value. Always pass null (= controlled + empty) instead.
+const rekaValue = computed<DateValue | null>({
+  get: () => modelValue.value ?? null,
+  set: (val: DateValue | undefined) => { modelValue.value = val ?? null },
+})
 
 type Props = {
   /** Visual style of the field. @default 'flat' */
@@ -275,7 +284,7 @@ const showInsideLabel = computed(
       <DateFieldRoot
         :id="fieldId"
         ref="fieldRef"
-        v-model="modelValue"
+        v-model="rekaValue"
         :default-value="defaultValue"
         :default-placeholder="defaultPlaceholder"
         :placeholder="placeholderValue"

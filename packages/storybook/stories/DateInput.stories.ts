@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { DateInput } from "@auronui/vue";
 import { CalendarDate, CalendarDateTime } from "@internationalized/date";
 
@@ -765,6 +765,45 @@ const value = ref(new CalendarDateTime(2024, 6, 15, 14, 0))
 };
 
 /* ─── Custom styles via classNames ──────────────────────────────────── */
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DateInput } from '@auronui/vue'
+import { CalendarDate } from '@internationalized/date'
+
+const value = ref(new CalendarDate(2024, 6, 15))
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <DateInput v-model="value" label="Appointment Date" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { DateInput },
+      setup() {
+        const value = ref(new CalendarDate(2024, 6, 15))
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <DateInput v-bind="args" v-model="value" label="Appointment Date" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}
 
 export const CustomStyles: Story = {
   args: { label: "Styled Date" },

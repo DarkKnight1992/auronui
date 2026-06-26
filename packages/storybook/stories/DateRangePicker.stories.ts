@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { CalendarDate, today, getLocalTimeZone } from "@internationalized/date";
 import { DateRangePicker } from "@auronui/vue";
 
@@ -440,6 +440,45 @@ export const DefaultOpen: Story = {
 };
 
 /* ─── Custom styles via classNames ─────────────────────────────────────── */
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DateRangePicker } from '@auronui/vue'
+import { CalendarDate } from '@internationalized/date'
+
+const value = ref({ start: new CalendarDate(2024, 6, 1), end: new CalendarDate(2024, 6, 15) })
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <DateRangePicker v-model="value" label="Date Range" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { DateRangePicker },
+      setup() {
+        const value = ref({ start: new CalendarDate(2024, 6, 1), end: new CalendarDate(2024, 6, 15) })
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <DateRangePicker v-bind="args" v-model="value" label="Date Range" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}
 
 export const CustomStyles: Story = {
   name: "Custom styles via classNames",

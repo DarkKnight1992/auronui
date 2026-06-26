@@ -1,5 +1,5 @@
 import { setup, type Meta, type StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { Input } from "@auronui/vue";
 
 const meta: Meta<typeof Input> = {
@@ -1783,6 +1783,42 @@ import { Input } from '@auronui/vue'
     `,
   }),
 };
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Input } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <Input v-model="value" variant="bordered" label="Name" />
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Input },
+      setup() {
+        const value = ref('')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <Input v-bind="args" v-model="value" variant="bordered" label="Name" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}
 
 export const CustomStyles: Story = {
   name: "Custom styles via classNames",

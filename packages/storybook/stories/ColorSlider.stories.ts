@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { defineComponent, ref } from 'vue'
 import ColorSlider from '../../vue/src/components/color-slider/ColorSlider.vue'
 
 const meta: Meta<typeof ColorSlider> = {
@@ -205,6 +206,44 @@ import { ColorSlider } from '@auronui/vue'
     setup: () => ({ args }),
     template: '<ColorSlider v-bind="args" channel="hue" defaultValue="#ff0000" :showOutput="true" aria-label="Hue with output" style="width: 200px;" />',
   }),
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ColorSlider } from '@auronui/vue'
+
+const value = ref('#ff0000')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <ColorSlider v-model="value" channel="hue" aria-label="Hue" style="width:200px;" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { ColorSlider },
+      setup() {
+        const value = ref('#ff0000')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <ColorSlider v-bind="args" v-model="value" channel="hue" aria-label="Hue" style="width:200px;" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const Disabled: Story = {

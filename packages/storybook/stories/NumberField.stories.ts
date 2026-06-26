@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { defineComponent, ref } from 'vue'
 import { NumberField } from '@auronui/vue'
 
 const meta: Meta<typeof NumberField> = {
@@ -404,6 +405,42 @@ import { NumberField } from '@auronui/vue'
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { NumberField } from '@auronui/vue'
+
+const value = ref(50)
+</script>
+
+<template>
+  <NumberField v-model="value" label="Quantity" />
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { NumberField },
+      setup() {
+        const value = ref(50)
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <NumberField v-bind="args" v-model="value" label="Quantity" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const CustomStyles: Story = {

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Checkbox, CheckboxGroup } from '@auronui/vue'
 
 const meta: Meta<typeof CheckboxGroup> = {
@@ -424,6 +424,50 @@ const selected = ref(['vue'])
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { CheckboxGroup, Checkbox } from '@auronui/vue'
+
+const value = ref(['option1'])
+</script>
+
+<template>
+  <CheckboxGroup v-model="value" label="Frameworks">
+    <Checkbox value="option1">Vue</Checkbox>
+    <Checkbox value="option2">React</Checkbox>
+    <Checkbox value="option3">Svelte</Checkbox>
+  </CheckboxGroup>
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Checkbox, CheckboxGroup },
+      setup() {
+        const value = ref(['option1'])
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <CheckboxGroup v-bind="args" v-model="value" label="Frameworks">
+            <Checkbox value="option1">Vue</Checkbox>
+            <Checkbox value="option2">React</Checkbox>
+            <Checkbox value="option3">Svelte</Checkbox>
+          </CheckboxGroup>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const ArrayAPI: Story = {

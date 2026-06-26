@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { Button, Switch, SwitchGroup } from '@auronui/vue'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 const meta: Meta = {
   title: 'Form/Switch',
@@ -479,6 +479,42 @@ const value = ref(false)
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Switch } from '@auronui/vue'
+
+const value = ref(false)
+</script>
+
+<template>
+  <Switch v-model="value" aria-label="Enable feature">Enable feature</Switch>
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Switch },
+      setup() {
+        const value = ref(false)
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <Switch v-bind="args" v-model="value" aria-label="Enable feature">Enable feature</Switch>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const GroupArrayAPI: Story = {

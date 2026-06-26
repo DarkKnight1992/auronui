@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { CalendarDate } from "@internationalized/date";
 import { DateRangeField } from "@auronui/vue";
 
@@ -193,3 +193,42 @@ export const LabelPlacementOutside: Story = {
 export const LabelPlacementOutsideLeft: Story = {
   args: { label: "Trip Dates", labelPlacement: "outside-left" },
 };
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { DateRangeField } from '@auronui/vue'
+import { CalendarDate } from '@internationalized/date'
+
+const value = ref({ start: new CalendarDate(2024, 6, 1), end: new CalendarDate(2024, 6, 15) })
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <DateRangeField v-model="value" label="Date Range" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { DateRangeField },
+      setup() {
+        const value = ref({ start: new CalendarDate(2024, 6, 1), end: new CalendarDate(2024, 6, 15) })
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <DateRangeField v-bind="args" v-model="value" label="Date Range" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}

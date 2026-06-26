@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import {
   Autocomplete,
   AutocompleteInput,
@@ -2809,3 +2809,75 @@ const items = [
     },
   },
 };
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import {
+  Autocomplete,
+  AutocompleteInput,
+  AutocompleteContent,
+  AutocompleteItem,
+} from '@auronui/vue'
+
+const items = [
+  { value: 'apple', label: 'Apple' },
+  { value: 'banana', label: 'Banana' },
+  { value: 'cherry', label: 'Cherry' },
+  { value: 'date', label: 'Date' },
+  { value: 'elderberry', label: 'Elderberry' },
+]
+
+const value = ref('apple')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <Autocomplete v-model="value" label="Favorite Fruit" :items="items">
+      <AutocompleteInput placeholder="Search fruits..." />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+          {{ item.label }}
+        </AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      setup() {
+        const items = [
+          { value: 'apple', label: 'Apple' },
+          { value: 'banana', label: 'Banana' },
+          { value: 'cherry', label: 'Cherry' },
+          { value: 'date', label: 'Date' },
+          { value: 'elderberry', label: 'Elderberry' },
+        ]
+        const value = ref('apple')
+        return { args, items, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <Autocomplete v-bind="args" v-model="value" label="Favorite Fruit" :items="items">
+            <AutocompleteInput placeholder="Search fruits..." />
+            <AutocompleteContent>
+              <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+                {{ item.label }}
+              </AutocompleteItem>
+            </AutocompleteContent>
+          </Autocomplete>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}

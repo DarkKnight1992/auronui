@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { InputOTP } from '@auronui/vue'
 
 const meta: Meta<typeof InputOTP> = {
@@ -290,6 +290,44 @@ const lg = ref('')
       </div>
     `,
   }),
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { InputOTP } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <InputOTP v-model="value" aria-label="One-time password" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { InputOTP },
+      setup() {
+        const value = ref('')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <InputOTP v-bind="args" v-model="value" aria-label="One-time password" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const CustomStyles: Story = {

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
+import { defineComponent, ref } from 'vue'
 import ColorField from '../../vue/src/components/color-field/ColorField.vue'
 
 const meta: Meta<typeof ColorField> = {
@@ -185,6 +186,44 @@ import { ColorField } from '@auronui/vue'
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ColorField } from '@auronui/vue'
+
+const value = ref('#ff0000')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <ColorField v-model="value" label="Color" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { ColorField },
+      setup() {
+        const value = ref('#ff0000')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <ColorField v-bind="args" v-model="value" label="Color" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const Readonly: Story = {

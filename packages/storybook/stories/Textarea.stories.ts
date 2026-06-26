@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { Textarea } from '@auronui/vue'
 
 const meta: Meta<typeof Textarea> = {
@@ -1488,6 +1488,42 @@ import { Textarea } from '@auronui/vue'
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Textarea } from '@auronui/vue'
+
+const value = ref('')
+</script>
+
+<template>
+  <Textarea v-model="value" variant="bordered" label="Bio" placeholder="Tell us about yourself…" />
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Textarea },
+      setup() {
+        const value = ref('')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <Textarea v-bind="args" v-model="value" variant="bordered" label="Bio" placeholder="Tell us about yourself…" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const CustomStyles: Story = {

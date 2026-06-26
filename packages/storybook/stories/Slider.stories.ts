@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { Slider } from "@auronui/vue";
 
 const meta: Meta<typeof Slider> = {
@@ -501,6 +501,44 @@ const value = ref(50)
     },
   },
 };
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Slider } from '@auronui/vue'
+
+const value = ref(50)
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <Slider v-model="value" label="Volume" style="max-width:400px;" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Slider },
+      setup() {
+        const value = ref(50)
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <Slider v-bind="args" v-model="value" label="Volume" style="max-width:400px;" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}
 
 export const CustomStyles: Story = {
   name: "Custom styles via classNames",

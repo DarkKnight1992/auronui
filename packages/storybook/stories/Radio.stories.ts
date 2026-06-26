@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { Radio, RadioGroup } from '@auronui/vue'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 const meta: Meta = {
   title: 'Form/Radio',
@@ -512,6 +512,50 @@ const selected = ref('vue')
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Radio, RadioGroup } from '@auronui/vue'
+
+const value = ref('option1')
+</script>
+
+<template>
+  <RadioGroup v-model="value" label="Choose an option">
+    <Radio value="option1">Option 1</Radio>
+    <Radio value="option2">Option 2</Radio>
+    <Radio value="option3">Option 3</Radio>
+  </RadioGroup>
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Radio, RadioGroup },
+      setup() {
+        const value = ref('option1')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <RadioGroup v-bind="args" v-model="value" label="Choose an option">
+            <Radio value="option1">Option 1</Radio>
+            <Radio value="option2">Option 2</Radio>
+            <Radio value="option3">Option 3</Radio>
+          </RadioGroup>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const ArrayAPI: Story = {

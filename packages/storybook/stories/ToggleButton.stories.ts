@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { Button, ToggleButton, ToggleButtonGroup } from '@auronui/vue'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 const meta: Meta = {
   title: 'Components/ToggleButton',
@@ -471,6 +471,44 @@ const selected = ref<string[]>([])
       </div>
     `,
   }),
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ToggleButton } from '@auronui/vue'
+
+const value = ref(false)
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <ToggleButton v-model="value" aria-label="Toggle feature">Toggle feature</ToggleButton>
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { ToggleButton },
+      setup() {
+        const value = ref(false)
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <ToggleButton v-bind="args" v-model="value" aria-label="Toggle feature">Toggle feature</ToggleButton>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const GroupArrayAPI: Story = {

@@ -152,6 +152,12 @@ const openModel = defineModel<boolean>('open')
 
 const slotFns = computed(() => datePickerVariants())
 
+// Reka treats `undefined` as "uncontrolled mode" — always pass null (controlled + empty) instead.
+const rekaModelValue = computed<DateValue | null>({
+  get: () => modelValue.value ?? null,
+  set: (val: DateValue | undefined) => { modelValue.value = val ?? null },
+})
+
 // Sync Calendar's `DateValue` v-model with DatePicker's `DateValue | null` model,
 // and close the popover on selection when closeOnSelect is enabled.
 const calendarValue = computed<DateValue | undefined>({
@@ -167,7 +173,7 @@ const calendarValue = computed<DateValue | undefined>({
 
 <template>
   <DatePickerRoot
-    v-model="modelValue"
+    v-model="rekaModelValue"
     v-model:open="openModel"
     :default-value="defaultValue"
     :default-open="defaultOpen"

@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { ref } from "vue";
+import { defineComponent, ref } from "vue";
 import { TimeField } from "@auronui/vue";
 import { Time } from "@internationalized/date";
 
@@ -767,6 +767,45 @@ const value = ref(undefined)
 };
 
 /* ─── Custom Styles ─────────────────────────────────────────────────────── */
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { TimeField } from '@auronui/vue'
+import { Time } from '@internationalized/date'
+
+const value = ref(new Time(10, 30))
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <TimeField v-model="value" label="Time" />
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { TimeField },
+      setup() {
+        const value = ref(new Time(10, 30))
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <TimeField v-bind="args" v-model="value" label="Time" />
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
+}
 
 export const CustomStyles: Story = {
   render: (args) => ({

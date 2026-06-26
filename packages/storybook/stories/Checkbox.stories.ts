@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { Button, Checkbox, CheckboxGroup } from '@auronui/vue'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 const meta: Meta = {
   title: 'Form/Checkbox',
@@ -381,6 +381,42 @@ const selected = ref([])
       },
     },
   },
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { Checkbox } from '@auronui/vue'
+
+const value = ref(false)
+</script>
+
+<template>
+  <Checkbox v-model="value" aria-label="Controlled checkbox">Accept terms</Checkbox>
+  <p style="margin-top:8px;font-size:13px;color:#666;">Value: {{ value }}</p>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { Checkbox },
+      setup() {
+        const value = ref(false)
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <Checkbox v-bind="args" v-model="value" aria-label="Controlled checkbox">Accept terms</Checkbox>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const CustomStyles: Story = {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ListBox, ListBoxItem, ListBoxSection } from '@auronui/vue'
-import { ref } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 const meta: Meta = {
   title: 'Components/ListBox',
@@ -459,6 +459,56 @@ const selected = ref('')
       </div>
     `,
   }),
+}
+
+export const Controlled: Story = {
+  name: 'Controlled (v-model)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref } from 'vue'
+import { ListBox, ListBoxItem } from '@auronui/vue'
+
+const value = ref('apple')
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+    <ListBox v-model="value" selection-mode="single" aria-label="Select a fruit">
+      <ListBoxItem value="apple">Apple</ListBoxItem>
+      <ListBoxItem value="banana">Banana</ListBoxItem>
+      <ListBoxItem value="cherry">Cherry</ListBoxItem>
+      <ListBoxItem value="date">Date</ListBoxItem>
+      <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+    </ListBox>
+    <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { ListBox, ListBoxItem },
+      setup() {
+        const value = ref('apple')
+        return { args, value }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;">
+          <ListBox v-bind="args" v-model="value" selection-mode="single" aria-label="Select a fruit">
+            <ListBoxItem value="apple">Apple</ListBoxItem>
+            <ListBoxItem value="banana">Banana</ListBoxItem>
+            <ListBoxItem value="cherry">Cherry</ListBoxItem>
+            <ListBoxItem value="date">Date</ListBoxItem>
+            <ListBoxItem value="elderberry">Elderberry</ListBoxItem>
+          </ListBox>
+          <p style="font-size:13px;color:#666;">Value: {{ value }}</p>
+        </div>
+      `,
+    }),
 }
 
 export const ArrayAPI: Story = {
