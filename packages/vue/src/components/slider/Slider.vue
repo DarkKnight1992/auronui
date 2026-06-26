@@ -250,6 +250,8 @@ const positionAxis = computed(() =>
         <SliderThumb
           v-for="(_, idx) in internalValue"
           :key="idx"
+          :as-child="props.thumbAsChild"
+          :as="props.thumbAs"
           :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)"
           :aria-label="label || 'Value'"
         />

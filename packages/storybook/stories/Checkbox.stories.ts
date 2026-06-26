@@ -8,6 +8,11 @@ const meta: Meta = {
   component: Checkbox,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    indicatorForceMount: {
+      control: 'boolean',
+      description: 'Force-mount the CheckboxIndicator even when unchecked, useful for CSS animations.',
+      table: { category: 'CheckboxIndicator', defaultValue: { summary: 'undefined' } },
+    },
   },
 }
 
@@ -15,10 +20,13 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  args: {
+    indicatorForceMount: false,
+  },
   render: (args) => ({
     components: { Checkbox },
     setup: () => ({ args }),
-    template: `<Checkbox v-bind="args" aria-label="Accept terms" />`,
+    template: `<Checkbox v-bind="args" :indicator-force-mount="args.indicatorForceMount" aria-label="Accept terms" />`,
   }),
   parameters: {
     docs: {

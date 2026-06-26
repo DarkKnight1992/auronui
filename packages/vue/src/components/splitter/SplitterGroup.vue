@@ -14,13 +14,27 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     group: ClassValue
   }>
+  /** Keyboard resize increment in pixels */
+  keyboardResizeBy?: number
+  /** Custom storage for persisting layout */
+  storage?: object
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   id: undefined,
   direction: 'horizontal',
   autoSaveId: undefined,
   class: undefined,
   classNames: undefined,
+  keyboardResizeBy: undefined,
+  storage: undefined,
 })
+
+const emit = defineEmits<{
+  layout: [sizes: number[]]
+}>()
 
 const slotFns = computed(() => splitterVariants({ direction: props.direction }))
 
@@ -32,8 +46,13 @@ provide(splitterContextKey, { direction: computed(() => props.direction ?? 'hori
     :id="id"
     :direction="direction ?? 'horizontal'"
     :auto-save-id="autoSaveId"
+    :keyboard-resize-by="props.keyboardResizeBy"
+    :storage="props.storage"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.group(), props.class, props.classNames?.group)"
     data-slot="splitter-group"
+    @layout="(sizes: number[]) => emit('layout', sizes)"
   >
     <slot />
   </SplitterGroup>

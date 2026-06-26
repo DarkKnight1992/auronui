@@ -16,6 +16,36 @@ const meta: Meta<typeof ProgressBar> = {
       options: ["none", "sm", "md", "lg", "full"],
     },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    as: {
+      control: "text",
+      description: "Element or component to render ProgressRoot as.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "undefined" } },
+    },
+    asChild: {
+      control: "boolean",
+      description: "Whether ProgressRoot renders as a child element.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "false" } },
+    },
+    getValueLabel: {
+      control: false,
+      description: "Function to get the accessible label for the current value.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "undefined" } },
+    },
+    getValueText: {
+      control: false,
+      description: "Function to get the accessible text for the current value.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "undefined" } },
+    },
+    indicatorAs: {
+      control: "text",
+      description: "Element or component to render ProgressIndicator as.",
+      table: { category: "ProgressIndicator", defaultValue: { summary: "undefined" } },
+    },
+    indicatorAsChild: {
+      control: "boolean",
+      description: "Whether ProgressIndicator renders as a child element.",
+      table: { category: "ProgressIndicator", defaultValue: { summary: "false" } },
+    },
   },
   args: {
     value: 60,
@@ -30,10 +60,14 @@ export default meta;
 type Story = StoryObj<typeof ProgressBar>;
 
 export const Default: Story = {
+  args: {
+    asChild: false,
+    indicatorAsChild: false,
+  },
   render: (args) => ({
     components: { ProgressBar },
     setup: () => ({ args }),
-    template: `<ProgressBar v-bind="args" />`,
+    template: `<ProgressBar v-bind="args" :as="args.as" :as-child="args.asChild" :indicator-as="args.indicatorAs" :indicator-as-child="args.indicatorAsChild" />`,
   }),
   parameters: {
     docs: {

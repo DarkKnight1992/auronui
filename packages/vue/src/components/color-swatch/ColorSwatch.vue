@@ -11,6 +11,9 @@ const props = defineProps<{
   shape?: ColorSwatchVariants['shape']
   size?: ColorSwatchVariants['size']
   class?: string
+  as?: string
+  asChild?: boolean
+  label?: string
 }>()
 
 // Try to inject ColorPickerContext — null fallback so we don't throw when standalone
@@ -27,9 +30,9 @@ const resolvedColor = computed<Color>(() => {
 })
 
 // Reka ColorSwatch sets aria-label from its `label` prop.
-// Provide accessible label: colorName if given, otherwise hex value.
+// Provide accessible label: explicit label > colorName > hex value.
 const accessibleLabel = computed(() =>
-  props.colorName ?? colorToHex(resolvedColor.value),
+  props.label ?? props.colorName ?? colorToHex(resolvedColor.value),
 )
 
 const styles = computed(() =>
@@ -41,6 +44,8 @@ const styles = computed(() =>
   <RekaColorSwatch
     :color="resolvedColor"
     :label="accessibleLabel"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles, props.class)"
   />
 </template>

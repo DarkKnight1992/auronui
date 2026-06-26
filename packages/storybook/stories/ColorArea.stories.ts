@@ -16,6 +16,36 @@ const meta: Meta<typeof ColorArea> = {
     },
     showDots: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    as: {
+      control: 'text',
+      description: 'The element or component the ColorAreaRoot renders as.',
+      table: { category: 'ColorAreaRoot', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge props onto the child element instead of rendering a wrapper.',
+      table: { category: 'ColorAreaRoot', defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: 'text',
+      description: 'The name of the color area field for form submission.',
+      table: { category: 'ColorAreaRoot', defaultValue: { summary: '' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the color area is required in a form.',
+      table: { category: 'ColorAreaRoot', defaultValue: { summary: 'false' } },
+    },
+    xName: {
+      control: 'text',
+      description: 'The name for the x-axis hidden input field.',
+      table: { category: 'ColorAreaRoot', defaultValue: { summary: '' } },
+    },
+    yName: {
+      control: 'text',
+      description: 'The name for the y-axis hidden input field.',
+      table: { category: 'ColorAreaRoot', defaultValue: { summary: '' } },
+    },
   },
   args: {
     defaultValue: '#ff0000',
@@ -23,6 +53,8 @@ const meta: Meta<typeof ColorArea> = {
     yChannel: 'brightness',
     showDots: false,
     disabled: false,
+    asChild: false,
+    required: false,
   },
 }
 

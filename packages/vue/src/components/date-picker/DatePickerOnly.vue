@@ -135,6 +135,16 @@ const props = withDefaults(defineProps<{
   defaultOpen: false,
 })
 
+const emit = defineEmits<{
+  'update:placeholder': [value: DateValue | undefined]
+  'escape-key-down': [event: KeyboardEvent]
+  'pointer-down-outside': [event: PointerEvent]
+  'focus-outside': [event: FocusEvent]
+  'interact-outside': [event: Event]
+  'open-auto-focus': [event: Event]
+  'close-auto-focus': [event: Event]
+}>()
+
 const modelValue = defineModel<DateValue | null | undefined>('modelValue')
 const openModel = defineModel<boolean>('open')
 
@@ -159,6 +169,7 @@ const calendarValue = computed<DateValue | undefined>({
     v-model:open="openModel"
     :default-value="defaultValue"
     :default-open="defaultOpen"
+    :default-placeholder="defaultPlaceholder"
     :placeholder-value="placeholderValue"
     :min-value="minValue"
     :max-value="maxValue"
@@ -167,10 +178,19 @@ const calendarValue = computed<DateValue | undefined>({
     :locale="locale"
     :granularity="granularity"
     :hour-cycle="hourCycle"
+    :step="step"
+    :hide-time-zone="hideTimeZone"
     :disabled="isDisabled"
     :readonly="isReadOnly"
     :name="name"
-    :number-of-months="visibleMonths"
+    :dir="dir"
+    :required="required"
+    :paged-navigation="pagedNavigation"
+    :week-starts-on="weekStartsOn"
+    :weekday-format="weekdayFormat"
+    :fixed-weeks="fixedWeeks"
+    :number-of-months="numberOfMonths ?? visibleMonths"
+    :prevent-deselect="preventDeselect"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     data-slot="date-picker"
   >
@@ -201,6 +221,8 @@ const calendarValue = computed<DateValue | undefined>({
       <template #endContent>
         <DatePickerTrigger
           :class="composeClassName(slotFns.trigger(), props.classNames?.trigger)"
+          :as="triggerAs"
+          :as-child="triggerAsChild"
           aria-label="Open date picker"
           @mousedown.prevent
         >
@@ -255,7 +277,35 @@ const calendarValue = computed<DateValue | undefined>({
     <DatePickerContent
       :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
-      :side-offset="8"
+      :side-offset="sideOffset ?? 8"
+      :portal="portal"
+      :force-mount="forceMount"
+      :side="side"
+      :side-flip="sideFlip"
+      :align="align"
+      :align-offset="alignOffset"
+      :align-flip="alignFlip"
+      :avoid-collisions="avoidCollisions"
+      :collision-boundary="collisionBoundary"
+      :collision-padding="collisionPadding"
+      :arrow-padding="arrowPadding"
+      :hide-shifted-arrow="hideShiftedArrow"
+      :sticky="sticky"
+      :hide-when-detached="hideWhenDetached"
+      :position-strategy="positionStrategy"
+      :update-position-strategy="updatePositionStrategy"
+      :disable-update-on-layout-shift="disableUpdateOnLayoutShift"
+      :prioritize-position="prioritizePosition"
+      :reference="reference"
+      :as="contentAs"
+      :as-child="contentAsChild"
+      :disable-outside-pointer-events="disableOutsidePointerEvents"
+      @escape-key-down="emit('escape-key-down', $event)"
+      @pointer-down-outside="emit('pointer-down-outside', $event)"
+      @focus-outside="emit('focus-outside', $event)"
+      @interact-outside="emit('interact-outside', $event)"
+      @open-auto-focus="emit('open-auto-focus', $event)"
+      @close-auto-focus="emit('close-auto-focus', $event)"
     >
       <slot name="calendarTopContent" />
 

@@ -15,6 +15,22 @@ const props = withDefaults(defineProps<{
   defaultValue?: boolean
   disabled?: boolean
   name?: string
+  /** HTML id attribute forwarded to SwitchRoot. */
+  id?: string
+  /** The value for the checked state. */
+  trueValue?: boolean | string | number
+  /** The value for the unchecked state. */
+  falseValue?: boolean | string | number
+  /** Whether SwitchRoot renders as a child element. */
+  asChild?: boolean
+  /** Element or component to render SwitchRoot as. */
+  as?: string
+  /** Whether the switch is required. */
+  required?: boolean
+  /** Whether SwitchThumb renders as a child element. */
+  thumbAsChild?: boolean
+  /** Element or component to render SwitchThumb as. */
+  thumbAs?: string
   class?: ClassValue
   /** Per-slot class overrides. Each key is a slot name (e.g. 'base', 'control', 'thumb', 'content'). */
   classNames?: Partial<{
@@ -30,6 +46,14 @@ const props = withDefaults(defineProps<{
   defaultValue: false,
   disabled: false,
   name: undefined,
+  id: undefined,
+  trueValue: undefined,
+  falseValue: undefined,
+  asChild: false,
+  as: undefined,
+  required: false,
+  thumbAsChild: false,
+  thumbAs: undefined,
 })
 
 const emit = defineEmits<{
@@ -90,11 +114,21 @@ const slotFns = computed(() =>
     :disabled="isDisabled"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
+    :id="props.id"
+    :true-value="props.trueValue"
+    :false-value="props.falseValue"
+    :as-child="props.asChild"
+    :as="props.as"
+    :required="props.required"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
   >
     <span :class="composeClassName(slotFns.control(), props.classNames?.control)">
-      <SwitchThumb :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)" />
+      <SwitchThumb
+        :as-child="props.thumbAsChild"
+        :as="props.thumbAs"
+        :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)"
+      />
     </span>
     <span
       v-if="$slots.default"

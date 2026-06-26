@@ -5,10 +5,56 @@ import { useComboBoxInject } from './ComboBox.context'
 const props = withDefaults(defineProps<{
   placeholder?: string
   class?: string
+  /** Custom reference element for the anchor. */
+  anchorReference?: object | null
+  /** Render the anchor as a different element. */
+  anchorAs?: string
+  /** Merge anchor props onto child element. */
+  anchorAsChild?: boolean
+  /** Function to compute the display value from the current model value. */
+  displayValue?: (value: string) => string
+  /** Two-way bound search input value. */
+  modelValue?: string
+  /** Auto-focus the input on mount. */
+  autoFocus?: boolean
+  /** Disable the input. Falls back to context isDisabled. */
+  disabled?: boolean
+  /** Render the input as a different element. */
+  as?: string
+  /** Merge input props onto child element. */
+  asChild?: boolean
+  /** Disable the trigger button. */
+  triggerDisabled?: boolean
+  /** Render the trigger as a different element. */
+  triggerAs?: string
+  /** Merge trigger props onto child element. */
+  triggerAsChild?: boolean
+  /** Render the cancel button as a different element. */
+  cancelAs?: string
+  /** Merge cancel props onto child element. */
+  cancelAsChild?: boolean
 }>(), {
   placeholder: undefined,
   class: undefined,
+  anchorReference: undefined,
+  anchorAs: undefined,
+  anchorAsChild: false,
+  displayValue: undefined,
+  modelValue: undefined,
+  autoFocus: false,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
+  triggerDisabled: undefined,
+  triggerAs: undefined,
+  triggerAsChild: false,
+  cancelAs: undefined,
+  cancelAsChild: false,
 })
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+}>()
 
 const ctx = useComboBoxInject()
 </script>

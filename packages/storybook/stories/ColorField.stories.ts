@@ -12,11 +12,59 @@ const meta: Meta<typeof ColorField> = {
     description: { control: 'text' },
     errorMessage: { control: 'text' },
     placeholder: { control: 'text' },
+    as: {
+      control: 'text',
+      description: 'The element or component the ColorFieldRoot renders as.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge props onto the child element instead of rendering a wrapper.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: 'text',
+      description: 'The name of the color field for form submission.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: '' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the color field is required in a form.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: 'false' } },
+    },
+    colorSpace: {
+      control: 'text',
+      description: 'The color space to use for the field value.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: '' } },
+    },
+    channel: {
+      control: 'text',
+      description: 'The color channel to display and edit.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: '' } },
+    },
+    disableWheelChange: {
+      control: 'boolean',
+      description: 'Disable changing the value via mouse wheel scroll.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: 'false' } },
+    },
+    locale: {
+      control: 'text',
+      description: 'The locale to use for number formatting.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: '' } },
+    },
+    step: {
+      control: 'number',
+      description: 'The step increment for keyboard interactions.',
+      table: { category: 'ColorFieldRoot', defaultValue: { summary: '1' } },
+    },
   },
   args: {
     defaultValue: '#ff0000',
     disabled: false,
     readonly: false,
+    asChild: false,
+    required: false,
+    disableWheelChange: false,
   },
 }
 

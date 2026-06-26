@@ -2,6 +2,7 @@
 import { DialogTrigger } from 'reka-ui'
 
 const props = withDefaults(defineProps<{
+  as?: string
   asChild?: boolean
 }>(), {
   asChild: false,
@@ -9,7 +10,7 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <DialogTrigger :as-child="props.asChild">
+  <DialogTrigger :as="props.as" :as-child="props.asChild">
     <slot />
   </DialogTrigger>
 </template>

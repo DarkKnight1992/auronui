@@ -14,11 +14,24 @@ const props = withDefaults(defineProps<{
     handle: ClassValue
     handleBar: ClassValue
   }>
+  /** Hit area margins for easier grabbing */
+  hitAreaMargins?: object
+  /** Tab index for keyboard focus */
+  tabindex?: number
+  /** Nonce for inline styles */
+  nonce?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   id: undefined,
   disabled: false,
   class: undefined,
   classNames: undefined,
+  hitAreaMargins: undefined,
+  tabindex: undefined,
+  nonce: undefined,
 })
 
 defineEmits<{
@@ -35,6 +48,11 @@ const slotFns = computed(() =>
   <SplitterResizeHandle
     :id="id"
     :disabled="disabled"
+    :hit-area-margins="props.hitAreaMargins"
+    :tabindex="props.tabindex"
+    :nonce="props.nonce"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.handle(), props.class, props.classNames?.handle)"
     data-slot="splitter-handle"
     @dragging="$emit('dragging', $event)"

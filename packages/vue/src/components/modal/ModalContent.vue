@@ -7,8 +7,21 @@ import { useModalInject } from './Modal.vue'
 import ModalOverlay from './ModalOverlay.vue'
 
 const props = withDefaults(defineProps<{
+  as?: string
+  asChild?: boolean
+  forceMount?: boolean
+  disableOutsidePointerEvents?: boolean
+  to?: string | HTMLElement
+  disabled?: boolean
+  defer?: boolean
   class?: string
-}>(), {})
+}>(), {
+  asChild: false,
+  forceMount: false,
+  disableOutsidePointerEvents: false,
+  disabled: false,
+  defer: false,
+})
 
 const emit = defineEmits<{
   'escape-key-down': [event: KeyboardEvent]
@@ -16,6 +29,7 @@ const emit = defineEmits<{
   'interact-outside': [event: Event]
   'open-auto-focus': [event: Event]
   'close-auto-focus': [event: Event]
+  'focus-outside': [event: Event]
 }>()
 
 // Inject context from Modal root
@@ -28,10 +42,14 @@ const styles = modalVariants()
 </script>
 
 <template>
-  <DialogPortal>
+  <DialogPortal :to="props.to" :disabled="props.disabled" :defer="props.defer" :force-mount="props.forceMount">
     <div class="modal__portal">
     <ModalOverlay />
     <DialogContent
+      :as="props.as"
+      :as-child="props.asChild"
+      :force-mount="props.forceMount"
+      :disable-outside-pointer-events="props.disableOutsidePointerEvents"
       :class="composeClassName(styles.container({ scroll: ctx.scroll }), props.class)"
       :data-placement="ctx.placement"
       :aria-hidden="!dialogRootContext.open.value || undefined"
@@ -40,6 +58,7 @@ const styles = modalVariants()
       @interact-outside="emit('interact-outside', $event)"
       @open-auto-focus="emit('open-auto-focus', $event)"
       @close-auto-focus="emit('close-auto-focus', $event)"
+      @focus-outside="emit('focus-outside', $event)"
     >
       <AnimatePresence>
         <motion.div

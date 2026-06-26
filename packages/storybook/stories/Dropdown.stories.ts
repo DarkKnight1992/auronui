@@ -34,6 +34,59 @@ const meta: Meta<typeof Dropdown> = {
   component: Dropdown,
   title: "Components/Dropdown",
   tags: ["autodocs"],
+  argTypes: {
+    // DropdownTrigger
+    triggerDisabled: {
+      control: 'boolean',
+      description: 'Whether the trigger button is disabled.',
+      table: { category: 'DropdownTrigger', defaultValue: { summary: 'false' } },
+    },
+    triggerAs: {
+      control: 'text',
+      description: 'Render the trigger as a different element or component.',
+      table: { category: 'DropdownTrigger', defaultValue: { summary: 'undefined' } },
+    },
+    triggerAsChild: {
+      control: 'boolean',
+      description: 'Merge trigger props onto its child element.',
+      table: { category: 'DropdownTrigger', defaultValue: { summary: 'true' } },
+    },
+    // DropdownMenu (content)
+    menuForceMount: {
+      control: 'boolean',
+      description: 'Keep the menu content mounted even when closed.',
+      table: { category: 'DropdownMenu', defaultValue: { summary: 'false' } },
+    },
+    menuLoop: {
+      control: 'boolean',
+      description: 'Keep keyboard focus loop within the menu.',
+      table: { category: 'DropdownMenu', defaultValue: { summary: 'false' } },
+    },
+    // DropdownSubContent
+    subContentForceMount: {
+      control: 'boolean',
+      description: 'Keep sub-menu content mounted even when closed.',
+      table: { category: 'DropdownSubContent', defaultValue: { summary: 'false' } },
+    },
+    subContentLoop: {
+      control: 'boolean',
+      description: 'Keep keyboard focus loop within the sub-menu.',
+      table: { category: 'DropdownSubContent', defaultValue: { summary: 'false' } },
+    },
+    subContentCollisionPadding: {
+      control: false,
+      description: 'Padding around collision boundary for sub-menu.',
+      table: { category: 'DropdownSubContent', defaultValue: { summary: 'undefined' } },
+    },
+  },
+  args: {
+    triggerDisabled: false,
+    triggerAsChild: true,
+    menuForceMount: false,
+    menuLoop: false,
+    subContentForceMount: false,
+    subContentLoop: false,
+  },
 };
 
 export default meta;
@@ -73,10 +126,18 @@ import { Button, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem } from '@
     setup: () => ({ args }),
     template: `
       <Dropdown v-bind="args">
-        <DropdownTrigger>
+        <DropdownTrigger
+          :disabled="args.triggerDisabled"
+          :as="args.triggerAs"
+          :as-child="args.triggerAsChild"
+        >
           <Button variant="flat">Open Menu</Button>
         </DropdownTrigger>
-        <DropdownMenu aria-label="Default menu">
+        <DropdownMenu
+          aria-label="Default menu"
+          :force-mount="args.menuForceMount"
+          :loop="args.menuLoop"
+        >
           <DropdownItem>New File</DropdownItem>
           <DropdownItem>Open File</DropdownItem>
           <DropdownItem>Save</DropdownItem>

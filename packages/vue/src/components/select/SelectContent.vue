@@ -124,7 +124,12 @@ function handleKeydown(e: KeyboardEvent) {
 </script>
 
 <template>
-  <SelectPortal>
+  <SelectPortal
+    :to="props.to"
+    :disabled="props.portalDisabled"
+    :defer="props.defer"
+    :force-mount="props.forceMount"
+  >
     <AnimatePresence>
       <!--
       No force-mount on SelectContent. With force-mount=true, Reka's
@@ -145,7 +150,31 @@ function handleKeydown(e: KeyboardEvent) {
       <SelectContent
         :position="props.position"
         :side-offset="props.sideOffset"
+        :body-lock="props.bodyLock"
+        :side="props.side"
+        :side-flip="props.sideFlip"
+        :align="props.align"
+        :align-offset="props.alignOffset"
+        :align-flip="props.alignFlip"
+        :avoid-collisions="props.avoidCollisions"
+        :collision-boundary="props.collisionBoundary"
+        :collision-padding="props.collisionPadding"
+        :arrow-padding="props.arrowPadding"
+        :hide-shifted-arrow="props.hideShiftedArrow"
+        :sticky="props.sticky"
+        :hide-when-detached="props.hideWhenDetached"
+        :position-strategy="props.positionStrategy"
+        :update-position-strategy="props.updatePositionStrategy"
+        :disable-update-on-layout-shift="props.disableUpdateOnLayoutShift"
+        :prioritize-position="props.prioritizePosition"
+        :reference="props.reference"
+        :as="props.as"
+        :as-child="props.asChild"
+        :disable-outside-pointer-events="props.disableOutsidePointerEvents"
         data-slot="popover"
+        @close-auto-focus="emit('close-auto-focus', $event)"
+        @escape-key-down="emit('escape-key-down', $event)"
+        @pointer-down-outside="emit('pointer-down-outside', $event)"
       >
         <motion.div
           v-show="rootContext.open.value"
@@ -154,7 +183,10 @@ function handleKeydown(e: KeyboardEvent) {
           :transition="{ duration: 0.15 }"
           @keydown="handleKeydown"
         >
-          <SelectViewport data-slot="list-box">
+          <SelectViewport
+            :nonce="props.nonce"
+            data-slot="list-box"
+          >
             <slot />
           </SelectViewport>
         </motion.div>

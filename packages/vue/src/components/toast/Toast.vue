@@ -13,6 +13,16 @@ const props = withDefaults(defineProps<{
   position?: ToastPosition
   variant?: ToastVariants['variant']
   class?: string
+  /** Default open state for uncontrolled usage */
+  defaultOpen?: boolean
+  /** Keep mounted in DOM when closed */
+  forceMount?: boolean
+  /** Toast type: 'foreground' for urgent, 'background' for passive */
+  type?: 'foreground' | 'background'
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   open: true,
   duration: 5000,
@@ -22,6 +32,13 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'update:open': [value: boolean]
+  'escape-key-down': [event: KeyboardEvent]
+  'pause': []
+  'resume': []
+  'swipe-start': [event: Event]
+  'swipe-move': [event: Event]
+  'swipe-cancel': [event: Event]
+  'swipe-end': [event: Event]
 }>()
 
 const internalOpen = ref(props.open)
@@ -74,10 +91,20 @@ const styles = computed(() =>
   <ToastRoot
     :open="internalOpen"
     :duration="duration"
+    :default-open="props.defaultOpen"
+    :force-mount="props.forceMount"
+    :type="props.type"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles.toast(), props.class)"
     @update:open="(val) => { if (!val) close() }"
-    @pause="clearTimer"
-    @resume="startTimer"
+    @escape-key-down="(e: KeyboardEvent) => emit('escape-key-down', e)"
+    @pause="() => { clearTimer(); emit('pause') }"
+    @resume="() => { startTimer(); emit('resume') }"
+    @swipe-start="(e: Event) => emit('swipe-start', e)"
+    @swipe-move="(e: Event) => emit('swipe-move', e)"
+    @swipe-cancel="(e: Event) => emit('swipe-cancel', e)"
+    @swipe-end="(e: Event) => emit('swipe-end', e)"
   >
     <slot />
   </ToastRoot>

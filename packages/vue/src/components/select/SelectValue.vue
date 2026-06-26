@@ -6,9 +6,15 @@ import SelectOverflowChips from './SelectOverflowChips.vue'
 const props = withDefaults(defineProps<{
   placeholder?: string
   class?: string
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   placeholder: undefined,
   class: undefined,
+  as: undefined,
+  asChild: false,
 })
 
 const ctx = useSelectInject()
@@ -18,6 +24,8 @@ const ctx = useSelectInject()
   <SelectValue
     :class="ctx.slots.value.value()"
     :placeholder="props.placeholder"
+    :as="props.as"
+    :as-child="props.asChild"
     data-slot="value"
   >
     <template #default="{ selectedLabel, modelValue }">

@@ -22,12 +22,69 @@ const meta: Meta<typeof ColorSwatchPicker> = {
       control: 'select',
       options: ['circle', 'square'],
     },
+    as: {
+      control: 'text',
+      description: 'The element or component the ColorSwatchPickerRoot renders as.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge props onto the child element instead of rendering a wrapper.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: 'text',
+      description: 'The name of the swatch picker for form submission.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: '' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the swatch picker is required in a form.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'false' } },
+    },
+    multiple: {
+      control: 'boolean',
+      description: 'Whether multiple colors can be selected.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'false' } },
+    },
+    orientation: {
+      control: { type: 'select' },
+      options: ['horizontal', 'vertical'],
+      description: 'The orientation of the swatch picker.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'horizontal' } },
+    },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'The reading direction of the swatch picker.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'ltr' } },
+    },
+    disabled: {
+      control: 'boolean',
+      description: 'Whether all swatches in the picker are disabled.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'false' } },
+    },
+    selectionBehavior: {
+      control: 'text',
+      description: 'The selection behavior of the swatch picker.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: '' } },
+    },
+    highlightOnHover: {
+      control: 'boolean',
+      description: 'Whether swatches are highlighted on hover.',
+      table: { category: 'ColorSwatchPickerRoot', defaultValue: { summary: 'false' } },
+    },
   },
   args: {
     colors: defaultPalette,
     layout: 'grid',
     size: 'md',
     variant: 'circle',
+    asChild: false,
+    required: false,
+    multiple: false,
+    disabled: false,
+    highlightOnHover: false,
   },
 }
 

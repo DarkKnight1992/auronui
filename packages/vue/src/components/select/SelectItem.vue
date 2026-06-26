@@ -14,11 +14,24 @@ const props = withDefaults(defineProps<{
   textValue?: string
   isDisabled?: boolean
   class?: string
+  /** Whether this item is disabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   textValue: undefined,
   isDisabled: false,
   class: undefined,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
 })
+
+const emit = defineEmits<{
+  select: [event: Event]
+}>()
 
 const ctx = useSelectInject()
 const textRef = useTemplateRef<HTMLElement>('textRef')
@@ -44,10 +57,13 @@ onMounted(() => {
 <template>
   <SelectItem
     :value="props.value"
-    :disabled="props.isDisabled"
+    :disabled="props.disabled ?? props.isDisabled"
     :text-value="props.textValue ?? String(props.value)"
+    :as="props.as"
+    :as-child="props.asChild"
     class="list-box-item list-box-item--default"
     data-slot="list-box-item"
+    @select="emit('select', $event)"
   >
     <slot name="startContent" />
     <SelectItemText ref="textRef">

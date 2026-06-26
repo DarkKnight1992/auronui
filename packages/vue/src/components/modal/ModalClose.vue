@@ -4,6 +4,7 @@ import { modalVariants } from '@auronui/styles/components/modal'
 import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
+  as?: string
   asChild?: boolean
   class?: string
 }>(), {
@@ -15,6 +16,7 @@ const styles = modalVariants()
 
 <template>
   <DialogClose
+    :as="props.as"
     :as-child="props.asChild"
     :class="composeClassName(styles.closeTrigger(), props.class)"
   >

@@ -13,6 +13,26 @@ const meta: Meta<typeof ProgressCircle> = {
     },
     strokeWidth: { control: "number" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    as: {
+      control: "text",
+      description: "Element or component to render ProgressRoot as.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "undefined" } },
+    },
+    asChild: {
+      control: "boolean",
+      description: "Whether ProgressRoot renders as a child element.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "false" } },
+    },
+    getValueLabel: {
+      control: false,
+      description: "Function to get the accessible label for the current value.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "undefined" } },
+    },
+    getValueText: {
+      control: false,
+      description: "Function to get the accessible text for the current value.",
+      table: { category: "ProgressRoot", defaultValue: { summary: "undefined" } },
+    },
   },
   args: {
     value: 75,
@@ -27,10 +47,13 @@ export default meta;
 type Story = StoryObj<typeof ProgressCircle>;
 
 export const Default: Story = {
+  args: {
+    asChild: false,
+  },
   render: (args) => ({
     components: { ProgressCircle },
     setup: () => ({ args }),
-    template: `<ProgressCircle v-bind="args" />`,
+    template: `<ProgressCircle v-bind="args" :as="args.as" :as-child="args.asChild" />`,
   }),
   parameters: {
     docs: {

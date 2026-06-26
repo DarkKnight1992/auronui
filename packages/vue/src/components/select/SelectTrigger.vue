@@ -3,10 +3,22 @@ import { computed, ref, watch } from 'vue'
 import { SelectTrigger, SelectIcon, injectSelectRootContext } from 'reka-ui'
 import { useSelectInject } from './Select.context'
 
-withDefaults(defineProps<{
+const props = withDefaults(defineProps<{
   class?: string
+  /** Whether the trigger is disabled. */
+  disabled?: boolean
+  /** Virtual or DOM reference element to position against. */
+  reference?: object | null
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   class: undefined,
+  disabled: undefined,
+  reference: undefined,
+  as: undefined,
+  asChild: false,
 })
 
 const ctx = useSelectInject()
@@ -54,6 +66,10 @@ function handleFocus() {
     :data-readonly="ctx.isReadonly.value || undefined"
     :aria-invalid="ctx.isInvalid.value || undefined"
     :aria-describedby="ctx.ariaDescribedBy.value"
+    :disabled="props.disabled"
+    :reference="props.reference"
+    :as="props.as"
+    :as-child="props.asChild"
     data-slot="trigger"
     @focus="handleFocus"
   >

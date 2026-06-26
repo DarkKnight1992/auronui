@@ -5,9 +5,11 @@ import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   as?: string
+  asChild?: boolean
   class?: string
 }>(), {
   as: 'h2',
+  asChild: false,
 })
 
 const styles = modalVariants()
@@ -16,6 +18,7 @@ const styles = modalVariants()
 <template>
   <DialogTitle
     :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles.heading(), props.class)"
   >
     <slot />

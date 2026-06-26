@@ -17,6 +17,12 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     panel: ClassValue
   }>
+  /** Unit for size values: 'percentage' or 'pixels' */
+  sizeUnit?: 'percentage' | 'pixels'
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   id: undefined,
   defaultSize: undefined,
@@ -27,11 +33,13 @@ const props = withDefaults(defineProps<{
   order: undefined,
   class: undefined,
   classNames: undefined,
+  sizeUnit: undefined,
 })
 
-defineEmits<{
+const emit = defineEmits<{
   collapse: []
   expand: []
+  resize: [size: number]
 }>()
 
 const slotFns = computed(() => splitterVariants())
@@ -46,10 +54,14 @@ const slotFns = computed(() => splitterVariants())
     :collapsible="collapsible"
     :collapsed-size="collapsedSize"
     :order="order"
+    :size-unit="props.sizeUnit"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.panel(), props.class, props.classNames?.panel)"
     data-slot="splitter-panel"
-    @collapse="$emit('collapse')"
-    @expand="$emit('expand')"
+    @collapse="emit('collapse')"
+    @expand="emit('expand')"
+    @resize="(size: number) => emit('resize', size)"
   >
     <slot />
   </SplitterPanel>

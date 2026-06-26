@@ -16,12 +16,28 @@ const meta: Meta<typeof ColorSwatch> = {
     },
     color: { control: 'color' },
     colorName: { control: 'text' },
+    label: {
+      control: 'text',
+      description: 'Accessible label for the swatch. Overrides colorName for aria-label.',
+      table: { category: 'ColorSwatch', defaultValue: { summary: '' } },
+    },
+    as: {
+      control: 'text',
+      description: 'The element or component the ColorSwatch renders as.',
+      table: { category: 'ColorSwatch', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge props onto the child element instead of rendering a wrapper.',
+      table: { category: 'ColorSwatch', defaultValue: { summary: 'false' } },
+    },
   },
   args: {
     color: '#ff0000',
     colorName: 'Red',
     shape: 'circle',
     size: 'md',
+    asChild: false,
   },
 }
 

@@ -16,6 +16,42 @@ const meta: Meta<typeof ColorSlider> = {
     },
     showOutput: { control: 'boolean' },
     disabled: { control: 'boolean' },
+    as: {
+      control: 'text',
+      description: 'The element or component the ColorSliderRoot renders as.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge props onto the child element instead of rendering a wrapper.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: 'false' } },
+    },
+    name: {
+      control: 'text',
+      description: 'The name of the slider for form submission.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: '' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the slider is required in a form.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: 'false' } },
+    },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'The reading direction of the slider.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: 'ltr' } },
+    },
+    inverted: {
+      control: 'boolean',
+      description: 'Whether the slider is visually inverted.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: 'false' } },
+    },
+    step: {
+      control: 'number',
+      description: 'The step increment for keyboard interactions.',
+      table: { category: 'ColorSliderRoot', defaultValue: { summary: '1' } },
+    },
   },
   args: {
     defaultValue: '#ff0000',
@@ -23,6 +59,9 @@ const meta: Meta<typeof ColorSlider> = {
     orientation: 'horizontal',
     showOutput: false,
     disabled: false,
+    asChild: false,
+    required: false,
+    inverted: false,
   },
 }
 

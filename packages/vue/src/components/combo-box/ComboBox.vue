@@ -100,6 +100,7 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'update:modelValue': [value: string]
   'update:open': [value: boolean]
+  'highlight': [context: { ref: Element; value: string } | undefined]
 }>()
 
 const labelId = useId()
@@ -227,9 +228,23 @@ useComboBoxProvide({
       :default-open="props.defaultOpen"
       :disabled="props.isDisabled"
       :required="props.isRequired"
+      :multiple="props.multiple"
+      :name="props.name"
+      :dir="props.dir"
+      :as="props.as"
+      :as-child="props.asChild"
+      :reset-search-term-on-blur="props.resetSearchTermOnBlur"
+      :reset-search-term-on-select="props.resetSearchTermOnSelect"
+      :open-on-focus="props.openOnFocus"
+      :open-on-click="props.openOnClick"
+      :ignore-filter="props.ignoreFilter"
+      :reset-model-value-on-clear="props.resetModelValueOnClear"
+      :highlight-on-hover="props.highlightOnHover"
+      :by="props.by"
       :filter-function="effectiveFilter"
       @update:model-value="handleModelValueUpdate($event)"
       @update:open="emit('update:open', $event)"
+      @highlight="emit('highlight', $event)"
     >
       <slot v-if="usesCustomChrome" />
       <template v-else>
