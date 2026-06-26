@@ -108,25 +108,33 @@ type Story = StoryObj<typeof Toast>;
 export const Default: Story = {
   args: {
     position: "bottom-right",
+    variant: "default",
+    duration: 5000,
   },
 
   parameters: {
     docs: {
       source: {
         code: `<script setup>
-import { ref } from 'vue'
-import { ToastProvider, Toast, ToastTitle, ToastDescription, ToastClose, ToastViewport } from '@auronui/vue'
+import { ToastProvider, ToastViewport, Button, useToast } from '@auronui/vue'
 
-const open = ref(true)
+const { toast } = useToast()
+
+function showToast() {
+  toast({
+    title: 'Notification',
+    description: 'This is a default toast message.',
+    position: 'bottom-right',
+    duration: 5000,
+  })
+}
 </script>
 
 <template>
   <ToastProvider>
-    <Toast :open="open" :duration="0" position="bottom-right" @update:open="open = $event">
-      <ToastTitle>Notification</ToastTitle>
-      <ToastDescription>This is a default toast message.</ToastDescription>
-      <ToastClose />
-    </Toast>
+    <div style="padding:16px;">
+      <Button @click="showToast">Show Toast</Button>
+    </div>
     <ToastViewport position="bottom-right" />
   </ToastProvider>
 </template>`,
@@ -135,33 +143,28 @@ const open = ref(true)
     }
   },
 
-  render: (args) => ({
-    components: { Toast, ToastTitle, ToastDescription, ToastClose },
-    setup() {
-      const open = ref(true);
-      return { args, open };
-    },
-    template: `
-      <div style="min-height:100px;">
-        <Toast
-          v-bind="args"
-          :open="open"
-          :duration="0"
-          position="bottom-right"
-          :default-open="args.defaultOpen"
-          :force-mount="args.forceMount"
-          :type="args.type"
-          :as="args.as"
-          :as-child="args.asChild"
-          @update:open="open = $event"
-        >
-          <ToastTitle>Notification</ToastTitle>
-          <ToastDescription>This is a default toast message.</ToastDescription>
-          <ToastClose />
-        </Toast>
-      </div>
-    `,
-  }),
+  render: (args) =>
+    defineComponent({
+      components: { Button },
+      setup() {
+        const { toast } = useToast();
+        function showToast() {
+          toast({
+            title: "Notification",
+            description: "This is a default toast message.",
+            position: args.position ?? "bottom-right",
+            variant: args.variant ?? "default",
+            duration: args.duration ?? 5000,
+          });
+        }
+        return { args, showToast };
+      },
+      template: `
+        <div style="padding:16px;">
+          <Button @click="showToast">Show Toast</Button>
+        </div>
+      `,
+    }),
 };
 
 export const AllPositions: Story = {
@@ -412,7 +415,9 @@ function showAll() {
 
 export const WithAction: Story = {
   args: {
-    position: "top-center",
+    position: "bottom-right",
+    variant: "default",
+    duration: 5000,
   },
 
   name: "Toast with Action Button",
@@ -421,25 +426,29 @@ export const WithAction: Story = {
     docs: {
       source: {
         code: `<script setup>
-import { ref } from 'vue'
-import { ToastProvider, Toast, ToastTitle, ToastDescription, ToastAction, ToastClose, ToastViewport } from '@auronui/vue'
+import { ToastProvider, ToastViewport, Button, useToast } from '@auronui/vue'
 
-const open = ref(true)
+const { toast } = useToast()
 
-function handleAction() {
-  alert('Action clicked!')
-  open.value = false
+function showToast() {
+  toast({
+    title: 'Update available',
+    description: 'A new version is ready to install.',
+    position: 'bottom-right',
+    duration: 5000,
+    action: {
+      label: 'Install',
+      onClick: () => alert('Action clicked!'),
+    },
+  })
 }
 </script>
 
 <template>
   <ToastProvider>
-    <Toast :open="open" :duration="0" position="bottom-right" @update:open="open = $event">
-      <ToastTitle>Update available</ToastTitle>
-      <ToastDescription>A new version is ready to install.</ToastDescription>
-      <ToastAction alt-text="Install update" @click="handleAction">Install</ToastAction>
-      <ToastClose />
-    </Toast>
+    <div style="padding:16px;">
+      <Button @click="showToast">Show Toast</Button>
+    </div>
     <ToastViewport position="bottom-right" />
   </ToastProvider>
 </template>`,
@@ -448,27 +457,32 @@ function handleAction() {
     },
   },
 
-  render: (args) => ({
-    components: { Toast, ToastTitle, ToastDescription, ToastAction, ToastClose },
-    setup() {
-      const open = ref(true);
-      function handleAction() {
-        alert("Action clicked!");
-        open.value = false;
-      }
-      return { args, open, handleAction };
-    },
-    template: `
-      <div style="min-height:100px;">
-        <Toast v-bind="args" :open="open" :duration="0" position="bottom-right" @update:open="open = $event">
-          <ToastTitle>Update available</ToastTitle>
-          <ToastDescription>A new version is ready to install.</ToastDescription>
-          <ToastAction alt-text="Install update" @click="handleAction">Install</ToastAction>
-          <ToastClose />
-        </Toast>
-      </div>
-    `,
-  }),
+  render: (args) =>
+    defineComponent({
+      components: { Button },
+      setup() {
+        const { toast } = useToast();
+        function showToast() {
+          toast({
+            title: "Update available",
+            description: "A new version is ready to install.",
+            position: args.position ?? "bottom-right",
+            variant: args.variant ?? "default",
+            duration: args.duration ?? 5000,
+            action: {
+              label: "Install",
+              onClick: () => alert("Action clicked!"),
+            },
+          });
+        }
+        return { args, showToast };
+      },
+      template: `
+        <div style="padding:16px;">
+          <Button @click="showToast">Show Toast</Button>
+        </div>
+      `,
+    }),
 };
 
 export const MultipleStacking: Story = {
