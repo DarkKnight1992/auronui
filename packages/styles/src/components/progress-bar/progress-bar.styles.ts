@@ -17,30 +17,30 @@ export const progressBarVariants = tv({
     label: "progress-bar__label text-sm font-medium text-foreground",
     value: "progress-bar__value text-sm font-medium text-foreground",
     track: "progress-bar__track",
-    indicator: "progress-bar__indicator transition-transform duration-300 ease-out",
+    indicator: "progress-bar__fill",
   },
   variants: {
     color: {
       default: {
-        indicator: "bg-default-400 progress-bar--default",
+        base: "progress-bar--default",
       },
       primary: {
-        indicator: "bg-primary progress-bar--primary",
+        base: "progress-bar--primary",
       },
       secondary: {
-        indicator: "bg-secondary progress-bar--secondary",
+        base: "progress-bar--secondary",
       },
       success: {
-        indicator: "bg-success progress-bar--success",
+        base: "progress-bar--success",
       },
       warning: {
-        indicator: "bg-warning progress-bar--warning",
+        base: "progress-bar--warning",
       },
       danger: {
-        indicator: "bg-danger progress-bar--danger",
+        base: "progress-bar--danger",
       },
       accent: {
-        indicator: "bg-primary progress-bar--accent",
+        base: "progress-bar--accent",
       },
     },
     size: {
@@ -78,12 +78,13 @@ export const progressBarVariants = tv({
     },
     isStriped: {
       true: {
-        indicator: "progress-bar__indicator--striped",
+        indicator: "progress-bar__fill--striped",
       },
     },
     isIndeterminate: {
       true: {
-        indicator: "progress-bar__indicator--indeterminate animate-indeterminate",
+        // data-state="indeterminate" (set by Reka) drives the CSS animation
+        indicator: "progress-bar__fill--indeterminate",
       },
     },
     isDisabled: {

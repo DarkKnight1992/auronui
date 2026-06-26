@@ -47,8 +47,9 @@
     @apply motion-reduce:transition-none;
   }
 
-  /* Indeterminate state - when no aria-valuenow is set */
-  .progress-bar__fill[data-state="indeterminate"] {
+  /* Indeterminate state — Reka sets data-state="indeterminate" when modelValue is null */
+  .progress-bar__fill[data-state="indeterminate"],
+  .progress-bar__fill--indeterminate {
     @apply w-2/5;
 
     animation: progress-bar-indeterminate 1.5s cubic-bezier(0.65, 0, 0.35, 1) infinite;
@@ -107,6 +108,14 @@
 
 .progress-bar--default {
   --progress-bar-fill: var(--color-default-foreground);
+}
+
+.progress-bar--primary {
+  --progress-bar-fill: var(--color-primary);
+}
+
+.progress-bar--secondary {
+  --progress-bar-fill: var(--color-secondary);
 }
 
 .progress-bar--accent {
