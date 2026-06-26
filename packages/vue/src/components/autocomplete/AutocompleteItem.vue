@@ -7,10 +7,32 @@ const props = withDefaults(defineProps<{
   value: string
   isDisabled?: boolean
   class?: string
+  /** A string value for typeahead matching. Defaults to display text. */
+  textValue?: string
+  /** Whether the item is disabled. Alias for isDisabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
+  /** Render the ComboboxItemIndicator as a different element. */
+  indicatorAs?: string
+  /** Merge indicator props onto child element. */
+  indicatorAsChild?: boolean
 }>(), {
   isDisabled: false,
   class: undefined,
+  textValue: undefined,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
+  indicatorAs: undefined,
+  indicatorAsChild: false,
 })
+
+const emit = defineEmits<{
+  'select': [event: Event]
+}>()
 
 const slots: Slots = useSlots()
 const ctx = useAutocompleteInject()
@@ -41,6 +63,7 @@ onUnmounted(() => {
 })
 
 function handleSelect(event: Event) {
+  emit('select', event)
   if (ctx.multiple.value) {
     // Prevent Reka from overwriting the combobox value with the selected item's text.
     // Without this, Reka's internal handler fires after ours and sets searchTerm = displayText.
@@ -53,8 +76,10 @@ function handleSelect(event: Event) {
 <template>
   <AutocompleteItem
     :value="displayText"
-    :text-value="displayText"
-    :disabled="props.isDisabled"
+    :text-value="props.textValue ?? displayText"
+    :disabled="props.disabled ?? props.isDisabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :data-item-value="props.value"
     :data-selected="isChecked || undefined"
     class="list-box-item list-box-item--default"
@@ -69,6 +94,8 @@ function handleSelect(event: Event) {
     <!-- Single mode: Reka's ComboboxItemIndicator handles the checkmark natively -->
     <ComboboxItemIndicator
       v-if="!ctx.multiple.value"
+      :as="props.indicatorAs"
+      :as-child="props.indicatorAsChild"
       class="list-box-item__indicator"
       data-slot="list-box-item-indicator"
     >

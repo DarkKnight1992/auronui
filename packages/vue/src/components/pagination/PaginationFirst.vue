@@ -7,6 +7,10 @@ import { usePaginationInject, paginationContextDefaults } from './pagination.con
 
 const props = defineProps<{
   class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>()
 
 const ctx = usePaginationInject(paginationContextDefaults)
@@ -19,6 +23,8 @@ const isDisabled = computed(() => ctx.page.value <= 1 || ctx.disabled.value)
 
 <template>
   <PaginationFirst
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles.link(), 'pagination__link--nav', props.class)"
     aria-label="Go to first page"
     :disabled="isDisabled"

@@ -29,15 +29,27 @@ const props = withDefaults(defineProps<{
   trackClass?: string
   thumbClass?: string
   outputClass?: string
+  as?: string
+  asChild?: boolean
+  name?: string
+  required?: boolean
+  dir?: 'ltr' | 'rtl'
+  inverted?: boolean
+  step?: number
 }>(), {
   orientation: 'horizontal',
   disabled: false,
   showOutput: false,
+  asChild: false,
+  required: false,
+  inverted: false,
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: Color]
   'update:color': [value: Color]
+  'change': [value: Color]
+  'change-end': [value: Color]
 }>()
 
 const attrs = useAttrs()
@@ -80,8 +92,17 @@ function onColorUpdate(next: Color) {
     :color-space="colorSpace"
     :orientation="orientation"
     :disabled="disabled"
+    :as="props.as"
+    :as-child="props.asChild"
+    :name="props.name"
+    :required="props.required"
+    :dir="props.dir"
+    :inverted="props.inverted"
+    :step="props.step"
     :class="composeClassName(styles.base(), props.class)"
     @update:color="onColorUpdate"
+    @change="(v: Color) => emit('change', v)"
+    @change-end="(v: Color) => emit('change-end', v)"
   >
     <ColorSliderTrack
       :class="composeClassName(styles.track(), trackClass)"

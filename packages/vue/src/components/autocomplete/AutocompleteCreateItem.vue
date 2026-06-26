@@ -10,9 +10,24 @@ const props = withDefaults(defineProps<{
    */
   label?: string | ((term: string) => string)
   class?: string
+  /** The value of this item when selected. Defaults to the current search term. */
+  value?: string
+  /** A string value that represents this item during typeahead navigation. */
+  textValue?: string
+  /** Whether this item is disabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   label: undefined,
   class: undefined,
+  value: undefined,
+  textValue: undefined,
+  disabled: false,
+  as: undefined,
+  asChild: false,
 })
 
 const ctx = useAutocompleteInject()
@@ -30,7 +45,12 @@ const displayLabel = computed(() => {
   return props.label ?? `Create "${term.value}"`
 })
 
+const emit = defineEmits<{
+  'select': [event: Event]
+}>()
+
 function handleSelect(event: Event) {
+  emit('select', event)
   // Always manage the creation ourselves — this item's value equals the current
   // search term, so Reka's native select (set-value + close) is unreliable here.
   event.preventDefault()
@@ -49,8 +69,11 @@ function handleSelect(event: Event) {
   <RekaAutocompleteItem
     v-if="isVisible"
     :key="term"
-    :value="term"
-    :text-value="term"
+    :value="props.value ?? term"
+    :text-value="props.textValue ?? term"
+    :disabled="props.disabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="['list-box-item list-box-item--default', props.class]"
     data-slot="list-box-item"
     data-create-item

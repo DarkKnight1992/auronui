@@ -12,6 +12,22 @@ const props = withDefaults(defineProps<{
   value: string
   variant?: RadioGroupVariants['variant']
   disabled?: boolean
+  /** HTML id attribute forwarded to RadioGroupItem. */
+  id?: string
+  /** Whether RadioGroupItem renders as a child element. */
+  asChild?: boolean
+  /** Element or component to render RadioGroupItem as. */
+  as?: string
+  /** HTML name attribute forwarded to RadioGroupItem. */
+  name?: string
+  /** Whether the radio item is required. */
+  required?: boolean
+  /** Whether RadioGroupIndicator should force-mount even when unselected. */
+  indicatorForceMount?: boolean
+  /** Whether RadioGroupIndicator renders as a child element. */
+  indicatorAsChild?: boolean
+  /** Element or component to render RadioGroupIndicator as. */
+  indicatorAs?: string
   class?: ClassValue
   /** Override classNames for individual slots */
   classNames?: Partial<{
@@ -23,9 +39,21 @@ const props = withDefaults(defineProps<{
 }>(), {
   variant: undefined,
   disabled: false,
+  id: undefined,
+  asChild: false,
+  as: undefined,
+  name: undefined,
+  required: false,
+  indicatorForceMount: undefined,
+  indicatorAsChild: false,
+  indicatorAs: undefined,
   class: undefined,
   classNames: undefined,
 })
+
+const emit = defineEmits<{
+  'select': [event: Event]
+}>()
 
 const attrs = useAttrs()
 
@@ -49,11 +77,22 @@ const slotFns = computed(() => radioVariants())
     v-bind="attrs"
     :value="props.value"
     :disabled="isDisabled"
+    :id="props.id"
+    :as-child="props.asChild"
+    :as="props.as"
+    :name="props.name"
+    :required="props.required"
     :data-variant="finalVariant"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
+    @select="emit('select', $event)"
   >
     <span :class="composeClassName(slotFns.control(), props.classNames?.control)">
-      <RadioGroupIndicator :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)" />
+      <RadioGroupIndicator
+        :force-mount="props.indicatorForceMount"
+        :as-child="props.indicatorAsChild"
+        :as="props.indicatorAs"
+        :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
+      />
     </span>
     <span :class="composeClassName(slotFns.content(), props.classNames?.content)">
       <slot />

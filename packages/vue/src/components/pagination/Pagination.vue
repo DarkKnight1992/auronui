@@ -30,6 +30,10 @@ const props = withDefaults(defineProps<{
   afterCursor?: string | null
   /** Additional CSS class */
   class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   page: 1,
   defaultPage: 1,
@@ -96,6 +100,8 @@ const styles = computed(() => paginationVariants({ size: props.size }))
     :sibling-count="props.siblingCount"
     :show-edges="props.showEdges"
     :disabled="props.disabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles.base(), props.class)"
     @update:page="handlePageChange"
   >

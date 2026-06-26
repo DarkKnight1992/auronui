@@ -6,17 +6,23 @@ const props = withDefaults(defineProps<{
   title?: string
   showDivider?: boolean
   class?: string
+  /** Render as a different element or component (applied to the group wrapper). */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   title: undefined,
   showDivider: false,
   class: undefined,
+  as: undefined,
+  asChild: false,
 })
 
 const sectionClass = menuSectionVariants()
 </script>
 
 <template>
-  <DropdownMenuGroup :class="[sectionClass.base(), props.class]">
+  <DropdownMenuGroup :as="props.as" :as-child="props.asChild" :class="[sectionClass.base(), props.class]">
     <DropdownMenuLabel
       v-if="props.title"
       :class="sectionClass.label()"

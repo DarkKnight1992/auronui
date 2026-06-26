@@ -11,6 +11,10 @@ const props = defineProps<{
   classNames?: Partial<{
     tab: ClassValue
   }>
+  /** Render as a different element type. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>()
 
 const ctx = useTabsInject()
@@ -20,6 +24,8 @@ const ctx = useTabsInject()
   <TabsTrigger
     :value="props.value"
     :disabled="props.disabled"
+    :as="props.as"
+    :as-child="props.asChild"
     :data-tab-value="props.value"
     :class="composeClassName(ctx.slotFns.value.tab(), props.class, props.classNames?.tab)"
   >

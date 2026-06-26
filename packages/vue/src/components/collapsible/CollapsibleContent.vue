@@ -12,14 +12,26 @@ const props = defineProps<{
     body: ClassValue
     bodyInner: ClassValue
   }>
+  /** Render as a different element type. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>()
+
+const emit = defineEmits<{
+  'content-found': []
+}>()
+
 const ctx = useCollapsibleInject()
 </script>
 
 <template>
   <CollapsibleContent
     :force-mount="true"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="props.class || undefined"
+    @content-found="emit('content-found')"
   >
     <AnimatePresence>
       <motion.div

@@ -8,10 +8,19 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   textValue?: string
   class?: string
+  /** Whether this trigger is disabled. */
+  disabled?: boolean
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   isDisabled: false,
   textValue: undefined,
   class: undefined,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
 })
 
 const subCtx = useDropdownSubInject()
@@ -46,8 +55,10 @@ function handleClick() {
 <template>
   <DropdownMenuSubTrigger
     ref="trigger"
-    :disabled="props.isDisabled"
+    :disabled="props.disabled ?? props.isDisabled"
     :text-value="props.textValue"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="[slots.item(), props.class]"
     @click="handleClick"
   >

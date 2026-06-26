@@ -17,6 +17,16 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   label?: string
   description?: string
+  /** Text direction forwarded to RadioGroupRoot. */
+  dir?: 'ltr' | 'rtl'
+  /** Whether keyboard navigation loops from last to first item. */
+  loop?: boolean
+  /** Whether RadioGroupRoot renders as a child element. */
+  asChild?: boolean
+  /** Element or component to render RadioGroupRoot as. */
+  as?: string
+  /** Whether the radio group is required. */
+  required?: boolean
   class?: string
   /** Shorthand API: render radio options from an array instead of the compound slot API */
   items?: RadioShorthandItem[]
@@ -29,6 +39,11 @@ const props = withDefaults(defineProps<{
   orientation: 'vertical',
   label: undefined,
   description: undefined,
+  dir: undefined,
+  loop: true,
+  asChild: false,
+  as: undefined,
+  required: false,
 })
 
 const emit = defineEmits<{
@@ -55,6 +70,11 @@ const groupClasses = computed(() =>
     :disabled="props.disabled"
     :name="props.name"
     :orientation="props.orientation"
+    :dir="props.dir"
+    :loop="props.loop"
+    :as-child="props.asChild"
+    :as="props.as"
+    :required="props.required"
     :aria-labelledby="props.label ? labelId : undefined"
     :class="composeClassName(groupClasses, props.class)"
     @update:model-value="$event != null && emit('update:modelValue', String($event))"

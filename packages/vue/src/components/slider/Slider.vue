@@ -23,6 +23,30 @@ const props = withDefaults(defineProps<{
   hideThumb?: boolean
   disabled?: boolean
   inverted?: boolean
+  /** Text direction forwarded to SliderRoot. */
+  dir?: 'ltr' | 'rtl'
+  /** How the thumbs align relative to the track ends. */
+  thumbAlignment?: 'contain' | 'overflow'
+  /** Whether SliderRoot renders as a child element. */
+  asChild?: boolean
+  /** Element or component to render SliderRoot as. */
+  as?: string
+  /** HTML name attribute forwarded to SliderRoot. */
+  name?: string
+  /** Whether the slider is required. */
+  required?: boolean
+  /** Whether SliderTrack renders as a child element. */
+  trackAsChild?: boolean
+  /** Element or component to render SliderTrack as. */
+  trackAs?: string
+  /** Whether SliderRange renders as a child element. */
+  rangeAsChild?: boolean
+  /** Element or component to render SliderRange as. */
+  rangeAs?: string
+  /** Whether SliderThumb renders as a child element. */
+  thumbAsChild?: boolean
+  /** Element or component to render SliderThumb as. */
+  thumbAs?: string
   class?: ClassValue
   /**
    * Per-slot class overrides. Keys map to internal slot names (base, output, track, fill, marks, thumb).
@@ -46,10 +70,23 @@ const props = withDefaults(defineProps<{
   hideThumb: false,
   disabled: false,
   inverted: false,
+  dir: undefined,
+  thumbAlignment: undefined,
+  asChild: false,
+  as: undefined,
+  name: undefined,
+  required: false,
+  trackAsChild: false,
+  trackAs: undefined,
+  rangeAsChild: false,
+  rangeAs: undefined,
+  thumbAsChild: false,
+  thumbAs: undefined,
 })
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: number | number[]): void
+  (e: 'value-commit', value: number | number[]): void
 }>()
 
 // FIX: Also check defaultValue so uncontrolled range mode is detected correctly.
@@ -164,11 +201,26 @@ const positionAxis = computed(() =>
         :orientation="orientation"
         :disabled="disabled"
         :inverted="inverted"
+        :dir="props.dir"
+        :thumb-alignment="props.thumbAlignment"
+        :as-child="props.asChild"
+        :as="props.as"
+        :name="props.name"
+        :required="props.required"
         class="relative flex items-center select-none touch-none w-full"
         :data-orientation="orientation"
+        @value-commit="emit('value-commit', isRange ? $event : $event[0])"
       >
-        <SliderTrack :class="composeClassName(slotFns.track(), props.classNames?.track)">
-          <SliderRange :class="composeClassName(slotFns.fill(), props.classNames?.fill)" />
+        <SliderTrack
+          :as-child="props.trackAsChild"
+          :as="props.trackAs"
+          :class="composeClassName(slotFns.track(), props.classNames?.track)"
+        >
+          <SliderRange
+            :as-child="props.rangeAsChild"
+            :as="props.rangeAs"
+            :class="composeClassName(slotFns.fill(), props.classNames?.fill)"
+          />
 
           <!--
             FIX: tick spans have NO class from slotFns (was :class="slotFns.base()" = "slider" — wrong).

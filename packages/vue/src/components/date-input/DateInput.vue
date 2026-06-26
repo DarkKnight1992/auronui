@@ -73,14 +73,26 @@ type Props = {
 
   /* ─── DateInput-specific ──────────────────────────────────────── */
   defaultValue?: DateValue
+  defaultPlaceholder?: DateValue
   placeholderValue?: DateValue
   minValue?: DateValue
   maxValue?: DateValue
   granularity?: 'day' | 'hour' | 'minute' | 'second'
   hourCycle?: 12 | 24
+  /** Steps for segment keyboard navigation. */
+  step?: Partial<Record<'hour' | 'minute' | 'second' | 'millisecond', number>>
   locale?: string
   name?: string
   hideTimeZone?: boolean
+  isDateUnavailable?: (date: DateValue) => boolean
+  /** Marks the field as required for form submission. */
+  required?: boolean
+  /** Text direction for the field. */
+  dir?: 'ltr' | 'rtl'
+  /** Render as a different element or component. */
+  as?: string
+  /** Render child as root element. */
+  asChild?: boolean
 }
 
 const attrs = useAttrs()
@@ -265,16 +277,23 @@ const showInsideLabel = computed(
         ref="fieldRef"
         v-model="modelValue"
         :default-value="defaultValue"
+        :default-placeholder="defaultPlaceholder"
         :placeholder="placeholderValue"
         :min-value="minValue"
         :max-value="maxValue"
         :granularity="granularity"
         :hour-cycle="hourCycle"
+        :step="step"
         :locale="locale"
         :disabled="isDisabled"
         :readonly="isReadOnly"
         :name="name"
         :hide-time-zone="hideTimeZone"
+        :is-date-unavailable="isDateUnavailable"
+        :required="required"
+        :dir="dir"
+        :as="as"
+        :as-child="asChild"
         :aria-labelledby="hasLabel ? labelId : undefined"
         :aria-describedby="ariaDescribedBy"
         :aria-required="isRequired || undefined"

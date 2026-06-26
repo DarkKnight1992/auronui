@@ -7,8 +7,21 @@ import { useDrawerInject } from './drawer.context'
 import DrawerOverlay from './DrawerOverlay.vue'
 
 const props = withDefaults(defineProps<{
+  as?: string
+  asChild?: boolean
+  forceMount?: boolean
+  disableOutsidePointerEvents?: boolean
+  to?: string | HTMLElement
+  disabled?: boolean
+  defer?: boolean
   class?: string
-}>(), {})
+}>(), {
+  asChild: false,
+  forceMount: false,
+  disableOutsidePointerEvents: false,
+  disabled: false,
+  defer: false,
+})
 
 const emit = defineEmits<{
   'escape-key-down': [event: KeyboardEvent]
@@ -16,6 +29,7 @@ const emit = defineEmits<{
   'interact-outside': [event: Event]
   'open-auto-focus': [event: Event]
   'close-auto-focus': [event: Event]
+  'focus-outside': [event: Event]
 }>()
 
 const ctx = useDrawerInject()
@@ -81,6 +95,10 @@ function handleEscapeKeyDown(event: KeyboardEvent) {
   -->
   <template v-else-if="ctx.inline.value">
     <DialogContent
+      :as="props.as"
+      :as-child="props.asChild"
+      :force-mount="props.forceMount"
+      :disable-outside-pointer-events="props.disableOutsidePointerEvents"
       :class="composeClassName(styles.dialog({ placement: ctx.placement.value, inline: true }), props.class)"
       :data-placement="ctx.placement.value"
       @pointer-down-outside="handlePointerDownOutside"
@@ -88,15 +106,20 @@ function handleEscapeKeyDown(event: KeyboardEvent) {
       @escape-key-down="handleEscapeKeyDown"
       @open-auto-focus="emit('open-auto-focus', $event)"
       @close-auto-focus="emit('close-auto-focus', $event)"
+      @focus-outside="emit('focus-outside', $event)"
     >
       <slot />
     </DialogContent>
   </template>
 
   <!-- default mode: teleported to <body>, optional backdrop -->
-  <DialogPortal v-else>
+  <DialogPortal v-else :to="props.to" :disabled="props.disabled" :defer="props.defer" :force-mount="props.forceMount">
     <DrawerOverlay v-if="!ctx.hideBackdrop.value" />
     <DialogContent
+      :as="props.as"
+      :as-child="props.asChild"
+      :force-mount="props.forceMount"
+      :disable-outside-pointer-events="props.disableOutsidePointerEvents"
       :class="composeClassName(styles.dialog({ placement: ctx.placement.value }), props.class)"
       :data-placement="ctx.placement.value"
       @pointer-down-outside="handlePointerDownOutside"
@@ -104,6 +127,7 @@ function handleEscapeKeyDown(event: KeyboardEvent) {
       @escape-key-down="handleEscapeKeyDown"
       @open-auto-focus="emit('open-auto-focus', $event)"
       @close-auto-focus="emit('close-auto-focus', $event)"
+      @focus-outside="emit('focus-outside', $event)"
     >
       <slot />
     </DialogContent>

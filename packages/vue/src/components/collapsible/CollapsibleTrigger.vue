@@ -10,12 +10,16 @@ const props = defineProps<{
     trigger: ClassValue
     indicator: ClassValue
   }>
+  /** Render as a different element type. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>()
 const ctx = useCollapsibleInject()
 </script>
 
 <template>
-  <CollapsibleTrigger :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
+  <CollapsibleTrigger :as="props.as" :as-child="props.asChild" :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
     <slot />
     <span
       :class="composeClassName(ctx.slotFns.value.indicator(), props.classNames?.indicator)"

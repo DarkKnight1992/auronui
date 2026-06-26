@@ -7,6 +7,10 @@ import { usePaginationInject, paginationContextDefaults } from './pagination.con
 
 const props = defineProps<{
   class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>()
 
 const ctx = usePaginationInject(paginationContextDefaults)
@@ -22,6 +26,8 @@ const hasNextPage = computed(() => ctx.afterCursor.value !== null)
   <PaginationList
     v-if="ctx.type.value === 'numeric'"
     v-slot="{ items }"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles.content(), props.class)"
   >
     <slot :items="items" />

@@ -22,6 +22,7 @@ const props = withDefaults(defineProps<{
 
   defaultValue?: DateValue
   defaultOpen?: boolean
+  defaultPlaceholder?: DateValue
   placeholderValue?: DateValue
   minValue?: DateValue
   maxValue?: DateValue
@@ -30,6 +31,8 @@ const props = withDefaults(defineProps<{
   locale?: string
   granularity?: 'day' | 'hour' | 'minute' | 'second'
   hourCycle?: 12 | 24
+  /** Steps for segment keyboard navigation. */
+  step?: Partial<Record<'hour' | 'minute' | 'second' | 'millisecond', number>>
   label?: string
   description?: string
   errorMessage?: string
@@ -43,6 +46,72 @@ const props = withDefaults(defineProps<{
   pageBehavior?: 'visible' | 'single'
   closeOnSelect?: boolean
   modal?: boolean
+  /** Text direction. */
+  dir?: 'ltr' | 'rtl'
+  /** Marks the field as required. */
+  required?: boolean
+  /** Use paged navigation (advance by numberOfMonths). */
+  pagedNavigation?: boolean
+  /** Day the week starts on. */
+  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  /** Format for weekday header cells. */
+  weekdayFormat?: 'narrow' | 'short' | 'long'
+  /** Always show 6 weeks per month. */
+  fixedWeeks?: boolean
+  /** Number of months shown in the calendar. */
+  numberOfMonths?: number
+  /** Prevent deselecting a selected date. */
+  preventDeselect?: boolean
+  /** Render trigger as a different element. */
+  triggerAs?: string
+  /** Render trigger child as root element. */
+  triggerAsChild?: boolean
+  /** Portal target for the content. */
+  portal?: string | HTMLElement
+  /** Force the content to stay mounted. */
+  forceMount?: boolean
+  /** Side of the anchor the content appears on. */
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  /** Distance in px from the anchor. */
+  sideOffset?: number
+  /** Allow flipping to opposite side. */
+  sideFlip?: boolean
+  /** Alignment of the content relative to the anchor. */
+  align?: 'start' | 'center' | 'end'
+  /** Offset along the align axis. */
+  alignOffset?: number
+  /** Allow flipping alignment. */
+  alignFlip?: boolean
+  /** Avoid collisions with the viewport. */
+  avoidCollisions?: boolean
+  /** Elements to use as collision boundaries. */
+  collisionBoundary?: Element | null | Array<Element | null>
+  /** Padding for collision detection. */
+  collisionPadding?: number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>
+  /** Padding between arrow and content edge. */
+  arrowPadding?: number
+  /** Hide the arrow when it is shifted. */
+  hideShiftedArrow?: boolean
+  /** Sticky behavior when overflowing. */
+  sticky?: 'partial' | 'always'
+  /** Hide content when anchor is detached. */
+  hideWhenDetached?: boolean
+  /** CSS position strategy. */
+  positionStrategy?: 'fixed' | 'absolute'
+  /** When to recalculate position. */
+  updatePositionStrategy?: 'always' | 'optimized'
+  /** Disable position update on layout shift. */
+  disableUpdateOnLayoutShift?: boolean
+  /** Prioritize keeping content in viewport. */
+  prioritizePosition?: boolean
+  /** Virtual reference element for positioning. */
+  reference?: object | null
+  /** Render content as a different element. */
+  contentAs?: string
+  /** Render content child as root element. */
+  contentAsChild?: boolean
+  /** Disable pointer events outside the content. */
+  disableOutsidePointerEvents?: boolean
   class?: ClassValue
   /** Override classes for individual slots (base, trigger, triggerIndicator, popover) */
   classNames?: Partial<{
@@ -67,6 +136,16 @@ const props = withDefaults(defineProps<{
   visibleMonths: 1,
   defaultOpen: false,
 })
+
+const emit = defineEmits<{
+  'update:placeholder': [value: DateValue | undefined]
+  'escape-key-down': [event: KeyboardEvent]
+  'pointer-down-outside': [event: PointerEvent]
+  'focus-outside': [event: FocusEvent]
+  'interact-outside': [event: Event]
+  'open-auto-focus': [event: Event]
+  'close-auto-focus': [event: Event]
+}>()
 
 const modelValue = defineModel<DateValue | null | undefined>('modelValue')
 const openModel = defineModel<boolean>('open')
@@ -100,6 +179,7 @@ const calendarValue = computed<DateValue | undefined>({
     v-model:open="openModel"
     :default-value="defaultValue"
     :default-open="defaultOpen"
+    :default-placeholder="defaultPlaceholder"
     :placeholder-value="placeholderValue"
     :min-value="minValue"
     :max-value="maxValue"
@@ -108,10 +188,18 @@ const calendarValue = computed<DateValue | undefined>({
     :locale="locale"
     :granularity="granularity"
     :hour-cycle="hourCycle"
+    :step="step"
     :disabled="isDisabled"
     :readonly="isReadOnly"
     :name="name"
-    :number-of-months="visibleMonths"
+    :dir="dir"
+    :required="required"
+    :paged-navigation="pagedNavigation"
+    :week-starts-on="weekStartsOn"
+    :weekday-format="weekdayFormat"
+    :fixed-weeks="fixedWeeks"
+    :number-of-months="numberOfMonths ?? visibleMonths"
+    :prevent-deselect="preventDeselect"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     data-slot="date-picker"
   >
@@ -143,6 +231,8 @@ const calendarValue = computed<DateValue | undefined>({
       <template #endContent>
         <DatePickerTrigger
           :class="composeClassName(slotFns.trigger(), props.classNames?.trigger)"
+          :as="triggerAs"
+          :as-child="triggerAsChild"
           aria-label="Open date picker"
           @mousedown.prevent
         >
@@ -197,7 +287,35 @@ const calendarValue = computed<DateValue | undefined>({
     <DatePickerContent
       :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
-      :side-offset="8"
+      :side-offset="sideOffset ?? 8"
+      :portal="portal"
+      :force-mount="forceMount"
+      :side="side"
+      :side-flip="sideFlip"
+      :align="align"
+      :align-offset="alignOffset"
+      :align-flip="alignFlip"
+      :avoid-collisions="avoidCollisions"
+      :collision-boundary="collisionBoundary"
+      :collision-padding="collisionPadding"
+      :arrow-padding="arrowPadding"
+      :hide-shifted-arrow="hideShiftedArrow"
+      :sticky="sticky"
+      :hide-when-detached="hideWhenDetached"
+      :position-strategy="positionStrategy"
+      :update-position-strategy="updatePositionStrategy"
+      :disable-update-on-layout-shift="disableUpdateOnLayoutShift"
+      :prioritize-position="prioritizePosition"
+      :reference="reference"
+      :as="contentAs"
+      :as-child="contentAsChild"
+      :disable-outside-pointer-events="disableOutsidePointerEvents"
+      @escape-key-down="emit('escape-key-down', $event)"
+      @pointer-down-outside="emit('pointer-down-outside', $event)"
+      @focus-outside="emit('focus-outside', $event)"
+      @interact-outside="emit('interact-outside', $event)"
+      @open-auto-focus="emit('open-auto-focus', $event)"
+      @close-auto-focus="emit('close-auto-focus', $event)"
     >
       <slot name="calendarTopContent" />
 

@@ -2,6 +2,7 @@
 import { AlertDialogTrigger } from 'reka-ui'
 
 const props = withDefaults(defineProps<{
+  as?: string
   asChild?: boolean
 }>(), {
   asChild: false,
@@ -9,7 +10,7 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <AlertDialogTrigger :as-child="props.asChild">
+  <AlertDialogTrigger :as="props.as" :as-child="props.asChild">
     <slot />
   </AlertDialogTrigger>
 </template>

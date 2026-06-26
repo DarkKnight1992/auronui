@@ -38,6 +38,32 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
   }>
+  /** Reset search term when user blurs the input. */
+  resetSearchTermOnBlur?: boolean
+  /** Reset search term after an item is selected. */
+  resetSearchTermOnSelect?: boolean
+  /** Open dropdown when the input gains focus. */
+  openOnFocus?: boolean
+  /** Open dropdown when the input is clicked. */
+  openOnClick?: boolean
+  /** Disable Reka's built-in filter; handle filtering externally. */
+  ignoreFilter?: boolean
+  /** Reset modelValue when the input is cleared. */
+  resetModelValueOnClear?: boolean
+  /** Allow selecting multiple values. */
+  multiple?: boolean
+  /** Reading direction for the component. */
+  dir?: 'ltr' | 'rtl'
+  /** Highlight the matching item on hover. */
+  highlightOnHover?: boolean
+  /** Key to compare items by for selection equality. */
+  by?: string
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
+  /** Form field name for native form submission. */
+  name?: string
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -56,6 +82,19 @@ const props = withDefaults(defineProps<{
   filterFunction: undefined,
   class: undefined,
   classNames: undefined,
+  resetSearchTermOnBlur: undefined,
+  resetSearchTermOnSelect: undefined,
+  openOnFocus: undefined,
+  openOnClick: undefined,
+  ignoreFilter: undefined,
+  resetModelValueOnClear: undefined,
+  multiple: false,
+  dir: undefined,
+  highlightOnHover: undefined,
+  by: undefined,
+  as: undefined,
+  asChild: false,
+  name: undefined,
 })
 
 const emit = defineEmits<{

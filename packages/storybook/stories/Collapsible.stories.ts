@@ -12,6 +12,30 @@ const meta: Meta<typeof Collapsible> = {
   component: Collapsible,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    triggerAs: {
+      control: 'text',
+      description: 'Render CollapsibleTrigger as a different element type.',
+      table: { category: 'CollapsibleTrigger', defaultValue: { summary: 'button' } },
+    },
+    triggerAsChild: {
+      control: 'boolean',
+      description: 'Merge CollapsibleTrigger props onto child element instead of rendering a wrapper.',
+      table: { category: 'CollapsibleTrigger', defaultValue: { summary: 'false' } },
+    },
+    contentAs: {
+      control: 'text',
+      description: 'Render CollapsibleContent as a different element type.',
+      table: { category: 'CollapsibleContent', defaultValue: { summary: 'div' } },
+    },
+    contentAsChild: {
+      control: 'boolean',
+      description: 'Merge CollapsibleContent props onto child element instead of rendering a wrapper.',
+      table: { category: 'CollapsibleContent', defaultValue: { summary: 'false' } },
+    },
+  },
+  args: {
+    triggerAsChild: false,
+    contentAsChild: false,
   },
 }
 export default meta
@@ -41,8 +65,8 @@ import { Collapsible, CollapsibleTrigger, CollapsibleContent } from '@auronui/vu
     setup: () => ({ args }),
     template: `
       <Collapsible v-bind="args" :default-open="true">
-        <CollapsibleTrigger>Show more</CollapsibleTrigger>
-        <CollapsibleContent>Extra detail revealed inside the collapsible.</CollapsibleContent>
+        <CollapsibleTrigger :as="args.triggerAs" :as-child="args.triggerAsChild">Show more</CollapsibleTrigger>
+        <CollapsibleContent :as="args.contentAs" :as-child="args.contentAsChild">Extra detail revealed inside the collapsible.</CollapsibleContent>
       </Collapsible>
     `,
   }),

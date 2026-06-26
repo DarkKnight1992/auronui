@@ -27,6 +27,9 @@ const props = withDefaults(defineProps<Props>(), {
   defaultValue: undefined,
   open: undefined,
   defaultOpen: undefined,
+  by: undefined,
+  dir: undefined,
+  autocomplete: undefined,
   items: () => [],
 })
 
@@ -93,6 +96,12 @@ type Props = {
   open?: boolean
   /** Initial open state of the dropdown (uncontrolled). */
   defaultOpen?: boolean
+  /** Comparison key or function for value matching. */
+  by?: string | ((a: SelectItemValue, b: SelectItemValue) => boolean)
+  /** Text direction for the select. */
+  dir?: 'ltr' | 'rtl'
+  /** Native autocomplete attribute for the hidden input. */
+  autocomplete?: string
   /**
    * Data-driven items for the terse API. When provided (and no SelectTrigger /
    * SelectContent is passed as a child), the trigger, value, and popover are
@@ -215,6 +224,9 @@ useSelectProvide({
         :multiple="props.multiple"
         :open="props.open"
         :default-open="props.defaultOpen"
+        :by="props.by"
+        :dir="props.dir"
+        :autocomplete="props.autocomplete"
         :disabled="props.isDisabled"
         :required="props.isRequired"
         :name="props.name"

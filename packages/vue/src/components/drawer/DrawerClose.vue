@@ -5,6 +5,7 @@ import { composeClassName } from '../../utils/composeClassName'
 import { useDrawerInject } from './drawer.context'
 
 const props = withDefaults(defineProps<{
+  as?: string
   asChild?: boolean
   class?: string
 }>(), {
@@ -20,7 +21,7 @@ const styles = drawerVariants()
   <Primitive
     v-if="ctx.dock.value"
     :as-child="props.asChild"
-    as="button"
+    :as="props.as ?? 'button'"
     :class="composeClassName(styles.closeTrigger(), props.class)"
     @click="ctx.closeDock()"
   >
@@ -30,6 +31,7 @@ const styles = drawerVariants()
   <!-- default / inline / hideBackdrop modes: Reka manages close -->
   <DialogClose
     v-else
+    :as="props.as"
     :as-child="props.asChild"
     :class="composeClassName(styles.closeTrigger(), props.class)"
   >

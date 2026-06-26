@@ -18,6 +18,18 @@ const props = withDefaults(defineProps<{
   isStriped?: boolean
   isIndeterminate?: boolean
   isDisabled?: boolean
+  /** Element or component to render ProgressRoot as. */
+  as?: string
+  /** Whether ProgressRoot renders as a child element. */
+  asChild?: boolean
+  /** Function to get the accessible label for the current value. */
+  getValueLabel?: (value: number, max: number) => string
+  /** Function to get the accessible text for the current value. */
+  getValueText?: (value: number, max: number) => string
+  /** Element or component to render ProgressIndicator as. */
+  indicatorAs?: string
+  /** Whether ProgressIndicator renders as a child element. */
+  indicatorAsChild?: boolean
   class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
@@ -35,6 +47,12 @@ const props = withDefaults(defineProps<{
   isStriped: false,
   isIndeterminate: false,
   isDisabled: false,
+  as: undefined,
+  asChild: false,
+  getValueLabel: undefined,
+  getValueText: undefined,
+  indicatorAs: undefined,
+  indicatorAsChild: false,
 })
 
 const isInd = computed(
@@ -89,10 +107,16 @@ const formattedValue = computed(() => {
     <ProgressRoot
       :model-value="isInd ? null : (props.value as number)"
       :max="maxValue"
+      :as="props.as"
+      :as-child="props.asChild"
+      :get-value-label="props.getValueLabel"
+      :get-value-text="props.getValueText"
       :class="composeClassName(slotFns.track(), props.classNames?.track)"
       :aria-label="label || 'Progress'"
     >
       <ProgressIndicator
+        :as="props.indicatorAs"
+        :as-child="props.indicatorAsChild"
         :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"
         :style="isInd ? {} : { transform: `translateX(-${100 - percentage}%)` }"
       />

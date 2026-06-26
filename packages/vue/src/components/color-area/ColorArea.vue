@@ -25,16 +25,26 @@ const props = withDefaults(defineProps<{
   showDots?: ColorAreaVariants['showDots']
   class?: string
   thumbClass?: string
+  as?: string
+  asChild?: boolean
+  name?: string
+  required?: boolean
+  xName?: string
+  yName?: string
 }>(), {
   xChannel: 'saturation',
   yChannel: 'brightness',
   showDots: false,
   disabled: false,
+  asChild: false,
+  required: false,
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: Color]
   'update:color': [value: Color]
+  'change': [value: Color]
+  'change-end': [value: Color]
 }>()
 
 // Optional picker context — when absent, fall back to local useColorState
@@ -79,8 +89,16 @@ function onColorUpdate(next: Color) {
     :y-channel="yChannel"
     :color-space="colorSpace"
     :disabled="disabled"
+    :as="props.as"
+    :as-child="props.asChild"
+    :name="props.name"
+    :required="props.required"
+    :x-name="props.xName"
+    :y-name="props.yName"
     :class="composeClassName(styles.base(), props.class)"
     @update:color="onColorUpdate"
+    @change="(v: Color) => emit('change', v)"
+    @change-end="(v: Color) => emit('change-end', v)"
   >
     <ColorAreaArea :style="areaBgStyle">
       <ColorAreaThumb :class="composeClassName(styles.thumb(), thumbClass)" />

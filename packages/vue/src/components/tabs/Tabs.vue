@@ -23,6 +23,14 @@ const props = withDefaults(defineProps<{
   }>
   /** Shorthand API: render tabs from an array instead of the compound slot API */
   items?: TabShorthandItem[]
+  /** Reading direction of the tabs. */
+  dir?: 'ltr' | 'rtl'
+  /** Whether to unmount tab panels when they are hidden. */
+  unmountOnHide?: boolean
+  /** Render as a different element type. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>(), {
   orientation: 'horizontal',
   variant: 'primary',
@@ -69,6 +77,10 @@ useTabsProvide({
     :model-value="internalValue"
     :orientation="props.orientation"
     :activation-mode="props.activationMode"
+    :dir="props.dir"
+    :unmount-on-hide="props.unmountOnHide"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="props.orientation"
     @update:model-value="changeTab"

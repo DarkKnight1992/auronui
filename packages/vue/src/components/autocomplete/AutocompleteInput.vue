@@ -10,10 +10,53 @@ import AutocompleteOverflowChips from './AutocompleteOverflowChips.vue'
 const props = withDefaults(defineProps<{
   placeholder?: string
   class?: string
+  /** Two-way bound search input value. */
+  modelValue?: string
+  /** Auto-focus the input on mount. */
+  autoFocus?: boolean
+  /** Disable the input. Falls back to context isDisabled. */
+  disabled?: boolean
+  /** Render the AutocompleteInput as a different element. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
+  /** Render the AutocompleteTrigger as a different element. */
+  triggerAs?: string
+  /** Merge trigger props onto child element. */
+  triggerAsChild?: boolean
+  /** Disable the trigger button. Falls back to context isDisabled. */
+  triggerDisabled?: boolean
+  /** Render the AutocompleteCancel as a different element. */
+  cancelAs?: string
+  /** Merge cancel props onto child element. */
+  cancelAsChild?: boolean
+  /** Custom reference element for the AutocompleteAnchor. */
+  anchorReference?: object | null
+  /** Render the AutocompleteAnchor as a different element. */
+  anchorAs?: string
+  /** Merge anchor props onto child element. */
+  anchorAsChild?: boolean
 }>(), {
   placeholder: undefined,
   class: undefined,
+  modelValue: undefined,
+  autoFocus: false,
+  disabled: undefined,
+  as: undefined,
+  asChild: false,
+  triggerAs: undefined,
+  triggerAsChild: false,
+  triggerDisabled: undefined,
+  cancelAs: undefined,
+  cancelAsChild: false,
+  anchorReference: undefined,
+  anchorAs: undefined,
+  anchorAsChild: false,
 })
+
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+}>()
 
 const ctx = useAutocompleteInject()
 
@@ -40,6 +83,9 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
 <template>
   <AutocompleteAnchor
     ref="anchor"
+    :reference="props.anchorReference"
+    :as="props.anchorAs"
+    :as-child="props.anchorAsChild"
     :class="ctx.slots.value.trigger()"
     :data-filled="ctx.hasLabel.value ? (ctx.isFilled.value || undefined) : undefined"
     :data-focused="isFocused || undefined"
@@ -87,8 +133,12 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
     </template>
     <AutocompleteInput
       :id="ctx.inputId.value"
+      :model-value="props.modelValue"
+      :auto-focus="props.autoFocus"
       :placeholder="effectivePlaceholder"
-      :disabled="ctx.isDisabled.value"
+      :disabled="props.disabled ?? ctx.isDisabled.value"
+      :as="props.as"
+      :as-child="props.asChild"
       :readonly="ctx.isReadonly.value"
       :required="ctx.isRequired.value"
       :aria-invalid="ctx.isInvalid.value || undefined"
@@ -99,11 +149,14 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
         : undefined"
       data-slot="input"
       autocomplete="off"
+      @update:model-value="emit('update:modelValue', $event)"
     />
     <!-- Clear button: only shown when filled and not in a readonly/disabled state.
          Reka's AutocompleteCancel does not set data-empty itself, so we drive it here.
          In multiple mode also clears selectedValues via ctx.clearAll(). -->
     <AutocompleteCancel
+      :as="props.cancelAs"
+      :as-child="props.cancelAsChild"
       :class="ctx.slots.value.clearButton()"
       :data-empty="(!ctx.isFilled.value || ctx.isReadonly.value || ctx.isDisabled.value) ? 'true' : undefined"
       data-slot="clear-button"
@@ -153,6 +206,9 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
     <!-- Dropdown trigger indicator (hidden while loading) -->
     <AutocompleteTrigger
       v-else
+      :as="props.triggerAs"
+      :as-child="props.triggerAsChild"
+      :disabled="props.triggerDisabled"
       :class="ctx.slots.value.indicator()"
       data-slot="autocomplete-default-indicator"
       aria-label="Toggle suggestions"

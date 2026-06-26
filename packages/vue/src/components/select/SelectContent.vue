@@ -13,11 +13,95 @@ const props = withDefaults(defineProps<{
   position?: 'item-aligned' | 'popper'
   sideOffset?: number
   class?: string
+  /** Keep content mounted even when closed. */
+  forceMount?: boolean
+  /** Lock body scroll when content is open. */
+  bodyLock?: boolean
+  /** Side of the trigger to render the content. */
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  /** Flip to opposite side when not enough space. */
+  sideFlip?: boolean
+  /** Alignment relative to the trigger. */
+  align?: 'start' | 'center' | 'end'
+  /** Offset from the alignment edge. */
+  alignOffset?: number
+  /** Flip alignment when not enough space. */
+  alignFlip?: boolean
+  /** Avoid collisions with viewport edges. */
+  avoidCollisions?: boolean
+  /** Boundary element(s) for collision detection. */
+  collisionBoundary?: Element | null | Array<Element | null>
+  /** Padding around collision boundary. */
+  collisionPadding?: number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>
+  /** Padding between content and arrow. */
+  arrowPadding?: number
+  /** Hide the arrow when the content is shifted. */
+  hideShiftedArrow?: boolean
+  /** Sticky behavior when scrolling. */
+  sticky?: 'partial' | 'always'
+  /** Hide content when fully detached from trigger. */
+  hideWhenDetached?: boolean
+  /** CSS position strategy for the floating element. */
+  positionStrategy?: 'fixed' | 'absolute'
+  /** When to recalculate position. */
+  updatePositionStrategy?: 'always' | 'optimized'
+  /** Disable position update on layout shift. */
+  disableUpdateOnLayoutShift?: boolean
+  /** Prioritize keeping content in view over alignment. */
+  prioritizePosition?: boolean
+  /** Virtual or DOM reference element to position against. */
+  reference?: object | null
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
+  /** Disable pointer events outside the content while open. */
+  disableOutsidePointerEvents?: boolean
+  /** Nonce for the viewport element. */
+  nonce?: string
+  /** Portal target element or selector. */
+  to?: string | HTMLElement
+  /** Disable the portal. */
+  portalDisabled?: boolean
+  /** Defer portal rendering. */
+  defer?: boolean
 }>(), {
   position: 'popper',
   sideOffset: 8,
   class: undefined,
+  forceMount: undefined,
+  bodyLock: undefined,
+  side: undefined,
+  sideFlip: undefined,
+  align: undefined,
+  alignOffset: undefined,
+  alignFlip: undefined,
+  avoidCollisions: undefined,
+  collisionBoundary: undefined,
+  collisionPadding: undefined,
+  arrowPadding: undefined,
+  hideShiftedArrow: undefined,
+  sticky: undefined,
+  hideWhenDetached: undefined,
+  positionStrategy: undefined,
+  updatePositionStrategy: undefined,
+  disableUpdateOnLayoutShift: undefined,
+  prioritizePosition: undefined,
+  reference: undefined,
+  as: undefined,
+  asChild: false,
+  disableOutsidePointerEvents: undefined,
+  nonce: undefined,
+  to: undefined,
+  portalDisabled: undefined,
+  defer: undefined,
 })
+
+const emit = defineEmits<{
+  'close-auto-focus': [event: Event]
+  'escape-key-down': [event: KeyboardEvent]
+  'pointer-down-outside': [event: Event]
+}>()
 
 const ctx = useSelectInject()
 const rootContext = injectSelectRootContext()

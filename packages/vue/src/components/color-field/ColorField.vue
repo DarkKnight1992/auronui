@@ -18,13 +18,28 @@ const props = withDefaults(defineProps<{
   fullWidth?: ColorFieldVariants['fullWidth']
   class?: string
   ariaLabel?: string
+  as?: string
+  asChild?: boolean
+  name?: string
+  required?: boolean
+  colorSpace?: string
+  channel?: string
+  disableWheelChange?: boolean
+  locale?: string
+  step?: number
 }>(), {
   disabled: false,
   readonly: false,
   fullWidth: false,
+  asChild: false,
+  required: false,
+  disableWheelChange: false,
 })
 
-const emit = defineEmits<{ 'update:modelValue': [value: Color] }>()
+const emit = defineEmits<{
+  'update:modelValue': [value: Color]
+  'update:color': [value: Color]
+}>()
 
 const id = useId()
 
@@ -58,6 +73,7 @@ function onColorUpdate(next: Color) {
   } else {
     local!.color.value = next
     emit('update:modelValue', next)
+    emit('update:color', next)
   }
 }
 </script>
@@ -67,6 +83,15 @@ function onColorUpdate(next: Color) {
     :model-value="color"
     :disabled="disabled"
     :readonly="readonly"
+    :as="props.as"
+    :as-child="props.asChild"
+    :name="props.name"
+    :required="props.required"
+    :color-space="props.colorSpace"
+    :channel="props.channel"
+    :disable-wheel-change="props.disableWheelChange"
+    :locale="props.locale"
+    :step="props.step"
     :class="composeClassName(styles, props.class)"
     @update:color="onColorUpdate"
   >

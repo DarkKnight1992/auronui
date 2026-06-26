@@ -7,6 +7,10 @@ import { usePaginationInject, paginationContextDefaults } from './pagination.con
 
 const props = defineProps<{
   class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>()
 
 const ctx = usePaginationInject(paginationContextDefaults)
@@ -16,6 +20,8 @@ const styles = computed(() => paginationVariants({ size: ctx.size.value }))
 
 <template>
   <PaginationEllipsis
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(styles.ellipsis(), props.class)"
     aria-hidden="true"
     role="presentation"

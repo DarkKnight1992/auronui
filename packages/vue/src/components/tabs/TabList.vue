@@ -15,6 +15,10 @@ const props = defineProps<{
   classNames?: Partial<{
     tabList: ClassValue
   }>
+  /** Render as a different element type. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
 }>()
 
 const ctx = useTabsInject()
@@ -201,6 +205,8 @@ function selectOverflowTab(value: string) {
   <TabsList
     v-if="!props.overflow"
     :loop="props.loop ?? true"
+    :as="props.as"
+    :as-child="props.asChild"
     :class="composeClassName(ctx.slotFns.value.tabList(), props.class, props.classNames?.tabList)"
   >
     <slot />
@@ -230,6 +236,8 @@ function selectOverflowTab(value: string) {
     <div ref="scrollWrapperEl" class="tabs__scroll-wrapper">
       <TabsList
         :loop="props.loop ?? true"
+        :as="props.as"
+        :as-child="props.asChild"
         :class="composeClassName(ctx.slotFns.value.tabList(), 'tabs__list--scroll', props.class, props.classNames?.tabList)"
       >
         <slot />
@@ -260,6 +268,8 @@ function selectOverflowTab(value: string) {
   >
     <TabsList
       :loop="props.loop ?? true"
+      :as="props.as"
+      :as-child="props.asChild"
       :class="composeClassName(ctx.slotFns.value.tabList(), 'tabs__list--clipped', props.class, props.classNames?.tabList)"
     >
       <slot />

@@ -14,6 +14,10 @@ const props = withDefaults(defineProps<{
   defaultValue?: boolean
   value?: string
   class?: string
+  as?: string
+  asChild?: boolean
+  name?: string
+  required?: boolean
 }>(), {
   variant: undefined,
   size: undefined,
@@ -22,6 +26,10 @@ const props = withDefaults(defineProps<{
   modelValue: undefined,
   defaultValue: false,
   value: undefined,
+  as: undefined,
+  asChild: false,
+  name: undefined,
+  required: false,
 })
 
 const emit = defineEmits<{
@@ -84,6 +92,8 @@ const classes = computed(() =>
     :disabled="isDisabled"
     :model-value="isPressed"
     :default-value="props.defaultValue"
+    :name="props.name"
+    :required="props.required"
     @update:model-value="handleUpdate"
   >
     <button

@@ -13,6 +13,81 @@ const meta: Meta<TabsArgs> = {
     variant: { control: 'select', options: ['primary', 'secondary'] },
     overflow: { control: 'select', options: [undefined, 'arrows', 'dropdown'], name: 'overflow (TabList)' },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'Reading direction of the tabs.',
+      table: { category: 'Tabs', defaultValue: { summary: 'ltr' } },
+    },
+    unmountOnHide: {
+      control: 'boolean',
+      description: 'Whether to unmount tab panels when they are hidden.',
+      table: { category: 'Tabs', defaultValue: { summary: 'false' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Render Tabs root as a different element type.',
+      table: { category: 'Tabs', defaultValue: { summary: 'div' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Merge Tabs root props onto child element instead of rendering a wrapper.',
+      table: { category: 'Tabs', defaultValue: { summary: 'false' } },
+    },
+    tabListAs: {
+      control: 'text',
+      description: 'Render TabList as a different element type.',
+      table: { category: 'TabList', defaultValue: { summary: 'div' } },
+    },
+    tabListAsChild: {
+      control: 'boolean',
+      description: 'Merge TabList props onto child element instead of rendering a wrapper.',
+      table: { category: 'TabList', defaultValue: { summary: 'false' } },
+    },
+    tabAs: {
+      control: 'text',
+      description: 'Render Tab (TabsTrigger) as a different element type.',
+      table: { category: 'Tab', defaultValue: { summary: 'button' } },
+    },
+    tabAsChild: {
+      control: 'boolean',
+      description: 'Merge Tab props onto child element instead of rendering a wrapper.',
+      table: { category: 'Tab', defaultValue: { summary: 'false' } },
+    },
+    tabIndicatorAs: {
+      control: 'text',
+      description: 'Render TabIndicator as a different element type.',
+      table: { category: 'TabIndicator', defaultValue: { summary: 'div' } },
+    },
+    tabIndicatorAsChild: {
+      control: 'boolean',
+      description: 'Merge TabIndicator props onto child element instead of rendering a wrapper.',
+      table: { category: 'TabIndicator', defaultValue: { summary: 'false' } },
+    },
+    panelAs: {
+      control: 'text',
+      description: 'Render TabPanel as a different element type.',
+      table: { category: 'TabPanel', defaultValue: { summary: 'div' } },
+    },
+    panelAsChild: {
+      control: 'boolean',
+      description: 'Merge TabPanel props onto child element instead of rendering a wrapper.',
+      table: { category: 'TabPanel', defaultValue: { summary: 'false' } },
+    },
+    panelForceMount: {
+      control: 'boolean',
+      description: 'Force TabPanel to stay mounted even when inactive.',
+      table: { category: 'TabPanel', defaultValue: { summary: 'false' } },
+    },
+  },
+  args: {
+    asChild: false,
+    unmountOnHide: false,
+    tabListAsChild: false,
+    tabAsChild: false,
+    tabIndicatorAsChild: false,
+    panelAsChild: false,
+    panelForceMount: false,
   },
 }
 export default meta
@@ -49,16 +124,16 @@ import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
     setup() { return { args } },
     template: `
-      <Tabs v-bind="args">
-        <TabList>
-          <Tab value="one">Overview</Tab>
-          <Tab value="two">Specifications</Tab>
-          <Tab value="three">Reviews</Tab>
-          <TabIndicator />
+      <Tabs v-bind="args" :dir="args.dir" :unmount-on-hide="args.unmountOnHide" :as="args.as" :as-child="args.asChild">
+        <TabList :as="args.tabListAs" :as-child="args.tabListAsChild">
+          <Tab value="one" :as="args.tabAs" :as-child="args.tabAsChild">Overview</Tab>
+          <Tab value="two" :as="args.tabAs" :as-child="args.tabAsChild">Specifications</Tab>
+          <Tab value="three" :as="args.tabAs" :as-child="args.tabAsChild">Reviews</Tab>
+          <TabIndicator :as="args.tabIndicatorAs" :as-child="args.tabIndicatorAsChild" />
         </TabList>
-        <TabPanel value="one">Overview content</TabPanel>
-        <TabPanel value="two">Specs content</TabPanel>
-        <TabPanel value="three">Reviews content</TabPanel>
+        <TabPanel value="one" :as="args.panelAs" :as-child="args.panelAsChild" :force-mount="args.panelForceMount">Overview content</TabPanel>
+        <TabPanel value="two" :as="args.panelAs" :as-child="args.panelAsChild" :force-mount="args.panelForceMount">Specs content</TabPanel>
+        <TabPanel value="three" :as="args.panelAs" :as-child="args.panelAsChild" :force-mount="args.panelForceMount">Reviews content</TabPanel>
       </Tabs>
     `,
   }),

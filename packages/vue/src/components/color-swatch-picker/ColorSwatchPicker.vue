@@ -26,13 +26,33 @@ const props = withDefaults(defineProps<{
   size?: ColorSwatchPickerVariants['size']
   variant?: ColorSwatchPickerVariants['variant']
   class?: string
+  as?: string
+  asChild?: boolean
+  name?: string
+  required?: boolean
+  multiple?: boolean
+  orientation?: 'horizontal' | 'vertical'
+  dir?: 'ltr' | 'rtl'
+  disabled?: boolean
+  selectionBehavior?: string
+  highlightOnHover?: boolean
 }>(), {
   layout: 'grid',
   size: 'md',
   variant: 'circle',
+  asChild: false,
+  required: false,
+  multiple: false,
+  disabled: false,
+  highlightOnHover: false,
 })
 
-const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+const emit = defineEmits<{
+  'update:modelValue': [value: string]
+  'highlight': [value: unknown]
+  'entry-focus': [event: Event]
+  'leave': [event: Event]
+}>()
 
 // Access all attributes (including aria-label) to forward manually
 const attrs = useAttrs()
@@ -89,8 +109,21 @@ function onUpdate(next: unknown) {
   <ColorSwatchPickerRoot
     v-bind="attrs"
     :model-value="colorHex"
+    :as="props.as"
+    :as-child="props.asChild"
+    :name="props.name"
+    :required="props.required"
+    :multiple="props.multiple"
+    :orientation="props.orientation"
+    :dir="props.dir"
+    :disabled="props.disabled"
+    :selection-behavior="props.selectionBehavior"
+    :highlight-on-hover="props.highlightOnHover"
     :class="composeClassName(styles.base(), props.class)"
     @update:model-value="onUpdate"
+    @highlight="(v: unknown) => emit('highlight', v)"
+    @entry-focus="(e: Event) => emit('entry-focus', e)"
+    @leave="(e: Event) => emit('leave', e)"
   >
     <ColorSwatchPickerItem
       v-for="(c, i) in colors"
