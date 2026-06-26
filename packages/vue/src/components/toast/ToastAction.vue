@@ -6,6 +6,10 @@ const props = withDefaults(defineProps<{
   /** Required by Reka UI for screen reader announcements */
   altText?: string
   class?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>(), {
   altText: 'Action',
 })

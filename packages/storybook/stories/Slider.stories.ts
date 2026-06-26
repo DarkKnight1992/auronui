@@ -28,6 +28,68 @@ const meta: Meta<typeof Slider> = {
     hideValue: { control: "boolean" },
     label: { control: "text" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    dir: {
+      control: { type: "select" },
+      options: ["ltr", "rtl"],
+      description: "Text direction forwarded to SliderRoot.",
+      table: { category: "SliderRoot", defaultValue: { summary: "undefined" } },
+    },
+    thumbAlignment: {
+      control: { type: "select" },
+      options: ["contain", "overflow"],
+      description: "How the thumbs align relative to the track ends.",
+      table: { category: "SliderRoot", defaultValue: { summary: "undefined" } },
+    },
+    asChild: {
+      control: "boolean",
+      description: "Whether SliderRoot renders as a child element.",
+      table: { category: "SliderRoot", defaultValue: { summary: "false" } },
+    },
+    as: {
+      control: "text",
+      description: "Element or component to render SliderRoot as.",
+      table: { category: "SliderRoot", defaultValue: { summary: "undefined" } },
+    },
+    name: {
+      control: "text",
+      description: "HTML name attribute forwarded to SliderRoot.",
+      table: { category: "SliderRoot", defaultValue: { summary: "undefined" } },
+    },
+    required: {
+      control: "boolean",
+      description: "Whether the slider is required.",
+      table: { category: "SliderRoot", defaultValue: { summary: "false" } },
+    },
+    trackAsChild: {
+      control: "boolean",
+      description: "Whether SliderTrack renders as a child element.",
+      table: { category: "SliderTrack", defaultValue: { summary: "false" } },
+    },
+    trackAs: {
+      control: "text",
+      description: "Element or component to render SliderTrack as.",
+      table: { category: "SliderTrack", defaultValue: { summary: "undefined" } },
+    },
+    rangeAsChild: {
+      control: "boolean",
+      description: "Whether SliderRange renders as a child element.",
+      table: { category: "SliderRange", defaultValue: { summary: "false" } },
+    },
+    rangeAs: {
+      control: "text",
+      description: "Element or component to render SliderRange as.",
+      table: { category: "SliderRange", defaultValue: { summary: "undefined" } },
+    },
+    thumbAsChild: {
+      control: "boolean",
+      description: "Whether SliderThumb renders as a child element.",
+      table: { category: "SliderThumb", defaultValue: { summary: "false" } },
+    },
+    thumbAs: {
+      control: "text",
+      description: "Element or component to render SliderThumb as.",
+      table: { category: "SliderThumb", defaultValue: { summary: "undefined" } },
+    },
   },
   args: {
     min: 0,
@@ -43,13 +105,36 @@ export default meta;
 type Story = StoryObj<typeof Slider>;
 
 export const Default: Story = {
+  args: {
+    asChild: false,
+    required: false,
+    trackAsChild: false,
+    rangeAsChild: false,
+    thumbAsChild: false,
+  },
   render: (args) => ({
     components: { Slider },
     setup() {
       const value = ref(50);
       return { args, value };
     },
-    template: `<Slider v-bind="args" v-model="value" style="max-width: 400px;" />`,
+    template: `<Slider
+      v-bind="args"
+      v-model="value"
+      :dir="args.dir"
+      :thumb-alignment="args.thumbAlignment"
+      :as-child="args.asChild"
+      :as="args.as"
+      :name="args.name"
+      :required="args.required"
+      :track-as-child="args.trackAsChild"
+      :track-as="args.trackAs"
+      :range-as-child="args.rangeAsChild"
+      :range-as="args.rangeAs"
+      :thumb-as-child="args.thumbAsChild"
+      :thumb-as="args.thumbAs"
+      style="max-width: 400px;"
+    />`,
   }),
   parameters: {
     docs: {

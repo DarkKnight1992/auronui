@@ -30,6 +30,36 @@ const meta: Meta = {
   },
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names (e.g., base).' },
+    overlayAs: {
+      control: 'text',
+      description: 'Render the overlay as a different HTML element.',
+      table: { category: 'AlertDialogOverlay', defaultValue: { summary: 'undefined' } },
+    },
+    overlayAsChild: {
+      control: 'boolean',
+      description: 'Merge overlay props onto its immediate child element.',
+      table: { category: 'AlertDialogOverlay', defaultValue: { summary: 'false' } },
+    },
+    overlayForceMount: {
+      control: 'boolean',
+      description: 'Keep the overlay mounted in the DOM even when the dialog is closed.',
+      table: { category: 'AlertDialogOverlay', defaultValue: { summary: 'false' } },
+    },
+    titleAsChild: {
+      control: 'boolean',
+      description: 'Merge title props onto its immediate child element.',
+      table: { category: 'AlertDialogTitle', defaultValue: { summary: 'false' } },
+    },
+    triggerAs: {
+      control: 'text',
+      description: 'Render the trigger as a different HTML element.',
+      table: { category: 'AlertDialogTrigger', defaultValue: { summary: 'undefined' } },
+    },
+  },
+  args: {
+    overlayAsChild: false,
+    overlayForceMount: false,
+    titleAsChild: false,
   },
 }
 
@@ -104,13 +134,13 @@ import {
     setup: () => ({ args }),
     template: `
       <AlertDialog v-bind="args" status="danger">
-        <AlertDialogTrigger as-child>
+        <AlertDialogTrigger :as="args.triggerAs" as-child>
           <Button variant="danger">Delete Item</Button>
         </AlertDialogTrigger>
         <AlertDialogContent>
           <AlertDialogHeader>
             <AlertDialogIcon />
-            <AlertDialogTitle>Are you absolutely sure?</AlertDialogTitle>
+            <AlertDialogTitle :as-child="args.titleAsChild">Are you absolutely sure?</AlertDialogTitle>
           </AlertDialogHeader>
           <AlertDialogBody>
             <AlertDialogDescription>

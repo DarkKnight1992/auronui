@@ -61,19 +61,29 @@ const ctx = useComboBoxInject()
 
 <template>
   <ComboboxAnchor
+    :reference="props.anchorReference"
+    :as="props.anchorAs"
+    :as-child="props.anchorAsChild"
     :class="ctx.slots.value.inputGroup()"
     data-slot="input-group"
   >
     <ComboboxInput
       :placeholder="props.placeholder"
-      :disabled="ctx.isDisabled.value"
-      :display-value="ctx.displayValue.value"
+      :model-value="props.modelValue"
+      :auto-focus="props.autoFocus"
+      :disabled="props.disabled ?? ctx.isDisabled.value"
+      :display-value="props.displayValue ?? ctx.displayValue.value"
+      :as="props.as"
+      :as-child="props.asChild"
       class="combo-box__input"
       data-slot="input"
       autocomplete="off"
+      @update:model-value="emit('update:modelValue', $event)"
     />
     <!-- Clear button: shown when there's input -->
     <ComboboxCancel
+      :as="props.cancelAs"
+      :as-child="props.cancelAsChild"
       class="combo-box__clear-button"
       data-slot="clear-button"
       aria-label="Clear"
@@ -108,6 +118,9 @@ const ctx = useComboBoxInject()
     </ComboboxCancel>
     <!-- Dropdown trigger -->
     <ComboboxTrigger
+      :disabled="props.triggerDisabled"
+      :as="props.triggerAs"
+      :as-child="props.triggerAsChild"
       :class="ctx.slots.value.trigger()"
       data-slot="selector-button"
       aria-label="Toggle suggestions"

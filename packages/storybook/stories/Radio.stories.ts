@@ -8,6 +8,72 @@ const meta: Meta = {
   component: RadioGroup,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'Text direction forwarded to RadioGroupRoot.',
+      table: { category: 'RadioGroupRoot', defaultValue: { summary: 'undefined' } },
+    },
+    loop: {
+      control: 'boolean',
+      description: 'Whether keyboard navigation loops from last to first item.',
+      table: { category: 'RadioGroupRoot', defaultValue: { summary: 'true' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Whether RadioGroupRoot renders as a child element.',
+      table: { category: 'RadioGroupRoot', defaultValue: { summary: 'false' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Element or component to render RadioGroupRoot as.',
+      table: { category: 'RadioGroupRoot', defaultValue: { summary: 'undefined' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the radio group is required.',
+      table: { category: 'RadioGroupRoot', defaultValue: { summary: 'false' } },
+    },
+    itemId: {
+      control: 'text',
+      description: 'HTML id attribute forwarded to RadioGroupItem.',
+      table: { category: 'RadioGroupItem', defaultValue: { summary: 'undefined' } },
+    },
+    itemAsChild: {
+      control: 'boolean',
+      description: 'Whether RadioGroupItem renders as a child element.',
+      table: { category: 'RadioGroupItem', defaultValue: { summary: 'false' } },
+    },
+    itemAs: {
+      control: 'text',
+      description: 'Element or component to render RadioGroupItem as.',
+      table: { category: 'RadioGroupItem', defaultValue: { summary: 'undefined' } },
+    },
+    itemName: {
+      control: 'text',
+      description: 'HTML name attribute forwarded to RadioGroupItem.',
+      table: { category: 'RadioGroupItem', defaultValue: { summary: 'undefined' } },
+    },
+    itemRequired: {
+      control: 'boolean',
+      description: 'Whether each radio item is required.',
+      table: { category: 'RadioGroupItem', defaultValue: { summary: 'false' } },
+    },
+    indicatorForceMount: {
+      control: 'boolean',
+      description: 'Force-mount the RadioGroupIndicator even when unselected, useful for CSS animations.',
+      table: { category: 'RadioGroupIndicator', defaultValue: { summary: 'undefined' } },
+    },
+    indicatorAsChild: {
+      control: 'boolean',
+      description: 'Whether RadioGroupIndicator renders as a child element.',
+      table: { category: 'RadioGroupIndicator', defaultValue: { summary: 'false' } },
+    },
+    indicatorAs: {
+      control: 'text',
+      description: 'Element or component to render RadioGroupIndicator as.',
+      table: { category: 'RadioGroupIndicator', defaultValue: { summary: 'undefined' } },
+    },
   },
 }
 
@@ -15,6 +81,15 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  args: {
+    loop: true,
+    asChild: false,
+    required: false,
+    itemAsChild: false,
+    itemRequired: false,
+    indicatorForceMount: false,
+    indicatorAsChild: false,
+  },
   render: (args) => ({
     components: { Radio, RadioGroup },
     setup() {
@@ -22,8 +97,27 @@ export const Default: Story = {
       return { args, selected }
     },
     template: `
-      <RadioGroup v-bind="args" v-model="selected" label="Choose a framework">
-        <Radio value="vue">Vue</Radio>
+      <RadioGroup
+        v-bind="args"
+        v-model="selected"
+        label="Choose a framework"
+        :dir="args.dir"
+        :loop="args.loop"
+        :as-child="args.asChild"
+        :as="args.as"
+        :required="args.required"
+      >
+        <Radio
+          value="vue"
+          :id="args.itemId"
+          :as-child="args.itemAsChild"
+          :as="args.itemAs"
+          :name="args.itemName"
+          :required="args.itemRequired"
+          :indicator-force-mount="args.indicatorForceMount"
+          :indicator-as-child="args.indicatorAsChild"
+          :indicator-as="args.indicatorAs"
+        >Vue</Radio>
         <Radio value="react">React</Radio>
         <Radio value="svelte">Svelte</Radio>
       </RadioGroup>

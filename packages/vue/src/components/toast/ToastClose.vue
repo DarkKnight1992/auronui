@@ -7,6 +7,10 @@ import CloseButton from '../button/CloseButton.vue'
 const props = defineProps<{
   class?: string
   ariaLabel?: string
+  /** Render as a different element */
+  as?: string
+  /** Merge props onto child element */
+  asChild?: boolean
 }>()
 
 const styles = toastVariants()

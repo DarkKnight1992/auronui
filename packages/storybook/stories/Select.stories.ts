@@ -46,6 +46,93 @@ const meta: Meta<typeof Select> = {
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
+    // Select (root)
+    dir: {
+      control: { type: 'select' },
+      options: ['ltr', 'rtl'],
+      description: 'Text direction for the select.',
+      table: { category: 'Select', defaultValue: { summary: 'undefined' } },
+    },
+    autocomplete: {
+      control: 'text',
+      description: 'Native autocomplete attribute for the hidden input.',
+      table: { category: 'Select', defaultValue: { summary: 'undefined' } },
+    },
+    by: {
+      control: false,
+      description: 'Comparison key or function for value matching.',
+      table: { category: 'Select', defaultValue: { summary: 'undefined' } },
+    },
+    // SelectContent
+    contentForceMount: {
+      control: 'boolean',
+      description: 'Keep the content mounted even when the select is closed.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'false' } },
+    },
+    contentBodyLock: {
+      control: 'boolean',
+      description: 'Lock body scroll when the content is open.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'false' } },
+    },
+    contentSide: {
+      control: { type: 'select' },
+      options: ['top', 'right', 'bottom', 'left'],
+      description: 'Side of the trigger to render the content.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'undefined' } },
+    },
+    contentAlign: {
+      control: { type: 'select' },
+      options: ['start', 'center', 'end'],
+      description: 'Alignment of the content relative to the trigger.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'undefined' } },
+    },
+    contentCollisionPadding: {
+      control: false,
+      description: 'Padding around the collision boundary.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'undefined' } },
+    },
+    contentAvoidCollisions: {
+      control: 'boolean',
+      description: 'Avoid collisions with viewport edges.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'false' } },
+    },
+    contentHideWhenDetached: {
+      control: 'boolean',
+      description: 'Hide content when fully detached from trigger.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'false' } },
+    },
+    contentPositionStrategy: {
+      control: { type: 'select' },
+      options: ['fixed', 'absolute'],
+      description: 'CSS position strategy for the floating element.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'undefined' } },
+    },
+    contentDisableOutsidePointerEvents: {
+      control: 'boolean',
+      description: 'Disable pointer events outside the content while open.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'false' } },
+    },
+    contentTo: {
+      control: 'text',
+      description: 'Portal target element or selector.',
+      table: { category: 'SelectContent', defaultValue: { summary: 'undefined' } },
+    },
+    // SelectTrigger
+    triggerDisabled: {
+      control: 'boolean',
+      description: 'Whether the trigger is disabled.',
+      table: { category: 'SelectTrigger', defaultValue: { summary: 'false' } },
+    },
+    triggerAs: {
+      control: 'text',
+      description: 'Render the trigger as a different element or component.',
+      table: { category: 'SelectTrigger', defaultValue: { summary: 'undefined' } },
+    },
+    triggerAsChild: {
+      control: 'boolean',
+      description: 'Merge trigger props onto its child element.',
+      table: { category: 'SelectTrigger', defaultValue: { summary: 'false' } },
+    },
   },
   args: {
     variant: "flat",
@@ -57,6 +144,13 @@ const meta: Meta<typeof Select> = {
     isReadonly: false,
     isInvalid: false,
     isRequired: false,
+    contentForceMount: false,
+    contentBodyLock: false,
+    contentAvoidCollisions: false,
+    contentHideWhenDetached: false,
+    contentDisableOutsidePointerEvents: false,
+    triggerDisabled: false,
+    triggerAsChild: false,
   },
 };
 
@@ -130,10 +224,34 @@ const items = [
 
 export const Default: Story = {
   render: (args) => ({
-    components: { Select },
+    components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
     setup: () => ({ args, items: allFruits }),
     template: `
-      <Select v-bind="args" label="Favorite Fruit" placeholder="Pick a fruit" :items="items" />
+      <div style="max-width:360px">
+        <Select v-bind="args" label="Favorite Fruit" :dir="args.dir" :autocomplete="args.autocomplete" :by="args.by">
+          <SelectTrigger
+            :disabled="args.triggerDisabled"
+            :as="args.triggerAs"
+            :as-child="args.triggerAsChild"
+          >
+            <SelectValue placeholder="Pick a fruit" />
+          </SelectTrigger>
+          <SelectContent
+            :force-mount="args.contentForceMount"
+            :body-lock="args.contentBodyLock"
+            :side="args.contentSide"
+            :align="args.contentAlign"
+            :avoid-collisions="args.contentAvoidCollisions"
+            :collision-padding="args.contentCollisionPadding"
+            :hide-when-detached="args.contentHideWhenDetached"
+            :position-strategy="args.contentPositionStrategy"
+            :disable-outside-pointer-events="args.contentDisableOutsidePointerEvents"
+            :to="args.contentTo"
+          >
+            <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
     `,
   }),
   parameters: {
