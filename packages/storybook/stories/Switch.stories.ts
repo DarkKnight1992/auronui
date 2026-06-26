@@ -8,6 +8,46 @@ const meta: Meta = {
   component: Switch,
   argTypes: {
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
+    id: {
+      control: 'text',
+      description: 'HTML id attribute forwarded to SwitchRoot.',
+      table: { category: 'SwitchRoot', defaultValue: { summary: 'undefined' } },
+    },
+    trueValue: {
+      control: 'text',
+      description: 'The value for the checked state.',
+      table: { category: 'SwitchRoot', defaultValue: { summary: 'undefined' } },
+    },
+    falseValue: {
+      control: 'text',
+      description: 'The value for the unchecked state.',
+      table: { category: 'SwitchRoot', defaultValue: { summary: 'undefined' } },
+    },
+    asChild: {
+      control: 'boolean',
+      description: 'Whether SwitchRoot renders as a child element.',
+      table: { category: 'SwitchRoot', defaultValue: { summary: 'false' } },
+    },
+    as: {
+      control: 'text',
+      description: 'Element or component to render SwitchRoot as.',
+      table: { category: 'SwitchRoot', defaultValue: { summary: 'undefined' } },
+    },
+    required: {
+      control: 'boolean',
+      description: 'Whether the switch is required.',
+      table: { category: 'SwitchRoot', defaultValue: { summary: 'false' } },
+    },
+    thumbAsChild: {
+      control: 'boolean',
+      description: 'Whether SwitchThumb renders as a child element.',
+      table: { category: 'SwitchThumb', defaultValue: { summary: 'false' } },
+    },
+    thumbAs: {
+      control: 'text',
+      description: 'Element or component to render SwitchThumb as.',
+      table: { category: 'SwitchThumb', defaultValue: { summary: 'undefined' } },
+    },
   },
 }
 
@@ -15,10 +55,26 @@ export default meta
 type Story = StoryObj
 
 export const Default: Story = {
+  args: {
+    asChild: false,
+    required: false,
+    thumbAsChild: false,
+  },
   render: (args) => ({
     components: { Switch },
     setup: () => ({ args }),
-    template: `<Switch v-bind="args" aria-label="Enable feature" />`,
+    template: `<Switch
+      v-bind="args"
+      :id="args.id"
+      :true-value="args.trueValue"
+      :false-value="args.falseValue"
+      :as-child="args.asChild"
+      :as="args.as"
+      :required="args.required"
+      :thumb-as-child="args.thumbAsChild"
+      :thumb-as="args.thumbAs"
+      aria-label="Enable feature"
+    />`,
   }),
   parameters: {
     docs: {

@@ -58,10 +58,82 @@ const props = withDefaults(defineProps<{
   closeOnSelect?: boolean
   locale?: string
   defaultValue?: CalendarDateTime
+  /** Initial placeholder date for the calendar. */
+  defaultPlaceholder?: DateValue
+  /** Controlled placeholder date. */
+  placeholder?: DateValue
   minValue?: CalendarDateTime
   maxValue?: CalendarDateTime
   isDateUnavailable?: (date: DateValue) => boolean
   isDateDisabled?: (date: DateValue) => boolean
+  /** Steps for segment keyboard navigation. */
+  step?: Partial<Record<'hour' | 'minute' | 'second' | 'millisecond', number>>
+  /** Text direction. */
+  dir?: 'ltr' | 'rtl'
+  /** Marks the field as required. */
+  required?: boolean
+  /** Use paged navigation in the calendar. */
+  pagedNavigation?: boolean
+  /** Day the week starts on. */
+  weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6
+  /** Format for weekday header cells. */
+  weekdayFormat?: 'narrow' | 'short' | 'long'
+  /** Always show 6 weeks per month. */
+  fixedWeeks?: boolean
+  /** Number of months shown in the calendar. */
+  numberOfMonths?: number
+  /** Prevent deselecting a selected date. */
+  preventDeselect?: boolean
+  /** Render trigger as a different element. */
+  triggerAs?: string
+  /** Render trigger child as root element. */
+  triggerAsChild?: boolean
+  /** Portal target for the content. */
+  portal?: string | HTMLElement
+  /** Force the content to stay mounted. */
+  forceMount?: boolean
+  /** Side of the anchor the content appears on. */
+  side?: 'top' | 'right' | 'bottom' | 'left'
+  /** Distance in px from the anchor. */
+  sideOffset?: number
+  /** Allow flipping to opposite side. */
+  sideFlip?: boolean
+  /** Alignment of the content relative to the anchor. */
+  align?: 'start' | 'center' | 'end'
+  /** Offset along the align axis. */
+  alignOffset?: number
+  /** Allow flipping alignment. */
+  alignFlip?: boolean
+  /** Avoid collisions with the viewport. */
+  avoidCollisions?: boolean
+  /** Elements to use as collision boundaries. */
+  collisionBoundary?: Element | null | Array<Element | null>
+  /** Padding for collision detection. */
+  collisionPadding?: number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>
+  /** Padding between arrow and content edge. */
+  arrowPadding?: number
+  /** Hide the arrow when it is shifted. */
+  hideShiftedArrow?: boolean
+  /** Sticky behavior when overflowing. */
+  sticky?: 'partial' | 'always'
+  /** Hide content when anchor is detached. */
+  hideWhenDetached?: boolean
+  /** CSS position strategy. */
+  positionStrategy?: 'fixed' | 'absolute'
+  /** When to recalculate position. */
+  updatePositionStrategy?: 'always' | 'optimized'
+  /** Disable position update on layout shift. */
+  disableUpdateOnLayoutShift?: boolean
+  /** Prioritize keeping content in viewport. */
+  prioritizePosition?: boolean
+  /** Virtual reference element for positioning. */
+  reference?: object | null
+  /** Render content as a different element. */
+  contentAs?: string
+  /** Render content child as root element. */
+  contentAsChild?: boolean
+  /** Disable pointer events outside the content. */
+  disableOutsidePointerEvents?: boolean
 }>(), {
   size: 'md',
   color: 'default',
@@ -76,6 +148,16 @@ const props = withDefaults(defineProps<{
   defaultOpen: false,
   closeOnSelect: true,
 })
+
+const emit = defineEmits<{
+  'update:placeholder': [value: DateValue | undefined]
+  'escape-key-down': [event: KeyboardEvent]
+  'pointer-down-outside': [event: PointerEvent]
+  'focus-outside': [event: FocusEvent]
+  'interact-outside': [event: Event]
+  'open-auto-focus': [event: Event]
+  'close-auto-focus': [event: Event]
+}>()
 
 const modelValue = defineModel<CalendarDateTime | null | undefined>('modelValue')
 const openModel = defineModel<boolean>('open', { default: undefined })

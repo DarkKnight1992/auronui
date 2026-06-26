@@ -34,6 +34,16 @@ const props = withDefaults(defineProps<{
   hotkey?: string[]
   label?: string
   swipeDirection?: 'up' | 'down' | 'left' | 'right'
+  /** Default duration for toasts in this provider (ms) */
+  duration?: number
+  /** Disable swipe gestures for all toasts in this provider */
+  disableSwipe?: boolean
+  /** Distance in pixels before a swipe is recognised */
+  swipeThreshold?: number
+  /** Render viewport as a different element */
+  as?: string
+  /** Merge viewport props onto child element */
+  asChild?: boolean
 }>(), {
   position: 'bottom-right',
   hotkey: () => ['F8'],
@@ -71,10 +81,17 @@ const viewportToasts = computed(() =>
 
 <template>
   <!-- Each viewport has its own isolated Reka provider so ToastRoot teleports here, not to a shared viewport -->
-  <RekaToastProvider :swipe-direction="swipeDirection">
+  <RekaToastProvider
+    :swipe-direction="swipeDirection"
+    :duration="props.duration"
+    :disable-swipe="props.disableSwipe"
+    :swipe-threshold="props.swipeThreshold"
+  >
     <RekaToastViewport
       :hotkey="hotkey"
       :label="label"
+      :as="props.as"
+      :as-child="props.asChild"
       :class="composeClassName(styles.region(), props.class)"
     >
       <Toast

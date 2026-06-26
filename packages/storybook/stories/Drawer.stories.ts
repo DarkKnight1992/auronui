@@ -168,13 +168,23 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
     setup: () => ({ args }),
     template: `
       <Drawer v-bind="args" placement="right">
-        <DrawerTrigger as-child>
+        <DrawerTrigger :as="args.triggerAs" :as-child="args.triggerAsChild || true">
           <Button variant="bordered">Open Right Drawer</Button>
         </DrawerTrigger>
-        <DrawerContent>
-          ${closeButton}
+        <DrawerContent
+          :as="args.contentAs"
+          :as-child="args.contentAsChild"
+          :force-mount="args.contentForceMount"
+          :disable-outside-pointer-events="args.contentDisableOutsidePointerEvents"
+          :to="args.contentTo"
+          :disabled="args.contentDisabled"
+          :defer="args.contentDefer"
+        >
+          <DrawerClose :as="args.closeAs" as-child class="absolute top-3 right-3">
+            <CloseButton aria-label="Close drawer" size="sm" />
+          </DrawerClose>
           <DrawerHeader>
-            <DrawerTitle>Right Drawer</DrawerTitle>
+            <DrawerTitle :as-child="args.titleAsChild">Right Drawer</DrawerTitle>
           </DrawerHeader>
           <DrawerBody>
             <p style="margin: 0; font-size: 14px;">

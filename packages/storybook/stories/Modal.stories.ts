@@ -18,6 +18,89 @@ const meta: Meta = {
   parameters: {
     layout: 'centered',
   },
+  argTypes: {
+    triggerAs: {
+      control: 'text',
+      description: 'Render the trigger as a different HTML element.',
+      table: { category: 'ModalTrigger', defaultValue: { summary: 'undefined' } },
+    },
+    closeAs: {
+      control: 'text',
+      description: 'Render the close button as a different HTML element.',
+      table: { category: 'ModalClose', defaultValue: { summary: 'undefined' } },
+    },
+    contentAs: {
+      control: 'text',
+      description: 'Render the content panel as a different HTML element.',
+      table: { category: 'ModalContent', defaultValue: { summary: 'undefined' } },
+    },
+    contentAsChild: {
+      control: 'boolean',
+      description: 'Merge content props onto its immediate child element.',
+      table: { category: 'ModalContent', defaultValue: { summary: 'false' } },
+    },
+    contentForceMount: {
+      control: 'boolean',
+      description: 'Keep the content mounted in the DOM even when the modal is closed.',
+      table: { category: 'ModalContent', defaultValue: { summary: 'false' } },
+    },
+    contentDisableOutsidePointerEvents: {
+      control: 'boolean',
+      description: 'Disable pointer events outside the content when open.',
+      table: { category: 'ModalContent', defaultValue: { summary: 'false' } },
+    },
+    contentTo: {
+      control: 'text',
+      description: 'Portal target selector or element for the modal content.',
+      table: { category: 'ModalContent (Portal)', defaultValue: { summary: 'undefined' } },
+    },
+    contentDisabled: {
+      control: 'boolean',
+      description: 'Disable the portal, rendering content inline instead.',
+      table: { category: 'ModalContent (Portal)', defaultValue: { summary: 'false' } },
+    },
+    contentDefer: {
+      control: 'boolean',
+      description: 'Defer portal rendering until after the component is mounted.',
+      table: { category: 'ModalContent (Portal)', defaultValue: { summary: 'false' } },
+    },
+    overlayAs: {
+      control: 'text',
+      description: 'Render the overlay as a different HTML element.',
+      table: { category: 'ModalOverlay', defaultValue: { summary: 'undefined' } },
+    },
+    overlayAsChild: {
+      control: 'boolean',
+      description: 'Merge overlay props onto its immediate child element.',
+      table: { category: 'ModalOverlay', defaultValue: { summary: 'false' } },
+    },
+    overlayForceMount: {
+      control: 'boolean',
+      description: 'Keep the overlay mounted in the DOM even when the modal is closed.',
+      table: { category: 'ModalOverlay', defaultValue: { summary: 'false' } },
+    },
+    titleAsChild: {
+      control: 'boolean',
+      description: 'Merge title props onto its immediate child element.',
+      table: { category: 'ModalTitle', defaultValue: { summary: 'false' } },
+    },
+    descriptionAsChild: {
+      control: 'boolean',
+      description: 'Merge description props onto its immediate child element.',
+      table: { category: 'ModalDescription', defaultValue: { summary: 'false' } },
+    },
+  },
+  args: {
+    contentAsChild: false,
+    contentForceMount: false,
+    contentDisableOutsidePointerEvents: false,
+    contentDisabled: false,
+    contentDefer: false,
+    overlayAsChild: false,
+    overlayForceMount: false,
+    titleAsChild: false,
+    descriptionAsChild: false,
+  },
 }
 
 export default meta

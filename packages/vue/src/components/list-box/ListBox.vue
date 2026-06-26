@@ -27,6 +27,30 @@ const props = withDefaults(defineProps<{
   }>
   /** Shorthand API: render list items from an array instead of the compound slot API */
   items?: ListBoxShorthandItem[]
+  /** Allow selecting multiple values (alias for selectionMode="multiple"). */
+  multiple?: boolean
+  /** Orientation of the listbox for keyboard navigation. */
+  orientation?: 'horizontal' | 'vertical'
+  /** Reading direction for the component. */
+  dir?: 'ltr' | 'rtl'
+  /** Selection behavior when multiple is true. */
+  selectionBehavior?: 'toggle' | 'replace'
+  /** Highlight item on hover. */
+  highlightOnHover?: boolean
+  /** Key used to compare items for equality. */
+  by?: string
+  /** Render as a different element or component. */
+  as?: string
+  /** Merge props onto child element instead of rendering a wrapper. */
+  asChild?: boolean
+  /** Form field name for native form submission. */
+  name?: string
+  /** Mark the field as required. */
+  required?: boolean
+  /** Render the ListboxContent as a different element. */
+  contentAs?: string
+  /** Merge content props onto child element. */
+  contentAsChild?: boolean
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -34,10 +58,25 @@ const props = withDefaults(defineProps<{
   variant: 'default',
   isDisabled: false,
   class: undefined,
+  multiple: undefined,
+  orientation: undefined,
+  dir: undefined,
+  selectionBehavior: undefined,
+  highlightOnHover: undefined,
+  by: undefined,
+  as: undefined,
+  asChild: false,
+  name: undefined,
+  required: undefined,
+  contentAs: undefined,
+  contentAsChild: false,
 })
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | string[] | undefined]
+  'highlight': [context: { ref: Element; value: string } | undefined]
+  'entry-focus': [event: Event]
+  'leave': [event: Event]
 }>()
 
 const attrs = useAttrs()
