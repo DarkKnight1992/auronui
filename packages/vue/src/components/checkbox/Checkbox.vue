@@ -96,12 +96,12 @@ const checkedState = computed<boolean | 'indeterminate'>(() => {
 })
 
 // Handle Reka UI's update:modelValue event
-function handleUpdate(val: boolean | 'indeterminate') {
+function handleUpdate(val: string | number | boolean) {
   if (isInGroup.value) {
     groupCtx.toggleValue(props.value!)
   } else {
     if (val !== 'indeterminate') {
-      emit('update:modelValue', val)
+      emit('update:modelValue', Boolean(val))
     }
   }
 }

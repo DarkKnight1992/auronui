@@ -167,7 +167,7 @@ function handleKeydown(e: KeyboardEvent) {
         :update-position-strategy="props.updatePositionStrategy"
         :disable-update-on-layout-shift="props.disableUpdateOnLayoutShift"
         :prioritize-position="props.prioritizePosition"
-        :reference="props.reference"
+        :reference="(props.reference as any)"
         :as="props.as"
         :as-child="props.asChild"
         :disable-outside-pointer-events="props.disableOutsidePointerEvents"

@@ -22,9 +22,9 @@ const props = withDefaults(defineProps<{
   /** Whether ProgressRoot renders as a child element. */
   asChild?: boolean
   /** Function to get the accessible label for the current value. */
-  getValueLabel?: (value: number, max: number) => string
+  getValueLabel?: (value: number | null | undefined, max: number) => string | undefined
   /** Function to get the accessible text for the current value. */
-  getValueText?: (value: number, max: number) => string
+  getValueText?: (value: number | null | undefined, max: number) => string | undefined
   class?: ClassValue
   /** Override classNames for individual slots */
   classNames?: Partial<{

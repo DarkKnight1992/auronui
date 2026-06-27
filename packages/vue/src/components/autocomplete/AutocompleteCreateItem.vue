@@ -30,6 +30,10 @@ const props = withDefaults(defineProps<{
   asChild: false,
 })
 
+const emit = defineEmits<{
+  'select': [event: Event]
+}>()
+
 const ctx = useAutocompleteInject()
 // Reka's combobox context (provided by AutocompleteRoot) — used to drive the
 // open state and input focus directly, since this item's value equals the
@@ -44,10 +48,6 @@ const displayLabel = computed(() => {
   if (typeof props.label === 'function') return props.label(term.value)
   return props.label ?? `Create "${term.value}"`
 })
-
-const emit = defineEmits<{
-  'select': [event: Event]
-}>()
 
 function handleSelect(event: Event) {
   emit('select', event)

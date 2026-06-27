@@ -48,7 +48,7 @@ const slotFns = computed(() =>
   <SplitterResizeHandle
     :id="id"
     :disabled="disabled"
-    :hit-area-margins="props.hitAreaMargins"
+    :hit-area-margins="(props.hitAreaMargins as any)"
     :tabindex="props.tabindex"
     :nonce="props.nonce"
     :as="props.as"

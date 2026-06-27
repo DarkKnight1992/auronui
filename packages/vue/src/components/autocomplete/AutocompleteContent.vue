@@ -4,13 +4,6 @@ import { motion, AnimatePresence } from 'motion-v'
 import { useSlots, watchEffect, type VNode } from 'vue'
 import { useAutocompleteInject } from './Autocomplete.context'
 
-const emit = defineEmits<{
-  'escape-key-down': [event: KeyboardEvent]
-  'pointer-down-outside': [event: Event]
-  'focus-outside': [event: Event]
-  'interact-outside': [event: Event]
-}>()
-
 const props = withDefaults(defineProps<{
   sideOffset?: number
   class?: string
@@ -20,7 +13,7 @@ const props = withDefaults(defineProps<{
   defer?: boolean
   forceMount?: boolean
   // AutocompleteContent props
-  position?: 'item-aligned' | 'popper'
+  position?: 'inline' | 'popper'
   bodyLock?: boolean
   hideWhenEmpty?: boolean
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -81,6 +74,13 @@ const props = withDefaults(defineProps<{
   viewportAs: undefined,
   viewportAsChild: undefined,
 })
+
+const emit = defineEmits<{
+  'escape-key-down': [event: KeyboardEvent]
+  'pointer-down-outside': [event: Event]
+  'focus-outside': [event: Event]
+  'interact-outside': [event: Event]
+}>()
 
 const ctx = useAutocompleteInject()
 // AutocompleteRoot internally provides the ComboboxRoot context
@@ -168,7 +168,7 @@ watchEffect(() => {
         :update-position-strategy="props.updatePositionStrategy"
         :disable-update-on-layout-shift="props.disableUpdateOnLayoutShift"
         :prioritize-position="props.prioritizePosition"
-        :reference="props.reference"
+        :reference="(props.reference as any)"
         :as="props.as"
         :as-child="props.asChild ?? true"
         :disable-outside-pointer-events="props.disableOutsidePointerEvents"

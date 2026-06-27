@@ -83,7 +83,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
 <template>
   <AutocompleteAnchor
     ref="anchor"
-    :reference="props.anchorReference"
+    :reference="(props.anchorReference as any)"
     :as="props.anchorAs"
     :as-child="props.anchorAsChild"
     :class="ctx.slots.value.trigger()"

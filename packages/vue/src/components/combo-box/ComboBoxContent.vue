@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
   /** Force-mount the content even when closed. */
   forceMount?: boolean
   /** Positioning strategy: item-aligned or popper. */
-  position?: 'item-aligned' | 'popper'
+  position?: 'inline' | 'popper'
   /** Lock body scroll when open. */
   bodyLock?: boolean
   /** Hide content when there are no items. */
@@ -111,7 +111,7 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'escape-key-down': [event: KeyboardEvent]
   'pointer-down-outside': [event: Event]
-  'focus-outside': [event: FocusEvent]
+  'focus-outside': [event: Event]
   'interact-outside': [event: Event]
 }>()
 
@@ -195,7 +195,7 @@ watchEffect(() => {
         :update-position-strategy="props.updatePositionStrategy"
         :disable-update-on-layout-shift="props.disableUpdateOnLayoutShift"
         :prioritize-position="props.prioritizePosition"
-        :reference="props.reference"
+        :reference="(props.reference as any)"
         :as="props.as"
         :as-child="props.asChild ?? true"
         :disable-outside-pointer-events="props.disableOutsidePointerEvents"

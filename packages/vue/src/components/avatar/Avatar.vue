@@ -102,8 +102,8 @@ const inGroupClass = computed(() =>
       :alt="props.alt ?? props.name ?? ''"
       :as="props.imageAs"
       :as-child="props.imageAsChild"
-      :referrer-policy="props.referrerPolicy"
-      :cross-origin="props.crossOrigin"
+      :referrer-policy="(props.referrerPolicy as any)"
+      :cross-origin="(props.crossOrigin as any)"
       :class="composeClassName(slotFns.image(), props.classNames?.image)"
       @loading-status-change="emit('loading-status-change', $event)"
     />

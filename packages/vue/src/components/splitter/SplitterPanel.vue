@@ -18,7 +18,7 @@ const props = withDefaults(defineProps<{
     panel: ClassValue
   }>
   /** Unit for size values: 'percentage' or 'pixels' */
-  sizeUnit?: 'percentage' | 'pixels'
+  sizeUnit?: '%' | 'px'
   /** Render as a different element */
   as?: string
   /** Merge props onto child element */

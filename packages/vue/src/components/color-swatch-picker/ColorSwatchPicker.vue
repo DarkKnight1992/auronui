@@ -34,7 +34,7 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   dir?: 'ltr' | 'rtl'
   disabled?: boolean
-  selectionBehavior?: string
+  selectionBehavior?: 'replace' | 'toggle'
   highlightOnHover?: boolean
 }>(), {
   layout: 'grid',

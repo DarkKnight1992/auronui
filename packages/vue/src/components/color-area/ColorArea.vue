@@ -97,8 +97,8 @@ function onColorUpdate(next: Color) {
     :y-name="props.yName"
     :class="composeClassName(styles.base(), props.class)"
     @update:color="onColorUpdate"
-    @change="(v: Color) => emit('change', v)"
-    @change-end="(v: Color) => emit('change-end', v)"
+    @change="(v: string) => emit('change', v as unknown as Color)"
+    @change-end="(v: string) => emit('change-end', v as unknown as Color)"
   >
     <ColorAreaArea :style="areaBgStyle">
       <ColorAreaThumb :class="composeClassName(styles.thumb(), thumbClass)" />

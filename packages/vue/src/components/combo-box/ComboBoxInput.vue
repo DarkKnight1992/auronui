@@ -61,7 +61,7 @@ const ctx = useComboBoxInject()
 
 <template>
   <ComboboxAnchor
-    :reference="props.anchorReference"
+    :reference="(props.anchorReference as any)"
     :as="props.anchorAs"
     :as-child="props.anchorAsChild"
     :class="ctx.slots.value.inputGroup()"

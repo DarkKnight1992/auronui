@@ -67,7 +67,7 @@ function handleFocus() {
     :aria-invalid="ctx.isInvalid.value || undefined"
     :aria-describedby="ctx.ariaDescribedBy.value"
     :disabled="props.disabled"
-    :reference="props.reference"
+    :reference="(props.reference as any)"
     :as="props.as"
     :as-child="props.asChild"
     data-slot="trigger"

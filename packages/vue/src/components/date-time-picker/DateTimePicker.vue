@@ -156,8 +156,8 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'update:placeholder': [value: DateValue | undefined]
   'escape-key-down': [event: KeyboardEvent]
-  'pointer-down-outside': [event: PointerEvent]
-  'focus-outside': [event: FocusEvent]
+  'pointer-down-outside': [event: Event]
+  'focus-outside': [event: Event]
   'interact-outside': [event: Event]
   'open-auto-focus': [event: Event]
   'close-auto-focus': [event: Event]
@@ -390,7 +390,7 @@ const slotFns = computed(() =>
       :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
       :side-offset="sideOffset ?? 8"
-      :portal="portal"
+      :portal="portal != null ? { to: portal } : undefined"
       :force-mount="forceMount"
       :side="side"
       :side-flip="sideFlip"
@@ -408,7 +408,7 @@ const slotFns = computed(() =>
       :update-position-strategy="updatePositionStrategy"
       :disable-update-on-layout-shift="disableUpdateOnLayoutShift"
       :prioritize-position="prioritizePosition"
-      :reference="reference"
+      :reference="(reference as any)"
       :as="contentAs"
       :as-child="contentAsChild"
       :disable-outside-pointer-events="disableOutsidePointerEvents"

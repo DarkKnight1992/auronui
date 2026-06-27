@@ -25,10 +25,12 @@ describe('ProgressBar', () => {
     expect(progressbar.exists()).toBe(true)
     expect((progressbar.element as HTMLElement).getAttribute('aria-valuenow')).toBe('60')
 
-    const indicator = wrapper.find('.progress-bar__indicator')
+    const indicator = wrapper.find('.progress-bar__fill')
     expect(indicator.exists()).toBe(true)
-    const style = (indicator.element as HTMLElement).getAttribute('style') || ''
-    expect(style).toContain('translateX(-40%)')
+    // The transform is CSS-computed via --progress-bar-value; check the custom property on root
+    const root = wrapper.find('.progress-bar')
+    const rootStyle = (root.element as HTMLElement).getAttribute('style') || ''
+    expect(rootStyle).toContain('--progress-bar-value: 60%')
   })
 
   // Test 2: Indeterminate (value=null) — no aria-valuenow, data-state=indeterminate

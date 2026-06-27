@@ -35,7 +35,7 @@ const modelValue = defineModel<DateValue | null | undefined>()
 // ref that starts with a value. Always pass null (= controlled + empty) instead.
 const rekaValue = computed<DateValue | null>({
   get: () => modelValue.value ?? null,
-  set: (val: DateValue | undefined) => { modelValue.value = val ?? null },
+  set: (val: DateValue | null) => { modelValue.value = val ?? null },
 })
 
 type Props = {

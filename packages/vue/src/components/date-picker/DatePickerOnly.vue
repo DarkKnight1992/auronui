@@ -140,8 +140,8 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'update:placeholder': [value: DateValue | undefined]
   'escape-key-down': [event: KeyboardEvent]
-  'pointer-down-outside': [event: PointerEvent]
-  'focus-outside': [event: FocusEvent]
+  'pointer-down-outside': [event: Event]
+  'focus-outside': [event: Event]
   'interact-outside': [event: Event]
   'open-auto-focus': [event: Event]
   'close-auto-focus': [event: Event]
@@ -155,7 +155,7 @@ const slotFns = computed(() => datePickerVariants())
 // Reka treats `undefined` as "uncontrolled mode" — always pass null (controlled + empty) instead.
 const rekaModelValue = computed<DateValue | null>({
   get: () => modelValue.value ?? null,
-  set: (val: DateValue | undefined) => { modelValue.value = val ?? null },
+  set: (val: DateValue | null) => { modelValue.value = val ?? null },
 })
 
 // Sync Calendar's `DateValue` v-model with DatePicker's `DateValue | null` model,
@@ -287,7 +287,7 @@ const calendarValue = computed<DateValue | undefined>({
       :class="composeClassName(slotFns.popover(), props.classNames?.popover)"
       data-slot="popover"
       :side-offset="sideOffset ?? 8"
-      :portal="portal"
+      :portal="portal != null ? { to: portal } : undefined"
       :force-mount="forceMount"
       :side="side"
       :side-flip="sideFlip"
@@ -305,7 +305,7 @@ const calendarValue = computed<DateValue | undefined>({
       :update-position-strategy="updatePositionStrategy"
       :disable-update-on-layout-shift="disableUpdateOnLayoutShift"
       :prioritize-position="prioritizePosition"
-      :reference="reference"
+      :reference="(reference as any)"
       :as="contentAs"
       :as-child="contentAsChild"
       :disable-outside-pointer-events="disableOutsidePointerEvents"

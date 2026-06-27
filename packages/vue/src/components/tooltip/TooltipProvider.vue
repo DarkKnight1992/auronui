@@ -8,7 +8,7 @@ const props = withDefaults(defineProps<{
   disableClosingTrigger?: boolean
   disabled?: boolean
   ignoreNonKeyboardFocus?: boolean
-  content?: string | object
+  content?: object
 }>(), {
   delayDuration: 700,
   skipDelayDuration: 300,

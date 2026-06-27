@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
   /** Disable days outside the current view. */
   disableDaysOutsideCurrentView?: boolean
   /** Fix one end of the range. */
-  fixedDate?: DateValue
+  fixedDate?: 'start' | 'end'
   /** Maximum number of days in the range. */
   maximumDays?: number
   /** Render as a different element or component. */
@@ -193,7 +193,7 @@ const nextViewLabel = computed(() =>
     :as="as"
     :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
-    @update:valid-model-value="emit('update:valid-model-value', $event)"
+    @update:valid-model-value="emit('update:valid-model-value', $event as DateRange)"
     @update:start-value="emit('update:start-value', $event)"
   >
     <template #default="{ grid, weekDays }">

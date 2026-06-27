@@ -89,11 +89,11 @@ const checked = computed<boolean>(() => {
 })
 
 // Handle Reka UI's update:checked event
-function handleUpdate(val: boolean) {
+function handleUpdate(val: string | number | boolean) {
   if (isInGroup.value) {
     groupCtx.toggleValue(props.value!)
   } else {
-    emit('update:modelValue', val)
+    emit('update:modelValue', Boolean(val))
   }
 }
 

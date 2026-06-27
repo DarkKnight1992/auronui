@@ -74,7 +74,7 @@ const props = withDefaults(defineProps<{
 
 const emit = defineEmits<{
   'update:modelValue': [value: string | string[] | undefined]
-  'highlight': [context: { ref: Element; value: string } | undefined]
+  'highlight': [context: unknown]
   'entry-focus': [event: Event]
   'leave': [event: Event]
 }>()

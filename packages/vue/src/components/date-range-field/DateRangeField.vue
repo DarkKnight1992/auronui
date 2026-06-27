@@ -81,7 +81,6 @@ type Props = {
   defaultValue?: DateRange
   defaultPlaceholder?: DateValue
   placeholderValue?: DateValue
-  modelValue?: DateRange | null
   minValue?: DateValue
   maxValue?: DateValue
   granularity?: 'day' | 'hour' | 'minute' | 'second'
