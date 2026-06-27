@@ -60,6 +60,7 @@ function currentIndexFor(key: string): number {
 // ─── Scroll-to-selected ──────────────────────────────────────────────────
 
 const columnRefs = ref<HTMLElement[]>([])
+const focusedColumn = ref<string | null>(null)
 
 const ITEM_H = 40 // 2.5rem at 16px base
 
@@ -159,6 +160,9 @@ defineExpose({ columnRefs, columns, currentIndexFor })
       data-slot="scroller-column"
       role="listbox"
       tabindex="0"
+      :data-focused="col.key === focusedColumn ? 'true' : undefined"
+      @focus="focusedColumn = col.key"
+      @blur="focusedColumn = null"
       @scroll.passive="onColumnScroll(col.key, ($event.currentTarget as HTMLElement))"
       @keydown="onKeyDown($event, ($event.currentTarget as HTMLElement))"
     >

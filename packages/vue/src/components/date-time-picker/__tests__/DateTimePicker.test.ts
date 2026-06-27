@@ -124,6 +124,21 @@ describe('DateTimePickerTimeScroller', () => {
     expect(options[30].attributes('aria-selected')).toBe('true')
     expect(options[0].attributes('aria-selected')).toBe('false')
   })
+
+  it('marks a column data-focused only while it has focus', async () => {
+    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
+    const wrapper = mount(DateTimePickerTimeScroller, {
+      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
+      attachTo: document.body,
+    })
+    await nextTick()
+    const hourCol = wrapper.findAll('[data-slot="scroller-column"]')[0]
+    expect(hourCol.attributes('data-focused')).toBeUndefined()
+    await hourCol.trigger('focus')
+    expect(hourCol.attributes('data-focused')).toBe('true')
+    await hourCol.trigger('blur')
+    expect(hourCol.attributes('data-focused')).toBeUndefined()
+  })
 })
 
 describe('DateTimePickerTimezone', () => {
