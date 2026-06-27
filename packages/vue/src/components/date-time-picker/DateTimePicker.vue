@@ -371,7 +371,7 @@ const slotFns = computed(() =>
       @close-auto-focus="emit('close-auto-focus', $event)"
     >
       <div
-        :class="slotFns.panel()"
+        :class="composeClassName(slotFns.panel(), props.classNames?.panel)"
         data-slot="panel"
       >
         <Calendar
@@ -387,7 +387,7 @@ const slotFns = computed(() =>
         />
 
         <div
-          :class="slotFns.divider()"
+          :class="composeClassName(slotFns.divider(), props.classNames?.divider)"
           data-slot="divider"
           aria-hidden="true"
         />

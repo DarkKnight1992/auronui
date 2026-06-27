@@ -679,9 +679,8 @@ export const CustomStyles: Story = {
     defaultValue: BASE_VALUE,
     classNames: {
       trigger: "border-2 border-blue-500 rounded-lg",
-      stepHeader: "bg-blue-50 border-b-2 border-blue-200",
-      stepTitle: "text-blue-700 font-semibold",
-      navButton: "text-blue-600 hover:bg-blue-100 rounded-md",
+      panel: "bg-blue-50/30 rounded-xl",
+      divider: "bg-blue-200",
     },
   },
   parameters: {
@@ -698,9 +697,8 @@ import { DateTimePicker } from '@auronui/vue'
     :default-value="new CalendarDateTime(2024, 6, 15, 10, 30)"
     :class-names="{
       trigger: 'border-2 border-blue-500 rounded-lg',
-      stepHeader: 'bg-blue-50 border-b-2 border-blue-200',
-      stepTitle: 'text-blue-700 font-semibold',
-      navButton: 'text-blue-600 hover:bg-blue-100 rounded-md',
+      panel: 'bg-blue-50/30 rounded-xl',
+      divider: 'bg-blue-200',
     }"
   />
 </template>`,

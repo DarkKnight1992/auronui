@@ -230,6 +230,7 @@ describe('DateTimePicker', () => {
     await nextTick()
     const cell = document.body.querySelector('[role="gridcell"] [data-selected]') as HTMLElement
       ?? document.body.querySelector('[role="gridcell"] button') as HTMLElement
+    expect(cell).toBeTruthy()
     cell?.click()
     await nextTick()
     // Time scroller still present → popover did not close
