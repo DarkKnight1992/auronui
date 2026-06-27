@@ -1,6 +1,6 @@
 <!-- packages/vue/src/components/date-time-picker/DateTimePicker.vue -->
 <script setup lang="ts">
-import { computed, ref, shallowRef, watch } from 'vue'
+import { computed, shallowRef, watch } from 'vue'
 import {
   DatePickerRoot,
   DatePickerTrigger,
@@ -13,14 +13,11 @@ import {
   today,
   getLocalTimeZone,
 } from '@internationalized/date'
-import { AnimatePresence, motion } from 'motion-v'
 import { dateTimePickerVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
 import DateTimePickerTimeScroller from './DateTimePickerTimeScroller.vue'
-
-type Step = 'date' | 'time'
 
 defineOptions({ inheritAttrs: false })
 
@@ -45,11 +42,8 @@ const props = withDefaults(defineProps<{
     trigger: ClassValue
     triggerIndicator: ClassValue
     popover: ClassValue
-    stepHeader: ClassValue
-    navButton: ClassValue
-    stepTitle: ClassValue
-    doneLabel: ClassValue
-    panelWrap: ClassValue
+    panel: ClassValue
+    divider: ClassValue
   }>
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24
@@ -166,12 +160,6 @@ const emit = defineEmits<{
 const modelValue = defineModel<CalendarDateTime | null | undefined>('modelValue')
 const openModel = defineModel<boolean>('open', { default: undefined })
 
-const STEP_TITLES: Record<Step, string> = {
-  date: 'Pick a date',
-  time: 'Pick a time',
-}
-const STEP_ORDER: Step[] = ['date', 'time']
-
 // Seed controlled open state from defaultOpen so portal renders in uncontrolled mode too
 if (props.defaultOpen && openModel.value === undefined) {
   openModel.value = true
@@ -205,42 +193,6 @@ function onInputChange(v: DateValue | null | undefined) {
   modelValue.value = v
 }
 
-// ─── Step state ──────────────────────────────────────────────────────────
-
-const activeStep = ref<Step>('date')
-const direction = ref<1 | -1>(1)
-
-watch(openModel, (open) => {
-  if (open) activeStep.value = 'date'
-})
-
-function goTo(step: Step) {
-  const from = STEP_ORDER.indexOf(activeStep.value)
-  const to = STEP_ORDER.indexOf(step)
-  direction.value = to > from ? 1 : -1
-  activeStep.value = step
-}
-
-function goBack() {
-  const idx = STEP_ORDER.indexOf(activeStep.value)
-  if (idx > 0) goTo(STEP_ORDER[idx - 1])
-}
-
-function goForward() {
-  const idx = STEP_ORDER.indexOf(activeStep.value)
-  if (idx < STEP_ORDER.length - 1) {
-    goTo(STEP_ORDER[idx + 1])
-  } else if (props.closeOnSelect) {
-    openModel.value = false
-  }
-}
-
-// ─── Panel animation variants ────────────────────────────────────────────
-
-const panelInitial = computed(() => ({ x: direction.value > 0 ? '100%' : '-100%', opacity: 0 }))
-const panelAnimate = { x: '0%', opacity: 1 }
-const panelExit = computed(() => ({ x: direction.value > 0 ? '-100%' : '100%', opacity: 0 }))
-
 // ─── Calendar value sync ─────────────────────────────────────────────────
 
 const calendarValue = computed<DateValue | undefined>({
@@ -255,7 +207,6 @@ const calendarValue = computed<DateValue | undefined>({
       day: val.day,
     })
     modelValue.value = internalValue.value
-    goTo('time')
   },
 })
 
@@ -419,109 +370,34 @@ const slotFns = computed(() =>
       @open-auto-focus="emit('open-auto-focus', $event)"
       @close-auto-focus="emit('close-auto-focus', $event)"
     >
-      <!-- Step header -->
       <div
-        :class="composeClassName(slotFns.stepHeader(), props.classNames?.stepHeader)"
-        data-slot="step-header"
+        :class="slotFns.panel()"
+        data-slot="panel"
       >
-        <button
-          type="button"
-          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
-          :data-hidden="activeStep === 'date' ? 'true' : undefined"
-          aria-label="Previous step"
-          data-slot="back-button"
-          @click="goBack"
-        >
-          <svg
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <polyline points="15 18 9 12 15 6" />
-          </svg>
-        </button>
+        <Calendar
+          v-model="calendarValue"
+          :default-value="defaultValue"
+          :min-value="minValue"
+          :max-value="maxValue"
+          :is-date-disabled="isDateDisabled"
+          :is-date-unavailable="isDateUnavailable"
+          :locale="locale"
+          :readonly="isReadOnly"
+          :disabled="isDisabled"
+        />
 
-        <span :class="composeClassName(slotFns.stepTitle(), props.classNames?.stepTitle)">{{ STEP_TITLES[activeStep] }}</span>
+        <div
+          :class="slotFns.divider()"
+          data-slot="divider"
+          aria-hidden="true"
+        />
 
-        <button
-          type="button"
-          :class="composeClassName(slotFns.navButton(), props.classNames?.navButton)"
-          :aria-label="activeStep === 'time' ? 'Done' : 'Next step'"
-          data-slot="forward-button"
-          @click="goForward"
-        >
-          <span
-            v-if="activeStep === 'time'"
-            :class="composeClassName(slotFns.doneLabel(), props.classNames?.doneLabel)"
-          >Done</span>
-          <svg
-            v-else
-            width="14"
-            height="14"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            stroke-width="2.5"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            aria-hidden="true"
-          >
-            <polyline points="9 18 15 12 9 6" />
-          </svg>
-        </button>
-      </div>
-
-      <!-- Sliding panels -->
-      <div
-        :class="composeClassName(slotFns.panelWrap(), props.classNames?.panelWrap)"
-        style="overflow: hidden;"
-      >
-        <AnimatePresence mode="popLayout">
-          <motion.div
-            v-if="activeStep === 'date'"
-            key="date"
-            :initial="panelInitial"
-            :animate="panelAnimate"
-            :exit="panelExit"
-            :transition="{ duration: 0.15 }"
-            class="px-3 pb-3"
-            data-slot="calendar-panel"
-          >
-            <Calendar
-              v-model="calendarValue"
-              :default-value="defaultValue"
-              :min-value="minValue"
-              :max-value="maxValue"
-              :is-date-disabled="isDateDisabled"
-              :is-date-unavailable="isDateUnavailable"
-              :locale="locale"
-              :readonly="isReadOnly"
-              :disabled="isDisabled"
-            />
-          </motion.div>
-
-          <motion.div
-            v-else-if="activeStep === 'time'"
-            key="time"
-            :initial="panelInitial"
-            :animate="panelAnimate"
-            :exit="panelExit"
-            :transition="{ duration: 0.15 }"
-          >
-            <DateTimePickerTimeScroller
-              :model-value="internalValue"
-              :granularity="granularity"
-              :hour-cycle="hourCycle"
-              @update:model-value="onTimeUpdate"
-            />
-          </motion.div>
-        </AnimatePresence>
+        <DateTimePickerTimeScroller
+          :model-value="internalValue"
+          :granularity="granularity"
+          :hour-cycle="hourCycle"
+          @update:model-value="onTimeUpdate"
+        />
       </div>
     </DatePickerContent>
   </DatePickerRoot>

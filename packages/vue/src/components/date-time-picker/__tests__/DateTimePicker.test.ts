@@ -210,54 +210,29 @@ describe('DateTimePicker', () => {
     expect(wrapper.find('button[aria-label="Open date time picker"]').exists()).toBe(true)
   })
 
-  it('shows "Pick a date" as step title when open', async () => {
+  it('renders calendar and time scroller side-by-side when open', async () => {
     mount(DateTimePicker, {
       props: { label: 'Date & Time', defaultOpen: true, defaultValue: makeValue() },
       attachTo: document.body,
     })
     await nextTick()
-    const header = document.body.querySelector('[data-slot="step-header"]')
-    expect(header?.textContent).toContain('Pick a date')
-  })
-
-  it('back button has data-hidden=true on the date step', async () => {
-    mount(DateTimePicker, {
-      props: { label: 'Date & Time', defaultOpen: true, defaultValue: makeValue() },
-      attachTo: document.body,
-    })
-    await nextTick()
-    const backBtn = document.body.querySelector('[data-slot="back-button"]') as HTMLElement | null
-    expect(backBtn?.dataset.hidden).toBe('true')
-  })
-
-  it('pressing forward button advances to time step', async () => {
-    mount(DateTimePicker, {
-      props: { label: 'Date & Time', defaultOpen: true, defaultValue: makeValue() },
-      attachTo: document.body,
-    })
-    await nextTick()
-    const fwdBtn = document.body.querySelector('[data-slot="forward-button"]') as HTMLElement
-    await fwdBtn.click()
-    await nextTick()
-    expect(document.body.querySelector('[data-slot="step-header"]')?.textContent).toContain('Pick a time')
+    expect(document.body.querySelector('[data-slot="step-header"]')).toBeNull()
     expect(document.body.querySelector('[data-slot="time-scroller"]')).not.toBeNull()
+    // Calendar renders a grid of day cells (Reka CalendarGrid uses role="application")
+    expect(document.body.querySelector('[role="gridcell"]')).not.toBeNull()
   })
 
-  it('pressing back from time step returns to date step', async () => {
+  it('keeps the popover open after selecting a date', async () => {
     mount(DateTimePicker, {
       props: { label: 'Date & Time', defaultOpen: true, defaultValue: makeValue() },
       attachTo: document.body,
     })
     await nextTick()
-    const advance = async () => {
-      const btn = document.body.querySelector('[data-slot="forward-button"]') as HTMLElement
-      await btn.click()
-      await nextTick()
-    }
-    await advance() // date → time
-    const backBtn = document.body.querySelector('[data-slot="back-button"]') as HTMLElement
-    await backBtn.click()
+    const cell = document.body.querySelector('[role="gridcell"] [data-selected]') as HTMLElement
+      ?? document.body.querySelector('[role="gridcell"] button') as HTMLElement
+    cell?.click()
     await nextTick()
-    expect(document.body.querySelector('[data-slot="step-header"]')?.textContent).toContain('Pick a date')
+    // Time scroller still present → popover did not close
+    expect(document.body.querySelector('[data-slot="time-scroller"]')).not.toBeNull()
   })
 })
