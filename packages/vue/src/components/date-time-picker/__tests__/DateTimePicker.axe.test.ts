@@ -50,8 +50,8 @@ describe('DateTimePicker - Accessibility', () => {
     wrapper.unmount()
   })
 
-  // Test: Axe audit zero violations with popover open on date step
-  it('has zero axe violations with popover open on date step', async () => {
+  // Test: Axe audit zero violations with popover open
+  it('has zero axe violations with popover open', async () => {
     const wrapper = mount(DateTimePicker, {
       props: {
         label: 'Pick date & time',
