@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, toRef, useAttrs } from 'vue'
-import { ListboxRoot, ListboxContent } from 'reka-ui'
+import { ListboxRoot, ListboxContent, ListboxVirtualizer } from 'reka-ui'
 import { listboxVariants, type ListBoxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxProvide } from './ListBox.context'
@@ -53,6 +53,14 @@ const props = withDefaults(defineProps<{
   contentAsChild?: boolean
   /** Hide the selected checkmark on all items (forwarded via context). */
   hideSelectedIcon?: boolean
+  /** Enable windowed rendering (opt-in). Renders from `items`. */
+  virtualized?: boolean
+  /** Estimated row height in px (or per-index fn) for the virtualizer. */
+  estimateSize?: number | ((index: number) => number)
+  /** Rows rendered outside the visible area. */
+  overscan?: number
+  /** Scroll-viewport height for the content when scrolling is active. */
+  maxHeight?: string | number
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -73,6 +81,10 @@ const props = withDefaults(defineProps<{
   contentAs: undefined,
   contentAsChild: false,
   hideSelectedIcon: false,
+  virtualized: false,
+  estimateSize: 36,
+  overscan: 12,
+  maxHeight: '16rem',
 })
 
 const emit = defineEmits<{
@@ -94,6 +106,15 @@ useListBoxProvide({
 
 const slotFns = computed(() =>
   listboxVariants({ variant: props.variant })
+)
+
+// Bounded scroll viewport only when the content actually needs to scroll, so
+// default (non-virtualized) ListBoxes are visually unchanged.
+const needsScroll = computed(() => props.virtualized)
+const contentStyle = computed(() =>
+  needsScroll.value
+    ? { maxHeight: typeof props.maxHeight === 'number' ? `${props.maxHeight}px` : props.maxHeight, overflowY: 'auto' as const }
+    : undefined,
 )
 </script>
 
@@ -123,9 +144,28 @@ const slotFns = computed(() =>
       v-bind="attrs"
       :as="props.contentAs"
       :as-child="props.contentAsChild"
+      :style="contentStyle"
       :class="composeClassName(slotFns, props.class, props.classNames?.base)"
     >
-      <template v-if="props.items">
+      <ListboxVirtualizer
+        v-if="props.virtualized && props.items"
+        :options="props.items"
+        :estimate-size="props.estimateSize"
+        :overscan="props.overscan"
+        :text-content="(o) => (o.label ?? o.value)"
+      >
+        <template #default="{ option, virtualItem }">
+          <slot name="item" :item="option" :index="virtualItem.index">
+            <ListBoxItem
+              :value="option.value"
+              :is-disabled="option.disabled"
+              :text-value="option.textValue"
+            >{{ option.label ?? option.value }}</ListBoxItem>
+          </slot>
+        </template>
+      </ListboxVirtualizer>
+
+      <template v-else-if="props.items">
         <ListBoxItem
           v-for="item in props.items"
           :key="item.value"
@@ -134,6 +174,7 @@ const slotFns = computed(() =>
           :text-value="item.textValue"
         >{{ item.label ?? item.value }}</ListBoxItem>
       </template>
+
       <slot v-else />
     </ListboxContent>
   </ListboxRoot>

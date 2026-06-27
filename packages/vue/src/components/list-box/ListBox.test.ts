@@ -232,6 +232,61 @@ describe('ListBox — hideSelectedIcon', () => {
   })
 })
 
+describe('ListBox — virtualized', () => {
+  beforeAll(() => {
+    ;(globalThis as any).ResizeObserver = class {
+      observe() {} ; unobserve() {} ; disconnect() {}
+    }
+    // jsdom has no layout engine; give every element a non-zero height so
+    // TanStack Virtual's scroll element returns a real viewport size.
+    Object.defineProperty(HTMLElement.prototype, 'offsetHeight', {
+      configurable: true,
+      get() { return 200 },
+    })
+  })
+
+  function makeItems(n: number) {
+    return Array.from({ length: n }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` }))
+  }
+
+  it('renders only a window of rows, not the whole dataset', async () => {
+    const wrapper = mount(makeWrapper(
+      `<ListBox aria-label="big" virtualized :items="items" :estimate-size="36" max-height="200px" />`,
+      undefined,
+      () => ({ items: makeItems(1000) }),
+    ))
+    await nextTick()
+    const rendered = wrapper.findAll('[role="option"]').length
+    expect(rendered).toBeGreaterThan(0)
+    expect(rendered).toBeLessThan(200) // far fewer than 1000
+  })
+
+  it('renders custom content via the #item slot', async () => {
+    const wrapper = mount(makeWrapper(
+      `<ListBox aria-label="big" virtualized :items="items" :estimate-size="36" max-height="200px">
+         <template #item="{ item }">
+           <ListBoxItem :value="item.value"><span class="custom">{{ item.label }}!</span></ListBoxItem>
+         </template>
+       </ListBox>`,
+      undefined,
+      () => ({ items: makeItems(50) }),
+    ))
+    await nextTick()
+    expect(wrapper.find('.custom').exists()).toBe(true)
+    expect(wrapper.find('.custom').text()).toContain('!')
+  })
+
+  it('does not apply a bounded height when not virtualized', () => {
+    const wrapper = mount(makeWrapper(`
+      <ListBox aria-label="plain">
+        <ListBoxItem value="a">A</ListBoxItem>
+      </ListBox>
+    `))
+    const content = wrapper.find('[role="listbox"]').element as HTMLElement
+    expect(content.style.maxHeight).toBe('')
+  })
+})
+
 describe('ListBox — accessibility (axe)', () => {
   it('Test 13: passes axe with 3 items + 1 section (zero violations)', async () => {
     const wrapper = mount(makeWrapper(`
