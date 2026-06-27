@@ -51,6 +51,8 @@ const props = withDefaults(defineProps<{
   contentAs?: string
   /** Merge content props onto child element. */
   contentAsChild?: boolean
+  /** Hide the selected checkmark on all items (forwarded via context). */
+  hideSelectedIcon?: boolean
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -70,6 +72,7 @@ const props = withDefaults(defineProps<{
   required: undefined,
   contentAs: undefined,
   contentAsChild: false,
+  hideSelectedIcon: false,
 })
 
 const emit = defineEmits<{
@@ -86,6 +89,7 @@ useListBoxProvide({
   variant: toRef(props, 'variant'),
   itemVariant: toRef(props, 'variant'),
   isDisabled: toRef(props, 'isDisabled'),
+  hideSelectedIcon: toRef(props, 'hideSelectedIcon'),
 })
 
 const slotFns = computed(() =>

@@ -198,6 +198,40 @@ describe('ListBox — disabled state', () => {
   })
 })
 
+describe('ListBox — hideSelectedIcon', () => {
+  const checkSel = '[data-slot="list-box-item-indicator--checkmark"]'
+
+  it('renders the checkmark by default', () => {
+    const wrapper = mount(makeWrapper(`
+      <ListBox aria-label="x" :default-value="'a'">
+        <ListBoxItem value="a">Apple</ListBoxItem>
+      </ListBox>
+    `))
+    expect(wrapper.find(checkSel).exists()).toBe(true)
+  })
+
+  it('hides the checkmark when ListBox hideSelectedIcon is set', () => {
+    const wrapper = mount(makeWrapper(`
+      <ListBox aria-label="x" :default-value="'a'" hide-selected-icon>
+        <ListBoxItem value="a">Apple</ListBoxItem>
+      </ListBox>
+    `))
+    expect(wrapper.find(checkSel).exists()).toBe(false)
+  })
+
+  it('per-item hideSelectedIcon overrides the parent default', () => {
+    const wrapper = mount(makeWrapper(`
+      <ListBox aria-label="x" :default-value="['a', 'a2']" :multiple="true">
+        <ListBoxItem value="a" :hide-selected-icon="true">Apple</ListBoxItem>
+        <ListBoxItem value="a2">Apricot</ListBoxItem>
+      </ListBox>
+    `))
+    const items = wrapper.findAll('[role="option"]')
+    expect(items[0].find(checkSel).exists()).toBe(false)
+    expect(items[1].find(checkSel).exists()).toBe(true)
+  })
+})
+
 describe('ListBox — accessibility (axe)', () => {
   it('Test 13: passes axe with 3 items + 1 section (zero violations)', async () => {
     const wrapper = mount(makeWrapper(`

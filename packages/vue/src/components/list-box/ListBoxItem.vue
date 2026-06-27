@@ -26,6 +26,8 @@ const props = withDefaults(defineProps<{
   indicatorAs?: string
   /** Merge indicator props onto child element. */
   indicatorAsChild?: boolean
+  /** Hide this item's selected indicator. Falls back to the ListBox setting. */
+  hideSelectedIcon?: boolean
 }>(), {
   textValue: undefined,
   isDisabled: false,
@@ -37,6 +39,7 @@ const props = withDefaults(defineProps<{
   asChild: false,
   indicatorAs: undefined,
   indicatorAsChild: false,
+  hideSelectedIcon: undefined,
 })
 
 const emit = defineEmits<{
@@ -48,10 +51,14 @@ const ctx = useListBoxInject({
   variant: ref('default'),
   itemVariant: ref('default'),
   isDisabled: ref(false),
+  hideSelectedIcon: ref(false),
 })
 
 const finalVariant = computed(() => props.variant ?? ctx.itemVariant.value)
 const finalDisabled = computed(() => ctx.isDisabled.value || props.isDisabled)
+const finalHideSelectedIcon = computed(
+  () => props.hideSelectedIcon ?? ctx.hideSelectedIcon.value,
+)
 
 const slotFns = computed(() =>
   listboxItemVariants({ variant: finalVariant.value as ListBoxItemVariants['variant'] })
@@ -72,6 +79,7 @@ const slotFns = computed(() =>
     <slot />
     <slot name="endContent" />
     <ListboxItemIndicator
+      v-if="!finalHideSelectedIcon"
       :as="props.indicatorAs"
       :as-child="props.indicatorAsChild"
       :class="composeClassName(slotFns.indicator(), props.classNames?.indicator)"

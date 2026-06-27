@@ -7,6 +7,7 @@ export interface ListBoxContext {
   variant: Ref<ListBoxVariants['variant']>
   itemVariant: Ref<ListBoxItemVariants['variant']>
   isDisabled: Ref<boolean>
+  hideSelectedIcon: Ref<boolean>
 }
 
 export const {
