@@ -149,15 +149,6 @@
 .date-time-picker__scroller-wrap {
   @apply flex items-stretch justify-center gap-0 px-3 pb-4;
   position: relative;
-
-  &::before {
-    content: '';
-    @apply absolute inset-x-3 rounded-lg bg-default pointer-events-none;
-    height: 2.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    z-index: 0;
-  }
 }
 
 .date-time-picker__scroller-column {
@@ -187,8 +178,7 @@
   @apply motion-reduce:transition-none;
 
   &[data-selected="true"] {
-    @apply font-medium;
-    color: var(--color-foreground);
+    @apply bg-accent text-accent-foreground font-medium rounded-lg;
   }
 
   &[data-disabled="true"] {
@@ -200,6 +190,15 @@
       color: var(--color-foreground);
     }
   }
+}
+
+/* Outline ring on the centered item of the column the user is interacting with */
+.date-time-picker__scroller-column[data-focused="true"]
+  .date-time-picker__scroller-item[data-selected="true"] {
+  outline: 2px solid var(--color-accent);
+  outline-offset: -2px;
+  background-color: transparent;
+  color: var(--color-foreground);
 }
 
 /* ─── Timezone panel ──────────────────────────────────────────────────────── */
