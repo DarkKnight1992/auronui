@@ -57,61 +57,7 @@ describe('DateTimePickerTimeScroller', () => {
     expect(columns).toHaveLength(3) // hour + minute + AM/PM
   })
 
-  it('emits update:modelValue with new minute when scroll changes minute column', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-
-    const columns = wrapper.findAll('[data-slot="scroller-column"]')
-    const minuteCol = columns[1]
-
-    Object.defineProperty(minuteCol.element, 'scrollTop', {
-      configurable: true,
-      get: vi.fn().mockReturnValue(15 * 40), // 40px per item
-      set: vi.fn(),
-    })
-
-    await minuteCol.trigger('scroll')
-    await nextTick()
-
-    const emitted = wrapper.emitted('update:modelValue')
-    expect(emitted).toBeTruthy()
-    const [newValue] = emitted![0] as [CalendarDateTime]
-    expect(newValue.minute).toBe(15)
-    expect(newValue.hour).toBe(10) // hour unchanged
-  })
-
-  it('emits update:modelValue with new hour when scroll changes hour column', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-
-    const columns = wrapper.findAll('[data-slot="scroller-column"]')
-    const hourCol = columns[0]
-
-    Object.defineProperty(hourCol.element, 'scrollTop', {
-      configurable: true,
-      get: vi.fn().mockReturnValue(14 * 40), // hour=14 (index 14 in 0-23)
-      set: vi.fn(),
-    })
-
-    await hourCol.trigger('scroll')
-    await nextTick()
-
-    const emitted = wrapper.emitted('update:modelValue')
-    expect(emitted).toBeTruthy()
-    const [newValue] = emitted![0] as [CalendarDateTime]
-    expect(newValue.hour).toBe(14)
-    expect(newValue.minute).toBe(30) // minute unchanged
-  })
-
-  it('selected item has aria-selected=true', async () => {
+  it('emits update:modelValue with the tapped minute, leaving hour unchanged', async () => {
     const value = new CalendarDateTime(2024, 6, 15, 10, 30)
     const wrapper = mount(DateTimePickerTimeScroller, {
       props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
@@ -121,23 +67,50 @@ describe('DateTimePickerTimeScroller', () => {
 
     const minuteCol = wrapper.findAll('[data-slot="scroller-column"]')[1]
     const options = minuteCol.findAll('[role="option"]')
-    expect(options[30].attributes('aria-selected')).toBe('true')
-    expect(options[0].attributes('aria-selected')).toBe('false')
+    // First repeated copy renders values 0..59, so index 15 → minute 15.
+    await options[15].trigger('click')
+
+    const emitted = wrapper.emitted('update:modelValue')
+    expect(emitted).toBeTruthy()
+    const [newValue] = emitted![0] as [CalendarDateTime]
+    expect(newValue.minute).toBe(15)
+    expect(newValue.hour).toBe(10) // hour unchanged
   })
 
-  it('marks a column data-focused only while it has focus', async () => {
+  it('emits update:modelValue with the tapped hour, leaving minute unchanged', async () => {
     const value = new CalendarDateTime(2024, 6, 15, 10, 30)
     const wrapper = mount(DateTimePickerTimeScroller, {
       props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
       attachTo: document.body,
     })
     await nextTick()
+
     const hourCol = wrapper.findAll('[data-slot="scroller-column"]')[0]
-    expect(hourCol.attributes('data-focused')).toBeUndefined()
-    await hourCol.trigger('focus')
-    expect(hourCol.attributes('data-focused')).toBe('true')
-    await hourCol.trigger('blur')
-    expect(hourCol.attributes('data-focused')).toBeUndefined()
+    const options = hourCol.findAll('[role="option"]')
+    // First repeated copy renders hours 0..23, so index 14 → hour 14.
+    await options[14].trigger('click')
+
+    const emitted = wrapper.emitted('update:modelValue')
+    expect(emitted).toBeTruthy()
+    const [newValue] = emitted![0] as [CalendarDateTime]
+    expect(newValue.hour).toBe(14)
+    expect(newValue.minute).toBe(30) // minute unchanged
+  })
+
+  it('marks every repeated copy of the selected value as selected', async () => {
+    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
+    const wrapper = mount(DateTimePickerTimeScroller, {
+      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
+      attachTo: document.body,
+    })
+    await nextTick()
+
+    const minuteCol = wrapper.findAll('[data-slot="scroller-column"]')[1]
+    const options = minuteCol.findAll('[role="option"]')
+    // minute 30 — first two repeated copies sit at index 30 and 90.
+    expect(options[30].attributes('aria-selected')).toBe('true')
+    expect(options[90].attributes('aria-selected')).toBe('true')
+    expect(options[0].attributes('aria-selected')).toBe('false')
   })
 })
 
@@ -235,5 +208,24 @@ describe('DateTimePicker', () => {
     await nextTick()
     // Time scroller still present → popover did not close
     expect(document.body.querySelector('[data-slot="time-scroller"]')).not.toBeNull()
+  })
+
+  it('requests close (update:open=false) when the Done button is clicked', async () => {
+    // Controlled `open` so we can assert the emitted close request directly —
+    // Reka's popover unmount waits on an animationend that never fires in jsdom,
+    // so asserting DOM removal here would be flaky.
+    const wrapper = mount(DateTimePicker, {
+      props: { label: 'Date & Time', open: true, defaultValue: makeValue() },
+      attachTo: document.body,
+    })
+    await nextTick()
+    const doneBtn = document.body.querySelector('[data-slot="done-button"]') as HTMLElement
+    expect(doneBtn).toBeTruthy()
+    expect(doneBtn.textContent?.trim()).toBe('Done')
+    doneBtn.click()
+    await nextTick()
+    const emitted = wrapper.emitted('update:open')
+    expect(emitted).toBeTruthy()
+    expect(emitted!.at(-1)).toEqual([false])
   })
 })

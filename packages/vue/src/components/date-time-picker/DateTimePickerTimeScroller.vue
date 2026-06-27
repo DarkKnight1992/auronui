@@ -1,6 +1,6 @@
 <!-- packages/vue/src/components/date-time-picker/DateTimePickerTimeScroller.vue -->
 <script setup lang="ts">
-import { computed, nextTick, onMounted, ref, watch } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { CalendarDateTime } from '@internationalized/date'
 
 const props = withDefaults(defineProps<{
@@ -30,62 +30,84 @@ const hourItems = computed(() =>
   props.hourCycle === 12 ? hours12 : hours24,
 )
 
-const columns = computed(() => {
-  const cols: Array<{ key: string; items: (number | string)[] }> = [
-    { key: 'hour', items: hourItems.value },
-    { key: 'minute', items: minutes },
+type Column = { key: string; items: (number | string)[]; loop: boolean }
+
+const columns = computed<Column[]>(() => {
+  const cols: Column[] = [
+    { key: 'hour', items: hourItems.value, loop: true },
+    { key: 'minute', items: minutes, loop: true },
   ]
-  if (props.granularity === 'second') cols.push({ key: 'second', items: seconds })
-  if (props.hourCycle === 12) cols.push({ key: 'ampm', items: ampm })
+  if (props.granularity === 'second') cols.push({ key: 'second', items: seconds, loop: true })
+  // AM/PM is a short, finite column — it does not loop.
+  if (props.hourCycle === 12) cols.push({ key: 'ampm', items: ampm, loop: false })
   return cols
 })
 
-// ─── Current index computation ───────────────────────────────────────────
+// ─── Infinite circular scroll ─────────────────────────────────────────────
+// Numeric columns repeat their list REPEAT times and start in the middle copy.
+// On scroll, whenever the position drifts out of the middle band we jump it
+// back by whole cycles — invisible because the content is identical — so the
+// wheel can be dragged endlessly in either direction.
 
-function currentIndexFor(key: string): number {
+// Three copies is the minimum for a seamless loop: a buffer copy at each end
+// plus the middle copy the user actually sits in. More copies = needless DOM.
+const REPEAT = 3
+const ITEM_H = 40 // 2.5rem at 16px base
+const columnRefs = ref<HTMLElement[]>([])
+
+function renderItems(col: Column): (number | string)[] {
+  if (!col.loop) return col.items
+  const out: (number | string)[] = []
+  for (let r = 0; r < REPEAT; r++) out.push(...col.items)
+  return out
+}
+
+function cycleHeight(col: Column): number {
+  return col.items.length * ITEM_H
+}
+
+// Keep the scroll position inside the inner copies [cycle, total-cycle); when it
+// drifts into the first or last buffer copy, jump it by (REPEAT-2) cycles. The
+// content is identical, so the jump is invisible and the wheel feels endless.
+function onColumnScroll(i: number, colEl: HTMLElement) {
+  const col = columns.value[i]
+  if (!col.loop) return
+  const cycle = cycleHeight(col)
+  const total = cycle * REPEAT
+  const recenter = (REPEAT - 2) * cycle
+  if (colEl.scrollTop < cycle) {
+    colEl.scrollTop += recenter
+  } else if (colEl.scrollTop >= total - cycle) {
+    colEl.scrollTop -= recenter
+  }
+}
+
+onMounted(() => {
+  columns.value.forEach((col, i) => {
+    const el = columnRefs.value[i]
+    if (el && col.loop) el.scrollTop = cycleHeight(col) * Math.floor(REPEAT / 2)
+  })
+})
+
+// ─── Selection (tap to select) ─────────────────────────────────────────────
+// Selection is by VALUE, so every repeated copy of the chosen number highlights.
+
+function isSelected(key: string, item: number | string): boolean {
   const v = props.modelValue
   if (key === 'hour') {
     if (props.hourCycle === 12) {
       const h12 = v.hour % 12 === 0 ? 12 : v.hour % 12
-      return hours12.indexOf(h12)
+      return item === h12
     }
-    return v.hour
+    return item === v.hour
   }
-  if (key === 'minute') return v.minute
-  if (key === 'second') return v.second ?? 0
-  if (key === 'ampm') return v.hour >= 12 ? 1 : 0
-  return 0
+  if (key === 'minute') return item === v.minute
+  if (key === 'second') return item === (v.second ?? 0)
+  if (key === 'ampm') return item === (v.hour >= 12 ? 'PM' : 'AM')
+  return false
 }
 
-// ─── Scroll-to-selected ──────────────────────────────────────────────────
-
-const columnRefs = ref<HTMLElement[]>([])
-const focusedColumn = ref<string | null>(null)
-
-const ITEM_H = 40 // 2.5rem at 16px base
-
-function scrollColumnToIndex(colEl: HTMLElement, index: number) {
-  colEl.scrollTop = index * ITEM_H
-}
-
-function syncScrollPositions() {
-  columns.value.forEach((col, i) => {
-    const el = columnRefs.value[i]
-    if (el) scrollColumnToIndex(el, currentIndexFor(col.key))
-  })
-}
-
-onMounted(() => nextTick(syncScrollPositions))
-watch(() => props.modelValue, () => nextTick(syncScrollPositions))
-
-// ─── Scroll → value update ───────────────────────────────────────────────
-
-function onColumnScroll(key: string, colEl: HTMLElement) {
-  const idx = Math.round(colEl.scrollTop / ITEM_H)
-  const col = columns.value.find(c => c.key === key)!
-  const item = col.items[idx]
-  if (item === undefined) return
-
+function onItemClick(key: string, item: number | string) {
   const v = props.modelValue
   if (key === 'hour') {
     let newHour: number
@@ -110,24 +132,6 @@ function onColumnScroll(key: string, colEl: HTMLElement) {
   }
 }
 
-// ─── Keyboard navigation ─────────────────────────────────────────────────
-
-function onKeyDown(e: KeyboardEvent, colEl: HTMLElement) {
-  if (e.key === 'ArrowDown') {
-    e.preventDefault()
-    colEl.scrollTop += ITEM_H
-  } else if (e.key === 'ArrowUp') {
-    e.preventDefault()
-    colEl.scrollTop -= ITEM_H
-  }
-}
-
-// ─── Click-to-select ─────────────────────────────────────────────────────
-
-function onItemClick(colEl: HTMLElement, idx: number) {
-  colEl.scrollTo({ top: idx * ITEM_H, behavior: 'smooth' })
-}
-
 // ─── Label helpers ───────────────────────────────────────────────────────
 
 function columnLabel(key: string): string {
@@ -137,13 +141,13 @@ function columnLabel(key: string): string {
   return 'AM/PM'
 }
 
-function itemLabel(_key: string, item: number | string): string {
+function itemLabel(item: number | string): string {
   if (typeof item === 'string') return item
   return String(item).padStart(2, '0')
 }
 
 // expose for testing
-defineExpose({ columnRefs, columns, currentIndexFor })
+defineExpose({ columnRefs, columns })
 </script>
 
 <template>
@@ -160,22 +164,18 @@ defineExpose({ columnRefs, columns, currentIndexFor })
       data-slot="scroller-column"
       role="listbox"
       tabindex="0"
-      :data-focused="col.key === focusedColumn ? 'true' : undefined"
-      @focus="focusedColumn = col.key"
-      @blur="focusedColumn = null"
-      @scroll.passive="onColumnScroll(col.key, ($event.currentTarget as HTMLElement))"
-      @keydown="onKeyDown($event, ($event.currentTarget as HTMLElement))"
+      @scroll.passive="onColumnScroll(i, ($event.currentTarget as HTMLElement))"
     >
       <div
-        v-for="(item, idx) in col.items"
+        v-for="(item, idx) in renderItems(col)"
         :key="idx"
         class="date-time-picker__scroller-item"
-        :data-selected="idx === currentIndexFor(col.key) ? 'true' : undefined"
-        :aria-selected="idx === currentIndexFor(col.key)"
+        :data-selected="isSelected(col.key, item) ? 'true' : undefined"
+        :aria-selected="isSelected(col.key, item)"
         role="option"
-        @click="onItemClick(columnRefs[i]!, idx)"
+        @click="onItemClick(col.key, item)"
       >
-        {{ itemLabel(col.key, item) }}
+        {{ itemLabel(item) }}
       </div>
     </div>
   </div>

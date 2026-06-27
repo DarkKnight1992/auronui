@@ -18,6 +18,7 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
 import DateTimePickerTimeScroller from './DateTimePickerTimeScroller.vue'
+import Button from '../button/Button.vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -50,6 +51,8 @@ const props = withDefaults(defineProps<{
   hideTimeZone?: boolean
   defaultOpen?: boolean
   closeOnSelect?: boolean
+  /** Label for the footer button that closes the picker. */
+  doneLabel?: string
   locale?: string
   defaultValue?: CalendarDateTime
   /** Initial placeholder date for the calendar. */
@@ -145,6 +148,7 @@ const props = withDefaults(defineProps<{
   granularity: 'minute',
   defaultOpen: false,
   closeOnSelect: true,
+  doneLabel: 'Done',
 })
 
 const emit = defineEmits<{
@@ -374,17 +378,26 @@ const slotFns = computed(() =>
         :class="composeClassName(slotFns.panel(), props.classNames?.panel)"
         data-slot="panel"
       >
-        <Calendar
-          v-model="calendarValue"
-          :default-value="defaultValue"
-          :min-value="minValue"
-          :max-value="maxValue"
-          :is-date-disabled="isDateDisabled"
-          :is-date-unavailable="isDateUnavailable"
-          :locale="locale"
-          :readonly="isReadOnly"
-          :disabled="isDisabled"
-        />
+        <!-- Wrapper keeps Calendar's multiple view roots (date grid, month
+             picker, year picker) as ONE flex child. Without it, the panel's
+             flex layout spreads those sibling roots into separate columns and
+             the inactive (empty) root shows as a blank box. -->
+        <div
+          :class="slotFns.calendarPane()"
+          data-slot="calendar-pane"
+        >
+          <Calendar
+            v-model="calendarValue"
+            :default-value="defaultValue"
+            :min-value="minValue"
+            :max-value="maxValue"
+            :is-date-disabled="isDateDisabled"
+            :is-date-unavailable="isDateUnavailable"
+            :locale="locale"
+            :readonly="isReadOnly"
+            :disabled="isDisabled"
+          />
+        </div>
 
         <div
           :class="composeClassName(slotFns.divider(), props.classNames?.divider)"
@@ -392,12 +405,36 @@ const slotFns = computed(() =>
           aria-hidden="true"
         />
 
-        <DateTimePickerTimeScroller
-          :model-value="internalValue"
-          :granularity="granularity"
-          :hour-cycle="hourCycle"
-          @update:model-value="onTimeUpdate"
-        />
+        <!-- Time column: wheels on top, Done button pinned to the bottom so it
+             lines up with the calendar's bottom edge. Selection is already live,
+             so Done just closes the popover for users who miss click-outside. -->
+        <div
+          :class="slotFns.timePane()"
+          data-slot="time-pane"
+        >
+          <DateTimePickerTimeScroller
+            :model-value="internalValue"
+            :granularity="granularity"
+            :hour-cycle="hourCycle"
+            @update:model-value="onTimeUpdate"
+          />
+
+          <div
+            :class="slotFns.timeDone()"
+            data-slot="time-done"
+          >
+            <slot name="footer" :close="() => { openModel = false }">
+              <Button
+                size="sm"
+                color="primary"
+                data-slot="done-button"
+                @click="openModel = false"
+              >
+                {{ doneLabel }}
+              </Button>
+            </slot>
+          </div>
+        </div>
       </div>
     </DatePickerContent>
   </DatePickerRoot>
