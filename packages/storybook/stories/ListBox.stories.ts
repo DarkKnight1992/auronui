@@ -511,6 +511,144 @@ const value = ref('apple')
     }),
 }
 
+export const VirtualizedInfiniteScroll: Story = {
+  name: 'Virtualized + Infinite Scroll',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref, computed } from 'vue'
+import { ListBox, ListBoxItem } from '@auronui/vue'
+
+const PAGE_SIZE = 50
+const MAX_ITEMS = 5000
+
+function makePage(start: number, count: number) {
+  return Array.from({ length: count }, (_, i) => ({
+    value: \`item-\${start + i}\`,
+    label: \`Item \${start + i + 1}\`,
+  }))
+}
+
+const items = ref(makePage(0, PAGE_SIZE))
+const isLoading = ref(false)
+const hasMore = computed(() => items.value.length < MAX_ITEMS)
+const selected = ref('')
+
+function onLoadMore() {
+  isLoading.value = true
+  setTimeout(() => {
+    const next = makePage(items.value.length, PAGE_SIZE)
+    items.value = [...items.value, ...next]
+    isLoading.value = false
+  }, 300)
+}
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;max-width:320px;">
+    <p style="font-size:13px;color:#666;">
+      Items loaded: {{ items.length }} / {{ MAX_ITEMS }} · Selected: {{ selected || 'none' }}
+    </p>
+    <ListBox
+      v-model="selected"
+      virtualized
+      hide-selected-icon
+      :items="items"
+      :has-more="hasMore"
+      :is-loading="isLoading"
+      max-height="20rem"
+      aria-label="Virtualized item list"
+      @load-more="onLoadMore"
+    >
+      <template #item="{ item, index }">
+        <ListBoxItem :value="item.value">
+          <span style="display:inline-flex;align-items:center;gap:8px;">
+            <span style="font-size:10px;background:#e5e7eb;border-radius:4px;padding:1px 5px;min-width:36px;text-align:center;">
+              #{{ index + 1 }}
+            </span>
+            {{ item.label }}
+          </span>
+        </ListBoxItem>
+      </template>
+      <template #loading>
+        <span style="font-size:13px;color:#6b7280;">Loading more items…</span>
+      </template>
+    </ListBox>
+  </div>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { ListBox, ListBoxItem },
+      setup() {
+        const PAGE_SIZE = 50
+        const MAX_ITEMS = 5000
+
+        function makePage(start: number, count: number) {
+          return Array.from({ length: count }, (_, i) => ({
+            value: `item-${start + i}`,
+            label: `Item ${start + i + 1}`,
+          }))
+        }
+
+        const items = ref(makePage(0, PAGE_SIZE))
+        const isLoading = ref(false)
+        const hasMore = ref(items.value.length < MAX_ITEMS)
+        const selected = ref('')
+
+        function onLoadMore() {
+          isLoading.value = true
+          setTimeout(() => {
+            const next = makePage(items.value.length, PAGE_SIZE)
+            items.value = [...items.value, ...next]
+            hasMore.value = items.value.length < MAX_ITEMS
+            isLoading.value = false
+          }, 300)
+        }
+
+        return { args, items, isLoading, hasMore, selected, onLoadMore, MAX_ITEMS }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;max-width:320px;">
+          <p style="font-size:13px;color:#666;">
+            Items loaded: {{ items.length }} / {{ MAX_ITEMS }} · Selected: {{ selected || 'none' }}
+          </p>
+          <ListBox
+            v-bind="args"
+            v-model="selected"
+            virtualized
+            hide-selected-icon
+            :items="items"
+            :has-more="hasMore"
+            :is-loading="isLoading"
+            max-height="20rem"
+            aria-label="Virtualized item list"
+            @load-more="onLoadMore"
+          >
+            <template #item="{ item, index }">
+              <ListBoxItem :value="item.value">
+                <span style="display:inline-flex;align-items:center;gap:8px;">
+                  <span style="font-size:10px;background:#e5e7eb;border-radius:4px;padding:1px 5px;min-width:36px;text-align:center;">
+                    #{{ index + 1 }}
+                  </span>
+                  {{ item.label }}
+                </span>
+              </ListBoxItem>
+            </template>
+            <template #loading>
+              <span style="font-size:13px;color:#6b7280;">Loading more items…</span>
+            </template>
+          </ListBox>
+        </div>
+      `,
+    }),
+}
+
 export const ArrayAPI: Story = {
   name: 'Array API (items prop)',
   parameters: {
