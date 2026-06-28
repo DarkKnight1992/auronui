@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll, vi } from 'vitest'
+import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, ref, nextTick } from 'vue'
 import axe from 'axe-core'
@@ -309,6 +309,12 @@ describe('ListBox — virtualized', () => {
 })
 
 describe('ListBox — load-more', () => {
+  // Reset the captured hooks before each test so a shared module-scoped object
+  // can't leak a stale closure across tests (order-independent).
+  beforeEach(() => {
+    infiniteScrollHooks.onLoadMore = null
+    infiniteScrollHooks.canLoadMore = null
+  })
   const items = Array.from({ length: 30 }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` }))
 
   function mountList(extra: Record<string, unknown>) {

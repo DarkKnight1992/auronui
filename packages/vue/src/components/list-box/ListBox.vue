@@ -139,6 +139,9 @@ useInfiniteScroll(
     emit('load-more')
   },
   {
+    // Read once at setup: useScroll consumes `offset.bottom` as a raw number
+    // (no toValue), so a getter/ref here would break arrival math. Hot-swapping
+    // loadMoreDistance after mount is not supported (not a real use case).
     distance: props.loadMoreDistance,
     canLoadMore: () =>
       props.hasMore
