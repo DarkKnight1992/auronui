@@ -170,14 +170,26 @@ const contentStyle = computed(() =>
     ? { maxHeight: typeof props.maxHeight === 'number' ? `${props.maxHeight}px` : props.maxHeight, overflowY: 'auto' as const }
     : undefined,
 )
+
+// Stable array references for Reka. Building a fresh array inline on every render
+// would retrigger Reka's `watch(modelValue)`, which re-highlights and
+// scrollIntoView's the selected/first item — making the list jump to the top on
+// any unrelated re-render (e.g. when isLoading toggles during load-more). A
+// computed is cached, so the reference only changes when the value really does.
+const rekaModelValue = computed(() =>
+  props.modelValue == null ? undefined : ([] as string[]).concat(props.modelValue),
+)
+const rekaDefaultValue = computed(() =>
+  props.defaultValue == null ? undefined : ([] as string[]).concat(props.defaultValue),
+)
 </script>
 
 <template>
   <!-- ListboxRoot is an invisible wrapper that manages state; ListboxContent carries role="listbox" -->
   <!-- We forward attrs (aria-label, aria-labelledby, etc.) to ListboxContent, not the root -->
   <ListboxRoot
-    :model-value="props.modelValue == null ? undefined : ([] as string[]).concat(props.modelValue)"
-    :default-value="props.defaultValue == null ? undefined : ([] as string[]).concat(props.defaultValue)"
+    :model-value="rekaModelValue"
+    :default-value="rekaDefaultValue"
     :multiple="props.multiple ?? props.selectionMode === 'multiple'"
     :selection-behavior="props.selectionBehavior ?? (props.selectionMode === 'multiple' ? 'toggle' : 'replace')"
     :disabled="props.isDisabled"

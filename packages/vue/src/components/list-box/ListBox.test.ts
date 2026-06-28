@@ -2,6 +2,7 @@ import { describe, it, expect, beforeAll, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, ref, nextTick } from 'vue'
 import axe from 'axe-core'
+import { ListboxRoot } from 'reka-ui'
 import ListBox from './ListBox.vue'
 import ListBoxItem from './ListBoxItem.vue'
 import ListBoxSection from './ListBoxSection.vue'
@@ -409,6 +410,23 @@ describe('ListBox — load-more button (loadMode="button")', () => {
   it('uses a custom loadMoreLabel', () => {
     const wrapper = mountList({ loadMode: 'button', hasMore: true, loadMoreLabel: 'Show more results' })
     expect(wrapper.find('[data-slot="load-more-button"]').text()).toContain('Show more results')
+  })
+
+  // Regression: building a fresh model-value array each render retriggered Reka's
+  // watch(modelValue) → highlightSelected → scrollIntoView(first item), making the
+  // page jump to the top when isLoading toggled during load-more. The reference
+  // must stay stable across unrelated re-renders.
+  it('passes a stable model-value reference to ListboxRoot across re-renders', async () => {
+    const wrapper = mount(ListBox, {
+      attachTo: document.body,
+      props: { 'aria-label': 'feed', items, modelValue: 'v1', loadMode: 'button', hasMore: true },
+    })
+    await nextTick()
+    const root = wrapper.findComponent(ListboxRoot) as unknown as { props(name: string): unknown }
+    const first = root.props('modelValue')
+    // An unrelated re-render (e.g. the consumer flipping isLoading on load-more).
+    await wrapper.setProps({ isLoading: true })
+    expect(root.props('modelValue')).toBe(first)
   })
 })
 
