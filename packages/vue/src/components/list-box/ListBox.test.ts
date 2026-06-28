@@ -358,6 +358,60 @@ describe('ListBox — load-more', () => {
   })
 })
 
+describe('ListBox — load-more button (loadMode="button")', () => {
+  beforeEach(() => {
+    infiniteScrollHooks.onLoadMore = null
+    infiniteScrollHooks.canLoadMore = null
+  })
+  const items = Array.from({ length: 10 }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` }))
+
+  function mountList(extra: Record<string, unknown>) {
+    return mount(ListBox, {
+      attachTo: document.body,
+      props: { 'aria-label': 'feed', items, ...extra },
+    })
+  }
+
+  it('renders a Load more button in button mode when hasMore', () => {
+    const wrapper = mountList({ loadMode: 'button', hasMore: true })
+    const btn = wrapper.find('[data-slot="load-more-button"]')
+    expect(btn.exists()).toBe(true)
+    expect(btn.text()).toContain('Load more')
+  })
+
+  it('does not render the button in scroll mode (default)', () => {
+    const wrapper = mountList({ hasMore: true })
+    expect(wrapper.find('[data-slot="list-box-load-more"]').exists()).toBe(false)
+  })
+
+  it('hides the button when there is nothing more to load', () => {
+    const wrapper = mountList({ loadMode: 'button', hasMore: false })
+    expect(wrapper.find('[data-slot="list-box-load-more"]').exists()).toBe(false)
+  })
+
+  it('emits load-more when the button is clicked', async () => {
+    const wrapper = mountList({ loadMode: 'button', hasMore: true })
+    await wrapper.find('[data-slot="load-more-button"]').trigger('click')
+    expect(wrapper.emitted('load-more')).toHaveLength(1)
+  })
+
+  it('does not emit load-more when clicked while isLoading', async () => {
+    const wrapper = mountList({ loadMode: 'button', hasMore: true, isLoading: true })
+    await wrapper.find('[data-slot="load-more-button"]').trigger('click')
+    expect(wrapper.emitted('load-more')).toBeFalsy()
+  })
+
+  it('disables scroll auto-load in button mode (canLoadMore stays false)', () => {
+    mountList({ loadMode: 'button', hasMore: true })
+    expect(infiniteScrollHooks.canLoadMore!()).toBe(false)
+  })
+
+  it('uses a custom loadMoreLabel', () => {
+    const wrapper = mountList({ loadMode: 'button', hasMore: true, loadMoreLabel: 'Show more results' })
+    expect(wrapper.find('[data-slot="load-more-button"]').text()).toContain('Show more results')
+  })
+})
+
 describe('ListBox — accessibility (axe)', () => {
   it('Test 13: passes axe with 3 items + 1 section (zero violations)', async () => {
     const wrapper = mount(makeWrapper(`
@@ -400,6 +454,25 @@ describe('ListBox — accessibility (axe)', () => {
     const results = await axe.run(wrapper.element)
     if (results.violations.length > 0) {
       console.log('AXE VIOLATIONS (Test 14):', JSON.stringify(results.violations.map(v => ({
+        id: v.id,
+        description: v.description,
+        nodes: v.nodes.map(n => n.html),
+      })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
+
+  it('Test 15: passes axe with loadMode="button" (zero violations)', async () => {
+    const items = Array.from({ length: 10 }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` }))
+    const wrapper = mount(ListBox, {
+      attachTo: document.body,
+      props: { 'aria-label': 'paged feed', items, loadMode: 'button', hasMore: true },
+    })
+    await nextTick()
+    const results = await axe.run(wrapper.element)
+    if (results.violations.length > 0) {
+      console.log('AXE VIOLATIONS (Test 15):', JSON.stringify(results.violations.map(v => ({
         id: v.id,
         description: v.description,
         nodes: v.nodes.map(n => n.html),

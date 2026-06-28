@@ -649,6 +649,112 @@ function onLoadMore() {
     }),
 }
 
+export const LoadMoreButton: Story = {
+  name: 'Load more (button mode)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { ref, computed } from 'vue'
+import { ListBox } from '@auronui/vue'
+
+const PAGE_SIZE = 20
+const MAX_ITEMS = 200
+
+function makePage(start, count) {
+  return Array.from({ length: count }, (_, i) => ({
+    value: \`item-\${start + i}\`,
+    label: \`Item \${start + i + 1}\`,
+  }))
+}
+
+const items = ref(makePage(0, PAGE_SIZE))
+const isLoading = ref(false)
+const hasMore = computed(() => items.value.length < MAX_ITEMS)
+const selected = ref('')
+
+function onLoadMore() {
+  isLoading.value = true
+  setTimeout(() => {
+    items.value = [...items.value, ...makePage(items.value.length, PAGE_SIZE)]
+    isLoading.value = false
+  }, 400)
+}
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:8px;padding:16px;max-width:320px;">
+    <p style="font-size:13px;color:#666;">
+      Loaded {{ items.length }} / {{ MAX_ITEMS }} · Selected: {{ selected || 'none' }}
+    </p>
+    <ListBox
+      v-model="selected"
+      load-mode="button"
+      load-more-label="Load 20 more"
+      :items="items"
+      :has-more="hasMore"
+      :is-loading="isLoading"
+      aria-label="Paged item list"
+      @load-more="onLoadMore"
+    />
+  </div>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) =>
+    defineComponent({
+      components: { ListBox },
+      setup() {
+        const PAGE_SIZE = 20
+        const MAX_ITEMS = 200
+
+        function makePage(start: number, count: number) {
+          return Array.from({ length: count }, (_, i) => ({
+            value: `item-${start + i}`,
+            label: `Item ${start + i + 1}`,
+          }))
+        }
+
+        const items = ref(makePage(0, PAGE_SIZE))
+        const isLoading = ref(false)
+        const hasMore = ref(items.value.length < MAX_ITEMS)
+        const selected = ref('')
+
+        function onLoadMore() {
+          isLoading.value = true
+          setTimeout(() => {
+            items.value = [...items.value, ...makePage(items.value.length, PAGE_SIZE)]
+            hasMore.value = items.value.length < MAX_ITEMS
+            isLoading.value = false
+          }, 400)
+        }
+
+        return { args, items, isLoading, hasMore, selected, onLoadMore, MAX_ITEMS }
+      },
+      template: `
+        <div style="display:flex;flex-direction:column;gap:8px;padding:16px;max-width:320px;">
+          <p style="font-size:13px;color:#666;">
+            Loaded {{ items.length }} / {{ MAX_ITEMS }} · Selected: {{ selected || 'none' }}
+          </p>
+          <ListBox
+            v-bind="args"
+            v-model="selected"
+            load-mode="button"
+            load-more-label="Load 20 more"
+            :items="items"
+            :has-more="hasMore"
+            :is-loading="isLoading"
+            aria-label="Paged item list"
+            @load-more="onLoadMore"
+          />
+        </div>
+      `,
+    }),
+}
+
 export const ArrayAPI: Story = {
   name: 'Array API (items prop)',
   parameters: {

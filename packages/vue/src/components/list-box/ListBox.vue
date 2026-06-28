@@ -6,6 +6,7 @@ import { listboxVariants, type ListBoxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxProvide } from './ListBox.context'
 import ListBoxItem from './ListBoxItem.vue'
+import Button from '../button/Button.vue'
 
 type ListBoxShorthandItem = { value: string; label?: string; disabled?: boolean; textValue?: string }
 
@@ -68,6 +69,10 @@ const props = withDefaults(defineProps<{
   isLoading?: boolean
   /** Distance in px from the bottom that triggers load-more. */
   loadMoreDistance?: number
+  /** How the next page is requested: auto on scroll, or a manual button. */
+  loadMode?: 'scroll' | 'button'
+  /** Label for the manual load-more button (loadMode="button"). */
+  loadMoreLabel?: string
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -95,6 +100,8 @@ const props = withDefaults(defineProps<{
   hasMore: false,
   isLoading: false,
   loadMoreDistance: 120,
+  loadMode: 'scroll',
+  loadMoreLabel: 'Load more',
 })
 
 const emit = defineEmits<{
@@ -144,11 +151,18 @@ useInfiniteScroll(
     // loadMoreDistance after mount is not supported (not a real use case).
     distance: props.loadMoreDistance,
     canLoadMore: () =>
-      props.hasMore
+      props.loadMode === 'scroll'
+      && props.hasMore
       && !props.isLoading
       && (props.items?.length ?? 0) !== lastRequestedCount.value,
   },
 )
+
+// Manual load-more (loadMode="button"). User-driven, so no re-arm latch needed —
+// the hasMore/isLoading gate is enough (and the button is disabled while loading).
+function requestLoadMore() {
+  if (props.hasMore && !props.isLoading) emit('load-more')
+}
 
 const needsScroll = computed(() => props.virtualized)
 const contentStyle = computed(() =>
@@ -219,14 +233,39 @@ const contentStyle = computed(() =>
       <slot v-else />
     </ListboxContent>
 
-    <!-- Rendered outside role="listbox" so it does not violate aria-required-children -->
+    <!-- Bottom area, rendered outside role="listbox" so it does not violate
+         aria-required-children. Scroll mode shows a loading row; button mode
+         shows a manual "Load more" button (which conveys its own loading state). -->
     <div
-      v-if="props.isLoading"
+      v-if="props.loadMode === 'scroll' && props.isLoading"
       data-slot="list-box-loading"
       role="status"
       aria-live="polite"
     >
       <slot name="loading">Loading…</slot>
+    </div>
+
+    <div
+      v-if="props.loadMode === 'button' && props.hasMore"
+      class="flex justify-center p-2"
+      data-slot="list-box-load-more"
+    >
+      <slot
+        name="loadMore"
+        :load-more="requestLoadMore"
+        :is-loading="props.isLoading"
+        :has-more="props.hasMore"
+      >
+        <Button
+          size="sm"
+          :is-loading="props.isLoading"
+          :disabled="props.isLoading"
+          data-slot="load-more-button"
+          @click="requestLoadMore"
+        >
+          {{ props.loadMoreLabel }}
+        </Button>
+      </slot>
     </div>
   </ListboxRoot>
 </template>
