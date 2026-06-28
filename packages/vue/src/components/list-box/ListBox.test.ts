@@ -1,10 +1,31 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, ref, nextTick } from 'vue'
 import axe from 'axe-core'
 import ListBox from './ListBox.vue'
 import ListBoxItem from './ListBoxItem.vue'
 import ListBoxSection from './ListBoxSection.vue'
+
+// Capture useInfiniteScroll's callbacks so the load-more tests can drive the
+// component's emit + re-arm latch directly — deterministic, and independent of
+// jsdom layout / IntersectionObserver (which the real useInfiniteScroll needs to
+// fire). Only useInfiniteScroll is replaced; everything else stays real, so the
+// virtualizer (which uses other @vueuse helpers) is unaffected.
+const infiniteScrollHooks = vi.hoisted(() => ({
+  onLoadMore: null as null | (() => void),
+  canLoadMore: null as null | (() => boolean),
+}))
+vi.mock('@vueuse/core', async (importOriginal) => {
+  const actual = await importOriginal<typeof import('@vueuse/core')>()
+  return {
+    ...actual,
+    useInfiniteScroll: (_el: unknown, onLoadMore: () => void, opts?: { canLoadMore?: () => boolean }) => {
+      infiniteScrollHooks.onLoadMore = onLoadMore
+      infiniteScrollHooks.canLoadMore = opts?.canLoadMore ?? (() => true)
+      return { isLoading: { value: false }, reset() {} }
+    },
+  }
+})
 
 // jsdom does not implement scrollIntoView — mock it globally
 beforeAll(() => {
@@ -284,6 +305,50 @@ describe('ListBox — virtualized', () => {
     `))
     const content = wrapper.find('[role="listbox"]').element as HTMLElement
     expect(content.style.maxHeight).toBe('')
+  })
+})
+
+describe('ListBox — load-more', () => {
+  const items = Array.from({ length: 30 }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` }))
+
+  function mountList(extra: Record<string, unknown>) {
+    return mount(ListBox, {
+      attachTo: document.body,
+      props: { 'aria-label': 'feed', virtualized: true, items, maxHeight: '100px', ...extra },
+    })
+  }
+
+  it('emits load-more once, then latches until the dataset grows (no loop)', async () => {
+    const wrapper = mountList({ hasMore: true })
+    // The latch permits a load for the current dataset.
+    expect(infiniteScrollHooks.canLoadMore!()).toBe(true)
+    // Drive the load (what useInfiniteScroll calls when scrolled near the bottom).
+    infiniteScrollHooks.onLoadMore!()
+    expect(wrapper.emitted('load-more')).toHaveLength(1)
+    // Re-arm latch: it refuses to ask again for the SAME dataset — this is the
+    // guard that prevents useInfiniteScroll from firing load-more in a loop.
+    expect(infiniteScrollHooks.canLoadMore!()).toBe(false)
+    // Consumer appends the next page → dataset grows → latch re-arms.
+    await wrapper.setProps({
+      items: Array.from({ length: 60 }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` })),
+    })
+    expect(infiniteScrollHooks.canLoadMore!()).toBe(true)
+  })
+
+  it('does not allow load-more when hasMore is false', () => {
+    mountList({ hasMore: false })
+    expect(infiniteScrollHooks.canLoadMore!()).toBe(false)
+  })
+
+  it('does not allow load-more while isLoading', () => {
+    mountList({ hasMore: true, isLoading: true })
+    expect(infiniteScrollHooks.canLoadMore!()).toBe(false)
+  })
+
+  it('renders the #loading slot while isLoading', async () => {
+    const wrapper = mountList({ hasMore: true, isLoading: true })
+    await nextTick()
+    expect(wrapper.find('[data-slot="list-box-loading"]').exists()).toBe(true)
   })
 })
 

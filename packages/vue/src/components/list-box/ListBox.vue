@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { computed, toRef, useAttrs } from 'vue'
+import { computed, ref, toRef, useAttrs, useTemplateRef } from 'vue'
+import { useInfiniteScroll } from '@vueuse/core'
 import { ListboxRoot, ListboxContent, ListboxVirtualizer } from 'reka-ui'
 import { listboxVariants, type ListBoxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -61,6 +62,12 @@ const props = withDefaults(defineProps<{
   overscan?: number
   /** Scroll-viewport height for the content when scrolling is active. */
   maxHeight?: string | number
+  /** Whether more pages remain to load (gates load-more). */
+  hasMore?: boolean
+  /** A page is currently loading (gates load-more; drives #loading slot). */
+  isLoading?: boolean
+  /** Distance in px from the bottom that triggers load-more. */
+  loadMoreDistance?: number
 }>(), {
   modelValue: undefined,
   defaultValue: undefined,
@@ -85,6 +92,9 @@ const props = withDefaults(defineProps<{
   estimateSize: 36,
   overscan: 12,
   maxHeight: '16rem',
+  hasMore: false,
+  isLoading: false,
+  loadMoreDistance: 120,
 })
 
 const emit = defineEmits<{
@@ -92,6 +102,7 @@ const emit = defineEmits<{
   'highlight': [context: unknown]
   'entry-focus': [event: Event]
   'leave': [event: Event]
+  'load-more': []
 }>()
 
 const attrs = useAttrs()
@@ -110,6 +121,32 @@ const slotFns = computed(() =>
 
 // Bounded scroll viewport only when the content actually needs to scroll, so
 // default (non-virtualized) ListBoxes are visually unchanged.
+// useTemplateRef on a Reka component resolves to its instance; useInfiniteScroll's
+// internal unrefElement reads `.$el` to get the scroll DOM node.
+const contentRef = useTemplateRef<HTMLElement>('content')
+
+// Re-arm latch. useInfiniteScroll keeps re-invoking onLoadMore while the scroll
+// element stays at the bottom and canLoadMore is true. Emitting `load-more` does
+// not itself flip hasMore/isLoading, so without this guard it fires in a tight
+// loop (unbounded emits → hang). We record the item count at the moment we ask
+// for a page and refuse to ask again until the dataset actually grows — i.e.
+// until the consumer has appended the next page.
+const lastRequestedCount = ref(-1)
+useInfiniteScroll(
+  contentRef,
+  () => {
+    lastRequestedCount.value = props.items?.length ?? 0
+    emit('load-more')
+  },
+  {
+    distance: props.loadMoreDistance,
+    canLoadMore: () =>
+      props.hasMore
+      && !props.isLoading
+      && (props.items?.length ?? 0) !== lastRequestedCount.value,
+  },
+)
+
 const needsScroll = computed(() => props.virtualized)
 const contentStyle = computed(() =>
   needsScroll.value
@@ -141,6 +178,7 @@ const contentStyle = computed(() =>
     @leave="emit('leave', $event)"
   >
     <ListboxContent
+      ref="content"
       v-bind="attrs"
       :as="props.contentAs"
       :as-child="props.contentAsChild"
@@ -176,6 +214,15 @@ const contentStyle = computed(() =>
       </template>
 
       <slot v-else />
+
+      <div
+        v-if="props.isLoading"
+        data-slot="list-box-loading"
+        role="status"
+        aria-live="polite"
+      >
+        <slot name="loading">Loading…</slot>
+      </div>
     </ListboxContent>
   </ListboxRoot>
 </template>
