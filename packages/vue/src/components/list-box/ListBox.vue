@@ -217,15 +217,16 @@ const contentStyle = computed(() =>
       </template>
 
       <slot v-else />
-
-      <div
-        v-if="props.isLoading"
-        data-slot="list-box-loading"
-        role="status"
-        aria-live="polite"
-      >
-        <slot name="loading">Loading…</slot>
-      </div>
     </ListboxContent>
+
+    <!-- Rendered outside role="listbox" so it does not violate aria-required-children -->
+    <div
+      v-if="props.isLoading"
+      data-slot="list-box-loading"
+      role="status"
+      aria-live="polite"
+    >
+      <slot name="loading">Loading…</slot>
+    </div>
   </ListboxRoot>
 </template>

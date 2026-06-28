@@ -381,4 +381,31 @@ describe('ListBox — accessibility (axe)', () => {
     expect(results.violations).toHaveLength(0)
     wrapper.unmount()
   })
+
+  it('Test 14: passes axe with virtualized=true, hasMore=true, isLoading=true (zero violations)', async () => {
+    const items = Array.from({ length: 20 }, (_, i) => ({ value: `v${i}`, label: `Item ${i}` }))
+    const wrapper = mount(ListBox, {
+      attachTo: document.body,
+      props: {
+        'aria-label': 'virtualized feed',
+        virtualized: true,
+        items,
+        estimateSize: 36,
+        maxHeight: '200px',
+        hasMore: true,
+        isLoading: true,
+      },
+    })
+    await nextTick()
+    const results = await axe.run(wrapper.element)
+    if (results.violations.length > 0) {
+      console.log('AXE VIOLATIONS (Test 14):', JSON.stringify(results.violations.map(v => ({
+        id: v.id,
+        description: v.description,
+        nodes: v.nodes.map(n => n.html),
+      })), null, 2))
+    }
+    expect(results.violations).toHaveLength(0)
+    wrapper.unmount()
+  })
 })
