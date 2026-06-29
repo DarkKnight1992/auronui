@@ -137,6 +137,9 @@ const props = withDefaults(defineProps<{
   modal: false,
   visibleMonths: 1,
   defaultOpen: false,
+  avoidCollisions: true,
+  collisionPadding: 8,
+  prioritizePosition: true,
 })
 
 const emit = defineEmits<{

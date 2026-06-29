@@ -1,15 +1,26 @@
 <script setup lang="ts">
-import { PopoverPortal, PopoverContent, injectPopoverRootContext } from 'reka-ui'
-import { motion, AnimatePresence } from 'motion-v'
+import { PopoverPortal, PopoverContent } from 'reka-ui'
 import { popoverVariants } from '@auronui/styles/components/popover'
 import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   side?: 'top' | 'right' | 'bottom' | 'left'
   sideOffset?: number
+  sideFlip?: boolean
   align?: 'start' | 'center' | 'end'
   alignOffset?: number
+  alignFlip?: boolean
   avoidCollisions?: boolean
+  collisionBoundary?: Element | null | Array<Element | null>
+  collisionPadding?: number | Partial<Record<'top' | 'right' | 'bottom' | 'left', number>>
+  arrowPadding?: number
+  hideShiftedArrow?: boolean
+  sticky?: 'partial' | 'always'
+  hideWhenDetached?: boolean
+  positionStrategy?: 'fixed' | 'absolute'
+  updatePositionStrategy?: 'always' | 'optimized'
+  disableUpdateOnLayoutShift?: boolean
+  prioritizePosition?: boolean
   class?: string
 }>(), {
   side: 'bottom',
@@ -17,6 +28,8 @@ const props = withDefaults(defineProps<{
   align: 'center',
   alignOffset: 0,
   avoidCollisions: true,
+  collisionPadding: 8,
+  prioritizePosition: true,
 })
 
 const emit = defineEmits<{
@@ -28,22 +41,30 @@ const emit = defineEmits<{
   'close-auto-focus': [event: Event]
 }>()
 
-// Inject the Popover root context to read open state
-// This allows AnimatePresence to control mount/unmount based on open state
-const rootContext = injectPopoverRootContext()
-
 const styles = popoverVariants()
 </script>
 
 <template>
   <PopoverPortal>
     <PopoverContent
-      :force-mount="true"
       :side="props.side"
       :side-offset="props.sideOffset"
       :align="props.align"
       :align-offset="props.alignOffset"
+      :side-flip="props.sideFlip"
+      :align-flip="props.alignFlip"
       :avoid-collisions="props.avoidCollisions"
+      :collision-boundary="props.collisionBoundary"
+      :collision-padding="props.collisionPadding"
+      :arrow-padding="props.arrowPadding"
+      :hide-shifted-arrow="props.hideShiftedArrow"
+      :sticky="props.sticky"
+      :hide-when-detached="props.hideWhenDetached"
+      :position-strategy="props.positionStrategy"
+      :update-position-strategy="props.updatePositionStrategy"
+      :disable-update-on-layout-shift="props.disableUpdateOnLayoutShift"
+      :prioritize-position="props.prioritizePosition"
+      :class="composeClassName(styles.base(), props.class)"
       v-bind="$attrs"
       @escape-key-down="emit('escape-key-down', $event)"
       @pointer-down-outside="emit('pointer-down-outside', $event)"
@@ -52,19 +73,7 @@ const styles = popoverVariants()
       @open-auto-focus="emit('open-auto-focus', $event)"
       @close-auto-focus="emit('close-auto-focus', $event)"
     >
-      <AnimatePresence>
-        <motion.div
-          v-if="rootContext.open.value"
-          :key="'popover-content'"
-          :class="composeClassName(styles.base(), props.class)"
-          :initial="{ opacity: 0, scale: 0.95 }"
-          :animate="{ opacity: 1, scale: 1 }"
-          :exit="{ opacity: 0, scale: 0.95 }"
-          :transition="{ duration: 0.15, ease: 'easeOut' }"
-        >
-          <slot />
-        </motion.div>
-      </AnimatePresence>
+      <slot />
     </PopoverContent>
   </PopoverPortal>
 </template>

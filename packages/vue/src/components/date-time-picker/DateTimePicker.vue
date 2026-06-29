@@ -149,6 +149,9 @@ const props = withDefaults(defineProps<{
   defaultOpen: false,
   closeOnSelect: true,
   doneLabel: 'Done',
+  avoidCollisions: true,
+  collisionPadding: 8,
+  prioritizePosition: true,
 })
 
 const emit = defineEmits<{
