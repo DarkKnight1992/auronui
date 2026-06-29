@@ -37,9 +37,9 @@ export const inputVariants = tv({
       raised:     { inputWrapper: "input--raised" },
     },
     size: {
-      sm: { inputWrapper: "input--sm" },
+      sm: { base: "input-root--sm", inputWrapper: "input--sm" },
       md: {},
-      lg: { inputWrapper: "input--lg" },
+      lg: { base: "input-root--lg", inputWrapper: "input--lg" },
     },
     color: {
       default:   { inputWrapper: "input--default" },
