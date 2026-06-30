@@ -29,9 +29,10 @@
   "exports": {
     ".": {
       "style": "./index.css",
-      "types": "./src/index.ts",
-      "import": "./src/index.ts",
-      "default": "./src/index.ts"
+      "types": "./dist/index.d.ts",
+      "source": "./src/index.ts",
+      "import": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./css": {
       "style": "./index.css",
@@ -374,8 +375,8 @@
       "default": "./components/tree.css"
     },
     "./components/*": {
-      "types": "./src/components/*/index.ts",
-      "import": "./src/components/*/index.ts"
+      "types": "./dist/components/*/index.d.ts",
+      "import": "./dist/components/*/index.js"
     },
     "./package.json": "./package.json"
   },
@@ -386,6 +387,7 @@
     "*.css"
   ],
   "files": [
+    "dist",
     "src",
     "base",
     "components",
@@ -396,9 +398,10 @@
     "DATA_ATTRIBUTES.md"
   ],
   "scripts": {
+    "build": "vite build",
     "typecheck": "tsc --noEmit",
     "test": "vitest run",
-    "clean": "rm -rf .turbo"
+    "clean": "rm -rf .turbo dist"
   },
   "dependencies": {
     "tailwind-variants": "3.2.2",
@@ -407,6 +410,8 @@
   "devDependencies": {
     "@auronui/standard": "workspace:*",
     "tailwindcss": "4.2.2",
+    "vite": "^8.0.8",
+    "vite-plugin-dts": "4.5.4",
     "vitest": "4.1.4"
   },
   "peerDependencies": {
