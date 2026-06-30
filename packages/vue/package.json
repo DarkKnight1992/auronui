@@ -48,8 +48,13 @@
   },
   "files": [
     "dist",
+    "bin",
+    "ai-rules.md",
     "README.md"
   ],
+  "bin": {
+    "setup-ai": "bin/setup-ai.mjs"
+  },
   "scripts": {
     "build:ai": "node src/ai-rules/generate.mjs",
     "build": "node src/ai-rules/generate.mjs && vite build",
