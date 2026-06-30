@@ -354,7 +354,7 @@ export {
   StepperSeparator,
   stepperContextKey,
 } from './components/stepper'
-export type { StepperContext, StepStatus, StepperVariants } from './components/stepper'
+export type { StepperContext, StepperVariants } from './components/stepper'
 
 export { Tree, TreeItem, TreeItemToggle, treeContextKey } from './components/tree'
 export type { TreeContext, TreeVariants } from './components/tree'
@@ -372,7 +372,7 @@ export { ScrollArea } from './components/scroll-area'
 // Phase 10 — Specialized: Date & Time (plan 01)
 export { Calendar } from './components/calendar'
 export { RangeCalendar } from './components/range-calendar'
-export type { DateRange } from './components/range-calendar/RangeCalendar.vue'
+
 export { CalendarYearPicker } from './components/calendar-year-picker'
 
 // Phase 10 — Specialized: Date & Time (plan 02)

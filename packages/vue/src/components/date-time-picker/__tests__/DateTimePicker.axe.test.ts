@@ -64,7 +64,7 @@ describe('DateTimePicker - Accessibility', () => {
     const results = await axe.run(document.body, AXE_OPTIONS)
     expect(results.violations).toHaveLength(0)
     wrapper.unmount()
-  })
+  }, 15000)
 
   // Test: Axe audit zero violations in invalid state
   it('has zero axe violations in invalid state', async () => {

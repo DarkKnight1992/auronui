@@ -14,6 +14,7 @@ const external = [
   "tailwind-variants",
   "tailwind-merge",
   "@auronui/styles",
+  "@internationalized/date",
 ];
 
 export default defineConfig({
