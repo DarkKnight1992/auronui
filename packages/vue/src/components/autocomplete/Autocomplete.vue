@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef, useAttrs, useId, watch, useSlots } from 'vue'
+import { computed, onMounted, ref, toRef, useAttrs, useId, watch, useSlots, type ComputedRef } from 'vue'
 import { AutocompleteRoot } from 'reka-ui'
 import { autocompleteVariants, type AutocompleteVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -158,8 +158,8 @@ const hasLabel = computed(() => !!props.label)
 const slots = useSlots()
 // Compound chrome present → pass slot through (advanced). Otherwise render the
 // input/content/items internally (short-form).
-const usesCustomChrome = computed(() =>
-  hasSlotComponent(slots.default?.({}), [AutocompleteInput, AutocompleteContent]),
+const usesCustomChrome: ComputedRef<boolean> = computed(() =>
+  hasSlotComponent(slots.default?.({ isLoading: false, items: [] }), [AutocompleteInput, AutocompleteContent]),
 )
 
 // Registry for slot-rendered items: value → label (populated by AutocompleteItem at mount).
