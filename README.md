@@ -43,8 +43,6 @@ npx @auronui/vue setup-ai
 
 This creates `auronui-rules.md` in your project root and prints the one-liner to add to each AI tool's config file. Re-run with `--update` after upgrading the package to refresh the rules.
 
-> **Maintainers:** edit `packages/vue/src/ai-rules/template.md`, then run `pnpm --filter @auronui/vue build:ai` and commit the three generated files (`packages/vue/ai-rules.md`, `llms.txt`, `llms-full.txt`).
-
 ## Quick Example
 
 ```vue

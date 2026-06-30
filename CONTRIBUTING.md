@@ -153,6 +153,28 @@ Key points:
 6. A maintainer will review. All CI checks must be green before merge.
 7. Squash-merge is used — keep your branch history clean but PR description will be preserved.
 
+## Updating AI Rules
+
+The AI rules that consumers get via `npx @auronui/vue setup-ai` are generated from a single source of truth:
+
+```
+packages/vue/src/ai-rules/template.md
+```
+
+To update the rules (add a new component, fix an anti-pattern example, etc.):
+
+1. Edit `packages/vue/src/ai-rules/template.md`
+2. Regenerate the artifacts:
+   ```bash
+   pnpm --filter @auronui/vue build:ai
+   ```
+3. Commit the three generated files:
+   ```bash
+   git add packages/vue/ai-rules.md llms.txt llms-full.txt
+   ```
+
+The three generated files are `packages/vue/ai-rules.md` (bundled in the npm package), `llms.txt` (brief, for the hosted URL), and `llms-full.txt` (full, for the hosted URL). Never edit these directly — always edit `template.md` and regenerate.
+
 ## Reporting Issues
 
 Open an issue on GitHub with:
