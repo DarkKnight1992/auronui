@@ -15,6 +15,46 @@ export { useMeasuredHeight } from "./composables/useMeasuredHeight";
 export { useListData } from "./composables/useListData";
 export type { ListOptions, ListData, Key } from "./composables/useListData";
 
+// Composables — public use* API
+export { useDisclosure } from "./composables/useDisclosure";
+export type { UseDisclosureReturn } from "./composables/useDisclosure";
+
+export { usePagination } from "./composables/usePagination";
+export type { UsePaginationOptions, UsePaginationReturn } from "./composables/usePagination";
+
+export { useStepper } from "./composables/useStepper";
+export type { UseStepperOptions, UseStepperReturn, StepStatus } from "./composables/useStepper";
+
+export { useTabs } from "./composables/useTabs";
+export type { UseTabsOptions, UseTabsReturn } from "./composables/useTabs";
+
+export { useAccordion } from "./composables/useAccordion";
+export type { UseAccordionOptions, UseAccordionReturn, AccordionType, AccordionValue } from "./composables/useAccordion";
+
+export { useSlider } from "./composables/useSlider";
+export type { UseSliderOptions, UseSliderReturn, SliderValue } from "./composables/useSlider";
+
+export { useListBox } from "./composables/useListBox";
+export type { UseListBoxOptions, UseListBoxReturn, ListBoxValue } from "./composables/useListBox";
+
+export { useCheckboxGroup } from "./composables/useCheckboxGroup";
+export type { UseCheckboxGroupOptions, UseCheckboxGroupReturn } from "./composables/useCheckboxGroup";
+
+export { useRadioGroup } from "./composables/useRadioGroup";
+export type { UseRadioGroupOptions, UseRadioGroupReturn } from "./composables/useRadioGroup";
+
+export { useCalendar } from "./composables/useCalendar";
+export type { UseCalendarOptions, UseCalendarReturn } from "./composables/useCalendar";
+
+export { useRangeCalendar } from "./composables/useRangeCalendar";
+export type { UseRangeCalendarOptions, UseRangeCalendarReturn, DateRange } from "./composables/useRangeCalendar";
+
+export { useTree } from "./composables/useTree";
+export type { UseTreeOptions, UseTreeReturn, TreeValue } from "./composables/useTree";
+
+export { useSplitter } from "./composables/useSplitter";
+export type { UseSplitterOptions, UseSplitterReturn } from "./composables/useSplitter";
+
 // Utilities
 export { composeClassName, cx } from "./utils/composeClassName";
 export { composeSlotClassName } from "./utils/composeSlotClassName";
@@ -356,3 +396,12 @@ export { ColorInputGroup } from './components/color-input-group'
 export { ColorPicker } from './components/color-picker'
 export { useColorState } from './composables/useColorState'
 export type { UseColorStateProps, UseColorStateReturn, ColorFormat } from './composables/useColorState'
+
+export { useColorPicker } from './composables/useColorPicker'
+export type { UseColorPickerOptions, UseColorPickerReturn } from './composables/useColorPicker'
+
+export { useOTP } from './composables/useOTP'
+export type { UseOTPOptions, UseOTPReturn } from './composables/useOTP'
+
+export { useSwatchPicker } from './composables/useSwatchPicker'
+export type { UseSwatchPickerOptions, UseSwatchPickerReturn } from './composables/useSwatchPicker'
