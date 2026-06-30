@@ -270,6 +270,10 @@
   gap: 0.05rem;
 }
 
+.date-range-field__segment-list[data-type="end"] {
+  flex: 1;
+}
+
 .date-range-field__separator {
   @apply inline-flex items-center justify-center shrink-0 select-none px-1;
   color: var(--color-field-placeholder);
