@@ -51,7 +51,8 @@
     "README.md"
   ],
   "scripts": {
-    "build": "vite build",
+    "build:ai": "node src/ai-rules/generate.mjs",
+    "build": "node src/ai-rules/generate.mjs && vite build",
     "dev": "vite build --watch",
     "typecheck": "vue-tsc --noEmit",
     "lint": "eslint src --ext .ts,.vue",
