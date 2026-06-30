@@ -17,12 +17,8 @@
     @apply items-start;
   }
 
-  [data-slot="label"] {
-    @apply select-none;
-  }
-
-  [data-slot="description"] {
-    @apply text-wrap select-none;
+  .checkbox__content {
+    @apply text-sm select-none;
   }
 
   /* Disabled state */
@@ -53,6 +49,11 @@
 
   &[data-state="checked"] [data-slot="checkbox-default-indicator--checkmark"] {
     transition: stroke-dashoffset 300ms linear 300ms;
+  }
+
+  /* Invalid: label color */
+  &[aria-invalid="true"] .checkbox__content {
+    color: var(--color-danger);
   }
 
   /* Invalid + Selected: checkmark icon color */

@@ -5,3 +5,21 @@
     @apply mt-4;
   }
 }
+
+.checkbox-group__label {
+  @apply text-sm font-medium text-foreground;
+}
+
+.checkbox-group[aria-invalid="true"] .checkbox-group__label {
+  color: var(--color-danger);
+}
+
+.checkbox-group__description {
+  @apply text-xs mt-1;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.checkbox-group__error-message {
+  @apply text-xs mt-1;
+  color: var(--color-danger);
+}

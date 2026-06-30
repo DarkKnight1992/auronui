@@ -487,7 +487,7 @@
 }
 
 /* Invalid state — label color flips to danger */
-.input--label-inside[data-invalid="true"] .input__label {
+.input--label-inside.input--invalid .input__label {
   color: var(--color-danger);
 }
 

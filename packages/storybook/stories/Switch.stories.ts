@@ -7,6 +7,11 @@ const meta: Meta = {
   tags: ['autodocs'],
   component: Switch,
   argTypes: {
+    isInvalid: {
+      control: 'boolean',
+      description: 'Marks the switch as invalid — turns the track and label danger-red.',
+      table: { defaultValue: { summary: 'false' } },
+    },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
     id: {
       control: 'text',
@@ -56,6 +61,7 @@ type Story = StoryObj
 
 export const Default: Story = {
   args: {
+    isInvalid: false,
     asChild: false,
     required: false,
     thumbAsChild: false,
@@ -141,6 +147,19 @@ import { Switch } from '@auronui/vue'
       },
     },
   },
+}
+
+export const Invalid: Story = {
+  render: (args) => ({
+    components: { Switch },
+    setup: () => ({ args }),
+    template: `
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <Switch v-bind="args" :is-invalid="true" aria-label="Unchecked invalid">Unchecked invalid</Switch>
+        <Switch v-bind="args" :is-invalid="true" :model-value="true" aria-label="Checked invalid">Checked invalid</Switch>
+      </div>
+    `,
+  }),
 }
 
 export const AllSizes: Story = {
@@ -515,6 +534,33 @@ const value = ref(false)
         </div>
       `,
     }),
+}
+
+export const GroupInvalid: Story = {
+  name: 'SwitchGroup: Invalid',
+  args: {
+    isInvalid: true,
+    errorMessage: 'Please enable at least one channel.',
+  },
+  render: (args) => ({
+    components: { Switch, SwitchGroup },
+    setup() {
+      const selected = ref<string[]>([])
+      return { args, selected }
+    },
+    template: `
+      <SwitchGroup
+        v-model="selected"
+        label="Notification channels"
+        :is-invalid="args.isInvalid"
+        :error-message="args.errorMessage"
+      >
+        <Switch value="email" aria-label="Email">Email</Switch>
+        <Switch value="sms" aria-label="SMS">SMS</Switch>
+        <Switch value="push" aria-label="Push">Push notifications</Switch>
+      </SwitchGroup>
+    `,
+  }),
 }
 
 export const GroupArrayAPI: Story = {

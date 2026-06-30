@@ -12,6 +12,7 @@ const props = withDefaults(defineProps<{
   value: string
   variant?: RadioGroupVariants['variant']
   disabled?: boolean
+  isInvalid?: boolean
   /** HTML id attribute forwarded to RadioGroupItem. */
   id?: string
   /** Whether RadioGroupItem renders as a child element. */
@@ -39,6 +40,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   variant: undefined,
   disabled: false,
+  isInvalid: false,
   id: undefined,
   asChild: false,
   as: undefined,
@@ -61,10 +63,13 @@ const attrs = useAttrs()
 const groupCtx = useRadioGroupInject({
   variant: ref(undefined),
   disabled: ref(false),
+  isInvalid: ref(false),
 })
 
 // Prop precedence: group disabled wins (D-02)
 const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+// Group invalid overrides item; item prop allows standalone invalid
+const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 
 // Child variant wins over group variant (used for data-variant attribute propagation)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
@@ -77,6 +82,7 @@ const slotFns = computed(() => radioVariants())
     v-bind="attrs"
     :value="props.value"
     :disabled="isDisabled"
+    :aria-invalid="effectiveInvalid || undefined"
     :id="props.id"
     :as-child="props.asChild"
     :as="props.as"

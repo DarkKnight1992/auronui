@@ -17,6 +17,7 @@ import { createContext } from '../../utils/context'
 export interface RadioGroupContext {
   variant: Ref<RadioGroupVariants['variant']>
   disabled: Ref<boolean>
+  isInvalid: Ref<boolean>
 }
 
 export const {

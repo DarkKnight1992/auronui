@@ -81,7 +81,7 @@ describe('Form — submit', () => {
     await flushPromises()
     expect(onInvalid).toHaveBeenCalledOnce()
     expect(onSubmit).not.toHaveBeenCalled()
-    expect(onInvalid.mock.calls[0]![0]).toEqual({ field: 'This field is required' })
+    expect(onInvalid.mock.calls[0]![0]).toEqual({ field: 'Enter a value' })
   })
 
   it('setErrors merges server errors into the errors map', async () => {

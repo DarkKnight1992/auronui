@@ -439,7 +439,7 @@
 
 /* Invalid state — label color flips to danger */
 .textarea--label-inside:has(> textarea:invalid) .textarea__label,
-.textarea--label-inside[data-invalid="true"] .textarea__label {
+.textarea--label-inside.textarea--invalid .textarea__label {
   color: var(--color-danger);
 }
 

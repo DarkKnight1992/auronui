@@ -34,7 +34,7 @@ describe('Input axe audit', () => {
     })
     const errSpan = document.createElement('span')
     errSpan.id = 'err-msg'
-    errSpan.textContent = 'This field is required'
+    errSpan.textContent = 'Enter a value'
     container.appendChild(errSpan)
     mountedWrappers.push(wrapper)
     const results = await axe.run(container)

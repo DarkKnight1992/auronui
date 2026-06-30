@@ -63,7 +63,7 @@ export async function runValidation(
 
   if (rules?.required !== undefined) {
     const { enabled, message } = resolveSimpleRule(rules.required)
-    if (enabled && isEmpty(value)) return message ?? 'This field is required'
+    if (enabled && isEmpty(value)) return message ?? 'Enter a value'
   }
 
   if (isEmpty(value)) {

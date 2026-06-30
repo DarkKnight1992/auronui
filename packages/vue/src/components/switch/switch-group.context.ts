@@ -18,6 +18,7 @@ import { createContext } from '../../utils/context'
 export interface SwitchGroupContext {
   size: Ref<SwitchVariants['size']>
   disabled: Ref<boolean>
+  isInvalid: Ref<boolean>
   selectedValues: Ref<string[]>
   toggleValue: (value: string) => void
   name: Ref<string | undefined>

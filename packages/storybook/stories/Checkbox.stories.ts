@@ -7,6 +7,11 @@ const meta: Meta = {
   tags: ['autodocs'],
   component: Checkbox,
   argTypes: {
+    isInvalid: {
+      control: 'boolean',
+      description: 'Marks the checkbox as invalid — turns the control and label danger-red.',
+      table: { defaultValue: { summary: 'false' } },
+    },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
     indicatorForceMount: {
       control: 'boolean',
@@ -21,12 +26,13 @@ type Story = StoryObj
 
 export const Default: Story = {
   args: {
+    isInvalid: false,
     indicatorForceMount: false,
   },
   render: (args) => ({
     components: { Checkbox },
     setup: () => ({ args }),
-    template: `<Checkbox v-bind="args" :indicator-force-mount="args.indicatorForceMount" aria-label="Accept terms" />`,
+    template: `<Checkbox v-bind="args" aria-label="Accept terms">Accept terms</Checkbox>`,
   }),
   parameters: {
     docs: {
@@ -115,6 +121,19 @@ import { Checkbox } from '@auronui/vue'
       },
     },
   },
+}
+
+export const Invalid: Story = {
+  render: (args) => ({
+    components: { Checkbox },
+    setup: () => ({ args }),
+    template: `
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <Checkbox v-bind="args" :is-invalid="true" aria-label="Unchecked invalid">Unchecked invalid</Checkbox>
+        <Checkbox v-bind="args" :is-invalid="true" :model-value="true" aria-label="Checked invalid">Checked invalid</Checkbox>
+      </div>
+    `,
+  }),
 }
 
 export const WithLabel: Story = {

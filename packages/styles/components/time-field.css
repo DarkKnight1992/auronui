@@ -438,7 +438,7 @@
 }
 
 /* Invalid state — label color flips to danger */
-.time-field--label-inside[data-invalid="true"] .time-field__label {
+.time-field--label-inside.time-field--invalid .time-field__label {
   color: var(--color-danger);
 }
 

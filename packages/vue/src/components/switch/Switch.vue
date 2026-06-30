@@ -10,6 +10,7 @@ defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   size?: SwitchVariants['size']
+  isInvalid?: boolean
   value?: string
   modelValue?: boolean
   defaultValue?: boolean
@@ -49,6 +50,7 @@ const props = withDefaults(defineProps<{
   id: undefined,
   trueValue: undefined,
   falseValue: undefined,
+  isInvalid: false,
   asChild: false,
   as: undefined,
   required: false,
@@ -66,6 +68,7 @@ const attrs = useAttrs()
 const groupCtx = useSwitchGroupInject({
   size: ref('md'),
   disabled: ref(false),
+  isInvalid: ref(false),
   selectedValues: ref([]),
   toggleValue: () => {},
   name: ref(undefined),
@@ -73,6 +76,7 @@ const groupCtx = useSwitchGroupInject({
 
 // Prop precedence: group disabled wins (D-02)
 const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 
 // Child size wins over group size
 const finalSize = computed(() => props.size ?? groupCtx.size.value)
@@ -112,6 +116,7 @@ const slotFns = computed(() =>
     v-bind="attrs"
     :model-value="checked"
     :disabled="isDisabled"
+    :aria-invalid="effectiveInvalid || undefined"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
     :id="props.id"

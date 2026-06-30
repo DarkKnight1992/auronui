@@ -1,3 +1,21 @@
+.radio-group__label {
+  @apply text-sm font-medium text-foreground;
+}
+
+.radio-group[aria-invalid="true"] .radio-group__label {
+  color: var(--color-danger);
+}
+
+.radio-group__description {
+  @apply text-xs mt-1;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.radio-group__error-message {
+  @apply text-xs mt-1;
+  color: var(--color-danger);
+}
+
 /* Radio Group base styles */
 .radio-group {
   @apply flex flex-col;

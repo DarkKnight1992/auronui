@@ -7,12 +7,8 @@
 
   cursor: var(--cursor-interactive);
 
-  [data-slot="label"] {
-    @apply select-none;
-  }
-
-  [data-slot="description"] {
-    @apply text-wrap select-none;
+  .radio__content {
+    @apply text-sm select-none;
   }
 
   /* Disabled state */
@@ -20,6 +16,11 @@
   &[data-disabled],
   &[aria-disabled="true"] {
     @apply status-disabled;
+  }
+
+  /* Invalid: label color */
+  &[aria-invalid="true"] .radio__content {
+    color: var(--color-danger);
   }
 }
 

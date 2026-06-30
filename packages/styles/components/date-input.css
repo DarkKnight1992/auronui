@@ -437,7 +437,7 @@
 }
 
 /* Invalid state — label color flips to danger */
-.date-input--label-inside[data-invalid="true"] .date-input__label {
+.date-input--label-inside.date-input--invalid .date-input__label {
   color: var(--color-danger);
 }
 

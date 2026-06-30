@@ -446,7 +446,7 @@
 }
 
 /* Invalid state — label color flips to danger */
-.date-range-field--label-inside[data-invalid="true"] .date-range-field__label {
+.date-range-field--label-inside.date-range-field--invalid .date-range-field__label {
   color: var(--color-danger);
 }
 

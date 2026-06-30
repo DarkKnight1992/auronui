@@ -14,6 +14,8 @@ const props = withDefaults(defineProps<{
   defaultValue?: string[]
   name?: string
   orientation?: SwitchGroupVariants['orientation']
+  isInvalid?: boolean
+  errorMessage?: string
   label?: string
   description?: string
   class?: string
@@ -22,6 +24,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   size: 'md',
   disabled: false,
+  isInvalid: false,
+  errorMessage: undefined,
   modelValue: undefined,
   defaultValue: undefined,
   name: undefined,
@@ -53,6 +57,7 @@ function toggleValue(value: string) {
 useSwitchGroupProvide({
   size: toRef(props, 'size'),
   disabled: toRef(props, 'disabled'),
+  isInvalid: toRef(props, 'isInvalid'),
   selectedValues: currentValues,
   toggleValue,
   name: toRef(props, 'name'),
@@ -69,6 +74,7 @@ const groupSlots = computed(() =>
   <div
     role="group"
     :aria-labelledby="props.label ? labelId : undefined"
+    :aria-invalid="props.isInvalid || undefined"
     :data-orientation="props.orientation"
     :class="composeClassName(groupSlots.base(), props.class)"
   >
@@ -89,7 +95,11 @@ const groupSlots = computed(() =>
       <slot v-else />
     </div>
     <span
-      v-if="props.description"
+      v-if="props.isInvalid && props.errorMessage"
+      class="switch-group__error-message"
+    >{{ props.errorMessage }}</span>
+    <span
+      v-else-if="props.description"
       class="switch-group__description"
     >{{ props.description }}</span>
   </div>

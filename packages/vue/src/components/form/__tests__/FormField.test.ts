@@ -80,7 +80,7 @@ describe('FormField', () => {
     await flushPromises()
     const input = wrapper.findComponent(Input)
     expect(input.props('isInvalid')).toBe(true)
-    expect(input.props('errorMessage')).toBe('This field is required')
+    expect(input.props('errorMessage')).toBe('Enter a value')
   })
 
   it('on-change mode: clears error when value becomes valid', async () => {
@@ -151,7 +151,7 @@ describe('FormField', () => {
     await flushPromises()
     const input = wrapper.findComponent(Input)
     expect(input.props('isInvalid')).toBe(true)
-    expect(input.props('errorMessage')).toBe('This field is required')
+    expect(input.props('errorMessage')).toBe('Enter a value')
   })
 
   it('passes isDisabled from Form context into fieldProps', async () => {

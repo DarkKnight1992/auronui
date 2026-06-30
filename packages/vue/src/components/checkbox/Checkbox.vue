@@ -14,6 +14,7 @@ const props = withDefaults(defineProps<{
   modelValue?: boolean
   defaultValue?: boolean
   disabled?: boolean
+  isInvalid?: boolean
   isIndeterminate?: boolean
   name?: string
   /** HTML id attribute forwarded to CheckboxRoot. */
@@ -48,6 +49,7 @@ const props = withDefaults(defineProps<{
   modelValue: undefined,
   defaultValue: false,
   disabled: false,
+  isInvalid: false,
   isIndeterminate: false,
   name: undefined,
   id: undefined,
@@ -71,6 +73,7 @@ const attrs = useAttrs()
 const groupCtx = useCheckboxGroupInject({
   variant: ref('primary'),
   disabled: ref(false),
+  isInvalid: ref(false),
   selectedValues: ref([]),
   toggleValue: () => {},
   name: ref(undefined),
@@ -78,6 +81,8 @@ const groupCtx = useCheckboxGroupInject({
 
 // Prop precedence: group disabled wins (D-02)
 const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+// Group invalid overrides item; item prop allows standalone invalid
+const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 
 // Child variant wins over group variant
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
@@ -121,6 +126,7 @@ const slotFns = computed(() =>
     v-bind="attrs"
     :model-value="checkedState"
     :disabled="isDisabled"
+    :aria-invalid="effectiveInvalid || undefined"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
     :id="props.id"

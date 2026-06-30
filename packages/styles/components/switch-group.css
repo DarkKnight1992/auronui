@@ -3,6 +3,23 @@
   @apply flex flex-col gap-6;
 }
 
+.switch-group__label {
+  @apply text-sm font-medium text-foreground;
+}
+
+.switch-group[aria-invalid="true"] .switch-group__label {
+  color: var(--color-danger);
+}
+
+.switch-group__description {
+  @apply text-xs text-muted mt-1;
+}
+
+.switch-group__error-message {
+  @apply text-xs mt-1;
+  color: var(--color-danger);
+}
+
 .switch-group__items {
   @apply flex gap-4;
 }

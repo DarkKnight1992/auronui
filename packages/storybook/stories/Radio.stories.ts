@@ -7,6 +7,15 @@ const meta: Meta = {
   tags: ['autodocs'],
   component: RadioGroup,
   argTypes: {
+    isInvalid: {
+      control: 'boolean',
+      description: 'Marks the group invalid — turns control borders, labels, and error message danger-red.',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Error message shown below the group when isInvalid is true.',
+    },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
     dir: {
       control: { type: 'select' },
@@ -82,6 +91,8 @@ type Story = StoryObj
 
 export const Default: Story = {
   args: {
+    isInvalid: false,
+    errorMessage: 'Please select an option.',
     loop: true,
     asChild: false,
     required: false,
@@ -101,6 +112,8 @@ export const Default: Story = {
         v-bind="args"
         v-model="selected"
         label="Choose a framework"
+        :is-invalid="args.isInvalid"
+        :error-message="args.errorMessage"
         :dir="args.dir"
         :loop="args.loop"
         :as-child="args.asChild"
@@ -145,6 +158,27 @@ const selected = ref('')
       },
     },
   },
+}
+
+export const Invalid: Story = {
+  args: {
+    isInvalid: true,
+    errorMessage: 'Please select an option.',
+  },
+  render: (args) => ({
+    components: { Radio, RadioGroup },
+    setup() {
+      const selected = ref('')
+      return { args, selected }
+    },
+    template: `
+      <RadioGroup v-bind="args" v-model="selected" label="Choose a framework" :is-invalid="args.isInvalid" :error-message="args.errorMessage">
+        <Radio value="vue">Vue</Radio>
+        <Radio value="react">React</Radio>
+        <Radio value="svelte">Svelte</Radio>
+      </RadioGroup>
+    `,
+  }),
 }
 
 export const Preselected: Story = {

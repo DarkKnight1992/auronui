@@ -190,5 +190,16 @@
 
 /* Switch content */
 .switch__content {
-  @apply flex flex-col gap-0;
+  @apply flex flex-col gap-0 text-sm select-none;
+}
+
+/* Invalid: label color */
+.switch[aria-invalid="true"] .switch__content {
+  color: var(--color-danger);
+}
+
+/* Invalid: red outline on unchecked track only; checked track stays accent */
+.switch[aria-invalid="true"]:not([data-state="checked"]):not([aria-checked="true"]) .switch__control {
+  outline: 2px solid var(--color-danger);
+  outline-offset: 1px;
 }

@@ -4,19 +4,19 @@ import { runValidation } from '../validation'
 describe('runValidation', () => {
   // ── required ────────────────────────────────────────────────────────────────
   it('required: true fails on empty string', async () => {
-    expect(await runValidation('', { required: true })).toBe('This field is required')
+    expect(await runValidation('', { required: true })).toBe('Enter a value')
   })
   it('required: true fails on undefined', async () => {
-    expect(await runValidation(undefined, { required: true })).toBe('This field is required')
+    expect(await runValidation(undefined, { required: true })).toBe('Enter a value')
   })
   it('required: true fails on null', async () => {
-    expect(await runValidation(null, { required: true })).toBe('This field is required')
+    expect(await runValidation(null, { required: true })).toBe('Enter a value')
   })
   it('required: true fails on empty array', async () => {
-    expect(await runValidation([], { required: true })).toBe('This field is required')
+    expect(await runValidation([], { required: true })).toBe('Enter a value')
   })
   it('required: true fails on false', async () => {
-    expect(await runValidation(false, { required: true })).toBe('This field is required')
+    expect(await runValidation(false, { required: true })).toBe('Enter a value')
   })
   it('required: true passes on non-empty string', async () => {
     expect(await runValidation('hello', { required: true })).toBeUndefined()
@@ -176,6 +176,6 @@ describe('runValidation', () => {
 
   // ── rule ordering ────────────────────────────────────────────────────────────
   it('required fires before email when value is empty', async () => {
-    expect(await runValidation('', { required: true, email: true })).toBe('This field is required')
+    expect(await runValidation('', { required: true, email: true })).toBe('Enter a value')
   })
 })

@@ -10,24 +10,28 @@ type CheckboxShorthandItem = { value: string; label?: string; disabled?: boolean
 const props = withDefaults(defineProps<{
   variant?: CheckboxGroupVariants['variant']
   disabled?: boolean
+  isInvalid?: boolean
   modelValue?: string[]
   defaultValue?: string[]
   name?: string
   orientation?: 'horizontal' | 'vertical'
   label?: string
   description?: string
+  errorMessage?: string
   class?: string
   /** Shorthand API: render checkboxes from an array instead of the compound slot API */
   items?: CheckboxShorthandItem[]
 }>(), {
   variant: 'primary',
   disabled: false,
+  isInvalid: false,
   modelValue: undefined,
   defaultValue: undefined,
   name: undefined,
   orientation: 'vertical',
   label: undefined,
   description: undefined,
+  errorMessage: undefined,
 })
 
 const emit = defineEmits<{
@@ -53,6 +57,7 @@ function toggleValue(value: string) {
 useCheckboxGroupProvide({
   variant: toRef(props, 'variant'),
   disabled: toRef(props, 'disabled'),
+  isInvalid: toRef(props, 'isInvalid'),
   selectedValues: currentValues,
   toggleValue,
   name: toRef(props, 'name'),
@@ -69,6 +74,7 @@ const groupClasses = computed(() =>
   <div
     role="group"
     :aria-labelledby="props.label ? labelId : undefined"
+    :aria-invalid="props.isInvalid || undefined"
     :data-orientation="props.orientation"
     :class="composeClassName(groupClasses, props.class)"
   >
@@ -89,7 +95,11 @@ const groupClasses = computed(() =>
       <slot v-else />
     </div>
     <span
-      v-if="props.description"
+      v-if="props.isInvalid && props.errorMessage"
+      class="checkbox-group__error-message"
+    >{{ props.errorMessage }}</span>
+    <span
+      v-else-if="props.description"
       class="checkbox-group__description"
     >{{ props.description }}</span>
   </div>

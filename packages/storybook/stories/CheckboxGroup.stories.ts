@@ -15,12 +15,23 @@ const meta: Meta<typeof CheckboxGroup> = {
       control: 'radio',
       options: ['vertical', 'horizontal'],
     },
+    isInvalid: {
+      control: 'boolean',
+      description: 'Marks the group invalid — turns control borders, labels, and error message danger-red.',
+      table: { defaultValue: { summary: 'false' } },
+    },
+    errorMessage: {
+      control: 'text',
+      description: 'Error message shown below the group when isInvalid is true.',
+    },
   },
   args: {
     variant: 'primary',
     orientation: 'vertical',
     disabled: false,
+    isInvalid: false,
     label: 'Choose frameworks',
+    errorMessage: 'Please select at least one framework.',
   },
 }
 
@@ -37,7 +48,7 @@ export const Default: Story = {
       return { args, selected }
     },
     template: `
-      <CheckboxGroup v-bind="args" v-model="selected">
+      <CheckboxGroup v-bind="args" v-model="selected" :is-invalid="args.isInvalid" :error-message="args.errorMessage">
         <Checkbox value="vue">Vue</Checkbox>
         <Checkbox value="react">React</Checkbox>
         <Checkbox value="svelte">Svelte</Checkbox>
@@ -68,6 +79,30 @@ const selected = ref([])
       }
     }
   },
+}
+
+/* ─── Invalid ───────────────────────────────────────────────────────────── */
+
+export const Invalid: Story = {
+  args: {
+    isInvalid: true,
+    errorMessage: 'Please select at least one framework.',
+    label: 'Choose frameworks',
+  },
+  render: (args) => ({
+    components: { Checkbox, CheckboxGroup },
+    setup() {
+      const selected = ref<string[]>([])
+      return { args, selected }
+    },
+    template: `
+      <CheckboxGroup v-bind="args" v-model="selected">
+        <Checkbox value="vue">Vue</Checkbox>
+        <Checkbox value="react">React</Checkbox>
+        <Checkbox value="svelte">Svelte</Checkbox>
+      </CheckboxGroup>
+    `,
+  }),
 }
 
 /* ─── Variants ──────────────────────────────────────────────────────────── */

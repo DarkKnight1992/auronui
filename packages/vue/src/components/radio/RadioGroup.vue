@@ -11,12 +11,14 @@ type RadioShorthandItem = { value: string; label?: string; disabled?: boolean }
 const props = withDefaults(defineProps<{
   variant?: RadioGroupVariants['variant']
   disabled?: boolean
+  isInvalid?: boolean
   modelValue?: string
   defaultValue?: string
   name?: string
   orientation?: 'horizontal' | 'vertical'
   label?: string
   description?: string
+  errorMessage?: string
   /** Text direction forwarded to RadioGroupRoot. */
   dir?: 'ltr' | 'rtl'
   /** Whether keyboard navigation loops from last to first item. */
@@ -33,12 +35,14 @@ const props = withDefaults(defineProps<{
 }>(), {
   variant: 'primary',
   disabled: false,
+  isInvalid: false,
   modelValue: undefined,
   defaultValue: undefined,
   name: undefined,
   orientation: 'vertical',
   label: undefined,
   description: undefined,
+  errorMessage: undefined,
   dir: undefined,
   loop: true,
   asChild: false,
@@ -54,6 +58,7 @@ const emit = defineEmits<{
 useRadioGroupProvide({
   variant: toRef(props, 'variant'),
   disabled: toRef(props, 'disabled'),
+  isInvalid: toRef(props, 'isInvalid'),
 })
 
 const labelId = `radio-group-label-${Math.random().toString(36).slice(2, 8)}`
@@ -68,6 +73,7 @@ const groupClasses = computed(() =>
     :model-value="props.modelValue"
     :default-value="props.defaultValue"
     :disabled="props.disabled"
+    :aria-invalid="props.isInvalid || undefined"
     :name="props.name"
     :orientation="props.orientation"
     :dir="props.dir"
@@ -96,7 +102,11 @@ const groupClasses = computed(() =>
       <slot v-else />
     </div>
     <span
-      v-if="props.description"
+      v-if="props.isInvalid && props.errorMessage"
+      class="radio-group__error-message"
+    >{{ props.errorMessage }}</span>
+    <span
+      v-else-if="props.description"
       class="radio-group__description"
     >{{ props.description }}</span>
   </RadioGroupRoot>
