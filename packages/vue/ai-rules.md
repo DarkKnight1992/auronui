@@ -847,6 +847,219 @@ const pageRows = computed(() =>
 
 ---
 
+## Composables
+
+Every stateful component ships a matching `use*` composable for headless control from outside the component tree. All composables are imported from `@auronui/vue`.
+
+### useDisclosure — open/close state (14 components)
+
+Controls Modal, Drawer, Popover, Tooltip, AlertDialog, Collapsible, Dropdown, Select, ComboBox, DatePicker, DateRangePicker, DateTimePicker, Autocomplete, ColorPicker.
+
+```ts
+import { useDisclosure } from '@auronui/vue'
+
+const modal = useDisclosure()          // closed by default
+const drawer = useDisclosure(true)     // open by default
+
+modal.open()
+modal.close()
+modal.toggle()
+modal.isOpen   // Readonly<Ref<boolean>>
+```
+
+```html
+<Modal :open="modal.isOpen.value" @update:open="modal.onOpenChange">...</Modal>
+```
+
+### usePagination
+
+```ts
+import { usePagination } from '@auronui/vue'
+
+const { page, totalPages, nextPage, prevPage, goToPage, isFirst, isLast } = usePagination({
+  totalItems: 200,
+  pageSize: 10,
+  defaultPage: 1,
+})
+```
+
+```html
+<Pagination :page="page.value" :total="totalPages.value" @change="goToPage" />
+```
+
+### useStepper
+
+```ts
+import { useStepper } from '@auronui/vue'
+
+const { step, nextStep, prevStep, goToStep, isFirst, isLast, getStepStatus, reset } = useStepper({
+  steps: ['Account', 'Profile', 'Review'],
+  defaultStep: 1,
+})
+```
+
+### useTabs
+
+```ts
+import { useTabs } from '@auronui/vue'
+
+const { activeTab, setTab, onTabChange } = useTabs({ defaultTab: 'overview' })
+```
+
+```html
+<Tabs :default-value="activeTab.value" @update:model-value="onTabChange">...</Tabs>
+```
+
+### useAccordion
+
+```ts
+import { useAccordion } from '@auronui/vue'
+
+// Single mode
+const { expanded, toggle, collapseAll } = useAccordion({ type: 'single', collapsible: true })
+
+// Multiple mode
+const { expanded, toggle, expandAll, collapseAll } = useAccordion({
+  type: 'multiple',
+  defaultExpanded: ['item-1'],
+})
+```
+
+### useSlider
+
+```ts
+import { useSlider } from '@auronui/vue'
+
+// Single thumb
+const { value, setValue } = useSlider({ defaultValue: 50, min: 0, max: 100 })
+
+// Range (two thumbs)
+const { value, setValue } = useSlider({ defaultValue: [20, 80], min: 0, max: 100 })
+```
+
+### useListBox
+
+```ts
+import { useListBox } from '@auronui/vue'
+
+const { selected, select, deselect, toggle, selectAll, deselectAll } = useListBox({
+  multiple: true,
+  defaultSelected: new Set(['a']),
+})
+```
+
+### useCheckboxGroup
+
+```ts
+import { useCheckboxGroup } from '@auronui/vue'
+
+const { values, toggle, isChecked, isIndeterminate, isAllChecked, checkAll, uncheckAll } =
+  useCheckboxGroup({
+    options: ['red', 'green', 'blue'],
+    defaultValues: ['red'],
+  })
+```
+
+### useRadioGroup
+
+```ts
+import { useRadioGroup } from '@auronui/vue'
+
+const { value, setValue, clear } = useRadioGroup({ defaultValue: 'option-a' })
+```
+
+### useCalendar
+
+```ts
+import { useCalendar } from '@auronui/vue'
+import { today, getLocalTimeZone } from '@internationalized/date'
+
+const { value, setValue, displayMonth, nextMonth, prevMonth, isDisabled } = useCalendar({
+  defaultValue: today(getLocalTimeZone()),
+})
+```
+
+### useRangeCalendar
+
+```ts
+import { useRangeCalendar } from '@auronui/vue'
+
+const { start, end, setRange, isComplete, clearRange } = useRangeCalendar()
+// start / end are ComputedRef<DateValue | undefined>
+// isComplete is true when both start and end are set
+```
+
+### useTree
+
+```ts
+import { useTree } from '@auronui/vue'
+
+const { selected, expanded, select, deselect, expand, collapse, expandAll, collapseAll } =
+  useTree({ defaultSelected: new Set(['node-1']), multiple: false })
+```
+
+### useSplitter
+
+```ts
+import { useSplitter } from '@auronui/vue'
+
+const { sizes, setSizes, resetSizes, onLayout } = useSplitter({ defaultSizes: [30, 70] })
+```
+
+```html
+<SplitterGroup @layout="onLayout">
+  <SplitterPanel :default-size="sizes[0]" />
+  <SplitterResizeHandle />
+  <SplitterPanel :default-size="sizes[1]" />
+</SplitterGroup>
+```
+
+### useColorPicker
+
+```ts
+import { useColorPicker } from '@auronui/vue'
+
+const { color, setColor, hue, saturation, brightness, alpha, toHex, toRgb, toHsl } =
+  useColorPicker({ defaultValue: '#3b82f6' })
+
+console.log(toHex())          // '#3b82f6'
+console.log(hue.value)        // 217
+```
+
+```html
+<ColorPicker v-model="color" @update:model-value="onColorChange" />
+```
+
+### useOTP
+
+```ts
+import { useOTP } from '@auronui/vue'
+
+const { value, isComplete, reset, onValueChange, onOTPComplete } = useOTP({
+  length: 6,
+  onComplete: (code) => verifyCode(code),
+})
+```
+
+```html
+<InputOTP :model-value="value.value" @update:model-value="onValueChange" @complete="onOTPComplete" />
+```
+
+### useSwatchPicker
+
+```ts
+import { useSwatchPicker } from '@auronui/vue'
+
+const { selectedColor, hasSelection, setColor, clearSelection, isSelected, onColorChange } =
+  useSwatchPicker({ defaultValue: '#ff0000' })
+```
+
+```html
+<ColorSwatchPicker :model-value="selectedColor.value" @update:model-value="onColorChange" />
+```
+
+---
+
 ## Imports
 
 ```ts
@@ -867,6 +1080,10 @@ import {
   Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent,
   Alert, AlertIcon, AlertTitle, AlertDescription,
   ToastProvider, Toast, ToastViewport, useToast,
+  useDisclosure, usePagination, useStepper, useTabs, useAccordion,
+  useSlider, useListBox, useCheckboxGroup, useRadioGroup,
+  useCalendar, useRangeCalendar, useTree, useSplitter,
+  useColorPicker, useColorState, useOTP, useSwatchPicker,
   Badge, Chip, Avatar, AvatarGroup, Card, CardHeader, CardBody, CardFooter,
   Spinner, Skeleton, Separator, Text, Label, Kbd,
   Pagination, PaginationContent, PaginationItem, PaginationPrev, PaginationNext,

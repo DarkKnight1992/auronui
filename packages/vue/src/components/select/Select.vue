@@ -120,7 +120,7 @@ const slots = useSlots()
 // Tier 3 (advanced): consumer supplied explicit compound chrome → pass through.
 // Tier 1/2 (terse): render trigger/value/content internally.
 const usesCustomChrome = computed(() =>
-  hasSlotComponent(slots.default?.(), [SelectTrigger, SelectContent]),
+  hasSlotComponent(slots.default?.({}), [SelectTrigger, SelectContent]),
 )
 
 // Helper IDs / aria wiring

@@ -109,7 +109,7 @@ const slots = useSlots()
 // Compound chrome present → pass slot through (advanced). Otherwise render the
 // input/content/items internally (short-form).
 const usesCustomChrome = computed(() =>
-  hasSlotComponent(slots.default?.(), [ComboBoxInput, ComboBoxContent]),
+  hasSlotComponent(slots.default?.({}), [ComboBoxInput, ComboBoxContent]),
 )
 
 const slotFns = computed(() =>

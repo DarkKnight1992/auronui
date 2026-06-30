@@ -159,7 +159,7 @@ const slots = useSlots()
 // Compound chrome present → pass slot through (advanced). Otherwise render the
 // input/content/items internally (short-form).
 const usesCustomChrome = computed(() =>
-  hasSlotComponent(slots.default?.(), [AutocompleteInput, AutocompleteContent]),
+  hasSlotComponent(slots.default?.({}), [AutocompleteInput, AutocompleteContent]),
 )
 
 // Registry for slot-rendered items: value → label (populated by AutocompleteItem at mount).
