@@ -1,4 +1,7 @@
 export { default as Form } from './Form.vue'
 export { default as FormField } from './FormField.vue'
-export type { ValidationMode, FieldRegistration, FormContext } from './form.context'
+export { useForm } from './useForm'
+export { useField } from './useField'
+export type { ValidationMode, FieldRegistration, FormContext, FormOptions } from './form.context'
 export type { FieldRules, CustomValidator, ValidationContext } from './validation'
+export type { FieldHandle, FieldOptions } from './useField'

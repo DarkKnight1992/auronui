@@ -13,17 +13,29 @@ const props = defineProps<{
   validate?: CustomValidator
   /** Override validation mode for this field. */
   validationMode?: 'on-submit' | 'on-blur' | 'on-change'
+  /** Field names whose changes trigger re-validation of this field. */
+  deps?: string[]
 }>()
 
 const modelValue = defineModel<unknown>({ default: undefined })
 
 const ctx = useFormInject()
 
+// ── Default value resolution ─────────────────────────────────────────────────
+// Priority: field-level defaultValue prop > form-level defaultValues[name] > undefined
+
+const resolvedDefault = computed(() => {
+  if (props.defaultValue !== undefined) return props.defaultValue
+  return ctx?.defaultValues[props.name]
+})
+
 // ── Field state ──────────────────────────────────────────────────────────────
 
 const localError = ref<string | undefined>(undefined)
 const touched = ref(false)
-const dirty = ref(props.defaultValue !== undefined && modelValue.value !== props.defaultValue)
+const dirty = ref(
+  resolvedDefault.value !== undefined && modelValue.value !== resolvedDefault.value,
+)
 
 const fieldError = computed<string | undefined>(() =>
   ctx ? ctx.errors.value[props.name] : localError.value,
@@ -39,35 +51,7 @@ const validationMode = computed(() => props.validationMode ?? ctx?.validationMod
 // ── Dirty tracking ───────────────────────────────────────────────────────────
 
 watch(modelValue, (val) => {
-  dirty.value = val !== props.defaultValue
-})
-
-// ── Registration ─────────────────────────────────────────────────────────────
-
-function resetField(): void {
-  modelValue.value = props.defaultValue
-  localError.value = undefined
-  touched.value = false
-  dirty.value = false
-  hasBeenInvalid.value = false
-}
-
-onMounted(() => {
-  ctx?.registerField({
-    name: props.name,
-    getValue: () => modelValue.value,
-    getDefaultValue: () => props.defaultValue,
-    setValue: (val: unknown) => { modelValue.value = val },
-    reset: resetField,
-    touched,
-    dirty,
-    rules: props.rules,
-    validate: props.validate,
-  })
-})
-
-onUnmounted(() => {
-  ctx?.unregisterField(props.name)
+  dirty.value = val !== resolvedDefault.value
 })
 
 // ── Validation ───────────────────────────────────────────────────────────────
@@ -102,6 +86,66 @@ async function handleBlur(): Promise<void> {
     await triggerValidation(modelValue.value)
   }
 }
+
+// ── Deps watching ─────────────────────────────────────────────────────────────
+
+const depStoppers: (() => void)[] = []
+
+function setupDepWatchers(deps: string[] | undefined): void {
+  for (const stop of depStoppers) stop()
+  depStoppers.length = 0
+  if (!ctx || !deps?.length) return
+  for (const dep of deps) {
+    const depRef = ctx.getFieldRef(dep)
+    if (!depRef) continue
+    depStoppers.push(watch(depRef, () => void triggerValidation(modelValue.value)))
+  }
+}
+
+// ── Registration ─────────────────────────────────────────────────────────────
+
+function resetField(): void {
+  modelValue.value = resolvedDefault.value
+  localError.value = undefined
+  touched.value = false
+  dirty.value = false
+  hasBeenInvalid.value = false
+}
+
+onMounted(() => {
+  // Initialize to resolved default when no value was passed by the parent
+  if (modelValue.value === undefined && resolvedDefault.value !== undefined) {
+    modelValue.value = resolvedDefault.value
+  }
+
+  ctx?.registerField({
+    name: props.name,
+    valueRef: modelValue,
+    getValue: () => modelValue.value,
+    getDefaultValue: () => resolvedDefault.value,
+    setValue: (val: unknown) => { modelValue.value = val },
+    reset: resetField,
+    touched,
+    dirty,
+    rules: props.rules,
+    validate: props.validate,
+  })
+
+  setupDepWatchers(props.deps)
+})
+
+// Watch a stable string key so the watcher only tears down/rebuilds when the
+// dep list contents actually change — not on every re-render where the parent
+// passes a new array literal with the same elements (Object.is differs by ref).
+watch(
+  () => props.deps?.join('\0') ?? '',
+  () => setupDepWatchers(props.deps),
+)
+
+onUnmounted(() => {
+  for (const stop of depStoppers) stop()
+  ctx?.unregisterField(props.name)
+})
 
 // ── Slot bindings ─────────────────────────────────────────────────────────────
 

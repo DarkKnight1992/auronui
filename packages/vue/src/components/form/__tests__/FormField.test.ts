@@ -5,6 +5,7 @@ import axe from 'axe-core'
 import Form from '../Form.vue'
 import FormField from '../FormField.vue'
 import Input from '../../input/Input.vue'
+import { useFormInject } from '../form.context'
 
 function mountField(opts: {
   name?: string
@@ -425,5 +426,182 @@ describe('FormField — field-level validationMode', () => {
     await wrapper.find('input').setValue('')
     await flushPromises()
     expect(wrapper.findComponent(Input).props('isInvalid')).toBe(true)
+  })
+})
+
+describe('FormField — valueRef registration', () => {
+  it('form context values updates when FormField value changes', async () => {
+    const val = ref('start')
+    let capturedCtx: ReturnType<typeof useFormInject> = null
+
+    const Inspector = defineComponent({
+      setup() {
+        capturedCtx = useFormInject()
+        return {}
+      },
+      template: '<div />',
+    })
+
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input, Inspector },
+      setup() { return { val } },
+      template: `
+        <Form>
+          <FormField name="city" v-model="val">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="City" /></template>
+          </FormField>
+          <Inspector />
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    expect(capturedCtx!.values.value.city).toBe('start')
+    val.value = 'London'
+    await nextTick()
+    expect(capturedCtx!.values.value.city).toBe('London')
+  })
+})
+
+describe('FormField — form-level defaultValues fallback', () => {
+  it('initializes modelValue from ctx.defaultValues when no field-level default', async () => {
+    const val = ref<unknown>(undefined)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val } },
+      template: `
+        <Form :default-values="{ country: 'US' }">
+          <FormField name="country" v-model="val">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Country" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    expect(val.value).toBe('US')
+  })
+
+  it('field-level default wins over form-level default', async () => {
+    const val = ref<unknown>(undefined)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val } },
+      template: `
+        <Form :default-values="{ role: 'viewer' }">
+          <FormField name="role" v-model="val" default-value="editor">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Role" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    expect(val.value).toBe('editor')
+  })
+
+  it('reset() uses the resolved default (form-level)', async () => {
+    const val = ref<unknown>(undefined)
+    const formRef = ref<InstanceType<typeof Form> | null>(null)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val, formRef } },
+      template: `
+        <Form ref="formRef" :default-values="{ score: 0 }">
+          <FormField name="score" v-model="val">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Score" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    val.value = 99
+    await nextTick()
+    const api = formRef.value as unknown as Record<string, unknown>
+    ;(api.reset as () => void)()
+    await nextTick()
+    expect(val.value).toBe(0)
+  })
+})
+
+describe('FormField — deps cross-field re-validation', () => {
+  it('re-validates this field when a dep field value changes', async () => {
+    const password = ref('secret')
+    const confirm = ref('secret')
+
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { password, confirm } },
+      template: `
+        <Form validation-mode="on-submit">
+          <FormField name="password" v-model="password">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Password" /></template>
+          </FormField>
+          <FormField
+            name="confirmPassword"
+            v-model="confirm"
+            :rules="{ matches: 'password' }"
+            :deps="['password']"
+          >
+            <template #default="{ fieldProps, error }">
+              <Input v-bind="fieldProps" label="Confirm" />
+              <span v-if="error" data-error>{{ error }}</span>
+            </template>
+          </FormField>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await nextTick()
+
+    // Initially matching — no error
+    expect(wrapper.find('[data-error]').exists()).toBe(false)
+
+    // Change password — confirm should re-validate and show error
+    password.value = 'different'
+    await flushPromises()
+    expect(wrapper.find('[data-error]').exists()).toBe(true)
+    expect(wrapper.find('[data-error]').text()).toContain('Must match')
+  })
+
+  it('clears dep error when values match again', async () => {
+    const password = ref('abc')
+    const confirm = ref('abc')
+
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { password, confirm } },
+      template: `
+        <Form validation-mode="on-submit">
+          <FormField name="password" v-model="password">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Password" /></template>
+          </FormField>
+          <FormField
+            name="confirmPassword"
+            v-model="confirm"
+            :rules="{ matches: 'password' }"
+            :deps="['password']"
+          >
+            <template #default="{ fieldProps, error }">
+              <Input v-bind="fieldProps" label="Confirm" />
+              <span v-if="error" data-error>{{ error }}</span>
+            </template>
+          </FormField>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await nextTick()
+
+    // Trigger error
+    password.value = 'xyz'
+    await flushPromises()
+    expect(wrapper.find('[data-error]').exists()).toBe(true)
+
+    // Fix it
+    password.value = 'abc'
+    await flushPromises()
+    expect(wrapper.find('[data-error]').exists()).toBe(false)
   })
 })

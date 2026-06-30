@@ -1,16 +1,21 @@
 <script setup lang="ts">
-import { ref, computed, provide } from 'vue'
-import { formContextKey } from './form.context'
-import { runValidation } from './validation'
-import type { ValidationMode, FieldRegistration, FormContext } from './form.context'
+import { toRef, provide } from 'vue'
+import { formContextKey, type FormContext, type ValidationMode } from './form.context'
+import { createFormState } from './form.state'
 
 const props = withDefaults(
   defineProps<{
+    /** External form handle from useForm(). When provided, Form uses it instead of creating its own state. */
+    form?: FormContext
+    /** Centralized default values. Field-level defaultValue prop wins if both set. */
+    defaultValues?: Record<string, unknown>
     validationMode?: ValidationMode
     isDisabled?: boolean
     class?: string
   }>(),
   {
+    form: undefined,
+    defaultValues: undefined,
     validationMode: 'on-submit',
     isDisabled: false,
     class: undefined,
@@ -23,212 +28,46 @@ const emit = defineEmits<{
   reset: []
 }>()
 
-const errors = ref<Record<string, string>>({})
-const isSubmitting = ref(false)
-const isSubmitted = ref(false)
-const submitCount = ref(0)
-const fields = new Map<string, FieldRegistration>()
-
-// Reactive field count so computed properties re-evaluate when fields register/unregister
-const fieldCount = ref(0)
-
-function registerField(reg: FieldRegistration): void {
-  fields.set(reg.name, reg)
-  fieldCount.value++
-}
-
-function unregisterField(name: string): void {
-  fields.delete(name)
-  fieldCount.value--
-  const next = { ...errors.value }
-  delete next[name]
-  errors.value = next
-}
-
-// ── Computed state ──────────────────────────────────────────────────────────
-
-const isValid = computed(() => {
-  void fieldCount.value // track reactivity
-  return Object.keys(errors.value).length === 0
+const ctx: FormContext = props.form ?? createFormState({
+  defaultValues: props.defaultValues,
+  validationMode: toRef(props, 'validationMode'),
+  isDisabled: toRef(props, 'isDisabled'),
 })
 
-const isDirty = computed(() => {
-  void fieldCount.value
-  for (const field of fields.values()) {
-    if (field.dirty.value) return true
-  }
-  return false
-})
+provide(formContextKey, ctx)
 
-const isTouched = computed(() => {
-  void fieldCount.value
-  for (const field of fields.values()) {
-    if (field.touched.value) return true
-  }
-  return false
-})
-
-// ── Helpers ─────────────────────────────────────────────────────────────────
-
-function getAllValues(): Record<string, unknown> {
-  const values: Record<string, unknown> = {}
-  for (const [name, field] of fields.entries()) {
-    values[name] = field.getValue()
-  }
-  return values
-}
-
-// ── Validation ───────────────────────────────────────────────────────────────
-
-async function triggerFieldValidation(name: string): Promise<void> {
-  const field = fields.get(name)
-  if (!field) return
-  const error = await runValidation(
-    field.getValue(),
-    field.rules,
-    field.validate,
-    { values: getAllValues() },
-  )
-  const next = { ...errors.value }
-  if (error) {
-    next[name] = error
-  } else {
-    delete next[name]
-  }
-  errors.value = next
-}
-
-async function trigger(name?: string): Promise<boolean> {
-  if (name) {
-    await triggerFieldValidation(name)
-    return !errors.value[name]
-  }
-
-  const results = await Promise.all(
-    [...fields.entries()].map(async ([fieldName, field]) => {
-      const error = await runValidation(
-        field.getValue(),
-        field.rules,
-        field.validate,
-        { values: getAllValues() },
-      )
-      return { name: fieldName, error }
-    }),
-  )
-
-  const next: Record<string, string> = {}
-  for (const { name: fieldName, error } of results) {
-    if (error) next[fieldName] = error
-  }
-  errors.value = next
-  return Object.keys(next).length === 0
-}
-
-// ── Error management ─────────────────────────────────────────────────────────
-
-function setErrors(newErrors: Record<string, string>): void {
-  errors.value = { ...errors.value, ...newErrors }
-  isSubmitting.value = false
-}
-
-function setError(name: string, message: string): void {
-  errors.value = { ...errors.value, [name]: message }
-}
-
-function clearErrors(name?: string): void {
-  if (name) {
-    const next = { ...errors.value }
-    delete next[name]
-    errors.value = next
-  } else {
-    errors.value = {}
-  }
-}
-
-// ── Values ───────────────────────────────────────────────────────────────────
-
-function getValues(): Record<string, unknown> {
-  return getAllValues()
-}
-
-function setValue(name: string, value: unknown): void {
-  const field = fields.get(name)
-  if (field) field.setValue(value)
-}
-
-// ── Reset ────────────────────────────────────────────────────────────────────
-
-function reset(): void {
-  for (const field of fields.values()) {
-    field.reset()
-  }
-  errors.value = {}
-  isSubmitting.value = false
-  isSubmitted.value = false
-  submitCount.value = 0
-  emit('reset')
-}
-
-// ── Submit ───────────────────────────────────────────────────────────────────
-
-async function handleSubmit(): Promise<void> {
-  isSubmitting.value = true
-  submitCount.value++
-
-  const values = getAllValues()
-  const context = { values }
-
-  const results = await Promise.all(
-    [...fields.entries()].map(async ([name, field]) => {
-      const error = await runValidation(field.getValue(), field.rules, field.validate, context)
-      return { name, error }
-    }),
-  )
-
-  const nextErrors: Record<string, string> = {}
-  for (const { name, error } of results) {
-    if (error) nextErrors[name] = error
-  }
-
-  if (Object.keys(nextErrors).length > 0) {
-    errors.value = nextErrors
-    isSubmitting.value = false
-    isSubmitted.value = true
-    emit('invalid', nextErrors)
-    return
-  }
-
-  errors.value = {}
-  isSubmitted.value = true
-  isSubmitting.value = false
-  emit('submit', { values, setErrors })
-}
-
-// ── Context ──────────────────────────────────────────────────────────────────
-
-const ctx: FormContext = {
+// Destructure into top-level <script setup> bindings so that:
+// 1. Vue's template compiler auto-unwraps refs/computeds in slot prop bindings
+// 2. wrapper.findComponent(Form).vm.* access works in tests (reads setup state directly)
+const {
   errors,
   isSubmitting,
   isSubmitted,
   submitCount,
-  isDisabled: computed(() => props.isDisabled),
   isValid,
   isDirty,
   isTouched,
-  validationMode: computed(() => props.validationMode),
-  registerField,
-  unregisterField,
-  triggerFieldValidation,
+  values,
+  getValues,
+  setValue,
   setErrors,
   setError,
   clearErrors,
-  getValues,
-  setValue,
   trigger,
-  reset,
+} = ctx
+
+async function onFormSubmit(): Promise<void> {
+  await ctx.handleSubmit(
+    (vals) => emit('submit', { values: vals, setErrors }),
+    (errs) => emit('invalid', errs),
+  )
 }
 
-provide(formContextKey, ctx)
+// Named 'reset' (not onFormReset) so vm.reset is accessible via findComponent().vm
+function reset(): void {
+  ctx.reset()
+  emit('reset')
+}
 
 defineExpose({
   errors,
@@ -238,6 +77,7 @@ defineExpose({
   isValid,
   isDirty,
   isTouched,
+  values,
   getValues,
   setValue,
   setErrors,
@@ -252,9 +92,10 @@ defineExpose({
   <form
     :class="props.class"
     novalidate
-    @submit.prevent="handleSubmit"
+    @submit.prevent="onFormSubmit"
   >
     <slot
+      :values="values"
       :is-submitting="isSubmitting"
       :is-submitted="isSubmitted"
       :submit-count="submitCount"

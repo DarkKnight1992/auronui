@@ -8,6 +8,7 @@ export type ValidationMode = 'on-submit' | 'on-blur' | 'on-change'
 
 export interface FieldRegistration {
   name: string
+  valueRef: Ref<unknown>          // reactive ref — powers values computed and deps watching
   getValue: () => unknown
   getDefaultValue: () => unknown
   setValue: (value: unknown) => void
@@ -16,6 +17,12 @@ export interface FieldRegistration {
   dirty: Ref<boolean>
   rules?: FieldRules
   validate?: CustomValidator
+}
+
+export interface FormOptions {
+  defaultValues?: Record<string, unknown>
+  validationMode?: ValidationMode
+  isDisabled?: boolean
 }
 
 export interface FormContext {
@@ -28,9 +35,12 @@ export interface FormContext {
   isDirty: ComputedRef<boolean>
   isTouched: ComputedRef<boolean>
   validationMode: ComputedRef<ValidationMode>
+  values: ComputedRef<Record<string, unknown>>
+  defaultValues: Record<string, unknown>
   registerField(reg: FieldRegistration): void
   unregisterField(name: string): void
   triggerFieldValidation(name: string): Promise<void>
+  getFieldRef(name: string): Ref<unknown> | undefined
   setErrors(newErrors: Record<string, string>): void
   setError(name: string, message: string): void
   clearErrors(name?: string): void
@@ -38,6 +48,13 @@ export interface FormContext {
   setValue(name: string, value: unknown): void
   trigger(name?: string): Promise<boolean>
   reset(): void
+  handleSubmit(
+    onValid: (
+      values: Record<string, unknown>,
+      helpers: { setErrors(errors: Record<string, string>): void },
+    ) => void | Promise<void>,
+    onInvalid?: (errors: Record<string, string>) => void,
+  ): Promise<void>
 }
 
 export const {

@@ -323,3 +323,88 @@ describe('Form — reset event', () => {
     expect(onReset).toHaveBeenCalledOnce()
   })
 })
+
+describe('Form — slot values binding', () => {
+  it('slot exposes values object that updates reactively', async () => {
+    const val = ref('initial')
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val } },
+      template: `
+        <Form v-slot="{ values }">
+          <FormField name="name" v-model="val">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Name" /></template>
+          </FormField>
+          <span data-name>{{ values.name }}</span>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await nextTick()
+    expect(wrapper.find('[data-name]').text()).toBe('initial')
+    val.value = 'updated'
+    await nextTick()
+    expect(wrapper.find('[data-name]').text()).toBe('updated')
+  })
+
+  it('values field disappears after FormField unmounts', async () => {
+    const visible = ref(true)
+    const val = ref('hello')
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { visible, val } },
+      template: `
+        <Form v-slot="{ values }">
+          <FormField v-if="visible" name="name" v-model="val">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Name" /></template>
+          </FormField>
+          <span data-has>{{ 'name' in values }}</span>
+        </Form>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    await nextTick()
+    expect(wrapper.find('[data-has]').text()).toBe('true')
+    visible.value = false
+    await nextTick()
+    expect(wrapper.find('[data-has]').text()).toBe('false')
+  })
+})
+
+describe('Form — :default-values prop', () => {
+  it('FormField initializes to form-level defaultValue when field has none', async () => {
+    const val = ref<unknown>(undefined)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val } },
+      template: `
+        <Form :default-values="{ city: 'Paris' }">
+          <FormField name="city" v-model="val">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="City" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    expect(val.value).toBe('Paris')
+  })
+
+  it('field-level defaultValue wins over form-level default', async () => {
+    const val = ref<unknown>(undefined)
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() { return { val } },
+      template: `
+        <Form :default-values="{ role: 'user' }">
+          <FormField name="role" v-model="val" default-value="admin">
+            <template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Role" /></template>
+          </FormField>
+        </Form>
+      `,
+    })
+    mount(Wrapper)
+    await nextTick()
+    expect(val.value).toBe('admin')
+  })
+})
