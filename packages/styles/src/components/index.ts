@@ -38,6 +38,7 @@ export * from "./empty-state";
 export * from "./error-message";
 export * from "./fieldset";
 export * from "./header";
+export * from "./hover-card";
 export * from "./input";
 export * from "./input-otp";
 export * from "./kbd";

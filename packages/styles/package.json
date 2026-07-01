@@ -194,6 +194,10 @@
       "style": "./components/header.css",
       "default": "./components/header.css"
     },
+    "./hover-card.css": {
+      "style": "./components/hover-card.css",
+      "default": "./components/hover-card.css"
+    },
     "./input.css": {
       "style": "./components/input.css",
       "default": "./components/input.css"
@@ -373,6 +377,10 @@
     "./tree.css": {
       "style": "./components/tree.css",
       "default": "./components/tree.css"
+    },
+    "./components/hover-card": {
+      "types": "./dist/components/hover-card/index.d.ts",
+      "import": "./dist/components/hover-card/index.js"
     },
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
