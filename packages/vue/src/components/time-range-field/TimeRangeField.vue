@@ -90,7 +90,6 @@ type Props = {
   /** Steps for segment keyboard navigation. */
   step?: Partial<Record<'hour' | 'minute' | 'second' | 'millisecond', number>>
   hideTimeZone?: boolean
-  isTimeUnavailable?: (time: TimeValue) => boolean
   locale?: string
   name?: string
   /** Marks the field as required for form submission. */
@@ -284,7 +283,6 @@ const showInsideLabel = computed(
         :readonly="isReadOnly"
         :name="name"
         :hide-time-zone="hideTimeZone"
-        :is-time-unavailable="isTimeUnavailable"
         :required="required"
         :dir="dir"
         :as="as"
