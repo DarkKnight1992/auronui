@@ -121,6 +121,17 @@ export type { NumberFieldVariants } from './components/number-field'
 
 export { Fieldset } from './components/fieldset'
 
+// Phase 3 — Form: Editable (Reka gap-fill)
+export {
+  Editable,
+  EditableArea,
+  EditablePreview,
+  EditableInput,
+  EditableEditTrigger,
+  EditableSubmitTrigger,
+  EditableCancelTrigger,
+} from './components/editable'
+
 // Phase 4 — Form: Selection (Dual-Context)
 export { Checkbox, CheckboxGroup, useCheckboxGroupProvide, useCheckboxGroupInject, checkboxGroupContextKey } from './components/checkbox'
 export type { CheckboxGroupContext } from './components/checkbox'
