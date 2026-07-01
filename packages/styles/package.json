@@ -186,6 +186,10 @@
       "style": "./components/dropdown.css",
       "default": "./components/dropdown.css"
     },
+    "./editable.css": {
+      "style": "./components/editable.css",
+      "default": "./components/editable.css"
+    },
     "./empty-state.css": {
       "style": "./components/empty-state.css",
       "default": "./components/empty-state.css"

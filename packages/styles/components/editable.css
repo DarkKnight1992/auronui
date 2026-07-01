@@ -1,0 +1,136 @@
+/* =============================================================================
+ * Editable Component Styles
+ *
+ * Click/double-click-to-edit inline text. Preview state visually matches
+ * Text's base treatment (readable text, no box). Edit state visually matches
+ * Input's field-box treatment (border-field, bg-field, focus ring), applied
+ * directly to the bare <input> element since Editable has no separate
+ * wrapper box the way Input does.
+ * ============================================================================= */
+
+.editable {
+  @apply inline-flex items-center gap-1.5;
+}
+
+.editable__area {
+  @apply relative inline-flex items-center;
+}
+
+/* -----------------------------------------------------------------------------
+ * Preview (read-only text display)
+ * -------------------------------------------------------------------------- */
+.editable__preview {
+  @apply inline-block rounded-md px-1 py-0.5 text-sm text-foreground outline-none;
+  cursor: var(--cursor-interactive);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-default;
+    }
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  &[data-empty] {
+    @apply text-muted;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Input (edit-mode field)
+ * -------------------------------------------------------------------------- */
+.editable__input {
+  @apply rounded-field border bg-field px-2 py-0.5 text-sm text-field-foreground shadow-field outline-none;
+
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:focus {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+
+  &[data-readonly] {
+    background-color: var(--color-default-100);
+    cursor: default;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Triggers (edit / submit / cancel)
+ * -------------------------------------------------------------------------- */
+.editable__edit-trigger,
+.editable__submit-trigger,
+.editable__cancel-trigger {
+  @apply relative isolate inline-flex size-6 shrink-0 items-center justify-center rounded-full bg-default text-muted no-highlight;
+
+  cursor: var(--cursor-interactive);
+
+  transition:
+    transform 300ms var(--ease-out-quart),
+    color 300ms var(--ease-out),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-default-hover;
+    }
+  }
+
+  &:active {
+    transform: scale(0.93);
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+
+  & svg {
+    @apply pointer-events-none size-3.5 shrink-0;
+  }
+}
+
+.editable__submit-trigger {
+  @apply text-success;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-success/10;
+    }
+  }
+}
+
+.editable__cancel-trigger {
+  @apply text-danger;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-danger/10;
+    }
+  }
+}

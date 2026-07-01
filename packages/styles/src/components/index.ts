@@ -36,6 +36,7 @@ export * from "./drawer";
 export * from "./collapsible";
 export * from "./collapsible-group";
 export * from "./dropdown";
+export * from "./editable";
 export * from "./empty-state";
 export * from "./error-message";
 export * from "./fieldset";
