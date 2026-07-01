@@ -387,6 +387,7 @@ export { CalendarYearPicker } from './components/calendar-year-picker'
 export { DateInput } from './components/date-input'
 export { DateRangeField } from './components/date-range-field'
 export { TimeField } from './components/time-field'
+export { TimeRangeField } from './components/time-range-field'
 
 // Phase 10 — Specialized: Date & Time (plan 03)
 export { DatePicker } from './components/date-picker'
