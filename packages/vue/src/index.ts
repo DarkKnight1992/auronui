@@ -382,6 +382,7 @@ export { Calendar } from './components/calendar'
 export { RangeCalendar } from './components/range-calendar'
 
 export { CalendarYearPicker } from './components/calendar-year-picker'
+export { MonthPicker } from './components/month-picker'
 
 // Phase 10 — Specialized: Date & Time (plan 02)
 export { DateInput } from './components/date-input'
