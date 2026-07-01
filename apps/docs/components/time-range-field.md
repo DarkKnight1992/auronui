@@ -3,12 +3,11 @@ title: TimeRangeField
 ---
 
 <script setup>
-import { ref } from 'vue';
 import { TimeRangeField } from '@auronui/vue';
+import { Time } from '@internationalized/date';
 
-// Create time values - Time is from @internationalized/date package
-const defaultValue = { start: { hour: 9, minute: 0 }, end: { hour: 17, minute: 0 } };
-const invalidValue = { start: { hour: 17, minute: 0 }, end: { hour: 9, minute: 0 } };
+const defaultValue = { start: new Time(9, 0), end: new Time(17, 0) };
+const invalidValue = { start: new Time(17, 0), end: new Time(9, 0) };
 </script>
 
 # TimeRangeField
