@@ -41,6 +41,7 @@ export default defineConfig({
             { text: 'Description', link: '/components/description' },
             { text: 'EmptyState', link: '/components/empty-state' },
             { text: 'Header', link: '/components/header' },
+            { text: 'HoverCard', link: '/components/hover-card' },
             { text: 'Kbd', link: '/components/kbd' },
             { text: 'Label', link: '/components/label' },
             { text: 'Link', link: '/components/link' },
