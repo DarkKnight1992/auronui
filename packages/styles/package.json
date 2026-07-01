@@ -342,6 +342,10 @@
       "style": "./components/time-field.css",
       "default": "./components/time-field.css"
     },
+    "./time-range-field.css": {
+      "style": "./components/time-range-field.css",
+      "default": "./components/time-range-field.css"
+    },
     "./toast.css": {
       "style": "./components/toast.css",
       "default": "./components/toast.css"
