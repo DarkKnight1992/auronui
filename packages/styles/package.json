@@ -94,6 +94,10 @@
       "style": "./components/calendar-year-picker.css",
       "default": "./components/calendar-year-picker.css"
     },
+    "./month-range-picker.css": {
+      "style": "./components/month-range-picker.css",
+      "default": "./components/month-range-picker.css"
+    },
     "./card.css": {
       "style": "./components/card.css",
       "default": "./components/card.css"
