@@ -176,6 +176,32 @@ import { Button, Modal, ModalContent } from '@auronui/vue'
 </Collapsible>
 ```
 
+### 10. shadcn-style Tabs names instead of AuronUI Tabs names
+
+AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming. The correct sub-components are `TabList`, `Tab`, `TabPanel`.
+
+```vue
+<!-- ❌ Never — shadcn/ui naming, does not exist in @auronui/vue -->
+<Tabs default-value="one">
+  <TabsList>
+    <TabsTrigger value="one">Overview</TabsTrigger>
+    <TabsTrigger value="two">Details</TabsTrigger>
+  </TabsList>
+  <TabsContent value="one">Overview content</TabsContent>
+  <TabsContent value="two">Details content</TabsContent>
+</Tabs>
+
+<!-- ✅ Always — AuronUI naming -->
+<Tabs default-value="one">
+  <TabList>
+    <Tab value="one">Overview</Tab>
+    <Tab value="two">Details</Tab>
+  </TabList>
+  <TabPanel value="one">Overview content</TabPanel>
+  <TabPanel value="two">Details content</TabPanel>
+</Tabs>
+```
+
 ---
 
 ## Components
