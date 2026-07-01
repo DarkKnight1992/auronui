@@ -45,6 +45,7 @@ export default defineConfig({
             { text: 'Kbd', link: '/components/kbd' },
             { text: 'Label', link: '/components/label' },
             { text: 'Link', link: '/components/link' },
+            { text: 'MonthPicker', link: '/components/month-picker' },
             { text: 'Separator', link: '/components/separator' },
             { text: 'Skeleton', link: '/components/skeleton' },
             { text: 'Spinner', link: '/components/spinner' },
