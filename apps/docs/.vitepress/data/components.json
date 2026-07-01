@@ -437,132 +437,6 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/accordion/AccordionTrigger.vue"
     ]
   },
-  "Alert": {
-    "exportName": "default",
-    "displayName": "Alert",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "severity",
-        "description": "Severity/status of the alert",
-        "required": false,
-        "type": {
-          "name": "AlertSeverity"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'default'"
-        }
-      },
-      {
-        "name": "isClosable",
-        "description": "Whether the alert can be dismissed by the user",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "class",
-        "description": "Additional CSS class to merge onto the root element",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "close",
-        "description": "Emitted when the alert is dismissed"
-      }
-    ],
-    "slots": [
-      {
-        "name": "icon"
-      },
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/Alert.vue"
-    ]
-  },
-  "AlertDescription": {
-    "exportName": "default",
-    "displayName": "AlertDescription",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertDescription.vue"
-    ]
-  },
-  "AlertIcon": {
-    "exportName": "default",
-    "displayName": "AlertIcon",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertIcon.vue"
-    ]
-  },
-  "AlertTitle": {
-    "exportName": "default",
-    "displayName": "AlertTitle",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertTitle.vue"
-    ]
-  },
   "AlertDialog": {
     "displayName": "AlertDialog",
     "exportName": "default",
@@ -1306,6 +1180,132 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue"
+    ]
+  },
+  "Alert": {
+    "exportName": "default",
+    "displayName": "Alert",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "severity",
+        "description": "Severity/status of the alert",
+        "required": false,
+        "type": {
+          "name": "AlertSeverity"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "isClosable",
+        "description": "Whether the alert can be dismissed by the user",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class to merge onto the root element",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "close",
+        "description": "Emitted when the alert is dismissed"
+      }
+    ],
+    "slots": [
+      {
+        "name": "icon"
+      },
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/Alert.vue"
+    ]
+  },
+  "AlertDescription": {
+    "exportName": "default",
+    "displayName": "AlertDescription",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertDescription.vue"
+    ]
+  },
+  "AlertIcon": {
+    "exportName": "default",
+    "displayName": "AlertIcon",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertIcon.vue"
+    ]
+  },
+  "AlertTitle": {
+    "exportName": "default",
+    "displayName": "AlertTitle",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertTitle.vue"
     ]
   },
   "AspectRatio": {
@@ -26464,13 +26464,6 @@
         "defaultValue": {
           "func": false,
           "value": "false"
-        }
-      },
-      {
-        "name": "isTimeUnavailable",
-        "required": false,
-        "type": {
-          "name": "TSFunctionType"
         }
       },
       {
