@@ -46,6 +46,7 @@ export default defineConfig({
             { text: 'Label', link: '/components/label' },
             { text: 'Link', link: '/components/link' },
             { text: 'MonthPicker', link: '/components/month-picker' },
+            { text: 'MonthRangePicker', link: '/components/month-range-picker' },
             { text: 'Separator', link: '/components/separator' },
             { text: 'Skeleton', link: '/components/skeleton' },
             { text: 'Spinner', link: '/components/spinner' },

@@ -563,71 +563,6 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertTitle.vue"
     ]
   },
-  "AspectRatio": {
-    "exportName": "default",
-    "displayName": "AspectRatio",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "ratio",
-        "required": false,
-        "type": {
-          "name": "number"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "1"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes for individual slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/aspect-ratio/AspectRatio.vue"
-    ]
-  },
   "AlertDialog": {
     "displayName": "AlertDialog",
     "exportName": "default",
@@ -1373,90 +1308,25 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue"
     ]
   },
-  "Avatar": {
+  "AspectRatio": {
     "exportName": "default",
-    "displayName": "Avatar",
+    "displayName": "AspectRatio",
     "description": "",
     "tags": {},
     "props": [
       {
-        "name": "src",
+        "name": "ratio",
         "required": false,
         "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "alt",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "name",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        }
-      },
-      {
-        "name": "color",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        }
-      },
-      {
-        "name": "isBordered",
-        "required": false,
-        "type": {
-          "name": "boolean"
+          "name": "number"
         },
         "defaultValue": {
           "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "showFallback",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
+          "value": "1"
         }
       },
       {
         "name": "as",
-        "description": "AvatarRoot props",
         "required": false,
         "type": {
           "name": "string"
@@ -1470,194 +1340,25 @@
         }
       },
       {
-        "name": "referrerPolicy",
-        "description": "AvatarImage props",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "crossOrigin",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "imageAs",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "imageAsChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "delayMs",
-        "description": "AvatarFallback props",
-        "required": false,
-        "type": {
-          "name": "number"
-        }
-      },
-      {
-        "name": "fallbackAs",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "fallbackAsChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
         "name": "class",
         "required": false,
         "type": {
           "name": "ClassValue"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
         }
       },
       {
         "name": "classNames",
-        "description": "Per-slot class name overrides",
+        "description": "Override classes for individual slots",
         "required": false,
         "type": {
           "name": "Partial",
           "elements": [
             {
-              "name": "{\n  base: ClassValue\n  image: ClassValue\n  fallback: ClassValue\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "loading-status-change",
-        "type": {
-          "names": [
-            "string"
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "fallback"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/Avatar.vue"
-    ]
-  },
-  "AvatarGroup": {
-    "exportName": "default",
-    "displayName": "AvatarGroup",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"sm\""
-            },
-            {
-              "name": "\"md\""
-            },
-            {
-              "name": "\"lg\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "isBordered",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isGrid",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "max",
-        "required": false,
-        "type": {
-          "name": "number"
-        }
-      },
-      {
-        "name": "total",
-        "required": false,
-        "type": {
-          "name": "number"
-        }
-      },
-      {
-        "name": "renderCount",
-        "required": false,
-        "type": {
-          "name": "TSFunctionType"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "avatars",
-        "description": "Shorthand API: render avatars from an array instead of the compound slot API",
-        "required": false,
-        "type": {
-          "name": "Array",
-          "elements": [
-            {
-              "name": "AvatarShorthandItem"
+              "name": "{\n  base: ClassValue\n}"
             }
           ]
         }
@@ -1669,90 +1370,7 @@
       }
     ],
     "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/AvatarGroup.vue"
-    ]
-  },
-  "Badge": {
-    "exportName": "default",
-    "displayName": "Badge",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "color",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"default\""
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"md\""
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"primary\""
-        }
-      },
-      {
-        "name": "placement",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"top-right\""
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class name overrides.",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  anchor: ClassValue;\n  base: ClassValue;\n  label: ClassValue;\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      },
-      {
-        "name": "label"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/badge/Badge.vue"
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/aspect-ratio/AspectRatio.vue"
     ]
   },
   "Autocomplete": {
@@ -3335,6 +2953,388 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/autocomplete/AutocompleteOverflowChips.vue"
+    ]
+  },
+  "Badge": {
+    "exportName": "default",
+    "displayName": "Badge",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"default\""
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"md\""
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"primary\""
+        }
+      },
+      {
+        "name": "placement",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"top-right\""
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class name overrides.",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  anchor: ClassValue;\n  base: ClassValue;\n  label: ClassValue;\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      },
+      {
+        "name": "label"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/badge/Badge.vue"
+    ]
+  },
+  "Avatar": {
+    "exportName": "default",
+    "displayName": "Avatar",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "src",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "name",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        }
+      },
+      {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        }
+      },
+      {
+        "name": "isBordered",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "showFallback",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "as",
+        "description": "AvatarRoot props",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "referrerPolicy",
+        "description": "AvatarImage props",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "crossOrigin",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "imageAs",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "imageAsChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "delayMs",
+        "description": "AvatarFallback props",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "fallbackAs",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "fallbackAsChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class name overrides",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  image: ClassValue\n  fallback: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "loading-status-change",
+        "type": {
+          "names": [
+            "string"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "fallback"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/Avatar.vue"
+    ]
+  },
+  "AvatarGroup": {
+    "exportName": "default",
+    "displayName": "AvatarGroup",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"sm\""
+            },
+            {
+              "name": "\"md\""
+            },
+            {
+              "name": "\"lg\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'md'"
+        }
+      },
+      {
+        "name": "isBordered",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isGrid",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "max",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "total",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "renderCount",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "avatars",
+        "description": "Shorthand API: render avatars from an array instead of the compound slot API",
+        "required": false,
+        "type": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "AvatarShorthandItem"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/AvatarGroup.vue"
     ]
   },
   "BreadcrumbItem": {
@@ -18671,6 +18671,254 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/month-picker/MonthPicker.vue"
+    ]
+  },
+  "MonthRangePicker": {
+    "exportName": "default",
+    "displayName": "MonthRangePicker",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "defaultValue",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "DateRange"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        }
+      },
+      {
+        "name": "defaultPlaceholder",
+        "required": false,
+        "type": {
+          "name": "DateValue"
+        }
+      },
+      {
+        "name": "minValue",
+        "required": false,
+        "type": {
+          "name": "DateValue"
+        }
+      },
+      {
+        "name": "maxValue",
+        "required": false,
+        "type": {
+          "name": "DateValue"
+        }
+      },
+      {
+        "name": "isMonthDisabled",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "isMonthUnavailable",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "locale",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "preventDeselect",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "allowNonContiguousRanges",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "maximumMonths",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "readonly",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "calendarLabel",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "initialFocus",
+        "description": "Initial focus state. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "dir",
+        "description": "Text direction.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"ltr\""
+            },
+            {
+              "name": "\"rtl\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "nextPage",
+        "description": "Navigate to next page (next year).",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "prevPage",
+        "description": "Navigate to previous page (previous year).",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "fixedDate",
+        "description": "Fix one end of the range.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"start\""
+            },
+            {
+              "name": "\"end\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Render child as root element.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class overrides",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  header: ClassValue\n  navButton: ClassValue\n  navButtonIcon: ClassValue\n  heading: ClassValue\n  grid: ClassValue\n  gridBody: ClassValue\n  gridRow: ClassValue\n  cell: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:start-value",
+        "type": {
+          "names": [
+            "union"
+          ],
+          "elements": [
+            {
+              "name": "DateValue"
+            },
+            {
+              "name": "undefined"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "heading",
+        "scoped": true,
+        "bindings": [
+          {
+            "name": "heading-value",
+            "title": "binding"
+          }
+        ]
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/month-range-picker/MonthRangePicker.vue"
     ]
   },
   "NumberField": {
