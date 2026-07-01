@@ -39,6 +39,7 @@ export default defineConfig({
             { text: 'Chip', link: '/components/chip' },
             { text: 'CloseButton', link: '/components/close-button' },
             { text: 'Description', link: '/components/description' },
+            { text: 'Editable', link: '/components/editable' },
             { text: 'EmptyState', link: '/components/empty-state' },
             { text: 'Header', link: '/components/header' },
             { text: 'HoverCard', link: '/components/hover-card' },
