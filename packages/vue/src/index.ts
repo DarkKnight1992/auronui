@@ -197,6 +197,14 @@ export {
 } from './components/drawer'
 export type { DrawerPlacement, DrawerSize } from './components/drawer'
 
+// Phase 7 — Overlay: HoverCard (Reka gap-fill)
+export {
+  HoverCard,
+  HoverCardTrigger,
+  HoverCardContent,
+  HoverCardArrow,
+} from './components/hover-card'
+
 // Phase 6 — Navigation & Feedback: Tabs
 export { Tabs, TabList, Tab, TabPanel, TabIndicator } from './components/tabs'
 
