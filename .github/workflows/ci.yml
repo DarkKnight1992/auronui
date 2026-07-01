@@ -54,7 +54,7 @@ jobs:
         uses: ./.github/common-actions/install
 
       - name: Build @auronui/vue
-        run: pnpm --filter @auronui/vue build
+        run: pnpm exec turbo build --filter=@auronui/vue
 
       - name: Build SSR app
         run: pnpm --filter ssr-test build
