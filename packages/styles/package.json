@@ -378,10 +378,6 @@
       "style": "./components/tree.css",
       "default": "./components/tree.css"
     },
-    "./components/hover-card": {
-      "types": "./dist/components/hover-card/index.d.ts",
-      "import": "./dist/components/hover-card/index.js"
-    },
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/components/*/index.js"
