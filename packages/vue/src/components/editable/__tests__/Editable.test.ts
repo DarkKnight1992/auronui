@@ -65,7 +65,12 @@ describe('Editable', () => {
     const preview = wrapper.find('span')
     expect(preview.attributes('hidden')).toBeUndefined()
 
-    await preview.trigger('focus')
+    // Reka's EditablePreview listens for `focusin` (not `focus`) to trigger
+    // activationMode="focus" — .trigger('focus') dispatches a synthetic 'focus'
+    // event that never reaches a focusin listener (focusin only fires natively
+    // via element.focus() or real user interaction, not synthetic dispatch of
+    // an unrelated event type).
+    await preview.trigger('focusin')
     await flushPromises()
 
     const input = wrapper.find('input')
