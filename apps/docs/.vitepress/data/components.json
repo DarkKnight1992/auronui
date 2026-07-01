@@ -563,751 +563,6 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertTitle.vue"
     ]
   },
-  "AlertDialog": {
-    "displayName": "AlertDialog",
-    "exportName": "default",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "defaultOpen",
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "open",
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "size",
-        "type": {
-          "name": "String as () => 'xs' | 'sm' | 'md' | 'lg' | 'cover'"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "variant",
-        "type": {
-          "name": "String as () => 'opaque' | 'blur' | 'transparent'"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'opaque'"
-        }
-      },
-      {
-        "name": "placement",
-        "type": {
-          "name": "String as () => 'auto' | 'top' | 'center' | 'bottom'"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'center'"
-        }
-      },
-      {
-        "name": "status",
-        "type": {
-          "name": "String as () => 'default' | 'accent' | 'danger' | 'success' | 'warning'"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'danger'"
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "update:open"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialog.vue"
-    ]
-  },
-  "AlertDialogAction": {
-    "exportName": "default",
-    "displayName": "AlertDialogAction",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "variant",
-        "description": "variant — use 'bordered' for the outline style; 'outline' is @deprecated",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"danger\""
-            },
-            {
-              "name": "\"danger-soft\""
-            },
-            {
-              "name": "\"primary\""
-            },
-            {
-              "name": "\"secondary\""
-            },
-            {
-              "name": "\"ghost\""
-            },
-            {
-              "name": "\"bordered\""
-            },
-            {
-              "name": "\"outline\""
-            },
-            {
-              "name": "\"success\""
-            },
-            {
-              "name": "\"success-soft\""
-            },
-            {
-              "name": "\"warning\""
-            },
-            {
-              "name": "\"warning-soft\""
-            },
-            {
-              "name": "\"tertiary\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'danger'"
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"sm\""
-            },
-            {
-              "name": "\"md\""
-            },
-            {
-              "name": "\"lg\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override default classes for any slot. Keys correspond to slot names (e.g., base).",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogAction.vue"
-    ]
-  },
-  "AlertDialogBody": {
-    "exportName": "default",
-    "displayName": "AlertDialogBody",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogBody.vue"
-    ]
-  },
-  "AlertDialogCancel": {
-    "exportName": "default",
-    "displayName": "AlertDialogCancel",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "variant",
-        "description": "variant — use 'bordered' for the outline style; 'outline' is @deprecated",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"danger\""
-            },
-            {
-              "name": "\"danger-soft\""
-            },
-            {
-              "name": "\"primary\""
-            },
-            {
-              "name": "\"secondary\""
-            },
-            {
-              "name": "\"ghost\""
-            },
-            {
-              "name": "\"bordered\""
-            },
-            {
-              "name": "\"outline\""
-            },
-            {
-              "name": "\"success\""
-            },
-            {
-              "name": "\"success-soft\""
-            },
-            {
-              "name": "\"warning\""
-            },
-            {
-              "name": "\"warning-soft\""
-            },
-            {
-              "name": "\"tertiary\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'secondary'"
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"sm\""
-            },
-            {
-              "name": "\"md\""
-            },
-            {
-              "name": "\"lg\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class name overrides",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{ base: ClassValue }"
-            }
-          ]
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogCancel.vue"
-    ]
-  },
-  "AlertDialogContent": {
-    "exportName": "default",
-    "displayName": "AlertDialogContent",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "to",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "string"
-            },
-            {
-              "name": "HTMLElement"
-            }
-          ]
-        }
-      },
-      {
-        "name": "disabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "defer",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "forceMount",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "disableOutsidePointerEvents",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "escape-key-down",
-        "type": {
-          "names": [
-            "KeyboardEvent"
-          ]
-        }
-      },
-      {
-        "name": "open-auto-focus",
-        "type": {
-          "names": [
-            "Event"
-          ]
-        }
-      },
-      {
-        "name": "close-auto-focus",
-        "type": {
-          "names": [
-            "Event"
-          ]
-        }
-      },
-      {
-        "name": "pointer-down-outside",
-        "type": {
-          "names": [
-            "Event"
-          ]
-        }
-      },
-      {
-        "name": "focus-outside",
-        "type": {
-          "names": [
-            "Event"
-          ]
-        }
-      },
-      {
-        "name": "interact-outside",
-        "type": {
-          "names": [
-            "Event"
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogContent.vue"
-    ]
-  },
-  "AlertDialogDescription": {
-    "exportName": "default",
-    "displayName": "AlertDialogDescription",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'p'"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogDescription.vue"
-    ]
-  },
-  "AlertDialogFooter": {
-    "exportName": "default",
-    "displayName": "AlertDialogFooter",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogFooter.vue"
-    ]
-  },
-  "AlertDialogHeader": {
-    "exportName": "default",
-    "displayName": "AlertDialogHeader",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogHeader.vue"
-    ]
-  },
-  "AlertDialogIcon": {
-    "exportName": "default",
-    "displayName": "AlertDialogIcon",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "status",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"default\""
-            },
-            {
-              "name": "\"accent\""
-            },
-            {
-              "name": "\"danger\""
-            },
-            {
-              "name": "\"success\""
-            },
-            {
-              "name": "\"warning\""
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogIcon.vue"
-    ]
-  },
-  "AlertDialogOverlay": {
-    "exportName": "default",
-    "displayName": "AlertDialogOverlay",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "forceMount",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogOverlay.vue"
-    ]
-  },
-  "AlertDialogTitle": {
-    "exportName": "default",
-    "displayName": "AlertDialogTitle",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'h2'"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTitle.vue"
-    ]
-  },
-  "AlertDialogTrigger": {
-    "exportName": "default",
-    "displayName": "AlertDialogTrigger",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue"
-    ]
-  },
   "AspectRatio": {
     "exportName": "default",
     "displayName": "AspectRatio",
@@ -2955,54 +2210,158 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/autocomplete/AutocompleteOverflowChips.vue"
     ]
   },
-  "Badge": {
+  "AlertDialog": {
+    "displayName": "AlertDialog",
     "exportName": "default",
-    "displayName": "Badge",
     "description": "",
     "tags": {},
     "props": [
       {
-        "name": "color",
-        "required": false,
+        "name": "defaultOpen",
         "type": {
-          "name": "TSIndexedAccessType"
+          "name": "boolean"
         },
         "defaultValue": {
           "func": false,
-          "value": "\"default\""
+          "value": "false"
+        }
+      },
+      {
+        "name": "open",
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "size",
+        "type": {
+          "name": "String as () => 'xs' | 'sm' | 'md' | 'lg' | 'cover'"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'md'"
+        }
+      },
+      {
+        "name": "variant",
+        "type": {
+          "name": "String as () => 'opaque' | 'blur' | 'transparent'"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'opaque'"
+        }
+      },
+      {
+        "name": "placement",
+        "type": {
+          "name": "String as () => 'auto' | 'top' | 'center' | 'bottom'"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'center'"
+        }
+      },
+      {
+        "name": "status",
+        "type": {
+          "name": "String as () => 'default' | 'accent' | 'danger' | 'success' | 'warning'"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'danger'"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:open"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialog.vue"
+    ]
+  },
+  "AlertDialogAction": {
+    "exportName": "default",
+    "displayName": "AlertDialogAction",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "variant",
+        "description": "variant — use 'bordered' for the outline style; 'outline' is @deprecated",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"danger\""
+            },
+            {
+              "name": "\"danger-soft\""
+            },
+            {
+              "name": "\"primary\""
+            },
+            {
+              "name": "\"secondary\""
+            },
+            {
+              "name": "\"ghost\""
+            },
+            {
+              "name": "\"bordered\""
+            },
+            {
+              "name": "\"outline\""
+            },
+            {
+              "name": "\"success\""
+            },
+            {
+              "name": "\"success-soft\""
+            },
+            {
+              "name": "\"warning\""
+            },
+            {
+              "name": "\"warning-soft\""
+            },
+            {
+              "name": "\"tertiary\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'danger'"
         }
       },
       {
         "name": "size",
         "required": false,
         "type": {
-          "name": "TSIndexedAccessType"
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"sm\""
+            },
+            {
+              "name": "\"md\""
+            },
+            {
+              "name": "\"lg\""
+            }
+          ]
         },
         "defaultValue": {
           "func": false,
-          "value": "\"md\""
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"primary\""
-        }
-      },
-      {
-        "name": "placement",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"top-right\""
+          "value": "'md'"
         }
       },
       {
@@ -3014,13 +2373,448 @@
       },
       {
         "name": "classNames",
-        "description": "Per-slot class name overrides.",
+        "description": "Override default classes for any slot. Keys correspond to slot names (e.g., base).",
         "required": false,
         "type": {
           "name": "Partial",
           "elements": [
             {
-              "name": "{\n  anchor: ClassValue;\n  base: ClassValue;\n  label: ClassValue;\n}"
+              "name": "{\n  base: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogAction.vue"
+    ]
+  },
+  "AlertDialogBody": {
+    "exportName": "default",
+    "displayName": "AlertDialogBody",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogBody.vue"
+    ]
+  },
+  "AlertDialogCancel": {
+    "exportName": "default",
+    "displayName": "AlertDialogCancel",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "variant",
+        "description": "variant — use 'bordered' for the outline style; 'outline' is @deprecated",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"danger\""
+            },
+            {
+              "name": "\"danger-soft\""
+            },
+            {
+              "name": "\"primary\""
+            },
+            {
+              "name": "\"secondary\""
+            },
+            {
+              "name": "\"ghost\""
+            },
+            {
+              "name": "\"bordered\""
+            },
+            {
+              "name": "\"outline\""
+            },
+            {
+              "name": "\"success\""
+            },
+            {
+              "name": "\"success-soft\""
+            },
+            {
+              "name": "\"warning\""
+            },
+            {
+              "name": "\"warning-soft\""
+            },
+            {
+              "name": "\"tertiary\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'secondary'"
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"sm\""
+            },
+            {
+              "name": "\"md\""
+            },
+            {
+              "name": "\"lg\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'md'"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class name overrides",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{ base: ClassValue }"
+            }
+          ]
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogCancel.vue"
+    ]
+  },
+  "AlertDialogContent": {
+    "exportName": "default",
+    "displayName": "AlertDialogContent",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "to",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "HTMLElement"
+            }
+          ]
+        }
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "defer",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "forceMount",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "disableOutsidePointerEvents",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "escape-key-down",
+        "type": {
+          "names": [
+            "KeyboardEvent"
+          ]
+        }
+      },
+      {
+        "name": "open-auto-focus",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "close-auto-focus",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "pointer-down-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "focus-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "interact-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogContent.vue"
+    ]
+  },
+  "AlertDialogDescription": {
+    "exportName": "default",
+    "displayName": "AlertDialogDescription",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'p'"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogDescription.vue"
+    ]
+  },
+  "AlertDialogFooter": {
+    "exportName": "default",
+    "displayName": "AlertDialogFooter",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogFooter.vue"
+    ]
+  },
+  "AlertDialogHeader": {
+    "exportName": "default",
+    "displayName": "AlertDialogHeader",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogHeader.vue"
+    ]
+  },
+  "AlertDialogIcon": {
+    "exportName": "default",
+    "displayName": "AlertDialogIcon",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "status",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"default\""
+            },
+            {
+              "name": "\"accent\""
+            },
+            {
+              "name": "\"danger\""
+            },
+            {
+              "name": "\"success\""
+            },
+            {
+              "name": "\"warning\""
             }
           ]
         }
@@ -3029,13 +2823,136 @@
     "slots": [
       {
         "name": "default"
-      },
-      {
-        "name": "label"
       }
     ],
     "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/badge/Badge.vue"
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogIcon.vue"
+    ]
+  },
+  "AlertDialogOverlay": {
+    "exportName": "default",
+    "displayName": "AlertDialogOverlay",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "forceMount",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogOverlay.vue"
+    ]
+  },
+  "AlertDialogTitle": {
+    "exportName": "default",
+    "displayName": "AlertDialogTitle",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'h2'"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTitle.vue"
+    ]
+  },
+  "AlertDialogTrigger": {
+    "exportName": "default",
+    "displayName": "AlertDialogTrigger",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue"
     ]
   },
   "Avatar": {
@@ -3335,6 +3252,89 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/AvatarGroup.vue"
+    ]
+  },
+  "Badge": {
+    "exportName": "default",
+    "displayName": "Badge",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"default\""
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"md\""
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"primary\""
+        }
+      },
+      {
+        "name": "placement",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"top-right\""
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class name overrides.",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  anchor: ClassValue;\n  base: ClassValue;\n  label: ClassValue;\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      },
+      {
+        "name": "label"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/badge/Badge.vue"
     ]
   },
   "BreadcrumbItem": {
@@ -26044,243 +26044,6 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/text/Text.vue"
     ]
   },
-  "Textarea": {
-    "exportName": "default",
-    "displayName": "Textarea",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "variant",
-        "description": "Visual style of the field. @default 'flat'",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'flat'"
-        }
-      },
-      {
-        "name": "size",
-        "description": "Field size. @default 'md'",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "color",
-        "description": "Accent color applied to focus ring + floating label. @default 'default'",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'default'"
-        }
-      },
-      {
-        "name": "labelPlacement",
-        "description": "Where the `label` is rendered relative to the field.",
-        "tags": {
-          "default": [
-            {
-              "description": "'inside'",
-              "title": "default"
-            }
-          ]
-        },
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'inside'"
-        }
-      },
-      {
-        "name": "fullWidth",
-        "description": "Stretches root wrapper to 100% width. @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isInvalid",
-        "description": "Marks the field as invalid. Enables `errorMessage`. @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "description": "Disables the field. @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isReadonly",
-        "description": "Makes the field read-only. @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isRequired",
-        "description": "Adds a required asterisk next to the label and the `required` attribute. @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isClearable",
-        "description": "Shows an × button that clears the value and refocuses the field. @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "rows",
-        "description": "Initial visible rows (native attribute). @default 3",
-        "required": false,
-        "type": {
-          "name": "number"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "3"
-        }
-      },
-      {
-        "name": "placeholder",
-        "description": "Placeholder shown when empty.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "name",
-        "description": "Form field name, for native form submission.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "label",
-        "description": "Field label. When omitted, the floating-label behavior is skipped.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "description",
-        "description": "Helper text displayed below the field. Suppressed when `isInvalid && errorMessage` is shown.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "errorMessage",
-        "description": "Error text displayed below the field. Only rendered when `isInvalid` is also true.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "autoResize",
-        "description": "Auto-grow the textarea height to fit content (uses `useTextareaAutosize`). @default false",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "class",
-        "description": "Extra classes merged onto the root wrapper via `composeClassName`.",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class overrides. Each key accepts classes merged via `composeClassName`.",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n  label: ClassValue\n  mainWrapper: ClassValue\n  inputWrapper: ClassValue\n  startContent: ClassValue\n  input: ClassValue\n  endContent: ClassValue\n  clearButton: ClassValue\n  helperWrapper: ClassValue\n  errorMessage: ClassValue\n  description: ClassValue\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "clear"
-      }
-    ],
-    "slots": [
-      {
-        "name": "startContent"
-      },
-      {
-        "name": "endContent"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/textarea/Textarea.vue"
-    ]
-  },
   "TimeField": {
     "exportName": "default",
     "displayName": "TimeField",
@@ -26631,6 +26394,243 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/time-field/TimeField.vue"
+    ]
+  },
+  "Textarea": {
+    "exportName": "default",
+    "displayName": "Textarea",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "variant",
+        "description": "Visual style of the field. @default 'flat'",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'flat'"
+        }
+      },
+      {
+        "name": "size",
+        "description": "Field size. @default 'md'",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'md'"
+        }
+      },
+      {
+        "name": "color",
+        "description": "Accent color applied to focus ring + floating label. @default 'default'",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "labelPlacement",
+        "description": "Where the `label` is rendered relative to the field.",
+        "tags": {
+          "default": [
+            {
+              "description": "'inside'",
+              "title": "default"
+            }
+          ]
+        },
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'inside'"
+        }
+      },
+      {
+        "name": "fullWidth",
+        "description": "Stretches root wrapper to 100% width. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "description": "Marks the field as invalid. Enables `errorMessage`. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "description": "Disables the field. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isReadonly",
+        "description": "Makes the field read-only. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isRequired",
+        "description": "Adds a required asterisk next to the label and the `required` attribute. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isClearable",
+        "description": "Shows an × button that clears the value and refocuses the field. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "rows",
+        "description": "Initial visible rows (native attribute). @default 3",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "3"
+        }
+      },
+      {
+        "name": "placeholder",
+        "description": "Placeholder shown when empty.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "name",
+        "description": "Form field name, for native form submission.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "label",
+        "description": "Field label. When omitted, the floating-label behavior is skipped.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "description",
+        "description": "Helper text displayed below the field. Suppressed when `isInvalid && errorMessage` is shown.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "errorMessage",
+        "description": "Error text displayed below the field. Only rendered when `isInvalid` is also true.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "autoResize",
+        "description": "Auto-grow the textarea height to fit content (uses `useTextareaAutosize`). @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "description": "Extra classes merged onto the root wrapper via `composeClassName`.",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class overrides. Each key accepts classes merged via `composeClassName`.",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  label: ClassValue\n  mainWrapper: ClassValue\n  inputWrapper: ClassValue\n  startContent: ClassValue\n  input: ClassValue\n  endContent: ClassValue\n  clearButton: ClassValue\n  helperWrapper: ClassValue\n  errorMessage: ClassValue\n  description: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "clear"
+      }
+    ],
+    "slots": [
+      {
+        "name": "startContent"
+      },
+      {
+        "name": "endContent"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/textarea/Textarea.vue"
     ]
   },
   "TimeRangeField": {
@@ -29075,6 +29075,265 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/tree/TreeItemToggle.vue"
+    ]
+  },
+  "YearRangePicker": {
+    "exportName": "default",
+    "displayName": "YearRangePicker",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "defaultValue",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "DateRange"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        }
+      },
+      {
+        "name": "defaultPlaceholder",
+        "required": false,
+        "type": {
+          "name": "DateValue"
+        }
+      },
+      {
+        "name": "minValue",
+        "required": false,
+        "type": {
+          "name": "DateValue"
+        }
+      },
+      {
+        "name": "maxValue",
+        "required": false,
+        "type": {
+          "name": "DateValue"
+        }
+      },
+      {
+        "name": "isYearDisabled",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "isYearUnavailable",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "locale",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "yearsPerPage",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "12"
+        }
+      },
+      {
+        "name": "preventDeselect",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "allowNonContiguousRanges",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "maximumYears",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "readonly",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "calendarLabel",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "initialFocus",
+        "description": "Initial focus state. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "dir",
+        "description": "Text direction.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"ltr\""
+            },
+            {
+              "name": "\"rtl\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "nextPage",
+        "description": "Navigate to next page.",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "prevPage",
+        "description": "Navigate to previous page.",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "fixedDate",
+        "description": "Fix one end of the range.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"start\""
+            },
+            {
+              "name": "\"end\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Render child as root element.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class overrides",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  header: ClassValue\n  navButton: ClassValue\n  navButtonIcon: ClassValue\n  heading: ClassValue\n  grid: ClassValue\n  gridBody: ClassValue\n  gridRow: ClassValue\n  cell: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:start-value",
+        "type": {
+          "names": [
+            "union"
+          ],
+          "elements": [
+            {
+              "name": "DateValue"
+            },
+            {
+              "name": "undefined"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "heading",
+        "scoped": true,
+        "bindings": [
+          {
+            "name": "heading-value",
+            "title": "binding"
+          }
+        ]
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/year-range-picker/YearRangePicker.vue"
     ]
   }
 }

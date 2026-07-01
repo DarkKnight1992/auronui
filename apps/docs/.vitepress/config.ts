@@ -53,6 +53,7 @@ export default defineConfig({
             { text: 'Surface', link: '/components/surface' },
             { text: 'Text', link: '/components/text' },
             { text: 'TimeRangeField', link: '/components/time-range-field' },
+            { text: 'YearRangePicker', link: '/components/year-range-picker' },
           ],
         },
       ],
