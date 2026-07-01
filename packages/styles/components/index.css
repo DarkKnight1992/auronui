@@ -109,6 +109,7 @@
 @import "./calendar.css";
 @import "./range-calendar.css";
 @import "./month-range-picker.css";
+@import "./year-range-picker.css";
 @import "./calendar-year-picker.css";
 @import "./date-input.css";
 @import "./date-range-field.css";

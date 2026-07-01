@@ -98,6 +98,10 @@
       "style": "./components/month-range-picker.css",
       "default": "./components/month-range-picker.css"
     },
+    "./year-range-picker.css": {
+      "style": "./components/year-range-picker.css",
+      "default": "./components/year-range-picker.css"
+    },
     "./card.css": {
       "style": "./components/card.css",
       "default": "./components/card.css"

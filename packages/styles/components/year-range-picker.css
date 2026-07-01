@@ -1,0 +1,155 @@
+/* =============================================================================
+ * YearRangePicker Component Styles
+ *
+ * A single 3x4 year grid for contiguous year-range selection.
+ * Density, typography, and cell layout mirror `.calendar__year-cell`
+ * (Calendar's year drill-up view, also shared by CalendarYearPicker) so this
+ * looks visually consistent outside of range-specific track/cap styling,
+ * which is adapted from `.range-calendar__cell`'s day-range treatment
+ * (simplified: year cells are single self-contained elements, not a
+ * <td>-wrapped circle, so no `:has()` targeting or row-wraparound
+ * corner-smoothing is needed). The aspect-[7/6] grid-box ratio matches
+ * `.calendar__year-grid` (calendar.css), confirming this is this codebase's
+ * deliberate convention for 3x4 picker grids, not an inherited mistake.
+ * ============================================================================= */
+
+.year-range-picker {
+  @apply w-64 max-w-full text-xs;
+
+  container-type: inline-size;
+}
+
+/* -----------------------------------------------------------------------------
+ * Header
+ * -------------------------------------------------------------------------- */
+.year-range-picker__header {
+  @apply flex items-center justify-between px-0.5 pb-1;
+}
+
+.year-range-picker__heading {
+  @apply flex flex-1 items-center justify-center text-center text-xs font-medium;
+}
+
+.year-range-picker__nav-button {
+  @apply flex size-6 items-center justify-center rounded-full text-accent;
+
+  will-change: scale;
+  transition:
+    transform 300ms var(--ease-out),
+    background-color 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    opacity 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+
+  cursor: var(--cursor-interactive);
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-default text-accent;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+.year-range-picker__nav-button-icon {
+  @apply size-3.5;
+}
+
+/* -----------------------------------------------------------------------------
+ * Grid
+ * -------------------------------------------------------------------------- */
+.year-range-picker__grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  border-collapse: collapse;
+  @apply aspect-[7/6] w-full;
+}
+
+.year-range-picker__grid-body {
+  display: contents;
+
+  & > tr {
+    display: contents;
+    place-items: center;
+
+    & > td {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.5rem;
+    }
+  }
+}
+
+.year-range-picker__grid-row {
+  display: contents;
+}
+
+/* -----------------------------------------------------------------------------
+ * Cell
+ * -------------------------------------------------------------------------- */
+.year-range-picker__cell {
+  @apply relative m-0.5 flex size-auto items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
+  will-change: scale;
+  transition:
+    transform 300ms var(--ease-out),
+    box-shadow 300ms var(--ease-out),
+    background-color 300ms var(--ease-out);
+  @apply transform-gpu motion-reduce:transition-none;
+  cursor: var(--cursor-interactive);
+
+  @media (hover: hover) {
+    &:hover:not([data-selected]),
+    &[data-hovered="true"]:not([data-selected]) {
+      @apply bg-default;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    transform: scale(0.95);
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  /* Range track (middle segment) — any year within the range, including caps */
+  &[data-selected] {
+    @apply rounded-none bg-accent-soft;
+  }
+
+  /* Range caps (start/end) — solid accent fill, rounded */
+  &[data-selection-start],
+  &[data-selection-end] {
+    @apply rounded-lg bg-accent text-accent-foreground;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+
+    text-decoration: line-through;
+  }
+
+  &[data-unavailable] {
+    @apply status-disabled;
+  }
+}
