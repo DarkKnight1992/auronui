@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from "@storybook/vue3-vite";
-import { defineComponent, ref } from "vue";
+import { ref } from "vue";
 import { TimeRangeField } from "@auronui/vue";
 import { Time } from "@internationalized/date";
 
