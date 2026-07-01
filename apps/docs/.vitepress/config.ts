@@ -50,6 +50,7 @@ export default defineConfig({
             { text: 'Spinner', link: '/components/spinner' },
             { text: 'Surface', link: '/components/surface' },
             { text: 'Text', link: '/components/text' },
+            { text: 'TimeRangeField', link: '/components/time-range-field' },
           ],
         },
       ],
