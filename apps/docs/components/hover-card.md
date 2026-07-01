@@ -10,7 +10,7 @@ import { Link, HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow } f
 
 `HoverCard` shows rich preview content when a user hovers (or focuses) a trigger, without
 requiring a click. It wraps Reka UI's `HoverCard` primitive family and is visually and
-structurally similar to [`Popover`](./popover) — the difference is the open trigger (hover vs.
+structurally similar to `Popover` — the difference is the open trigger (hover vs.
 click) and the default open/close delays.
 
 ## Default
