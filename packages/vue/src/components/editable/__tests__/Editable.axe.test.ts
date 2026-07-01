@@ -12,11 +12,9 @@ import EditableCancelTrigger from '../EditableCancelTrigger.vue'
 
 // jsdom does not implement getComputedStyle with pseudo-elements or HTMLCanvasElement.getContext,
 // which causes axe color-contrast checks to throw. Disable them for unit tests.
-// Disable region: editable component content isn't wrapped in a landmark.
 const AXE_OPTIONS: axe.RunOptions = {
   rules: {
     'color-contrast': { enabled: false },
-    region: { enabled: false },
   },
 }
 
@@ -55,7 +53,7 @@ describe('Editable axe audit', () => {
     await flushPromises()
     await nextTick()
 
-    const results = await axe.run(document.body, AXE_OPTIONS)
+    const results = await axe.run(wrapper.element, AXE_OPTIONS)
     expect(results).toHaveNoViolations()
   })
 
@@ -84,7 +82,7 @@ describe('Editable axe audit', () => {
     await flushPromises()
     await nextTick()
 
-    const results = await axe.run(document.body, AXE_OPTIONS)
+    const results = await axe.run(wrapper.element, AXE_OPTIONS)
     expect(results).toHaveNoViolations()
   })
 })
