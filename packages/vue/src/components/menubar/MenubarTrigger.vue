@@ -26,7 +26,7 @@ const slots = computed(() => menubarVariants())
     :disabled="props.disabled"
     :as="props.as"
     :as-child="props.asChild"
-    :class="composeClassName(slots.value.trigger(), props.class)"
+    :class="composeClassName(slots.trigger(), props.class)"
   >
     <slot />
   </MenubarTrigger>

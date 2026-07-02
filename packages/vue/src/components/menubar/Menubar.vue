@@ -28,7 +28,7 @@ const slots = computed(() => menubarVariants())
     :default-value="defaultValue"
     :dir="props.dir"
     :loop="props.loop"
-    :class="composeClassName(slots.value.root(), props.class)"
+    :class="composeClassName(slots.root(), props.class)"
   >
     <slot />
   </MenubarRoot>
