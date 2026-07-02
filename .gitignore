@@ -30,3 +30,5 @@ storybook-static/
 .planning
 .claude
 docs/*
+.docs
+.superpowers
