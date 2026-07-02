@@ -27,6 +27,7 @@ export * from "./close-button";
 export * from "./color-swatch-picker";
 export * from "./combo-box";
 export * from "./context-menu";
+export * from "./menubar";
 export * from "./date-input";
 export * from "./date-picker";
 export * from "./date-range-field";

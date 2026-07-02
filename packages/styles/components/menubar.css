@@ -1,0 +1,80 @@
+/* ==========================================================================
+   Menubar
+
+   App-style top menu bar (File/Edit/View...). Item/section-level styling
+   (.menu, .menu-item, .menu-section) is reused directly from the shared
+   Dropdown/ContextMenu styles — see menu.css, menu-item.css, menu-section.css.
+   `root` adapts Toolbar's horizontal bar layout; `popover` is adapted
+   verbatim from context-menu.css/dropdown.css (identical floating-ui
+   behavior — the only difference between these three components is how
+   each is triggered, not how the resulting menu is positioned/styled);
+   `trigger` is genuinely new since Menubar triggers render real, visible
+   buttons by default (unlike Dropdown/ContextMenu, whose Auron wrappers
+   apply no class to their own — typically asChild-wrapped — triggers).
+   ========================================================================== */
+
+.menubar {
+  @apply flex w-fit items-center gap-1 rounded-lg bg-surface p-1;
+}
+
+/* -----------------------------------------------------------------------------
+ * Trigger
+ * -------------------------------------------------------------------------- */
+.menubar__trigger {
+  @apply inline-flex h-8 items-center rounded-md px-3 text-sm font-medium text-foreground outline-none select-none;
+
+  cursor: var(--cursor-interactive);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-default;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &[data-state="open"],
+  &[data-highlighted] {
+    @apply bg-default;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Content positioning, sizing, and open/close animations
+ * -------------------------------------------------------------------------- */
+.menubar__popover {
+  z-index: var(--z-popover);
+  @apply max-w-[48svw] origin-(--trigger-anchor-point) scroll-py-1 overflow-y-auto overscroll-contain md:min-w-55;
+  @apply will-change-[opacity,transform];
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply outline-none;
+  }
+
+  &[data-state="open"] {
+    @apply animate-in duration-200 ease-smooth fade-in-0 zoom-in-95;
+
+    &[data-side="top"] { @apply slide-in-from-bottom-1; }
+    &[data-side="bottom"] { @apply slide-in-from-top-1; }
+    &[data-side="left"] { @apply slide-in-from-right-1; }
+    &[data-side="right"] { @apply slide-in-from-left-1; }
+  }
+
+  &[data-state="closed"] {
+    @apply animate-out duration-150 ease-smooth zoom-out-95 fade-out;
+  }
+}
