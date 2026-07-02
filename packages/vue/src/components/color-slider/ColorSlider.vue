@@ -14,6 +14,7 @@ import { colorSliderVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 defineOptions({ inheritAttrs: false })
 
@@ -23,6 +24,8 @@ const props = withDefaults(defineProps<{
   channel: ColorChannel
   colorSpace?: ColorSpace
   orientation?: 'horizontal' | 'vertical'
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   showOutput?: boolean
   class?: string
@@ -38,7 +41,8 @@ const props = withDefaults(defineProps<{
   step?: number
 }>(), {
   orientation: 'horizontal',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   showOutput: false,
   asChild: false,
   required: false,
@@ -53,6 +57,10 @@ const emit = defineEmits<{
 }>()
 
 const attrs = useAttrs()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ColorSlider', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 // Optional picker context — when absent, fall back to local useColorState
 const pickerCtx = inject(ColorPickerContextKey, null)
@@ -91,7 +99,7 @@ function onColorUpdate(next: Color) {
     :channel="channel"
     :color-space="colorSpace"
     :orientation="orientation"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"

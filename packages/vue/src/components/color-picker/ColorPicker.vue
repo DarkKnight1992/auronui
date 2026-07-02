@@ -9,6 +9,7 @@ import ColorArea from '../color-area/ColorArea.vue'
 import ColorSlider from '../color-slider/ColorSlider.vue'
 import ColorField from '../color-field/ColorField.vue'
 import ColorSwatch from '../color-swatch/ColorSwatch.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 // Discretion decision: fixed composition layout.
 // Default sliders: hue + alpha (per CONTEXT.md discretion note).
@@ -18,16 +19,23 @@ const props = withDefaults(defineProps<{
   modelValue?: string
   defaultValue?: string
   format?: ColorFormat
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   label?: string
   class?: string
 }>(), {
   format: 'hex',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   defaultValue: '#000000',
 })
 
 const emit = defineEmits<{ 'update:modelValue': [value: string] }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ColorPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const state = useColorState({
   value: props.modelValue,
@@ -61,21 +69,21 @@ const styles = colorPickerVariants()
     <ColorArea
       x-channel="saturation"
       y-channel="brightness"
-      :disabled="disabled"
+      :is-disabled="isDisabled"
     />
     <!-- Hue slider -->
     <ColorSlider
       channel="hue"
-      :disabled="disabled"
+      :is-disabled="isDisabled"
     />
     <!-- Alpha slider -->
     <ColorSlider
       channel="alpha"
-      :disabled="disabled"
+      :is-disabled="isDisabled"
     />
     <!-- Text input — label ensures axe compliance for the embedded input -->
     <ColorField
-      :disabled="disabled"
+      :is-disabled="isDisabled"
       label="Hex color"
     />
     <!-- Slot for test probes and optional consumer additions -->

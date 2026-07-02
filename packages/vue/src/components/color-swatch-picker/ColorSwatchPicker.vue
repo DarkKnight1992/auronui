@@ -14,6 +14,7 @@ import { colorSwatchPickerVariants, type ColorSwatchPickerVariants } from '@auro
 import { composeClassName } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 // Disable Vue default attr inheritance so we can manually pass attrs to the root
 defineOptions({ inheritAttrs: false })
@@ -33,6 +34,8 @@ const props = withDefaults(defineProps<{
   multiple?: boolean
   orientation?: 'horizontal' | 'vertical'
   dir?: 'ltr' | 'rtl'
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   selectionBehavior?: 'replace' | 'toggle'
   highlightOnHover?: boolean
@@ -43,7 +46,8 @@ const props = withDefaults(defineProps<{
   asChild: false,
   required: false,
   multiple: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   highlightOnHover: false,
 })
 
@@ -56,6 +60,10 @@ const emit = defineEmits<{
 
 // Access all attributes (including aria-label) to forward manually
 const attrs = useAttrs()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ColorSwatchPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 // Try to inject ColorPickerContext — null fallback so we don't throw when standalone
 const pickerCtx = inject(ColorPickerContextKey, null)
@@ -116,7 +124,7 @@ function onUpdate(next: unknown) {
     :multiple="props.multiple"
     :orientation="props.orientation"
     :dir="props.dir"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :selection-behavior="props.selectionBehavior"
     :highlight-on-hover="props.highlightOnHover"
     :class="composeClassName(styles.base(), props.class)"

@@ -3,12 +3,15 @@ import { computed } from 'vue'
 import { PinInputRoot, PinInputInput } from 'reka-ui'
 import { inputOTPVariants, type InputOTPVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   length?: number
   type?: 'text'
   otp?: boolean
   mask?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   placeholder?: string
   modelValue?: string
@@ -41,7 +44,8 @@ const props = withDefaults(defineProps<{
   type: 'text',
   otp: true,
   mask: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   placeholder: '',
   modelValue: undefined,
   defaultValue: undefined,
@@ -63,6 +67,10 @@ const emit = defineEmits<{
   'complete': [value: string]
 }>()
 
+const isDisabled = useDeprecatedBooleanProp(
+  'InputOTP', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 const slotFns = computed(() => inputOTPVariants({ variant: props.variant }))
 
 const modelValueArray = computed(() =>
@@ -76,7 +84,7 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
 <template>
   <PinInputRoot
     :model-value="modelValueArray"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :placeholder="placeholder"
     :type="type"
     :otp="otp"

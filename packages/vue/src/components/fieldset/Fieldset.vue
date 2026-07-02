@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { fieldsetVariants } from '@auronui/styles'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 /**
  * Fieldset component — semantic HTML grouping for related form controls.
@@ -25,15 +26,22 @@ const props = withDefaults(
     /** Text content for the <legend> element; omit to render fieldset without a legend */
     legend?: string
     /** When true, disables all form controls inside this fieldset */
+    isDisabled?: boolean
+    /** @deprecated Use isDisabled instead. */
     disabled?: boolean
     /** Additional CSS classes applied to the <fieldset> element */
     class?: string
   }>(),
   {
     legend: undefined,
-    disabled: false,
+    isDisabled: undefined,
+    disabled: undefined,
     class: undefined,
   }
+)
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Fieldset', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
 )
 
 const styles = fieldsetVariants()
@@ -48,7 +56,7 @@ const baseClass = computed(() => {
 <template>
   <fieldset
     :class="baseClass"
-    :disabled="props.disabled || undefined"
+    :disabled="isDisabled || undefined"
   >
     <legend
       v-if="props.legend"

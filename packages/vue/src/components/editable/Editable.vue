@@ -3,11 +3,14 @@ import { computed } from 'vue'
 import { EditableRoot } from 'reka-ui'
 import { editableVariants } from '@auronui/styles'
 import { composeClassName, type ClassValue } from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   defaultValue?: string
   placeholder?: string | { edit: string; preview: string }
   dir?: 'ltr' | 'rtl'
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   readonly?: boolean
   activationMode?: 'focus' | 'dblclick' | 'none'
@@ -23,7 +26,8 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   class?: ClassValue
 }>(), {
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   activationMode: 'focus',
   selectOnFocus: false,
   submitMode: 'blur',
@@ -38,6 +42,10 @@ const emit = defineEmits<{
 
 const modelValue = defineModel<string | null>()
 
+const isDisabled = useDeprecatedBooleanProp(
+  'Editable', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 const slotFns = computed(() => editableVariants())
 </script>
 
@@ -47,7 +55,7 @@ const slotFns = computed(() => editableVariants())
     :default-value="defaultValue"
     :placeholder="placeholder"
     :dir="dir"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :readonly="readonly"
     :activation-mode="activationMode"
     :select-on-focus="selectOnFocus"

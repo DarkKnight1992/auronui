@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { linkVariants, type LinkVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   as?: string | object
@@ -10,6 +11,8 @@ const props = withDefaults(defineProps<{
   target?: string
   rel?: string
   isExternal?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   color?: LinkVariants['color']
   underline?: LinkVariants['underline']
@@ -22,8 +25,13 @@ const props = withDefaults(defineProps<{
 }>(), {
   as: 'a',
   isExternal: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
 })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Link', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slotFns = computed(() => linkVariants({
   color: props.color,
@@ -52,7 +60,7 @@ const resolvedRel = computed(() => {
     :target="resolvedTarget"
     :rel="resolvedRel"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
-    :aria-disabled="props.disabled || undefined"
+    :aria-disabled="isDisabled || undefined"
     v-bind="$attrs"
   >
     <slot />

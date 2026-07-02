@@ -11,6 +11,7 @@ import { composeClassName } from '../../utils/composeClassName'
 import ColorSwatch from '../color-swatch/ColorSwatch.vue'
 import { useColorState } from '../../composables/useColorState'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   modelValue?: Color | string
@@ -20,6 +21,8 @@ const props = withDefaults(defineProps<{
   errorMessage?: string
   placeholder?: string
   suffixLabel?: string
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   readonly?: boolean
   fullWidth?: ColorInputGroupVariants['fullWidth']
@@ -38,7 +41,8 @@ const props = withDefaults(defineProps<{
   suffixLabel: 'HEX',
   fullWidth: false,
   variant: 'primary',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   readonly: false,
   asChild: false,
   required: false,
@@ -49,6 +53,10 @@ const emit = defineEmits<{
   'update:modelValue': [value: Color]
   'update:color': [value: Color]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ColorInputGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const id = useId()
 
@@ -92,7 +100,7 @@ function onColorUpdate(next: Color) {
     >{{ label }}</label>
     <ColorFieldRoot
       :model-value="color"
-      :disabled="disabled"
+      :disabled="isDisabled"
       :readonly="readonly"
       :as="props.as"
       :as-child="props.asChild"
