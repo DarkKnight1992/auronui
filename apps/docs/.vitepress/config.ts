@@ -50,6 +50,7 @@ export default defineConfig({
             { text: 'Link', link: '/components/link' },
             { text: 'MonthPicker', link: '/components/month-picker' },
             { text: 'MonthRangePicker', link: '/components/month-range-picker' },
+            { text: 'NavigationMenu', link: '/components/navigation-menu' },
             { text: 'Separator', link: '/components/separator' },
             { text: 'Skeleton', link: '/components/skeleton' },
             { text: 'Spinner', link: '/components/spinner' },
