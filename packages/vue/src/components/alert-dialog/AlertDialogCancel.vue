@@ -12,7 +12,7 @@ import { computed } from 'vue'
 const props = withDefaults(defineProps<{
   /** variant — use 'bordered' for the outline style; 'outline' is @deprecated */
   variant?: 'danger' | 'danger-soft' | 'primary' | 'secondary' | 'ghost' | 'bordered' | 'outline' | 'success' | 'success-soft' | 'warning' | 'warning-soft' | 'tertiary'
-  size?: 'sm' | 'md' | 'lg'
+  size?: ButtonVariants['size']
   class?: ClassValue
   /** Per-slot class name overrides */
   classNames?: Partial<{ base: ClassValue }>

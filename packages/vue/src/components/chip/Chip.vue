@@ -87,6 +87,9 @@ const slotFns = computed(() =>
       <slot name="endContent" />
     </span>
 
+    <!-- Raw <button> (not <CloseButton>): the close affordance is styled via the chipVariants
+         'closeButton' slot; <CloseButton> is a full ghost Button with its own sizing that would
+         break the chip's visual parity. -->
     <button
       v-if="isClosable"
       type="button"

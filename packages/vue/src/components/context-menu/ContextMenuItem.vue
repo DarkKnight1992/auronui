@@ -57,6 +57,8 @@ const slots = menuItemVariants({ variant: props.variant })
       </span>
     </div>
 
+    <!-- Raw <kbd> (not <Kbd>): a menu shortcut renders as plain muted text; <Kbd> applies a
+         boxed keycap style that would break visual parity with HeroUI's menu shortcuts. -->
     <kbd
       v-if="props.shortcut"
       data-slot="shortcut"

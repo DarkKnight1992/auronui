@@ -17,7 +17,7 @@ type AvatarShorthandItem = {
 }
 
 const props = withDefaults(defineProps<{
-  size?: 'sm' | 'md' | 'lg'
+  size?: AvatarVariants['size']
   isBordered?: boolean
   isDisabled?: boolean
   isGrid?: boolean

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { SliderRoot, SliderTrack, SliderRange, SliderThumb } from 'reka-ui'
-import { sliderVariants } from '@auronui/styles'
+import { sliderVariants, type SliderVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
@@ -12,9 +12,9 @@ const props = withDefaults(defineProps<{
   step?: number
   minStepsBetweenThumbs?: number
   orientation?: 'horizontal' | 'vertical'
-  size?: 'sm' | 'md' | 'lg'
-  color?: 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
-  radius?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+  size?: SliderVariants['size']
+  color?: SliderVariants['color']
+  radius?: SliderVariants['radius']
   label?: string
   showSteps?: boolean
   marks?: Array<{ value: number; label?: string }>

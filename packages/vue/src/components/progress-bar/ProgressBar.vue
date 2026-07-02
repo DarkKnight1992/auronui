@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ProgressRoot, ProgressIndicator } from 'reka-ui'
-import { progressBarVariants } from '@auronui/styles'
+import { progressBarVariants, type ProgressBarVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
@@ -12,9 +12,9 @@ const props = withDefaults(defineProps<{
   valueLabel?: string
   showValueLabel?: boolean
   formatOptions?: Intl.NumberFormatOptions
-  size?: 'sm' | 'md' | 'lg'
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
-  radius?: 'none' | 'sm' | 'md' | 'lg' | 'full'
+  size?: ProgressBarVariants['size']
+  color?: ProgressBarVariants['color']
+  radius?: ProgressBarVariants['radius']
   isStriped?: boolean
   isIndeterminate?: boolean
   isDisabled?: boolean

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ProgressRoot } from 'reka-ui'
-import { progressCircleVariants } from '@auronui/styles'
+import { progressCircleVariants, type ProgressCircleVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
@@ -12,8 +12,8 @@ const props = withDefaults(defineProps<{
   valueLabel?: string
   showValueLabel?: boolean
   formatOptions?: Intl.NumberFormatOptions
-  size?: 'sm' | 'md' | 'lg'
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+  size?: ProgressCircleVariants['size']
+  color?: ProgressCircleVariants['color']
   strokeWidth?: number
   isIndeterminate?: boolean
   isDisabled?: boolean

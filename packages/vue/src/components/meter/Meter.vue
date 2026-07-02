@@ -10,7 +10,7 @@
 -->
 <script setup lang="ts">
 import { computed } from 'vue'
-import { meterVariants } from '@auronui/styles'
+import { meterVariants, type MeterVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
@@ -21,8 +21,8 @@ const props = withDefaults(defineProps<{
   valueLabel?: string
   showValueLabel?: boolean
   formatOptions?: Intl.NumberFormatOptions
-  size?: 'sm' | 'md' | 'lg'
-  color?: 'default' | 'accent' | 'success' | 'warning' | 'danger'
+  size?: MeterVariants['size']
+  color?: MeterVariants['color']
   class?: ClassValue
   /** Override classes for individual slots */
   classNames?: Partial<{
