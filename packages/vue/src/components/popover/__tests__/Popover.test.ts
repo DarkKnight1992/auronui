@@ -196,4 +196,32 @@ describe('Popover', () => {
 
     expect(document.body.querySelector('.popover-body')).toBeNull()
   })
+
+  it('PopoverClose renders the disabled attribute when the deprecated disabled prop is set', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Popover, PopoverTrigger, PopoverContent, PopoverClose },
+        template: `
+          <Popover :default-open="true">
+            <PopoverTrigger>
+              <button>Open</button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div class="popover-body">
+                <PopoverClose :disabled="true" class="close-btn">Close</PopoverClose>
+              </div>
+            </PopoverContent>
+          </Popover>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    const closeBtn = document.body.querySelector('.close-btn') as HTMLElement
+    expect(closeBtn).not.toBeNull()
+    expect(closeBtn.hasAttribute('disabled')).toBe(true)
+  })
 })

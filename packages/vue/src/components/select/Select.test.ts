@@ -155,6 +155,23 @@ describe('Select — disabled options', () => {
     expect(trigger.attributes('disabled')).toBeDefined()
     wrapper.unmount()
   })
+
+  it('Test 26: deprecated bare disabled prop on SelectTrigger disables the trigger', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit">
+        <SelectTrigger :disabled="true">
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.attributes('disabled')).toBeDefined()
+    wrapper.unmount()
+  })
 })
 
 describe('Select — label / description / error', () => {

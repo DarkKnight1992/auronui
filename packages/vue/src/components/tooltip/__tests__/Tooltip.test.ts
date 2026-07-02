@@ -254,4 +254,40 @@ describe('Tooltip', () => {
 
     expect(document.body.querySelector('.tooltip-body')).not.toBeNull()
   })
+
+  it('TooltipProvider deprecated disabled prop suppresses hover-open behavior', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent },
+        template: `
+          <TooltipProvider :delay-duration="0" :disabled="true">
+            <Tooltip :default-open="false">
+              <TooltipTrigger as-child>
+                <button>Hover me</button>
+              </TooltipTrigger>
+              <TooltipContent>
+                <span class="tooltip-body">Tooltip text</span>
+              </TooltipContent>
+            </Tooltip>
+          </TooltipProvider>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+
+    // Confirm closed
+    expect(document.body.querySelector('.tooltip-body')).toBeNull()
+
+    // With the provider disabled, TooltipTrigger never attaches its
+    // pointermove listener — hovering must not open the tooltip.
+    const triggerEl = wrapper.find('button').element
+    triggerEl.dispatchEvent(mkPointerEvent('pointermove'))
+    vi.runAllTimers()
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.tooltip-body')).toBeNull()
+  })
 })

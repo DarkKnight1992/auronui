@@ -111,4 +111,16 @@ describe('RangeCalendar', () => {
     const newHeading = wrapper.find('.range-calendar__heading').text()
     expect(newHeading).not.toBe(initialHeading)
   })
+
+  // Test 6: deprecated bare `disabled` prop still marks the calendar root disabled
+  it('deprecated disabled prop sets data-disabled on the calendar root', async () => {
+    const wrapper = mount(RangeCalendar, {
+      props: { disabled: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('.range-calendar')
+    expect(root.attributes('data-disabled')).toBe('')
+  })
 })

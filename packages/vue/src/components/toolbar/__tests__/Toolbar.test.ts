@@ -56,4 +56,47 @@ describe('Toolbar', () => {
     })
     expect(w.find('.toolbar--attached').exists()).toBe(true)
   })
+
+  it('deprecated bare disabled prop on ToolbarButton disables the button', () => {
+    const w = mount({
+      components: { Toolbar, ToolbarButton },
+      template: `<Toolbar><ToolbarButton :disabled="true">One</ToolbarButton></Toolbar>`,
+    })
+    expect(w.find('button').attributes('disabled')).toBeDefined()
+  })
+
+  it('deprecated bare disabled prop on ToolbarToggleItem disables the item', () => {
+    const w = mount({
+      components: { Toolbar, ToolbarToggleGroup, ToolbarToggleItem },
+      template: `
+        <Toolbar>
+          <ToolbarToggleGroup type="single" default-value="bold">
+            <ToolbarToggleItem value="bold" :disabled="true">B</ToolbarToggleItem>
+            <ToolbarToggleItem value="italic">I</ToolbarToggleItem>
+          </ToolbarToggleGroup>
+        </Toolbar>
+      `,
+    })
+    const buttons = w.findAll('button')
+    expect(buttons[0].attributes('disabled')).toBeDefined()
+  })
+
+  it('deprecated bare disabled prop on ToolbarToggleGroup disables its items', () => {
+    const w = mount({
+      components: { Toolbar, ToolbarToggleGroup, ToolbarToggleItem },
+      template: `
+        <Toolbar>
+          <ToolbarToggleGroup type="single" default-value="bold" :disabled="true">
+            <ToolbarToggleItem value="bold">B</ToolbarToggleItem>
+            <ToolbarToggleItem value="italic">I</ToolbarToggleItem>
+          </ToolbarToggleGroup>
+        </Toolbar>
+      `,
+    })
+    const buttons = w.findAll('button')
+    expect(buttons.length).toBeGreaterThanOrEqual(2)
+    buttons.forEach((btn) => {
+      expect(btn.attributes('disabled')).toBeDefined()
+    })
+  })
 })

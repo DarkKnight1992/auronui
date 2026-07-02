@@ -144,4 +144,16 @@ describe('YearRangePicker', () => {
     await nextTick()
     expect(wrapper.html()).toContain('year-range-picker')
   })
+
+  // Test 9: deprecated bare `disabled` prop still marks the picker root disabled
+  it('deprecated disabled prop sets data-disabled on the picker root', async () => {
+    const wrapper = mount(YearRangePicker, {
+      props: { disabled: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('.year-range-picker')
+    expect(root.attributes('data-disabled')).toBe('')
+  })
 })
