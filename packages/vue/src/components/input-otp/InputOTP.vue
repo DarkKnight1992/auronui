@@ -26,7 +26,11 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   /** Element or component to render PinInputRoot as. */
   as?: string
-  /** Whether the input is required. */
+  isRequired?: boolean
+  /**
+   * Whether the input is required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   /** Whether each PinInputInput renders as a child element. */
   inputAsChild?: boolean
@@ -55,7 +59,8 @@ const props = withDefaults(defineProps<{
   id: undefined,
   asChild: false,
   as: undefined,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   inputAsChild: false,
   inputAs: undefined,
   class: undefined,
@@ -69,6 +74,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'InputOTP', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'InputOTP', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 const slotFns = computed(() => inputOTPVariants({ variant: props.variant }))
@@ -94,7 +103,7 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
     :id="props.id"
     :as-child="props.asChild"
     :as="props.as"
-    :required="props.required"
+    :required="isRequired"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
     @complete="handleComplete"

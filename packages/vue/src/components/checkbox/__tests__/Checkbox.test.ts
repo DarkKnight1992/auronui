@@ -29,6 +29,14 @@ describe('Checkbox (standalone)', () => {
     expect(root.attributes('data-state')).toBe('indeterminate')
   })
 
+  it('Test 4b: deprecated bare required=true sets aria-required on the root', () => {
+    const wrapper = mount(Checkbox, {
+      props: { required: true, 'aria-label': 'Accept' },
+    })
+    const root = wrapper.find('[data-state]')
+    expect(root.attributes('aria-required')).toBe('true')
+  })
+
   it('Test 4: clicking Checkbox toggles v-model boolean (standalone)', async () => {
     const modelValue = ref(false)
     const Wrapper = defineComponent({

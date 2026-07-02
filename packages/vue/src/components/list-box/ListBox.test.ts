@@ -191,6 +191,19 @@ describe('ListBox — keyboard navigation', () => {
   })
 })
 
+describe('ListBox — required', () => {
+  it('deprecated bare required=true forwards to ListboxRoot as required', async () => {
+    const wrapper = mount(makeWrapper(`
+      <ListBox aria-label="Fruits" :required="true">
+        <ListBoxItem value="apple">Apple</ListBoxItem>
+      </ListBox>
+    `))
+    await nextTick()
+    const root = wrapper.findComponent(ListboxRoot) as unknown as { props(name: string): unknown }
+    expect(root.props('required')).toBe(true)
+  })
+})
+
 describe('ListBox — disabled state', () => {
   it('Test 11: isDisabled=true on ListBox disables all children (data-disabled)', async () => {
     const wrapper = mount(makeWrapper(`

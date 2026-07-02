@@ -108,6 +108,16 @@ describe('ColorSlider', () => {
     wrapper.unmount()
   })
 
+  it('Test 7b: deprecated bare required=true forwards to ColorSliderRoot as required', async () => {
+    const wrapper = mount(ColorSlider, {
+      props: { channel: 'hue', defaultValue: '#ff0000', required: true },
+      attachTo: document.body,
+    })
+    const colorSliderRoot = wrapper.findComponent({ name: 'ColorSliderRoot' })
+    expect(colorSliderRoot.props('required')).toBe(true)
+    wrapper.unmount()
+  })
+
   it("Test 8: when injected into ColorPickerContext, writes back via setChannel instead of emitting", async () => {
     const contextColor = ref(parseColor('#ff0000'))
     const Parent = defineComponent({

@@ -88,6 +88,16 @@ describe('ColorArea', () => {
     wrapper.unmount()
   })
 
+  it('Test 6b: deprecated bare required=true forwards to ColorAreaRoot as required', async () => {
+    const wrapper = mount(ColorArea, {
+      props: { defaultValue: '#ff0000', required: true },
+      attachTo: document.body,
+    })
+    const colorAreaRoot = wrapper.findComponent({ name: 'ColorAreaRoot' })
+    expect(colorAreaRoot.props('required')).toBe(true)
+    wrapper.unmount()
+  })
+
   it('Test 7: reads color from injected ColorPickerContext instead of local state', async () => {
     const contextColor = ref(parseColor('#0000ff'))
     const Parent = defineComponent({

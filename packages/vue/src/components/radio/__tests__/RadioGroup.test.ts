@@ -60,6 +60,14 @@ describe('RadioGroup', () => {
     expect(radios[0]!.find('[role="radio"]').attributes('data-state')).toBe('unchecked')
   })
 
+  it('deprecated bare required=true sets aria-required on the group root', () => {
+    const wrapper = mount(RadioGroup, {
+      props: { required: true, label: 'Group' },
+      slots: { default: '' },
+    })
+    expect(wrapper.attributes('aria-required')).toBe('true')
+  })
+
   it('uncontrolled mode works via defaultValue', () => {
     const Wrapper = defineComponent({
       components: { Radio, RadioGroup },

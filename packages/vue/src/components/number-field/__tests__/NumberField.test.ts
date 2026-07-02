@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { ref, nextTick } from 'vue'
 import NumberField from '../NumberField.vue'
@@ -343,6 +343,26 @@ describe('NumberField', () => {
     await input.trigger('keydown', { key: 'ArrowDown' })
     await nextTick()
     expect(currentValue).toBe(9)
+    wrapper.unmount()
+  })
+
+  // NumberField's `required` prop has no template site forwarding it anywhere
+  // (pre-existing — declared but unused, unlike every other component in this
+  // migration group), so there is no DOM-observable behavior to assert here.
+  // The `isRequired` resolver computed is consequently never read, so (unlike
+  // every other file in this migration) mounting with the deprecated prop does
+  // NOT emit a deprecation warning either — the computed's getter, which is
+  // where warnDeprecatedProp is called, never runs. This test only guards
+  // against the prop addition breaking mounting.
+  it('deprecated bare required=true does not break mounting', () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const wrapper = mount(NumberField, {
+      props: { required: true, ariaLabel: 'Quantity' },
+      attachTo: document.body,
+    })
+    expect(wrapper.find('input').exists()).toBe(true)
+    expect(warn).not.toHaveBeenCalled()
+    warn.mockRestore()
     wrapper.unmount()
   })
 })

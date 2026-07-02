@@ -35,11 +35,17 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   /** Form field name */
   name?: string
-  /** Whether a value is required */
+  isRequired?: boolean
+  /**
+   * Whether a value is required
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
 }>(), {
   isDisabled: undefined,
   disabled: undefined,
+  isRequired: undefined,
+  required: undefined,
 })
 
 const emit = defineEmits<{
@@ -48,6 +54,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'ToolbarToggleGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'ToolbarToggleGroup', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 const ctx = useToolbarInject({ orientation: computed(() => 'horizontal' as const) })
@@ -70,7 +80,7 @@ const classes = computed(() =>
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     :class="composeClassName(classes, props.class)"
     @update:model-value="(v) => emit('update:modelValue', v as Single | Multi)"
   >

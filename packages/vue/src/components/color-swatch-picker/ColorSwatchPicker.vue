@@ -30,6 +30,8 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   name?: string
+  isRequired?: boolean
+  /** @deprecated Use isRequired instead. */
   required?: boolean
   multiple?: boolean
   orientation?: 'horizontal' | 'vertical'
@@ -44,7 +46,8 @@ const props = withDefaults(defineProps<{
   size: 'md',
   variant: 'circle',
   asChild: false,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   multiple: false,
   isDisabled: undefined,
   disabled: undefined,
@@ -63,6 +66,10 @@ const attrs = useAttrs()
 
 const isDisabled = useDeprecatedBooleanProp(
   'ColorSwatchPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'ColorSwatchPicker', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // Try to inject ColorPickerContext — null fallback so we don't throw when standalone
@@ -120,7 +127,7 @@ function onUpdate(next: unknown) {
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     :multiple="props.multiple"
     :orientation="props.orientation"
     :dir="props.dir"

@@ -81,6 +81,27 @@ describe('Toolbar', () => {
     expect(buttons[0].attributes('disabled')).toBeDefined()
   })
 
+  it('deprecated bare required prop on ToolbarToggleGroup forwards to RekaToolbarToggleGroup as required', () => {
+    const w = mount({
+      components: { Toolbar, ToolbarToggleGroup, ToolbarToggleItem },
+      template: `
+        <Toolbar>
+          <ToolbarToggleGroup type="single" default-value="bold" :required="true">
+            <ToolbarToggleItem value="bold">B</ToolbarToggleItem>
+            <ToolbarToggleItem value="italic">I</ToolbarToggleItem>
+          </ToolbarToggleGroup>
+        </Toolbar>
+      `,
+    })
+    // Two components share the inferred name "ToolbarToggleGroup": our own
+    // wrapper and Reka's underlying primitive it renders. Index 1 is Reka's —
+    // asserting on it proves our resolved `isRequired` value was actually
+    // forwarded, not just that our own component received the raw prop.
+    const matches = w.findAllComponents({ name: 'ToolbarToggleGroup' })
+    expect(matches).toHaveLength(2)
+    expect(matches[1]!.props('required')).toBe(true)
+  })
+
   it('deprecated bare disabled prop on ToolbarToggleGroup disables its items', () => {
     const w = mount({
       components: { Toolbar, ToolbarToggleGroup, ToolbarToggleItem },

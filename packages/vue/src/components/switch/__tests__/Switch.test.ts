@@ -35,6 +35,14 @@ describe('Switch (standalone)', () => {
     const root = wrapper.find('[data-state]')
     expect(root.attributes('data-disabled')).toBeDefined()
   })
+
+  it('Test 8: deprecated bare required=true sets aria-required on the root', () => {
+    const wrapper = mount(Switch, {
+      props: { required: true, 'aria-label': 'Required switch' },
+    })
+    const root = wrapper.find('[data-state]')
+    expect(root.attributes('aria-required')).toBe('true')
+  })
 })
 
 describe('SwitchGroup', () => {

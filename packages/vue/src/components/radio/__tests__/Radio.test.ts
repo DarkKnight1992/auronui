@@ -108,6 +108,27 @@ describe('RadioGroup + Radio', () => {
     expect(radios[1]!.find('[role="radio"]').attributes('data-disabled')).toBeUndefined()
   })
 
+  it('Test 5b: deprecated bare required=true on child Radio sets required attribute', () => {
+    const Wrapper = defineComponent({
+      components: { Radio, RadioGroup },
+      template: `
+        <RadioGroup label="Group">
+          <Radio value="a" :required="true">Option A</Radio>
+          <Radio value="b">Option B</Radio>
+        </RadioGroup>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    const radios = wrapper.findAllComponents(Radio)
+    // Reka's inner Radio renders `required` as a literal attribute on the
+    // <button role="radio"> element (buttons have no native `required` IDL
+    // property, so Vue can't rely on property-reflection to omit it) —
+    // so the value shows up as the string "true"/"false" rather than
+    // present/absent.
+    expect(radios[0]!.find('[role="radio"]').attributes('required')).toBe('true')
+    expect(radios[1]!.find('[role="radio"]').attributes('required')).toBe('false')
+  })
+
   it('Test 6: Child Radio variant prop overrides group variant (data-variant reflects child value)', () => {
     const Wrapper = defineComponent({
       components: { Radio, RadioGroup },

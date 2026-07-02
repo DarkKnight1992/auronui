@@ -36,7 +36,11 @@ const props = withDefaults(defineProps<{
   as?: string
   /** HTML name attribute forwarded to SliderRoot. */
   name?: string
-  /** Whether the slider is required. */
+  isRequired?: boolean
+  /**
+   * Whether the slider is required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   /** Whether SliderTrack renders as a child element. */
   trackAsChild?: boolean
@@ -79,7 +83,8 @@ const props = withDefaults(defineProps<{
   asChild: false,
   as: undefined,
   name: undefined,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   trackAsChild: false,
   trackAs: undefined,
   rangeAsChild: false,
@@ -95,6 +100,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'Slider', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'Slider', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // FIX: Also check defaultValue so uncontrolled range mode is detected correctly.
@@ -214,7 +223,7 @@ const positionAxis = computed(() =>
         :as-child="props.asChild"
         :as="props.as"
         :name="props.name"
-        :required="props.required"
+        :required="isRequired"
         class="relative flex items-center select-none touch-none w-full"
         :data-orientation="orientation"
         @value-commit="emit('value-commit', isRange ? $event : $event[0])"

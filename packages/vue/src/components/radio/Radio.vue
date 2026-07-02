@@ -24,7 +24,11 @@ const props = withDefaults(defineProps<{
   as?: string
   /** HTML name attribute forwarded to RadioGroupItem. */
   name?: string
-  /** Whether the radio item is required. */
+  isRequired?: boolean
+  /**
+   * Whether the radio item is required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   /** Whether RadioGroupIndicator should force-mount even when unselected. */
   indicatorForceMount?: boolean
@@ -49,7 +53,8 @@ const props = withDefaults(defineProps<{
   asChild: false,
   as: undefined,
   name: undefined,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   indicatorForceMount: undefined,
   indicatorAsChild: false,
   indicatorAs: undefined,
@@ -75,6 +80,10 @@ const resolvedDisabled = useDeprecatedBooleanProp(
   'Radio', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
 )
 
+const isRequired = useDeprecatedBooleanProp(
+  'Radio', 'isRequired', () => props.isRequired, 'required', () => props.required,
+)
+
 // Prop precedence: group disabled wins (D-02)
 const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 // Group invalid overrides item; item prop allows standalone invalid
@@ -96,7 +105,7 @@ const slotFns = computed(() => radioVariants())
     :as-child="props.asChild"
     :as="props.as"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     :data-variant="finalVariant"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @select="emit('select', $event)"

@@ -7,6 +7,7 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useListBoxProvide } from './ListBox.context'
 import ListBoxItem from './ListBoxItem.vue'
 import Button from '../button/Button.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type ListBoxShorthandItem = { value: string; label?: string; disabled?: boolean; textValue?: string }
 
@@ -47,7 +48,11 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   /** Form field name for native form submission. */
   name?: string
-  /** Mark the field as required. */
+  isRequired?: boolean
+  /**
+   * Mark the field as required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   /** Render the ListboxContent as a different element. */
   contentAs?: string
@@ -89,6 +94,7 @@ const props = withDefaults(defineProps<{
   as: undefined,
   asChild: false,
   name: undefined,
+  isRequired: undefined,
   required: undefined,
   contentAs: undefined,
   contentAsChild: false,
@@ -113,6 +119,10 @@ const emit = defineEmits<{
 }>()
 
 const attrs = useAttrs()
+
+const isRequired = useDeprecatedBooleanProp(
+  'ListBox', 'isRequired', () => props.isRequired, 'required', () => props.required,
+)
 
 // Provide context for ListBoxItem and ListBoxSection children
 useListBoxProvide({
@@ -200,7 +210,7 @@ const rekaDefaultValue = computed(() =>
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     @update:model-value="emit('update:modelValue', props.selectionMode === 'single' ? (Array.isArray($event) ? ($event as string[])[0] : $event as string) : $event as string[])"
     @highlight="emit('highlight', $event)"
     @entry-focus="emit('entry-focus', $event)"

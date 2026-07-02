@@ -20,6 +20,8 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   name?: string
+  isRequired?: boolean
+  /** @deprecated Use isRequired instead. */
   required?: boolean
 }>(), {
   variant: undefined,
@@ -33,7 +35,8 @@ const props = withDefaults(defineProps<{
   as: undefined,
   asChild: false,
   name: undefined,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
 })
 
 const emit = defineEmits<{
@@ -55,6 +58,10 @@ const groupCtx = useToggleButtonGroupInject({
 // Resolve this button's own isDisabled/disabled prop pair before combining with group state.
 const resolvedDisabled = useDeprecatedBooleanProp(
   'ToggleButton', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'ToggleButton', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // Prop precedence: group disabled wins; child prop wins for variant/size
@@ -102,7 +109,7 @@ const classes = computed(() =>
     :model-value="isPressed"
     :default-value="props.defaultValue"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     @update:model-value="handleUpdate"
   >
     <button

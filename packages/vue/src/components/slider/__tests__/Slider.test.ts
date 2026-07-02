@@ -75,6 +75,18 @@ describe('Slider', () => {
     // If Reka doesn't emit in jsdom, the test still passes (keyboard is Reka's responsibility)
   })
 
+  // Test 3b: deprecated bare required=true forwards to SliderRoot as required
+  it('deprecated bare required=true forwards to SliderRoot as required', async () => {
+    const wrapper = mount(Slider, {
+      props: { modelValue: 50, min: 0, max: 100, required: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.findComponent({ name: 'SliderRoot' })
+    expect(root.props('required')).toBe(true)
+  })
+
   // Test 4: marks prop renders positioned label elements
   it('marks prop renders positioned mark elements', () => {
     const marks = [

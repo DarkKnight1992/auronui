@@ -31,6 +31,8 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   name?: string
+  isRequired?: boolean
+  /** @deprecated Use isRequired instead. */
   required?: boolean
   xName?: string
   yName?: string
@@ -41,7 +43,8 @@ const props = withDefaults(defineProps<{
   isDisabled: undefined,
   disabled: undefined,
   asChild: false,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
 })
 
 const emit = defineEmits<{
@@ -53,6 +56,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'ColorArea', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'ColorArea', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // Optional picker context — when absent, fall back to local useColorState
@@ -100,7 +107,7 @@ function onColorUpdate(next: Color) {
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     :x-name="props.xName"
     :y-name="props.yName"
     :class="composeClassName(styles.base(), props.class)"

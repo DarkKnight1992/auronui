@@ -35,6 +35,8 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   name?: string
+  isRequired?: boolean
+  /** @deprecated Use isRequired instead. */
   required?: boolean
   dir?: 'ltr' | 'rtl'
   inverted?: boolean
@@ -45,7 +47,8 @@ const props = withDefaults(defineProps<{
   disabled: undefined,
   showOutput: false,
   asChild: false,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   inverted: false,
 })
 
@@ -60,6 +63,10 @@ const attrs = useAttrs()
 
 const isDisabled = useDeprecatedBooleanProp(
   'ColorSlider', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'ColorSlider', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // Optional picker context — when absent, fall back to local useColorState
@@ -103,7 +110,7 @@ function onColorUpdate(next: Color) {
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     :dir="props.dir"
     :inverted="props.inverted"
     :step="props.step"

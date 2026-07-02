@@ -101,6 +101,16 @@ describe('ColorField', () => {
     expect(root.exists()).toBe(true)
   })
 
+  it('Test 7b: deprecated bare required=true forwards to ColorFieldRoot as required', async () => {
+    const wrapper = mount(ColorField, {
+      props: { required: true, defaultValue: '#ff0000' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    const colorFieldRoot = wrapper.findComponent({ name: 'ColorFieldRoot' })
+    expect(colorFieldRoot.props('required')).toBe(true)
+  })
+
   it('Test 8: with injected ColorPickerContext, renders without error', async () => {
     const color = ref(parseColor('#ff0000'))
     const format = ref<'hex' | 'hsl' | 'rgb'>('hex')

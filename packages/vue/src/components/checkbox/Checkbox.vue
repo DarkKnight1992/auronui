@@ -30,7 +30,11 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   /** Element or component to render CheckboxRoot as. */
   as?: string
-  /** Whether the checkbox is required. */
+  isRequired?: boolean
+  /**
+   * Whether the checkbox is required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   /** Whether CheckboxIndicator should force-mount even when unchecked. */
   indicatorForceMount?: boolean
@@ -61,7 +65,8 @@ const props = withDefaults(defineProps<{
   falseValue: undefined,
   asChild: false,
   as: undefined,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   indicatorForceMount: undefined,
   indicatorAsChild: false,
   indicatorAs: undefined,
@@ -86,6 +91,10 @@ const groupCtx = useCheckboxGroupInject({
 // Resolve this checkbox's own isDisabled/disabled prop pair before combining with group state.
 const resolvedDisabled = useDeprecatedBooleanProp(
   'Checkbox', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'Checkbox', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // Prop precedence: group disabled wins (D-02)
@@ -143,7 +152,7 @@ const slotFns = computed(() =>
     :false-value="props.falseValue"
     :as-child="props.asChild"
     :as="props.as"
-    :required="props.required"
+    :required="isRequired"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="handleUpdate"
   >

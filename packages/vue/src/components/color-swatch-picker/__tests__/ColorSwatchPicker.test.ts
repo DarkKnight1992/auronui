@@ -73,6 +73,16 @@ describe('ColorSwatchPicker', () => {
     expect(swatches.length).toBeGreaterThanOrEqual(3)
   })
 
+  it('Test 5b: deprecated bare required=true forwards to ColorSwatchPickerRoot as required', async () => {
+    const wrapper = mount(ColorSwatchPicker, {
+      props: { colors: testColors, required: true },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    const root = wrapper.findComponent({ name: 'ColorSwatchPickerRoot' })
+    expect(root.props('required')).toBe(true)
+  })
+
   it('Test 6: with injected ColorPickerContext, renders without error', async () => {
     const color = ref(parseColor('#ff0000'))
     const contextUpdates: Array<{ channel: string; value: number }[]> = []

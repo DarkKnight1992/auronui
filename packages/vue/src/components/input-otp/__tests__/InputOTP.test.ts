@@ -82,6 +82,16 @@ describe('InputOTP', () => {
     wrapper.unmount()
   })
 
+  it('Test 6b: deprecated bare required=true forwards to PinInputRoot as required', () => {
+    const wrapper = mount(InputOTP, {
+      props: { required: true, length: 4, 'aria-label': 'One-time password' },
+      attachTo: document.body,
+    })
+    const root = wrapper.findComponent({ name: 'PinInputRoot' })
+    expect(root.props('required')).toBe(true)
+    wrapper.unmount()
+  })
+
   it('Test 7: type="numeric" is passed to PinInputRoot (via DOM attribute)', () => {
     const wrapper = mount(InputOTP, {
       props: { type: 'text', length: 4, 'aria-label': 'One-time password' },

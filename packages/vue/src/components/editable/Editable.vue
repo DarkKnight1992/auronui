@@ -21,6 +21,8 @@ const props = withDefaults(defineProps<{
   autoResize?: boolean
   id?: string
   name?: string
+  isRequired?: boolean
+  /** @deprecated Use isRequired instead. */
   required?: boolean
   as?: string
   asChild?: boolean
@@ -33,6 +35,8 @@ const props = withDefaults(defineProps<{
   submitMode: 'blur',
   startWithEditMode: false,
   autoResize: false,
+  isRequired: undefined,
+  required: undefined,
 })
 
 const emit = defineEmits<{
@@ -44,6 +48,10 @@ const modelValue = defineModel<string | null>()
 
 const isDisabled = useDeprecatedBooleanProp(
   'Editable', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'Editable', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 const slotFns = computed(() => editableVariants())
@@ -65,7 +73,7 @@ const slotFns = computed(() => editableVariants())
     :auto-resize="autoResize"
     :id="id"
     :name="name"
-    :required="required"
+    :required="isRequired"
     :as="as"
     :as-child="asChild"
     :class="composeClassName(slotFns.base(), props.class)"

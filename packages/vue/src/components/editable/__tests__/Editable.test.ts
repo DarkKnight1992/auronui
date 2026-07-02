@@ -119,6 +119,14 @@ describe('Editable', () => {
     expect(wrapper.text()).toContain('Updated')
   })
 
+  it('deprecated bare required=true forwards to EditableRoot as required', async () => {
+    const wrapper = mountEditable({ defaultValue: 'Hello', required: true })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.findComponent({ name: 'EditableRoot' })
+    expect(root.props('required')).toBe(true)
+  })
+
   it('applies editable base class to root', async () => {
     const wrapper = mountEditable({ defaultValue: 'Hello' })
     wrappers.push(wrapper)

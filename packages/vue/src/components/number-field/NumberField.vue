@@ -9,6 +9,7 @@ import {
 } from 'reka-ui'
 import { numberFieldVariants, type NumberFieldVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   variant?: NumberFieldVariants['variant']
@@ -43,7 +44,11 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   /** Element or component to render NumberFieldRoot as. */
   as?: string
-  /** Whether the field is required. */
+  isRequired?: boolean
+  /**
+   * Whether the field is required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   /** Whether NumberFieldInput renders as a child element. */
   inputAsChild?: boolean
@@ -81,9 +86,22 @@ const props = withDefaults(defineProps<{
   locale: undefined,
   label: undefined,
   ariaLabel: undefined,
+  isRequired: undefined,
+  required: undefined,
 })
 
 const modelValue = defineModel<number | undefined>()
+
+// `required`/`isRequired` currently have no template site to forward to (see
+// plan note for this file) — the resolver is declared for parity with every
+// other file in this migration group, but intentionally left unread here so
+// it stays inert (referencing the ComputedRef itself, not `.value`, avoids
+// triggering its lazy evaluation — and the deprecation warning inside it —
+// as a side effect of satisfying the compiler's unused-variable check).
+const isRequired = useDeprecatedBooleanProp(
+  'NumberField', 'isRequired', () => props.isRequired, 'required', () => props.required,
+)
+void isRequired
 
 const slotFns = computed(() =>
   numberFieldVariants({

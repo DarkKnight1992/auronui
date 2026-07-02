@@ -45,6 +45,15 @@ describe('ToggleButton (standalone)', () => {
     expect(wrapper.find('button').attributes('disabled')).toBeDefined()
   })
 
+  it('deprecated bare required=true forwards to Toggle as required', () => {
+    const wrapper = mount(ToggleButton, {
+      props: { required: true, 'aria-label': 'toggle' },
+      slots: { default: 'Bold' },
+    })
+    const toggle = wrapper.findComponent({ name: 'Toggle' })
+    expect(toggle.props('required')).toBe(true)
+  })
+
   it('reflects modelValue (pressed state) via v-model', async () => {
     const pressed = ref(false)
     const Wrapper = defineComponent({

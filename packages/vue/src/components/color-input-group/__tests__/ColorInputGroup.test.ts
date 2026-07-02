@@ -61,4 +61,14 @@ describe('ColorInputGroup', () => {
     expect(wrapper.find('input').exists()).toBe(true)
     expect(wrapper.find('[class*="color-swatch"]').exists()).toBe(true)
   })
+
+  it('Test 6: deprecated bare required=true forwards to ColorFieldRoot as required', async () => {
+    const wrapper = mount(ColorInputGroup, {
+      props: { required: true, defaultValue: '#ff0000' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    const colorFieldRoot = wrapper.findComponent({ name: 'ColorFieldRoot' })
+    expect(colorFieldRoot.props('required')).toBe(true)
+  })
 })

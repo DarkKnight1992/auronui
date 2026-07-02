@@ -24,6 +24,8 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   name?: string
+  isRequired?: boolean
+  /** @deprecated Use isRequired instead. */
   required?: boolean
   colorSpace?: string
   channel?: string
@@ -36,7 +38,8 @@ const props = withDefaults(defineProps<{
   readonly: false,
   fullWidth: false,
   asChild: false,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
   disableWheelChange: false,
 })
 
@@ -47,6 +50,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'ColorField', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'ColorField', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 const id = useId()
@@ -94,7 +101,7 @@ function onColorUpdate(next: Color) {
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"
-    :required="props.required"
+    :required="isRequired"
     :color-space="(props.colorSpace as any)"
     :channel="(props.channel as any)"
     :disable-wheel-change="props.disableWheelChange"

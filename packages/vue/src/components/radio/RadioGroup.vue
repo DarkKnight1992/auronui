@@ -30,7 +30,11 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
   /** Element or component to render RadioGroupRoot as. */
   as?: string
-  /** Whether the radio group is required. */
+  isRequired?: boolean
+  /**
+   * Whether the radio group is required.
+   * @deprecated Use isRequired instead.
+   */
   required?: boolean
   class?: string
   /** Shorthand API: render radio options from an array instead of the compound slot API */
@@ -51,7 +55,8 @@ const props = withDefaults(defineProps<{
   loop: true,
   asChild: false,
   as: undefined,
-  required: false,
+  isRequired: undefined,
+  required: undefined,
 })
 
 const emit = defineEmits<{
@@ -60,6 +65,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'RadioGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isRequired = useDeprecatedBooleanProp(
+  'RadioGroup', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
 
 // Provide context to child Radio components
@@ -88,7 +97,7 @@ const groupClasses = computed(() =>
     :loop="props.loop"
     :as-child="props.asChild"
     :as="props.as"
-    :required="props.required"
+    :required="isRequired"
     :aria-labelledby="props.label ? labelId : undefined"
     :class="composeClassName(groupClasses, props.class)"
     @update:model-value="$event != null && emit('update:modelValue', String($event))"
