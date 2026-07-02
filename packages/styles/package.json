@@ -182,6 +182,10 @@
       "style": "./components/drawer.css",
       "default": "./components/drawer.css"
     },
+    "./context-menu.css": {
+      "style": "./components/context-menu.css",
+      "default": "./components/context-menu.css"
+    },
     "./dropdown.css": {
       "style": "./components/dropdown.css",
       "default": "./components/dropdown.css"

@@ -14,6 +14,15 @@ import ContextMenuSub from './ContextMenuSub.vue'
 import ContextMenuSubTrigger from './ContextMenuSubTrigger.vue'
 import ContextMenuSubContent from './ContextMenuSubContent.vue'
 
+// Disable color-contrast: jsdom doesn't implement getComputedStyle with pseudo-elements.
+// Disable region: portalled context menu content lands directly in body, outside any landmark.
+const AXE_OPTIONS: axe.RunOptions = {
+  rules: {
+    'color-contrast': { enabled: false },
+    region: { enabled: false },
+  },
+}
+
 beforeAll(() => {
   window.HTMLElement.prototype.scrollIntoView = () => {}
 })
@@ -246,7 +255,7 @@ describe('ContextMenu — accessibility (axe)', () => {
   it('Test 10: passes axe in closed state (zero violations)', async () => {
     const wrapper = mount(BasicContextMenu, { attachTo: document.body })
     await nextTick()
-    const results = await axe.run(wrapper.element)
+    const results = await axe.run(wrapper.element, AXE_OPTIONS)
     if (results.violations.length > 0) {
       console.log('AXE VIOLATIONS (closed):', JSON.stringify(results.violations.map(v => ({
         id: v.id,
@@ -301,7 +310,7 @@ describe('ContextMenu — accessibility (axe)', () => {
     // it actually covers the open menu's content (Dropdown's own axe test
     // scopes to wrapper.element even when open, which does NOT see portalled
     // content; do not repeat that gap here).
-    const results = await axe.run(document.body)
+    const results = await axe.run(document.body, AXE_OPTIONS)
     if (results.violations.length > 0) {
       console.log('AXE VIOLATIONS (open):', JSON.stringify(results.violations.map(v => ({
         id: v.id,
