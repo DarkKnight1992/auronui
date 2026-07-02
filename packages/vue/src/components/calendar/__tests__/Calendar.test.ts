@@ -3,6 +3,7 @@ import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { CalendarDate, type DateValue } from '@internationalized/date'
 import Calendar from '../Calendar.vue'
+import { _clearWarnedCache } from '../../../utils/warnDeprecated'
 
 // Polyfill ResizeObserver for jsdom (Reka UI Calendar uses it internally)
 beforeEach(() => {
@@ -270,6 +271,20 @@ describe('Calendar', () => {
 
   // Test 13: deprecated bare `readonly` prop forwards to CalendarYearPicker's canonical isReadOnly
   it('deprecated readonly prop forwards to CalendarYearPicker as isReadOnly in year view', async () => {
+    // Spy on console.warn to prove the forwarding MECHANISM, not just the
+    // resolved VALUE: the DOM's data-readonly attribute would be identical
+    // ('') whether Calendar forwards through CalendarYearPicker's canonical
+    // `is-read-only` prop (correct) or its deprecated `readonly` prop (the
+    // regression this test guards against), because useDeprecatedBooleanProp
+    // resolves both to the same boolean either way. Only the deprecation
+    // warning distinguishes the two: forwarding through the deprecated prop
+    // would make CalendarYearPicker's own useDeprecatedBooleanProp call see
+    // an explicit (non-undefined) deprecated value and warn, even though no
+    // external consumer ever touched CalendarYearPicker's deprecated API.
+    vi.stubEnv('DEV', true)
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    _clearWarnedCache()
+
     const wrapper = mount(Calendar, {
       props: { defaultValue: new CalendarDate(2024, 3, 15), readonly: true },
       attachTo: document.body,
@@ -284,8 +299,29 @@ describe('Calendar', () => {
 
     // Now in year view; the CalendarYearPicker child renders YearPickerRoot,
     // which sets data-readonly on its root when isReadOnly resolves to true.
+    // This proves the VALUE propagates correctly (still useful on its own).
     const yearGridRoot = wrapper.find('[role="application"]')
     expect(yearGridRoot.exists()).toBe(true)
     expect(yearGridRoot.attributes('data-readonly')).toBe('')
+
+    // Mechanism check: Calendar's OWN deprecated `readonly` prop was passed
+    // explicitly by this test, so Calendar itself SHOULD warn once.
+    expect(warnSpy).toHaveBeenCalledWith(
+      '[AuronUI] Calendar: prop "readonly" is deprecated, use "isReadOnly" instead.'
+    )
+    // But CalendarYearPicker must NEVER warn about its own deprecated
+    // `readonly` prop as a side effect of Calendar's internal forwarding —
+    // that would only happen if Calendar forwarded via `:readonly=` instead
+    // of `:is-read-only=`. Asserting call count of 1 (Calendar's own warning
+    // only) plus the negative message check together pin down that no
+    // second, spurious warning was emitted for CalendarYearPicker.
+    expect(warnSpy).not.toHaveBeenCalledWith(
+      expect.stringContaining('CalendarYearPicker')
+    )
+    expect(warnSpy).toHaveBeenCalledTimes(1)
+
+    warnSpy.mockRestore()
+    vi.unstubAllEnvs()
+    _clearWarnedCache()
   })
 })
