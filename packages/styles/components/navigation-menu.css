@@ -26,7 +26,7 @@
  * indicator track), so it must be position: relative.
  * -------------------------------------------------------------------------- */
 .navigation-menu__list {
-  @apply group relative flex list-none items-center justify-center gap-1;
+  @apply relative flex list-none items-center justify-center gap-1;
 }
 
 /* -----------------------------------------------------------------------------
@@ -95,7 +95,7 @@
 .navigation-menu__viewport {
   z-index: var(--z-popover);
   @apply relative mt-1.5 overflow-hidden rounded-lg surface-card;
-  @apply origin-top-center will-change-[opacity,transform,width,height];
+  @apply origin-top will-change-[opacity,transform,width,height];
 
   width: var(--reka-navigation-menu-viewport-width, 100%);
   height: var(--reka-navigation-menu-viewport-height, auto);
