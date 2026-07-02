@@ -307,6 +307,22 @@ export {
   ContextMenuSubContent,
 } from './components/context-menu'
 
+// Phase 7 — Navigation: Menubar (Reka gap-fill)
+export {
+  Menubar,
+  MenubarMenu,
+  MenubarTrigger,
+  MenubarContent,
+  MenubarItem,
+  MenubarCheckboxItem,
+  MenubarRadioGroup,
+  MenubarRadioItem,
+  MenubarSection,
+  MenubarSub,
+  MenubarSubTrigger,
+  MenubarSubContent,
+} from './components/menubar'
+
 // Phase 7 — Selection: ComboBox (SEL-05)
 export {
   ComboBox,
