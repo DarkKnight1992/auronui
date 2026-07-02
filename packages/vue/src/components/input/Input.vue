@@ -23,7 +23,7 @@
   ─── Data attributes on base (selector hooks) ──────────────────────────
     data-invalid    — mirrors isInvalid
     data-disabled   — mirrors isDisabled
-    data-readonly   — mirrors isReadonly
+    data-readonly   — mirrors isReadOnly
     data-required   — mirrors isRequired
     data-has-label  — true when label prop is set (any placement)
     data-has-helper — true when description or error is visible
@@ -58,7 +58,7 @@
 
   ─── Reuse checklist for new form fields ───────────────────────────────
     1. Copy prop names verbatim (variant, size, color, labelPlacement,
-       fullWidth, isInvalid, isDisabled, isReadonly, isRequired, label,
+       fullWidth, isInvalid, isDisabled, isReadOnly, isRequired, label,
        description, errorMessage, class, classNames).
     2. Expose the same slot keys in tailwind-variants.
     3. Emit the same data-attributes on the root + data-filled on the
@@ -74,6 +74,7 @@
 import { computed, nextTick, ref, useAttrs, useId, useTemplateRef } from 'vue'
 import { inputVariants, type InputVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 defineOptions({ inheritAttrs: false })
 
@@ -85,7 +86,8 @@ const props = withDefaults(defineProps<Props>(), {
   fullWidth: false,
   isInvalid: false,
   isDisabled: false,
-  isReadonly: false,
+  isReadOnly: undefined,
+  isReadonly: undefined,
   isRequired: false,
   isClearable: false,
   showPasswordToggle: false,
@@ -130,6 +132,8 @@ type Props = {
   /** Disables the field. @default false */
   isDisabled?: boolean
   /** Makes the field read-only. @default false */
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   isReadonly?: boolean
   /** Adds a required asterisk next to the label and the `required` attribute on the input. @default false */
   isRequired?: boolean
@@ -189,6 +193,10 @@ const inputAttrs = computed(() =>
 
 const inputEl = useTemplateRef<HTMLInputElement>('inputEl')
 
+const isReadOnly = useDeprecatedBooleanProp(
+  'Input', 'isReadOnly', () => props.isReadOnly, 'isReadonly', () => props.isReadonly,
+)
+
 const hasLabel = computed(() => !!props.label)
 const isFilled = computed(
   () => modelValue.value !== null && modelValue.value !== undefined && String(modelValue.value) !== '',
@@ -211,7 +219,7 @@ const effectiveType = computed(() =>
   isPasswordField.value && isPasswordVisible.value ? 'text' : props.type,
 )
 
-const isInteractive = computed(() => !props.isDisabled && !props.isReadonly)
+const isInteractive = computed(() => !props.isDisabled && !isReadOnly.value)
 const showClearButton = computed(
   () => props.isClearable && isFilled.value && isInteractive.value,
 )
@@ -237,7 +245,7 @@ const slotFns = computed(() =>
     fullWidth: props.fullWidth,
     isInvalid: props.isInvalid,
     isDisabled: props.isDisabled,
-    isReadonly: props.isReadonly,
+    isReadonly: isReadOnly.value,
     hasLabel: hasLabel.value,
     labelPlacement: props.labelPlacement,
   }),
@@ -256,7 +264,7 @@ const showInsideLabel = computed(
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
-    :data-readonly="isReadonly || undefined"
+    :data-readonly="isReadOnly || undefined"
     :data-required="isRequired || undefined"
     :data-has-label="hasLabel || undefined"
     :data-has-helper="hasHelper || undefined"
@@ -298,7 +306,7 @@ const showInsideLabel = computed(
           :placeholder="placeholder"
           :name="name"
           :disabled="isDisabled || undefined"
-          :readonly="isReadonly || undefined"
+          :readonly="isReadOnly || undefined"
           :required="isRequired || undefined"
           :aria-invalid="isInvalid || undefined"
           :aria-describedby="ariaDescribedBy"

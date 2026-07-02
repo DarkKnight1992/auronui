@@ -85,6 +85,42 @@ describe('Autocomplete', () => {
     expect(w.find('.autocomplete-root').exists()).toBe(true)
   })
 
+  it('isReadOnly (canonical) marks the root data-readonly and the input readonly', () => {
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete :items="items" :is-read-only="true" aria-label="Fruit autocomplete">
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() { return { items: staticItems } },
+    })
+    mountedWrappers.push(wrapper)
+    expect(wrapper.find('.autocomplete-root').attributes('data-readonly')).toBeTruthy()
+    expect(wrapper.find('input').attributes('readonly')).toBeDefined()
+  })
+
+  it('deprecated isReadonly (old casing) prop marks the root data-readonly and the input readonly', () => {
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete :items="items" :is-readonly="true" aria-label="Fruit autocomplete">
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() { return { items: staticItems } },
+    })
+    mountedWrappers.push(wrapper)
+    expect(wrapper.find('.autocomplete-root').attributes('data-readonly')).toBeTruthy()
+    expect(wrapper.find('input').attributes('readonly')).toBeDefined()
+  })
+
   it('deprecated bare disabled prop on AutocompleteItem marks the item data-disabled', async () => {
     const wrapper = mount({
       components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },

@@ -23,6 +23,7 @@ import { computed, nextTick, toRef, useAttrs, useId, useTemplateRef } from 'vue'
 import { useTextareaAutosize } from '@vueuse/core'
 import { textAreaVariants, type TextAreaVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 defineOptions({ inheritAttrs: false })
 
@@ -34,7 +35,8 @@ const props = withDefaults(defineProps<Props>(), {
   fullWidth: false,
   isInvalid: false,
   isDisabled: false,
-  isReadonly: false,
+  isReadOnly: undefined,
+  isReadonly: undefined,
   isRequired: false,
   isClearable: false,
   rows: 3,
@@ -66,6 +68,8 @@ type Props = {
   /** Disables the field. @default false */
   isDisabled?: boolean
   /** Makes the field read-only. @default false */
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   isReadonly?: boolean
   /** Adds a required asterisk next to the label and the `required` attribute. @default false */
   isRequired?: boolean
@@ -112,6 +116,10 @@ const inputAttrs = computed(() =>
 
 const textareaEl = useTemplateRef<HTMLTextAreaElement>('textareaEl')
 
+const isReadOnly = useDeprecatedBooleanProp(
+  'Textarea', 'isReadOnly', () => props.isReadOnly, 'isReadonly', () => props.isReadonly,
+)
+
 if (props.autoResize) {
   useTextareaAutosize({
     element: textareaEl,
@@ -133,7 +141,7 @@ const ariaDescribedBy = computed(() => {
   return undefined
 })
 
-const isInteractive = computed(() => !props.isDisabled && !props.isReadonly)
+const isInteractive = computed(() => !props.isDisabled && !isReadOnly.value)
 const showClearButton = computed(
   () => props.isClearable && isFilled.value && isInteractive.value,
 )
@@ -152,7 +160,7 @@ const slotFns = computed(() =>
     fullWidth: props.fullWidth,
     isInvalid: props.isInvalid,
     isDisabled: props.isDisabled,
-    isReadonly: props.isReadonly,
+    isReadonly: isReadOnly.value,
     hasLabel: hasLabel.value,
     labelPlacement: props.labelPlacement,
   }),
@@ -171,7 +179,7 @@ const showInsideLabel = computed(
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
-    :data-readonly="isReadonly || undefined"
+    :data-readonly="isReadOnly || undefined"
     :data-required="isRequired || undefined"
     :data-has-label="hasLabel || undefined"
     :data-has-helper="hasHelper || undefined"
@@ -213,7 +221,7 @@ const showInsideLabel = computed(
           :placeholder="placeholder"
           :name="name"
           :disabled="isDisabled || undefined"
-          :readonly="isReadonly || undefined"
+          :readonly="isReadOnly || undefined"
           :required="isRequired || undefined"
           :aria-invalid="isInvalid || undefined"
           :aria-describedby="ariaDescribedBy"

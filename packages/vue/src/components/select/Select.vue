@@ -9,6 +9,7 @@ import SelectTrigger from './SelectTrigger.vue'
 import SelectValue from './SelectValue.vue'
 import SelectContent from './SelectContent.vue'
 import SelectItem from './SelectItem.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 defineOptions({ inheritAttrs: false })
 
@@ -20,7 +21,8 @@ const props = withDefaults(defineProps<Props>(), {
   fullWidth: false,
   isInvalid: false,
   isDisabled: false,
-  isReadonly: false,
+  isReadOnly: undefined,
+  isReadonly: undefined,
   isRequired: false,
   multiple: false,
   modelValue: undefined,
@@ -37,6 +39,10 @@ const emit = defineEmits<{
   'update:modelValue': [value: SelectItemValue | SelectItemValue[]]
   'update:open': [value: boolean]
 }>()
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'Select', 'isReadOnly', () => props.isReadOnly, 'isReadonly', () => props.isReadonly,
+)
 
 type Props = {
   /** Visual style of the field. @default 'flat' */
@@ -60,6 +66,8 @@ type Props = {
   /** Disables the field. @default false */
   isDisabled?: boolean
   /** Makes the field read-only. @default false */
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   isReadonly?: boolean
   /** Adds a required asterisk next to the label. @default false */
   isRequired?: boolean
@@ -143,7 +151,7 @@ const slotFns = computed(() =>
     fullWidth: props.fullWidth,
     isInvalid: props.isInvalid,
     isDisabled: props.isDisabled,
-    isReadonly: props.isReadonly,
+    isReadonly: isReadOnly.value,
     hasLabel: hasLabel.value,
     labelPlacement: props.labelPlacement,
   }),
@@ -182,7 +190,7 @@ function removeValue(value: SelectItemValue) {
 useSelectProvide({
   isDisabled: toRef(props, 'isDisabled'),
   isInvalid: toRef(props, 'isInvalid'),
-  isReadonly: toRef(props, 'isReadonly'),
+  isReadonly: isReadOnly,
   isRequired: toRef(props, 'isRequired'),
   fullWidth: toRef(props, 'fullWidth'),
   hasLabel,
@@ -203,7 +211,7 @@ useSelectProvide({
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="isInvalid || undefined"
     :data-disabled="isDisabled || undefined"
-    :data-readonly="isReadonly || undefined"
+    :data-readonly="isReadOnly || undefined"
     :data-required="isRequired || undefined"
     :data-has-label="hasLabel || undefined"
     :data-has-helper="hasHelper || undefined"

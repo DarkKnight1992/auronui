@@ -173,6 +173,40 @@ describe('Select — disabled options', () => {
     wrapper.unmount()
   })
 
+  it('Test 28: isReadOnly (canonical) on Select marks the trigger data-readonly', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-read-only="true">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.attributes('data-readonly')).toBeTruthy()
+    wrapper.unmount()
+  })
+
+  it('Test 29: deprecated isReadonly (old casing) on Select marks the trigger data-readonly', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-readonly="true">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    expect(trigger.attributes('data-readonly')).toBeTruthy()
+    wrapper.unmount()
+  })
+
   it('Test 27: deprecated bare disabled prop on SelectItem marks the item data-disabled', async () => {
     // Use :open="true" to bypass jsdom popper layout limitation
     const Wrapper = makeWrapper(`

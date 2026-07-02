@@ -18,6 +18,8 @@ const props = withDefaults(defineProps<{
   fullWidth?: boolean
   isInvalid?: boolean
   isDisabled?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   isReadonly?: boolean
   min?: number
   max?: number
@@ -78,7 +80,8 @@ const props = withDefaults(defineProps<{
   fullWidth: false,
   isInvalid: false,
   isDisabled: false,
-  isReadonly: false,
+  isReadOnly: undefined,
+  isReadonly: undefined,
   step: 1,
   min: undefined,
   max: undefined,
@@ -103,6 +106,10 @@ const isRequired = useDeprecatedBooleanProp(
 )
 void isRequired
 
+const isReadOnly = useDeprecatedBooleanProp(
+  'NumberField', 'isReadOnly', () => props.isReadOnly, 'isReadonly', () => props.isReadonly,
+)
+
 const slotFns = computed(() =>
   numberFieldVariants({
     variant: props.variant,
@@ -111,7 +118,7 @@ const slotFns = computed(() =>
     fullWidth: props.fullWidth,
     isInvalid: props.isInvalid,
     isDisabled: props.isDisabled,
-    isReadonly: props.isReadonly,
+    isReadonly: isReadOnly.value,
   })
 )
 
@@ -137,14 +144,14 @@ const isLabelVisible = computed(() => !!props.label)
     :max="props.max"
     :step="props.step"
     :disabled="props.isDisabled || undefined"
-    :readonly="props.isReadonly || undefined"
+    :readonly="isReadOnly || undefined"
     :format-options="props.formatOptions"
     :locale="props.locale"
     :name="props.name"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-invalid="props.isInvalid || undefined"
     :data-disabled="props.isDisabled || undefined"
-    :data-readonly="props.isReadonly || undefined"
+    :data-readonly="isReadOnly || undefined"
   >
     <!--
       Label element — always rendered when `label` or `aria-label` is provided.
