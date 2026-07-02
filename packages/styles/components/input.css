@@ -18,8 +18,8 @@
   @apply motion-reduce:transition-none;
 
   @media (hover: hover) {
-    &:has(> input:hover):not(:focus-within),
-    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+    &:has(> input:hover):not(:focus-within):not(:has(> input:-webkit-autofill)),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]):not(:has(> input:-webkit-autofill)) {
       @apply bg-field-hover;
       border-color: var(--color-field-border-hover);
     }
@@ -65,6 +65,29 @@
     background-color: var(--color-default-100);
     cursor: default;
   }
+
+  /*
+   * Autofilled state — browsers only ever apply :-webkit-autofill styling to
+   * the <input> itself, never to sibling elements like the clear/password
+   * toggle buttons (whose own background is transparent, see .input__clear-button
+   * / .input__password-toggle below). Mirroring the same tint here on the
+   * wrapper — using the same :has(> input:pseudo) idiom as every other state
+   * above — makes it spread across the entire bordered box, icons included,
+   * instead of stopping at the text portion.
+   */
+  &:has(> input:-webkit-autofill) {
+    /*
+     * srgb, not oklch: --color-field resolves to a fully achromatic white
+     * (oklch(100% 0 0)) in the default theme, and mixing a saturated
+     * chromatic color into a chroma-0 endpoint in a polar space like oklch
+     * is a known cross-browser gotcha — at low percentages the result's hue
+     * can drift unpredictably (observed rendering pink instead of blue)
+     * depending on how each engine handles "powerless hue" and gamut
+     * mapping. Plain per-channel srgb blending has no hue component to
+     * drift, so the result is a predictable pale blue everywhere.
+     */
+    background-color: color-mix(in srgb, #006fee 8%, var(--color-field, white));
+  }
 }
 
 /* ─── Variant modifiers ─────────────────────────────────────────────────────── */
@@ -75,8 +98,8 @@
   border-color: transparent;
 
   @media (hover: hover) {
-    &:has(> input:hover):not(:focus-within),
-    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+    &:has(> input:hover):not(:focus-within):not(:has(> input:-webkit-autofill)),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]):not(:has(> input:-webkit-autofill)) {
       @apply bg-transparent;
     }
   }
@@ -96,8 +119,8 @@
   border-color: var(--border);
 
   @media (hover: hover) {
-    &:has(> input:hover):not(:focus-within),
-    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+    &:has(> input:hover):not(:focus-within):not(:has(> input:-webkit-autofill)),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]):not(:has(> input:-webkit-autofill)) {
       background-color: transparent;
       border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
     }
@@ -133,8 +156,8 @@
   border-bottom-color: var(--border);
 
   @media (hover: hover) {
-    &:has(> input:hover):not(:focus-within),
-    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+    &:has(> input:hover):not(:focus-within):not(:has(> input:-webkit-autofill)),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]):not(:has(> input:-webkit-autofill)) {
       background-color: transparent;
       border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
     }
@@ -156,8 +179,8 @@
   border-color: transparent;
 
   @media (hover: hover) {
-    &:has(> input:hover):not(:focus-within),
-    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
+    &:has(> input:hover):not(:focus-within):not(:has(> input:-webkit-autofill)),
+    &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]):not(:has(> input:-webkit-autofill)) {
       @apply shadow-lg;
       background-color: var(--background);
       border-color: transparent;
@@ -315,6 +338,26 @@
   &:focus-visible {
     outline: none;
     box-shadow: none;
+  }
+
+  /*
+   * Autofill indicator tint — light-blue accent, matching the .input
+   * wrapper's :has(> input:-webkit-autofill) rule above so the whole
+   * bordered box (icons included) shows one consistent color instead of
+   * stopping at the text portion. srgb, not oklch: --color-field resolves
+   * to a fully achromatic white in the default theme, and color-mix in a
+   * polar space like oklch with a chroma-0 endpoint is a known cross-browser
+   * gotcha — the resulting hue can drift unpredictably at low percentages
+   * (observed rendering pink instead of blue). Plain srgb blending has no
+   * hue component to drift.
+   */
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0px 1000px color-mix(in srgb, #006fee 8%, var(--color-field, white)) inset;
+    box-shadow: 0 0 0px 1000px color-mix(in srgb, #006fee 8%, var(--color-field, white)) inset;
+    -webkit-text-fill-color: var(--color-field-foreground);
+    caret-color: var(--color-field-foreground);
   }
 }
 
