@@ -323,6 +323,19 @@ export {
   MenubarSubContent,
 } from './components/menubar'
 
+// Phase 7 — Navigation: NavigationMenu (Reka gap-fill)
+export {
+  NavigationMenu,
+  NavigationMenuList,
+  NavigationMenuItem,
+  NavigationMenuTrigger,
+  NavigationMenuContent,
+  NavigationMenuLink,
+  NavigationMenuViewport,
+  NavigationMenuIndicator,
+  NavigationMenuSub,
+} from './components/navigation-menu'
+
 // Phase 7 — Selection: ComboBox (SEL-05)
 export {
   ComboBox,
