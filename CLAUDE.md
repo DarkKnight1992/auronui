@@ -3,7 +3,7 @@
 
 **Auron**
 
-Auron is a Vue 3 designed componented — a public, open-source component library that produces all 85 components for Vue developers. It uses [Reka UI](https://reka-ui.com) as the accessibility primitive layer and a forked `@auronui/styles` package for CSS and Tailwind variant definitions.
+Auron is a Vue 3 designed componented — a public, open-source component library that produces 85+ components for Vue developers. It uses [Reka UI](https://reka-ui.com) as the accessibility primitive layer and a forked `@auronui/styles` package for CSS and Tailwind variant definitions.
 
 **Core Value:** **Full visual parity with HeroUI React across all components**
 

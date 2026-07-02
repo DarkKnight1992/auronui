@@ -67,17 +67,18 @@ Browse interactive component stories at **[Storybook](https://darkknight1992.git
 
 | Domain | Components |
 |--------|------------|
-| Presentational | Spinner, Separator, Skeleton, Text, Label, Badge, Chip, Card, Kbd, EmptyState |
+| Presentational | Spinner, Separator, Skeleton, Text, Label, Description, Header, Badge, Chip, Surface, Card, Kbd, EmptyState |
 | Buttons & Links | Button, ButtonGroup, CloseButton, ToggleButton, ToggleButtonGroup, Link |
-| Form Inputs | Input, Textarea, NumberField, Fieldset |
+| Forms | Form, FormField |
+| Form Inputs | Input, Textarea, NumberField, Fieldset, Editable |
 | Form Selection | Checkbox, CheckboxGroup, Radio, RadioGroup, Switch, SwitchGroup, InputOTP |
-| Overlay | Popover, Tooltip, Modal, AlertDialog, Drawer |
-| Navigation | Tabs, Accordion, Collapsible, Breadcrumbs, Toolbar |
+| Overlay | Popover, Tooltip, Modal, AlertDialog, Drawer, HoverCard |
+| Navigation | Tabs, Accordion, Collapsible, Breadcrumbs, Toolbar, NavigationMenu |
 | Feedback | Alert, Toast |
-| Selection | ListBox, Select, Dropdown, ComboBox, Autocomplete, TagGroup, Tag |
+| Selection | ListBox, Select, Dropdown, ComboBox, Autocomplete, ContextMenu, Menubar |
 | Data | Table, Pagination |
 | Media | Avatar, AvatarGroup, Slider, ProgressBar, ProgressCircle, Meter, ScrollShadow, ScrollArea |
-| Date & Time | Calendar, RangeCalendar, DateInput, DateRangeField, TimeField, DatePicker, DateRangePicker |
+| Date & Time | Calendar, RangeCalendar, CalendarYearPicker, MonthPicker, MonthRangePicker, YearRangePicker, DateInput, DateRangeField, TimeField, TimeRangeField, DatePicker, DateRangePicker, DateTimePicker |
 | Color | ColorArea, ColorSlider, ColorField, ColorSwatch, ColorSwatchPicker, ColorInputGroup, ColorPicker |
 | Extended | AspectRatio, Splitter, Stepper, Tree |
 

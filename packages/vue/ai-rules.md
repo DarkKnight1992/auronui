@@ -495,6 +495,19 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 </Popover>
 ```
 
+**HoverCard** — hover-triggered preview card (non-focus, pointer-based popover)
+```vue
+<HoverCard :open-delay="700" :close-delay="300">
+  <HoverCardTrigger as-child>
+    <Link href="/user/jane">@jane</Link>
+  </HoverCardTrigger>
+  <HoverCardContent>
+    <p>Preview content shown on hover</p>
+    <HoverCardArrow />
+  </HoverCardContent>
+</HoverCard>
+```
+
 ---
 
 ### Feedback
@@ -588,6 +601,27 @@ function notify() {
 </Breadcrumbs>
 ```
 
+**NavigationMenu** — site-header navigation with flyout content panels
+```vue
+<NavigationMenu>
+  <NavigationMenuList>
+    <NavigationMenuItem value="products">
+      <NavigationMenuTrigger>Products</NavigationMenuTrigger>
+      <NavigationMenuContent>
+        <NavigationMenuLink href="/products/one">Product One</NavigationMenuLink>
+      </NavigationMenuContent>
+    </NavigationMenuItem>
+    <NavigationMenuItem value="docs">
+      <NavigationMenuLink href="/docs" :active="true">Docs</NavigationMenuLink>
+    </NavigationMenuItem>
+  </NavigationMenuList>
+  <NavigationMenuViewport />
+</NavigationMenu>
+<!-- orientation: horizontal | vertical -->
+<!-- NavigationMenuLink: href, active (boolean), color, underline -->
+<!-- NavigationMenuIndicator: optional, place inside NavigationMenuList after items -->
+```
+
 **Pagination** — page navigation
 ```vue
 <Pagination v-model:page="page" :total="100" :per-page="10">
@@ -620,6 +654,49 @@ function notify() {
     <DropdownItem @click="remove" class="text-danger">Delete</DropdownItem>
   </DropdownMenu>
 </Dropdown>
+```
+
+**ContextMenu** — right-click triggered menu
+```vue
+<ContextMenu>
+  <ContextMenuTrigger as-child>
+    <div>Right-click here</div>
+  </ContextMenuTrigger>
+  <ContextMenuContent aria-label="Actions">
+    <ContextMenuItem>Cut</ContextMenuItem>
+    <ContextMenuItem variant="danger">Delete</ContextMenuItem>
+    <ContextMenuSub>
+      <ContextMenuSubTrigger>Share via</ContextMenuSubTrigger>
+      <ContextMenuSubContent>
+        <ContextMenuItem>Email</ContextMenuItem>
+      </ContextMenuSubContent>
+    </ContextMenuSub>
+  </ContextMenuContent>
+</ContextMenu>
+<!-- ContextMenuItem variant: default | danger -->
+<!-- also: ContextMenuCheckboxItem (v-model:is-selected), ContextMenuRadioGroup + ContextMenuRadioItem, ContextMenuSection (title, show-divider) -->
+```
+
+**Menubar** — desktop-style horizontal application menu bar
+```vue
+<Menubar>
+  <MenubarMenu value="file">
+    <MenubarTrigger>File</MenubarTrigger>
+    <MenubarContent aria-label="File menu">
+      <MenubarItem>New File</MenubarItem>
+      <MenubarItem>Save</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+  <MenubarMenu value="edit">
+    <MenubarTrigger>Edit</MenubarTrigger>
+    <MenubarContent aria-label="Edit menu">
+      <MenubarItem>Cut</MenubarItem>
+      <MenubarItem>Copy</MenubarItem>
+    </MenubarContent>
+  </MenubarMenu>
+</Menubar>
+<!-- MenubarItem variant: default | danger -->
+<!-- also: MenubarCheckboxItem (v-model:is-selected), MenubarRadioGroup + MenubarRadioItem, MenubarSection (title, show-divider), MenubarSub + MenubarSubTrigger + MenubarSubContent -->
 ```
 
 **ComboBox** — searchable dropdown
@@ -705,9 +782,57 @@ function notify() {
 <DatePicker v-model="date" label="Pick a date" />
 ```
 
+**TimeRangeField** — segmented start/end time input field
+```vue
+<TimeRangeField v-model="value" label="Meeting Window" variant="flat" size="md" color="default" />
+<!-- variant: flat | bordered | faded | underlined | raised -->
+<!-- size: sm | md | lg -->
+<!-- labelPlacement: inside | outside | outside-left -->
+<!-- granularity: hour | minute | second -->
+<!-- hourCycle: 12 | 24 -->
+<!-- value: { start: Time, end: Time } from @internationalized/date -->
+```
+
+**MonthPicker** — calendar-style grid for selecting a single month
+```vue
+<MonthPicker v-model="month" :min-value="minMonth" :max-value="maxMonth" />
+<!-- value/defaultValue: DateValue from @internationalized/date -->
+<!-- disabled / readonly: boolean -->
+```
+
+**MonthRangePicker** — calendar-style grid for selecting a month range
+```vue
+<MonthRangePicker v-model="range" :min-value="minMonth" :max-value="maxMonth" />
+<!-- value: { start: DateValue, end: DateValue } -->
+<!-- allowNonContiguousRanges / disabled / readonly: boolean -->
+```
+
+**YearRangePicker** — calendar-style grid for selecting a year range
+```vue
+<YearRangePicker v-model="range" :years-per-page="12" />
+<!-- value: { start: DateValue, end: DateValue } -->
+<!-- yearsPerPage: number (default 12) -->
+<!-- allowNonContiguousRanges / disabled / readonly: boolean -->
+```
+
 **ColorPicker** — full color picker
 ```vue
 <ColorPicker v-model="color" />
+```
+
+**Editable** — inline click/dblclick-to-edit text field
+```vue
+<Editable v-model="value" activation-mode="focus" submit-mode="blur">
+  <EditableArea>
+    <EditablePreview />
+    <EditableInput />
+  </EditableArea>
+  <EditableEditTrigger />
+  <EditableSubmitTrigger />
+  <EditableCancelTrigger />
+</Editable>
+<!-- activationMode: focus | dblclick | none -->
+<!-- submitMode: blur | enter | none | both -->
 ```
 
 **AspectRatio** — enforces a width/height ratio
@@ -1102,8 +1227,12 @@ import {
   Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody,
   Tooltip, TooltipProvider, TooltipTrigger, TooltipContent,
   Popover, PopoverTrigger, PopoverContent,
+  HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow,
   Tabs, TabList, Tab, TabPanel, TabIndicator,
   Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent,
+  NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger,
+  NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport,
+  NavigationMenuIndicator, NavigationMenuSub,
   Alert, AlertIcon, AlertTitle, AlertDescription,
   ToastProvider, Toast, ToastViewport, useToast,
   useDisclosure, usePagination, useStepper, useTabs, useAccordion,
@@ -1115,10 +1244,19 @@ import {
   Pagination, PaginationContent, PaginationItem, PaginationPrev, PaginationNext,
   Table, TableHeader, TableBody, TableRow, TableCell, TableHeaderCell,
   ListBox, ListBoxItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem,
+  ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem,
+  ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
+  ContextMenuSection, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
+  Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem,
+  MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSection,
+  MenubarSub, MenubarSubTrigger, MenubarSubContent,
   ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty,
-  TagGroup, TagGroupInput, Tag, TagText, TagDelete,
+  Autocomplete, AutocompleteInput, AutocompleteContent,
   Slider, ScrollArea, ScrollShadow, ProgressBar, ProgressCircle, Meter,
   Calendar, DatePicker, ColorPicker,
+  TimeRangeField, MonthPicker, MonthRangePicker, YearRangePicker,
+  Editable, EditableArea, EditablePreview, EditableInput,
+  EditableEditTrigger, EditableSubmitTrigger, EditableCancelTrigger,
   Breadcrumbs, BreadcrumbItem, Toolbar, ToolbarButton, ToolbarSeparator,
   Collapsible, CollapsibleTrigger, CollapsibleContent,
   Stepper, StepperItem, StepperIndicator, StepperTitle, StepperSeparator,
