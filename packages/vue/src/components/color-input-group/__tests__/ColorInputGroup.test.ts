@@ -71,4 +71,14 @@ describe('ColorInputGroup', () => {
     const colorFieldRoot = wrapper.findComponent({ name: 'ColorFieldRoot' })
     expect(colorFieldRoot.props('required')).toBe(true)
   })
+
+  it('Test 7: deprecated bare readonly=true forwards to ColorFieldRoot as readonly', async () => {
+    const wrapper = mount(ColorInputGroup, {
+      props: { readonly: true, defaultValue: '#ff0000' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    const colorFieldRoot = wrapper.findComponent({ name: 'ColorFieldRoot' })
+    expect(colorFieldRoot.props('readonly')).toBe(true)
+  })
 })

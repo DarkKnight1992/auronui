@@ -26,6 +26,8 @@ const props = withDefaults(defineProps<{
   isMonthUnavailable?: (date: DateValue) => boolean
   locale?: string
   preventDeselect?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -60,13 +62,18 @@ const props = withDefaults(defineProps<{
   }>
 }>(), {
   preventDeselect: false,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   isDisabled: undefined,
   disabled: undefined,
 })
 
 const modelValue = defineModel<DateValue | undefined>()
 const placeholderModel = defineModel<DateValue | undefined>('placeholder')
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'MonthPicker', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
 
 const isDisabled = useDeprecatedBooleanProp(
   'MonthPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
@@ -87,7 +94,7 @@ const slotFns = computed(() => calendarVariants())
     :is-month-unavailable="isMonthUnavailable"
     :locale="locale"
     :prevent-deselect="preventDeselect"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"

@@ -112,4 +112,16 @@ describe('MonthPicker', () => {
     await nextTick()
     expect(wrapper.html()).toContain('calendar')
   })
+
+  // Test 7: deprecated bare `readonly` prop still marks the picker root readonly
+  it('deprecated readonly prop sets data-readonly on the picker root', async () => {
+    const wrapper = mount(MonthPicker, {
+      props: { readonly: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('[role="application"]')
+    expect(root.attributes('data-readonly')).toBe('')
+  })
 })

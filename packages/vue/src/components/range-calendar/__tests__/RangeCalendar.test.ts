@@ -123,4 +123,16 @@ describe('RangeCalendar', () => {
     const root = wrapper.find('.range-calendar')
     expect(root.attributes('data-disabled')).toBe('')
   })
+
+  // Test 7: deprecated bare `readonly` prop still marks the calendar root readonly
+  it('deprecated readonly prop sets data-readonly on the calendar root', async () => {
+    const wrapper = mount(RangeCalendar, {
+      props: { readonly: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('.range-calendar')
+    expect(root.attributes('data-readonly')).toBe('')
+  })
 })

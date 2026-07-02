@@ -12,6 +12,8 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   activationMode?: 'focus' | 'dblclick' | 'none'
   selectOnFocus?: boolean
@@ -30,6 +32,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   isDisabled: undefined,
   disabled: undefined,
+  isReadOnly: undefined,
+  readonly: undefined,
   activationMode: 'focus',
   selectOnFocus: false,
   submitMode: 'blur',
@@ -50,6 +54,10 @@ const isDisabled = useDeprecatedBooleanProp(
   'Editable', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
 )
 
+const isReadOnly = useDeprecatedBooleanProp(
+  'Editable', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
+
 const isRequired = useDeprecatedBooleanProp(
   'Editable', 'isRequired', () => props.isRequired, 'required', () => props.required,
 )
@@ -64,7 +72,7 @@ const slotFns = computed(() => editableVariants())
     :placeholder="placeholder"
     :dir="dir"
     :disabled="isDisabled"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :activation-mode="activationMode"
     :select-on-focus="selectOnFocus"
     :submit-mode="submitMode"

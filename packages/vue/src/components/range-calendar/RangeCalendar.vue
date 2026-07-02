@@ -59,6 +59,8 @@ const props = withDefaults(defineProps<{
   pagedNavigation?: boolean
   preventDeselect?: boolean
   allowNonContiguousRanges?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -116,7 +118,8 @@ const props = withDefaults(defineProps<{
   pagedNavigation: false,
   preventDeselect: false,
   allowNonContiguousRanges: false,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   isDisabled: undefined,
   disabled: undefined,
 })
@@ -127,6 +130,10 @@ const emit = defineEmits<{
 }>()
 
 const modelValue = defineModel<DateRange | null>()
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'RangeCalendar', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
 
 const isDisabled = useDeprecatedBooleanProp(
   'RangeCalendar', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
@@ -187,7 +194,7 @@ const nextViewLabel = computed(() =>
     :paged-navigation="pagedNavigation"
     :prevent-deselect="preventDeselect"
     :allow-non-contiguous-ranges="allowNonContiguousRanges"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"
@@ -311,7 +318,7 @@ const nextViewLabel = computed(() =>
     :locale="locale"
     :min-value="minValue"
     :max-value="maxValue"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onMonthSelect"
@@ -406,7 +413,7 @@ const nextViewLabel = computed(() =>
     :locale="locale"
     :min-value="minValue"
     :max-value="maxValue"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onYearSelect"

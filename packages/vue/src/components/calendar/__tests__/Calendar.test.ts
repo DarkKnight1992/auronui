@@ -255,4 +255,37 @@ describe('Calendar', () => {
     // Year view
     expect(wrapper.findAll('select').length).toBe(0)
   })
+
+  // Test 12: deprecated bare `readonly` prop still marks the calendar root readonly
+  it('deprecated readonly prop sets data-readonly on the calendar root', async () => {
+    const wrapper = mount(Calendar, {
+      props: { readonly: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('.calendar')
+    expect(root.attributes('data-readonly')).toBe('')
+  })
+
+  // Test 13: deprecated bare `readonly` prop forwards to CalendarYearPicker's canonical isReadOnly
+  it('deprecated readonly prop forwards to CalendarYearPicker as isReadOnly in year view', async () => {
+    const wrapper = mount(Calendar, {
+      props: { defaultValue: new CalendarDate(2024, 3, 15), readonly: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+
+    await wrapper.find('.calendar__heading-button').trigger('click')
+    await nextTick()
+    await wrapper.find('.calendar__heading-button').trigger('click')
+    await nextTick()
+
+    // Now in year view; the CalendarYearPicker child renders YearPickerRoot,
+    // which sets data-readonly on its root when isReadOnly resolves to true.
+    const yearGridRoot = wrapper.find('[role="application"]')
+    expect(yearGridRoot.exists()).toBe(true)
+    expect(yearGridRoot.attributes('data-readonly')).toBe('')
+  })
 })

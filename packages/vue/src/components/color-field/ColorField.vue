@@ -16,6 +16,8 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   placeholder?: string
   fullWidth?: ColorFieldVariants['fullWidth']
@@ -35,7 +37,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   isDisabled: undefined,
   disabled: undefined,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   fullWidth: false,
   asChild: false,
   isRequired: undefined,
@@ -50,6 +53,10 @@ const emit = defineEmits<{
 
 const isDisabled = useDeprecatedBooleanProp(
   'ColorField', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'ColorField', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
 )
 
 const isRequired = useDeprecatedBooleanProp(
@@ -97,7 +104,7 @@ function onColorUpdate(next: Color) {
   <ColorFieldRoot
     :model-value="color"
     :disabled="isDisabled"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"

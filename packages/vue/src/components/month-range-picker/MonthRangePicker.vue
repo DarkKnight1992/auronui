@@ -33,6 +33,8 @@ const props = withDefaults(defineProps<{
   preventDeselect?: boolean
   allowNonContiguousRanges?: boolean
   maximumMonths?: number
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -68,7 +70,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   preventDeselect: false,
   allowNonContiguousRanges: false,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   isDisabled: undefined,
   disabled: undefined,
 })
@@ -79,6 +82,10 @@ const emit = defineEmits<{
 
 const modelValue = defineModel<DateRange | null>()
 const placeholderModel = defineModel<DateValue | undefined>('placeholder')
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'MonthRangePicker', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
 
 const isDisabled = useDeprecatedBooleanProp(
   'MonthRangePicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
@@ -101,7 +108,7 @@ const slotFns = computed(() => monthRangePickerVariants())
     :prevent-deselect="preventDeselect"
     :allow-non-contiguous-ranges="allowNonContiguousRanges"
     :maximum-months="maximumMonths"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"

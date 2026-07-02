@@ -27,6 +27,8 @@ const props = withDefaults(defineProps<{
   locale?: string
   yearsPerPage?: number
   preventDeselect?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -62,13 +64,18 @@ const props = withDefaults(defineProps<{
 }>(), {
   yearsPerPage: 12,
   preventDeselect: false,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   isDisabled: undefined,
   disabled: undefined,
 })
 
 const modelValue = defineModel<DateValue | undefined>()
 const placeholderModel = defineModel<DateValue | undefined>('placeholder')
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'CalendarYearPicker', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
 
 const isDisabled = useDeprecatedBooleanProp(
   'CalendarYearPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
@@ -90,7 +97,7 @@ const slotFns = computed(() => calendarVariants())
     :locale="locale"
     :years-per-page="yearsPerPage"
     :prevent-deselect="preventDeselect"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"

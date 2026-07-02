@@ -111,6 +111,16 @@ describe('ColorField', () => {
     expect(colorFieldRoot.props('required')).toBe(true)
   })
 
+  it('Test 7c: deprecated bare readonly=true forwards to ColorFieldRoot as readonly', async () => {
+    const wrapper = mount(ColorField, {
+      props: { readonly: true, defaultValue: '#ff0000' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    const colorFieldRoot = wrapper.findComponent({ name: 'ColorFieldRoot' })
+    expect(colorFieldRoot.props('readonly')).toBe(true)
+  })
+
   it('Test 8: with injected ColorPickerContext, renders without error', async () => {
     const color = ref(parseColor('#ff0000'))
     const format = ref<'hex' | 'hsl' | 'rgb'>('hex')

@@ -34,6 +34,8 @@ const props = withDefaults(defineProps<{
   preventDeselect?: boolean
   allowNonContiguousRanges?: boolean
   maximumYears?: number
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -70,7 +72,8 @@ const props = withDefaults(defineProps<{
   yearsPerPage: 12,
   preventDeselect: false,
   allowNonContiguousRanges: false,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   isDisabled: undefined,
   disabled: undefined,
 })
@@ -81,6 +84,10 @@ const emit = defineEmits<{
 
 const modelValue = defineModel<DateRange | null>()
 const placeholderModel = defineModel<DateValue | undefined>('placeholder')
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'YearRangePicker', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
 
 const isDisabled = useDeprecatedBooleanProp(
   'YearRangePicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
@@ -104,7 +111,7 @@ const slotFns = computed(() => yearRangePickerVariants())
     :prevent-deselect="preventDeselect"
     :allow-non-contiguous-ranges="allowNonContiguousRanges"
     :maximum-years="maximumYears"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"

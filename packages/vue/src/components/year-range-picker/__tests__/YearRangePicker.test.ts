@@ -156,4 +156,16 @@ describe('YearRangePicker', () => {
     const root = wrapper.find('.year-range-picker')
     expect(root.attributes('data-disabled')).toBe('')
   })
+
+  // Test 10: deprecated bare `readonly` prop still marks the picker root readonly
+  it('deprecated readonly prop sets data-readonly on the picker root', async () => {
+    const wrapper = mount(YearRangePicker, {
+      props: { readonly: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('.year-range-picker')
+    expect(root.attributes('data-readonly')).toBe('')
+  })
 })

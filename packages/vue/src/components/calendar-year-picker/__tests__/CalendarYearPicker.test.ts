@@ -114,4 +114,16 @@ describe('CalendarYearPicker', () => {
     // The heading should mention the decade/year range
     expect(wrapper.find('[role="application"]').exists()).toBe(true)
   })
+
+  // Test 6: deprecated bare `readonly` prop still marks the picker root readonly
+  it('deprecated readonly prop sets data-readonly on the picker root', async () => {
+    const wrapper = mount(CalendarYearPicker, {
+      props: { readonly: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.find('[role="application"]')
+    expect(root.attributes('data-readonly')).toBe('')
+  })
 })

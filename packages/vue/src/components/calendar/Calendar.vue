@@ -44,6 +44,8 @@ const props = withDefaults(defineProps<{
   weekStartsOn?: 0 | 1 | 2 | 3 | 4 | 5 | 6
   pagedNavigation?: boolean
   preventDeselect?: boolean
+  isReadOnly?: boolean
+  /** @deprecated Use isReadOnly instead. */
   readonly?: boolean
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -96,12 +98,17 @@ const props = withDefaults(defineProps<{
   numberOfMonths: 1,
   pagedNavigation: false,
   preventDeselect: false,
-  readonly: false,
+  isReadOnly: undefined,
+  readonly: undefined,
   isDisabled: undefined,
   disabled: undefined,
 })
 
 const modelValue = defineModel<DateValue>()
+
+const isReadOnly = useDeprecatedBooleanProp(
+  'Calendar', 'isReadOnly', () => props.isReadOnly, 'readonly', () => props.readonly,
+)
 
 const isDisabled = useDeprecatedBooleanProp(
   'Calendar', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
@@ -162,7 +169,7 @@ const nextViewLabel = computed(() =>
     :week-starts-on="weekStartsOn"
     :paged-navigation="pagedNavigation"
     :prevent-deselect="preventDeselect"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"
@@ -282,7 +289,7 @@ const nextViewLabel = computed(() =>
     :locale="locale"
     :min-value="minValue"
     :max-value="maxValue"
-    :readonly="readonly"
+    :readonly="isReadOnly"
     :disabled="isDisabled"
     :initial-focus="initialFocus"
     :dir="dir"
@@ -386,7 +393,7 @@ const nextViewLabel = computed(() =>
     :locale="locale"
     :min-value="minValue"
     :max-value="maxValue"
-    :readonly="readonly"
+    :is-read-only="isReadOnly"
     :is-disabled="isDisabled"
     :class="composeClassName(props.class, props.classNames?.base)"
     @update:model-value="onYearSelect"
