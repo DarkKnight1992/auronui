@@ -4,11 +4,14 @@ import { checkboxGroupVariants, type CheckboxGroupVariants } from '@auronui/styl
 import { composeClassName } from '../../utils/composeClassName'
 import { useCheckboxGroupProvide } from './checkbox-group.context'
 import Checkbox from './Checkbox.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type CheckboxShorthandItem = { value: string; label?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   variant?: CheckboxGroupVariants['variant']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isInvalid?: boolean
   modelValue?: string[]
@@ -23,7 +26,8 @@ const props = withDefaults(defineProps<{
   items?: CheckboxShorthandItem[]
 }>(), {
   variant: 'primary',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isInvalid: false,
   modelValue: undefined,
   defaultValue: undefined,
@@ -53,10 +57,14 @@ function toggleValue(value: string) {
   emit('update:modelValue', next)
 }
 
+const isDisabled = useDeprecatedBooleanProp(
+  'CheckboxGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Provide context to child Checkboxes
 useCheckboxGroupProvide({
   variant: toRef(props, 'variant'),
-  disabled: toRef(props, 'disabled'),
+  disabled: isDisabled,
   isInvalid: toRef(props, 'isInvalid'),
   selectedValues: currentValues,
   toggleValue,

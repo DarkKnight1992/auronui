@@ -2,11 +2,14 @@
 import { computed, useTemplateRef } from 'vue'
 import { AccordionItem as RekaAccordionItem } from 'reka-ui'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import { useAccordionInject } from './accordion.context'
 import { useAccordionItemProvide } from './accordion-item.context'
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   value: string
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   unmountOnHide?: boolean
   as?: string
@@ -16,7 +19,14 @@ const props = defineProps<{
   classNames?: Partial<{
     item: ClassValue
   }>
-}>()
+}>(), {
+  isDisabled: undefined,
+  disabled: undefined,
+})
+
+const isDisabled = useDeprecatedBooleanProp(
+  'AccordionItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const ctx = useAccordionInject()
 
@@ -32,7 +42,7 @@ useAccordionItemProvide({ open })
   <RekaAccordionItem
     ref="reka"
     :value="props.value"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :unmount-on-hide="props.unmountOnHide"
     :as="props.as"
     :as-child="props.asChild"

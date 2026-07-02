@@ -14,6 +14,7 @@ import { colorAreaVariants, type ColorAreaVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   modelValue?: Color | string
@@ -21,6 +22,8 @@ const props = withDefaults(defineProps<{
   xChannel?: ColorChannel
   yChannel?: ColorChannel
   colorSpace?: ColorSpace
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   showDots?: ColorAreaVariants['showDots']
   class?: string
@@ -35,7 +38,8 @@ const props = withDefaults(defineProps<{
   xChannel: 'saturation',
   yChannel: 'brightness',
   showDots: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   asChild: false,
   required: false,
 })
@@ -46,6 +50,10 @@ const emit = defineEmits<{
   'change': [value: Color]
   'change-end': [value: Color]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ColorArea', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 // Optional picker context — when absent, fall back to local useColorState
 const pickerCtx = inject(ColorPickerContextKey, null)
@@ -88,7 +96,7 @@ function onColorUpdate(next: Color) {
     :x-channel="xChannel"
     :y-channel="yChannel"
     :color-space="colorSpace"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :name="props.name"

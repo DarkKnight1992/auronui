@@ -5,6 +5,7 @@ import { colorFieldVariants, type ColorFieldVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   modelValue?: Color | string
@@ -12,6 +13,8 @@ const props = withDefaults(defineProps<{
   label?: string
   description?: string
   errorMessage?: string
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   readonly?: boolean
   placeholder?: string
@@ -28,7 +31,8 @@ const props = withDefaults(defineProps<{
   locale?: string
   step?: number
 }>(), {
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   readonly: false,
   fullWidth: false,
   asChild: false,
@@ -40,6 +44,10 @@ const emit = defineEmits<{
   'update:modelValue': [value: Color]
   'update:color': [value: Color]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ColorField', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const id = useId()
 
@@ -81,7 +89,7 @@ function onColorUpdate(next: Color) {
 <template>
   <ColorFieldRoot
     :model-value="color"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :readonly="readonly"
     :as="props.as"
     :as-child="props.asChild"

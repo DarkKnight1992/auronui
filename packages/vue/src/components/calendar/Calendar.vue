@@ -27,6 +27,7 @@ import {
 import { today, getLocalTimeZone, type DateValue } from '@internationalized/date'
 import { calendarVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import CalendarYearPicker from '../calendar-year-picker/CalendarYearPicker.vue'
 
 const props = withDefaults(defineProps<{
@@ -44,6 +45,8 @@ const props = withDefaults(defineProps<{
   pagedNavigation?: boolean
   preventDeselect?: boolean
   readonly?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   calendarLabel?: string
   /** Initial focus state. */
@@ -94,10 +97,15 @@ const props = withDefaults(defineProps<{
   pagedNavigation: false,
   preventDeselect: false,
   readonly: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
 })
 
 const modelValue = defineModel<DateValue>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Calendar', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slotFns = computed(() => calendarVariants())
 
@@ -155,7 +163,7 @@ const nextViewLabel = computed(() =>
     :paged-navigation="pagedNavigation"
     :prevent-deselect="preventDeselect"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"
     :dir="dir"
@@ -275,7 +283,7 @@ const nextViewLabel = computed(() =>
     :min-value="minValue"
     :max-value="maxValue"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :initial-focus="initialFocus"
     :dir="dir"
     :next-page="nextPage"
@@ -379,7 +387,7 @@ const nextViewLabel = computed(() =>
     :min-value="minValue"
     :max-value="maxValue"
     :readonly="readonly"
-    :disabled="disabled"
+    :is-disabled="isDisabled"
     :class="composeClassName(props.class, props.classNames?.base)"
     @update:model-value="onYearSelect"
   >

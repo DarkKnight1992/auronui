@@ -1,19 +1,27 @@
 <script setup lang="ts">
 import Button from './Button.vue'
 import type { ButtonVariants } from '@auronui/styles'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   size?: ButtonVariants['size']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isLoading?: boolean
   ariaLabel?: string
   class?: string
 }>(), {
   size: 'md',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isLoading: false,
   ariaLabel: 'Close',
 })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'CloseButton', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
@@ -21,7 +29,7 @@ const props = withDefaults(defineProps<{
     variant="ghost"
     :is-icon-only="true"
     :size="props.size"
-    :disabled="props.disabled"
+    :is-disabled="isDisabled"
     :is-loading="props.isLoading"
     :aria-label="props.ariaLabel"
     :class="props.class"

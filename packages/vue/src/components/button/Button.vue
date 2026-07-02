@@ -6,6 +6,7 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useButtonGroupInject } from './button-group.context'
 import Spinner from '../spinner/Spinner.vue'
 import { warnDeprecatedVariant } from '../../utils/warnDeprecated'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   /**
@@ -18,6 +19,8 @@ const props = withDefaults(defineProps<{
   radius?: ButtonVariants['radius']
   isIconOnly?: boolean
   fullWidth?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isLoading?: boolean
   as?: string | object
@@ -38,7 +41,8 @@ const props = withDefaults(defineProps<{
   radius: undefined,
   isIconOnly: false,
   fullWidth: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isLoading: false,
   as: 'button',
   value: undefined,
@@ -65,10 +69,15 @@ function handleClick() {
   if (props.value !== undefined) groupCtx.selectValue(props.value)
 }
 
+// Resolve this button's own isDisabled/disabled prop pair before combining with group state.
+const resolvedDisabled = useDeprecatedBooleanProp(
+  'Button', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Prop precedence rules (D-13):
 // - group disabled ALWAYS wins over child prop
 // - all other props: child prop wins over group value (child ?? group)
-const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
 const finalColor = computed(() => props.color ?? groupCtx.color.value)
 const finalSize = computed(() => props.size ?? groupCtx.size.value)

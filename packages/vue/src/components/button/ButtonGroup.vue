@@ -6,6 +6,7 @@ import { useButtonGroupProvide } from './button-group.context'
 import type { ButtonGroupSelectionMode, ButtonGroupValue } from './button-group.context'
 import type { ButtonVariants } from '@auronui/styles'
 import Button from './Button.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type ButtonShorthandItem = {
   label: string
@@ -21,6 +22,8 @@ const props = withDefaults(defineProps<{
   variant?: ButtonVariants['variant']
   color?: ButtonVariants['color']
   size?: ButtonVariants['size']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   fullWidth?: boolean
   orientation?: 'horizontal' | 'vertical'
@@ -37,7 +40,8 @@ const props = withDefaults(defineProps<{
   variant: 'solid',
   color: 'primary',
   size: 'md',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   fullWidth: false,
   orientation: 'horizontal',
   selectionMode: 'single',
@@ -78,12 +82,16 @@ function selectValue(value: string | number) {
   }
 }
 
+const isDisabled = useDeprecatedBooleanProp(
+  'ButtonGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Provide context using toRef() for reactivity (D-11)
 useButtonGroupProvide({
   variant: toRef(props, 'variant'),
   color: toRef(props, 'color'),
   size: toRef(props, 'size'),
-  disabled: toRef(props, 'disabled'),
+  disabled: isDisabled,
   fullWidth: toRef(props, 'fullWidth'),
   orientation: toRef(props, 'orientation'),
   selectionMode: toRef(props, 'selectionMode'),

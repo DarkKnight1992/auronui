@@ -15,6 +15,7 @@ import {
 import type { DateValue } from '@internationalized/date'
 import { calendarVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   defaultValue?: DateValue
@@ -27,6 +28,8 @@ const props = withDefaults(defineProps<{
   yearsPerPage?: number
   preventDeselect?: boolean
   readonly?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   calendarLabel?: string
   /** Initial focus state. @default false */
@@ -60,11 +63,16 @@ const props = withDefaults(defineProps<{
   yearsPerPage: 12,
   preventDeselect: false,
   readonly: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
 })
 
 const modelValue = defineModel<DateValue | undefined>()
 const placeholderModel = defineModel<DateValue | undefined>('placeholder')
+
+const isDisabled = useDeprecatedBooleanProp(
+  'CalendarYearPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slotFns = computed(() => calendarVariants())
 </script>
@@ -83,7 +91,7 @@ const slotFns = computed(() => calendarVariants())
     :years-per-page="yearsPerPage"
     :prevent-deselect="preventDeselect"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"
     :dir="dir"

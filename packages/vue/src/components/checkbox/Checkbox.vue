@@ -4,6 +4,7 @@ import { CheckboxRoot, CheckboxIndicator } from 'reka-ui'
 import { checkboxVariants, type CheckboxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCheckboxGroupInject } from './checkbox-group.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 // Disable Vue attribute fallthrough — we manually forward $attrs to CheckboxRoot
 defineOptions({ inheritAttrs: false })
@@ -13,6 +14,8 @@ const props = withDefaults(defineProps<{
   value?: string
   modelValue?: boolean
   defaultValue?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isInvalid?: boolean
   isIndeterminate?: boolean
@@ -48,7 +51,8 @@ const props = withDefaults(defineProps<{
   value: undefined,
   modelValue: undefined,
   defaultValue: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isInvalid: false,
   isIndeterminate: false,
   name: undefined,
@@ -79,8 +83,13 @@ const groupCtx = useCheckboxGroupInject({
   name: ref(undefined),
 })
 
+// Resolve this checkbox's own isDisabled/disabled prop pair before combining with group state.
+const resolvedDisabled = useDeprecatedBooleanProp(
+  'Checkbox', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Prop precedence: group disabled wins (D-02)
-const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 // Group invalid overrides item; item prop allows standalone invalid
 const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 

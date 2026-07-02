@@ -4,11 +4,14 @@ import { Toggle } from 'reka-ui'
 import { toggleButtonVariants, type ToggleButtonVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useToggleButtonGroupInject } from './toggle-button-group.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   variant?: ToggleButtonVariants['variant']
   size?: ToggleButtonVariants['size']
   isIconOnly?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   modelValue?: boolean
   defaultValue?: boolean
@@ -22,7 +25,8 @@ const props = withDefaults(defineProps<{
   variant: undefined,
   size: undefined,
   isIconOnly: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   modelValue: undefined,
   defaultValue: false,
   value: undefined,
@@ -48,8 +52,13 @@ const groupCtx = useToggleButtonGroupInject({
   toggleValue: () => {},
 })
 
+// Resolve this button's own isDisabled/disabled prop pair before combining with group state.
+const resolvedDisabled = useDeprecatedBooleanProp(
+  'ToggleButton', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Prop precedence: group disabled wins; child prop wins for variant/size
-const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
 const finalSize = computed(() => props.size ?? groupCtx.size.value)
 

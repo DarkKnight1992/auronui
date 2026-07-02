@@ -6,6 +6,7 @@ import { useAutocompleteInject } from './Autocomplete.context'
 import Chip from '../chip/Chip.vue'
 import Spinner from '../spinner/Spinner.vue'
 import AutocompleteOverflowChips from './AutocompleteOverflowChips.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -15,6 +16,8 @@ const props = withDefaults(defineProps<{
   /** Auto-focus the input on mount. */
   autoFocus?: boolean
   /** Disable the input. Falls back to context isDisabled. */
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render the AutocompleteInput as a different element. */
   as?: string
@@ -41,6 +44,7 @@ const props = withDefaults(defineProps<{
   class: undefined,
   modelValue: undefined,
   autoFocus: false,
+  isDisabled: undefined,
   disabled: undefined,
   as: undefined,
   asChild: false,
@@ -59,6 +63,14 @@ const emit = defineEmits<{
 }>()
 
 const ctx = useAutocompleteInject()
+
+// Resolve own isDisabled/disabled prop pair, falling back to the parent Autocomplete's
+// resolved isDisabled context value (reactively, via a fallback getter) only when neither
+// is set on this input directly.
+const isDisabled = useDeprecatedBooleanProp(
+  'AutocompleteInput', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+  () => ctx.isDisabled.value,
+)
 
 // Track focused state via useFocusWithin (NOT manual @focus/@blur listeners) — the
 // inner Reka <AutocompleteInput> wraps the native <input>; useFocusWithin observes
@@ -136,7 +148,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
       :model-value="props.modelValue"
       :auto-focus="props.autoFocus"
       :placeholder="effectivePlaceholder"
-      :disabled="props.disabled ?? ctx.isDisabled.value"
+      :disabled="isDisabled"
       :as="props.as"
       :as-child="props.asChild"
       :readonly="ctx.isReadonly.value"

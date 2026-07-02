@@ -2,6 +2,7 @@
 import { computed } from 'vue'
 import { AutocompleteItem as RekaAutocompleteItem, injectComboboxRootContext } from 'reka-ui'
 import { useAutocompleteInject } from './Autocomplete.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   /**
@@ -14,7 +15,8 @@ const props = withDefaults(defineProps<{
   value?: string
   /** A string value that represents this item during typeahead navigation. */
   textValue?: string
-  /** Whether this item is disabled. */
+  isDisabled?: boolean
+  /** Whether this item is disabled. @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
@@ -25,10 +27,15 @@ const props = withDefaults(defineProps<{
   class: undefined,
   value: undefined,
   textValue: undefined,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   as: undefined,
   asChild: false,
 })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'AutocompleteCreateItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const emit = defineEmits<{
   'select': [event: Event]
@@ -71,7 +78,7 @@ function handleSelect(event: Event) {
     :key="term"
     :value="props.value ?? term"
     :text-value="props.textValue ?? term"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :class="['list-box-item list-box-item--default', props.class]"

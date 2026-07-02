@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { AccordionRoot } from 'reka-ui'
 import { accordionVariants, type AccordionVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import { useAccordionProvide } from './accordion.context'
 import AccordionItem from './AccordionItem.vue'
 import AccordionHeader from './AccordionHeader.vue'
@@ -18,6 +19,8 @@ const props = withDefaults(defineProps<{
   modelValue?: SingleValue | MultipleValue
   defaultValue?: SingleValue | MultipleValue
   collapsible?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   dir?: 'ltr' | 'rtl'
   orientation?: 'horizontal' | 'vertical'
@@ -36,7 +39,8 @@ const props = withDefaults(defineProps<{
 }>(), {
 
   collapsible: true,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   variant: 'default',
   size: 'md',
 })
@@ -44,6 +48,10 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'update:modelValue': [value: SingleValue | MultipleValue]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Accordion', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slotFns = computed(() => accordionVariants({ variant: props.variant, size: props.size }))
 
@@ -56,7 +64,7 @@ useAccordionProvide({ slotFns })
     :model-value="props.modelValue"
     :default-value="props.defaultValue"
     :collapsible="props.collapsible"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :dir="props.dir"
     :orientation="props.orientation"
     :unmount-on-hide="props.unmountOnHide"

@@ -3,6 +3,7 @@ import { computed, onMounted, onBeforeUnmount, ref, useId, watch } from 'vue'
 import { CollapsibleRoot } from 'reka-ui'
 import { collapsibleVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import { useCollapsibleProvide } from './collapsible.context'
 import { injectCollapsibleGroup } from './collapsible-group.context'
 
@@ -13,6 +14,8 @@ import { injectCollapsibleGroup } from './collapsible-group.context'
 const props = withDefaults(defineProps<{
   open?: boolean | null
   defaultOpen?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   unmountOnHide?: boolean
   as?: string
@@ -25,12 +28,17 @@ const props = withDefaults(defineProps<{
 }>(), {
   open: null,
   defaultOpen: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
 })
 
 const emit = defineEmits<{
   'update:open': [value: boolean]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Collapsible', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 // Check if we're inside a CollapsibleGroup — if so, we need controlled mode so
 // the group can externally close this Collapsible by setting internalOpen.value.
@@ -79,7 +87,7 @@ onBeforeUnmount(() => {
   <CollapsibleRoot
     :open="isControlled ? internalOpen : undefined"
     :default-open="!isControlled ? props.defaultOpen : undefined"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :unmount-on-hide="props.unmountOnHide"
     :as="props.as"
     :as-child="props.asChild"

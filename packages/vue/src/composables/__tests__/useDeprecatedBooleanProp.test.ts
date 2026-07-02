@@ -70,4 +70,15 @@ describe("useDeprecatedBooleanProp", () => {
     disabled.value = true;
     expect(resolved.value).toBe(true);
   });
+
+  it("accepts a fallback getter and stays reactive to it", () => {
+    const contextDisabled = ref(false);
+    const resolved = useDeprecatedBooleanProp(
+      "AutocompleteInput", "isDisabled", () => undefined, "disabled", () => undefined,
+      () => contextDisabled.value,
+    );
+    expect(resolved.value).toBe(false);
+    contextDisabled.value = true;
+    expect(resolved.value).toBe(true);
+  });
 });

@@ -18,6 +18,16 @@ import { warnDeprecatedProp } from "../utils/warnDeprecated";
  *   'Switch', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
  * )
  * ```
+ *
+ * `fallback` may also be a getter (`() => boolean`) for cases where the fallback itself
+ * must stay reactive — e.g. falling through to a parent context's resolved value when
+ * both the canonical and deprecated props are unset:
+ * ```ts
+ * const isDisabled = useDeprecatedBooleanProp(
+ *   'AutocompleteInput', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+ *   () => ctx.isDisabled.value,
+ * )
+ * ```
  */
 export function useDeprecatedBooleanProp(
   component: string,
@@ -25,13 +35,14 @@ export function useDeprecatedBooleanProp(
   getCanonical: () => boolean | undefined,
   deprecatedName: string,
   getDeprecated: () => boolean | undefined,
-  fallback = false,
+  fallback: boolean | (() => boolean) = false,
 ): ComputedRef<boolean> {
   return computed(() => {
     const deprecatedValue = getDeprecated();
     if (deprecatedValue !== undefined) {
       warnDeprecatedProp(component, deprecatedName, canonicalName);
     }
-    return getCanonical() ?? deprecatedValue ?? fallback;
+    const resolvedFallback = typeof fallback === "function" ? fallback() : fallback;
+    return getCanonical() ?? deprecatedValue ?? resolvedFallback;
   });
 }

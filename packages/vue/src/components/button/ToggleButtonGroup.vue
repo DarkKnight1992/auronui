@@ -4,12 +4,15 @@ import { toggleButtonGroupVariants, type ToggleButtonVariants } from '@auronui/s
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useToggleButtonGroupProvide } from './toggle-button-group.context'
 import ToggleButton from './ToggleButton.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type ToggleButtonShorthandItem = { value: string; label?: string; isIconOnly?: boolean; disabled?: boolean; class?: string }
 
 const props = withDefaults(defineProps<{
   variant?: ToggleButtonVariants['variant']
   size?: ToggleButtonVariants['size']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   fullWidth?: boolean
   orientation?: 'horizontal' | 'vertical'
@@ -27,7 +30,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   variant: 'default',
   size: 'md',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   fullWidth: false,
   orientation: 'horizontal',
   isDetached: false,
@@ -78,11 +82,15 @@ function toggleValue(value: string) {
   }
 }
 
+const isDisabled = useDeprecatedBooleanProp(
+  'ToggleButtonGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Provide context to child ToggleButtons via toRef() for live reactivity
 useToggleButtonGroupProvide({
   variant: toRef(props, 'variant'),
   size: toRef(props, 'size'),
-  disabled: toRef(props, 'disabled'),
+  disabled: isDisabled,
   fullWidth: toRef(props, 'fullWidth'),
   orientation: toRef(props, 'orientation'),
   selectionMode: toRef(props, 'selectionMode'),
