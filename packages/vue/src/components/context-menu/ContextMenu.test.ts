@@ -251,6 +251,115 @@ describe('ContextMenu — items', () => {
   })
 })
 
+describe('ContextMenu — deprecated disabled prop', () => {
+  it('Test 12: ContextMenuItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <ContextMenu>
+          <ContextMenuTrigger as-child>
+            <div>Right-click me</div>
+          </ContextMenuTrigger>
+          <ContextMenuContent aria-label="Deprecated disabled menu">
+            <ContextMenuItem>Item 1</ContextMenuItem>
+            <ContextMenuItem :disabled="true">Disabled Item</ContextMenuItem>
+          </ContextMenuContent>
+        </ContextMenu>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('div').element
+    rightClick(trigger)
+    await nextTick()
+    await nextTick()
+    const disabledItems = document.querySelectorAll('[data-disabled]')
+    expect(disabledItems.length).toBeGreaterThan(0)
+    wrapper.unmount()
+  })
+
+  it('Test 13: ContextMenuCheckboxItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <ContextMenu>
+          <ContextMenuTrigger as-child>
+            <div>Right-click me</div>
+          </ContextMenuTrigger>
+          <ContextMenuContent aria-label="Deprecated disabled checkbox menu">
+            <ContextMenuCheckboxItem :disabled="true">Auto Save</ContextMenuCheckboxItem>
+          </ContextMenuContent>
+        </ContextMenu>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('div').element
+    rightClick(trigger)
+    await nextTick()
+    await nextTick()
+    const checkboxItem = document.querySelector('[role="menuitemcheckbox"]')
+    expect(checkboxItem?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+
+  it('Test 14: ContextMenuRadioItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <ContextMenu>
+          <ContextMenuTrigger as-child>
+            <div>Right-click me</div>
+          </ContextMenuTrigger>
+          <ContextMenuContent aria-label="Deprecated disabled radio menu">
+            <ContextMenuRadioGroup model-value="compact">
+              <ContextMenuRadioItem value="compact">Compact</ContextMenuRadioItem>
+              <ContextMenuRadioItem value="comfortable" :disabled="true">Comfortable</ContextMenuRadioItem>
+            </ContextMenuRadioGroup>
+          </ContextMenuContent>
+        </ContextMenu>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('div').element
+    rightClick(trigger)
+    await nextTick()
+    await nextTick()
+    const radioItems = document.querySelectorAll('[role="menuitemradio"]')
+    const disabledItem = Array.from(radioItems).find(el => el.textContent?.includes('Comfortable'))
+    expect(disabledItem?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+
+  it('Test 15: ContextMenuSubTrigger deprecated bare disabled prop marks the trigger data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <ContextMenu>
+          <ContextMenuTrigger as-child>
+            <div>Right-click me</div>
+          </ContextMenuTrigger>
+          <ContextMenuContent aria-label="Deprecated disabled submenu">
+            <ContextMenuSub default-open="true">
+              <ContextMenuSubTrigger :disabled="true">More options</ContextMenuSubTrigger>
+              <ContextMenuSubContent>
+                <ContextMenuItem>Sub Item 1</ContextMenuItem>
+              </ContextMenuSubContent>
+            </ContextMenuSub>
+          </ContextMenuContent>
+        </ContextMenu>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('div').element
+    rightClick(trigger)
+    await nextTick()
+    await nextTick()
+    const subTrigger = Array.from(document.querySelectorAll('[role="menuitem"]'))
+      .find(el => el.textContent?.includes('More options'))
+    expect(subTrigger?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+})
+
 describe('ContextMenu — accessibility (axe)', () => {
   it('Test 10: passes axe in closed state (zero violations)', async () => {
     const wrapper = mount(BasicContextMenu, { attachTo: document.body })

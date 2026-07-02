@@ -2,6 +2,7 @@
 import { computed, onMounted, onUnmounted, useSlots, type Slots, type VNode } from 'vue'
 import { ComboboxItem, ComboboxItemIndicator } from 'reka-ui'
 import { useComboBoxInject } from './ComboBox.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   value: string
@@ -9,7 +10,7 @@ const props = withDefaults(defineProps<{
   class?: string
   /** A string value for typeahead matching. Defaults to display text. */
   textValue?: string
-  /** Whether the item is disabled. Alias for isDisabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
@@ -20,7 +21,7 @@ const props = withDefaults(defineProps<{
   /** Merge indicator props onto child element. */
   indicatorAsChild?: boolean
 }>(), {
-  isDisabled: false,
+  isDisabled: undefined,
   class: undefined,
   textValue: undefined,
   disabled: undefined,
@@ -33,6 +34,10 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   'select': [event: Event]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ComboBoxItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slots: Slots = useSlots()
 const ctx = useComboBoxInject()
@@ -69,7 +74,7 @@ onUnmounted(() => {
   <ComboboxItem
     :value="displayText"
     :text-value="props.textValue ?? displayText"
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :data-item-value="props.value"

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ContextMenuCheckboxItem, ContextMenuItemIndicator } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   textValue?: string
@@ -9,7 +10,7 @@ const props = withDefaults(defineProps<{
   class?: string
   /** Controlled checked state. */
   modelValue?: boolean
-  /** Whether this item is disabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
 }>(), {
   textValue: undefined,
-  isDisabled: false,
+  isDisabled: undefined,
   variant: 'default',
   class: undefined,
   modelValue: undefined,
@@ -34,13 +35,17 @@ const emit = defineEmits<{
 const isSelected = defineModel<boolean>('isSelected', { default: false })
 
 const slots = menuItemVariants({ variant: props.variant })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ContextMenuCheckboxItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
   <ContextMenuCheckboxItem
     :model-value="props.modelValue ?? isSelected"
     :text-value="props.textValue"
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :class="[slots.item(), props.class]"

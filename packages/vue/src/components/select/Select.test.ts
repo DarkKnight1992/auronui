@@ -172,6 +172,26 @@ describe('Select — disabled options', () => {
     expect(trigger.attributes('disabled')).toBeDefined()
     wrapper.unmount()
   })
+
+  it('Test 27: deprecated bare disabled prop on SelectItem marks the item data-disabled', async () => {
+    // Use :open="true" to bypass jsdom popper layout limitation
+    const Wrapper = makeWrapper(`
+      <Select :open="true" label="Fruit">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana" :disabled="true">Banana</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    await nextTick()
+    const disabledItems = document.querySelectorAll('[data-disabled]')
+    expect(disabledItems.length).toBeGreaterThan(0)
+    wrapper.unmount()
+  })
 })
 
 describe('Select — label / description / error', () => {

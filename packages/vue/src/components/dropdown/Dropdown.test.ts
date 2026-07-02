@@ -295,6 +295,95 @@ describe('Dropdown — Section', () => {
   })
 })
 
+describe('Dropdown — deprecated disabled prop', () => {
+  it('Test 17: DropdownItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Dropdown :is-open="true">
+          <DropdownTrigger><button type="button">Menu</button></DropdownTrigger>
+          <DropdownMenu aria-label="Deprecated disabled menu">
+            <DropdownItem>Item 1</DropdownItem>
+            <DropdownItem :disabled="true">Disabled Item</DropdownItem>
+          </DropdownMenu>
+        </Dropdown>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    await nextTick()
+    const disabledItems = document.querySelectorAll('[data-disabled]')
+    expect(disabledItems.length).toBeGreaterThan(0)
+    wrapper.unmount()
+  })
+
+  it('Test 18: DropdownCheckboxItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Dropdown :is-open="true">
+          <DropdownTrigger><button type="button">Menu</button></DropdownTrigger>
+          <DropdownMenu aria-label="Deprecated disabled checkbox menu">
+            <DropdownCheckboxItem :disabled="true">Auto Save</DropdownCheckboxItem>
+          </DropdownMenu>
+        </Dropdown>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    await nextTick()
+    const checkboxItem = document.querySelector('[role="menuitemcheckbox"]')
+    expect(checkboxItem?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+
+  it('Test 19: DropdownRadioItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Dropdown :is-open="true">
+          <DropdownTrigger><button type="button">Menu</button></DropdownTrigger>
+          <DropdownMenu aria-label="Deprecated disabled radio menu">
+            <DropdownRadioGroup model-value="compact">
+              <DropdownRadioItem value="compact">Compact</DropdownRadioItem>
+              <DropdownRadioItem value="comfortable" :disabled="true">Comfortable</DropdownRadioItem>
+            </DropdownRadioGroup>
+          </DropdownMenu>
+        </Dropdown>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    await nextTick()
+    const radioItems = document.querySelectorAll('[role="menuitemradio"]')
+    const disabledItem = Array.from(radioItems).find(el => el.textContent?.includes('Comfortable'))
+    expect(disabledItem?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+
+  it('Test 20: DropdownSubTrigger deprecated bare disabled prop marks the trigger data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Dropdown :is-open="true">
+          <DropdownTrigger><button type="button">Menu</button></DropdownTrigger>
+          <DropdownMenu aria-label="Deprecated disabled submenu">
+            <DropdownSub>
+              <DropdownSubTrigger :disabled="true">More options</DropdownSubTrigger>
+              <DropdownSubContent>
+                <DropdownItem>Sub Item 1</DropdownItem>
+              </DropdownSubContent>
+            </DropdownSub>
+          </DropdownMenu>
+        </Dropdown>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    await nextTick()
+    const subTrigger = Array.from(document.querySelectorAll('[role="menuitem"]'))
+      .find(el => el.textContent?.includes('More options'))
+    expect(subTrigger?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+})
+
 describe('Dropdown — accessibility (axe)', () => {
   it('Test 15: passes axe in closed state (zero violations)', async () => {
     const wrapper = mount(BasicDropdown, { attachTo: document.body })

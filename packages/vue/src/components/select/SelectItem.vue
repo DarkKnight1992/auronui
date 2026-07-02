@@ -2,6 +2,7 @@
 import { onMounted, useTemplateRef } from 'vue'
 import { SelectItem, SelectItemText, SelectItemIndicator } from 'reka-ui'
 import { useSelectInject, type SelectItemValue } from './Select.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   value: SelectItemValue
@@ -14,7 +15,7 @@ const props = withDefaults(defineProps<{
   textValue?: string
   isDisabled?: boolean
   class?: string
-  /** Whether this item is disabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
@@ -22,7 +23,7 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
 }>(), {
   textValue: undefined,
-  isDisabled: false,
+  isDisabled: undefined,
   class: undefined,
   disabled: undefined,
   as: undefined,
@@ -32,6 +33,10 @@ const props = withDefaults(defineProps<{
 const emit = defineEmits<{
   select: [event: Event]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'SelectItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const ctx = useSelectInject()
 const textRef = useTemplateRef<HTMLElement>('textRef')
@@ -57,7 +62,7 @@ onMounted(() => {
 <template>
   <SelectItem
     :value="props.value"
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :text-value="props.textValue ?? String(props.value)"
     :as="props.as"
     :as-child="props.asChild"

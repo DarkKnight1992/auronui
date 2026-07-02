@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ContextMenuItem } from 'reka-ui'
 import { menuItemVariants, type MenuItemVariants } from '@auronui/styles'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   textValue?: string
@@ -9,7 +10,7 @@ const props = withDefaults(defineProps<{
   shortcut?: string
   description?: string
   class?: string
-  /** Whether this item is disabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
@@ -17,7 +18,7 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
 }>(), {
   textValue: undefined,
-  isDisabled: false,
+  isDisabled: undefined,
   variant: 'default',
   shortcut: undefined,
   description: undefined,
@@ -32,12 +33,16 @@ const emit = defineEmits<{
 }>()
 
 const slots = menuItemVariants({ variant: props.variant })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ContextMenuItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
   <ContextMenuItem
     :text-value="props.textValue"
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :class="[slots.item(), props.class]"

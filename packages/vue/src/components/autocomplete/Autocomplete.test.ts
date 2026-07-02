@@ -85,6 +85,33 @@ describe('Autocomplete', () => {
     expect(w.find('.autocomplete-root').exists()).toBe(true)
   })
 
+  it('deprecated bare disabled prop on AutocompleteItem marks the item data-disabled', async () => {
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete :open="true" :items="items" aria-label="Fruit autocomplete">
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem
+              v-for="item in items"
+              :key="item.value"
+              :value="item.value"
+              :disabled="item.value === 'banana'"
+            >
+              {{ item.label }}
+            </AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() { return { items: staticItems } },
+    }, { attachTo: document.body })
+    mountedWrappers.push(wrapper)
+    await nextTick()
+    await nextTick()
+    const disabledItems = document.querySelectorAll('[data-disabled]')
+    expect(disabledItems.length).toBeGreaterThan(0)
+  })
+
   it('async: loadItems is called when query changes', async () => {
     const loadItems = vi.fn().mockResolvedValue([
       { value: 'avocado', label: 'Avocado' },

@@ -261,6 +261,115 @@ describe('Menubar — items', () => {
   })
 })
 
+describe('Menubar — deprecated disabled prop', () => {
+  it('Test 13: MenubarItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Menubar>
+          <MenubarMenu value="file">
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent aria-label="Deprecated disabled menu">
+              <MenubarItem>Item 1</MenubarItem>
+              <MenubarItem :disabled="true">Disabled Item</MenubarItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('button')
+    await trigger.trigger('pointerdown', { button: 0, ctrlKey: false })
+    await nextTick()
+    await nextTick()
+    const disabledItems = document.querySelectorAll('[data-disabled]')
+    expect(disabledItems.length).toBeGreaterThan(0)
+    wrapper.unmount()
+  })
+
+  it('Test 14: MenubarCheckboxItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Menubar>
+          <MenubarMenu value="view">
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent aria-label="Deprecated disabled checkbox menu">
+              <MenubarCheckboxItem :disabled="true">Show Toolbar</MenubarCheckboxItem>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('button')
+    await trigger.trigger('pointerdown', { button: 0, ctrlKey: false })
+    await nextTick()
+    await nextTick()
+    const checkboxItem = document.querySelector('[role="menuitemcheckbox"]')
+    expect(checkboxItem?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+
+  it('Test 15: MenubarRadioItem deprecated bare disabled prop marks the item data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Menubar>
+          <MenubarMenu value="view">
+            <MenubarTrigger>View</MenubarTrigger>
+            <MenubarContent aria-label="Deprecated disabled radio menu">
+              <MenubarRadioGroup model-value="100">
+                <MenubarRadioItem value="100">100%</MenubarRadioItem>
+                <MenubarRadioItem value="150" :disabled="true">150%</MenubarRadioItem>
+              </MenubarRadioGroup>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('button')
+    await trigger.trigger('pointerdown', { button: 0, ctrlKey: false })
+    await nextTick()
+    await nextTick()
+    const radioItems = document.querySelectorAll('[role="menuitemradio"]')
+    const disabledItem = Array.from(radioItems).find(el => el.textContent?.includes('150%'))
+    expect(disabledItem?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+
+  it('Test 16: MenubarSubTrigger deprecated bare disabled prop marks the trigger data-disabled', async () => {
+    const WithDeprecatedDisabled = defineComponent({
+      components: allComponents,
+      template: `
+        <Menubar>
+          <MenubarMenu value="file">
+            <MenubarTrigger>File</MenubarTrigger>
+            <MenubarContent aria-label="Deprecated disabled submenu">
+              <MenubarSub default-open="true">
+                <MenubarSubTrigger :disabled="true">Open Recent</MenubarSubTrigger>
+                <MenubarSubContent>
+                  <MenubarItem>report.pdf</MenubarItem>
+                </MenubarSubContent>
+              </MenubarSub>
+            </MenubarContent>
+          </MenubarMenu>
+        </Menubar>
+      `,
+    })
+    const wrapper = mount(WithDeprecatedDisabled, { attachTo: document.body })
+    const trigger = wrapper.find('button')
+    await trigger.trigger('pointerdown', { button: 0, ctrlKey: false })
+    await nextTick()
+    await nextTick()
+    const subTrigger = Array.from(document.querySelectorAll('[role="menuitem"]'))
+      .find(el => el.textContent?.includes('Open Recent'))
+    expect(subTrigger?.getAttribute('data-disabled')).not.toBeNull()
+    wrapper.unmount()
+  })
+})
+
 describe('Menubar — accessibility (axe)', () => {
   const AXE_OPTIONS_BASE: axe.RunOptions = {
     rules: {

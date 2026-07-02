@@ -1,19 +1,20 @@
 <script setup lang="ts">
 import { ContextMenuSubTrigger } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   isDisabled?: boolean
   textValue?: string
   class?: string
-  /** Whether this trigger is disabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
 }>(), {
-  isDisabled: false,
+  isDisabled: undefined,
   textValue: undefined,
   class: undefined,
   disabled: undefined,
@@ -22,11 +23,15 @@ const props = withDefaults(defineProps<{
 })
 
 const slots = menuItemVariants({ variant: 'default' })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ContextMenuSubTrigger', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
   <ContextMenuSubTrigger
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :text-value="props.textValue"
     :as="props.as"
     :as-child="props.asChild"

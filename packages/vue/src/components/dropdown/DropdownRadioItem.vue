@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { DropdownMenuRadioItem, DropdownMenuItemIndicator } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   value: string
@@ -8,7 +9,7 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   variant?: 'default' | 'danger'
   class?: string
-  /** Whether this item is disabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
@@ -16,7 +17,7 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
 }>(), {
   textValue: undefined,
-  isDisabled: false,
+  isDisabled: undefined,
   variant: 'default',
   class: undefined,
   disabled: undefined,
@@ -29,13 +30,17 @@ const emit = defineEmits<{
 }>()
 
 const slots = menuItemVariants({ variant: props.variant })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'DropdownRadioItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
   <DropdownMenuRadioItem
     :value="props.value"
     :text-value="props.textValue"
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :class="[slots.item(), props.class]"

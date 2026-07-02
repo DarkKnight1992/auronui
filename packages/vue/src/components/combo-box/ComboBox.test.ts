@@ -113,6 +113,35 @@ describe('ComboBox', () => {
     expect(w.find('.combo-box').exists()).toBe(true)
   })
 
+  it('deprecated bare disabled prop on ComboBoxItem marks the item data-disabled', async () => {
+    const wrapper = mount({
+      components: { ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty },
+      template: `
+        <ComboBox :open="true" :items="items" aria-label="Fruit picker">
+          <ComboBoxInput placeholder="Select a fruit..." />
+          <ComboBoxContent>
+            <ComboBoxItem
+              v-for="item in items"
+              :key="item.value"
+              :value="item.value"
+              :disabled="item.value === 'banana'"
+            >
+              {{ item.label }}
+            </ComboBoxItem>
+          </ComboBoxContent>
+        </ComboBox>
+      `,
+      setup() {
+        return { items }
+      },
+    }, { attachTo: document.body })
+    mountedWrappers.push(wrapper)
+    await nextTick()
+    await nextTick()
+    const disabledItems = document.querySelectorAll('[data-disabled]')
+    expect(disabledItems.length).toBeGreaterThan(0)
+  })
+
   it('slot text is used as display label — no extra props needed', async () => {
     // Core requirement: <ComboBoxItem value="us">United States</ComboBoxItem>
     // must show "United States" in the input after selection, with zero extra props.

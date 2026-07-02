@@ -3,25 +3,30 @@ import { useTemplateRef, watchEffect, onUnmounted } from 'vue'
 import { DropdownMenuSubTrigger } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
 import { useDropdownSubInject } from './DropdownSub.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   isDisabled?: boolean
   textValue?: string
   class?: string
-  /** Whether this trigger is disabled. */
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
 }>(), {
-  isDisabled: false,
+  isDisabled: undefined,
   textValue: undefined,
   class: undefined,
   disabled: undefined,
   as: undefined,
   asChild: false,
 })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'DropdownSubTrigger', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const subCtx = useDropdownSubInject()
 const slots = menuItemVariants({ variant: 'default' })
@@ -55,7 +60,7 @@ function handleClick() {
 <template>
   <DropdownMenuSubTrigger
     ref="trigger"
-    :disabled="props.disabled ?? props.isDisabled"
+    :disabled="isDisabled"
     :text-value="props.textValue"
     :as="props.as"
     :as-child="props.asChild"
