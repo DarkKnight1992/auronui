@@ -1,0 +1,144 @@
+/* ==========================================================================
+   NavigationMenu
+
+   Horizontal top-level site navigation with hoverable/clickable flyout
+   panels. Structurally unlike Dropdown/ContextMenu/Menubar: content is not
+   positioned via floating-ui — NavigationMenuContent teleports either into a
+   shared NavigationMenuViewport (measured/positioned by Reka via CSS custom
+   properties: --reka-navigation-menu-viewport-{width,height,left,top}) or to
+   document.body with no positioning at all. This stylesheet is responsible
+   for consuming those custom properties to actually place and animate the
+   viewport panel — Reka does not do this for you. The small active-trigger
+   tracking caret (Indicator) is positioned the same way, via
+   --reka-navigation-menu-indicator-{position,size}.
+
+   Link styling for NavigationMenuLink is NOT defined here — it reuses
+   linkVariants (.link) directly, per the design spec.
+   ========================================================================== */
+
+.navigation-menu {
+  @apply relative z-1 flex max-w-max flex-1 items-center justify-center;
+}
+
+/* -----------------------------------------------------------------------------
+ * List — the horizontal row of top-level items; also the Indicator's
+ * teleport target (Reka registers the List's own root element as the
+ * indicator track), so it must be position: relative.
+ * -------------------------------------------------------------------------- */
+.navigation-menu__list {
+  @apply group relative flex list-none items-center justify-center gap-1;
+}
+
+/* -----------------------------------------------------------------------------
+ * Trigger
+ * -------------------------------------------------------------------------- */
+.navigation-menu__trigger {
+  @apply inline-flex h-9 items-center gap-1 rounded-md bg-transparent px-4 text-sm font-medium text-foreground outline-none select-none;
+
+  cursor: var(--cursor-interactive);
+
+  transition:
+    background-color 300ms var(--ease-smooth),
+    color 300ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-default;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &[data-state="open"] {
+    @apply bg-default;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+  }
+}
+
+.navigation-menu__chevron {
+  @apply relative top-px transition-transform duration-200 ease-smooth;
+  @apply motion-reduce:transition-none;
+
+  .navigation-menu__trigger[data-state="open"] & {
+    @apply rotate-180;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Content — the flyout panel's own inner layout. No position/animation here;
+ * NavigationMenuContent itself has no data-side/floating-ui positioning to
+ * animate against (unlike Menu-family Content components). Position and
+ * open/close animation live on the Viewport instead, since Content always
+ * renders inside it (or inside document.body with no positioning, in the
+ * rare case no Viewport is used).
+ * -------------------------------------------------------------------------- */
+.navigation-menu__content {
+  @apply w-full p-4 outline-none select-none sm:w-(--reka-navigation-menu-viewport-width);
+}
+
+/* -----------------------------------------------------------------------------
+ * Viewport — the shared animated container that displays the active panel.
+ * Sized and positioned entirely from the CSS custom properties Reka exposes.
+ * -------------------------------------------------------------------------- */
+.navigation-menu__viewport-wrapper {
+  @apply absolute top-full left-0 flex justify-center;
+}
+
+.navigation-menu__viewport {
+  z-index: var(--z-popover);
+  @apply relative mt-1.5 overflow-hidden rounded-lg surface-card;
+  @apply origin-top-center will-change-[opacity,transform,width,height];
+
+  width: var(--reka-navigation-menu-viewport-width, 100%);
+  height: var(--reka-navigation-menu-viewport-height, auto);
+
+  transition:
+    width 200ms var(--ease-smooth),
+    height 200ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-state="open"] {
+    @apply animate-in duration-200 ease-smooth fade-in-0 zoom-in-95;
+  }
+
+  &[data-state="closed"] {
+    @apply animate-out duration-150 ease-smooth zoom-out-95 fade-out;
+  }
+}
+
+/* -----------------------------------------------------------------------------
+ * Indicator — small caret tracking the active trigger, teleported into the
+ * List. Positioned via --reka-navigation-menu-indicator-{position,size}.
+ * -------------------------------------------------------------------------- */
+.navigation-menu__indicator {
+  @apply absolute top-full z-1 flex h-2 items-end justify-center overflow-hidden;
+  @apply will-change-[transform,opacity];
+
+  width: var(--reka-navigation-menu-indicator-size, 0);
+  transform: translateX(var(--reka-navigation-menu-indicator-position, 0));
+
+  transition:
+    width 200ms var(--ease-smooth),
+    transform 200ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  &[data-state="visible"] {
+    @apply animate-in duration-200 ease-smooth fade-in-0;
+  }
+
+  &[data-state="hidden"] {
+    @apply animate-out duration-150 ease-smooth fade-out;
+  }
+}
+
+.navigation-menu__indicator-arrow {
+  @apply relative top-1/2 size-2.5 rotate-45 rounded-tl-[2px] bg-border;
+}
