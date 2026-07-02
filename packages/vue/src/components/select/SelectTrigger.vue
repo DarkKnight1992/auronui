@@ -2,10 +2,13 @@
 import { computed, ref, watch } from 'vue'
 import { SelectTrigger, SelectIcon, injectSelectRootContext } from 'reka-ui'
 import { useSelectInject } from './Select.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   class?: string
   /** Whether the trigger is disabled. */
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Virtual or DOM reference element to position against. */
   reference?: object | null
@@ -15,11 +18,16 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
 }>(), {
   class: undefined,
+  isDisabled: undefined,
   disabled: undefined,
   reference: undefined,
   as: undefined,
   asChild: false,
 })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'SelectTrigger', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const ctx = useSelectInject()
 const rootContext = injectSelectRootContext()
@@ -66,7 +74,7 @@ function handleFocus() {
     :data-readonly="ctx.isReadonly.value || undefined"
     :aria-invalid="ctx.isInvalid.value || undefined"
     :aria-describedby="ctx.ariaDescribedBy.value"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :reference="(props.reference as any)"
     :as="props.as"
     :as-child="props.asChild"

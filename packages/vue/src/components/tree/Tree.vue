@@ -4,6 +4,7 @@ import { TreeRoot } from 'reka-ui'
 import { treeVariants, type TreeVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { treeContextKey } from './Tree.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   items?: T[]
@@ -25,6 +26,8 @@ const props = withDefaults(defineProps<{
   /** Text direction */
   dir?: 'ltr' | 'rtl'
   /** Whether the entire tree is disabled */
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Whether selection bubbles up to parent nodes */
   bubbleSelect?: boolean
@@ -44,6 +47,8 @@ const props = withDefaults(defineProps<{
   propagateSelect: false,
   size: 'md',
   class: undefined,
+  isDisabled: undefined,
+  disabled: undefined,
 })
 
 const emit = defineEmits<{
@@ -52,6 +57,10 @@ const emit = defineEmits<{
 }>()
 
 const slotFns = computed(() => treeVariants({ size: props.size }))
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Tree', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 provide(treeContextKey, {
   size: computed(() => props.size ?? 'md'),
@@ -72,7 +81,7 @@ provide(treeContextKey, {
     :selection-behavior="selectionBehavior"
     :propagate-select="propagateSelect"
     :dir="props.dir"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :bubble-select="props.bubbleSelect"
     :as="props.as"
     :as-child="props.asChild"

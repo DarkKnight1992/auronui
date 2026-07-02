@@ -37,6 +37,7 @@ import {
 import { today, getLocalTimeZone, type DateValue } from '@internationalized/date'
 import { rangeCalendarVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 export interface DateRange {
   start: DateValue
@@ -59,6 +60,8 @@ const props = withDefaults(defineProps<{
   preventDeselect?: boolean
   allowNonContiguousRanges?: boolean
   readonly?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   calendarLabel?: string
   /** Initial focus state. */
@@ -114,7 +117,8 @@ const props = withDefaults(defineProps<{
   preventDeselect: false,
   allowNonContiguousRanges: false,
   readonly: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
 })
 
 const emit = defineEmits<{
@@ -123,6 +127,10 @@ const emit = defineEmits<{
 }>()
 
 const modelValue = defineModel<DateRange | null>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'RangeCalendar', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slotFns = computed(() => rangeCalendarVariants())
 
@@ -180,7 +188,7 @@ const nextViewLabel = computed(() =>
     :prevent-deselect="preventDeselect"
     :allow-non-contiguous-ranges="allowNonContiguousRanges"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"
     :is-date-highlightable="isDateHighlightable"
@@ -304,7 +312,7 @@ const nextViewLabel = computed(() =>
     :min-value="minValue"
     :max-value="maxValue"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onMonthSelect"
     @update:placeholder="(val: DateValue | undefined) => { if (val) placeholder = val }"
@@ -399,7 +407,7 @@ const nextViewLabel = computed(() =>
     :min-value="minValue"
     :max-value="maxValue"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     @update:model-value="onYearSelect"
     @update:placeholder="(val: DateValue | undefined) => { if (val) placeholder = val }"

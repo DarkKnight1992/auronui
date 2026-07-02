@@ -1,11 +1,14 @@
 <script setup lang="ts">
 import { TooltipProvider } from 'reka-ui'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   delayDuration?: number
   skipDelayDuration?: number
   disableHoverableContent?: boolean
   disableClosingTrigger?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   ignoreNonKeyboardFocus?: boolean
   content?: object
@@ -14,9 +17,14 @@ const props = withDefaults(defineProps<{
   skipDelayDuration: 300,
   disableHoverableContent: false,
   disableClosingTrigger: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   ignoreNonKeyboardFocus: false,
 })
+
+const isDisabled = useDeprecatedBooleanProp(
+  'TooltipProvider', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
@@ -25,7 +33,7 @@ const props = withDefaults(defineProps<{
     :skip-delay-duration="props.skipDelayDuration"
     :disable-hoverable-content="props.disableHoverableContent"
     :disable-closing-trigger="props.disableClosingTrigger"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :ignore-non-keyboard-focus="props.ignoreNonKeyboardFocus"
     :content="props.content"
   >

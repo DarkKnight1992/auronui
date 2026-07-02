@@ -4,6 +4,7 @@ import { RadioGroupItem, RadioGroupIndicator } from 'reka-ui'
 import { radioVariants, type RadioGroupVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useRadioGroupInject } from './radio-group.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 // Disable Vue attribute fallthrough — we manually forward $attrs to RadioGroupItem
 defineOptions({ inheritAttrs: false })
@@ -11,6 +12,8 @@ defineOptions({ inheritAttrs: false })
 const props = withDefaults(defineProps<{
   value: string
   variant?: RadioGroupVariants['variant']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isInvalid?: boolean
   /** HTML id attribute forwarded to RadioGroupItem. */
@@ -39,7 +42,8 @@ const props = withDefaults(defineProps<{
   }>
 }>(), {
   variant: undefined,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isInvalid: false,
   id: undefined,
   asChild: false,
@@ -66,8 +70,13 @@ const groupCtx = useRadioGroupInject({
   isInvalid: ref(false),
 })
 
+// Resolve this radio's own isDisabled/disabled prop pair before combining with group state.
+const resolvedDisabled = useDeprecatedBooleanProp(
+  'Radio', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Prop precedence: group disabled wins (D-02)
-const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 // Group invalid overrides item; item prop allows standalone invalid
 const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 

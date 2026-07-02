@@ -3,6 +3,7 @@ import { computed } from 'vue'
 import { SliderRoot, SliderTrack, SliderRange, SliderThumb } from 'reka-ui'
 import { sliderVariants, type SliderVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   modelValue?: number | number[]
@@ -21,6 +22,8 @@ const props = withDefaults(defineProps<{
   formatOptions?: Intl.NumberFormatOptions
   hideValue?: boolean
   hideThumb?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   inverted?: boolean
   /** Text direction forwarded to SliderRoot. */
@@ -68,7 +71,8 @@ const props = withDefaults(defineProps<{
   showSteps: false,
   hideValue: false,
   hideThumb: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   inverted: false,
   dir: undefined,
   thumbAlignment: 'overflow',
@@ -88,6 +92,10 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: number | number[]): void
   (e: 'value-commit', value: number | number[]): void
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'Slider', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 // FIX: Also check defaultValue so uncontrolled range mode is detected correctly.
 const isRange = computed(() =>
@@ -168,7 +176,7 @@ const positionAxis = computed(() =>
   <div
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :data-orientation="orientation"
-    :data-disabled="disabled || undefined"
+    :data-disabled="isDisabled || undefined"
   >
     <!-- Label + output row -->
     <template v-if="showLabelWrapper">
@@ -199,7 +207,7 @@ const positionAxis = computed(() =>
         :step="step"
         :min-steps-between-thumbs="minStepsBetweenThumbs"
         :orientation="orientation"
-        :disabled="disabled"
+        :disabled="isDisabled"
         :inverted="inverted"
         :dir="props.dir"
         :thumb-alignment="props.thumbAlignment"

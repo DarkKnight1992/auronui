@@ -4,9 +4,12 @@ import { SplitterResizeHandle } from 'reka-ui'
 import { splitterVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { splitterContextKey } from './Splitter.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   id?: string
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   class?: ClassValue
   /** Per-slot class overrides */
@@ -26,7 +29,8 @@ const props = withDefaults(defineProps<{
   asChild?: boolean
 }>(), {
   id: undefined,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   class: undefined,
   classNames: undefined,
   hitAreaMargins: undefined,
@@ -42,12 +46,16 @@ const groupCtx = inject(splitterContextKey, null)
 const slotFns = computed(() =>
   splitterVariants({ direction: groupCtx?.direction.value ?? 'horizontal' }),
 )
+
+const isDisabled = useDeprecatedBooleanProp(
+  'SplitterResizeHandle', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 </script>
 
 <template>
   <SplitterResizeHandle
     :id="id"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :hit-area-margins="(props.hitAreaMargins as any)"
     :tabindex="props.tabindex"
     :nonce="props.nonce"

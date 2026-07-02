@@ -5,15 +5,18 @@ import { toggleButtonGroupVariants, type ToggleButtonVariants } from '@auronui/s
 import { composeClassName } from '../../utils/composeClassName'
 import { useToolbarInject } from './toolbar.context'
 import ToolbarToggleItem from './ToolbarToggleItem.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type Single = string
 type Multi = string[]
 type ToolbarToggleShorthandItem = { value: string; label?: string; variant?: ToggleButtonVariants['variant']; size?: ToggleButtonVariants['size']; isIconOnly?: boolean; disabled?: boolean; class?: string }
 
-const props = defineProps<{
+const props = withDefaults(defineProps<{
   type: 'single' | 'multiple'
   modelValue?: Single | Multi
   defaultValue?: Single | Multi
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   orientation?: 'horizontal' | 'vertical'
   isDetached?: boolean
@@ -34,11 +37,18 @@ const props = defineProps<{
   name?: string
   /** Whether a value is required */
   required?: boolean
-}>()
+}>(), {
+  isDisabled: undefined,
+  disabled: undefined,
+})
 
 const emit = defineEmits<{
   'update:modelValue': [value: Single | Multi]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ToolbarToggleGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const ctx = useToolbarInject({ orientation: computed(() => 'horizontal' as const) })
 const orientation = computed(() => props.orientation ?? ctx.orientation.value)
@@ -53,7 +63,7 @@ const classes = computed(() =>
     :type="props.type"
     :model-value="props.modelValue"
     :default-value="props.defaultValue"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :roving-focus="props.rovingFocus"
     :dir="props.dir"
     :loop="props.loop"

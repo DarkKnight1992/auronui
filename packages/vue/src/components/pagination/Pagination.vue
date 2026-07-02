@@ -4,6 +4,7 @@ import { PaginationRoot } from 'reka-ui'
 import { paginationVariants, type PaginationVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { createPaginationContext } from './pagination.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   /** Current page number (v-model:page) */
@@ -23,6 +24,8 @@ const props = withDefaults(defineProps<{
   /** Pagination type: 'numeric' for page numbers, 'cursor' for relay-style */
   type?: 'numeric' | 'cursor'
   /** Whether the entire pagination is disabled */
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Cursor mode: before cursor value */
   beforeCursor?: string | null
@@ -43,7 +46,8 @@ const props = withDefaults(defineProps<{
   showEdges: false,
   size: 'md',
   type: 'numeric',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   beforeCursor: null,
   afterCursor: null,
 })
@@ -68,6 +72,10 @@ function handleCursorChange(before: string | null, after: string | null) {
   emit('update:cursor', before, after)
 }
 
+const isDisabled = useDeprecatedBooleanProp(
+  'Pagination', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Provide context for all child parts
 createPaginationContext({
   page: toRef(props, 'page'),
@@ -76,7 +84,7 @@ createPaginationContext({
   totalPages,
   size: toRef(props, 'size') as Ref<NonNullable<PaginationVariants['size']>>,
   type: toRef(props, 'type'),
-  disabled: toRef(props, 'disabled'),
+  disabled: isDisabled,
   beforeCursor: toRef(props, 'beforeCursor'),
   afterCursor: toRef(props, 'afterCursor'),
   onPageChange: handlePageChange,
@@ -99,7 +107,7 @@ const styles = computed(() => paginationVariants({ size: props.size }))
     :total="props.totalItems"
     :sibling-count="props.siblingCount"
     :show-edges="props.showEdges"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
     :class="composeClassName(styles.base(), props.class)"

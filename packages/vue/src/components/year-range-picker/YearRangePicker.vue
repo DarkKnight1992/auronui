@@ -15,6 +15,7 @@ import {
 import type { DateValue } from '@internationalized/date'
 import { yearRangePickerVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 export interface DateRange {
   start: DateValue
@@ -34,6 +35,8 @@ const props = withDefaults(defineProps<{
   allowNonContiguousRanges?: boolean
   maximumYears?: number
   readonly?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   calendarLabel?: string
   /** Initial focus state. @default false */
@@ -68,7 +71,8 @@ const props = withDefaults(defineProps<{
   preventDeselect: false,
   allowNonContiguousRanges: false,
   readonly: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
 })
 
 const emit = defineEmits<{
@@ -77,6 +81,10 @@ const emit = defineEmits<{
 
 const modelValue = defineModel<DateRange | null>()
 const placeholderModel = defineModel<DateValue | undefined>('placeholder')
+
+const isDisabled = useDeprecatedBooleanProp(
+  'YearRangePicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const slotFns = computed(() => yearRangePickerVariants())
 </script>
@@ -97,7 +105,7 @@ const slotFns = computed(() => yearRangePickerVariants())
     :allow-non-contiguous-ranges="allowNonContiguousRanges"
     :maximum-years="maximumYears"
     :readonly="readonly"
-    :disabled="disabled"
+    :disabled="isDisabled"
     :calendar-label="calendarLabel"
     :initial-focus="initialFocus"
     :dir="dir"

@@ -5,11 +5,14 @@ import { radioGroupVariants, type RadioGroupVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useRadioGroupProvide } from './radio-group.context'
 import Radio from './Radio.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type RadioShorthandItem = { value: string; label?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   variant?: RadioGroupVariants['variant']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isInvalid?: boolean
   modelValue?: string
@@ -34,7 +37,8 @@ const props = withDefaults(defineProps<{
   items?: RadioShorthandItem[]
 }>(), {
   variant: 'primary',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isInvalid: false,
   modelValue: undefined,
   defaultValue: undefined,
@@ -54,10 +58,14 @@ const emit = defineEmits<{
   'update:modelValue': [value: string]
 }>()
 
+const isDisabled = useDeprecatedBooleanProp(
+  'RadioGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Provide context to child Radio components
 useRadioGroupProvide({
   variant: toRef(props, 'variant'),
-  disabled: toRef(props, 'disabled'),
+  disabled: isDisabled,
   isInvalid: toRef(props, 'isInvalid'),
 })
 
@@ -72,7 +80,7 @@ const groupClasses = computed(() =>
   <RadioGroupRoot
     :model-value="props.modelValue"
     :default-value="props.defaultValue"
-    :disabled="props.disabled"
+    :disabled="isDisabled"
     :aria-invalid="props.isInvalid || undefined"
     :name="props.name"
     :orientation="props.orientation"

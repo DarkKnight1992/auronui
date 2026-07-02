@@ -4,11 +4,14 @@ import { switchGroupVariants, type SwitchGroupVariants, type SwitchVariants } fr
 import { composeClassName } from '../../utils/composeClassName'
 import { useSwitchGroupProvide } from './switch-group.context'
 import SwitchInput from './Switch.vue'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 type SwitchShorthandItem = { value: string; label?: string; disabled?: boolean }
 
 const props = withDefaults(defineProps<{
   size?: SwitchVariants['size']
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   modelValue?: string[]
   defaultValue?: string[]
@@ -23,7 +26,8 @@ const props = withDefaults(defineProps<{
   items?: SwitchShorthandItem[]
 }>(), {
   size: 'md',
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   isInvalid: false,
   errorMessage: undefined,
   modelValue: undefined,
@@ -53,10 +57,14 @@ function toggleValue(value: string) {
   emit('update:modelValue', next)
 }
 
+const isDisabled = useDeprecatedBooleanProp(
+  'SwitchGroup', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Provide context to child Switches
 useSwitchGroupProvide({
   size: toRef(props, 'size'),
-  disabled: toRef(props, 'disabled'),
+  disabled: isDisabled,
   isInvalid: toRef(props, 'isInvalid'),
   selectedValues: currentValues,
   toggleValue,

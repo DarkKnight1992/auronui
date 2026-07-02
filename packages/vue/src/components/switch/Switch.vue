@@ -4,6 +4,7 @@ import { SwitchRoot, SwitchThumb } from 'reka-ui'
 import { switchVariants, type SwitchVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useSwitchGroupInject } from './switch-group.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 // Disable Vue attribute fallthrough — we manually forward $attrs to SwitchRoot
 defineOptions({ inheritAttrs: false })
@@ -14,6 +15,8 @@ const props = withDefaults(defineProps<{
   value?: string
   modelValue?: boolean
   defaultValue?: boolean
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   name?: string
   /** HTML id attribute forwarded to SwitchRoot. */
@@ -45,7 +48,8 @@ const props = withDefaults(defineProps<{
   value: undefined,
   modelValue: undefined,
   defaultValue: false,
-  disabled: false,
+  isDisabled: undefined,
+  disabled: undefined,
   name: undefined,
   id: undefined,
   trueValue: undefined,
@@ -74,8 +78,13 @@ const groupCtx = useSwitchGroupInject({
   name: ref(undefined),
 })
 
+// Resolve this switch's own isDisabled/disabled prop pair before combining with group state.
+const resolvedDisabled = useDeprecatedBooleanProp(
+  'Switch', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
+
 // Prop precedence: group disabled wins (D-02)
-const isDisabled = computed(() => groupCtx.disabled.value || props.disabled)
+const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 
 // Child size wins over group size
