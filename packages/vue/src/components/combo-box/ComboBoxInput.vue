@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ComboboxAnchor, ComboboxInput, ComboboxTrigger, ComboboxCancel } from 'reka-ui'
 import { useComboBoxInject } from './ComboBox.context'
+import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -18,6 +19,8 @@ const props = withDefaults(defineProps<{
   /** Auto-focus the input on mount. */
   autoFocus?: boolean
   /** Disable the input. Falls back to context isDisabled. */
+  isDisabled?: boolean
+  /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render the input as a different element. */
   as?: string
@@ -42,6 +45,7 @@ const props = withDefaults(defineProps<{
   displayValue: undefined,
   modelValue: undefined,
   autoFocus: false,
+  isDisabled: undefined,
   disabled: undefined,
   as: undefined,
   asChild: false,
@@ -57,6 +61,11 @@ const emit = defineEmits<{
 }>()
 
 const ctx = useComboBoxInject()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'ComboBoxInput', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+  () => ctx.isDisabled.value,
+)
 </script>
 
 <template>
@@ -71,7 +80,7 @@ const ctx = useComboBoxInject()
       :placeholder="props.placeholder"
       :model-value="props.modelValue"
       :auto-focus="props.autoFocus"
-      :disabled="props.disabled ?? ctx.isDisabled.value"
+      :disabled="isDisabled"
       :display-value="props.displayValue ?? ctx.displayValue.value"
       :as="props.as"
       :as-child="props.asChild"
