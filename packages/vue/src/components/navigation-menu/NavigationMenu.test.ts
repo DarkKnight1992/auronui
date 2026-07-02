@@ -163,7 +163,7 @@ describe('NavigationMenu — indicator and submenu', () => {
     wrapper.unmount()
   })
 
-  it('Test 9: NavigationMenuSub renders a nested navigation menu', () => {
+  it('Test 9: NavigationMenuSub renders a nested navigation menu', async () => {
     const WithSub = defineComponent({
       components: allComponents,
       template: `
@@ -187,7 +187,14 @@ describe('NavigationMenu — indicator and submenu', () => {
       `,
     })
     const wrapper = mount(WithSub, { attachTo: document.body })
-    // NavigationMenuSub renders unconditionally (it's not itself gated by open state)
+    // NavigationMenuSub itself has no open/close gating of its own, but it is
+    // nested inside NavigationMenuContent, which defaults unmountOnHide=true —
+    // its children (including Sub) aren't in the tree until the parent
+    // trigger is clicked open.
+    const trigger = wrapper.find('button')
+    await trigger.trigger('click')
+    await nextTick()
+    await nextTick()
     expect(wrapper.findComponent(NavigationMenuSub).exists()).toBe(true)
     wrapper.unmount()
   })
