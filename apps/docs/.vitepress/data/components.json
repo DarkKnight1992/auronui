@@ -1182,71 +1182,6 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue"
     ]
   },
-  "AspectRatio": {
-    "exportName": "default",
-    "displayName": "AspectRatio",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "ratio",
-        "required": false,
-        "type": {
-          "name": "number"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "1"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes for individual slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/aspect-ratio/AspectRatio.vue"
-    ]
-  },
   "Alert": {
     "exportName": "default",
     "displayName": "Alert",
@@ -1371,6 +1306,453 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/alert/AlertTitle.vue"
+    ]
+  },
+  "AspectRatio": {
+    "exportName": "default",
+    "displayName": "AspectRatio",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "ratio",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "1"
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes for individual slots",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/aspect-ratio/AspectRatio.vue"
+    ]
+  },
+  "Avatar": {
+    "exportName": "default",
+    "displayName": "Avatar",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "src",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "alt",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "name",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        }
+      },
+      {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        }
+      },
+      {
+        "name": "isBordered",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "showFallback",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "as",
+        "description": "AvatarRoot props",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "referrerPolicy",
+        "description": "AvatarImage props",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "crossOrigin",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "imageAs",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "imageAsChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "delayMs",
+        "description": "AvatarFallback props",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "fallbackAs",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "fallbackAsChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class name overrides",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  image: ClassValue\n  fallback: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "loading-status-change",
+        "type": {
+          "names": [
+            "string"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "fallback"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/Avatar.vue"
+    ]
+  },
+  "AvatarGroup": {
+    "exportName": "default",
+    "displayName": "AvatarGroup",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"sm\""
+            },
+            {
+              "name": "\"md\""
+            },
+            {
+              "name": "\"lg\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'md'"
+        }
+      },
+      {
+        "name": "isBordered",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isGrid",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "max",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "total",
+        "required": false,
+        "type": {
+          "name": "number"
+        }
+      },
+      {
+        "name": "renderCount",
+        "required": false,
+        "type": {
+          "name": "TSFunctionType"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "avatars",
+        "description": "Shorthand API: render avatars from an array instead of the compound slot API",
+        "required": false,
+        "type": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "AvatarShorthandItem"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/AvatarGroup.vue"
+    ]
+  },
+  "Badge": {
+    "exportName": "default",
+    "displayName": "Badge",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"default\""
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"md\""
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"primary\""
+        }
+      },
+      {
+        "name": "placement",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "\"top-right\""
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class name overrides.",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  anchor: ClassValue;\n  base: ClassValue;\n  label: ClassValue;\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      },
+      {
+        "name": "label"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/badge/Badge.vue"
     ]
   },
   "Autocomplete": {
@@ -2953,388 +3335,6 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/autocomplete/AutocompleteOverflowChips.vue"
-    ]
-  },
-  "Avatar": {
-    "exportName": "default",
-    "displayName": "Avatar",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "src",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "alt",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "name",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        }
-      },
-      {
-        "name": "color",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        }
-      },
-      {
-        "name": "isBordered",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "showFallback",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "as",
-        "description": "AvatarRoot props",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "referrerPolicy",
-        "description": "AvatarImage props",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "crossOrigin",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "imageAs",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "imageAsChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "delayMs",
-        "description": "AvatarFallback props",
-        "required": false,
-        "type": {
-          "name": "number"
-        }
-      },
-      {
-        "name": "fallbackAs",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "fallbackAsChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class name overrides",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n  image: ClassValue\n  fallback: ClassValue\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "loading-status-change",
-        "type": {
-          "names": [
-            "string"
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "fallback"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/Avatar.vue"
-    ]
-  },
-  "AvatarGroup": {
-    "exportName": "default",
-    "displayName": "AvatarGroup",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"sm\""
-            },
-            {
-              "name": "\"md\""
-            },
-            {
-              "name": "\"lg\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "isBordered",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isGrid",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "max",
-        "required": false,
-        "type": {
-          "name": "number"
-        }
-      },
-      {
-        "name": "total",
-        "required": false,
-        "type": {
-          "name": "number"
-        }
-      },
-      {
-        "name": "renderCount",
-        "required": false,
-        "type": {
-          "name": "TSFunctionType"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "avatars",
-        "description": "Shorthand API: render avatars from an array instead of the compound slot API",
-        "required": false,
-        "type": {
-          "name": "Array",
-          "elements": [
-            {
-              "name": "AvatarShorthandItem"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/avatar/AvatarGroup.vue"
-    ]
-  },
-  "Badge": {
-    "exportName": "default",
-    "displayName": "Badge",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "color",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"default\""
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"md\""
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"primary\""
-        }
-      },
-      {
-        "name": "placement",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "\"top-right\""
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class name overrides.",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  anchor: ClassValue;\n  base: ClassValue;\n  label: ClassValue;\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      },
-      {
-        "name": "label"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/badge/Badge.vue"
     ]
   },
   "BreadcrumbItem": {
@@ -19865,6 +19865,1748 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/list-box/ListBoxSection.vue"
     ]
   },
+  "Menubar": {
+    "exportName": "default",
+    "displayName": "Menubar",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "defaultValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "dir",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"ltr\""
+            },
+            {
+              "name": "\"rtl\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "loop",
+        "description": "When true, keyboard navigation loops from last item to first, and vice versa.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/Menubar.vue"
+    ]
+  },
+  "MenubarCheckboxItem": {
+    "exportName": "default",
+    "displayName": "MenubarCheckboxItem",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "textValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"default\""
+            },
+            {
+              "name": "\"danger\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "modelValue",
+        "description": "Controlled checked state.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disabled",
+        "description": "Whether this item is disabled.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "update:modelValue",
+        "type": {
+          "names": [
+            "boolean"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarCheckboxItem.vue"
+    ]
+  },
+  "MenubarContent": {
+    "exportName": "default",
+    "displayName": "MenubarContent",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "ariaLabel",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "sideOffset",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "8"
+        }
+      },
+      {
+        "name": "side",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"top\""
+            },
+            {
+              "name": "\"right\""
+            },
+            {
+              "name": "\"bottom\""
+            },
+            {
+              "name": "\"left\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'bottom'"
+        }
+      },
+      {
+        "name": "align",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"start\""
+            },
+            {
+              "name": "\"center\""
+            },
+            {
+              "name": "\"end\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'start'"
+        }
+      },
+      {
+        "name": "alignOffset",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "0"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "to",
+        "description": "Portal target element or selector.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "HTMLElement"
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "portalDisabled",
+        "description": "Disable the portal.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "defer",
+        "description": "Defer portal rendering.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "forceMount",
+        "description": "Force content to stay mounted even when closed.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "loop",
+        "description": "Keep keyboard focus loop within the content.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "sideFlip",
+        "description": "Flip to opposite side when there is not enough space.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "alignFlip",
+        "description": "Flip alignment when there is not enough space.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "avoidCollisions",
+        "description": "Avoid collisions with the viewport edges.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "collisionBoundary",
+        "description": "Boundary element(s) for collision detection.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "Element"
+            },
+            {
+              "name": "null"
+            },
+            {
+              "name": "Array",
+              "elements": [
+                {
+                  "name": "union",
+                  "elements": [
+                    {
+                      "name": "Element"
+                    },
+                    {
+                      "name": "null"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "collisionPadding",
+        "description": "Padding around collision boundary.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "Partial",
+              "elements": [
+                {
+                  "name": "Record",
+                  "elements": [
+                    {
+                      "name": "union",
+                      "elements": [
+                        {
+                          "name": "\"top\""
+                        },
+                        {
+                          "name": "\"right\""
+                        },
+                        {
+                          "name": "\"bottom\""
+                        },
+                        {
+                          "name": "\"left\""
+                        }
+                      ]
+                    },
+                    {
+                      "name": "number"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "arrowPadding",
+        "description": "Padding between content and arrow.",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "hideShiftedArrow",
+        "description": "Hide the arrow when the content is shifted.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "sticky",
+        "description": "Sticky behavior when scrolling.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"partial\""
+            },
+            {
+              "name": "\"always\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "hideWhenDetached",
+        "description": "Hide content when fully detached from trigger.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "positionStrategy",
+        "description": "CSS position strategy for the floating element.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"fixed\""
+            },
+            {
+              "name": "\"absolute\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "updatePositionStrategy",
+        "description": "When to recalculate position.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"always\""
+            },
+            {
+              "name": "\"optimized\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disableUpdateOnLayoutShift",
+        "description": "Disable position update on layout shift.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "prioritizePosition",
+        "description": "Prioritize keeping the content in view over alignment.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "reference",
+        "description": "Virtual or DOM reference element to position against.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "object"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "escape-key-down",
+        "type": {
+          "names": [
+            "KeyboardEvent"
+          ]
+        }
+      },
+      {
+        "name": "pointer-down-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "focus-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "interact-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "close-auto-focus",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarContent.vue"
+    ]
+  },
+  "MenubarItem": {
+    "exportName": "default",
+    "displayName": "MenubarItem",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "textValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "shortcut",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "description",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disabled",
+        "description": "Whether this item is disabled.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "startContent"
+      },
+      {
+        "name": "default"
+      },
+      {
+        "name": "endContent"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarItem.vue"
+    ]
+  },
+  "MenubarMenu": {
+    "exportName": "default",
+    "displayName": "MenubarMenu",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "value",
+        "description": "A unique value that associates this menu with the Root's active value. Managed automatically when uncontrolled.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarMenu.vue"
+    ]
+  },
+  "MenubarRadioGroup": {
+    "exportName": "default",
+    "displayName": "MenubarRadioGroup",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarRadioGroup.vue"
+    ]
+  },
+  "MenubarRadioItem": {
+    "exportName": "default",
+    "displayName": "MenubarRadioItem",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "value",
+        "required": true,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "textValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"default\""
+            },
+            {
+              "name": "\"danger\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disabled",
+        "description": "Whether this item is disabled.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "select",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarRadioItem.vue"
+    ]
+  },
+  "MenubarSection": {
+    "exportName": "default",
+    "displayName": "MenubarSection",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "title",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "showDivider",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component (applied to the group wrapper).",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarSection.vue"
+    ]
+  },
+  "MenubarSub": {
+    "exportName": "default",
+    "displayName": "MenubarSub",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "defaultOpen",
+        "description": "The open state of the submenu when it is initially rendered.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "open",
+        "description": "Controlled open state of the submenu.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:open",
+        "type": {
+          "names": [
+            "boolean"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarSub.vue"
+    ]
+  },
+  "MenubarSubContent": {
+    "exportName": "default",
+    "displayName": "MenubarSubContent",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "sideOffset",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "4"
+        }
+      },
+      {
+        "name": "alignOffset",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "-5"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "forceMount",
+        "description": "Keep sub-content mounted even when closed.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "loop",
+        "description": "Keep keyboard focus loop within the content.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "sideFlip",
+        "description": "Flip to opposite side when there is not enough space.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "alignFlip",
+        "description": "Flip alignment when there is not enough space.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "avoidCollisions",
+        "description": "Avoid collisions with the viewport edges.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "collisionBoundary",
+        "description": "Boundary element(s) for collision detection.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "Element"
+            },
+            {
+              "name": "null"
+            },
+            {
+              "name": "Array",
+              "elements": [
+                {
+                  "name": "union",
+                  "elements": [
+                    {
+                      "name": "Element"
+                    },
+                    {
+                      "name": "null"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "collisionPadding",
+        "description": "Padding around collision boundary.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "number"
+            },
+            {
+              "name": "Partial",
+              "elements": [
+                {
+                  "name": "Record",
+                  "elements": [
+                    {
+                      "name": "union",
+                      "elements": [
+                        {
+                          "name": "\"top\""
+                        },
+                        {
+                          "name": "\"right\""
+                        },
+                        {
+                          "name": "\"bottom\""
+                        },
+                        {
+                          "name": "\"left\""
+                        }
+                      ]
+                    },
+                    {
+                      "name": "number"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "arrowPadding",
+        "description": "Padding between content and arrow.",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "hideShiftedArrow",
+        "description": "Hide the arrow when the content is shifted.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "sticky",
+        "description": "Sticky behavior when scrolling.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"partial\""
+            },
+            {
+              "name": "\"always\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "hideWhenDetached",
+        "description": "Hide content when fully detached from trigger.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "positionStrategy",
+        "description": "CSS position strategy for the floating element.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"fixed\""
+            },
+            {
+              "name": "\"absolute\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "updatePositionStrategy",
+        "description": "When to recalculate position.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"always\""
+            },
+            {
+              "name": "\"optimized\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disableUpdateOnLayoutShift",
+        "description": "Disable position update on layout shift.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "prioritizePosition",
+        "description": "Prioritize keeping the content in view over alignment.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "reference",
+        "description": "Virtual or DOM reference element to position against.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "object"
+            },
+            {
+              "name": "null"
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "to",
+        "description": "Portal target element or selector.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "string"
+            },
+            {
+              "name": "HTMLElement"
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "portalDisabled",
+        "description": "Disable the portal.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "defer",
+        "description": "Defer portal rendering.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "escape-key-down",
+        "type": {
+          "names": [
+            "KeyboardEvent"
+          ]
+        }
+      },
+      {
+        "name": "pointer-down-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "focus-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "interact-outside",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "open-auto-focus",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      },
+      {
+        "name": "close-auto-focus",
+        "type": {
+          "names": [
+            "Event"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarSubContent.vue"
+    ]
+  },
+  "MenubarSubTrigger": {
+    "exportName": "default",
+    "displayName": "MenubarSubTrigger",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "textValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disabled",
+        "description": "Whether this trigger is disabled.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component.",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarSubTrigger.vue"
+    ]
+  },
+  "MenubarTrigger": {
+    "exportName": "default",
+    "displayName": "MenubarTrigger",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "disabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element or component. @default 'button' (Reka's own default)",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper. @default false",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/menubar/MenubarTrigger.vue"
+    ]
+  },
   "Meter": {
     "exportName": "default",
     "displayName": "Meter",
@@ -27094,6 +28836,421 @@
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/switch/SwitchGroup.vue"
     ]
   },
+  "Tab": {
+    "exportName": "default",
+    "displayName": "Tab",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "value",
+        "required": true,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "disabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes for individual slots.",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  tab: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element type.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/Tab.vue"
+    ]
+  },
+  "TabIndicator": {
+    "exportName": "default",
+    "displayName": "TabIndicator",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes for individual slots",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{ tabIndicator: ClassValue }"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element type.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/TabIndicator.vue"
+    ]
+  },
+  "TabList": {
+    "exportName": "default",
+    "displayName": "TabList",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "loop",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "overflow",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"arrows\""
+            },
+            {
+              "name": "\"dropdown\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes on individual slots",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  tabList: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element type.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/TabList.vue"
+    ]
+  },
+  "TabPanel": {
+    "exportName": "default",
+    "displayName": "TabPanel",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "value",
+        "required": true,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "forceMount",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Custom classes to apply to specific slots",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  tabPanel: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element type.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/TabPanel.vue"
+    ]
+  },
+  "Tabs": {
+    "exportName": "default",
+    "displayName": "Tabs",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "modelValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "orientation",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"horizontal\""
+            },
+            {
+              "name": "\"vertical\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'horizontal'"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'primary'"
+        }
+      },
+      {
+        "name": "activationMode",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"automatic\""
+            },
+            {
+              "name": "\"manual\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'automatic'"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes for individual slots",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "items",
+        "description": "Shorthand API: render tabs from an array instead of the compound slot API",
+        "required": false,
+        "type": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "TabShorthandItem"
+            }
+          ]
+        }
+      },
+      {
+        "name": "dir",
+        "description": "Reading direction of the tabs.",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"ltr\""
+            },
+            {
+              "name": "\"rtl\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "unmountOnHide",
+        "description": "Whether to unmount tab panels when they are hidden.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "as",
+        "description": "Render as a different element type.",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "description": "Merge props onto child element instead of rendering a wrapper.",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "type": {
+          "names": [
+            "string"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/Tabs.vue"
+    ]
+  },
   "Table": {
     "exportName": "default",
     "displayName": "Table",
@@ -27614,421 +29771,6 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auron/packages/vue/src/components/table/TableVirtualBody.vue"
-    ]
-  },
-  "Tab": {
-    "exportName": "default",
-    "displayName": "Tab",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "value",
-        "required": true,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "disabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes for individual slots.",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  tab: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "description": "Render as a different element type.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "description": "Merge props onto child element instead of rendering a wrapper.",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/Tab.vue"
-    ]
-  },
-  "TabIndicator": {
-    "exportName": "default",
-    "displayName": "TabIndicator",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes for individual slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{ tabIndicator: ClassValue }"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "description": "Render as a different element type.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "description": "Merge props onto child element instead of rendering a wrapper.",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/TabIndicator.vue"
-    ]
-  },
-  "TabList": {
-    "exportName": "default",
-    "displayName": "TabList",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "loop",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "overflow",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"arrows\""
-            },
-            {
-              "name": "\"dropdown\""
-            }
-          ]
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes on individual slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  tabList: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "description": "Render as a different element type.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "description": "Merge props onto child element instead of rendering a wrapper.",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/TabList.vue"
-    ]
-  },
-  "TabPanel": {
-    "exportName": "default",
-    "displayName": "TabPanel",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "value",
-        "required": true,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "forceMount",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Custom classes to apply to specific slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  tabPanel: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "description": "Render as a different element type.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "description": "Merge props onto child element instead of rendering a wrapper.",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/TabPanel.vue"
-    ]
-  },
-  "Tabs": {
-    "exportName": "default",
-    "displayName": "Tabs",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "modelValue",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "defaultValue",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "orientation",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"horizontal\""
-            },
-            {
-              "name": "\"vertical\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'horizontal'"
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'primary'"
-        }
-      },
-      {
-        "name": "activationMode",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"automatic\""
-            },
-            {
-              "name": "\"manual\""
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'automatic'"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes for individual slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "items",
-        "description": "Shorthand API: render tabs from an array instead of the compound slot API",
-        "required": false,
-        "type": {
-          "name": "Array",
-          "elements": [
-            {
-              "name": "TabShorthandItem"
-            }
-          ]
-        }
-      },
-      {
-        "name": "dir",
-        "description": "Reading direction of the tabs.",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"ltr\""
-            },
-            {
-              "name": "\"rtl\""
-            }
-          ]
-        }
-      },
-      {
-        "name": "unmountOnHide",
-        "description": "Whether to unmount tab panels when they are hidden.",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "as",
-        "description": "Render as a different element type.",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "description": "Merge props onto child element instead of rendering a wrapper.",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "update:modelValue",
-        "type": {
-          "names": [
-            "string"
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auron/packages/vue/src/components/tabs/Tabs.vue"
     ]
   },
   "Text": {

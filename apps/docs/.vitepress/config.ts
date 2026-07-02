@@ -39,6 +39,7 @@ export default defineConfig({
             { text: 'Chip', link: '/components/chip' },
             { text: 'CloseButton', link: '/components/close-button' },
             { text: 'ContextMenu', link: '/components/context-menu' },
+            { text: 'Menubar', link: '/components/menubar' },
             { text: 'Description', link: '/components/description' },
             { text: 'Editable', link: '/components/editable' },
             { text: 'EmptyState', link: '/components/empty-state' },
