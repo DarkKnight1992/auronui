@@ -292,6 +292,21 @@ export {
 } from './components/dropdown'
 export type { DropdownContext } from './components/dropdown'
 
+// Phase 7 — Selection: ContextMenu (Reka gap-fill)
+export {
+  ContextMenu,
+  ContextMenuTrigger,
+  ContextMenuContent,
+  ContextMenuItem,
+  ContextMenuCheckboxItem,
+  ContextMenuRadioGroup,
+  ContextMenuRadioItem,
+  ContextMenuSection,
+  ContextMenuSub,
+  ContextMenuSubTrigger,
+  ContextMenuSubContent,
+} from './components/context-menu'
+
 // Phase 7 — Selection: ComboBox (SEL-05)
 export {
   ComboBox,
