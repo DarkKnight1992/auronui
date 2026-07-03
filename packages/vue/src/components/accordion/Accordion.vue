@@ -78,7 +78,7 @@ useAccordionProvide({ slotFns })
         v-for="item in props.items"
         :key="item.value"
         :value="item.value"
-        :disabled="item.disabled"
+        :is-disabled="item.disabled"
       >
         <AccordionHeader>
           <AccordionTrigger>{{ item.title }}</AccordionTrigger>

@@ -119,7 +119,7 @@ const slotFns = computed(() =>
         v-for="(btn, idx) in props.buttons"
         :key="idx"
         :value="btn.value"
-        :disabled="btn.disabled"
+        :is-disabled="btn.disabled"
         :is-loading="btn.isLoading"
         :variant="btn.variant"
         :color="btn.color"

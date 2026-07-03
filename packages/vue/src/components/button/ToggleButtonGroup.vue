@@ -119,7 +119,7 @@ const slotFns = computed(() =>
         :key="btn.value"
         :value="btn.value"
         :is-icon-only="btn.isIconOnly"
-        :disabled="btn.disabled"
+        :is-disabled="btn.disabled"
         :class="btn.class"
       >{{ btn.label }}</ToggleButton>
     </template>

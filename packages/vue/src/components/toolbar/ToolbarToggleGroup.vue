@@ -92,7 +92,7 @@ const classes = computed(() =>
         :variant="item.variant"
         :size="item.size"
         :is-icon-only="item.isIconOnly"
-        :disabled="item.disabled"
+        :is-disabled="item.disabled"
         :class="item.class"
       >{{ item.label }}</ToolbarToggleItem>
     </template>

@@ -304,7 +304,7 @@ function selectOverflowTab(value: string) {
           radius="lg"
           class="tabs__overflow-item"
           role="menuitem"
-          :disabled="tab.disabled"
+          :is-disabled="tab.disabled"
           @click="selectOverflowTab(tab.value)"
         >
           {{ tab.label }}

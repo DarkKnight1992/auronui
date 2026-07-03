@@ -97,7 +97,7 @@ const groupSlots = computed(() =>
           v-for="item in props.items"
           :key="item.value"
           :value="item.value"
-          :disabled="item.disabled"
+          :is-disabled="item.disabled"
         >{{ item.label ?? item.value }}</SwitchInput>
       </template>
       <slot v-else />

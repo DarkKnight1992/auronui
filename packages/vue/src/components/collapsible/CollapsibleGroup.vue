@@ -57,7 +57,7 @@ const slotFns = computed(() => collapsibleGroupVariants({}))
         v-for="(item, idx) in props.items"
         :key="idx"
         :default-open="item.defaultOpen"
-        :disabled="item.disabled"
+        :is-disabled="item.disabled"
       >
         <CollapsibleTrigger>{{ item.title }}</CollapsibleTrigger>
         <CollapsibleContent>{{ item.content }}</CollapsibleContent>
