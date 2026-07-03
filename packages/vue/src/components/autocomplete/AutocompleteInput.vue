@@ -7,6 +7,7 @@ import Chip from '../chip/Chip.vue'
 import Spinner from '../spinner/Spinner.vue'
 import AutocompleteOverflowChips from './AutocompleteOverflowChips.vue'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
+import FieldLabel from '../_shared/FieldLabel.vue'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -107,14 +108,13 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
     :data-multiple-overflow="ctx.multiple.value ? ctx.multipleOverflow.value : undefined"
     data-slot="trigger"
   >
-    <label
+    <FieldLabel
       v-if="showInsideLabel"
       :for="ctx.inputId.value"
+      :label="ctx.label.value"
+      :is-required="ctx.isRequired.value"
       :class="ctx.slots.value.label()"
-    >{{ ctx.label.value }}<span
-      v-if="ctx.isRequired.value"
-      aria-hidden="true"
-    > *</span></label>
+    />
     <span
       v-if="$slots.startContent"
       :class="ctx.slots.value.startContent()"
