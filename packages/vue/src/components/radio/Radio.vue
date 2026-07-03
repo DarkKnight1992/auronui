@@ -85,7 +85,7 @@ const isRequired = useDeprecatedBooleanProp(
 )
 
 // Prop precedence: group disabled wins (D-02)
-const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
+const effectiveDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 // Group invalid overrides item; item prop allows standalone invalid
 const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 
@@ -99,7 +99,7 @@ const slotFns = computed(() => radioVariants())
   <RadioGroupItem
     v-bind="attrs"
     :value="props.value"
-    :disabled="isDisabled"
+    :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
     :id="props.id"
     :as-child="props.asChild"

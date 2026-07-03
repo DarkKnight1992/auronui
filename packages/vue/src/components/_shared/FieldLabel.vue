@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { ClassValue } from '../../utils/composeClassName'
 
-defineProps<{
+const props = defineProps<{
   for: string
   label?: string
   isRequired?: boolean
@@ -19,8 +19,8 @@ defineProps<{
   <label
     v-if="label"
     :id="id"
-    :for="for"
-    :class="class"
+    :for="props.for"
+    :class="props.class"
   >{{ label }}<span
       v-if="isRequired"
       aria-hidden="true"

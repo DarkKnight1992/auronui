@@ -77,7 +77,7 @@ const resolvedDisabled = useDeprecatedBooleanProp(
 // Prop precedence rules (D-13):
 // - group disabled ALWAYS wins over child prop
 // - all other props: child prop wins over group value (child ?? group)
-const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
+const effectiveDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
 const finalColor = computed(() => props.color ?? groupCtx.color.value)
 const finalSize = computed(() => props.size ?? groupCtx.size.value)
@@ -137,8 +137,8 @@ const spinnerSize = computed(() => {
   <Primitive
     :as="props.as"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
-    :disabled="isDisabled || props.isLoading || undefined"
-    :data-disabled="isDisabled || undefined"
+    :disabled="effectiveDisabled || props.isLoading || undefined"
+    :data-disabled="effectiveDisabled || undefined"
     :data-loading="props.isLoading || undefined"
     :data-orientation="groupCtx.orientation.value"
     :data-selected="isSelected || undefined"

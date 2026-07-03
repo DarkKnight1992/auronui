@@ -33,13 +33,13 @@ const props = withDefaults(defineProps<{
   asChild: false,
 })
 
-const isDisabled = useDeprecatedBooleanProp(
-  'AutocompleteCreateItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
-)
-
 const emit = defineEmits<{
   'select': [event: Event]
 }>()
+
+const isDisabled = useDeprecatedBooleanProp(
+  'AutocompleteCreateItem', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
+)
 
 const ctx = useAutocompleteInject()
 // Reka's combobox context (provided by AutocompleteRoot) — used to drive the

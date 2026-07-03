@@ -65,7 +65,7 @@ const isRequired = useDeprecatedBooleanProp(
 )
 
 // Prop precedence: group disabled wins; child prop wins for variant/size
-const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
+const effectiveDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
 const finalSize = computed(() => props.size ?? groupCtx.size.value)
 
@@ -105,7 +105,7 @@ const classes = computed(() =>
   -->
   <Toggle
     as-child
-    :disabled="isDisabled"
+    :disabled="effectiveDisabled"
     :model-value="isPressed"
     :default-value="props.defaultValue"
     :name="props.name"
@@ -114,7 +114,7 @@ const classes = computed(() =>
   >
     <button
       :class="composeClassName(classes, props.class)"
-      :disabled="isDisabled || undefined"
+      :disabled="effectiveDisabled || undefined"
       :data-orientation="groupCtx.orientation.value"
       :type="'button'"
     >

@@ -93,7 +93,7 @@ const isRequired = useDeprecatedBooleanProp(
 )
 
 // Prop precedence: group disabled wins (D-02)
-const isDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
+const effectiveDisabled = computed(() => groupCtx.disabled.value || resolvedDisabled.value)
 const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInvalid)
 
 // Child size wins over group size
@@ -133,7 +133,7 @@ const slotFns = computed(() =>
   <SwitchRoot
     v-bind="attrs"
     :model-value="checked"
-    :disabled="isDisabled"
+    :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
