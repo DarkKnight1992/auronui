@@ -451,6 +451,7 @@ export { TimeRangeField } from './components/time-range-field'
 export { DatePicker } from './components/date-picker'
 export { DateRangePicker } from './components/date-range-picker'
 export { DateTimePicker } from './components/date-time-picker'
+export { TimePicker } from './components/time-picker'
 export type { DateRange as DateRangePickerRange } from './components/date-range-picker'
 
 // Phase 11 — Specialized: Color

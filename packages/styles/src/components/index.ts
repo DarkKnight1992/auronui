@@ -79,6 +79,7 @@ export * from "./tabs";
 export * from "./text";
 export * from "./textarea";
 export * from "./time-field";
+export * from "./time-picker";
 export * from "./time-range-field";
 export * from "./toast";
 export * from "./toggle-button";

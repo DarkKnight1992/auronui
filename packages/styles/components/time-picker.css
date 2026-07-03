@@ -1,0 +1,95 @@
+/* ==========================================================================
+   TimePicker — TimeField trigger + wheel-scroller popover
+   ========================================================================== */
+
+.time-picker {
+  @apply inline-flex flex-col gap-1;
+}
+
+.time-picker--full-width {
+  @apply w-full;
+}
+
+.time-picker--invalid {
+  /* invalid state propagated to child TimeField via isInvalid prop */
+}
+
+.time-picker--disabled {
+  @apply opacity-60 cursor-not-allowed pointer-events-none;
+}
+
+/* ─── Trigger (clock icon button) ─────────────────────────────────────── */
+
+.time-picker__trigger {
+  @apply inline-flex items-center justify-center rounded-field p-1 no-highlight bg-transparent border-0 cursor-pointer outline-none shrink-0;
+  color: var(--color-field-placeholder);
+  cursor: var(--cursor-interactive);
+
+  transition: box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[data-disabled],
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+}
+
+.time-picker__trigger-indicator {
+  @apply inline-flex size-4 items-center justify-center text-field-placeholder;
+}
+
+/* ─── Popover shell ───────────────────────────────────────────────────────── */
+
+.time-picker__popover {
+  z-index: var(--z-popover);
+  @apply origin-(--trigger-anchor-point) overflow-hidden bg-overlay p-0;
+  min-width: 10rem;
+  box-shadow: var(--shadow-overlay);
+  border-radius: calc(var(--radius) * 2.5);
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply outline-none;
+  }
+
+  & {
+    @apply animate-in duration-300 ease-smooth fade-in-0 zoom-in-95;
+
+    &[data-placement^="top"] {
+      @apply slide-in-from-bottom-1;
+    }
+
+    &[data-placement^="bottom"] {
+      @apply slide-in-from-top-1;
+    }
+
+    &[data-placement^="left"] {
+      @apply slide-in-from-right-1;
+    }
+
+    &[data-placement^="right"] {
+      @apply slide-in-from-left-1;
+    }
+  }
+
+  &,
+  & {
+    @apply will-change-[opacity,transform];
+  }
+}
+
+/* ─── Panel (wheels stacked above the Done button) ───────────────────────── */
+
+.time-picker__panel {
+  @apply flex flex-col;
+}
+
+.time-picker__time-done {
+  @apply flex justify-end px-3 pb-3 pt-1;
+}

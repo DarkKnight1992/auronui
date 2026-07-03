@@ -78,7 +78,7 @@ Browse interactive component stories at **[Storybook](https://darkknight1992.git
 | Selection | ListBox, Select, Dropdown, ComboBox, Autocomplete, ContextMenu, Menubar |
 | Data | Table, Pagination |
 | Media | Avatar, AvatarGroup, Slider, ProgressBar, ProgressCircle, Meter, ScrollShadow, ScrollArea |
-| Date & Time | Calendar, RangeCalendar, CalendarYearPicker, MonthPicker, MonthRangePicker, YearRangePicker, DateInput, DateRangeField, TimeField, TimeRangeField, DatePicker, DateRangePicker, DateTimePicker |
+| Date & Time | Calendar, RangeCalendar, CalendarYearPicker, MonthPicker, MonthRangePicker, YearRangePicker, DateInput, DateRangeField, TimeField, TimeRangeField, DatePicker, DateRangePicker, DateTimePicker, TimePicker |
 | Color | ColorArea, ColorSlider, ColorField, ColorSwatch, ColorSwatchPicker, ColorInputGroup, ColorPicker |
 | Extended | AspectRatio, Splitter, Stepper, Tree |
 
