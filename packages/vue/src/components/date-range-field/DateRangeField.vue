@@ -11,6 +11,9 @@ import { DateRangeFieldRoot, DateRangeFieldInput } from 'reka-ui'
 import type { DateValue } from '@internationalized/date'
 import { dateRangeFieldVariants, type DateRangeFieldVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
+import { useFormField } from '../../composables/useFormField'
+import FieldLabel from '../_shared/FieldLabel.vue'
+import FormFieldHelper from '../_shared/FormFieldHelper.vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -105,19 +108,30 @@ const attrs = useAttrs()
 const generatedId = useId()
 const fieldId = computed(() => (attrs.id as string | undefined) ?? `${generatedId}-field`)
 const labelId = computed(() => `${generatedId}-label`)
-const descriptionId = computed(() => `${generatedId}-description`)
-const errorMessageId = computed(() => `${generatedId}-error`)
 
-const hasLabel = computed(() => !!props.label)
 const isFilled = computed(() => modelValue.value?.start != null || modelValue.value?.end != null)
 
-const showError = computed(() => props.isInvalid && !!props.errorMessage)
-const showDescription = computed(() => !!props.description && !showError.value)
-const hasHelper = computed(() => showError.value || showDescription.value)
-const ariaDescribedBy = computed(() => {
-  if (showError.value) return errorMessageId.value
-  if (showDescription.value) return descriptionId.value
-  return undefined
+const {
+  descriptionId,
+  errorMessageId,
+  showError,
+  showDescription,
+  hasHelper,
+  ariaDescribedBy,
+  hasLabel,
+  showOutsideLabel,
+  showInsideLabel,
+  rootDataAttrs,
+} = useFormField({
+  fieldId: () => fieldId.value,
+  label: () => props.label,
+  description: () => props.description,
+  errorMessage: () => props.errorMessage,
+  isInvalid: () => props.isInvalid,
+  isDisabled: () => props.isDisabled,
+  isReadOnly: () => props.isReadOnly,
+  isRequired: () => props.isRequired,
+  labelPlacement: () => props.labelPlacement,
 })
 
 const fieldRef = ref<HTMLElement | null>(null)
@@ -233,35 +247,22 @@ const slotFns = computed(() =>
     labelPlacement: props.labelPlacement,
   }),
 )
-
-const showOutsideLabel = computed(
-  () => hasLabel.value && props.labelPlacement !== 'inside',
-)
-const showInsideLabel = computed(
-  () => hasLabel.value && props.labelPlacement === 'inside',
-)
 </script>
 
 <template>
   <div
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
-    :data-invalid="isInvalid || undefined"
-    :data-disabled="isDisabled || undefined"
-    :data-readonly="isReadOnly || undefined"
-    :data-required="isRequired || undefined"
-    :data-has-label="hasLabel || undefined"
-    :data-has-helper="hasHelper || undefined"
+    v-bind="rootDataAttrs"
     data-slot="date-range-field"
   >
-    <label
+    <FieldLabel
       v-if="showOutsideLabel"
       :id="labelId"
       :for="fieldId"
+      :label="label"
+      :is-required="isRequired"
       :class="composeClassName(slotFns.label(), props.classNames?.label)"
-    >{{ label }}<span
-      v-if="isRequired"
-      aria-hidden="true"
-    > *</span></label>
+    />
 
     <div :class="composeClassName(slotFns.mainWrapper(), props.classNames?.mainWrapper)">
       <DateRangeFieldRoot
@@ -299,15 +300,14 @@ const showInsideLabel = computed(
         @mousedown="handleFieldMousedown"
       >
         <template #default="{ segments }">
-          <label
+          <FieldLabel
             v-if="showInsideLabel"
             :id="labelId"
             :for="fieldId"
+            :label="label"
+            :is-required="isRequired"
             :class="composeClassName(slotFns.label(), props.classNames?.label)"
-          >{{ label }}<span
-            v-if="isRequired"
-            aria-hidden="true"
-          > *</span></label>
+          />
 
           <span
             v-if="$slots.startContent"
@@ -371,26 +371,19 @@ const showInsideLabel = computed(
         </template>
       </DateRangeFieldRoot>
 
-      <div
-        v-if="hasHelper"
-        :class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
-      >
-        <div
-          v-if="showError"
-          :id="errorMessageId"
-          :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
-          role="alert"
-        >
-          {{ errorMessage }}
-        </div>
-        <div
-          v-else-if="showDescription"
-          :id="descriptionId"
-          :class="composeClassName(slotFns.description(), props.classNames?.description)"
-        >
-          {{ description }}
-        </div>
-      </div>
+      <FormFieldHelper
+        :has-helper="hasHelper"
+        :show-error="showError"
+        :show-description="showDescription"
+        :error-message="errorMessage"
+        :description="description"
+        :error-message-id="errorMessageId"
+        :description-id="descriptionId"
+        error-role="alert"
+        :wrapper-class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
+        :error-class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
+        :description-class="composeClassName(slotFns.description(), props.classNames?.description)"
+      />
     </div>
   </div>
 </template>
