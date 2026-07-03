@@ -22,7 +22,7 @@ const meta: Meta<typeof NumberField> = {
     fullWidth: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
     isDisabled: { control: 'boolean' },
-    isReadonly: { control: 'boolean' },
+    isReadOnly: { control: 'boolean' },
     step: { control: 'number' },
     min: { control: 'number' },
     max: { control: 'number' },
@@ -35,7 +35,7 @@ const meta: Meta<typeof NumberField> = {
     fullWidth: false,
     isInvalid: false,
     isDisabled: false,
-    isReadonly: false,
+    isReadOnly: false,
     step: 1,
   },
 }

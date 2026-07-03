@@ -42,7 +42,7 @@ const meta: Meta<typeof Select> = {
     errorMessage: { control: "text" },
     fullWidth: { control: "boolean" },
     isDisabled: { control: "boolean" },
-    isReadonly: { control: "boolean" },
+    isReadOnly: { control: "boolean" },
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
@@ -141,7 +141,7 @@ const meta: Meta<typeof Select> = {
     labelPlacement: "inside",
     fullWidth: false,
     isDisabled: false,
-    isReadonly: false,
+    isReadOnly: false,
     isInvalid: false,
     isRequired: false,
     contentForceMount: false,
@@ -1430,7 +1430,7 @@ const items = [
 export const Readonly: Story = {
   args: {
     variant: "bordered",
-    isReadonly: true,
+    isReadOnly: true,
     label: "Favorite Fruit",
     labelPlacement: "outside",
     defaultValue: "banana",

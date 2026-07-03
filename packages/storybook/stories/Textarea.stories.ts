@@ -28,7 +28,7 @@ const meta: Meta<typeof Textarea> = {
     description: { control: 'text' },
     errorMessage: { control: 'text' },
     isDisabled: { control: 'boolean' },
-    isReadonly: { control: 'boolean' },
+    isReadOnly: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
     isRequired: { control: 'boolean' },
     isClearable: { control: 'boolean' },
@@ -43,7 +43,7 @@ const meta: Meta<typeof Textarea> = {
     color: 'default',
     labelPlacement: 'inside',
     isDisabled: false,
-    isReadonly: false,
+    isReadOnly: false,
     isInvalid: false,
     isRequired: false,
     isClearable: false,
@@ -798,7 +798,7 @@ import { Textarea } from '@auronui/vue'
 export const Readonly: Story = {
   args: {
     variant: 'bordered',
-    isReadonly: true,
+    isReadOnly: true,
   },
   render: (args) => ({
     components: { Textarea },
@@ -1272,14 +1272,14 @@ export const LabelStatesMatrix: Story = {
         <Textarea v-bind="args" variant="bordered" label="Bio" :modelValue="'Short bio here'" />
         <Textarea v-bind="args" variant="bordered" label="Bio" :isInvalid="true" />
         <Textarea v-bind="args" variant="bordered" label="Bio" :isDisabled="true" />
-        <Textarea v-bind="args" variant="bordered" label="Bio" :isReadonly="true" :modelValue="'read-only'" />
+        <Textarea v-bind="args" variant="bordered" label="Bio" :isReadOnly="true" :modelValue="'read-only'" />
 
         <div style="font-size:11px;color:#666">outside</div>
         <Textarea v-bind="args" variant="bordered" labelPlacement="outside" label="Bio" placeholder="About you" />
         <Textarea v-bind="args" variant="bordered" labelPlacement="outside" label="Bio" :modelValue="'Short bio here'" />
         <Textarea v-bind="args" variant="bordered" labelPlacement="outside" label="Bio" :isInvalid="true" errorMessage="Invalid" />
         <Textarea v-bind="args" variant="bordered" labelPlacement="outside" label="Bio" :isDisabled="true" />
-        <Textarea v-bind="args" variant="bordered" labelPlacement="outside" label="Bio" :isReadonly="true" :modelValue="'read-only'" />
+        <Textarea v-bind="args" variant="bordered" labelPlacement="outside" label="Bio" :isReadOnly="true" :modelValue="'read-only'" />
       </div>
     `,
   }),
@@ -1414,7 +1414,7 @@ export const AllStates: Story = {
           variant="bordered"
           labelPlacement="outside"
           label="Readonly"
-          :isReadonly="true"
+          :isReadOnly="true"
           modelValue="Read only value"
         />
         <Textarea

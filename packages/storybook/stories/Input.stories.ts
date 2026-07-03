@@ -28,7 +28,7 @@ const meta: Meta<typeof Input> = {
     description: { control: "text" },
     errorMessage: { control: "text" },
     isDisabled: { control: "boolean" },
-    isReadonly: { control: "boolean" },
+    isReadOnly: { control: "boolean" },
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
     isClearable: { control: "boolean" },
@@ -42,7 +42,7 @@ const meta: Meta<typeof Input> = {
     color: "default",
     labelPlacement: "inside",
     isDisabled: false,
-    isReadonly: false,
+    isReadOnly: false,
     isInvalid: false,
     isRequired: false,
     isClearable: false,
@@ -973,7 +973,7 @@ import { Input } from '@auronui/vue'
 export const Readonly: Story = {
   args: {
     variant: "bordered",
-    isReadonly: true,
+    isReadOnly: true,
   },
   parameters: {
     docs: {
@@ -985,7 +985,7 @@ import { Input } from '@auronui/vue'
 <template>
   <Input
     variant="bordered"
-    :isReadonly="true"
+    :isReadOnly="true"
     modelValue="Read-only value"
     aria-label="Readonly input"
   />
@@ -1633,14 +1633,14 @@ import { Input } from '@auronui/vue'
     <Input variant="bordered" label="Email" modelValue="jane@example.com" />
     <Input variant="bordered" label="Email" :isInvalid="true" />
     <Input variant="bordered" label="Email" :isDisabled="true" />
-    <Input variant="bordered" label="Email" :isReadonly="true" modelValue="read-only" />
+    <Input variant="bordered" label="Email" :isReadOnly="true" modelValue="read-only" />
 
     <div style="font-size:11px;color:#666">outside</div>
     <Input variant="bordered" labelPlacement="outside" label="Email" placeholder="you@example.com" />
     <Input variant="bordered" labelPlacement="outside" label="Email" modelValue="jane@example.com" />
     <Input variant="bordered" labelPlacement="outside" label="Email" :isInvalid="true" errorMessage="Invalid" />
     <Input variant="bordered" labelPlacement="outside" label="Email" :isDisabled="true" />
-    <Input variant="bordered" labelPlacement="outside" label="Email" :isReadonly="true" modelValue="read-only" />
+    <Input variant="bordered" labelPlacement="outside" label="Email" :isReadOnly="true" modelValue="read-only" />
   </div>
 </template>`,
         language: 'vue',
@@ -1666,14 +1666,14 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="bordered" label="Email" :modelValue="'jane@example.com'" />
         <Input v-bind="args" variant="bordered" label="Email" :isInvalid="true" />
         <Input v-bind="args" variant="bordered" label="Email" :isDisabled="true" />
-        <Input v-bind="args" variant="bordered" label="Email" :isReadonly="true" :modelValue="'read-only'" />
+        <Input v-bind="args" variant="bordered" label="Email" :isReadOnly="true" :modelValue="'read-only'" />
 
         <div style="font-size:11px;color:#666">outside</div>
         <Input v-bind="args" variant="bordered" labelPlacement="outside" label="Email" placeholder="you@example.com" />
         <Input v-bind="args" variant="bordered" labelPlacement="outside" label="Email" :modelValue="'jane@example.com'" />
         <Input v-bind="args" variant="bordered" labelPlacement="outside" label="Email" :isInvalid="true" errorMessage="Invalid" />
         <Input v-bind="args" variant="bordered" labelPlacement="outside" label="Email" :isDisabled="true" />
-        <Input v-bind="args" variant="bordered" labelPlacement="outside" label="Email" :isReadonly="true" :modelValue="'read-only'" />
+        <Input v-bind="args" variant="bordered" labelPlacement="outside" label="Email" :isReadOnly="true" :modelValue="'read-only'" />
       </div>
     `,
   }),
@@ -1707,7 +1707,7 @@ import { Input } from '@auronui/vue'
       variant="bordered"
       labelPlacement="outside"
       label="Readonly"
-      :isReadonly="true"
+      :isReadOnly="true"
       modelValue="Read only value"
     />
     <Input
@@ -1759,7 +1759,7 @@ import { Input } from '@auronui/vue'
           variant="bordered"
           labelPlacement="outside"
           label="Readonly"
-          :isReadonly="true"
+          :isReadOnly="true"
           :modelValue="'Read only value'"
         />
         <Input

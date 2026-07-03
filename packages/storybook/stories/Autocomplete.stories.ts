@@ -35,7 +35,7 @@ const meta: Meta<typeof Autocomplete> = {
     errorMessage: { control: "text" },
     fullWidth: { control: "boolean" },
     isDisabled: { control: "boolean" },
-    isReadonly: { control: "boolean" },
+    isReadOnly: { control: "boolean" },
     isInvalid: { control: "boolean" },
     isRequired: { control: "boolean" },
     debounceMs: { control: "number" },
@@ -90,7 +90,7 @@ const meta: Meta<typeof Autocomplete> = {
     labelPlacement: "inside",
     fullWidth: false,
     isDisabled: false,
-    isReadonly: false,
+    isReadOnly: false,
     isInvalid: false,
     isRequired: false,
     debounceMs: 200,
@@ -1395,7 +1395,7 @@ const items = [
 export const Readonly: Story = {
   args: {
     variant: "bordered",
-    isReadonly: true,
+    isReadOnly: true,
     modelValue: "apple",
   },
   render: (args) => ({
