@@ -205,4 +205,77 @@ describe('Input', () => {
     expect(wrapper.find('input').attributes('id')).toBe('custom-id')
     expect(wrapper.find('label').attributes('for')).toBe('custom-id')
   })
+
+  // ─── useFormField destructuring-regression guards ─────────────────────
+  // These guard against a real bug: bundling useFormField's return into a
+  // single object (`const formField = useFormField(...)`) and dot-accessing
+  // it in the template (`v-bind="formField.rootDataAttrs"`, `formField.X`)
+  // silently breaks, because Vue's <script setup> template auto-unwrapping
+  // only rewrites TOP-LEVEL ref/computed bindings, not refs nested inside a
+  // plain object property. The fix is destructuring the return value into
+  // top-level bindings. Input.vue is the reference template that other form
+  // fields copy, so these tests protect the whole family from repeating it.
+
+  it('labelPlacement "inside" renders exactly one <label>, not zero or two', () => {
+    const wrapper = mount(Input, { props: { label: 'Name', labelPlacement: 'inside' } })
+    expect(wrapper.findAll('label')).toHaveLength(1)
+  })
+
+  it('labelPlacement "outside" renders exactly one <label>, not zero or two', () => {
+    const wrapper = mount(Input, { props: { label: 'Name', labelPlacement: 'outside' } })
+    expect(wrapper.findAll('label')).toHaveLength(1)
+  })
+
+  it('labelPlacement "outside-left" renders exactly one <label>, not zero or two', () => {
+    const wrapper = mount(Input, { props: { label: 'Name', labelPlacement: 'outside-left' } })
+    expect(wrapper.findAll('label')).toHaveLength(1)
+  })
+
+  it('aria-describedby (error case) points at an element that exists in the DOM and contains the error text', () => {
+    const wrapper = mount(Input, { props: { errorMessage: 'This field is required', isInvalid: true } })
+    const describedBy = wrapper.find('input').attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const target = wrapper.find(`#${describedBy}`)
+    expect(target.exists()).toBe(true)
+    expect(target.text()).toBe('This field is required')
+  })
+
+  it('aria-describedby (description case) points at an element that exists in the DOM and contains the description text', () => {
+    const wrapper = mount(Input, { props: { description: 'Must be a valid email', isInvalid: false } })
+    const describedBy = wrapper.find('input').attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const target = wrapper.find(`#${describedBy}`)
+    expect(target.exists()).toBe(true)
+    expect(target.text()).toBe('Must be a valid email')
+  })
+
+  it('isRequired: true sets data-required on wrapper', () => {
+    const wrapper = mount(Input, { props: { isRequired: true } })
+    expect(wrapper.attributes('data-required')).toBeTruthy()
+  })
+
+  it('isRequired: false — no data-required on wrapper', () => {
+    const wrapper = mount(Input, { props: { isRequired: false } })
+    expect(wrapper.attributes('data-required')).toBeUndefined()
+  })
+
+  it('label set → data-has-label on wrapper', () => {
+    const wrapper = mount(Input, { props: { label: 'Name' } })
+    expect(wrapper.attributes('data-has-label')).toBeTruthy()
+  })
+
+  it('no label → no data-has-label on wrapper', () => {
+    const wrapper = mount(Input)
+    expect(wrapper.attributes('data-has-label')).toBeUndefined()
+  })
+
+  it('description set → data-has-helper on wrapper', () => {
+    const wrapper = mount(Input, { props: { description: 'Helper text' } })
+    expect(wrapper.attributes('data-has-helper')).toBeTruthy()
+  })
+
+  it('no description/errorMessage → no data-has-helper on wrapper', () => {
+    const wrapper = mount(Input)
+    expect(wrapper.attributes('data-has-helper')).toBeUndefined()
+  })
 })
