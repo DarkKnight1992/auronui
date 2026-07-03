@@ -63,8 +63,10 @@
     2. Expose the same slot keys in tailwind-variants.
     3. Emit the same data-attributes on the root + data-filled on the
        field box.
-    4. Reuse the aria-describedby / error-vs-description precedence
-       logic verbatim.
+    4. Use the `useFormField` composable (packages/vue/src/composables/useFormField.ts)
+       for the description/error/label-visibility state machine, and the
+       `FieldLabel` / `FormFieldHelper` components (components/_shared/) for
+       the repeated label and helper markup — do not hand-roll these again.
     5. Generate ids with useId(), scope helper ids as `{id}-error` /
        `{id}-description`.
     6. Default labelPlacement to 'inside' and apply the inside-label
@@ -75,6 +77,9 @@ import { computed, nextTick, ref, useAttrs, useId, useTemplateRef } from 'vue'
 import { inputVariants, type InputVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
+import { useFormField } from '../../composables/useFormField'
+import FieldLabel from '../_shared/FieldLabel.vue'
+import FormFieldHelper from '../_shared/FormFieldHelper.vue'
 
 defineOptions({ inheritAttrs: false })
 
@@ -197,20 +202,31 @@ const isReadOnly = useDeprecatedBooleanProp(
   'Input', 'isReadOnly', () => props.isReadOnly, 'isReadonly', () => props.isReadonly,
 )
 
-const hasLabel = computed(() => !!props.label)
 const isFilled = computed(
   () => modelValue.value !== null && modelValue.value !== undefined && String(modelValue.value) !== '',
 )
 
-const descriptionId = computed(() => `${inputId.value}-description`)
-const errorMessageId = computed(() => `${inputId.value}-error`)
-const showError = computed(() => props.isInvalid && !!props.errorMessage)
-const showDescription = computed(() => !!props.description && !showError.value)
-const hasHelper = computed(() => showError.value || showDescription.value)
-const ariaDescribedBy = computed(() => {
-  if (showError.value) return errorMessageId.value
-  if (showDescription.value) return descriptionId.value
-  return undefined
+const {
+  descriptionId,
+  errorMessageId,
+  showError,
+  showDescription,
+  hasHelper,
+  ariaDescribedBy,
+  hasLabel,
+  showOutsideLabel,
+  showInsideLabel,
+  rootDataAttrs,
+} = useFormField({
+  fieldId: () => inputId.value,
+  label: () => props.label,
+  description: () => props.description,
+  errorMessage: () => props.errorMessage,
+  isInvalid: () => props.isInvalid,
+  isDisabled: () => props.isDisabled,
+  isReadOnly: () => isReadOnly.value,
+  isRequired: () => props.isRequired,
+  labelPlacement: () => props.labelPlacement,
 })
 
 const isPasswordVisible = ref(false)
@@ -250,47 +266,33 @@ const slotFns = computed(() =>
     labelPlacement: props.labelPlacement,
   }),
 )
-
-const showOutsideLabel = computed(
-  () => hasLabel.value && props.labelPlacement !== 'inside',
-)
-const showInsideLabel = computed(
-  () => hasLabel.value && props.labelPlacement === 'inside',
-)
 </script>
 
 <template>
   <div
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
-    :data-invalid="isInvalid || undefined"
-    :data-disabled="isDisabled || undefined"
-    :data-readonly="isReadOnly || undefined"
-    :data-required="isRequired || undefined"
-    :data-has-label="hasLabel || undefined"
-    :data-has-helper="hasHelper || undefined"
+    v-bind="rootDataAttrs"
   >
-    <label
+    <FieldLabel
       v-if="showOutsideLabel"
       :for="inputId"
+      :label="label"
+      :is-required="isRequired"
       :class="composeClassName(slotFns.label(), props.classNames?.label)"
-    >{{ label }}<span
-      v-if="isRequired"
-      aria-hidden="true"
-    > *</span></label>
+    />
 
     <div :class="composeClassName(slotFns.mainWrapper(), props.classNames?.mainWrapper)">
       <div
         :class="composeClassName(slotFns.inputWrapper(), props.classNames?.inputWrapper)"
         :data-filled="hasLabel ? (isFilled || undefined) : undefined"
       >
-        <label
+        <FieldLabel
           v-if="showInsideLabel"
           :for="inputId"
+          :label="label"
+          :is-required="isRequired"
           :class="composeClassName(slotFns.label(), props.classNames?.label)"
-        >{{ label }}<span
-          v-if="isRequired"
-          aria-hidden="true"
-        > *</span></label>
+        />
         <span
           v-if="$slots.startContent"
           :class="composeClassName(slotFns.startContent(), props.classNames?.startContent)"
@@ -403,25 +405,18 @@ const showInsideLabel = computed(
         </button>
       </div>
 
-      <div
-        v-if="hasHelper"
-        :class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
-      >
-        <div
-          v-if="showError"
-          :id="errorMessageId"
-          :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
-        >
-          {{ errorMessage }}
-        </div>
-        <div
-          v-else-if="showDescription"
-          :id="descriptionId"
-          :class="composeClassName(slotFns.description(), props.classNames?.description)"
-        >
-          {{ description }}
-        </div>
-      </div>
+      <FormFieldHelper
+        :has-helper="hasHelper"
+        :show-error="showError"
+        :show-description="showDescription"
+        :error-message="errorMessage"
+        :description="description"
+        :error-message-id="errorMessageId"
+        :description-id="descriptionId"
+        :wrapper-class="composeClassName(slotFns.helperWrapper(), props.classNames?.helperWrapper)"
+        :error-class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
+        :description-class="composeClassName(slotFns.description(), props.classNames?.description)"
+      />
     </div>
   </div>
 </template>
