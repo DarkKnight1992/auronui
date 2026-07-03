@@ -241,6 +241,7 @@ defineExpose({ table, keyboardNav, handleRowClick })
       :style="useVirtual ? { height: '400px', overflow: 'auto' } : undefined"
     >
       <table
+        class="table"
         ref="rootRef"
         role="grid"
         :aria-label="ariaLabel"
