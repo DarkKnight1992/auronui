@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { onMounted, useTemplateRef } from 'vue'
 import { SelectItem, SelectItemText, SelectItemIndicator } from 'reka-ui'
+import { listboxItemVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useSelectInject, type SelectItemValue } from './Select.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -21,6 +23,11 @@ const props = withDefaults(defineProps<{
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    item: ClassValue
+    indicator: ClassValue
+  }>
 }>(), {
   textValue: undefined,
   isDisabled: undefined,
@@ -40,6 +47,7 @@ const isDisabled = useDeprecatedBooleanProp(
 
 const ctx = useSelectInject()
 const textRef = useTemplateRef<HTMLElement>('textRef')
+const itemSlots = listboxItemVariants()
 
 // Register immediately with textValue if provided — this runs at setup time,
 // before mount, so SelectValue shows the correct label for a pre-set modelValue
@@ -66,7 +74,7 @@ onMounted(() => {
     :text-value="props.textValue ?? String(props.value)"
     :as="props.as"
     :as-child="props.asChild"
-    class="list-box-item list-box-item--default"
+    :class="composeClassName(itemSlots.item(), props.classNames?.item)"
     data-slot="list-box-item"
     @select="emit('select', $event)"
   >
@@ -75,7 +83,7 @@ onMounted(() => {
       <slot />
     </SelectItemText>
     <SelectItemIndicator
-      class="list-box-item__indicator"
+      :class="composeClassName(itemSlots.indicator(), props.classNames?.indicator)"
       data-slot="list-box-item-indicator"
     >
       <slot name="selectedIcon">

@@ -43,7 +43,7 @@ const styles = modalVariants()
 
 <template>
   <DialogPortal :to="props.to" :disabled="props.disabled" :defer="props.defer" :force-mount="props.forceMount">
-    <div class="modal__portal">
+    <div :class="styles.portal()">
     <ModalOverlay />
     <DialogContent
       :as="props.as"

@@ -16,6 +16,13 @@ type ButtonShorthandItem = {
   variant?: ButtonVariants['variant']
   color?: ButtonVariants['color']
   class?: string
+  classNames?: Partial<{
+    base: ClassValue
+    startContent: ClassValue
+    label: ClassValue
+    endContent: ClassValue
+    spinner: ClassValue
+  }>
 }
 
 const props = withDefaults(defineProps<{
@@ -124,6 +131,7 @@ const slotFns = computed(() =>
         :variant="btn.variant"
         :color="btn.color"
         :class="btn.class"
+        :class-names="btn.classNames"
       >{{ btn.label }}</Button>
     </template>
     <slot v-else />

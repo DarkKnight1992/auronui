@@ -19,6 +19,10 @@ const props = withDefaults(defineProps<{
   /** Override classes for individual slots */
   classNames?: Partial<{
     base: ClassValue
+    trigger: ClassValue
+    indicator: ClassValue
+    body: ClassValue
+    bodyInner: ClassValue
   }>
   /** Shorthand API: render collapsibles from an array instead of the compound slot API */
   items?: CollapsibleShorthandItem[]
@@ -59,8 +63,8 @@ const slotFns = computed(() => collapsibleGroupVariants({}))
         :default-open="item.defaultOpen"
         :is-disabled="item.disabled"
       >
-        <CollapsibleTrigger>{{ item.title }}</CollapsibleTrigger>
-        <CollapsibleContent>{{ item.content }}</CollapsibleContent>
+        <CollapsibleTrigger :class-names="{ trigger: props.classNames?.trigger, indicator: props.classNames?.indicator }">{{ item.title }}</CollapsibleTrigger>
+        <CollapsibleContent :class-names="{ body: props.classNames?.body, bodyInner: props.classNames?.bodyInner }">{{ item.content }}</CollapsibleContent>
       </Collapsible>
     </template>
     <slot v-else />

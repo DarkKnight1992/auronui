@@ -3,14 +3,24 @@ import type {VariantProps} from "../../utils";
 import {tv} from "tailwind-variants";
 
 export const radioGroupVariants = tv({
-  base: "radio-group",
+  slots: {
+    base: "radio-group",
+    label: "radio-group__label",
+    wrapper: "radio-group__wrapper",
+    description: "radio-group__description",
+    errorMessage: "radio-group__error-message",
+  },
   defaultVariants: {
     variant: "primary",
   },
   variants: {
     variant: {
-      primary: "radio-group--primary",
-      secondary: "radio-group--secondary",
+      primary: {
+        base: "radio-group--primary",
+      },
+      secondary: {
+        base: "radio-group--secondary",
+      },
     },
   },
 });

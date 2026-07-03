@@ -2,11 +2,23 @@
 import { ref, computed, nextTick, useTemplateRef, onMounted, watch } from 'vue'
 import { useResizeObserver } from '@vueuse/core'
 import Chip from '../chip/Chip.vue'
+import type { ClassValue } from '../../utils/composeClassName'
 
 const props = defineProps<{
   values: string[]
   getLabel: (value: string) => string
   removeValue: (value: string) => void
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    chip: Partial<{
+      base: ClassValue
+      dot: ClassValue
+      startContent: ClassValue
+      label: ClassValue
+      endContent: ClassValue
+      closeButton: ClassValue
+    }>
+  }>
 }>()
 
 const containerEl = useTemplateRef<HTMLElement>('container')
@@ -78,6 +90,7 @@ watch(
       size="sm"
       is-closable
       :style="i >= visibleCount ? 'display: none' : undefined"
+      :class-names="props.classNames?.chip"
       @close.stop="removeValue(val)"
     >
       {{ getLabel(val) }}
@@ -86,6 +99,7 @@ watch(
       v-if="overflowCount > 0"
       size="sm"
       color="default"
+      :class-names="props.classNames?.chip"
     >
       +{{ overflowCount }} more
     </Chip>

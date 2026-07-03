@@ -12,6 +12,10 @@ export const colorInputGroupVariants = tv({
     input: "color-input-group__input",
     prefix: "color-input-group__prefix",
     suffix: "color-input-group__suffix",
+    wrapper: "color-input-group__wrapper",
+    label: "color-input-group__label",
+    description: "color-input-group__description",
+    errorMessage: "color-input-group__error-message",
   },
   variants: {
     fullWidth: {

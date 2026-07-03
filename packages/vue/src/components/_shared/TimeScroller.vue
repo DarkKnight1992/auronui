@@ -2,12 +2,20 @@
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
 import type { Time, CalendarDateTime } from '@internationalized/date'
+import { dateTimePickerVariants } from '@auronui/styles'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   modelValue: Time | CalendarDateTime
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    scrollerWrap: ClassValue
+    scrollerColumn: ClassValue
+    scrollerItem: ClassValue
+  }>
 }>(), {
   granularity: 'minute',
   hourCycle: 24,
@@ -146,20 +154,22 @@ function itemLabel(item: number | string): string {
   return String(item).padStart(2, '0')
 }
 
+const slotFns = dateTimePickerVariants()
+
 // expose for testing
 defineExpose({ columnRefs, columns })
 </script>
 
 <template>
   <div
-    :class="['date-time-picker__scroller-wrap', props.class]"
+    :class="composeClassName(slotFns.scrollerWrap(), props.class, props.classNames?.scrollerWrap)"
     data-slot="time-scroller"
   >
     <div
       v-for="(col, i) in columns"
       :key="col.key"
       :ref="(el) => { if (el) columnRefs[i] = el as HTMLElement }"
-      class="date-time-picker__scroller-column"
+      :class="composeClassName(slotFns.scrollerColumn(), props.classNames?.scrollerColumn)"
       :aria-label="columnLabel(col.key)"
       data-slot="scroller-column"
       role="listbox"
@@ -169,7 +179,7 @@ defineExpose({ columnRefs, columns })
       <div
         v-for="(item, idx) in renderItems(col)"
         :key="idx"
-        class="date-time-picker__scroller-item"
+        :class="composeClassName(slotFns.scrollerItem(), props.classNames?.scrollerItem)"
         :data-selected="isSelected(col.key, item) ? 'true' : undefined"
         :aria-selected="isSelected(col.key, item)"
         role="option"

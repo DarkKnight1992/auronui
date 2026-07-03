@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, useSlots, type Slots, type VNode } from 'vue'
 import { ComboboxItem, ComboboxItemIndicator } from 'reka-ui'
+import { listboxItemVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useComboBoxInject } from './ComboBox.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -20,6 +22,11 @@ const props = withDefaults(defineProps<{
   indicatorAs?: string
   /** Merge indicator props onto child element. */
   indicatorAsChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    item: ClassValue
+    indicator: ClassValue
+  }>
 }>(), {
   isDisabled: undefined,
   class: undefined,
@@ -41,6 +48,7 @@ const isDisabled = useDeprecatedBooleanProp(
 
 const slots: Slots = useSlots()
 const ctx = useComboBoxInject()
+const itemSlots = listboxItemVariants()
 
 // Extract plain text from default slot VNodes at render time.
 function extractText(nodes: VNode[]): string {
@@ -78,7 +86,7 @@ onUnmounted(() => {
     :as="props.as"
     :as-child="props.asChild"
     :data-item-value="props.value"
-    class="list-box-item list-box-item--default"
+    :class="composeClassName(itemSlots.item(), props.classNames?.item)"
     data-slot="list-box-item"
     @select="emit('select', $event)"
   >
@@ -87,7 +95,7 @@ onUnmounted(() => {
     <ComboboxItemIndicator
       :as="props.indicatorAs"
       :as-child="props.indicatorAsChild"
-      class="list-box-item__indicator"
+      :class="composeClassName(itemSlots.indicator(), props.classNames?.indicator)"
       data-slot="list-box-item-indicator"
     >
       <slot name="selectedIcon">

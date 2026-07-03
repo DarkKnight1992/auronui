@@ -48,6 +48,13 @@ const props = withDefaults(
     classNames?: Partial<{
       base: ClassValue
       scrollContainer: ClassValue
+      content: ClassValue
+      header: ClassValue
+      row: ClassValue
+      column: ClassValue
+      body: ClassValue
+      cell: ClassValue
+      footer: ClassValue
     }>
   }>(),
   {
@@ -241,7 +248,7 @@ defineExpose({ table, keyboardNav, handleRowClick })
       :style="useVirtual ? { height: '400px', overflow: 'auto' } : undefined"
     >
       <table
-        class="table"
+        :class="composeClassName(slotFns.content(), props.classNames?.content)"
         ref="rootRef"
         role="grid"
         :aria-label="ariaLabel"
@@ -249,8 +256,13 @@ defineExpose({ table, keyboardNav, handleRowClick })
         :aria-colcount="columnCount"
         @keydown="keyboardNav.onKeydown"
       >
-        <TableHeader />
-        <TableBody v-if="!useVirtual">
+        <TableHeader
+          :class-names="{ header: props.classNames?.header, row: props.classNames?.row, column: props.classNames?.column }"
+        />
+        <TableBody
+          v-if="!useVirtual"
+          :class-names="{ body: props.classNames?.body, row: props.classNames?.row, cell: props.classNames?.cell }"
+        >
           <template #cell="slotProps">
             <slot
               name="cell"
@@ -264,8 +276,12 @@ defineExpose({ table, keyboardNav, handleRowClick })
           :scroll-element="scrollContainerRef"
           :estimated-row-height="estimatedRowHeight"
           :overscan="virtualizerOverscan"
+          :class-names="{ body: props.classNames?.body, row: props.classNames?.row, cell: props.classNames?.cell }"
         />
-        <TableFooter v-if="$slots.footer">
+        <TableFooter
+          v-if="$slots.footer"
+          :class-names="{ footer: props.classNames?.footer }"
+        >
           <slot name="footer" />
         </TableFooter>
       </table>

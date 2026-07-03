@@ -8,6 +8,7 @@ import Spinner from '../spinner/Spinner.vue'
 import AutocompleteOverflowChips from './AutocompleteOverflowChips.vue'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import FieldLabel from '../_shared/FieldLabel.vue'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -40,6 +41,23 @@ const props = withDefaults(defineProps<{
   anchorAs?: string
   /** Merge anchor props onto child element. */
   anchorAsChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    trigger: ClassValue
+    label: ClassValue
+    startContent: ClassValue
+    input: ClassValue
+    clearButton: ClassValue
+    indicator: ClassValue
+    chip: Partial<{
+      base: ClassValue
+      dot: ClassValue
+      startContent: ClassValue
+      label: ClassValue
+      endContent: ClassValue
+      closeButton: ClassValue
+    }>
+  }>
 }>(), {
   placeholder: undefined,
   class: undefined,
@@ -99,7 +117,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
     :reference="(props.anchorReference as any)"
     :as="props.anchorAs"
     :as-child="props.anchorAsChild"
-    :class="ctx.slots.value.trigger()"
+    :class="composeClassName(ctx.slots.value.trigger(), props.classNames?.trigger)"
     :data-filled="ctx.hasLabel.value ? (ctx.isFilled.value || undefined) : undefined"
     :data-focused="isFocused || undefined"
     :data-invalid="ctx.isInvalid.value || undefined"
@@ -113,11 +131,11 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
       :for="ctx.inputId.value"
       :label="ctx.label.value"
       :is-required="ctx.isRequired.value"
-      :class="ctx.slots.value.label()"
+      :class="composeClassName(ctx.slots.value.label(), props.classNames?.label)"
     />
     <span
       v-if="$slots.startContent"
-      :class="ctx.slots.value.startContent()"
+      :class="composeClassName(ctx.slots.value.startContent(), props.classNames?.startContent)"
       data-slot="start-content"
     >
       <slot name="startContent" />
@@ -128,6 +146,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
       :values="ctx.selectedValues.value"
       :get-label="getLabel"
       :remove-value="ctx.removeValue"
+      :class-names="{ chip: props.classNames?.chip }"
     />
     <!-- Multiple/wrap: chips that wrap onto new lines -->
     <template v-else-if="ctx.multiple.value && ctx.multipleOverflow.value === 'wrap'">
@@ -138,6 +157,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
         is-closable
         :close-aria-label="`Remove ${item.label}`"
         data-slot="selected-chip"
+        :class-names="props.classNames?.chip"
         @close.stop="ctx.removeValue(item.value)"
       >
         {{ item.label }}
@@ -155,7 +175,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
       :required="ctx.isRequired.value"
       :aria-invalid="ctx.isInvalid.value || undefined"
       :aria-describedby="ctx.ariaDescribedBy.value"
-      :class="ctx.slots.value.input()"
+      :class="composeClassName(ctx.slots.value.input(), props.classNames?.input)"
       :style="ctx.multiple.value && ctx.multipleOverflow.value === 'collapse' && ctx.selectedValues.value.length > 0
         ? { flex: '0 0 auto', minWidth: '80px', width: 'auto' }
         : undefined"
@@ -169,7 +189,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
     <AutocompleteCancel
       :as="props.cancelAs"
       :as-child="props.cancelAsChild"
-      :class="ctx.slots.value.clearButton()"
+      :class="composeClassName(ctx.slots.value.clearButton(), props.classNames?.clearButton)"
       :data-empty="(!ctx.isFilled.value || ctx.isReadonly.value || ctx.isDisabled.value) ? 'true' : undefined"
       data-slot="clear-button"
       aria-label="Clear"
@@ -207,7 +227,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
     <!-- Inline loading spinner: replaces the dropdown indicator while loadItems is pending -->
     <span
       v-if="ctx.isLoading.value"
-      :class="ctx.slots.value.indicator()"
+      :class="composeClassName(ctx.slots.value.indicator(), props.classNames?.indicator)"
       data-slot="autocomplete-loading-indicator"
       role="status"
       aria-live="polite"
@@ -221,7 +241,7 @@ const getLabel = (v: string) => ctx.selectedLabels.value.find(l => l.value === v
       :as="props.triggerAs"
       :as-child="props.triggerAsChild"
       :disabled="props.triggerDisabled"
-      :class="ctx.slots.value.indicator()"
+      :class="composeClassName(ctx.slots.value.indicator(), props.classNames?.indicator)"
       data-slot="autocomplete-default-indicator"
       aria-label="Toggle suggestions"
     >

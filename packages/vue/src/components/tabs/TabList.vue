@@ -215,8 +215,7 @@ function selectOverflowTab(value: string) {
   <!-- ── Arrows mode ────────────────────────────────────────────────────────── -->
   <div
     v-else-if="props.overflow === 'arrows'"
-    class="tabs__list-container tabs__list-container--arrows"
-    :class="{ 'has-left': canScrollLeft, 'has-right': canScrollRight }"
+    :class="[composeClassName(ctx.slotFns.value.tabListContainer(), 'tabs__list-container--arrows'), { 'has-left': canScrollLeft, 'has-right': canScrollRight }]"
   >
     <Button
       variant="secondary"
@@ -233,7 +232,7 @@ function selectOverflowTab(value: string) {
       </svg>
     </Button>
 
-    <div ref="scrollWrapperEl" class="tabs__scroll-wrapper">
+    <div ref="scrollWrapperEl" :class="ctx.slotFns.value.scrollWrapper()">
       <TabsList
         :loop="props.loop ?? true"
         :as="props.as"
@@ -264,7 +263,7 @@ function selectOverflowTab(value: string) {
   <div
     v-else-if="props.overflow === 'dropdown'"
     ref="containerEl"
-    class="tabs__list-container tabs__list-container--dropdown"
+    :class="composeClassName(ctx.slotFns.value.tabListContainer(), 'tabs__list-container--dropdown')"
   >
     <TabsList
       :loop="props.loop ?? true"
@@ -278,14 +277,13 @@ function selectOverflowTab(value: string) {
     <!-- Always rendered so offsetWidth is measurable; visibility toggled via CSS -->
     <div
       ref="dropdownEl"
-      class="tabs__more"
-      :class="{ 'tabs__more--visible': hasOverflow }"
+      :class="[ctx.slotFns.value.more(), { 'tabs__more--visible': hasOverflow }]"
     >
       <Button
         variant="secondary"
         size="sm"
         radius="full"
-        class="tabs__more-btn"
+        :class="ctx.slotFns.value.moreBtn()"
         :aria-expanded="dropdownOpen"
         aria-haspopup="menu"
         @click="dropdownOpen = !dropdownOpen"
@@ -296,13 +294,13 @@ function selectOverflowTab(value: string) {
         </svg>
       </Button>
 
-      <div v-if="dropdownOpen" class="tabs__overflow-menu" role="menu">
+      <div v-if="dropdownOpen" :class="ctx.slotFns.value.overflowMenu()" role="menu">
         <Button
           v-for="tab in hiddenTabs"
           :key="tab.value"
           variant="ghost"
           radius="lg"
-          class="tabs__overflow-item"
+          :class="ctx.slotFns.value.overflowItem()"
           role="menuitem"
           :is-disabled="tab.disabled"
           @click="selectOverflowTab(tab.value)"

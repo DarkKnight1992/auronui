@@ -1,15 +1,26 @@
 <!-- packages/vue/src/components/date-time-picker/DateTimePickerTimezone.vue -->
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, useTemplateRef } from 'vue'
+import { dateTimePickerVariants } from '@auronui/styles'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = defineProps<{
   currentZone: string
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    tzPanel: ClassValue
+    tzSearch: ClassValue
+    tzList: ClassValue
+    tzItem: ClassValue
+  }>
 }>()
 
 const emit = defineEmits<{
   select: [zone: string]
 }>()
+
+const slotFns = dateTimePickerVariants()
 
 // ─── Timezone list ───────────────────────────────────────────────────────
 
@@ -78,20 +89,20 @@ function onItemKeydown(e: KeyboardEvent) {
 
 <template>
   <div
-    :class="['date-time-picker__tz-panel', props.class]"
+    :class="composeClassName(slotFns.tzPanel(), props.class, props.classNames?.tzPanel)"
     data-slot="tz-panel"
   >
     <input
       ref="searchInput"
       v-model="query"
-      :class="['date-time-picker__tz-search']"
+      :class="composeClassName(slotFns.tzSearch(), props.classNames?.tzSearch)"
       type="search"
       placeholder="Search timezones…"
       aria-label="Search timezones"
       data-slot="tz-search"
     >
     <div
-      :class="['date-time-picker__tz-list']"
+      :class="composeClassName(slotFns.tzList(), props.classNames?.tzList)"
       role="listbox"
       aria-label="Timezones"
       data-slot="tz-list"
@@ -99,7 +110,7 @@ function onItemKeydown(e: KeyboardEvent) {
       <div
         v-for="zone in filtered"
         :key="zone"
-        :class="['date-time-picker__tz-item']"
+        :class="composeClassName(slotFns.tzItem(), props.classNames?.tzItem)"
         :data-selected="zone === currentZone ? 'true' : undefined"
         :aria-selected="zone === currentZone"
         role="option"

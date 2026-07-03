@@ -3,14 +3,22 @@ import type {VariantProps} from "../../utils";
 import {tv} from "tailwind-variants";
 
 export const colorFieldVariants = tv({
-  base: "color-field",
+  slots: {
+    base: "color-field",
+    label: "color-field__label",
+    input: "color-field__input",
+    description: "color-field__description",
+    errorMessage: "color-field__error-message",
+  },
   defaultVariants: {
     fullWidth: false,
   },
   variants: {
     fullWidth: {
-      false: "",
-      true: "color-field--full-width",
+      false: {},
+      true: {
+        base: "color-field--full-width",
+      },
     },
   },
 });

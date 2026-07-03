@@ -33,6 +33,8 @@ const props = withDefaults(defineProps<{
     base: ClassValue
     image: ClassValue
     fallback: ClassValue
+    icon: ClassValue
+    name: ClassValue
   }>
 }>(), {
   isBordered: false,
@@ -122,11 +124,11 @@ const inGroupClass = computed(() =>
       <slot name="fallback">
         <span
           v-if="initials"
-          :class="'avatar__name text-xs font-medium leading-none'"
+          :class="composeClassName(slotFns.name(), 'text-xs font-medium leading-none', props.classNames?.name)"
         >{{ initials }}</span>
         <svg
           v-else
-          class="avatar__icon size-4/5"
+          :class="composeClassName(slotFns.icon(), 'size-4/5', props.classNames?.icon)"
           aria-hidden="true"
           viewBox="0 0 24 24"
           fill="currentColor"

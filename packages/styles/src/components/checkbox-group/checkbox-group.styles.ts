@@ -3,14 +3,24 @@ import type {VariantProps} from "../../utils";
 import {tv} from "tailwind-variants";
 
 export const checkboxGroupVariants = tv({
-  base: "checkbox-group",
+  slots: {
+    base: "checkbox-group",
+    label: "checkbox-group__label",
+    wrapper: "checkbox-group__wrapper",
+    description: "checkbox-group__description",
+    errorMessage: "checkbox-group__error-message",
+  },
   defaultVariants: {
     variant: "primary",
   },
   variants: {
     variant: {
-      primary: "checkbox-group--primary",
-      secondary: "checkbox-group--secondary",
+      primary: {
+        base: "checkbox-group--primary",
+      },
+      secondary: {
+        base: "checkbox-group--secondary",
+      },
     },
   },
 });

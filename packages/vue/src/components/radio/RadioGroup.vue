@@ -2,12 +2,23 @@
 import { computed, toRef } from 'vue'
 import { RadioGroupRoot } from 'reka-ui'
 import { radioGroupVariants, type RadioGroupVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useRadioGroupProvide } from './radio-group.context'
 import Radio from './Radio.vue'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
-type RadioShorthandItem = { value: string; label?: string; disabled?: boolean }
+type RadioShorthandItem = {
+  value: string
+  label?: string
+  disabled?: boolean
+  class?: ClassValue
+  classNames?: Partial<{
+    base: ClassValue
+    control: ClassValue
+    indicator: ClassValue
+    content: ClassValue
+  }>
+}
 
 const props = withDefaults(defineProps<{
   variant?: RadioGroupVariants['variant']
@@ -39,6 +50,20 @@ const props = withDefaults(defineProps<{
   class?: string
   /** Shorthand API: render radio options from an array instead of the compound slot API */
   items?: RadioShorthandItem[]
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    label: ClassValue
+    wrapper: ClassValue
+    description: ClassValue
+    errorMessage: ClassValue
+    /** Applied to every shorthand-rendered Radio, before any per-item override */
+    radio: Partial<{
+      base: ClassValue
+      control: ClassValue
+      indicator: ClassValue
+      content: ClassValue
+    }>
+  }>
 }>(), {
   variant: 'primary',
   isDisabled: undefined,
@@ -80,9 +105,19 @@ useRadioGroupProvide({
 
 const labelId = `radio-group-label-${Math.random().toString(36).slice(2, 8)}`
 
-const groupClasses = computed(() =>
+const slotFns = computed(() =>
   radioGroupVariants({ variant: props.variant })
 )
+
+// Group-wide radio classNames apply first; per-item classNames win on conflict.
+function itemClassNames(item: RadioShorthandItem) {
+  return {
+    base: composeClassName(props.classNames?.radio?.base, item.classNames?.base),
+    control: composeClassName(props.classNames?.radio?.control, item.classNames?.control),
+    indicator: composeClassName(props.classNames?.radio?.indicator, item.classNames?.indicator),
+    content: composeClassName(props.classNames?.radio?.content, item.classNames?.content),
+  }
+}
 </script>
 
 <template>
@@ -99,32 +134,34 @@ const groupClasses = computed(() =>
     :as="props.as"
     :required="isRequired"
     :aria-labelledby="props.label ? labelId : undefined"
-    :class="composeClassName(groupClasses, props.class)"
+    :class="composeClassName(slotFns.base(), props.class)"
     @update:model-value="$event != null && emit('update:modelValue', String($event))"
   >
     <span
       v-if="props.label"
       :id="labelId"
-      class="radio-group__label"
+      :class="composeClassName(slotFns.label(), props.classNames?.label)"
     >{{ props.label }}</span>
-    <div class="radio-group__wrapper">
+    <div :class="composeClassName(slotFns.wrapper(), props.classNames?.wrapper)">
       <template v-if="props.items">
         <Radio
           v-for="item in props.items"
           :key="item.value"
           :value="item.value"
           :is-disabled="item.disabled"
+          :class="item.class"
+          :class-names="itemClassNames(item)"
         >{{ item.label ?? item.value }}</Radio>
       </template>
       <slot v-else />
     </div>
     <span
       v-if="props.isInvalid && props.errorMessage"
-      class="radio-group__error-message"
+      :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
     >{{ props.errorMessage }}</span>
     <span
       v-else-if="props.description"
-      class="radio-group__description"
+      :class="composeClassName(slotFns.description(), props.classNames?.description)"
     >{{ props.description }}</span>
   </RadioGroupRoot>
 </template>

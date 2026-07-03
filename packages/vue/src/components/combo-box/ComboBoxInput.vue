@@ -84,7 +84,7 @@ const isDisabled = useDeprecatedBooleanProp(
       :display-value="props.displayValue ?? ctx.displayValue.value"
       :as="props.as"
       :as-child="props.asChild"
-      class="combo-box__input"
+      :class="ctx.slots.value.input()"
       data-slot="input"
       autocomplete="off"
       @update:model-value="emit('update:modelValue', $event)"
@@ -93,7 +93,7 @@ const isDisabled = useDeprecatedBooleanProp(
     <ComboboxCancel
       :as="props.cancelAs"
       :as-child="props.cancelAsChild"
-      class="combo-box__clear-button"
+      :class="ctx.slots.value.clearButton()"
       data-slot="clear-button"
       aria-label="Clear"
     >

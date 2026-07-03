@@ -7,7 +7,7 @@ import {
   type Color,
 } from 'reka-ui'
 import { colorInputGroupVariants, type ColorInputGroupVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import ColorSwatch from '../color-swatch/ColorSwatch.vue'
 import { useColorState } from '../../composables/useColorState'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
@@ -41,6 +41,13 @@ const props = withDefaults(defineProps<{
   disableWheelChange?: boolean
   locale?: string
   step?: number
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    wrapper: ClassValue
+    label: ClassValue
+    description: ClassValue
+    errorMessage: ClassValue
+  }>
 }>(), {
   suffixLabel: 'HEX',
   fullWidth: false,
@@ -106,11 +113,11 @@ function onColorUpdate(next: Color) {
 </script>
 
 <template>
-  <div class="color-input-group__wrapper">
+  <div :class="composeClassName(styles.wrapper(), props.classNames?.wrapper)">
     <label
       v-if="label"
       :for="id"
-      class="color-input-group__label"
+      :class="composeClassName(styles.label(), props.classNames?.label)"
     >{{ label }}</label>
     <ColorFieldRoot
       :model-value="color"
@@ -154,11 +161,11 @@ function onColorUpdate(next: Color) {
     </ColorFieldRoot>
     <span
       v-if="description && !errorMessage"
-      class="color-input-group__description"
+      :class="composeClassName(styles.description(), props.classNames?.description)"
     >{{ description }}</span>
     <span
       v-if="errorMessage"
-      class="color-input-group__error-message"
+      :class="composeClassName(styles.errorMessage(), props.classNames?.errorMessage)"
       role="alert"
     >{{ errorMessage }}</span>
   </div>

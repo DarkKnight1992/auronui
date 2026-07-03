@@ -14,6 +14,8 @@ const props = withDefaults(defineProps<{
   classNames?: Partial<{
     base: ClassValue
     item: ClassValue
+    link: ClassValue
+    separator: ClassValue
   }>
   /** Shorthand API: render breadcrumb items from an array instead of the compound slot API */
   items?: BreadcrumbShorthandItem[]
@@ -96,6 +98,7 @@ useBreadcrumbsProvide({
           :key="idx"
           :href="item.href"
           :is-last="idx === renderedItems.length - 1"
+          :class-names="{ item: props.classNames?.item, link: props.classNames?.link, separator: props.classNames?.separator }"
         >{{ item.label }}</BreadcrumbItem>
       </template>
       <template v-else>

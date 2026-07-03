@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, toRef, ref, h, Fragment, type VNode } from 'vue'
-import { type AvatarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { avatarVariants, type AvatarVariants } from '@auronui/styles'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useAvatarGroupProvide } from './avatar-group.context'
 import Avatar from './Avatar.vue'
 
@@ -27,6 +27,14 @@ const props = withDefaults(defineProps<{
   class?: string
   /** Shorthand API: render avatars from an array instead of the compound slot API */
   avatars?: AvatarShorthandItem[]
+  /** Class overrides forwarded to each shorthand-rendered Avatar's own classNames slots */
+  classNames?: Partial<{
+    base: ClassValue
+    image: ClassValue
+    fallback: ClassValue
+    icon: ClassValue
+    name: ClassValue
+  }>
 }>(), {
   size: 'md',
 
@@ -50,6 +58,10 @@ useAvatarGroupProvide({
 
 const containerClass = computed(() =>
   composeClassName('flex items-center flex-row', props.class)
+)
+
+const nameSlotClass = computed(() =>
+  composeClassName(avatarVariants({ size: props.size }).name(), 'text-xs font-medium leading-none')
 )
 
 const visibleAvatars = computed(() => {
@@ -103,8 +115,8 @@ function getSlicedNodes(): VNode[] {
     : `+${overflowCount}`
 
   // Render counter avatar with a fallback slot so the full label string is shown
-  const counterNode = h(Avatar, {}, {
-    fallback: () => h('span', { class: 'avatar__name text-xs font-medium leading-none' }, counterLabel),
+  const counterNode = h(Avatar, { classNames: props.classNames }, {
+    fallback: () => h('span', { class: nameSlotClass.value }, counterLabel),
   })
 
   return [...visibleNodes, counterNode]
@@ -121,10 +133,14 @@ function getSlicedNodes(): VNode[] {
         v-for="(avatar, idx) in visibleAvatars"
         :key="idx"
         v-bind="avatar"
+        :class-names="props.classNames"
       />
-      <Avatar v-if="avatarOverflowCount > 0">
+      <Avatar
+        v-if="avatarOverflowCount > 0"
+        :class-names="props.classNames"
+      >
         <template #fallback>
-          <span class="avatar__name text-xs font-medium leading-none">{{ avatarOverflowLabel }}</span>
+          <span :class="nameSlotClass">{{ avatarOverflowLabel }}</span>
         </template>
       </Avatar>
     </template>

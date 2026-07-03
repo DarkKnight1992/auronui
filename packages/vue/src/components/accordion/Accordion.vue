@@ -33,6 +33,11 @@ const props = withDefaults(defineProps<{
   /** Override classes for any slot */
   classNames?: Partial<{
     base: ClassValue
+    item: ClassValue
+    trigger: ClassValue
+    indicator: ClassValue
+    body: ClassValue
+    bodyInner: ClassValue
   }>
   /** Shorthand API: render items from an array instead of the compound slot API */
   items?: AccordionShorthandItem[]
@@ -79,11 +84,12 @@ useAccordionProvide({ slotFns })
         :key="item.value"
         :value="item.value"
         :is-disabled="item.disabled"
+        :class-names="{ item: props.classNames?.item }"
       >
         <AccordionHeader>
-          <AccordionTrigger>{{ item.title }}</AccordionTrigger>
+          <AccordionTrigger :class-names="{ trigger: props.classNames?.trigger, indicator: props.classNames?.indicator }">{{ item.title }}</AccordionTrigger>
         </AccordionHeader>
-        <AccordionContent>{{ item.content }}</AccordionContent>
+        <AccordionContent :class-names="{ body: props.classNames?.body, bodyInner: props.classNames?.bodyInner }">{{ item.content }}</AccordionContent>
       </AccordionItem>
     </template>
     <slot v-else />

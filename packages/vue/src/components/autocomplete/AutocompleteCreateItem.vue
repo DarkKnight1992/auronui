@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { AutocompleteItem as RekaAutocompleteItem, injectComboboxRootContext } from 'reka-ui'
+import { listboxItemVariants, autocompleteVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useAutocompleteInject } from './Autocomplete.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -22,6 +24,11 @@ const props = withDefaults(defineProps<{
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    item: ClassValue
+    text: ClassValue
+  }>
 }>(), {
   label: undefined,
   class: undefined,
@@ -46,6 +53,9 @@ const ctx = useAutocompleteInject()
 // open state and input focus directly, since this item's value equals the
 // current search term and Reka's native select path is unreliable for it.
 const comboboxCtx = injectComboboxRootContext()
+
+const itemSlots = listboxItemVariants()
+const itemTextClass = computed(() => autocompleteVariants().itemText())
 
 const term = computed(() => ctx.searchTerm.value.trim())
 
@@ -81,14 +91,14 @@ function handleSelect(event: Event) {
     :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
-    :class="['list-box-item list-box-item--default', props.class]"
+    :class="composeClassName(itemSlots.item(), props.classNames?.item, props.class)"
     data-slot="list-box-item"
     data-create-item
     @select="handleSelect"
   >
     <slot :term="term">
       <span
-        class="autocomplete-item__text"
+        :class="composeClassName(itemTextClass, props.classNames?.text)"
         data-slot="item-text"
       >
         {{ displayLabel }}

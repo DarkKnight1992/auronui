@@ -1,12 +1,17 @@
 <script setup lang="ts">
 import { computed, useSlots } from 'vue'
 import { separatorVariants, type SeparatorVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   orientation?: SeparatorVariants['orientation']
   variant?: SeparatorVariants['variant']
   class?: string
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    line: ClassValue
+    content: ClassValue
+  }>
 }>(), {
   orientation: 'horizontal',
   variant: 'default',
@@ -14,8 +19,9 @@ const props = withDefaults(defineProps<{
 
 const slots = useSlots()
 const hasLabel = computed(() => !!slots.default)
+const slotFns = computed(() => separatorVariants({ orientation: props.orientation, variant: props.variant }))
 const classes = computed(() =>
-  composeClassName(separatorVariants({ orientation: props.orientation, variant: props.variant }), props.class)
+  composeClassName(slotFns.value.base(), props.class)
 )
 </script>
 
@@ -36,10 +42,10 @@ const classes = computed(() =>
     role="separator"
     aria-orientation="horizontal"
   >
-    <div class="separator__line" />
-    <div class="separator__content">
+    <div :class="composeClassName(slotFns.line(), props.classNames?.line)" />
+    <div :class="composeClassName(slotFns.content(), props.classNames?.content)">
       <slot />
     </div>
-    <div class="separator__line" />
+    <div :class="composeClassName(slotFns.line(), props.classNames?.line)" />
   </div>
 </template>

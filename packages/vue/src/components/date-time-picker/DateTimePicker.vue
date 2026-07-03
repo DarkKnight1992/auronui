@@ -45,6 +45,52 @@ const props = withDefaults(defineProps<{
     popover: ClassValue
     panel: ClassValue
     divider: ClassValue
+    calendar: Partial<{
+      base: ClassValue
+      header: ClassValue
+      navButton: ClassValue
+      navButtonIcon: ClassValue
+      heading: ClassValue
+      headingButton: ClassValue
+      grid: ClassValue
+      gridHeader: ClassValue
+      gridRow: ClassValue
+      headerCell: ClassValue
+      gridBody: ClassValue
+      cell: ClassValue
+      cellButton: ClassValue
+      monthGrid: ClassValue
+      monthGridBody: ClassValue
+      monthGridRow: ClassValue
+      monthCell: ClassValue
+      yearView: Partial<{
+        header: ClassValue
+        navButton: ClassValue
+        navButtonIcon: ClassValue
+        heading: ClassValue
+        yearGrid: ClassValue
+        yearGridBody: ClassValue
+        yearGridRow: ClassValue
+        yearCell: ClassValue
+      }>
+    }>
+    dateInput: Partial<{
+      label: ClassValue
+      mainWrapper: ClassValue
+      inputWrapper: ClassValue
+      startContent: ClassValue
+      segmentList: ClassValue
+      segment: ClassValue
+      endContent: ClassValue
+      helperWrapper: ClassValue
+      errorMessage: ClassValue
+      description: ClassValue
+    }>
+    timeScroller: Partial<{
+      scrollerWrap: ClassValue
+      scrollerColumn: ClassValue
+      scrollerItem: ClassValue
+    }>
   }>
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24
@@ -287,6 +333,7 @@ const slotFns = computed(() =>
       :is-required="isRequired"
       :name="name"
       :hide-time-zone="hideTimeZone"
+      :class-names="props.classNames?.dateInput"
       @update:model-value="onInputChange"
     >
       <template #endContent>
@@ -399,6 +446,7 @@ const slotFns = computed(() =>
             :locale="locale"
             :readonly="isReadOnly"
             :disabled="isDisabled"
+            :class-names="props.classNames?.calendar"
           />
         </div>
 
@@ -419,6 +467,7 @@ const slotFns = computed(() =>
             :model-value="internalValue"
             :granularity="granularity"
             :hour-cycle="hourCycle"
+            :class-names="props.classNames?.timeScroller"
             @update:model-value="(val) => onTimeUpdate(val as CalendarDateTime)"
           />
 

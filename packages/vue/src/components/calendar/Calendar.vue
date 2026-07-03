@@ -91,6 +91,16 @@ const props = withDefaults(defineProps<{
     monthGridBody: ClassValue
     monthGridRow: ClassValue
     monthCell: ClassValue
+    yearView: Partial<{
+      header: ClassValue
+      navButton: ClassValue
+      navButtonIcon: ClassValue
+      heading: ClassValue
+      yearGrid: ClassValue
+      yearGridBody: ClassValue
+      yearGridRow: ClassValue
+      yearCell: ClassValue
+    }>
   }>
 }>(), {
   weekdayFormat: 'narrow',
@@ -396,6 +406,7 @@ const nextViewLabel = computed(() =>
     :is-read-only="isReadOnly"
     :is-disabled="isDisabled"
     :class="composeClassName(props.class, props.classNames?.base)"
+    :class-names="props.classNames?.yearView"
     @update:model-value="onYearSelect"
   >
     <template #heading="{ headingValue }">

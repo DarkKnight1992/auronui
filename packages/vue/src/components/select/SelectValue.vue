@@ -2,6 +2,7 @@
 import { SelectValue } from 'reka-ui'
 import { useSelectInject, type SelectItemValue } from './Select.context'
 import SelectOverflowChips from './SelectOverflowChips.vue'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
@@ -10,6 +11,18 @@ const props = withDefaults(defineProps<{
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    value: ClassValue
+    chip: Partial<{
+      base: ClassValue
+      dot: ClassValue
+      startContent: ClassValue
+      label: ClassValue
+      endContent: ClassValue
+      closeButton: ClassValue
+    }>
+  }>
 }>(), {
   placeholder: undefined,
   class: undefined,
@@ -22,7 +35,7 @@ const ctx = useSelectInject()
 
 <template>
   <SelectValue
-    :class="ctx.slots.value.value()"
+    :class="composeClassName(ctx.slots.value.value(), props.classNames?.value)"
     :placeholder="props.placeholder"
     :as="props.as"
     :as-child="props.asChild"
@@ -34,6 +47,7 @@ const ctx = useSelectInject()
         <SelectOverflowChips
           :values="(modelValue as SelectItemValue[])"
           :get-label="ctx.itemLabel"
+          :class-names="{ chip: props.classNames?.chip }"
         />
       </template>
       <!-- Multiple mode: nothing selected yet -->

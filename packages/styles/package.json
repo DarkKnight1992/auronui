@@ -306,6 +306,10 @@
       "style": "./components/range-calendar.css",
       "default": "./components/range-calendar.css"
     },
+    "./scroll-area.css": {
+      "style": "./components/scroll-area.css",
+      "default": "./components/scroll-area.css"
+    },
     "./scroll-shadow.css": {
       "style": "./components/scroll-shadow.css",
       "default": "./components/scroll-shadow.css"

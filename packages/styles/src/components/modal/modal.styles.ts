@@ -19,6 +19,7 @@ export const modalVariants = tv({
     heading: "modal__heading",
     icon: "modal__icon",
     trigger: "modal__trigger",
+    portal: "modal__portal",
   },
   variants: {
     scroll: {

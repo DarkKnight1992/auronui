@@ -121,6 +121,47 @@ const props = withDefaults(defineProps<{
     trigger: ClassValue
     triggerIndicator: ClassValue
     popover: ClassValue
+    calendar: Partial<{
+      base: ClassValue
+      header: ClassValue
+      navButton: ClassValue
+      navButtonIcon: ClassValue
+      heading: ClassValue
+      headingButton: ClassValue
+      grid: ClassValue
+      gridHeader: ClassValue
+      gridRow: ClassValue
+      headerCell: ClassValue
+      gridBody: ClassValue
+      cell: ClassValue
+      cellButton: ClassValue
+      monthGrid: ClassValue
+      monthGridBody: ClassValue
+      monthGridRow: ClassValue
+      monthCell: ClassValue
+      yearView: Partial<{
+        header: ClassValue
+        navButton: ClassValue
+        navButtonIcon: ClassValue
+        heading: ClassValue
+        yearGrid: ClassValue
+        yearGridBody: ClassValue
+        yearGridRow: ClassValue
+        yearCell: ClassValue
+      }>
+    }>
+    dateInput: Partial<{
+      label: ClassValue
+      mainWrapper: ClassValue
+      inputWrapper: ClassValue
+      startContent: ClassValue
+      segmentList: ClassValue
+      segment: ClassValue
+      endContent: ClassValue
+      helperWrapper: ClassValue
+      errorMessage: ClassValue
+      description: ClassValue
+    }>
   }>
 }>(), {
   variant: 'flat',
@@ -239,6 +280,7 @@ const calendarValue = computed<DateValue | undefined>({
       :is-required="isRequired"
       :name="name"
       :hide-time-zone="hideTimeZone"
+      :class-names="props.classNames?.dateInput"
     >
       <template #endContent>
         <DatePickerTrigger
@@ -343,6 +385,7 @@ const calendarValue = computed<DateValue | undefined>({
         :number-of-months="visibleMonths"
         :readonly="isReadOnly"
         :disabled="isDisabled"
+        :class-names="props.classNames?.calendar"
       />
 
       <slot name="calendarBottomContent" />

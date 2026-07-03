@@ -6,7 +6,8 @@ import {
   ScrollAreaThumb,
   ScrollAreaCorner,
 } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { scrollAreaVariants } from '@auronui/styles'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   class?: string
@@ -40,11 +41,21 @@ const props = withDefaults(defineProps<{
   cornerAs?: string
   /** Merge corner props onto child element */
   cornerAsChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    root: ClassValue
+    viewport: ClassValue
+    scrollbar: ClassValue
+    thumb: ClassValue
+    corner: ClassValue
+  }>
 }>(), {
   type: 'hover',
   scrollHideDelay: 600,
   orientation: 'vertical',
 })
+
+const slotFns = scrollAreaVariants()
 </script>
 
 <template>
@@ -54,13 +65,13 @@ const props = withDefaults(defineProps<{
     :dir="props.dir"
     :as="props.as"
     :as-child="props.asChild"
-    :class="composeClassName('scroll-area__root', props.class)"
+    :class="composeClassName(slotFns.root(), props.class, props.classNames?.root)"
   >
     <ScrollAreaViewport
       :nonce="props.viewportNonce"
       :as="props.viewportAs"
       :as-child="props.viewportAsChild"
-      :class="composeClassName('scroll-area__viewport', props.viewportClass)"
+      :class="composeClassName(slotFns.viewport(), props.viewportClass, props.classNames?.viewport)"
     >
       <slot />
     </ScrollAreaViewport>
@@ -71,12 +82,12 @@ const props = withDefaults(defineProps<{
       :force-mount="props.scrollbarForceMount"
       :as="props.scrollbarAs"
       :as-child="props.scrollbarAsChild"
-      class="scroll-area__scrollbar scroll-area__scrollbar--vertical"
+      :class="composeClassName(slotFns.scrollbar(), 'scroll-area__scrollbar--vertical', props.classNames?.scrollbar)"
     >
       <ScrollAreaThumb
         :as="props.thumbAs"
         :as-child="props.thumbAsChild"
-        class="scroll-area__thumb"
+        :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)"
       />
     </ScrollAreaScrollbar>
 
@@ -86,12 +97,12 @@ const props = withDefaults(defineProps<{
       :force-mount="props.scrollbarForceMount"
       :as="props.scrollbarAs"
       :as-child="props.scrollbarAsChild"
-      class="scroll-area__scrollbar scroll-area__scrollbar--horizontal"
+      :class="composeClassName(slotFns.scrollbar(), 'scroll-area__scrollbar--horizontal', props.classNames?.scrollbar)"
     >
       <ScrollAreaThumb
         :as="props.thumbAs"
         :as-child="props.thumbAsChild"
-        class="scroll-area__thumb"
+        :class="composeClassName(slotFns.thumb(), props.classNames?.thumb)"
       />
     </ScrollAreaScrollbar>
 
@@ -99,7 +110,7 @@ const props = withDefaults(defineProps<{
       v-if="props.orientation === 'both'"
       :as="props.cornerAs"
       :as-child="props.cornerAsChild"
-      class="scroll-area__corner"
+      :class="composeClassName(slotFns.corner(), props.classNames?.corner)"
     />
   </ScrollAreaRoot>
 </template>

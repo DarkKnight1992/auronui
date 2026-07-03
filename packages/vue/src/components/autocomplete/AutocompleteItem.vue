@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, useSlots, type Slots, type VNode } from 'vue'
 import { AutocompleteItem, ComboboxItemIndicator } from 'reka-ui'
+import { listboxItemVariants, autocompleteVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useAutocompleteInject } from './Autocomplete.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -20,6 +22,12 @@ const props = withDefaults(defineProps<{
   indicatorAs?: string
   /** Merge indicator props onto child element. */
   indicatorAsChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    item: ClassValue
+    text: ClassValue
+    indicator: ClassValue
+  }>
 }>(), {
   isDisabled: undefined,
   class: undefined,
@@ -41,6 +49,8 @@ const isDisabled = useDeprecatedBooleanProp(
 
 const slots: Slots = useSlots()
 const ctx = useAutocompleteInject()
+const itemSlots = listboxItemVariants()
+const itemTextClass = computed(() => autocompleteVariants().itemText())
 
 function extractText(nodes: VNode[]): string {
   return nodes.map(n => {
@@ -87,13 +97,13 @@ function handleSelect(event: Event) {
     :as-child="props.asChild"
     :data-item-value="props.value"
     :data-selected="isChecked || undefined"
-    class="list-box-item list-box-item--default"
+    :class="composeClassName(itemSlots.item(), props.classNames?.item)"
     data-slot="list-box-item"
     @select="handleSelect"
   >
     <slot name="startContent" />
     <span
-      class="autocomplete-item__text"
+      :class="composeClassName(itemTextClass, props.classNames?.text)"
       data-slot="item-text"
     ><slot /></span>
     <!-- Single mode: Reka's ComboboxItemIndicator handles the checkmark natively -->
@@ -101,7 +111,7 @@ function handleSelect(event: Event) {
       v-if="!ctx.multiple.value"
       :as="props.indicatorAs"
       :as-child="props.indicatorAsChild"
-      class="list-box-item__indicator"
+      :class="composeClassName(itemSlots.indicator(), props.classNames?.indicator)"
       data-slot="list-box-item-indicator"
     >
       <slot name="selectedIcon">
@@ -125,7 +135,7 @@ function handleSelect(event: Event) {
     <!-- Multiple mode: check against our selectedValues array instead -->
     <span
       v-else-if="isChecked"
-      class="list-box-item__indicator"
+      :class="composeClassName(itemSlots.indicator(), props.classNames?.indicator)"
       data-slot="list-box-item-indicator"
     >
       <slot name="selectedIcon">

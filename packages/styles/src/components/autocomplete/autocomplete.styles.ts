@@ -15,6 +15,7 @@ export const autocompleteVariants = tv({
     helperWrapper: "autocomplete__helper-wrapper",
     description: "autocomplete__description",
     errorMessage: "autocomplete__error-message",
+    itemText: "autocomplete-item__text",
   },
   defaultVariants: {
     variant: "flat",

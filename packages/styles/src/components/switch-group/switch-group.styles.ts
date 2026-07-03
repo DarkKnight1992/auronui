@@ -9,6 +9,9 @@ export const switchGroupVariants = tv({
   slots: {
     base: "switch-group",
     items: "switch-group__items",
+    label: "switch-group__label",
+    description: "switch-group__description",
+    errorMessage: "switch-group__error-message",
   },
   variants: {
     orientation: {

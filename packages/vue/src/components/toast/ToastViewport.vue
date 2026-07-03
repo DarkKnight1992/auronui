@@ -18,7 +18,7 @@ import { computed } from 'vue'
 import { ToastProvider as RekaToastProvider, ToastViewport as RekaToastViewport } from 'reka-ui'
 import { toastVariants } from '@auronui/styles'
 import type { ToastVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useToast } from '../../composables/useToast'
 import Toast from './Toast.vue'
 import ToastTitle from './ToastTitle.vue'
@@ -44,6 +44,16 @@ const props = withDefaults(defineProps<{
   as?: string
   /** Merge viewport props onto child element */
   asChild?: boolean
+  /** Per-slot class name overrides */
+  classNames?: Partial<{
+    toast: ClassValue
+    content: ClassValue
+    title: ClassValue
+    description: ClassValue
+    actions: ClassValue
+    action: ClassValue
+    close: ClassValue
+  }>
 }>(), {
   position: 'bottom-right',
   hotkey: () => ['F8'],
@@ -101,23 +111,25 @@ const viewportToasts = computed(() =>
         :duration="toast.duration"
         :position="toast.position"
         :variant="toast.variant"
+        :class="composeClassName(props.classNames?.toast)"
         @update:open="(open) => handleOpenChange(toast.id, open)"
       >
-        <div :class="styles.content()">
-          <ToastTitle>{{ toast.title }}</ToastTitle>
-          <ToastDescription v-if="toast.description">
+        <div :class="composeClassName(styles.content(), props.classNames?.content)">
+          <ToastTitle :class="composeClassName(props.classNames?.title)">{{ toast.title }}</ToastTitle>
+          <ToastDescription v-if="toast.description" :class="composeClassName(props.classNames?.description)">
             {{ toast.description }}
           </ToastDescription>
         </div>
-        <div class="flex shrink-0 items-center gap-1 ml-auto">
+        <div :class="composeClassName('flex shrink-0 items-center gap-1 ml-auto', props.classNames?.actions)">
           <ToastAction
             v-if="toast.action"
             :alt-text="toast.action.label"
+            :class="composeClassName(props.classNames?.action)"
             @click="toast.action!.onClick"
           >
             {{ toast.action.label }}
           </ToastAction>
-          <ToastClose @click="dismiss(toast.id)" />
+          <ToastClose :class="composeClassName(props.classNames?.close)" @click="dismiss(toast.id)" />
         </div>
       </Toast>
       <slot />

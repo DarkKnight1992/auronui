@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { SelectTrigger, SelectIcon, injectSelectRootContext } from 'reka-ui'
 import { useSelectInject } from './Select.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import FieldLabel from '../_shared/FieldLabel.vue'
 
 const props = withDefaults(defineProps<{
@@ -17,6 +18,13 @@ const props = withDefaults(defineProps<{
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    trigger: ClassValue
+    label: ClassValue
+    startContent: ClassValue
+    indicator: ClassValue
+  }>
 }>(), {
   class: undefined,
   isDisabled: undefined,
@@ -69,7 +77,7 @@ function handleFocus() {
 <template>
   <SelectTrigger
     :id="ctx.triggerId.value"
-    :class="ctx.slots.value.trigger()"
+    :class="composeClassName(ctx.slots.value.trigger(), props.classNames?.trigger)"
     :data-filled="isFilled || undefined"
     :data-invalid="ctx.isInvalid.value || undefined"
     :data-readonly="ctx.isReadonly.value || undefined"
@@ -87,18 +95,18 @@ function handleFocus() {
       :for="ctx.triggerId.value"
       :label="ctx.label.value"
       :is-required="ctx.isRequired.value"
-      :class="ctx.slots.value.label()"
+      :class="composeClassName(ctx.slots.value.label(), props.classNames?.label)"
     />
     <span
       v-if="$slots.startContent"
-      :class="ctx.slots.value.startContent()"
+      :class="composeClassName(ctx.slots.value.startContent(), props.classNames?.startContent)"
       data-slot="start-content"
     >
       <slot name="startContent" />
     </span>
     <slot />
     <SelectIcon
-      :class="ctx.slots.value.indicator()"
+      :class="composeClassName(ctx.slots.value.indicator(), props.classNames?.indicator)"
       data-slot="select-default-indicator"
     >
       <slot name="selectorIcon">

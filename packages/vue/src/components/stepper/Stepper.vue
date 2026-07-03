@@ -23,6 +23,12 @@ const props = withDefaults(defineProps<{
   /** Per-slot class name overrides. */
   classNames?: Partial<{
     base: ClassValue
+    item: ClassValue
+    indicator: ClassValue
+    separator: ClassValue
+    content: ClassValue
+    title: ClassValue
+    description: ClassValue
   }>
   /** Shorthand API: render steps from an array instead of the compound slot API */
   items?: StepperShorthandItem[]
@@ -87,12 +93,19 @@ provide(stepperContextKey, {
         v-for="(item, idx) in props.items"
         :key="idx + 1"
         :step="idx + 1"
+        :class-names="{ item: props.classNames?.item }"
       >
-        <StepperIndicator>{{ idx + 1 }}</StepperIndicator>
-        <StepperSeparator v-if="idx < props.items.length - 1" />
-        <StepperContent>
-          <StepperTitle v-if="item.title">{{ item.title }}</StepperTitle>
-          <StepperDescription v-if="item.description">{{ item.description }}</StepperDescription>
+        <StepperIndicator :class-names="{ indicator: props.classNames?.indicator }">{{ idx + 1 }}</StepperIndicator>
+        <StepperSeparator
+          v-if="idx < props.items.length - 1"
+          :class-names="{ separator: props.classNames?.separator }"
+        />
+        <StepperContent :class-names="{ content: props.classNames?.content }">
+          <StepperTitle v-if="item.title" :class-names="{ title: props.classNames?.title }">{{ item.title }}</StepperTitle>
+          <StepperDescription
+            v-if="item.description"
+            :class-names="{ description: props.classNames?.description }"
+          >{{ item.description }}</StepperDescription>
         </StepperContent>
       </StepperItem>
     </template>

@@ -14,6 +14,11 @@ export const tabsVariants = tv({
     tabList: "tabs__list",
     tabListContainer: "tabs__list-container",
     tabPanel: "tabs__panel",
+    scrollWrapper: "tabs__scroll-wrapper",
+    more: "tabs__more",
+    moreBtn: "tabs__more-btn",
+    overflowMenu: "tabs__overflow-menu",
+    overflowItem: "tabs__overflow-item",
   },
   variants: {
     variant: {

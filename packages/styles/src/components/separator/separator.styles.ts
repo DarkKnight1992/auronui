@@ -3,20 +3,34 @@ import type {VariantProps} from "../../utils";
 import {tv} from "tailwind-variants";
 
 const separatorVariants = tv({
-  base: "separator",
+  slots: {
+    base: "separator",
+    line: "separator__line",
+    content: "separator__content",
+  },
   defaultVariants: {
     orientation: "horizontal",
     variant: "default",
   },
   variants: {
     orientation: {
-      horizontal: "separator--horizontal",
-      vertical: "separator--vertical",
+      horizontal: {
+        base: "separator--horizontal",
+      },
+      vertical: {
+        base: "separator--vertical",
+      },
     },
     variant: {
-      default: "separator--default",
-      secondary: "separator--secondary",
-      tertiary: "separator--tertiary",
+      default: {
+        base: "separator--default",
+      },
+      secondary: {
+        base: "separator--secondary",
+      },
+      tertiary: {
+        base: "separator--tertiary",
+      },
     },
   },
 });

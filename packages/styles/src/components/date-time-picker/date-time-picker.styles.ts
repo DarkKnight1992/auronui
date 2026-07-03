@@ -16,6 +16,7 @@ export const dateTimePickerVariants = tv({
     scrollerWrap: "date-time-picker__scroller-wrap",
     scrollerColumn: "date-time-picker__scroller-column",
     scrollerItem: "date-time-picker__scroller-item",
+    tzPanel: "date-time-picker__tz-panel",
     tzSearch: "date-time-picker__tz-search",
     tzList: "date-time-picker__tz-list",
     tzItem: "date-time-picker__tz-item",

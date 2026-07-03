@@ -94,6 +94,21 @@ type Props = {
     helperWrapper: ClassValue
     errorMessage: ClassValue
     description: ClassValue
+    item: ClassValue
+    indicator: ClassValue
+    trigger: ClassValue
+    startContent: ClassValue
+    /** The chevron/indicator icon inside the trigger (distinct from `indicator`, which styles each item's checkmark). */
+    triggerIndicator: ClassValue
+    value: ClassValue
+    chip: Partial<{
+      base: ClassValue
+      dot: ClassValue
+      startContent: ClassValue
+      label: ClassValue
+      endContent: ClassValue
+      closeButton: ClassValue
+    }>
   }>
 
   /* ─── Select-specific ─────────────────────────────────────── */
@@ -246,8 +261,13 @@ useSelectProvide({
         <slot v-if="usesCustomChrome" />
         <!-- Tier 1/2: internally rendered chrome -->
         <template v-else>
-          <SelectTrigger>
-            <SelectValue :placeholder="props.placeholder" />
+          <SelectTrigger
+            :class-names="{ trigger: props.classNames?.trigger, label: props.classNames?.label, startContent: props.classNames?.startContent, indicator: props.classNames?.triggerIndicator }"
+          >
+            <SelectValue
+              :placeholder="props.placeholder"
+              :class-names="{ value: props.classNames?.value, chip: props.classNames?.chip }"
+            />
           </SelectTrigger>
           <SelectContent>
             <SelectItem
@@ -256,6 +276,7 @@ useSelectProvide({
               :value="item.value"
               :text-value="item.textValue ?? item.label"
               :is-disabled="item.isDisabled"
+              :class-names="{ item: props.classNames?.item, indicator: props.classNames?.indicator }"
             >
               <slot
                 name="item"

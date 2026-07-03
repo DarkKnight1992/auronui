@@ -27,6 +27,8 @@ const props = withDefaults(defineProps<{
    */
   classNames?: Partial<{
     base: ClassValue
+    item: ClassValue
+    indicator: ClassValue
   }>
   /** Shorthand API: render list items from an array instead of the compound slot API */
   items?: ListBoxShorthandItem[]
@@ -237,6 +239,7 @@ const rekaDefaultValue = computed(() =>
               :value="option.value"
               :is-disabled="option.disabled"
               :text-value="option.textValue"
+              :class-names="{ item: props.classNames?.item, indicator: props.classNames?.indicator }"
             >{{ option.label ?? option.value }}</ListBoxItem>
           </slot>
         </template>
@@ -249,6 +252,7 @@ const rekaDefaultValue = computed(() =>
           :value="item.value"
           :is-disabled="item.disabled"
           :text-value="item.textValue"
+          :class-names="{ item: props.classNames?.item, indicator: props.classNames?.indicator }"
         >{{ item.label ?? item.value }}</ListBoxItem>
       </template>
 

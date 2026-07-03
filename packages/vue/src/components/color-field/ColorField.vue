@@ -2,7 +2,7 @@
 import { computed, inject, useId } from 'vue'
 import { ColorFieldRoot, ColorFieldInput, getChannelValue, type Color } from 'reka-ui'
 import { colorFieldVariants, type ColorFieldVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -34,6 +34,13 @@ const props = withDefaults(defineProps<{
   disableWheelChange?: boolean
   locale?: string
   step?: number
+  /** Per-slot class overrides */
+  classNames?: Partial<{
+    label: ClassValue
+    input: ClassValue
+    description: ClassValue
+    errorMessage: ClassValue
+  }>
 }>(), {
   isDisabled: undefined,
   disabled: undefined,
@@ -114,27 +121,27 @@ function onColorUpdate(next: Color) {
     :disable-wheel-change="props.disableWheelChange"
     :locale="props.locale"
     :step="props.step"
-    :class="composeClassName(styles, props.class)"
+    :class="composeClassName(styles.base(), props.class)"
     @update:color="onColorUpdate"
   >
     <label
       v-if="label"
       :for="id"
-      class="color-field__label"
+      :class="composeClassName(styles.label(), props.classNames?.label)"
     >{{ label }}</label>
     <ColorFieldInput
       :id="id"
       :placeholder="placeholder"
       :aria-label="label ? undefined : (props.ariaLabel ?? 'Color value')"
-      class="color-field__input"
+      :class="composeClassName(styles.input(), props.classNames?.input)"
     />
     <span
       v-if="description && !errorMessage"
-      class="color-field__description"
+      :class="composeClassName(styles.description(), props.classNames?.description)"
     >{{ description }}</span>
     <span
       v-if="errorMessage"
-      class="color-field__error-message"
+      :class="composeClassName(styles.errorMessage(), props.classNames?.errorMessage)"
       role="alert"
     >{{ errorMessage }}</span>
   </ColorFieldRoot>

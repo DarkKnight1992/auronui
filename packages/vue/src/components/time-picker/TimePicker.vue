@@ -76,6 +76,23 @@ const props = withDefaults(defineProps<{
     popover: ClassValue
     panel: ClassValue
     timeDone: ClassValue
+    timeField: Partial<{
+      label: ClassValue
+      mainWrapper: ClassValue
+      inputWrapper: ClassValue
+      startContent: ClassValue
+      segmentList: ClassValue
+      segment: ClassValue
+      endContent: ClassValue
+      helperWrapper: ClassValue
+      errorMessage: ClassValue
+      description: ClassValue
+    }>
+    timeScroller: Partial<{
+      scrollerWrap: ClassValue
+      scrollerColumn: ClassValue
+      scrollerItem: ClassValue
+    }>
   }>
 }>(), {
   variant: 'flat',
@@ -186,6 +203,7 @@ const slotFns = computed(() =>
         :hide-time-zone="hideTimeZone"
         :required="required"
         :dir="dir"
+        :class-names="props.classNames?.timeField"
         @update:model-value="(val) => onFieldChange(val as Time | null | undefined)"
       >
         <template #endContent>
@@ -252,6 +270,7 @@ const slotFns = computed(() =>
             :model-value="internalValue"
             :granularity="granularity === 'hour' ? 'minute' : granularity"
             :hour-cycle="hourCycle"
+            :class-names="props.classNames?.timeScroller"
             @update:model-value="(val) => onScrollerChange(val as Time)"
           />
 

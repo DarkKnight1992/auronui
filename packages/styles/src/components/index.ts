@@ -65,6 +65,7 @@ export * from "./pagination";
 export * from "./popover";
 export * from "./radio";
 export * from "./radio-group";
+export * from "./scroll-area";
 export * from "./scroll-shadow";
 export * from "./select";
 export * from "./separator";

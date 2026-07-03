@@ -8,7 +8,16 @@ import TabList from './TabList.vue'
 import Tab from './Tab.vue'
 import TabPanel from './TabPanel.vue'
 
-type TabShorthandItem = { value: string; label: string; content?: string; disabled?: boolean }
+type TabShorthandItem = {
+  value: string
+  label: string
+  content?: string
+  disabled?: boolean
+  class?: ClassValue
+  classNames?: Partial<{ tab: ClassValue }>
+  panelClass?: ClassValue
+  panelClassNames?: Partial<{ tabPanel: ClassValue }>
+}
 
 const props = withDefaults(defineProps<{
   modelValue?: string
@@ -20,6 +29,7 @@ const props = withDefaults(defineProps<{
   /** Override classes for individual slots */
   classNames?: Partial<{
     base: ClassValue
+    tabList: ClassValue
   }>
   /** Shorthand API: render tabs from an array instead of the compound slot API */
   items?: TabShorthandItem[]
@@ -31,6 +41,10 @@ const props = withDefaults(defineProps<{
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */
   asChild?: boolean
+  /** Whether keyboard navigation loops from last to first tab. Forwarded to the shorthand-rendered TabList. */
+  loop?: boolean
+  /** Overflow behaviour for the shorthand-rendered TabList. */
+  overflow?: 'arrows' | 'dropdown'
 }>(), {
   orientation: 'horizontal',
   variant: 'primary',
@@ -86,18 +100,26 @@ useTabsProvide({
     @update:model-value="changeTab"
   >
     <template v-if="props.items">
-      <TabList>
+      <TabList
+        :loop="props.loop"
+        :overflow="props.overflow"
+        :class-names="{ tabList: props.classNames?.tabList }"
+      >
         <Tab
           v-for="item in props.items"
           :key="item.value"
           :value="item.value"
           :is-disabled="item.disabled"
+          :class="item.class"
+          :class-names="item.classNames"
         >{{ item.label }}</Tab>
       </TabList>
       <TabPanel
         v-for="item in props.items"
         :key="item.value"
         :value="item.value"
+        :class="item.panelClass"
+        :class-names="item.panelClassNames"
       >{{ item.content }}</TabPanel>
     </template>
     <slot v-else />

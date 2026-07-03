@@ -106,6 +106,23 @@ type Props = {
     helperWrapper: ClassValue
     errorMessage: ClassValue
     description: ClassValue
+    item: ClassValue
+    text: ClassValue
+    indicator: ClassValue
+    trigger: ClassValue
+    startContent: ClassValue
+    input: ClassValue
+    clearButton: ClassValue
+    /** The loading-spinner/chevron indicator inside the input (distinct from `indicator`, which styles each item's checkmark). */
+    triggerIndicator: ClassValue
+    chip: Partial<{
+      base: ClassValue
+      dot: ClassValue
+      startContent: ClassValue
+      label: ClassValue
+      endContent: ClassValue
+      closeButton: ClassValue
+    }>
   }>
 
   /* ─── Reka AutocompleteRoot pass-through props ───────────────────── */
@@ -543,13 +560,25 @@ useAutocompleteProvide({
           :items="internalItems"
         />
         <template v-else>
-          <AutocompleteInput :placeholder="props.placeholder" />
+          <AutocompleteInput
+            :placeholder="props.placeholder"
+            :class-names="{
+              chip: props.classNames?.chip,
+              trigger: props.classNames?.trigger,
+              label: props.classNames?.label,
+              startContent: props.classNames?.startContent,
+              input: props.classNames?.input,
+              clearButton: props.classNames?.clearButton,
+              indicator: props.classNames?.triggerIndicator,
+            }"
+          />
           <AutocompleteContent>
             <AutocompleteItem
               v-for="item in internalItems"
               :key="item.value"
               :value="item.value"
               :is-disabled="item.isDisabled"
+              :class-names="{ item: props.classNames?.item, text: props.classNames?.text, indicator: props.classNames?.indicator }"
             >
               <slot
                 name="item"

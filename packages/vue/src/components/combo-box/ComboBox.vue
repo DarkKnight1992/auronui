@@ -37,6 +37,8 @@ const props = withDefaults(defineProps<{
   /** Override classes for individual slots */
   classNames?: Partial<{
     base: ClassValue
+    item: ClassValue
+    indicator: ClassValue
   }>
   /** Reset search term when user blurs the input. */
   resetSearchTermOnBlur?: boolean
@@ -255,6 +257,7 @@ useComboBoxProvide({
             :key="item.value"
             :value="item.value"
             :is-disabled="item.isDisabled"
+            :class-names="{ item: props.classNames?.item, indicator: props.classNames?.indicator }"
           >
             <slot
               name="item"

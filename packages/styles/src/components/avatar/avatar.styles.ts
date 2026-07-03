@@ -11,6 +11,8 @@ export const avatarVariants = tv({
     base: "avatar",
     fallback: "avatar__fallback",
     image: "avatar__image",
+    icon: "avatar__icon",
+    name: "avatar__name",
   },
   variants: {
     color: {
