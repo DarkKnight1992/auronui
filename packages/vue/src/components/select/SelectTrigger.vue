@@ -3,6 +3,7 @@ import { computed, ref, watch } from 'vue'
 import { SelectTrigger, SelectIcon, injectSelectRootContext } from 'reka-ui'
 import { useSelectInject } from './Select.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
+import FieldLabel from '../_shared/FieldLabel.vue'
 
 const props = withDefaults(defineProps<{
   class?: string
@@ -81,14 +82,13 @@ function handleFocus() {
     data-slot="trigger"
     @focus="handleFocus"
   >
-    <label
+    <FieldLabel
       v-if="showInsideLabel"
       :for="ctx.triggerId.value"
+      :label="ctx.label.value"
+      :is-required="ctx.isRequired.value"
       :class="ctx.slots.value.label()"
-    >{{ ctx.label.value }}<span
-      v-if="ctx.isRequired.value"
-      aria-hidden="true"
-    > *</span></label>
+    />
     <span
       v-if="$slots.startContent"
       :class="ctx.slots.value.startContent()"
