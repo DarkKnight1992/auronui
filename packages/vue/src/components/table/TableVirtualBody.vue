@@ -1,10 +1,10 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="TData extends RowData = RowData">
 import { computed } from 'vue'
 import { useVirtualizer } from '@tanstack/vue-virtual'
 import { FlexRender, type Row, type RowData } from '@tanstack/vue-table'
 import { tableVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
-import { useTableInject } from './table.context'
+import { useTableInject, type TableContext } from './table.context'
 
 const props = defineProps<{
   scrollElement: HTMLElement | null
@@ -21,7 +21,7 @@ const props = defineProps<{
   }>
 }>()
 
-const ctx = useTableInject()
+const ctx = useTableInject() as TableContext<TData>
 const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 
 const rows = computed(() => ctx.table.getRowModel().rows)
@@ -53,7 +53,7 @@ const paddingBottom = computed(() => {
 
 const columnCount = computed(() => ctx.table.getVisibleLeafColumns().length)
 
-function onRowKeydown(row: Row<RowData>, event: KeyboardEvent) {
+function onRowKeydown(row: Row<TData>, event: KeyboardEvent) {
   if (event.key !== ' ') return
   if (ctx.selectionMode.value === 'none') return
   const target = event.target as HTMLElement
@@ -101,7 +101,7 @@ defineExpose({
       "
       :data-state="rows[vItem.index].getIsSelected() ? 'checked' : undefined"
       @click="(e: MouseEvent) => ctx.handleRowClick(vItem.index, e)"
-      @keydown="(e: KeyboardEvent) => onRowKeydown(rows[vItem.index] as Row<RowData>, e)"
+      @keydown="(e: KeyboardEvent) => onRowKeydown(rows[vItem.index] as Row<TData>, e)"
     >
       <td
         v-for="(cell, colIndex) in rows[vItem.index].getVisibleCells()"

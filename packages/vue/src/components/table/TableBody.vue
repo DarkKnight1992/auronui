@@ -1,9 +1,9 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="TData extends RowData = RowData">
 import { computed } from 'vue'
 import { FlexRender, type Row, type RowData } from '@tanstack/vue-table'
 import { tableVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
-import { useTableInject } from './table.context'
+import { useTableInject, type TableContext } from './table.context'
 
 interface Props {
   /**
@@ -26,10 +26,10 @@ interface Props {
 
 const props = defineProps<Props>()
 
-const ctx = useTableInject()
+const ctx = useTableInject() as TableContext<TData>
 const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 
-function onRowKeydown(row: Row<RowData>, event: KeyboardEvent) {
+function onRowKeydown(row: Row<TData>, event: KeyboardEvent) {
   // Space on a gridcell toggles row selection
   if (event.key !== ' ') return
   if (ctx.selectionMode.value === 'none') return

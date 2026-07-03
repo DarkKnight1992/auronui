@@ -1,7 +1,4 @@
-<script setup lang="ts">
-// Note: Vue 3.5 generic SFCs do not propagate generic type parameters across
-// component boundaries when used via JSX/mount() in tests. We use ColumnDef<any, any>
-// for props to avoid TS2322 errors while keeping internal TanStack reactivity correct.
+<script setup lang="ts" generic="TData extends RowData = RowData">
 import { computed, ref, watch, useTemplateRef, h } from 'vue'
 import {
   useVueTable,
@@ -28,10 +25,8 @@ type SelectionMode = 'none' | 'single' | 'multiple'
 
 const props = withDefaults(
   defineProps<{
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    columns: ColumnDef<any, any>[]
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    data: any[]
+    columns: ColumnDef<TData, any>[]
+    data: TData[]
     variant?: TableVariants['variant']
     ariaLabel?: string
     /** Row selection mode. 'single' = radio-style; 'multiple' = checkbox + shift+click; 'none' = disabled */
@@ -92,11 +87,16 @@ function updateRowSelection(
 }
 
 // --- Selection column injected at position 0 when enabled -----------
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const selectionColumn: ColumnDef<any, any> = {
+const selectionColumn: ColumnDef<TData, any> = {
   id: '__select__',
   size: 44,
   enableSorting: false,
+  // TableCheckboxCell is invoked here via h() (a runtime call, not a compiled
+  // template), which — like @vue/test-utils' mount() — does not infer a generic
+  // SFC's type parameter from the props passed. It always resolves to the
+  // component's default (RowData). Casting through RowData (not TData) here
+  // matches what h() actually expects; this is the one narrower assertion the
+  // design spec anticipated keeping.
   header: ({ table: t }) =>
     props.selection === 'multiple'
       ? h(TableCheckboxCell, { table: t as unknown as TableInstance<RowData> })
@@ -104,8 +104,7 @@ const selectionColumn: ColumnDef<any, any> = {
   cell: ({ row: r }) => h(TableCheckboxCell, { row: r as unknown as Row<RowData> }),
 }
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const effectiveColumns = computed<ColumnDef<any, any>[]>(() => {
+const effectiveColumns = computed<ColumnDef<TData, any>[]>(() => {
   if (props.selection === 'none') return props.columns
   return [selectionColumn, ...props.columns]
 })
@@ -117,7 +116,7 @@ const table = useVueTable({
     return props.data
   },
   get columns() {
-    return effectiveColumns.value as ColumnDef<RowData, unknown>[]
+    return effectiveColumns.value as ColumnDef<TData, unknown>[]
   },
   state: {
     get sorting() {
@@ -139,7 +138,7 @@ const table = useVueTable({
   },
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
-}) as unknown as TableInstance<RowData>
+})
 
 // --- Virtualization ---------------------------------------------------
 /** Whether to use TableVirtualBody instead of TableBody */
@@ -153,8 +152,15 @@ const useVirtual = computed<boolean>(() => {
 // The scroll container wrapping the <table> — passed to the virtualizer
 const scrollContainerRef = useTemplateRef<HTMLElement>('scrollContainerRef')
 
-// Ref to TableVirtualBody instance so keyboard nav can call scrollToIndex
-const virtualBodyRef = ref<InstanceType<typeof TableVirtualBody> | null>(null)
+// Ref to TableVirtualBody instance so keyboard nav can call scrollToIndex.
+// InstanceType<typeof TableVirtualBody> no longer resolves now that
+// TableVirtualBody is a generic SFC (its exported type is a generic factory
+// function, not a plain constructor) — declare the exposed shape by hand
+// instead, matching what TableVirtualBody.vue's defineExpose actually provides.
+interface TableVirtualBodyExpose {
+  scrollToIndex: (index: number) => void
+}
+const virtualBodyRef = ref<TableVirtualBodyExpose | null>(null)
 
 // --- Keyboard navigation ----------------------------------------------
 const rootRef = useTemplateRef<HTMLElement>('rootRef')

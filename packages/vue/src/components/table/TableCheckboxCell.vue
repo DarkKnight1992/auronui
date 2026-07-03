@@ -1,13 +1,13 @@
-<script setup lang="ts">
+<script setup lang="ts" generic="TData extends RowData = RowData">
 import { computed } from 'vue'
 import { Checkbox } from '../checkbox'
 import type { Row, Table as TableInstance, RowData } from '@tanstack/vue-table'
 
 const props = defineProps<{
   /** When row is provided, this cell is a body row checkbox. When absent, it's the header select-all. */
-  row?: Row<RowData>
+  row?: Row<TData>
   /** Required for the header select-all variant */
-  table?: TableInstance<RowData>
+  table?: TableInstance<TData>
   ariaLabel?: string
 }>()
 
