@@ -17,7 +17,7 @@ import { dateTimePickerVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
-import DateTimePickerTimeScroller from './DateTimePickerTimeScroller.vue'
+import TimeScroller from '../_shared/TimeScroller.vue'
 import Button from '../button/Button.vue'
 
 defineOptions({ inheritAttrs: false })
@@ -415,11 +415,11 @@ const slotFns = computed(() =>
           :class="slotFns.timePane()"
           data-slot="time-pane"
         >
-          <DateTimePickerTimeScroller
+          <TimeScroller
             :model-value="internalValue"
             :granularity="granularity"
             :hour-cycle="hourCycle"
-            @update:model-value="onTimeUpdate"
+            @update:model-value="(val) => onTimeUpdate(val as CalendarDateTime)"
           />
 
           <div

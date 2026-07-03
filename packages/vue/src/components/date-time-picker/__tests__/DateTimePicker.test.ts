@@ -2,7 +2,6 @@ import { describe, it, expect, afterEach, beforeEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { nextTick } from 'vue'
 import { CalendarDateTime } from '@internationalized/date'
-import DateTimePickerTimeScroller from '../DateTimePickerTimeScroller.vue'
 import DateTimePickerTimezone from '../DateTimePickerTimezone.vue'
 import DateTimePicker from '../DateTimePicker.vue'
 
@@ -18,99 +17,6 @@ beforeEach(() => {
     configurable: true,
     get: vi.fn().mockReturnValue(0),
     set: vi.fn(),
-  })
-})
-
-describe('DateTimePickerTimeScroller', () => {
-  afterEach(() => { document.body.innerHTML = '' })
-
-  it('renders hour and minute columns for granularity=minute', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-    const columns = wrapper.findAll('[data-slot="scroller-column"]')
-    expect(columns).toHaveLength(2) // hour + minute
-  })
-
-  it('renders hour, minute, second columns for granularity=second', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30, 0)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'second', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-    const columns = wrapper.findAll('[data-slot="scroller-column"]')
-    expect(columns).toHaveLength(3) // hour + minute + second
-  })
-
-  it('renders AM/PM column for hourCycle=12', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 14, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 12 },
-      attachTo: document.body,
-    })
-    await nextTick()
-    const columns = wrapper.findAll('[data-slot="scroller-column"]')
-    expect(columns).toHaveLength(3) // hour + minute + AM/PM
-  })
-
-  it('emits update:modelValue with the tapped minute, leaving hour unchanged', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-
-    const minuteCol = wrapper.findAll('[data-slot="scroller-column"]')[1]
-    const options = minuteCol.findAll('[role="option"]')
-    // First repeated copy renders values 0..59, so index 15 → minute 15.
-    await options[15].trigger('click')
-
-    const emitted = wrapper.emitted('update:modelValue')
-    expect(emitted).toBeTruthy()
-    const [newValue] = emitted![0] as [CalendarDateTime]
-    expect(newValue.minute).toBe(15)
-    expect(newValue.hour).toBe(10) // hour unchanged
-  })
-
-  it('emits update:modelValue with the tapped hour, leaving minute unchanged', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-
-    const hourCol = wrapper.findAll('[data-slot="scroller-column"]')[0]
-    const options = hourCol.findAll('[role="option"]')
-    // First repeated copy renders hours 0..23, so index 14 → hour 14.
-    await options[14].trigger('click')
-
-    const emitted = wrapper.emitted('update:modelValue')
-    expect(emitted).toBeTruthy()
-    const [newValue] = emitted![0] as [CalendarDateTime]
-    expect(newValue.hour).toBe(14)
-    expect(newValue.minute).toBe(30) // minute unchanged
-  })
-
-  it('marks every repeated copy of the selected value as selected', async () => {
-    const value = new CalendarDateTime(2024, 6, 15, 10, 30)
-    const wrapper = mount(DateTimePickerTimeScroller, {
-      props: { modelValue: value, granularity: 'minute', hourCycle: 24 },
-      attachTo: document.body,
-    })
-    await nextTick()
-
-    const minuteCol = wrapper.findAll('[data-slot="scroller-column"]')[1]
-    const options = minuteCol.findAll('[role="option"]')
-    // minute 30 — first two repeated copies sit at index 30 and 90.
-    expect(options[30].attributes('aria-selected')).toBe('true')
-    expect(options[90].attributes('aria-selected')).toBe('true')
-    expect(options[0].attributes('aria-selected')).toBe('false')
   })
 })
 

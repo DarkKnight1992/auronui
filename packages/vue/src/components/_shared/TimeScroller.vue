@@ -1,10 +1,10 @@
-<!-- packages/vue/src/components/date-time-picker/DateTimePickerTimeScroller.vue -->
+<!-- packages/vue/src/components/_shared/TimeScroller.vue -->
 <script setup lang="ts">
 import { computed, onMounted, ref } from 'vue'
-import { CalendarDateTime } from '@internationalized/date'
+import type { Time, CalendarDateTime } from '@internationalized/date'
 
 const props = withDefaults(defineProps<{
-  modelValue: CalendarDateTime
+  modelValue: Time | CalendarDateTime
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24
   class?: string
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
 })
 
 const emit = defineEmits<{
-  'update:modelValue': [value: CalendarDateTime]
+  'update:modelValue': [value: Time | CalendarDateTime]
 }>()
 
 // ─── Column data ─────────────────────────────────────────────────────────
