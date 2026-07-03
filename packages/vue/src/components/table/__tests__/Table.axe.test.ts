@@ -1,5 +1,6 @@
 import { describe, it, expect, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { defineComponent } from 'vue'
 import axe from 'axe-core'
 import type { ColumnDef } from '@tanstack/vue-table'
 import Table from '../Table.vue'
@@ -18,6 +19,17 @@ const columns: ColumnDef<Person, any>[] = [
   { id: 'id', accessorKey: 'id', header: 'ID' },
 ]
 
+function mountTable(tableData: Person[], extra: Record<string, unknown> = {}) {
+  const Wrapper = defineComponent({
+    components: { Table },
+    setup() {
+      return { columns, tableData, extra }
+    },
+    template: '<Table :columns="columns" :data="tableData" v-bind="extra" />',
+  })
+  return mount(Wrapper, { attachTo: document.body })
+}
+
 describe('Table — axe audit', () => {
   const mounted: ReturnType<typeof mount>[] = []
 
@@ -27,30 +39,21 @@ describe('Table — axe audit', () => {
   })
 
   it('passes axe with variant="primary"', async () => {
-    const wrapper = mount(Table, {
-      props: { columns, data, variant: 'primary', ariaLabel: 'Test grid' },
-      attachTo: document.body,
-    })
+    const wrapper = mountTable(data, { variant: 'primary', ariaLabel: 'Test grid' })
     mounted.push(wrapper)
     const results = await axe.run(wrapper.element)
     expect(results.violations).toEqual([])
   })
 
   it('passes axe with variant="secondary"', async () => {
-    const wrapper = mount(Table, {
-      props: { columns, data, variant: 'secondary', ariaLabel: 'Test grid secondary' },
-      attachTo: document.body,
-    })
+    const wrapper = mountTable(data, { variant: 'secondary', ariaLabel: 'Test grid secondary' })
     mounted.push(wrapper)
     const results = await axe.run(wrapper.element)
     expect(results.violations).toEqual([])
   })
 
   it('passes axe with empty data', async () => {
-    const wrapper = mount(Table, {
-      props: { columns, data: [], ariaLabel: 'Empty grid' },
-      attachTo: document.body,
-    })
+    const wrapper = mountTable([], { ariaLabel: 'Empty grid' })
     mounted.push(wrapper)
     const results = await axe.run(wrapper.element)
     expect(results.violations).toEqual([])

@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
+import { defineComponent } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import Table from '../Table.vue'
 
@@ -25,21 +26,32 @@ function getCellText(wrapper: any, rowIndex: number, colIndex: number): string {
   return wrapper.find(`tbody [data-row-index="${rowIndex}"][data-col-index="${colIndex}"]`).text()
 }
 
+function mountTable(tableColumns: ColumnDef<Person, any>[]) {
+  const Wrapper = defineComponent({
+    components: { Table },
+    setup() {
+      return { tableColumns, data }
+    },
+    template: '<Table :columns="tableColumns" :data="data" />',
+  })
+  return mount(Wrapper)
+}
+
 describe('Table — sorting', () => {
   it('sortable header has aria-sort="none" initially', () => {
-    const wrapper = mount(Table, { props: { columns: sortableColumns, data } })
+    const wrapper = mountTable(sortableColumns)
     const name = wrapper.findAll('th[role="columnheader"]')[0]
     expect(name.attributes('aria-sort')).toBe('none')
   })
 
   it('non-sortable header has no aria-sort attribute', () => {
-    const wrapper = mount(Table, { props: { columns: mixedColumns, data } })
+    const wrapper = mountTable(mixedColumns)
     const age = wrapper.findAll('th[role="columnheader"]')[1]
     expect(age.attributes('aria-sort')).toBeUndefined()
   })
 
   it('clicking sortable header toggles asc -> desc -> none', async () => {
-    const wrapper = mount(Table, { props: { columns: sortableColumns, data } })
+    const wrapper = mountTable(sortableColumns)
     const nameHeader = wrapper.findAll('th[role="columnheader"]')[0]
 
     await nameHeader.trigger('click')
@@ -58,21 +70,21 @@ describe('Table — sorting', () => {
   })
 
   it('Space key on focused sortable header toggles sort', async () => {
-    const wrapper = mount(Table, { props: { columns: sortableColumns, data } })
+    const wrapper = mountTable(sortableColumns)
     const nameHeader = wrapper.findAll('th[role="columnheader"]')[0]
     await nameHeader.trigger('keydown', { key: ' ' })
     expect(nameHeader.attributes('aria-sort')).toBe('ascending')
   })
 
   it('Enter key on focused sortable header toggles sort', async () => {
-    const wrapper = mount(Table, { props: { columns: sortableColumns, data } })
+    const wrapper = mountTable(sortableColumns)
     const nameHeader = wrapper.findAll('th[role="columnheader"]')[0]
     await nameHeader.trigger('keydown', { key: 'Enter' })
     expect(nameHeader.attributes('aria-sort')).toBe('ascending')
   })
 
   it('clicking non-sortable header does nothing', async () => {
-    const wrapper = mount(Table, { props: { columns: mixedColumns, data } })
+    const wrapper = mountTable(mixedColumns)
     const ageHeader = wrapper.findAll('th[role="columnheader"]')[1]
     await ageHeader.trigger('click')
     expect(ageHeader.attributes('aria-sort')).toBeUndefined()
@@ -81,7 +93,7 @@ describe('Table — sorting', () => {
   })
 
   it('sortable header has data-allows-sorting="true"', () => {
-    const wrapper = mount(Table, { props: { columns: sortableColumns, data } })
+    const wrapper = mountTable(sortableColumns)
     const name = wrapper.findAll('th[role="columnheader"]')[0]
     expect(name.attributes('data-allows-sorting')).toBe('true')
   })

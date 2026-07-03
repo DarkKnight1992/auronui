@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { ref, nextTick } from 'vue'
+import { defineComponent, ref, nextTick } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import Table from '../Table.vue'
 
@@ -17,39 +17,61 @@ const columns: ColumnDef<Person, any>[] = [
   { id: 'name', accessorKey: 'name', header: 'Name' },
 ]
 
+function mountTable(extra: Record<string, unknown> = {}) {
+  const Wrapper = defineComponent({
+    components: { Table },
+    setup() {
+      return { columns, data, extra }
+    },
+    template: '<Table :columns="columns" :data="data" v-bind="extra" />',
+  })
+  return mount(Wrapper)
+}
+
 describe('Table — selection', () => {
   it('no selection column when selection="none" (default)', () => {
-    const wrapper = mount(Table, { props: { columns, data } })
+    const wrapper = mountTable()
     // Only 1 column header (Name) — no __select__ column
     expect(wrapper.findAll('th[role="columnheader"]').length).toBe(1)
   })
 
   it('selection="multiple" injects checkbox column + header select-all', () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'multiple' } })
+    const wrapper = mountTable({ selection: 'multiple' })
     expect(wrapper.findAll('th[role="columnheader"]').length).toBe(2)
     // Header has a checkbox (select-all)
     expect(wrapper.find('thead [role="checkbox"], thead input[type="checkbox"]').exists()).toBe(true)
   })
 
   it('selection="single" injects checkbox column but NO header select-all', () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'single' } })
+    const wrapper = mountTable({ selection: 'single' })
     expect(wrapper.findAll('th[role="columnheader"]').length).toBe(2)
     // Header has NO checkbox
     expect(wrapper.find('thead [role="checkbox"], thead input[type="checkbox"]').exists()).toBe(false)
   })
 
   it('clicking row checkbox emits update:rowSelection', async () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'multiple' } })
+    const emitted: Record<string, boolean>[] = []
+    const Wrapper = defineComponent({
+      components: { Table },
+      setup() {
+        return {
+          columns,
+          data,
+          onUpdate: (v: Record<string, boolean>) => { emitted.push(v) },
+        }
+      },
+      template: '<Table :columns="columns" :data="data" selection="multiple" @update:row-selection="onUpdate" />',
+    })
+    const wrapper = mount(Wrapper)
     const firstRowCheckbox = wrapper.findAll('tbody [role="checkbox"], tbody input[type="checkbox"]')[0]
     await firstRowCheckbox.trigger('click')
-    const emitted = wrapper.emitted('update:rowSelection')
-    expect(emitted).toBeTruthy()
+    expect(emitted.length).toBeGreaterThan(0)
     // TanStack uses row index as string ID by default ('0', '1', ...)
-    expect(emitted![0][0]).toEqual({ '0': true })
+    expect(emitted[0]).toEqual({ '0': true })
   })
 
   it('selected row has data-state="checked"', async () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'multiple' } })
+    const wrapper = mountTable({ selection: 'multiple' })
     const firstRowCheckbox = wrapper.findAll('tbody [role="checkbox"], tbody input[type="checkbox"]')[0]
     await firstRowCheckbox.trigger('click')
     await nextTick()
@@ -59,14 +81,18 @@ describe('Table — selection', () => {
 
   it('single selection: clicking a second row replaces the first', async () => {
     const rowSelection = ref<Record<string, boolean>>({})
-    const wrapper = mount(Table, {
-      props: {
-        columns,
-        data,
-        selection: 'single',
-        'onUpdate:rowSelection': (v: any) => { rowSelection.value = v },
+    const Wrapper = defineComponent({
+      components: { Table },
+      setup() {
+        return {
+          columns,
+          data,
+          onUpdate: (v: Record<string, boolean>) => { rowSelection.value = v },
+        }
       },
+      template: '<Table :columns="columns" :data="data" selection="single" @update:row-selection="onUpdate" />',
     })
+    const wrapper = mount(Wrapper)
     const checkboxes = wrapper.findAll('tbody [role="checkbox"], tbody input[type="checkbox"]')
     await checkboxes[0].trigger('click')
     await checkboxes[1].trigger('click')
@@ -76,7 +102,7 @@ describe('Table — selection', () => {
   })
 
   it('multiple selection: header checkbox selects all', async () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'multiple' } })
+    const wrapper = mountTable({ selection: 'multiple' })
     const headerCheckbox = wrapper.find('thead [role="checkbox"], thead input[type="checkbox"]')
     await headerCheckbox.trigger('click')
     await nextTick()
@@ -85,7 +111,7 @@ describe('Table — selection', () => {
   })
 
   it('Space key on a focused gridcell toggles row selection', async () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'multiple' } })
+    const wrapper = mountTable({ selection: 'multiple' })
     const firstRow = wrapper.findAll('tbody tr[role="row"]')[0]
     // Trigger Space on the <tr> directly (vue-test-utils does not support setting event.target)
     await firstRow.trigger('keydown', { key: ' ' })
@@ -94,7 +120,7 @@ describe('Table — selection', () => {
   })
 
   it('Shift+Click selects range in multiple mode', async () => {
-    const wrapper = mount(Table, { props: { columns, data, selection: 'multiple' } })
+    const wrapper = mountTable({ selection: 'multiple' })
     const rows = wrapper.findAll('tbody tr[role="row"]')
     // Click row 0 first (establish lastClicked)
     await rows[0].trigger('click')
@@ -108,9 +134,7 @@ describe('Table — selection', () => {
   it('v-model:rowSelection is reactive (parent -> child)', async () => {
     // TanStack uses row index as string ID: '0'=Alice, '1'=Bob, '2'=Charlie, '3'=Dave
     const rowSelection = ref<Record<string, boolean>>({ '1': true })
-    const wrapper = mount(Table, {
-      props: { columns, data, selection: 'multiple', rowSelection: rowSelection.value },
-    })
+    const wrapper = mountTable({ selection: 'multiple', rowSelection: rowSelection.value })
     await nextTick()
     const rows = wrapper.findAll('tbody tr[role="row"]')
     // Row at index 1 (Bob) should be checked
