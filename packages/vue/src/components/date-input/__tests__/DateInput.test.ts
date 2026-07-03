@@ -218,4 +218,149 @@ describe('DateInput', () => {
     const results = await axe.run(wrapper.element)
     expect(results.violations).toHaveLength(0)
   })
+
+  // ── useFormField / FieldLabel / FormFieldHelper regression coverage ──
+
+  // Test 16-18: label renders in the correct DOM location per labelPlacement
+  it('labelPlacement="inside" renders the label inside the field wrapper (as a sibling of the segment list)', async () => {
+    const wrapper = mount(DateInput, {
+      props: { label: 'Date of Birth', labelPlacement: 'inside' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const group = wrapper.find('[role="group"]')
+    const label = group.find('label')
+    expect(label.exists()).toBe(true)
+    expect(label.text()).toBe('Date of Birth')
+  })
+
+  it('labelPlacement="outside" renders the label outside the field wrapper (root-level, before mainWrapper)', async () => {
+    const wrapper = mount(DateInput, {
+      props: { label: 'Date of Birth', labelPlacement: 'outside' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const group = wrapper.find('[role="group"]')
+    expect(group.find('label').exists()).toBe(false)
+    const label = wrapper.find('label')
+    expect(label.exists()).toBe(true)
+    expect(label.text()).toBe('Date of Birth')
+  })
+
+  it('labelPlacement="outside-left" renders the label outside the field wrapper (root-level, before mainWrapper)', async () => {
+    const wrapper = mount(DateInput, {
+      props: { label: 'Date of Birth', labelPlacement: 'outside-left' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const group = wrapper.find('[role="group"]')
+    expect(group.find('label').exists()).toBe(false)
+    const label = wrapper.find('label')
+    expect(label.exists()).toBe(true)
+    expect(label.text()).toBe('Date of Birth')
+  })
+
+  // Test 19-20: aria-describedby links to the rendered helper element's id
+  it('aria-describedby on the group points at the error message id when isInvalid + errorMessage are set', async () => {
+    const wrapper = mount(DateInput, {
+      props: { isInvalid: true, errorMessage: 'Invalid date' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const group = wrapper.find('[role="group"]')
+    const describedBy = group.attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const errorEl = wrapper.find(`#${describedBy}`)
+    expect(errorEl.exists()).toBe(true)
+    expect(errorEl.text()).toBe('Invalid date')
+  })
+
+  it('aria-describedby on the group points at the description id when only description is set', async () => {
+    const wrapper = mount(DateInput, {
+      props: { description: 'Enter your date of birth' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const group = wrapper.find('[role="group"]')
+    const describedBy = group.attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const descEl = wrapper.find(`#${describedBy}`)
+    expect(descEl.exists()).toBe(true)
+    expect(descEl.text()).toBe('Enter your date of birth')
+  })
+
+  // Test 21-22: rootDataAttrs — 6-attribute present/absent coverage
+  it('sets all 6 root data-attributes when every corresponding condition is true', async () => {
+    const wrapper = mount(DateInput, {
+      props: {
+        label: 'Date of Birth',
+        description: 'helper',
+        isInvalid: true,
+        isDisabled: true,
+        isReadOnly: true,
+        isRequired: true,
+        errorMessage: 'err',
+      },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.element
+    expect(root.getAttribute('data-invalid')).toBe('true')
+    expect(root.getAttribute('data-disabled')).toBe('true')
+    expect(root.getAttribute('data-readonly')).toBe('true')
+    expect(root.getAttribute('data-required')).toBe('true')
+    expect(root.getAttribute('data-has-label')).toBe('true')
+    expect(root.getAttribute('data-has-helper')).toBe('true')
+  })
+
+  it('omits all 6 root data-attributes when every corresponding condition is false', async () => {
+    const wrapper = mount(DateInput, {
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    const root = wrapper.element
+    expect(root.hasAttribute('data-invalid')).toBe(false)
+    expect(root.hasAttribute('data-disabled')).toBe(false)
+    expect(root.hasAttribute('data-readonly')).toBe(false)
+    expect(root.hasAttribute('data-required')).toBe(false)
+    expect(root.hasAttribute('data-has-label')).toBe(false)
+    expect(root.hasAttribute('data-has-helper')).toBe(false)
+  })
+
+  // Test 23: REGRESSION — id-derivation bug fix.
+  // Before the fix, descriptionId/errorMessageId were built from the raw
+  // internal `generatedId`, NOT from the resolved, caller-overridable field
+  // id. So overriding `id` correctly changed the rendered `id`/`for`
+  // attributes but left `aria-describedby` pointing at a stale id built from
+  // `generatedId` — a silent a11y break. This test mounts DateInput with an
+  // explicit `id` override and asserts `aria-describedby` is scoped off that
+  // SAME override (`${id}-error`), not off the internal generator.
+  it('aria-describedby tracks a caller-supplied id override (regression: previously derived from the internal id generator)', async () => {
+    const wrapper = mount(DateInput, {
+      props: {
+        isInvalid: true,
+        errorMessage: 'Invalid date',
+      },
+      attrs: { id: 'custom-id' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    // The `id` override is forwarded by DateFieldRoot onto its underlying
+    // native hidden input (Reka's form-association element), confirming the
+    // override reached the component at all.
+    expect(wrapper.find('#custom-id').exists()).toBe(true)
+    const group = wrapper.find('[role="group"]')
+    expect(group.attributes('aria-describedby')).toBe('custom-id-error')
+    const errorEl = wrapper.find('#custom-id-error')
+    expect(errorEl.exists()).toBe(true)
+    expect(errorEl.text()).toBe('Invalid date')
+  })
 })
