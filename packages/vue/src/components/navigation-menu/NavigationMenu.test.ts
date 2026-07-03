@@ -255,3 +255,29 @@ describe('NavigationMenu — accessibility (axe)', () => {
     wrapper.unmount()
   })
 })
+
+describe('NavigationMenu — deprecated props', () => {
+  it('Test 12: deprecated bare disabled=true on NavigationMenuTrigger sets disabled and data-disabled', () => {
+    const WithDisabledTrigger = defineComponent({
+      components: allComponents,
+      template: `
+        <NavigationMenu>
+          <NavigationMenuList>
+            <NavigationMenuItem value="products">
+              <NavigationMenuTrigger :disabled="true">Products</NavigationMenuTrigger>
+              <NavigationMenuContent>
+                <NavigationMenuLink href="/products/one">Product One</NavigationMenuLink>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          </NavigationMenuList>
+          <NavigationMenuViewport />
+        </NavigationMenu>
+      `,
+    })
+    const wrapper = mount(WithDisabledTrigger, { attachTo: document.body })
+    const trigger = wrapper.find('button')
+    expect(trigger.attributes('disabled')).toBeDefined()
+    expect(trigger.attributes('data-disabled')).toBe('')
+    wrapper.unmount()
+  })
+})

@@ -74,4 +74,17 @@ describe('Collapsible', () => {
     expect(open.value).toBe(true)
     w.unmount()
   })
+
+  it('deprecated bare disabled=true sets data-disabled on the trigger', () => {
+    const w = mount({
+      components: { Collapsible, CollapsibleTrigger, CollapsibleContent },
+      template: `
+        <Collapsible :disabled="true">
+          <CollapsibleTrigger>Toggle</CollapsibleTrigger>
+          <CollapsibleContent>Panel content</CollapsibleContent>
+        </Collapsible>
+      `,
+    })
+    expect(w.find('.collapsible__trigger').attributes('data-disabled')).toBe('')
+  })
 })
