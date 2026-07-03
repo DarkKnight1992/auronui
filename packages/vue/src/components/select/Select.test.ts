@@ -578,3 +578,242 @@ describe('Select — accessibility (axe)', () => {
     wrapper.unmount()
   })
 })
+
+// ─────────────────────────────────────────────────────────────────────────
+// useFormField / FieldLabel regression coverage (split-file case).
+//
+// Select.vue calls useFormField() and destructures its return into top-level
+// bindings, rendering the OUTSIDE-label fragment itself via <FieldLabel>.
+// SelectTrigger.vue does NOT call useFormField — it computes its own
+// showInsideLabel from the injected Select context (ctx.hasLabel /
+// ctx.labelPlacement) and renders the INSIDE-label fragment via its own
+// <FieldLabel>, wired to ctx.triggerId / ctx.label / ctx.isRequired.
+//
+// Regression guard: if useFormField's return were bundled into a single
+// object referenced via dot-access in the template (`formField.showOutsideLabel`)
+// instead of destructured into bare top-level bindings, Vue's <script setup>
+// auto-unwrapping would not rewrite the nested ref, so `v-if` on the object
+// reference would always be truthy — both label fragments could render
+// simultaneously, or attributes bound via v-bind="formField.rootDataAttrs"
+// would silently fail to render. These tests would catch either failure mode.
+// ─────────────────────────────────────────────────────────────────────────
+
+describe('Select — label placement (split-file: Select.vue outside / SelectTrigger.vue inside)', () => {
+  it('Test 30: labelPlacement "inside" (default) renders exactly one <label>, from SelectTrigger', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" label-placement="inside">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    expect(wrapper.findAll('label')).toHaveLength(1)
+    // The single label must live inside the trigger (SelectTrigger's context path),
+    // not as a direct child of the Select.vue root.
+    expect(wrapper.find('button[role="combobox"] label').exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('Test 31: labelPlacement "outside" renders exactly one <label>, from Select.vue (not duplicated in SelectTrigger)', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" label-placement="outside">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    expect(wrapper.findAll('label')).toHaveLength(1)
+    // The label must NOT be nested inside the trigger for outside placement.
+    expect(wrapper.find('button[role="combobox"] label').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  it('Test 32: labelPlacement "outside-left" renders exactly one <label>, from Select.vue', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" label-placement="outside-left">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    expect(wrapper.findAll('label')).toHaveLength(1)
+    expect(wrapper.find('button[role="combobox"] label').exists()).toBe(false)
+    wrapper.unmount()
+  })
+
+  it('Test 33: no label prop → zero <label> elements rendered anywhere', () => {
+    const Wrapper = makeWrapper(`
+      <Select>
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    expect(wrapper.findAll('label')).toHaveLength(0)
+    wrapper.unmount()
+  })
+})
+
+describe('Select — aria-describedby resolution', () => {
+  it('Test 34: aria-describedby (error case) on the trigger resolves to a DOM element containing the error text', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-invalid="true" error-message="Please select a fruit">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    const describedBy = trigger.attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const target = wrapper.find(`#${describedBy}`)
+    expect(target.exists()).toBe(true)
+    expect(target.text()).toBe('Please select a fruit')
+    wrapper.unmount()
+  })
+
+  it('Test 35: aria-describedby (description case) on the trigger resolves to a DOM element containing the description text', () => {
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" description="Pick your favorite fruit">
+        <SelectTrigger>
+          <SelectValue placeholder="Pick" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    const describedBy = trigger.attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const target = wrapper.find(`#${describedBy}`)
+    expect(target.exists()).toBe(true)
+    expect(target.text()).toBe('Pick your favorite fruit')
+    wrapper.unmount()
+  })
+})
+
+describe('Select — root data-attributes (rootDataAttrs from useFormField)', () => {
+  // None of these were previously asserted on Select.vue's own root <div> — only
+  // the SelectTrigger element's independent data-readonly (Tests 28/29) and
+  // SelectItem's data-disabled (Tests 7/27) had coverage. rootDataAttrs is
+  // v-bind'd onto the Select.vue root, so every one of the 6 attributes needs
+  // present/absent coverage here.
+
+  it('Test 36: isInvalid=true sets data-invalid on the root; absent when false', () => {
+    const valid = mount(BasicSelect, { attachTo: document.body })
+    expect(valid.attributes('data-invalid')).toBeUndefined()
+    valid.unmount()
+
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-invalid="true">
+        <SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger>
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const invalid = mount(Wrapper, { attachTo: document.body })
+    expect(invalid.attributes('data-invalid')).toBeTruthy()
+    invalid.unmount()
+  })
+
+  it('Test 37: isDisabled=true sets data-disabled on the root; absent when false', () => {
+    const enabled = mount(BasicSelect, { attachTo: document.body })
+    expect(enabled.attributes('data-disabled')).toBeUndefined()
+    enabled.unmount()
+
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-disabled="true">
+        <SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger>
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const disabled = mount(Wrapper, { attachTo: document.body })
+    expect(disabled.attributes('data-disabled')).toBeTruthy()
+    disabled.unmount()
+  })
+
+  it('Test 38: isReadOnly=true sets data-readonly on the Select.vue root (distinct from the trigger\'s own data-readonly)', () => {
+    const enabled = mount(BasicSelect, { attachTo: document.body })
+    expect(enabled.attributes('data-readonly')).toBeUndefined()
+    enabled.unmount()
+
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-read-only="true">
+        <SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger>
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const readonly = mount(Wrapper, { attachTo: document.body })
+    expect(readonly.attributes('data-readonly')).toBeTruthy()
+    readonly.unmount()
+  })
+
+  it('Test 39: isRequired=true sets data-required on the root; absent when false', () => {
+    const notRequired = mount(BasicSelect, { attachTo: document.body })
+    expect(notRequired.attributes('data-required')).toBeUndefined()
+    notRequired.unmount()
+
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" :is-required="true">
+        <SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger>
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const required = mount(Wrapper, { attachTo: document.body })
+    expect(required.attributes('data-required')).toBeTruthy()
+    required.unmount()
+  })
+
+  it('Test 40: label set → data-has-label on the root; absent when no label', () => {
+    const withLabel = mount(BasicSelect, { attachTo: document.body })
+    expect(withLabel.attributes('data-has-label')).toBeTruthy()
+    withLabel.unmount()
+
+    const Wrapper = makeWrapper(`
+      <Select>
+        <SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger>
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const withoutLabel = mount(Wrapper, { attachTo: document.body })
+    expect(withoutLabel.attributes('data-has-label')).toBeUndefined()
+    withoutLabel.unmount()
+  })
+
+  it('Test 41: description set → data-has-helper on the root; absent when no description/error', () => {
+    const noHelper = mount(BasicSelect, { attachTo: document.body })
+    expect(noHelper.attributes('data-has-helper')).toBeUndefined()
+    noHelper.unmount()
+
+    const Wrapper = makeWrapper(`
+      <Select label="Fruit" description="Pick your favorite fruit">
+        <SelectTrigger><SelectValue placeholder="Pick" /></SelectTrigger>
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const withHelper = mount(Wrapper, { attachTo: document.body })
+    expect(withHelper.attributes('data-has-helper')).toBeTruthy()
+    withHelper.unmount()
+  })
+})
