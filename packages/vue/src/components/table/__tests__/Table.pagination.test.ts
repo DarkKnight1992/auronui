@@ -4,6 +4,7 @@ import { defineComponent, useTemplateRef, nextTick } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import axe from 'axe-core'
 import Table from '../Table.vue'
+import Select from '../../select/Select.vue'
 
 interface Item { id: string; name: string }
 
@@ -160,6 +161,42 @@ describe('Table — pagination (footer UI & conflicts)', () => {
     expect(cell.exists()).toBe(true)
     expect(cell.attributes('colspan')).toBe('1')
     expect(cell.find('.custom-footer').exists()).toBe(true)
+  })
+})
+
+describe('Table — pagination (page size selector)', () => {
+  it('does not render a page-size selector when pageSizeOptions is unset', () => {
+    const wrapper = mountTable(makeData(20), { pagination: { pageSize: 5 } })
+    expect(wrapper.findComponent(Select).exists()).toBe(false)
+  })
+
+  it('renders a page-size selector showing the current page size when pageSizeOptions is set', () => {
+    const wrapper = mountTable(makeData(20), {
+      pagination: { pageSize: 5 },
+      pageSizeOptions: [5, 10, 20],
+    })
+    const select = wrapper.findComponent(Select)
+    expect(select.exists()).toBe(true)
+    expect(select.text()).toContain('5')
+  })
+
+  it('selecting a different page size re-slices rows, resets to page 1, and emits update:pageSize', async () => {
+    const wrapper = mountTable(makeData(20), {
+      pagination: { pageSize: 5 },
+      pageSizeOptions: [5, 10, 20],
+      page: 2,
+    })
+    expect(rowNames(wrapper)).toEqual(['Row 5', 'Row 6', 'Row 7', 'Row 8', 'Row 9'])
+
+    const select = wrapper.findComponent(Select)
+    select.vm.$emit('update:modelValue', 10)
+    await nextTick()
+
+    expect(rowNames(wrapper)).toEqual([
+      'Row 0', 'Row 1', 'Row 2', 'Row 3', 'Row 4', 'Row 5', 'Row 6', 'Row 7', 'Row 8', 'Row 9',
+    ])
+    expect(wrapper.emitted('update:page')).toContainEqual([1])
+    expect(wrapper.findComponent(Table).emitted('update:pageSize')).toEqual([[10]])
   })
 })
 

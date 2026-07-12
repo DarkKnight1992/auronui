@@ -28,6 +28,8 @@ import PaginationPrev from '../pagination/PaginationPrev.vue'
 import PaginationNext from '../pagination/PaginationNext.vue'
 import PaginationItem from '../pagination/PaginationItem.vue'
 import PaginationEllipsis from '../pagination/PaginationEllipsis.vue'
+import Select from '../select/Select.vue'
+import type { SelectItemValue } from '../select/Select.context'
 import { warnConflictingProps } from '../../utils/warnDeprecated'
 
 type SelectionMode = 'none' | 'single' | 'multiple'
@@ -67,6 +69,12 @@ const props = withDefaults(
     }
     /** Current page, 1-indexed. Use v-model:page. Default: 1 (uncontrolled if unbound). */
     page?: number
+    /**
+     * Rows-per-page choices to offer the user as a <Select> next to the auto-rendered
+     * Pagination control. Omit to hide the selector — pageSize is then fixed to
+     * `pagination.pageSize`. Requires `pagination` to be set.
+     */
+    pageSizeOptions?: number[]
     /** Per-slot CSS class overrides */
     classNames?: Partial<{
       base: ClassValue
@@ -90,12 +98,14 @@ const props = withDefaults(
     virtualizerOverscan: 8,
     pagination: undefined,
     page: undefined,
+    pageSizeOptions: undefined,
   }
 )
 
 const emit = defineEmits<{
   'update:rowSelection': [value: RowSelectionState]
   'update:page': [value: number]
+  'update:pageSize': [value: number]
 }>()
 
 // --- Sorting state ----------------------------------------------------
@@ -121,7 +131,6 @@ function updateRowSelection(
 
 // --- Pagination state (controlled/uncontrolled) -----------------------
 const paginationEnabled = computed(() => props.pagination !== undefined)
-const pageSize = computed(() => props.pagination?.pageSize ?? 10)
 const isManualPagination = computed(() => props.pagination?.manual ?? false)
 const paginationTotalItems = computed(() =>
   isManualPagination.value ? (props.pagination?.totalItems ?? 0) : props.data.length
@@ -139,6 +148,26 @@ function updatePage(next: number) {
   internalPage.value = next
   emit('update:page', next)
 }
+
+const internalPageSize = ref<number>(props.pagination?.pageSize ?? 10)
+watch(
+  () => props.pagination?.pageSize,
+  (next) => {
+    if (next !== undefined) internalPageSize.value = next
+  }
+)
+
+// Changing pageSize invalidates the current page's offset — reset to page 1,
+// matching the common pagination UX (avoids landing on a now out-of-range page).
+function updatePageSize(next: number) {
+  internalPageSize.value = next
+  emit('update:pageSize', next)
+  updatePage(1)
+}
+
+const pageSizeOptionItems = computed(() =>
+  (props.pageSizeOptions ?? []).map((n) => ({ value: n as SelectItemValue, label: String(n) }))
+)
 
 // --- Selection column injected at position 0 when enabled -----------
 const selectionColumn: ColumnDef<TData, any> = {
@@ -183,7 +212,7 @@ const table = useVueTable({
       return internalRowSelection.value
     },
     get pagination(): PaginationState {
-      return { pageIndex: internalPage.value - 1, pageSize: pageSize.value }
+      return { pageIndex: internalPage.value - 1, pageSize: internalPageSize.value }
     },
   },
   onSortingChange: (updater) => {
@@ -191,9 +220,13 @@ const table = useVueTable({
   },
   onRowSelectionChange: updateRowSelection,
   onPaginationChange: (updater) => {
-    const current: PaginationState = { pageIndex: internalPage.value - 1, pageSize: pageSize.value }
+    const current: PaginationState = { pageIndex: internalPage.value - 1, pageSize: internalPageSize.value }
     const next = typeof updater === 'function' ? updater(current) : updater
-    updatePage(next.pageIndex + 1)
+    if (next.pageSize !== internalPageSize.value) {
+      updatePageSize(next.pageSize)
+    } else {
+      updatePage(next.pageIndex + 1)
+    }
   },
   get enableRowSelection() {
     return props.selection !== 'none'
@@ -210,7 +243,9 @@ const table = useVueTable({
     return isManualPagination.value
   },
   get pageCount() {
-    return isManualPagination.value ? Math.ceil(paginationTotalItems.value / pageSize.value) : undefined
+    return isManualPagination.value
+      ? Math.ceil(paginationTotalItems.value / internalPageSize.value)
+      : undefined
   },
 })
 
@@ -371,28 +406,36 @@ defineExpose({ table, keyboardNav, handleRowClick })
             v-if="$slots.footer"
             name="footer"
           />
-          <Pagination
-            v-else-if="paginationEnabled"
-            :page="internalPage"
-            :items-per-page="pageSize"
-            :total-items="paginationTotalItems"
-            @update:page="updatePage"
-          >
-            <PaginationContent v-slot="{ items }">
-              <PaginationPrev />
-              <template
-                v-for="item in items"
-                :key="item.type === 'page' ? item.value : `e-${item.value}`"
-              >
-                <PaginationItem
-                  v-if="item.type === 'page'"
-                  :value="item.value"
-                />
-                <PaginationEllipsis v-else />
-              </template>
-              <PaginationNext />
-            </PaginationContent>
-          </Pagination>
+          <template v-else-if="paginationEnabled">
+            <Select
+              v-if="pageSizeOptions && pageSizeOptions.length > 0"
+              :model-value="internalPageSize"
+              :items="pageSizeOptionItems"
+              label="Rows per page"
+              @update:model-value="(v) => updatePageSize(Number(v))"
+            />
+            <Pagination
+              :page="internalPage"
+              :items-per-page="internalPageSize"
+              :total-items="paginationTotalItems"
+              @update:page="updatePage"
+            >
+              <PaginationContent v-slot="{ items }">
+                <PaginationPrev />
+                <template
+                  v-for="item in items"
+                  :key="item.type === 'page' ? item.value : `e-${item.value}`"
+                >
+                  <PaginationItem
+                    v-if="item.type === 'page'"
+                    :value="item.value"
+                  />
+                  <PaginationEllipsis v-else />
+                </template>
+                <PaginationNext />
+              </PaginationContent>
+            </Pagination>
+          </template>
         </TableFooter>
       </table>
     </div>

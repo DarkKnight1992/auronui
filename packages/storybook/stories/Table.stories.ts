@@ -211,7 +211,7 @@ export const Paginated: Story = {
       return { args, columns, data: makePeople(47) };
     },
     template:
-      '<Table v-bind="args" :columns="columns" :data="data" :pagination="{ pageSize: 10 }" ariaLabel="Paginated people" />',
+      '<Table v-bind="args" :columns="columns" :data="data" :pagination="{ pageSize: 10 }" :pageSizeOptions="[10, 20, 50]" ariaLabel="Paginated people" />',
   }),
   parameters: {
     docs: {
@@ -247,6 +247,7 @@ const data: Person[] = [
     :columns="columns"
     :data="data"
     :pagination="{ pageSize: 10 }"
+    :pageSizeOptions="[10, 20, 50]"
     ariaLabel="Paginated people"
   />
 </template>`,
