@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, useTemplateRef, nextTick } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
@@ -74,5 +74,58 @@ describe('Table — pagination (core wiring)', () => {
   it('uncontrolled default: page starts at 1 when `page` prop is not bound', () => {
     const wrapper = mountTable(makeData(5), { pagination: { pageSize: 2 } })
     expect(rowNames(wrapper)).toEqual(['Row 0', 'Row 1'])
+  })
+})
+
+describe('Table — pagination (footer UI & conflicts)', () => {
+  it('auto-renders a Pagination nav in the footer when pagination is set', () => {
+    const wrapper = mountTable(makeData(20), { pagination: { pageSize: 5 }, ariaLabel: 'Items' })
+    const footer = wrapper.find('tfoot')
+    expect(footer.exists()).toBe(true)
+    expect(footer.find('nav').exists()).toBe(true)
+  })
+
+  it('does not render a footer when pagination is unset and no #footer slot is passed', () => {
+    const wrapper = mountTable(makeData(5))
+    expect(wrapper.find('tfoot').exists()).toBe(false)
+  })
+
+  it('a #footer slot overrides the auto-rendered Pagination control', () => {
+    const Wrapper = defineComponent({
+      components: { Table },
+      setup() {
+        return { columns, data: makeData(20) }
+      },
+      template: `
+        <Table :columns="columns" :data="data" :pagination="{ pageSize: 5 }">
+          <template #footer><span class="custom-footer">custom</span></template>
+        </Table>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    expect(wrapper.find('tfoot .custom-footer').exists()).toBe(true)
+    expect(wrapper.find('tfoot nav').exists()).toBe(false)
+  })
+
+  it('clicking the next-page control in the auto-rendered Pagination advances the page', async () => {
+    const wrapper = mountTable(makeData(20), { pagination: { pageSize: 5 } })
+    expect(rowNames(wrapper)).toEqual(['Row 0', 'Row 1', 'Row 2', 'Row 3', 'Row 4'])
+    await wrapper.find('tfoot nav [aria-label="Next page"]').trigger('click')
+    await nextTick()
+    expect(rowNames(wrapper)).toEqual(['Row 5', 'Row 6', 'Row 7', 'Row 8', 'Row 9'])
+  })
+
+  it('pagination + virtualRows together: pagination wins, virtualization is disabled, dev warning logged', () => {
+    const warnSpy = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const wrapper = mountTable(makeData(100), {
+      pagination: { pageSize: 5 },
+      virtualRows: true,
+    })
+    // Non-virtualized scroll container has no inline height/overflow style
+    // (see Table.vue's `:style="useVirtual ? {...} : undefined"`).
+    const scrollContainer = wrapper.find('table').element.parentElement
+    expect(scrollContainer?.getAttribute('style')).toBeNull()
+    expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('virtualRows'))
+    warnSpy.mockRestore()
   })
 })

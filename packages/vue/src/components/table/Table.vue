@@ -22,6 +22,13 @@ import TableBody from './TableBody.vue'
 import TableVirtualBody from './TableVirtualBody.vue'
 import TableFooter from './TableFooter.vue'
 import TableCheckboxCell from './TableCheckboxCell.vue'
+import Pagination from '../pagination/Pagination.vue'
+import PaginationContent from '../pagination/PaginationContent.vue'
+import PaginationPrev from '../pagination/PaginationPrev.vue'
+import PaginationNext from '../pagination/PaginationNext.vue'
+import PaginationItem from '../pagination/PaginationItem.vue'
+import PaginationEllipsis from '../pagination/PaginationEllipsis.vue'
+import { warnConflictingProps } from '../../utils/warnDeprecated'
 
 type SelectionMode = 'none' | 'single' | 'multiple'
 
@@ -210,6 +217,17 @@ const table = useVueTable({
 // --- Virtualization ---------------------------------------------------
 /** Whether to use TableVirtualBody instead of TableBody */
 const useVirtual = computed<boolean>(() => {
+  if (paginationEnabled.value) {
+    if (props.virtualRows !== false) {
+      warnConflictingProps(
+        'Table',
+        'virtualRows',
+        'pagination',
+        'pagination takes precedence and virtualRows is disabled',
+      )
+    }
+    return false
+  }
   if (props.virtualRows === false) return false
   if (props.virtualRows === true) return true
   if (typeof props.virtualRows === 'number') return props.data.length > props.virtualRows
@@ -339,10 +357,35 @@ defineExpose({ table, keyboardNav, handleRowClick })
           :class-names="{ body: props.classNames?.body, row: props.classNames?.row, cell: props.classNames?.cell }"
         />
         <TableFooter
-          v-if="$slots.footer"
+          v-if="$slots.footer || paginationEnabled"
           :class-names="{ footer: props.classNames?.footer }"
         >
-          <slot name="footer" />
+          <slot
+            v-if="$slots.footer"
+            name="footer"
+          />
+          <Pagination
+            v-else-if="paginationEnabled"
+            :page="internalPage"
+            :items-per-page="pageSize"
+            :total-items="paginationTotalItems"
+            @update:page="updatePage"
+          >
+            <PaginationContent v-slot="{ items }">
+              <PaginationPrev />
+              <template
+                v-for="item in items"
+                :key="item.type === 'page' ? item.value : `e-${item.value}`"
+              >
+                <PaginationItem
+                  v-if="item.type === 'page'"
+                  :value="item.value"
+                />
+                <PaginationEllipsis v-else />
+              </template>
+              <PaginationNext />
+            </PaginationContent>
+          </Pagination>
         </TableFooter>
       </table>
     </div>

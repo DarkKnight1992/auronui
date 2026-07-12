@@ -28,6 +28,21 @@ export function warnDeprecatedProp(
   )
 }
 
+export function warnConflictingProps(
+  component: string,
+  propA: string,
+  propB: string,
+  resolution: string,
+): void {
+  if (!import.meta.env.DEV) return
+  const key = `${component}:conflict:${propA}:${propB}`
+  if (warned.has(key)) return
+  warned.add(key)
+  console.warn(
+    `[AuronUI] ${component}: "${propA}" and "${propB}" cannot be used together — ${resolution}.`,
+  )
+}
+
 /** @internal — test helper to reset the deduplication cache between tests */
 export function _clearWarnedCache(): void {
   warned.clear()
