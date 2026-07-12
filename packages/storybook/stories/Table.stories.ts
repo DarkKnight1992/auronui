@@ -235,8 +235,11 @@ const columns: ColumnDef<Person, unknown>[] = [
   { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
 ]
 
-// 47 rows, e.g. fetched from an API
-const data: Person[] = []
+const data: Person[] = [
+  { id: '1', name: 'Alice', email: 'alice@example.com', role: 'Engineer', age: 22 },
+  { id: '2', name: 'Bob', email: 'bob@example.com', role: 'Designer', age: 23 },
+  { id: '3', name: 'Charlie', email: 'charlie@example.com', role: 'Manager', age: 24 },
+]
 </script>
 
 <template>

@@ -163,7 +163,7 @@ const effectiveColumns = computed<ColumnDef<TData, any>[]>(() => {
   return [selectionColumn, ...props.columns]
 })
 
-// Instantiate pagination row model to avoid name collision with getter
+// Instantiate once for a stable reference; a new model per getter access would bust TanStack's memoization.
 const paginationRowModel = getPaginationRowModel()
 
 // --- useVueTable instance ---------------------------------------------
@@ -217,8 +217,18 @@ const table = useVueTable({
 // --- Virtualization ---------------------------------------------------
 /** Whether to use TableVirtualBody instead of TableBody */
 const useVirtual = computed<boolean>(() => {
-  if (paginationEnabled.value) {
-    if (props.virtualRows !== false) {
+  if (paginationEnabled.value) return false
+  if (props.virtualRows === false) return false
+  if (props.virtualRows === true) return true
+  if (typeof props.virtualRows === 'number') return props.data.length > props.virtualRows
+  return false
+})
+
+// Warn when pagination and virtualRows are both set (pagination takes precedence)
+watch(
+  [paginationEnabled, () => props.virtualRows],
+  ([paginationEnabled, virtualRows]) => {
+    if (paginationEnabled && virtualRows !== false) {
       warnConflictingProps(
         'Table',
         'virtualRows',
@@ -226,13 +236,9 @@ const useVirtual = computed<boolean>(() => {
         'pagination takes precedence and virtualRows is disabled',
       )
     }
-    return false
-  }
-  if (props.virtualRows === false) return false
-  if (props.virtualRows === true) return true
-  if (typeof props.virtualRows === 'number') return props.data.length > props.virtualRows
-  return false
-})
+  },
+  { immediate: true }
+)
 
 // The scroll container wrapping the <table> — passed to the virtualizer
 const scrollContainerRef = useTemplateRef<HTMLElement>('scrollContainerRef')
