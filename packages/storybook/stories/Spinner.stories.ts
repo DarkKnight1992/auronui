@@ -9,12 +9,12 @@ const meta: Meta<typeof Spinner> = {
     size: { control: "select", options: ["sm", "md", "lg", "xl"] },
     color: {
       control: "select",
-      options: ["accent", "current", "danger", "success", "warning"],
+      options: ["primary", "accent", "current", "danger", "success", "warning"],
     },
   },
   args: {
     size: "md",
-    color: "accent",
+    color: "primary",
     label: "Loading",
   },
 };
@@ -31,7 +31,7 @@ import { Spinner } from '@auronui/vue'
 </script>
 
 <template>
-  <Spinner size="md" color="accent" label="Loading" />
+  <Spinner size="md" color="primary" label="Loading" />
 </template>`,
         language: 'vue',
       },
@@ -42,6 +42,7 @@ import { Spinner } from '@auronui/vue'
 export const Small: Story = { args: { size: "sm" } };
 export const Large: Story = { args: { size: "lg" } };
 export const ExtraLarge: Story = { args: { size: "xl" } };
+export const Accent: Story = { args: { color: "accent" } };
 export const Danger: Story = { args: { color: "danger" } };
 export const Success: Story = { args: { color: "success" } };
 export const Warning: Story = { args: { color: "warning" } };

@@ -68,6 +68,8 @@ export const buttonVariants = tv({
     color: {
       default: { base: "button--color-default" },
       primary: { base: "button--color-primary" },
+      secondary: { base: "button--color-secondary" },
+      accent: { base: "button--color-accent" },
       success: { base: "button--color-success" },
       warning: { base: "button--color-warning" },
       danger: { base: "button--color-danger" },

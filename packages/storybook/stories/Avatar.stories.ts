@@ -12,7 +12,7 @@ const meta: Meta<typeof Avatar> = {
     },
     color: {
       control: "select",
-      options: ["default", "accent", "success", "warning", "danger"],
+      options: ["default", "primary", "accent", "success", "warning", "danger"],
     },
     variant: {
       control: "select",
@@ -107,20 +107,8 @@ import { Avatar } from '@auronui/vue'
 };
 
 export const Colors: Story = {
-  render: (args) => ({
-    components: { Avatar },
-    setup: () => ({ args }),
-    template: `
-      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <Avatar v-bind="args" color="default" name="DF" />
-        <Avatar v-bind="args" color="accent" name="AC" />
-        <Avatar v-bind="args" color="success" name="SC" />
-        <Avatar v-bind="args" color="warning" name="WA" />
-        <Avatar v-bind="args" color="danger" name="DG" />
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -130,6 +118,7 @@ import { Avatar } from '@auronui/vue'
 <template>
   <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
     <Avatar color="default" name="DF" />
+    <Avatar color="primary" name="PR" />
     <Avatar color="accent" name="AC" />
     <Avatar color="success" name="SC" />
     <Avatar color="warning" name="WA" />
@@ -140,22 +129,25 @@ import { Avatar } from '@auronui/vue'
       },
     },
   },
-};
-
-export const SoftVariant: Story = {
   render: (args) => ({
     components: { Avatar },
     setup: () => ({ args }),
     template: `
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
-        <Avatar v-bind="args" variant="soft" color="accent" name="AC" />
-        <Avatar v-bind="args" variant="soft" color="success" name="SC" />
-        <Avatar v-bind="args" variant="soft" color="warning" name="WA" />
-        <Avatar v-bind="args" variant="soft" color="danger" name="DG" />
+        <Avatar v-bind="args" color="default" name="DF" />
+        <Avatar v-bind="args" color="primary" name="PR" />
+        <Avatar v-bind="args" color="accent" name="AC" />
+        <Avatar v-bind="args" color="success" name="SC" />
+        <Avatar v-bind="args" color="warning" name="WA" />
+        <Avatar v-bind="args" color="danger" name="DG" />
       </div>
     `,
   }),
+};
+
+export const SoftVariant: Story = {
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -164,6 +156,7 @@ import { Avatar } from '@auronui/vue'
 
 <template>
   <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <Avatar variant="soft" color="primary" name="PR" />
     <Avatar variant="soft" color="accent" name="AC" />
     <Avatar variant="soft" color="success" name="SC" />
     <Avatar variant="soft" color="warning" name="WA" />
@@ -174,6 +167,19 @@ import { Avatar } from '@auronui/vue'
       },
     },
   },
+  render: (args) => ({
+    components: { Avatar },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <Avatar v-bind="args" variant="soft" color="primary" name="PR" />
+        <Avatar v-bind="args" variant="soft" color="accent" name="AC" />
+        <Avatar v-bind="args" variant="soft" color="success" name="SC" />
+        <Avatar v-bind="args" variant="soft" color="warning" name="WA" />
+        <Avatar v-bind="args" variant="soft" color="danger" name="DG" />
+      </div>
+    `,
+  }),
 };
 
 export const Bordered: Story = {

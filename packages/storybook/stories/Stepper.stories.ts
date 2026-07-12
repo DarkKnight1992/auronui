@@ -17,13 +17,13 @@ const meta: Meta<typeof Stepper> = {
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    color: { control: 'select', options: ['default', 'accent', 'success', 'warning', 'danger'] },
+    color: { control: 'select', options: ['default', 'primary', 'accent', 'success', 'warning', 'danger'] },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
     orientation: 'horizontal',
     size: 'md',
-    color: 'accent',
+    color: 'primary',
   },
   decorators: [
     () => ({
@@ -43,7 +43,7 @@ const steps = [
 ]
 
 export const Default: Story = {
-  args: { orientation: 'horizontal', size: 'md', color: 'accent' },
+  args: { orientation: 'horizontal', size: 'md', color: 'primary' },
   parameters: {
     docs: {
       source: {
@@ -69,7 +69,7 @@ const steps = [
 </script>
 
 <template>
-  <Stepper v-model="currentStep" :total-steps="steps.length" orientation="horizontal" color="accent">
+  <Stepper v-model="currentStep" :total-steps="steps.length" orientation="horizontal" color="primary">
     <StepperItem v-for="(step, index) in steps" :key="index" :step="index + 1">
       <StepperIndicator>{{ index + 1 }}</StepperIndicator>
       <StepperSeparator v-if="index < steps.length - 1" />
@@ -111,7 +111,7 @@ const steps = [
 }
 
 export const Vertical: Story = {
-  args: { orientation: 'vertical', size: 'md', color: 'accent' },
+  args: { orientation: 'vertical', size: 'md', color: 'primary' },
   parameters: {
     docs: {
       source: {
@@ -137,7 +137,7 @@ const steps = [
 </script>
 
 <template>
-  <Stepper v-model="currentStep" :total-steps="steps.length" orientation="vertical" size="md" color="accent">
+  <Stepper v-model="currentStep" :total-steps="steps.length" orientation="vertical" size="md" color="primary">
     <StepperItem v-for="(step, index) in steps" :key="index" :step="index + 1">
       <StepperIndicator>{{ index + 1 }}</StepperIndicator>
       <StepperContent>
@@ -187,7 +187,7 @@ import {
   StepperSeparator,
 } from '@auronui/vue'
 
-const colors = ['default', 'accent', 'success', 'warning', 'danger']
+const colors = ['default', 'primary', 'accent', 'success', 'warning', 'danger']
 </script>
 
 <template>
@@ -220,7 +220,7 @@ const colors = ['default', 'accent', 'success', 'warning', 'danger']
   render: () => ({
     components: { Stepper, StepperItem, StepperIndicator, StepperTitle, StepperContent, StepperSeparator },
     setup() {
-      return { colors: ['default', 'accent', 'success', 'warning', 'danger'] as const }
+      return { colors: ['default', 'primary', 'accent', 'success', 'warning', 'danger'] as const }
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:24px;">
@@ -324,7 +324,7 @@ const sizes = ['sm', 'md', 'lg']
 }
 
 export const WithIcons: Story = {
-  args: { orientation: 'horizontal', color: 'accent' },
+  args: { orientation: 'horizontal', color: 'primary' },
   parameters: {
     docs: {
       source: {
@@ -344,7 +344,7 @@ const currentStep = ref(3)
 </script>
 
 <template>
-  <Stepper v-model="currentStep" :total-steps="3" orientation="horizontal" color="accent">
+  <Stepper v-model="currentStep" :total-steps="3" orientation="horizontal" color="primary">
     <StepperItem :step="1">
       <StepperIndicator>
         <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -424,7 +424,7 @@ const currentStep = ref(3)
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
-  args: { orientation: 'horizontal', size: 'md', color: 'accent' },
+  args: { orientation: 'horizontal', size: 'md', color: 'primary' },
   parameters: {
     docs: {
       source: {
@@ -455,7 +455,7 @@ const steps = [
     :total-steps="steps.length"
     orientation="horizontal"
     size="md"
-    color="accent"
+    color="primary"
     :class-names="{
       base: 'border-l-4 border-blue-500 pl-4',
     }"

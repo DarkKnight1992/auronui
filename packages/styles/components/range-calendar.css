@@ -35,7 +35,7 @@
 }
 
 .range-calendar__nav-button {
-  @apply flex size-6 items-center justify-center rounded-full text-accent;
+  @apply flex size-6 items-center justify-center rounded-full text-primary;
 
   will-change: scale;
 
@@ -56,7 +56,7 @@
   @media (hover: hover) {
     &:hover,
     &[data-hovered="true"] {
-      @apply bg-default text-accent;
+      @apply bg-default text-primary;
     }
   }
 
@@ -173,13 +173,13 @@
   /* Today indicator (data-today lives on the trigger) */
   &:has([data-today]) {
     .range-calendar__cell-button {
-      @apply text-accent;
+      @apply text-primary;
     }
   }
 
   /* Range selected track (middle segment) — data-selected is on the trigger */
   &:has([data-selected]:not([data-outside-view])) {
-    @apply rounded-none bg-accent-soft;
+    @apply rounded-none bg-primary-soft;
   }
 
   /* Round row boundaries so the range track looks continuous across weeks */
@@ -203,7 +203,7 @@
     @apply z-2;
 
     .range-calendar__cell-button {
-      @apply bg-accent text-accent-foreground;
+      @apply bg-primary text-primary-foreground;
     }
   }
 
@@ -225,7 +225,7 @@
     &:has([data-selection-start]),
     &:has([data-selection-end]) {
       .range-calendar__cell-button {
-        @apply bg-accent-hover;
+        @apply bg-primary-hover;
       }
     }
   }
@@ -296,7 +296,7 @@
 
   /* Indicator color changes when cell is selected */
   :has([data-selected]) > & {
-    @apply bg-accent-foreground;
+    @apply bg-primary-foreground;
   }
 }
 
@@ -387,7 +387,7 @@
   }
 
   &[data-selected] {
-    @apply bg-accent text-accent-foreground;
+    @apply bg-primary text-primary-foreground;
   }
 
   &:disabled,

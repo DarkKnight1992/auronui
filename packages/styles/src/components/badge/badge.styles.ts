@@ -16,6 +16,9 @@ export const badgeVariants = tv({
   },
   variants: {
     color: {
+      primary: {
+        base: "badge--color-primary",
+      },
       accent: {
         base: "badge--accent",
       },

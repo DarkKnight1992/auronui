@@ -252,26 +252,17 @@
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
 
-.autocomplete__trigger--default {
-  /* Default accent */
-  --autocomplete-accent: var(--color-default-foreground);
-  accent-color: var(--autocomplete-accent);
-}
 
 .autocomplete__trigger--primary {
-  --autocomplete-accent: var(--color-primary);
-  accent-color: var(--autocomplete-accent);
 
   &:focus-within,
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .autocomplete__trigger--secondary {
-  --autocomplete-accent: var(--color-secondary);
-  accent-color: var(--autocomplete-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -281,8 +272,6 @@
 }
 
 .autocomplete__trigger--success {
-  --autocomplete-accent: var(--color-success);
-  accent-color: var(--autocomplete-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -292,8 +281,6 @@
 }
 
 .autocomplete__trigger--warning {
-  --autocomplete-accent: var(--color-warning);
-  accent-color: var(--autocomplete-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -303,8 +290,6 @@
 }
 
 .autocomplete__trigger--danger {
-  --autocomplete-accent: var(--color-danger);
-  accent-color: var(--autocomplete-accent);
 
   &:focus-within,
   &[data-focused="true"] {

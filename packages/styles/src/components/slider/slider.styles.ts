@@ -20,6 +20,7 @@ export const sliderVariants = tv({
     color: {
       primary:   { fill: "slider--primary",   thumb: "slider--primary" },
       secondary: { fill: "slider--secondary", thumb: "slider--secondary" },
+      accent:    { fill: "slider--accent",    thumb: "slider--accent" },
       success:   { fill: "slider--success",   thumb: "slider--success" },
       warning:   { fill: "slider--warning",   thumb: "slider--warning" },
       danger:    { fill: "slider--danger",    thumb: "slider--danger" },

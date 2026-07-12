@@ -73,6 +73,14 @@
    Color variants - set foreground color
    ========================================================================== */
 
+.chip--primary {
+  --chip-fg: var(--color-primary);
+}
+
+.chip--secondary {
+  --chip-fg: var(--color-secondary);
+}
+
 .chip--accent {
   --chip-fg: var(--color-accent);
 }
@@ -177,6 +185,16 @@
   --chip-fg: var(--color-default-foreground);
 }
 
+.chip--solid.chip--primary {
+  --chip-bg: var(--color-primary);
+  --chip-fg: var(--color-primary-foreground);
+}
+
+.chip--solid.chip--secondary {
+  --chip-bg: var(--color-secondary);
+  --chip-fg: var(--color-secondary-foreground);
+}
+
 .chip--solid.chip--accent {
   --chip-bg: var(--color-accent);
   --chip-fg: var(--color-accent-foreground);
@@ -204,6 +222,16 @@
 .chip--soft.chip--default {
   --chip-bg: color-mix(in srgb, var(--color-default) 40%, transparent);
   --chip-fg: var(--color-default-foreground);
+}
+
+.chip--soft.chip--primary {
+  --chip-bg: var(--color-primary-soft);
+  --chip-fg: var(--color-primary-soft-foreground);
+}
+
+.chip--soft.chip--secondary {
+  --chip-bg: var(--color-secondary-soft);
+  --chip-fg: var(--color-secondary-soft-foreground);
 }
 
 .chip--soft.chip--accent {

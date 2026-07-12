@@ -9,7 +9,7 @@ const meta: Meta<typeof ProgressCircle> = {
     size: { control: "select", options: ["sm", "md", "lg"] },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     strokeWidth: { control: "number" },
     classNames: { control: "object", description: "Per-slot class overrides. Keys match the component anatomy slot names." },
@@ -150,21 +150,8 @@ import { ProgressCircle } from '@auronui/vue'
 };
 
 export const Colors: Story = {
-  render: (args) => ({
-    components: { ProgressCircle },
-    setup: () => ({ args }),
-    template: `
-      <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
-        <ProgressCircle v-bind="args" value="60" color="default" label="Default" />
-        <ProgressCircle v-bind="args" value="60" color="primary" label="Primary" />
-        <ProgressCircle v-bind="args" value="60" color="secondary" label="Secondary" />
-        <ProgressCircle v-bind="args" value="60" color="success" label="Success" />
-        <ProgressCircle v-bind="args" value="60" color="warning" label="Warning" />
-        <ProgressCircle v-bind="args" value="60" color="danger" label="Danger" />
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -176,6 +163,7 @@ import { ProgressCircle } from '@auronui/vue'
     <ProgressCircle :value="60" color="default" label="Default" />
     <ProgressCircle :value="60" color="primary" label="Primary" />
     <ProgressCircle :value="60" color="secondary" label="Secondary" />
+    <ProgressCircle :value="60" color="accent" label="Accent" />
     <ProgressCircle :value="60" color="success" label="Success" />
     <ProgressCircle :value="60" color="warning" label="Warning" />
     <ProgressCircle :value="60" color="danger" label="Danger" />
@@ -185,6 +173,21 @@ import { ProgressCircle } from '@auronui/vue'
       },
     },
   },
+  render: (args) => ({
+    components: { ProgressCircle },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 24px; align-items: center; flex-wrap: wrap;">
+        <ProgressCircle v-bind="args" value="60" color="default" label="Default" />
+        <ProgressCircle v-bind="args" value="60" color="primary" label="Primary" />
+        <ProgressCircle v-bind="args" value="60" color="secondary" label="Secondary" />
+        <ProgressCircle v-bind="args" value="60" color="accent" label="Accent" />
+        <ProgressCircle v-bind="args" value="60" color="success" label="Success" />
+        <ProgressCircle v-bind="args" value="60" color="warning" label="Warning" />
+        <ProgressCircle v-bind="args" value="60" color="danger" label="Danger" />
+      </div>
+    `,
+  }),
 };
 
 export const WithValueLabel: Story = {

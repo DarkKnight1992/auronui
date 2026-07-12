@@ -203,27 +203,18 @@
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
 
-.select__trigger--default {
-  /* Default accent */
-  --select-accent: var(--color-default-foreground);
-  accent-color: var(--select-accent);
-}
 
 .select__trigger--primary {
-  --select-accent: var(--color-primary);
-  accent-color: var(--select-accent);
 
   &:focus,
   &:focus-within,
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .select__trigger--secondary {
-  --select-accent: var(--color-secondary);
-  accent-color: var(--select-accent);
 
   &:focus,
   &:focus-within,
@@ -234,8 +225,6 @@
 }
 
 .select__trigger--success {
-  --select-accent: var(--color-success);
-  accent-color: var(--select-accent);
 
   &:focus,
   &:focus-within,
@@ -246,8 +235,6 @@
 }
 
 .select__trigger--warning {
-  --select-accent: var(--color-warning);
-  accent-color: var(--select-accent);
 
   &:focus,
   &:focus-within,
@@ -258,9 +245,6 @@
 }
 
 .select__trigger--danger {
-  --select-accent: var(--color-danger);
-  accent-color: var(--select-accent);
-
   &:focus,
   &:focus-within,
   &[data-focused="true"] {

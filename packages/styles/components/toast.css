@@ -125,6 +125,20 @@
   /* uses base bg-overlay + border-border */
 }
 
+.toast--primary {
+  background-color: color-mix(in oklab, var(--primary) 8%, var(--overlay));
+  border-color: color-mix(in oklab, var(--primary) 28%, transparent);
+}
+
+.toast--primary .toast__title {
+  @apply text-primary;
+}
+
+.toast--primary .toast__indicator {
+  background-color: color-mix(in oklab, var(--primary) 15%, transparent);
+  @apply text-primary;
+}
+
 .toast--accent {
   background-color: color-mix(in oklab, var(--accent) 8%, var(--overlay));
   border-color: color-mix(in oklab, var(--accent) 28%, transparent);

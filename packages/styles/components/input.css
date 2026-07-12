@@ -221,26 +221,17 @@
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
 
-.input--default {
-  /* Default accent */
-  --input-accent: var(--color-default-foreground);
-  accent-color: var(--input-accent);
-}
 
 .input--primary {
-  --input-accent: var(--color-primary);
-  accent-color: var(--input-accent);
 
   &:focus-within,
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .input--secondary {
-  --input-accent: var(--color-secondary);
-  accent-color: var(--input-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -250,8 +241,6 @@
 }
 
 .input--success {
-  --input-accent: var(--color-success);
-  accent-color: var(--input-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -261,8 +250,6 @@
 }
 
 .input--warning {
-  --input-accent: var(--color-warning);
-  accent-color: var(--input-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -272,8 +259,6 @@
 }
 
 .input--danger {
-  --input-accent: var(--color-danger);
-  accent-color: var(--input-accent);
 
   &:focus-within,
   &[data-focused="true"] {

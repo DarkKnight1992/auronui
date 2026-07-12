@@ -6,6 +6,10 @@ const meta: Meta<typeof Link> = {
   component: Link,
   tags: ['autodocs'],
   argTypes: {
+    color: {
+      control: 'select',
+      options: ['default', 'primary', 'accent', 'success', 'warning', 'danger', 'foreground'],
+    },
     isExternal: { control: 'boolean' },
     disabled: { control: 'boolean' },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
@@ -69,6 +73,7 @@ import { Link } from '@auronui/vue'
 
 export const AllColorVariants: Story = {
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -79,6 +84,7 @@ import { Link } from '@auronui/vue'
   <div style="display:flex;flex-wrap:wrap;gap:16px">
     <Link href="#" color="default">Default</Link>
     <Link href="#" color="primary">Primary</Link>
+    <Link href="#" color="accent">Accent</Link>
     <Link href="#" color="success">Success</Link>
     <Link href="#" color="warning">Warning</Link>
     <Link href="#" color="danger">Danger</Link>
@@ -96,6 +102,7 @@ import { Link } from '@auronui/vue'
       <div style="display:flex;flex-wrap:wrap;gap:16px">
         <Link v-bind="args" href="#" color="default">Default</Link>
         <Link v-bind="args" href="#" color="primary">Primary</Link>
+        <Link v-bind="args" href="#" color="accent">Accent</Link>
         <Link v-bind="args" href="#" color="success">Success</Link>
         <Link v-bind="args" href="#" color="warning">Warning</Link>
         <Link v-bind="args" href="#" color="danger">Danger</Link>

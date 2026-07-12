@@ -2,6 +2,9 @@
 .tabs {
   @apply flex gap-2;
 
+  /* Default color token (primary) — only visible on the secondary (underline) variant's indicator */
+  --tabs-indicator-color: var(--color-primary);
+
   /* Orientation styles */
   &[data-orientation="horizontal"] {
     @apply flex-col;
@@ -459,7 +462,7 @@
 
   /* Tab indicator - line style */
   .tabs__indicator {
-    @apply bg-accent;
+    background-color: var(--tabs-indicator-color);
 
     box-shadow: none;
     border-radius: 0;
@@ -479,4 +482,32 @@
     width: 2px;
     height: 100%;
   }
+}
+
+/* ==========================================================================
+   Color variants — only visible on the secondary (underline) indicator
+   ========================================================================== */
+
+.tabs--color-primary {
+  --tabs-indicator-color: var(--color-primary);
+}
+
+.tabs--color-secondary {
+  --tabs-indicator-color: var(--color-secondary);
+}
+
+.tabs--color-accent {
+  --tabs-indicator-color: var(--color-accent);
+}
+
+.tabs--color-success {
+  --tabs-indicator-color: var(--color-success);
+}
+
+.tabs--color-warning {
+  --tabs-indicator-color: var(--color-warning);
+}
+
+.tabs--color-danger {
+  --tabs-indicator-color: var(--color-danger);
 }

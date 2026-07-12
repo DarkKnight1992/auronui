@@ -38,7 +38,7 @@ const props = withDefaults(defineProps<{
   totalSteps: 0,
   orientation: 'horizontal',
   size: 'md',
-  color: 'accent',
+  color: 'primary',
   class: undefined,
 })
 
@@ -76,7 +76,7 @@ provide(stepperContextKey, {
   currentStep: computed(() => currentStep.value),
   orientation: computed(() => props.orientation ?? 'horizontal'),
   size: computed(() => props.size ?? 'md'),
-  color: computed(() => props.color ?? 'accent'),
+  color: computed(() => props.color ?? 'primary'),
   totalSteps: resolvedTotalSteps,
   getStepStatus,
 })

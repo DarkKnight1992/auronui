@@ -169,6 +169,30 @@
 }
 
 .button--color-primary {
+  --btn-solid-bg: var(--color-primary);
+  --btn-solid-bg-hover: var(--color-primary-hover);
+  --btn-solid-fg: var(--color-primary-foreground);
+  --btn-soft-bg: var(--color-primary-soft);
+  --btn-soft-bg-hover: var(--color-primary-soft-hover);
+  --btn-soft-fg: var(--color-primary-soft-foreground);
+  --btn-tint-bg: color-mix(in oklab, var(--color-primary) 12%, transparent);
+  --btn-tint-bg-hover: color-mix(in oklab, var(--color-primary) 18%, transparent);
+  --btn-tint-fg: var(--color-primary);
+}
+
+.button--color-secondary {
+  --btn-solid-bg: var(--color-secondary);
+  --btn-solid-bg-hover: var(--color-secondary-hover);
+  --btn-solid-fg: var(--color-secondary-foreground);
+  --btn-soft-bg: var(--color-secondary-soft);
+  --btn-soft-bg-hover: var(--color-secondary-soft-hover);
+  --btn-soft-fg: var(--color-secondary-soft-foreground);
+  --btn-tint-bg: color-mix(in oklab, var(--color-secondary) 12%, transparent);
+  --btn-tint-bg-hover: color-mix(in oklab, var(--color-secondary) 18%, transparent);
+  --btn-tint-fg: var(--color-secondary);
+}
+
+.button--color-accent {
   --btn-solid-bg: var(--color-accent);
   --btn-solid-bg-hover: var(--color-accent-hover);
   --btn-solid-fg: var(--color-accent-foreground);

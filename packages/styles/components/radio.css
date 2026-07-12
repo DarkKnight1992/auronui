@@ -74,13 +74,13 @@
   /* Selected */
   .radio[aria-checked="true"] &,
   .radio[data-state="checked"] & {
-    @apply border-transparent bg-accent;
+    @apply border-transparent bg-primary;
   }
 
   /* Selected + Pressed */
   .radio:active[data-state="checked"] &,
   .radio:active[data-state="checked"] & {
-    @apply bg-accent-hover;
+    @apply bg-primary-hover;
   }
 
   /* Validation states */
@@ -132,7 +132,7 @@
 /* Selected state */
 .radio[aria-checked="true"] .radio__indicator:empty::before,
 .radio[data-state="checked"] .radio__indicator:empty::before {
-  @apply bg-accent-foreground;
+  @apply bg-primary-foreground;
   scale: 0.4286; /* 6px */
 }
 

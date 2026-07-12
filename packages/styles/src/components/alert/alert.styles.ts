@@ -15,6 +15,9 @@ export const alertVariants = tv({
   },
   variants: {
     status: {
+      primary: {
+        base: "alert--primary",
+      },
       accent: {
         base: "alert--accent",
       },

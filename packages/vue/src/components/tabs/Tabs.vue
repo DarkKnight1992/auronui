@@ -24,6 +24,7 @@ const props = withDefaults(defineProps<{
   defaultValue?: string
   orientation?: 'horizontal' | 'vertical'
   variant?: TabsVariants['variant']
+  color?: TabsVariants['color']
   activationMode?: 'automatic' | 'manual'
   class?: ClassValue
   /** Override classes for individual slots */
@@ -48,6 +49,7 @@ const props = withDefaults(defineProps<{
 }>(), {
   orientation: 'horizontal',
   variant: 'primary',
+  color: 'primary',
   activationMode: 'automatic',
 })
 
@@ -76,7 +78,7 @@ function changeTab(value: string) {
   emit('update:modelValue', value)
 }
 
-const slotFns = computed(() => tabsVariants({ variant: props.variant }))
+const slotFns = computed(() => tabsVariants({ variant: props.variant, color: props.color }))
 
 useTabsProvide({
   slotFns,

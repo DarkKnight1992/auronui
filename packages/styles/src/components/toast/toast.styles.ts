@@ -45,6 +45,9 @@ export const toastVariants = tv({
       },
     },
     variant: {
+      primary: {
+        toast: "toast--primary",
+      },
       accent: {
         toast: "toast--accent",
       },

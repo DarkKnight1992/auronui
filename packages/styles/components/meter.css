@@ -10,8 +10,8 @@
     "track track";
   grid-template-columns: 1fr auto;
 
-  /* Default color tokens (accent) */
-  --meter-fill: var(--color-accent);
+  /* Default color tokens (primary) */
+  --meter-fill: var(--color-primary);
 
   [data-slot="label"] {
     @apply w-fit text-sm font-medium;
@@ -85,6 +85,10 @@
 
 .meter--default {
   --meter-fill: var(--color-default-foreground);
+}
+
+.meter--primary {
+  --meter-fill: var(--color-primary);
 }
 
 .meter--accent {

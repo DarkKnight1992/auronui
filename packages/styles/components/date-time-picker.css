@@ -158,7 +158,7 @@
   @apply motion-reduce:transition-none;
 
   &[data-selected="true"] {
-    @apply bg-accent text-accent-foreground font-medium;
+    @apply bg-primary text-primary-foreground font-medium;
   }
 
   &[data-disabled="true"] {

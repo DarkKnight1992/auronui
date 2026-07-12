@@ -12,7 +12,7 @@ const meta: Meta<typeof Button> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     size: {
       control: "select",
@@ -198,6 +198,8 @@ export const AllColors: Story = {
       <div style="display:flex;flex-wrap:wrap;gap:8px">
         <Button v-bind="args" color="default">Default</Button>
         <Button v-bind="args" color="primary">Primary</Button>
+        <Button v-bind="args" color="secondary">Secondary</Button>
+        <Button v-bind="args" color="accent">Accent</Button>
         <Button v-bind="args" color="success">Success</Button>
         <Button v-bind="args" color="warning">Warning</Button>
         <Button v-bind="args" color="danger">Danger</Button>
@@ -215,6 +217,8 @@ import { Button } from '@auronui/vue'
   <div style="display:flex;flex-wrap:wrap;gap:8px">
     <Button size="sm" variant="solid" color="default">Default</Button>
     <Button size="sm" variant="solid" color="primary">Primary</Button>
+    <Button size="sm" variant="solid" color="secondary">Secondary</Button>
+    <Button size="sm" variant="solid" color="accent">Accent</Button>
     <Button size="sm" variant="solid" color="success">Success</Button>
     <Button size="sm" variant="solid" color="warning">Warning</Button>
     <Button size="sm" variant="solid" color="danger">Danger</Button>

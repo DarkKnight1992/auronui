@@ -32,7 +32,7 @@
 }
 
 .calendar__nav-button {
-  @apply flex size-6 items-center justify-center rounded-full text-accent;
+  @apply flex size-6 items-center justify-center rounded-full text-primary;
 
   will-change: scale;
 
@@ -53,7 +53,7 @@
   @media (hover: hover) {
     &:hover,
     &[data-hovered="true"] {
-      @apply bg-default text-accent;
+      @apply bg-default text-primary;
     }
   }
 
@@ -158,12 +158,12 @@
 
   /* Today indicator (data-today lives on the trigger) */
   &:has([data-today]) {
-    @apply text-accent;
+    @apply text-primary;
   }
 
   /* Selected state (reka-ui: CalendarCell gets aria-selected; CellTrigger gets data-selected) */
   &[aria-selected="true"] {
-    @apply bg-accent text-accent-foreground;
+    @apply bg-primary text-primary-foreground;
   }
 
   /* Pressed state */
@@ -173,7 +173,7 @@
     transform: scale(0.95);
 
     &[aria-selected="true"] {
-      @apply bg-accent-hover;
+      @apply bg-primary-hover;
     }
   }
 
@@ -233,7 +233,7 @@
 
   /* Indicator color changes when cell is selected */
   [data-state="checked"] > & {
-    @apply bg-accent-foreground;
+    @apply bg-primary-foreground;
   }
 }
 
@@ -324,7 +324,7 @@
   }
 
   &[data-selected] {
-    @apply bg-accent text-accent-foreground;
+    @apply bg-primary text-primary-foreground;
   }
 
   &:disabled,

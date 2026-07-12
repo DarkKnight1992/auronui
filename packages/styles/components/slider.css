@@ -8,6 +8,11 @@
     "track track";
   grid-template-columns: 1fr auto;
 
+  /* Default color tokens (primary) */
+  --slider-fill: var(--color-primary);
+  --slider-thumb-bg: var(--color-primary);
+  --slider-thumb-fg: var(--color-primary-foreground);
+
   [data-slot="label"] {
     @apply w-fit text-sm font-medium;
 
@@ -27,12 +32,14 @@
   }
 
   .slider__fill {
-    @apply pointer-events-none absolute bg-accent;
+    @apply pointer-events-none absolute;
+    background-color: var(--slider-fill);
   }
 
   .slider__thumb {
     /* Flex container for centering pseudo-elements */
-    @apply absolute flex cursor-grab items-center justify-center rounded-full bg-accent no-highlight;
+    @apply absolute flex cursor-grab items-center justify-center rounded-full no-highlight;
+    background-color: var(--slider-thumb-bg);
 
     /**
    * Transitions
@@ -46,7 +53,8 @@
 
     /* after: Visible thumb element */
     &::after {
-      @apply relative z-10 rounded-full bg-accent-foreground text-black shadow-field;
+      @apply relative z-10 rounded-full text-black shadow-field;
+      background-color: var(--slider-thumb-fg);
       content: "";
 
       /**
@@ -153,4 +161,44 @@
       }
     }
   }
+}
+
+/* ==========================================================================
+   Color variants
+   ========================================================================== */
+
+.slider--primary {
+  --slider-fill: var(--color-primary);
+  --slider-thumb-bg: var(--color-primary);
+  --slider-thumb-fg: var(--color-primary-foreground);
+}
+
+.slider--secondary {
+  --slider-fill: var(--color-secondary);
+  --slider-thumb-bg: var(--color-secondary);
+  --slider-thumb-fg: var(--color-secondary-foreground);
+}
+
+.slider--accent {
+  --slider-fill: var(--color-accent);
+  --slider-thumb-bg: var(--color-accent);
+  --slider-thumb-fg: var(--color-accent-foreground);
+}
+
+.slider--success {
+  --slider-fill: var(--color-success);
+  --slider-thumb-bg: var(--color-success);
+  --slider-thumb-fg: var(--color-success-foreground);
+}
+
+.slider--warning {
+  --slider-fill: var(--color-warning);
+  --slider-thumb-bg: var(--color-warning);
+  --slider-thumb-fg: var(--color-warning-foreground);
+}
+
+.slider--danger {
+  --slider-fill: var(--color-danger);
+  --slider-thumb-bg: var(--color-danger);
+  --slider-thumb-fg: var(--color-danger-foreground);
 }

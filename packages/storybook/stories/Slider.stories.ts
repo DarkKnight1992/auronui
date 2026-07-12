@@ -9,7 +9,7 @@ const meta: Meta<typeof Slider> = {
   argTypes: {
     color: {
       control: "select",
-      options: ["primary", "secondary", "success", "warning", "danger"],
+      options: ["primary", "secondary", "accent", "success", "warning", "danger"],
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
     radius: {
@@ -231,27 +231,8 @@ const lg = ref(70)
 };
 
 export const Colors: Story = {
-  render: (args) => ({
-    components: { Slider },
-    setup() {
-      const primary = ref(40);
-      const secondary = ref(50);
-      const success = ref(60);
-      const warning = ref(70);
-      const danger = ref(80);
-      return { args, primary, secondary, success, warning, danger };
-    },
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px;">
-        <Slider v-bind="args" v-model="primary" color="primary" label="Primary" min="0" max="100" />
-        <Slider v-bind="args" v-model="secondary" color="secondary" label="Secondary" min="0" max="100" />
-        <Slider v-bind="args" v-model="success" color="success" label="Success" min="0" max="100" />
-        <Slider v-bind="args" v-model="warning" color="warning" label="Warning" min="0" max="100" />
-        <Slider v-bind="args" v-model="danger" color="danger" label="Danger" min="0" max="100" />
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -260,6 +241,7 @@ import { Slider } from '@auronui/vue'
 
 const primary = ref(40)
 const secondary = ref(50)
+const accent = ref(55)
 const success = ref(60)
 const warning = ref(70)
 const danger = ref(80)
@@ -269,6 +251,7 @@ const danger = ref(80)
   <div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px;">
     <Slider v-model="primary" color="primary" label="Primary" :min="0" :max="100" />
     <Slider v-model="secondary" color="secondary" label="Secondary" :min="0" :max="100" />
+    <Slider v-model="accent" color="accent" label="Accent" :min="0" :max="100" />
     <Slider v-model="success" color="success" label="Success" :min="0" :max="100" />
     <Slider v-model="warning" color="warning" label="Warning" :min="0" :max="100" />
     <Slider v-model="danger" color="danger" label="Danger" :min="0" :max="100" />
@@ -278,6 +261,28 @@ const danger = ref(80)
       },
     },
   },
+  render: (args) => ({
+    components: { Slider },
+    setup() {
+      const primary = ref(40);
+      const secondary = ref(50);
+      const accent = ref(55);
+      const success = ref(60);
+      const warning = ref(70);
+      const danger = ref(80);
+      return { args, primary, secondary, accent, success, warning, danger };
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 24px; max-width: 400px;">
+        <Slider v-bind="args" v-model="primary" color="primary" label="Primary" min="0" max="100" />
+        <Slider v-bind="args" v-model="secondary" color="secondary" label="Secondary" min="0" max="100" />
+        <Slider v-bind="args" v-model="accent" color="accent" label="Accent" min="0" max="100" />
+        <Slider v-bind="args" v-model="success" color="success" label="Success" min="0" max="100" />
+        <Slider v-bind="args" v-model="warning" color="warning" label="Warning" min="0" max="100" />
+        <Slider v-bind="args" v-model="danger" color="danger" label="Danger" min="0" max="100" />
+      </div>
+    `,
+  }),
 };
 
 export const WithLabel: Story = {

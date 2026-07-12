@@ -15,11 +15,11 @@ describe('Spinner', () => {
     expect(wrapper.attributes('aria-label')).toBe('Please wait')
   })
 
-  it('applies class "spinner spinner--md spinner--accent" with defaults', () => {
+  it('applies class "spinner spinner--md spinner--primary" with defaults', () => {
     const wrapper = mount(Spinner)
     expect(wrapper.classes()).toContain('spinner')
     expect(wrapper.classes()).toContain('spinner--md')
-    expect(wrapper.classes()).toContain('spinner--accent')
+    expect(wrapper.classes()).toContain('spinner--primary')
   })
 
   it('applies class "spinner spinner--lg spinner--danger" with size="lg" color="danger"', () => {

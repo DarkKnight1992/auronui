@@ -7,6 +7,14 @@ const meta: Meta = {
   tags: ['autodocs'],
   component: ButtonGroup,
   argTypes: {
+    variant: {
+      control: 'select',
+      options: ['solid', 'default', 'bordered', 'ghost', 'soft'],
+    },
+    color: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
+    },
     classNames: {
       control: 'object',
       description: 'Per-slot class overrides. Keys match the component anatomy slot names.',
@@ -18,6 +26,9 @@ export default meta
 type Story = StoryObj
 
 export const HorizontalDefault: Story = {
+  args: {
+    variant: 'bordered',
+  },
   parameters: {
     docs: {
       source: {
@@ -26,10 +37,10 @@ import { ButtonGroup, Button } from '@auronui/vue'
 </script>
 
 <template>
-  <ButtonGroup orientation="horizontal">
-    <Button variant="bordered">One</Button>
-    <Button variant="bordered">Two</Button>
-    <Button variant="bordered">Three</Button>
+  <ButtonGroup orientation="horizontal" variant="bordered">
+    <Button>One</Button>
+    <Button>Two</Button>
+    <Button>Three</Button>
   </ButtonGroup>
 </template>`,
         type: 'code',
@@ -42,15 +53,18 @@ import { ButtonGroup, Button } from '@auronui/vue'
     setup: () => ({ args }),
     template: `
       <ButtonGroup v-bind="args" orientation="horizontal">
-        <Button variant="bordered">One</Button>
-        <Button variant="bordered">Two</Button>
-        <Button variant="bordered">Three</Button>
+        <Button>One</Button>
+        <Button>Two</Button>
+        <Button>Three</Button>
       </ButtonGroup>
     `,
   }),
 }
 
 export const VerticalGroup: Story = {
+  args: {
+    variant: 'bordered',
+  },
   parameters: {
     docs: {
       source: {
@@ -59,10 +73,10 @@ import { ButtonGroup, Button } from '@auronui/vue'
 </script>
 
 <template>
-  <ButtonGroup orientation="vertical">
-    <Button variant="bordered">Top</Button>
-    <Button variant="bordered">Middle</Button>
-    <Button variant="bordered">Bottom</Button>
+  <ButtonGroup orientation="vertical" variant="bordered">
+    <Button>Top</Button>
+    <Button>Middle</Button>
+    <Button>Bottom</Button>
   </ButtonGroup>
 </template>`,
         language: 'vue',
@@ -74,9 +88,9 @@ import { ButtonGroup, Button } from '@auronui/vue'
     setup: () => ({ args }),
     template: `
       <ButtonGroup v-bind="args" orientation="vertical">
-        <Button variant="bordered">Top</Button>
-        <Button variant="bordered">Middle</Button>
-        <Button variant="bordered">Bottom</Button>
+        <Button>Top</Button>
+        <Button>Middle</Button>
+        <Button>Bottom</Button>
       </ButtonGroup>
     `,
   }),
@@ -84,6 +98,7 @@ import { ButtonGroup, Button } from '@auronui/vue'
 
 export const VariantPropagation: Story = {
   parameters: {
+    controls: { exclude: ['variant'] },
     docs: {
       source: {
         code: `<script setup>
@@ -107,17 +122,16 @@ import { ButtonGroup, Button } from '@auronui/vue'
       },
     },
   },
-  render: (args) => ({
+  render: () => ({
     components: { Button, ButtonGroup },
-    setup: () => ({ args }),
     template: `
       <div style="display:flex;flex-direction:column;gap:16px">
-        <ButtonGroup v-bind="args" variant="success">
+        <ButtonGroup variant="success">
           <Button>A</Button>
           <Button>B</Button>
           <Button variant="danger">Override</Button>
         </ButtonGroup>
-        <ButtonGroup v-bind="args" variant="warning">
+        <ButtonGroup variant="warning">
           <Button>X</Button>
           <Button>Y</Button>
         </ButtonGroup>
@@ -238,6 +252,7 @@ import { ButtonGroup, Button } from '@auronui/vue'
 
 export const SelectableVertical: Story = {
   parameters: {
+    controls: { exclude: ['variant'] },
     docs: {
       source: {
         code: `<script setup>
@@ -282,6 +297,7 @@ const selected = ref('middle')
 
 export const SelectableHorizontal: Story = {
   parameters: {
+    controls: { exclude: ['variant'] },
     docs: {
       source: {
         code: `<script setup>
@@ -326,6 +342,7 @@ const selected = ref(null)
 
 export const MultiSelect: Story = {
   parameters: {
+    controls: { exclude: ['variant'] },
     docs: {
       source: {
         code: `<script setup>
@@ -372,6 +389,7 @@ const selected = ref(['bold', 'italic'])
 
 export const MultiSelectVertical: Story = {
   parameters: {
+    controls: { exclude: ['variant'] },
     docs: {
       source: {
         code: `<script setup>
@@ -416,6 +434,9 @@ const selected = ref([])
 
 export const CustomStyles: Story = {
   name: 'Custom styles via classNames',
+  args: {
+    variant: 'bordered',
+  },
   parameters: {
     docs: {
       source: {
@@ -426,13 +447,14 @@ import { ButtonGroup, Button } from '@auronui/vue'
 <template>
   <ButtonGroup
     orientation="horizontal"
+    variant="bordered"
     :class-names="{
       base: 'border-2 border-blue-500 rounded-xl bg-blue-50 p-2',
     }"
   >
-    <Button variant="bordered">Option One</Button>
-    <Button variant="bordered">Option Two</Button>
-    <Button variant="bordered">Option Three</Button>
+    <Button>Option One</Button>
+    <Button>Option Two</Button>
+    <Button>Option Three</Button>
   </ButtonGroup>
 </template>`,
         language: 'vue',
@@ -450,9 +472,9 @@ import { ButtonGroup, Button } from '@auronui/vue'
           base: 'border-2 border-blue-500 rounded-xl bg-blue-50 p-2',
         }"
       >
-        <Button variant="bordered">Option One</Button>
-        <Button variant="bordered">Option Two</Button>
-        <Button variant="bordered">Option Three</Button>
+        <Button>Option One</Button>
+        <Button>Option Two</Button>
+        <Button>Option Three</Button>
       </ButtonGroup>
     `,
   }),
@@ -461,6 +483,7 @@ import { ButtonGroup, Button } from '@auronui/vue'
 export const ArrayAPI: Story = {
   name: 'Array API (buttons prop)',
   parameters: {
+    controls: { exclude: ['variant'] },
     docs: {
       source: {
         code: `<script setup>

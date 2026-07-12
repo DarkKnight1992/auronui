@@ -9,7 +9,7 @@ const meta: Meta<typeof Alert> = {
   argTypes: {
     severity: {
       control: 'select',
-      options: ['default', 'primary', 'success', 'warning', 'danger'],
+      options: ['default', 'primary', 'accent', 'success', 'warning', 'danger'],
     },
     isClosable: { control: 'boolean' },
   },
@@ -45,35 +45,8 @@ import { Alert } from '@auronui/vue'
 }
 
 export const AllSeverities: Story = {
-  render: (args) => ({
-    components: { Alert, AlertTitle, AlertDescription },
-    setup() { return { args } },
-    template: `
-      <div style="display:flex;flex-direction:column;gap:12px;">
-        <Alert v-bind="args" severity="default">
-          <AlertTitle>Default</AlertTitle>
-          <AlertDescription>This is a default informational alert.</AlertDescription>
-        </Alert>
-        <Alert v-bind="args" severity="primary">
-          <AlertTitle>Primary</AlertTitle>
-          <AlertDescription>This is a primary branded alert.</AlertDescription>
-        </Alert>
-        <Alert v-bind="args" severity="success">
-          <AlertTitle>Success</AlertTitle>
-          <AlertDescription>Your action was completed successfully.</AlertDescription>
-        </Alert>
-        <Alert v-bind="args" severity="warning">
-          <AlertTitle>Warning</AlertTitle>
-          <AlertDescription>Please review before proceeding.</AlertDescription>
-        </Alert>
-        <Alert v-bind="args" severity="danger">
-          <AlertTitle>Danger</AlertTitle>
-          <AlertDescription>Something went wrong. Please try again.</AlertDescription>
-        </Alert>
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['severity'] },
     docs: {
       source: {
         code: `<script setup>
@@ -89,6 +62,10 @@ import { Alert, AlertTitle, AlertDescription } from '@auronui/vue'
     <Alert severity="primary">
       <AlertTitle>Primary</AlertTitle>
       <AlertDescription>This is a primary branded alert.</AlertDescription>
+    </Alert>
+    <Alert severity="accent">
+      <AlertTitle>Accent</AlertTitle>
+      <AlertDescription>This is an accent-toned alert.</AlertDescription>
     </Alert>
     <Alert severity="success">
       <AlertTitle>Success</AlertTitle>
@@ -108,6 +85,38 @@ import { Alert, AlertTitle, AlertDescription } from '@auronui/vue'
       },
     },
   },
+  render: (args) => ({
+    components: { Alert, AlertTitle, AlertDescription },
+    setup() { return { args } },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:12px;">
+        <Alert v-bind="args" severity="default">
+          <AlertTitle>Default</AlertTitle>
+          <AlertDescription>This is a default informational alert.</AlertDescription>
+        </Alert>
+        <Alert v-bind="args" severity="primary">
+          <AlertTitle>Primary</AlertTitle>
+          <AlertDescription>This is a primary branded alert.</AlertDescription>
+        </Alert>
+        <Alert v-bind="args" severity="accent">
+          <AlertTitle>Accent</AlertTitle>
+          <AlertDescription>This is an accent-toned alert.</AlertDescription>
+        </Alert>
+        <Alert v-bind="args" severity="success">
+          <AlertTitle>Success</AlertTitle>
+          <AlertDescription>Your action was completed successfully.</AlertDescription>
+        </Alert>
+        <Alert v-bind="args" severity="warning">
+          <AlertTitle>Warning</AlertTitle>
+          <AlertDescription>Please review before proceeding.</AlertDescription>
+        </Alert>
+        <Alert v-bind="args" severity="danger">
+          <AlertTitle>Danger</AlertTitle>
+          <AlertDescription>Something went wrong. Please try again.</AlertDescription>
+        </Alert>
+      </div>
+    `,
+  }),
 }
 
 export const Closable: Story = {

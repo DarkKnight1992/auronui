@@ -173,24 +173,17 @@
 
 /* ─── Color modifiers ─────────────────────────────────────────────────────── */
 
-.time-range-field--default {
-  --time-range-field-accent: var(--color-default-foreground);
-  accent-color: var(--time-range-field-accent);
-}
+
 
 .time-range-field--primary {
-  --time-range-field-accent: var(--color-primary);
-  accent-color: var(--time-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .time-range-field--secondary {
-  --time-range-field-accent: var(--color-secondary);
-  accent-color: var(--time-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-secondary);
@@ -199,8 +192,6 @@
 }
 
 .time-range-field--success {
-  --time-range-field-accent: var(--color-success);
-  accent-color: var(--time-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-success);
@@ -209,8 +200,6 @@
 }
 
 .time-range-field--warning {
-  --time-range-field-accent: var(--color-warning);
-  accent-color: var(--time-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-warning);
@@ -219,8 +208,6 @@
 }
 
 .time-range-field--danger {
-  --time-range-field-accent: var(--color-danger);
-  accent-color: var(--time-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-danger);

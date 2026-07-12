@@ -175,4 +175,36 @@ describe('Toast axe audit', async () => {
     const results = await axe.run(wrapper.element)
     expect(results).toHaveNoViolations()
   })
+
+  it('ToastClose picks up the parent Toast variant as its color', () => {
+    const TestComp = defineComponent({
+      components: { Toast, ToastTitle, ToastClose },
+      template: `
+        <Toast :open="true" :duration="0" variant="danger">
+          <ToastTitle>Error</ToastTitle>
+          <ToastClose />
+        </Toast>
+      `,
+    })
+    const wrapper = mount(TestComp, { attachTo: document.body })
+    mountedWrappers.push(wrapper)
+    const closeBtn = wrapper.find('button[aria-label="Close notification"]')
+    expect(closeBtn.classes()).toContain('button--color-danger')
+  })
+
+  it('ToastClose defaults to the default color when Toast has no explicit variant', () => {
+    const TestComp = defineComponent({
+      components: { Toast, ToastTitle, ToastClose },
+      template: `
+        <Toast :open="true" :duration="0">
+          <ToastTitle>Notice</ToastTitle>
+          <ToastClose />
+        </Toast>
+      `,
+    })
+    const wrapper = mount(TestComp, { attachTo: document.body })
+    mountedWrappers.push(wrapper)
+    const closeBtn = wrapper.find('button[aria-label="Close notification"]')
+    expect(closeBtn.classes()).toContain('button--color-default')
+  })
 })

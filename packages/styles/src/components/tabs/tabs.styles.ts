@@ -5,6 +5,7 @@ import {tv} from "tailwind-variants";
 export const tabsVariants = tv({
   defaultVariants: {
     variant: "primary",
+    color: "primary",
   },
   slots: {
     base: "tabs",
@@ -26,6 +27,14 @@ export const tabsVariants = tv({
       secondary: {
         base: "tabs--secondary",
       },
+    },
+    color: {
+      primary: { base: "tabs--color-primary" },
+      secondary: { base: "tabs--color-secondary" },
+      accent: { base: "tabs--color-accent" },
+      success: { base: "tabs--color-success" },
+      warning: { base: "tabs--color-warning" },
+      danger: { base: "tabs--color-danger" },
     },
   },
 });

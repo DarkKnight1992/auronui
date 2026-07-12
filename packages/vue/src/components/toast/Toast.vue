@@ -4,6 +4,7 @@ import { ToastRoot } from 'reka-ui'
 import { toastVariants } from '@auronui/styles'
 import type { ToastVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
+import { useToastProvide } from './toast.context'
 
 type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left'
 
@@ -85,6 +86,10 @@ const placementVariant = computed<ToastVariants['placement']>(() => {
 const styles = computed(() =>
   toastVariants({ placement: placementVariant.value, variant: props.variant }),
 )
+
+useToastProvide({
+  variant: computed(() => props.variant),
+})
 </script>
 
 <template>

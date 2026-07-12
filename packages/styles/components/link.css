@@ -78,6 +78,10 @@
 }
 
 .link--color-primary {
+  color: var(--color-primary);
+}
+
+.link--color-accent {
   color: var(--color-accent);
 }
 

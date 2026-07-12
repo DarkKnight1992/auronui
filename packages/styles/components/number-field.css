@@ -323,12 +323,8 @@
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
 
-.number-field--default .number-field__group {
-  --number-field-accent: var(--color-default-foreground);
-}
 
 .number-field--primary .number-field__group {
-  --number-field-accent: var(--color-primary);
 
   &:focus-within,
   &[data-focus-within="true"] {
@@ -338,7 +334,6 @@
 }
 
 .number-field--secondary .number-field__group {
-  --number-field-accent: var(--color-secondary);
 
   &:focus-within,
   &[data-focus-within="true"] {
@@ -348,7 +343,6 @@
 }
 
 .number-field--success .number-field__group {
-  --number-field-accent: var(--color-success);
 
   &:focus-within,
   &[data-focus-within="true"] {
@@ -358,7 +352,6 @@
 }
 
 .number-field--warning .number-field__group {
-  --number-field-accent: var(--color-warning);
 
   &:focus-within,
   &[data-focus-within="true"] {
@@ -368,7 +361,6 @@
 }
 
 .number-field--danger .number-field__group {
-  --number-field-accent: var(--color-danger);
 
   &:focus-within,
   &[data-focus-within="true"] {

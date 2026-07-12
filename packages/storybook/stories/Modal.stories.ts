@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import {
   Button,
+  CloseButton,
   Modal,
   ModalTrigger,
   ModalContent,
@@ -108,6 +109,7 @@ type Story = StoryObj
 
 const components = {
   Button,
+  CloseButton,
   Modal,
   ModalTrigger,
   ModalContent,
@@ -137,6 +139,9 @@ export const Default: Story = {
           :disabled="args.contentDisabled"
           :defer="args.contentDefer"
         >
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader>
             <ModalTitle :as-child="args.titleAsChild">Modal Title</ModalTitle>
             <ModalDescription :as-child="args.descriptionAsChild">This is a description for the modal dialog.</ModalDescription>
@@ -170,6 +175,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -179,6 +185,9 @@ import {
       <Button>Open Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader>
         <ModalTitle>Modal Title</ModalTitle>
         <ModalDescription>This is a description for the modal dialog.</ModalDescription>
@@ -212,6 +221,9 @@ export const SizeSm: Story = {
           <Button>Open Small Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Small Modal</ModalTitle></ModalHeader>
           <ModalBody><p>This is a small modal.</p></ModalBody>
           <ModalFooter>
@@ -237,6 +249,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -246,6 +259,9 @@ import {
       <Button>Open Small Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Small Modal</ModalTitle></ModalHeader>
       <ModalBody><p>This is a small modal.</p></ModalBody>
       <ModalFooter>
@@ -273,6 +289,9 @@ export const SizeLg: Story = {
           <Button>Open Large Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Large Modal</ModalTitle></ModalHeader>
           <ModalBody><p>This is a large modal with more space for content.</p></ModalBody>
           <ModalFooter>
@@ -298,6 +317,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -307,6 +327,9 @@ import {
       <Button>Open Large Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Large Modal</ModalTitle></ModalHeader>
       <ModalBody><p>This is a large modal with more space for content.</p></ModalBody>
       <ModalFooter>
@@ -334,6 +357,9 @@ export const SizeFull: Story = {
           <Button>Open Full Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Full Screen Modal</ModalTitle></ModalHeader>
           <ModalBody><p>This modal takes up the full screen.</p></ModalBody>
           <ModalFooter>
@@ -359,6 +385,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -368,6 +395,9 @@ import {
       <Button>Open Full Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Full Screen Modal</ModalTitle></ModalHeader>
       <ModalBody><p>This modal takes up the full screen.</p></ModalBody>
       <ModalFooter>
@@ -395,6 +425,9 @@ export const PlacementTop: Story = {
           <Button>Open Top Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Top Placement</ModalTitle></ModalHeader>
           <ModalBody><p>This modal aligns to the top.</p></ModalBody>
           <ModalFooter>
@@ -420,6 +453,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -429,6 +463,9 @@ import {
       <Button>Open Top Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Top Placement</ModalTitle></ModalHeader>
       <ModalBody><p>This modal aligns to the top.</p></ModalBody>
       <ModalFooter>
@@ -456,6 +493,9 @@ export const PlacementBottom: Story = {
           <Button>Open Bottom Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Bottom Placement</ModalTitle></ModalHeader>
           <ModalBody><p>This modal aligns to the bottom.</p></ModalBody>
           <ModalFooter>
@@ -481,6 +521,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -490,6 +531,9 @@ import {
       <Button>Open Bottom Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Bottom Placement</ModalTitle></ModalHeader>
       <ModalBody><p>This modal aligns to the bottom.</p></ModalBody>
       <ModalFooter>
@@ -517,6 +561,9 @@ export const WithScrollableContent: Story = {
           <Button>Open Scrollable Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Scrollable Content</ModalTitle></ModalHeader>
           <ModalBody>
             <p v-for="i in 20" :key="i" style="margin: 0 0 12px; font-size: 14px; color: #555;">
@@ -546,6 +593,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -555,6 +603,9 @@ import {
       <Button>Open Scrollable Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Scrollable Content</ModalTitle></ModalHeader>
       <ModalBody>
         <p v-for="i in 20" :key="i">
@@ -586,6 +637,9 @@ export const NestedModals: Story = {
           <Button>Open First Modal</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader>
             <ModalTitle>First Modal</ModalTitle>
             <ModalDescription>This is the first modal. Open a second one on top.</ModalDescription>
@@ -596,6 +650,9 @@ export const NestedModals: Story = {
                 <Button color="primary" variant="solid">Open Second Modal</Button>
               </ModalTrigger>
               <ModalContent>
+                <ModalClose as-child class="modal__close-trigger">
+                  <CloseButton aria-label="Close modal" />
+                </ModalClose>
                 <ModalHeader>
                   <ModalTitle>Second Modal</ModalTitle>
                   <ModalDescription>The second modal's backdrop should cover the first modal completely.</ModalDescription>
@@ -637,6 +694,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -646,6 +704,9 @@ import {
       <Button>Open First Modal</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader>
         <ModalTitle>First Modal</ModalTitle>
         <ModalDescription>This is the first modal. Open a second one on top.</ModalDescription>
@@ -656,6 +717,9 @@ import {
             <Button color="primary" variant="solid">Open Second Modal</Button>
           </ModalTrigger>
           <ModalContent>
+            <ModalClose as-child class="modal__close-trigger">
+              <CloseButton aria-label="Close modal" />
+            </ModalClose>
             <ModalHeader>
               <ModalTitle>Second Modal</ModalTitle>
               <ModalDescription>The second modal's backdrop should cover the first modal completely.</ModalDescription>
@@ -696,6 +760,9 @@ export const BlurBackdrop: Story = {
           <Button>Open with Blur Backdrop</Button>
         </ModalTrigger>
         <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
           <ModalHeader><ModalTitle>Blur Backdrop</ModalTitle></ModalHeader>
           <ModalBody><p>The backdrop has a blur effect behind the dialog.</p></ModalBody>
           <ModalFooter>
@@ -721,6 +788,7 @@ import {
   ModalFooter,
   ModalClose,
   Button,
+  CloseButton,
 } from '@auronui/vue'
 </script>
 
@@ -730,6 +798,9 @@ import {
       <Button>Open with Blur Backdrop</Button>
     </ModalTrigger>
     <ModalContent>
+      <ModalClose as-child class="modal__close-trigger">
+        <CloseButton aria-label="Close modal" />
+      </ModalClose>
       <ModalHeader><ModalTitle>Blur Backdrop</ModalTitle></ModalHeader>
       <ModalBody><p>The backdrop has a blur effect behind the dialog.</p></ModalBody>
       <ModalFooter>

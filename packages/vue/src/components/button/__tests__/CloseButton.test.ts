@@ -53,6 +53,17 @@ describe('CloseButton', () => {
     expect(wrapper.classes()).toContain('button--lg')
   })
 
+  it('variant prop overrides the default ghost variant', () => {
+    const wrapper = mount(CloseButton, { props: { variant: 'soft' } })
+    expect(wrapper.classes()).toContain('button--soft')
+    expect(wrapper.classes()).not.toContain('button--ghost')
+  })
+
+  it('color prop is forwarded to Button', () => {
+    const wrapper = mount(CloseButton, { props: { color: 'danger' } })
+    expect(wrapper.classes()).toContain('button--color-danger')
+  })
+
   it('disabled prop forwarded to Button', () => {
     const wrapper = mount(CloseButton, { props: { disabled: true } })
     expect(wrapper.attributes('disabled')).toBeDefined()

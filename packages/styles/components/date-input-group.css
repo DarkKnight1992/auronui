@@ -104,7 +104,7 @@
   /* Focused segment */
   &:focus,
   &[data-focused="true"] {
-    @apply bg-accent-soft text-accent-soft-foreground;
+    @apply bg-primary-soft text-primary-soft-foreground;
   }
 
   /* Disabled segment */

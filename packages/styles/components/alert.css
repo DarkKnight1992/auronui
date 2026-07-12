@@ -79,7 +79,23 @@
 }
 
 /**
- * Modifier: accent - primary / brand tone
+ * Modifier: primary - brand tone
+ */
+.alert--primary {
+  background-color: color-mix(in oklab, var(--primary) 8%, var(--surface));
+  border-color: color-mix(in oklab, var(--primary) 28%, transparent);
+}
+
+.alert--primary .alert__indicator {
+  @apply bg-primary-soft text-primary-soft-foreground;
+}
+
+.alert--primary .alert__title {
+  color: var(--color-primary-soft-foreground);
+}
+
+/**
+ * Modifier: accent
  */
 .alert--accent {
   background-color: color-mix(in oklab, var(--accent) 8%, var(--surface));

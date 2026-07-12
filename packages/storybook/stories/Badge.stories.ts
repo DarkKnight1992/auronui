@@ -8,7 +8,7 @@ const meta: Meta<typeof Badge> = {
   argTypes: {
     color: {
       control: "select",
-      options: ["default", "accent", "success", "warning", "danger"],
+      options: ["default", "primary", "accent", "success", "warning", "danger"],
     },
     size: { control: "select", options: ["xs", "sm", "md", "lg"] },
     variant: { control: "select", options: ["primary", "secondary", "soft"] },
@@ -216,20 +216,8 @@ import { Badge, Avatar } from '@auronui/vue'
 };
 
 export const Colors: Story = {
-  render: (args) => ({
-    components: { Badge, Avatar },
-    setup: () => ({ args }),
-    template: `
-      <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
-        <Badge v-bind="args" color="default"><Avatar name="D" /><template #label>1</template></Badge>
-        <Badge v-bind="args" color="accent"><Avatar name="A" /><template #label>2</template></Badge>
-        <Badge v-bind="args" color="success"><Avatar name="S" /><template #label>3</template></Badge>
-        <Badge v-bind="args" color="warning"><Avatar name="W" /><template #label>4</template></Badge>
-        <Badge v-bind="args" color="danger"><Avatar name="E" /><template #label>5</template></Badge>
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -239,16 +227,31 @@ import { Badge, Avatar } from '@auronui/vue'
 <template>
   <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
     <Badge color="default"><Avatar name="D" /><template #label>1</template></Badge>
-    <Badge color="accent"><Avatar name="A" /><template #label>2</template></Badge>
-    <Badge color="success"><Avatar name="S" /><template #label>3</template></Badge>
-    <Badge color="warning"><Avatar name="W" /><template #label>4</template></Badge>
-    <Badge color="danger"><Avatar name="E" /><template #label>5</template></Badge>
+    <Badge color="primary"><Avatar name="P" /><template #label>2</template></Badge>
+    <Badge color="accent"><Avatar name="A" /><template #label>3</template></Badge>
+    <Badge color="success"><Avatar name="S" /><template #label>4</template></Badge>
+    <Badge color="warning"><Avatar name="W" /><template #label>5</template></Badge>
+    <Badge color="danger"><Avatar name="E" /><template #label>6</template></Badge>
   </div>
 </template>`,
         language: 'vue',
       },
     },
   },
+  render: (args) => ({
+    components: { Badge, Avatar },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 32px; align-items: center; flex-wrap: wrap;">
+        <Badge v-bind="args" color="default"><Avatar name="D" /><template #label>1</template></Badge>
+        <Badge v-bind="args" color="primary"><Avatar name="P" /><template #label>2</template></Badge>
+        <Badge v-bind="args" color="accent"><Avatar name="A" /><template #label>3</template></Badge>
+        <Badge v-bind="args" color="success"><Avatar name="S" /><template #label>4</template></Badge>
+        <Badge v-bind="args" color="warning"><Avatar name="W" /><template #label>5</template></Badge>
+        <Badge v-bind="args" color="danger"><Avatar name="E" /><template #label>6</template></Badge>
+      </div>
+    `,
+  }),
 };
 
 export const Variants: Story = {

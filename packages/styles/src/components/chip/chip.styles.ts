@@ -18,6 +18,12 @@ export const chipVariants = tv({
   },
   variants: {
     color: {
+      primary: {
+        base: "chip--primary",
+      },
+      secondary: {
+        base: "chip--secondary",
+      },
       accent: {
         base: "chip--accent",
       },

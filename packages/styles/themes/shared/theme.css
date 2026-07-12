@@ -79,6 +79,8 @@
 
   /* ------------------------- */
   --color-default-hover: color-mix(in oklab, var(--default) 96%, var(--default-foreground) 4%);
+  --color-primary-hover: color-mix(in oklab, var(--primary) 90%, var(--primary-foreground) 10%);
+  --color-secondary-hover: color-mix(in oklab, var(--secondary) 90%, var(--secondary-foreground) 10%);
   --color-accent-hover: color-mix(in oklab, var(--accent) 90%, var(--accent-foreground) 10%);
   --color-success-hover: color-mix(in oklab, var(--success) 90%, var(--success-foreground) 10%);
   --color-warning-hover: color-mix(in oklab, var(--warning) 90%, var(--warning-foreground) 10%);
@@ -103,6 +105,14 @@
   );
 
   /* Soft Colors */
+  --color-primary-soft: color-mix(in oklab, var(--primary) 15%, transparent);
+  --color-primary-soft-foreground: var(--primary);
+  --color-primary-soft-hover: color-mix(in oklab, var(--primary) 20%, transparent);
+
+  --color-secondary-soft: color-mix(in oklab, var(--secondary) 15%, transparent);
+  --color-secondary-soft-foreground: var(--secondary);
+  --color-secondary-soft-hover: color-mix(in oklab, var(--secondary) 20%, transparent);
+
   --color-accent-soft: color-mix(in oklab, var(--accent) 15%, transparent);
   --color-accent-soft-foreground: var(--accent);
   --color-accent-soft-hover: color-mix(in oklab, var(--accent) 20%, transparent);

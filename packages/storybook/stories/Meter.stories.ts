@@ -8,7 +8,7 @@ const meta: Meta<typeof Meter> = {
   argTypes: {
     color: {
       control: "select",
-      options: ["default", "accent", "success", "warning", "danger"],
+      options: ["default", "primary", "accent", "success", "warning", "danger"],
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
     value: { control: { type: "range", min: 0, max: 100, step: 1 } },
@@ -24,7 +24,7 @@ const meta: Meta<typeof Meter> = {
     value: 50,
     minValue: 0,
     maxValue: 100,
-    color: "accent",
+    color: "primary",
     size: "md",
   },
 };
@@ -46,7 +46,7 @@ import { Meter } from '@auronui/vue'
 </script>
 
 <template>
-  <Meter :value="50" :min-value="0" :max-value="100" color="accent" size="md" />
+  <Meter :value="50" :min-value="0" :max-value="100" color="primary" size="md" />
 </template>`,
         language: 'vue',
       },
@@ -150,20 +150,8 @@ import { Meter } from '@auronui/vue'
 };
 
 export const Colors: Story = {
-  render: (args) => ({
-    components: { Meter },
-    setup: () => ({ args }),
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
-        <Meter v-bind="args" :value="60" color="default" label="Default" />
-        <Meter v-bind="args" :value="60" color="accent" label="Accent" />
-        <Meter v-bind="args" :value="60" color="success" label="Success" />
-        <Meter v-bind="args" :value="60" color="warning" label="Warning" />
-        <Meter v-bind="args" :value="60" color="danger" label="Danger" />
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -173,6 +161,7 @@ import { Meter } from '@auronui/vue'
 <template>
   <div class="flex flex-col gap-4 w-80">
     <Meter :value="60" color="default" label="Default" />
+    <Meter :value="60" color="primary" label="Primary" />
     <Meter :value="60" color="accent" label="Accent" />
     <Meter :value="60" color="success" label="Success" />
     <Meter :value="60" color="warning" label="Warning" />
@@ -183,6 +172,20 @@ import { Meter } from '@auronui/vue'
       },
     },
   },
+  render: (args) => ({
+    components: { Meter },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
+        <Meter v-bind="args" :value="60" color="default" label="Default" />
+        <Meter v-bind="args" :value="60" color="primary" label="Primary" />
+        <Meter v-bind="args" :value="60" color="accent" label="Accent" />
+        <Meter v-bind="args" :value="60" color="success" label="Success" />
+        <Meter v-bind="args" :value="60" color="warning" label="Warning" />
+        <Meter v-bind="args" :value="60" color="danger" label="Danger" />
+      </div>
+    `,
+  }),
 };
 
 export const CustomRange: Story = {

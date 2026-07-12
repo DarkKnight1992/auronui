@@ -12,13 +12,14 @@ afterEach(() => {
 function makeHarness(props: Record<string, unknown> = {}) {
   const w = mount({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
-    props: ['modelValue', 'orientation', 'variant', 'defaultValue'],
+    props: ['modelValue', 'orientation', 'variant', 'color', 'defaultValue'],
     template: `
       <Tabs
         :model-value="modelValue"
         :default-value="defaultValue"
         :orientation="orientation"
         :variant="variant"
+        :color="color"
       >
         <TabList>
           <Tab value="one">One</Tab>
@@ -62,6 +63,17 @@ describe('Tabs', () => {
   it('variant="secondary" applies tabs--secondary modifier', () => {
     const w = makeHarness({ defaultValue: 'one', variant: 'secondary' })
     expect(w.find('.tabs--secondary').exists()).toBe(true)
+  })
+
+  it('defaults to primary color', () => {
+    const w = makeHarness({ defaultValue: 'one' })
+    expect(w.find('.tabs--color-primary').exists()).toBe(true)
+  })
+
+  it('color prop applies the matching tabs--color-* modifier', () => {
+    const w = makeHarness({ defaultValue: 'one', variant: 'secondary', color: 'danger' })
+    expect(w.find('.tabs--color-danger').exists()).toBe(true)
+    expect(w.find('.tabs--color-primary').exists()).toBe(false)
   })
 
   it('orientation="vertical" sets data-orientation attribute', () => {

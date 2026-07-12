@@ -195,25 +195,16 @@
 
 /* ─── Color modifiers ────────────────────────────────────────────────────────── */
 
-.textarea--default {
-  --textarea-accent: var(--color-default-foreground);
-  accent-color: var(--textarea-accent);
-}
-
 .textarea--primary {
-  --textarea-accent: var(--color-primary);
-  accent-color: var(--textarea-accent);
 
   &:focus-within,
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .textarea--secondary {
-  --textarea-accent: var(--color-secondary);
-  accent-color: var(--textarea-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -223,8 +214,6 @@
 }
 
 .textarea--success {
-  --textarea-accent: var(--color-success);
-  accent-color: var(--textarea-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -234,8 +223,6 @@
 }
 
 .textarea--warning {
-  --textarea-accent: var(--color-warning);
-  accent-color: var(--textarea-accent);
 
   &:focus-within,
   &[data-focused="true"] {
@@ -246,7 +233,6 @@
 
 .textarea--danger {
   --textarea-accent: var(--color-danger);
-  accent-color: var(--textarea-accent);
 
   &:focus-within,
   &[data-focused="true"] {

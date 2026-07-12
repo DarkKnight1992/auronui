@@ -214,12 +214,12 @@ describe('Stepper', () => {
     expect(indicator.classes().join(' ')).toContain('stepper__indicator--danger')
   })
 
-  it('Test 14: color defaults to accent on StepperIndicator', () => {
+  it('Test 14: color defaults to primary on StepperIndicator', () => {
     const wrapper = mount(Stepper, {
       props: { items: [{ title: 'One' }] },
     })
     const indicator = wrapper.find('[data-slot="stepper-indicator"]')
-    expect(indicator.classes().join(' ')).toContain('stepper__indicator--accent')
+    expect(indicator.classes().join(' ')).toContain('stepper__indicator--primary')
   })
 })
 

@@ -40,6 +40,28 @@ describe('Slider', () => {
     expect((thumbs[0].element as HTMLElement).getAttribute('aria-valuenow')).toBe('50')
   })
 
+  it('defaults to primary color on fill and thumb', async () => {
+    const wrapper = mount(Slider, {
+      props: { modelValue: 50, min: 0, max: 100 },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    expect(wrapper.find('.slider__fill').classes()).toContain('slider--primary')
+    expect(wrapper.find('.slider__thumb').classes()).toContain('slider--primary')
+  })
+
+  it('applies the color prop to fill and thumb', async () => {
+    const wrapper = mount(Slider, {
+      props: { modelValue: 50, min: 0, max: 100, color: 'danger' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    expect(wrapper.find('.slider__fill').classes()).toContain('slider--danger')
+    expect(wrapper.find('.slider__thumb').classes()).toContain('slider--danger')
+  })
+
   // Test 2: Range mode — needs nextTick for Reka UI to mount
   it('range mode renders two thumbs with correct aria-valuenow values', async () => {
     const wrapper = mount(Slider, {

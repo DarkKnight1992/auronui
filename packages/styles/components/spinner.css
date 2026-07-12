@@ -25,6 +25,10 @@
   color: inherit;
 }
 
+.spinner--primary {
+  color: var(--primary);
+}
+
 .spinner--accent {
   color: var(--accent);
 }

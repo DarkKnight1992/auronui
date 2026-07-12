@@ -5,7 +5,7 @@ import { composeClassName } from '../../utils/composeClassName'
 import { AnimatePresence, motion } from '../../utils/motion'
 import CloseButton from '../button/CloseButton.vue'
 
-export type AlertSeverity = 'default' | 'primary' | 'success' | 'warning' | 'danger'
+export type AlertSeverity = 'default' | 'primary' | 'accent' | 'success' | 'warning' | 'danger'
 
 const props = withDefaults(defineProps<{
   /** Severity/status of the alert */
@@ -32,10 +32,10 @@ function dismiss() {
 }
 
 // Map public severity API to internal @auronui/styles status variant
-// 'primary' → 'accent' (the styles package uses 'accent' for the primary/brand color)
 const statusMap = {
   default: 'default',
-  primary: 'accent',
+  primary: 'primary',
+  accent: 'accent',
   success: 'success',
   warning: 'warning',
   danger: 'danger',
@@ -67,9 +67,9 @@ const styles = computed(() =>
             :class="styles.indicator()"
             aria-hidden="true"
           >
-            <!-- default / primary: info circle -->
+            <!-- default / primary / accent: info circle -->
             <svg
-              v-if="severity === 'default' || severity === 'primary'"
+              v-if="severity === 'default' || severity === 'primary' || severity === 'accent'"
               data-slot="alert-default-icon"
               viewBox="0 0 24 24"
               fill="none"
@@ -150,6 +150,7 @@ const styles = computed(() =>
         <CloseButton
           v-if="isClosable"
           size="sm"
+          :color="statusMap[severity ?? 'default']"
           aria-label="Dismiss alert"
           data-slot="close-button"
           @click="dismiss"

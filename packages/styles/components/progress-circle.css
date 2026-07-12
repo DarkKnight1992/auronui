@@ -6,7 +6,7 @@
 .progress-circle {
   @apply inline-flex items-center justify-center;
 
-  --progress-circle-stroke: var(--color-accent);
+  --progress-circle-stroke: var(--color-primary);
   --progress-circle-track-stroke: var(--color-default);
 
   .progress-circle__track {
@@ -58,7 +58,7 @@
 }
 
 .progress-circle--primary {
-  --progress-circle-stroke: var(--color-accent);
+  --progress-circle-stroke: var(--color-primary);
 }
 
 .progress-circle--secondary {

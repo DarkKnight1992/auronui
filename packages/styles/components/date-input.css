@@ -170,25 +170,16 @@
 
 /* ─── Color modifiers ─────────────────────────────────────────────────────── */
 
-.date-input--default {
-  --date-input-accent: var(--color-default-foreground);
-  accent-color: var(--date-input-accent);
-}
 
 .date-input--primary {
-  --date-input-accent: var(--color-primary);
-  accent-color: var(--date-input-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .date-input--secondary {
-  --date-input-accent: var(--color-secondary);
-  accent-color: var(--date-input-accent);
-
   &[data-focused="true"] {
     border-color: var(--color-secondary);
     --tw-ring-color: var(--color-secondary);
@@ -196,8 +187,6 @@
 }
 
 .date-input--success {
-  --date-input-accent: var(--color-success);
-  accent-color: var(--date-input-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-success);
@@ -206,8 +195,6 @@
 }
 
 .date-input--warning {
-  --date-input-accent: var(--color-warning);
-  accent-color: var(--date-input-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-warning);
@@ -216,8 +203,6 @@
 }
 
 .date-input--danger {
-  --date-input-accent: var(--color-danger);
-  accent-color: var(--date-input-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-danger);

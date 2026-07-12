@@ -52,6 +52,37 @@ describe('ButtonGroup', () => {
     expect(btn.classes()).not.toContain('button--soft')
   })
 
+  it('propagates color to child Buttons', () => {
+    const Wrapper = defineComponent({
+      components: { ButtonGroup, Button },
+      template: '<ButtonGroup color="secondary"><Button id="btn">A</Button></ButtonGroup>',
+    })
+    const wrapper = mount(Wrapper)
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('button--color-secondary')
+  })
+
+  it('propagates accent color to child Buttons', () => {
+    const Wrapper = defineComponent({
+      components: { ButtonGroup, Button },
+      template: '<ButtonGroup color="accent"><Button id="btn">A</Button></ButtonGroup>',
+    })
+    const wrapper = mount(Wrapper)
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('button--color-accent')
+  })
+
+  it('child explicit color overrides group color (D-13)', () => {
+    const Wrapper = defineComponent({
+      components: { ButtonGroup, Button },
+      template: '<ButtonGroup color="secondary"><Button color="danger">A</Button></ButtonGroup>',
+    })
+    const wrapper = mount(Wrapper)
+    const btn = wrapper.findComponent(Button)
+    expect(btn.classes()).toContain('button--color-danger')
+    expect(btn.classes()).not.toContain('button--color-secondary')
+  })
+
   it('reactive group disabled=true disables all children (D-22)', async () => {
     const disabled = ref(false)
     const Wrapper = defineComponent({

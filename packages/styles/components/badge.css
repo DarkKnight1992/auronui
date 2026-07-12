@@ -58,6 +58,10 @@
    Color variants - set foreground color
    ========================================================================== */
 
+.badge--color-primary {
+  --badge-fg: var(--color-primary);
+}
+
 .badge--accent {
   --badge-fg: var(--color-accent);
 }
@@ -131,6 +135,11 @@
    Compound variants - Primary (solid background)
    ========================================================================== */
 
+.badge--primary.badge--color-primary {
+  --badge-bg: var(--color-primary);
+  --badge-fg: var(--color-primary-foreground);
+}
+
 .badge--primary.badge--accent {
   --badge-bg: var(--color-accent);
   --badge-fg: var(--color-accent-foreground);
@@ -159,6 +168,11 @@
 /* ==========================================================================
    Compound variants - Soft (muted background)
    ========================================================================== */
+
+.badge--soft.badge--color-primary {
+  --badge-bg: var(--color-primary-soft);
+  --badge-fg: var(--color-primary-soft-foreground);
+}
 
 .badge--soft.badge--accent {
   --badge-bg: var(--color-accent-soft);

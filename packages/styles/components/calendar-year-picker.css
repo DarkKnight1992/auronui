@@ -75,7 +75,7 @@
 }
 
 .calendar-year-picker__trigger-indicator {
-  @apply text-xs text-accent;
+  @apply text-xs text-primary;
 
   transition: transform 300ms var(--ease-out);
   @apply motion-reduce:transition-none;
@@ -87,7 +87,7 @@
 }
 
 .calendar-year-picker__trigger[data-state="open"] .calendar-year-picker__trigger-heading {
-  @apply text-accent;
+  @apply text-primary;
 }
 
 /* -----------------------------------------------------------------------------
@@ -177,11 +177,11 @@
   /* Selected state (current year) – same as .tag[data-selected] */
   &[data-state="checked"],
   &[aria-selected="true"] {
-    @apply bg-accent text-accent-foreground;
+    @apply bg-primary text-primary-foreground;
 
     @media (hover: hover) and (pointer: fine) {
       &:hover {
-        @apply bg-accent-hover;
+        @apply bg-primary-hover;
       }
     }
   }

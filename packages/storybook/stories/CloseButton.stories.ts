@@ -8,6 +8,14 @@ const meta: Meta<typeof CloseButton> = {
   component: CloseButton,
   argTypes: {
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
+    variant: {
+      control: 'select',
+      options: ['solid', 'default', 'bordered', 'ghost', 'soft'],
+    },
+    color: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
+    },
     disabled: { control: 'boolean' },
     isLoading: { control: 'boolean' },
     ariaLabel: { control: 'text' },
@@ -70,6 +78,84 @@ import { CloseButton } from '@auronui/vue'
       },
     },
   },
+}
+
+export const Colors: Story = {
+  parameters: {
+    controls: { exclude: ['color'] },
+    docs: {
+      source: {
+        code: `<script setup>
+import { CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;align-items:center;gap:8px">
+    <CloseButton color="default" />
+    <CloseButton color="primary" />
+    <CloseButton color="secondary" />
+    <CloseButton color="accent" />
+    <CloseButton color="success" />
+    <CloseButton color="warning" />
+    <CloseButton color="danger" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { CloseButton },
+    setup: () => ({ args }),
+    template: `
+      <div style="display:flex;align-items:center;gap:8px">
+        <CloseButton v-bind="args" color="default" />
+        <CloseButton v-bind="args" color="primary" />
+        <CloseButton v-bind="args" color="secondary" />
+        <CloseButton v-bind="args" color="accent" />
+        <CloseButton v-bind="args" color="success" />
+        <CloseButton v-bind="args" color="warning" />
+        <CloseButton v-bind="args" color="danger" />
+      </div>
+    `,
+  }),
+}
+
+export const Variants: Story = {
+  parameters: {
+    controls: { exclude: ['variant'] },
+    docs: {
+      source: {
+        code: `<script setup>
+import { CloseButton } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display:flex;align-items:center;gap:8px">
+    <CloseButton variant="solid" color="primary" />
+    <CloseButton variant="default" color="primary" />
+    <CloseButton variant="bordered" color="primary" />
+    <CloseButton variant="ghost" color="primary" />
+    <CloseButton variant="soft" color="primary" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { CloseButton },
+    setup: () => ({ args }),
+    template: `
+      <div style="display:flex;align-items:center;gap:8px">
+        <CloseButton v-bind="args" variant="solid" color="primary" />
+        <CloseButton v-bind="args" variant="default" color="primary" />
+        <CloseButton v-bind="args" variant="bordered" color="primary" />
+        <CloseButton v-bind="args" variant="ghost" color="primary" />
+        <CloseButton v-bind="args" variant="soft" color="primary" />
+      </div>
+    `,
+  }),
 }
 
 export const DisabledState: Story = {

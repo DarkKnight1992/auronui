@@ -172,24 +172,15 @@
 
 /* ─── Color modifiers ─────────────────────────────────────────────────────── */
 
-.date-range-field--default {
-  --date-range-field-accent: var(--color-default-foreground);
-  accent-color: var(--date-range-field-accent);
-}
-
 .date-range-field--primary {
-  --date-range-field-accent: var(--color-primary);
-  accent-color: var(--date-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-primary);
-    --tw-ring-color: var(--color-secondary);
+    --tw-ring-color: var(--color-primary);
   }
 }
 
 .date-range-field--secondary {
-  --date-range-field-accent: var(--color-secondary);
-  accent-color: var(--date-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-secondary);
@@ -198,8 +189,6 @@
 }
 
 .date-range-field--success {
-  --date-range-field-accent: var(--color-success);
-  accent-color: var(--date-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-success);
@@ -208,8 +197,6 @@
 }
 
 .date-range-field--warning {
-  --date-range-field-accent: var(--color-warning);
-  accent-color: var(--date-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-warning);
@@ -218,8 +205,6 @@
 }
 
 .date-range-field--danger {
-  --date-range-field-accent: var(--color-danger);
-  accent-color: var(--date-range-field-accent);
 
   &[data-focused="true"] {
     border-color: var(--color-danger);

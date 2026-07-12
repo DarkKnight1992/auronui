@@ -10,7 +10,7 @@ const props = withDefaults(defineProps<{
   class?: string
 }>(), {
   size: 'md',
-  color: 'accent',
+  color: 'primary',
   label: 'Loading',
 })
 

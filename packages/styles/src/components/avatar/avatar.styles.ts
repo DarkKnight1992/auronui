@@ -16,6 +16,9 @@ export const avatarVariants = tv({
   },
   variants: {
     color: {
+      primary: {
+        fallback: "avatar__fallback--primary",
+      },
       accent: {
         fallback: "avatar__fallback--accent",
       },

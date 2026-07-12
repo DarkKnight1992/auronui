@@ -30,7 +30,7 @@ const meta: Meta<typeof Toast> = {
     },
     variant: {
       control: "select",
-      options: ["default", "success", "warning", "danger", "accent"],
+      options: ["default", "primary", "accent", "success", "warning", "danger"],
     },
     duration: { control: "number" },
     defaultOpen: {
@@ -353,7 +353,7 @@ export const AllVariants: Story = {
 import { ToastProvider, ToastViewport, Button, useToast } from '@auronui/vue'
 
 const { toast } = useToast()
-const variants = ['default', 'success', 'warning', 'danger', 'accent']
+const variants = ['default', 'primary', 'accent', 'success', 'warning', 'danger']
 
 function showAll() {
   variants.forEach((variant, i) => {
@@ -387,7 +387,7 @@ function showAll() {
       components: { Button },
       setup() {
         const { toast } = useToast();
-        const variants = ["default", "success", "warning", "danger", "accent"] as const;
+        const variants = ["default", "primary", "accent", "success", "warning", "danger"] as const;
 
         function showAll() {
           variants.forEach((variant, i) => {

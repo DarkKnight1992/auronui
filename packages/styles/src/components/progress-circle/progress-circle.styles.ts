@@ -23,7 +23,7 @@ export const progressCircleVariants = tv({
         indicator: "stroke-default-foreground progress-circle--default",
       },
       primary: {
-        indicator: "stroke-accent progress-circle--primary",
+        indicator: "stroke-primary progress-circle--primary",
       },
       secondary: {
         indicator: "stroke-default-foreground progress-circle--secondary",

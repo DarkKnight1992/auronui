@@ -8,7 +8,7 @@ const meta: Meta<typeof Chip> = {
   argTypes: {
     color: {
       control: "select",
-      options: ["default", "accent", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
     variant: {
@@ -318,43 +318,8 @@ import { Chip } from '@auronui/vue'
 };
 
 export const AllColors: Story = {
-  render: (args) => ({
-    components: { Chip },
-    setup: () => ({ args }),
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 12px;">
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <Chip v-bind="args" variant="solid" color="default">Default</Chip>
-          <Chip v-bind="args" variant="solid" color="accent">Accent</Chip>
-          <Chip v-bind="args" variant="solid" color="success">Success</Chip>
-          <Chip v-bind="args" variant="solid" color="warning">Warning</Chip>
-          <Chip v-bind="args" variant="solid" color="danger">Danger</Chip>
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <Chip v-bind="args" variant="soft" color="default">Default</Chip>
-          <Chip v-bind="args" variant="soft" color="accent">Accent</Chip>
-          <Chip v-bind="args" variant="soft" color="success">Success</Chip>
-          <Chip v-bind="args" variant="soft" color="warning">Warning</Chip>
-          <Chip v-bind="args" variant="soft" color="danger">Danger</Chip>
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <Chip v-bind="args" variant="bordered" color="default">Default</Chip>
-          <Chip v-bind="args" variant="bordered" color="accent">Accent</Chip>
-          <Chip v-bind="args" variant="bordered" color="success">Success</Chip>
-          <Chip v-bind="args" variant="bordered" color="warning">Warning</Chip>
-          <Chip v-bind="args" variant="bordered" color="danger">Danger</Chip>
-        </div>
-        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
-          <Chip v-bind="args" variant="text" color="default">Default</Chip>
-          <Chip v-bind="args" variant="text" color="accent">Accent</Chip>
-          <Chip v-bind="args" variant="text" color="success">Success</Chip>
-          <Chip v-bind="args" variant="text" color="warning">Warning</Chip>
-          <Chip v-bind="args" variant="text" color="danger">Danger</Chip>
-        </div>
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -365,6 +330,8 @@ import { Chip } from '@auronui/vue'
   <div style="display: flex; flex-direction: column; gap: 12px;">
     <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
       <Chip variant="solid" color="default">Default</Chip>
+      <Chip variant="solid" color="primary">Primary</Chip>
+      <Chip variant="solid" color="secondary">Secondary</Chip>
       <Chip variant="solid" color="accent">Accent</Chip>
       <Chip variant="solid" color="success">Success</Chip>
       <Chip variant="solid" color="warning">Warning</Chip>
@@ -372,6 +339,8 @@ import { Chip } from '@auronui/vue'
     </div>
     <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
       <Chip variant="soft" color="default">Default</Chip>
+      <Chip variant="soft" color="primary">Primary</Chip>
+      <Chip variant="soft" color="secondary">Secondary</Chip>
       <Chip variant="soft" color="accent">Accent</Chip>
       <Chip variant="soft" color="success">Success</Chip>
       <Chip variant="soft" color="warning">Warning</Chip>
@@ -379,6 +348,8 @@ import { Chip } from '@auronui/vue'
     </div>
     <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
       <Chip variant="bordered" color="default">Default</Chip>
+      <Chip variant="bordered" color="primary">Primary</Chip>
+      <Chip variant="bordered" color="secondary">Secondary</Chip>
       <Chip variant="bordered" color="accent">Accent</Chip>
       <Chip variant="bordered" color="success">Success</Chip>
       <Chip variant="bordered" color="warning">Warning</Chip>
@@ -386,6 +357,8 @@ import { Chip } from '@auronui/vue'
     </div>
     <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
       <Chip variant="text" color="default">Default</Chip>
+      <Chip variant="text" color="primary">Primary</Chip>
+      <Chip variant="text" color="secondary">Secondary</Chip>
       <Chip variant="text" color="accent">Accent</Chip>
       <Chip variant="text" color="success">Success</Chip>
       <Chip variant="text" color="warning">Warning</Chip>
@@ -397,6 +370,50 @@ import { Chip } from '@auronui/vue'
       },
     },
   },
+  render: (args) => ({
+    components: { Chip },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 12px;">
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <Chip v-bind="args" variant="solid" color="default">Default</Chip>
+          <Chip v-bind="args" variant="solid" color="primary">Primary</Chip>
+          <Chip v-bind="args" variant="solid" color="secondary">Secondary</Chip>
+          <Chip v-bind="args" variant="solid" color="accent">Accent</Chip>
+          <Chip v-bind="args" variant="solid" color="success">Success</Chip>
+          <Chip v-bind="args" variant="solid" color="warning">Warning</Chip>
+          <Chip v-bind="args" variant="solid" color="danger">Danger</Chip>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <Chip v-bind="args" variant="soft" color="default">Default</Chip>
+          <Chip v-bind="args" variant="soft" color="primary">Primary</Chip>
+          <Chip v-bind="args" variant="soft" color="secondary">Secondary</Chip>
+          <Chip v-bind="args" variant="soft" color="accent">Accent</Chip>
+          <Chip v-bind="args" variant="soft" color="success">Success</Chip>
+          <Chip v-bind="args" variant="soft" color="warning">Warning</Chip>
+          <Chip v-bind="args" variant="soft" color="danger">Danger</Chip>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <Chip v-bind="args" variant="bordered" color="default">Default</Chip>
+          <Chip v-bind="args" variant="bordered" color="primary">Primary</Chip>
+          <Chip v-bind="args" variant="bordered" color="secondary">Secondary</Chip>
+          <Chip v-bind="args" variant="bordered" color="accent">Accent</Chip>
+          <Chip v-bind="args" variant="bordered" color="success">Success</Chip>
+          <Chip v-bind="args" variant="bordered" color="warning">Warning</Chip>
+          <Chip v-bind="args" variant="bordered" color="danger">Danger</Chip>
+        </div>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center;">
+          <Chip v-bind="args" variant="text" color="default">Default</Chip>
+          <Chip v-bind="args" variant="text" color="primary">Primary</Chip>
+          <Chip v-bind="args" variant="text" color="secondary">Secondary</Chip>
+          <Chip v-bind="args" variant="text" color="accent">Accent</Chip>
+          <Chip v-bind="args" variant="text" color="success">Success</Chip>
+          <Chip v-bind="args" variant="text" color="warning">Warning</Chip>
+          <Chip v-bind="args" variant="text" color="danger">Danger</Chip>
+        </div>
+      </div>
+    `,
+  }),
 };
 
 export const AllVariants: Story = {

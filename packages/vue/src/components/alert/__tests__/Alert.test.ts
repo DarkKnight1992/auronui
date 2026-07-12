@@ -44,6 +44,15 @@ describe('Alert', () => {
       slots: { default: 'Content' },
     })
     const alertEl = wrapper.find('[role="alert"]')
+    expect(alertEl.classes()).toContain('alert--primary')
+  })
+
+  it('applies accent severity class', () => {
+    const wrapper = mount(Alert, {
+      props: { severity: 'accent' },
+      slots: { default: 'Content' },
+    })
+    const alertEl = wrapper.find('[role="alert"]')
     expect(alertEl.classes()).toContain('alert--accent')
   })
 
@@ -88,6 +97,15 @@ describe('Alert', () => {
     })
     // CloseButton uses Button internally
     expect(wrapper.find('button[aria-label="Dismiss alert"]').exists()).toBe(true)
+  })
+
+  it('close button color matches the alert severity', () => {
+    const wrapper = mount(Alert, {
+      props: { isClosable: true, severity: 'danger' },
+      slots: { default: 'Content' },
+    })
+    const closeBtn = wrapper.find('button[aria-label="Dismiss alert"]')
+    expect(closeBtn.classes()).toContain('button--color-danger')
   })
 
   it('emits close event when CloseButton is clicked', async () => {

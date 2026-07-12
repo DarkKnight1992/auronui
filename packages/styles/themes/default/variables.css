@@ -67,8 +67,8 @@
     --secondary: oklch(0.55 0.22 305);
     --secondary-foreground: var(--snow);
 
-    --accent: oklch(0.6204 0.195 253.83);
-    --accent-foreground: var(--snow);
+    --accent: oklch(0.7 0.16 195);
+    --accent-foreground: var(--eclipse);
 
     /* Form Fields */
     --field-background: var(--white);
@@ -93,7 +93,7 @@
     /* Misc Colors */
     --border: oklch(90% 0.004 286.32);
     --separator: oklch(92% 0.004 286.32);
-    --focus: var(--accent);
+    --focus: var(--primary);
     --link: var(--foreground);
 
     /* Backdrop */
@@ -152,7 +152,7 @@
 
       --border: oklch(28% 0.006 286.033);
       --separator: oklch(25% 0.006 286.033);
-      --focus: var(--accent);
+      --focus: var(--primary);
       --link: var(--foreground);
 
       --backdrop: rgba(0, 0, 0, 0.6);
@@ -208,7 +208,7 @@
     /* Misc Colors */
     --border: oklch(28% 0.006 286.033);
     --separator: oklch(25% 0.006 286.033);
-    --focus: var(--accent);
+    --focus: var(--primary);
     --link: var(--foreground);
 
     /* Backdrop */

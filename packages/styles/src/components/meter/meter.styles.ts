@@ -4,7 +4,7 @@ import {tv} from "tailwind-variants";
 
 export const meterVariants = tv({
   defaultVariants: {
-    color: "accent",
+    color: "primary",
     size: "md",
   },
   slots: {
@@ -16,6 +16,9 @@ export const meterVariants = tv({
   },
   variants: {
     color: {
+      primary: {
+        base: "meter--primary",
+      },
       accent: {
         base: "meter--accent",
       },

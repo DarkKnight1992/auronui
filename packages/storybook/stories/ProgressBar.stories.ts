@@ -9,7 +9,7 @@ const meta: Meta<typeof ProgressBar> = {
     size: { control: "select", options: ["sm", "md", "lg"] },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     radius: {
       control: "select",
@@ -164,21 +164,8 @@ import { ProgressBar } from '@auronui/vue'
 };
 
 export const Colors: Story = {
-  render: (args) => ({
-    components: { ProgressBar },
-    setup: () => ({ args }),
-    template: `
-      <div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
-        <ProgressBar v-bind="args" value="60" color="default" label="Default" />
-        <ProgressBar v-bind="args" value="60" color="primary" label="Primary" />
-        <ProgressBar v-bind="args" value="60" color="secondary" label="Secondary" />
-        <ProgressBar v-bind="args" value="60" color="success" label="Success" />
-        <ProgressBar v-bind="args" value="60" color="warning" label="Warning" />
-        <ProgressBar v-bind="args" value="60" color="danger" label="Danger" />
-      </div>
-    `,
-  }),
   parameters: {
+    controls: { exclude: ['color'] },
     docs: {
       source: {
         code: `<script setup>
@@ -190,6 +177,7 @@ import { ProgressBar } from '@auronui/vue'
     <ProgressBar :value="60" color="default" label="Default" />
     <ProgressBar :value="60" color="primary" label="Primary" />
     <ProgressBar :value="60" color="secondary" label="Secondary" />
+    <ProgressBar :value="60" color="accent" label="Accent" />
     <ProgressBar :value="60" color="success" label="Success" />
     <ProgressBar :value="60" color="warning" label="Warning" />
     <ProgressBar :value="60" color="danger" label="Danger" />
@@ -199,6 +187,21 @@ import { ProgressBar } from '@auronui/vue'
       },
     },
   },
+  render: (args) => ({
+    components: { ProgressBar },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
+        <ProgressBar v-bind="args" value="60" color="default" label="Default" />
+        <ProgressBar v-bind="args" value="60" color="primary" label="Primary" />
+        <ProgressBar v-bind="args" value="60" color="secondary" label="Secondary" />
+        <ProgressBar v-bind="args" value="60" color="accent" label="Accent" />
+        <ProgressBar v-bind="args" value="60" color="success" label="Success" />
+        <ProgressBar v-bind="args" value="60" color="warning" label="Warning" />
+        <ProgressBar v-bind="args" value="60" color="danger" label="Danger" />
+      </div>
+    `,
+  }),
 };
 
 export const Striped: Story = {

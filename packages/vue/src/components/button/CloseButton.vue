@@ -5,6 +5,8 @@ import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBoolean
 
 const props = withDefaults(defineProps<{
   size?: ButtonVariants['size']
+  variant?: ButtonVariants['variant']
+  color?: ButtonVariants['color']
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
@@ -13,6 +15,8 @@ const props = withDefaults(defineProps<{
   class?: string
 }>(), {
   size: 'md',
+  variant: 'ghost',
+  color: undefined,
   isDisabled: undefined,
   disabled: undefined,
   isLoading: false,
@@ -26,7 +30,8 @@ const isDisabled = useDeprecatedBooleanProp(
 
 <template>
   <Button
-    variant="ghost"
+    :variant="props.variant"
+    :color="props.color"
     :is-icon-only="true"
     :size="props.size"
     :is-disabled="isDisabled"

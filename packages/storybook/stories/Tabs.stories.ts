@@ -11,6 +11,11 @@ const meta: Meta<TabsArgs> = {
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     variant: { control: 'select', options: ['primary', 'secondary'] },
+    color: {
+      control: 'select',
+      options: ['primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
+      description: 'Indicator color — only visible on the secondary (underline) variant.',
+    },
     overflow: { control: 'select', options: [undefined, 'arrows', 'dropdown'], name: 'overflow (TabList)' },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
     dir: {
@@ -221,6 +226,61 @@ import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
         <TabPanel value="one">Alpha panel</TabPanel>
         <TabPanel value="two">Beta panel</TabPanel>
       </Tabs>
+    `,
+  }),
+}
+
+export const SecondaryVariantColors: Story = {
+  parameters: {
+    controls: { exclude: ['color'] },
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+
+const colors = ['primary', 'secondary', 'accent', 'success', 'warning', 'danger']
+</script>
+
+<template>
+  <div style="display:flex;flex-direction:column;gap:24px;">
+    <div v-for="color in colors" :key="color">
+      <p style="font-size:12px;color:#64748b;margin-bottom:8px;font-family:sans-serif;text-transform:capitalize;">{{ color }}</p>
+      <Tabs variant="secondary" :color="color" default-value="one">
+        <TabList>
+          <Tab value="one">Alpha</Tab>
+          <Tab value="two">Beta</Tab>
+          <TabIndicator />
+        </TabList>
+        <TabPanel value="one">Alpha panel</TabPanel>
+        <TabPanel value="two">Beta panel</TabPanel>
+      </Tabs>
+    </div>
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: () => ({
+    components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
+    setup() {
+      return { colors: ['primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:24px;">
+        <div v-for="color in colors" :key="color">
+          <p style="font-size:12px;color:#64748b;margin-bottom:8px;font-family:sans-serif;text-transform:capitalize;">{{ color }}</p>
+          <Tabs variant="secondary" :color="color" default-value="one">
+            <TabList>
+              <Tab value="one">Alpha</Tab>
+              <Tab value="two">Beta</Tab>
+              <TabIndicator />
+            </TabList>
+            <TabPanel value="one">Alpha panel</TabPanel>
+            <TabPanel value="two">Beta panel</TabPanel>
+          </Tabs>
+        </div>
+      </div>
     `,
   }),
 }

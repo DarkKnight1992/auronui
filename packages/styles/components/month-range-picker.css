@@ -30,7 +30,7 @@
 }
 
 .month-range-picker__nav-button {
-  @apply flex size-6 items-center justify-center rounded-full text-accent;
+  @apply flex size-6 items-center justify-center rounded-full text-primary;
 
   will-change: scale;
   transition:
@@ -45,7 +45,7 @@
   @media (hover: hover) {
     &:hover,
     &[data-hovered="true"] {
-      @apply bg-default text-accent;
+      @apply bg-default text-primary;
     }
   }
 
@@ -132,13 +132,13 @@
 
   /* Range track (middle segment) — any month within the range, including caps */
   &[data-selected] {
-    @apply rounded-none bg-accent-soft;
+    @apply rounded-none bg-primary-soft;
   }
 
-  /* Range caps (start/end) — solid accent fill, rounded */
+  /* Range caps (start/end) — solid primary fill, rounded */
   &[data-selection-start],
   &[data-selection-end] {
-    @apply rounded-lg bg-accent text-accent-foreground;
+    @apply rounded-lg bg-primary text-primary-foreground;
   }
 
   &:disabled,
