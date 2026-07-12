@@ -2,6 +2,7 @@ import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, useTemplateRef, nextTick } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
+import axe from 'axe-core'
 import Table from '../Table.vue'
 
 interface Item { id: string; name: string }
@@ -159,5 +160,15 @@ describe('Table — pagination (footer UI & conflicts)', () => {
     expect(cell.exists()).toBe(true)
     expect(cell.attributes('colspan')).toBe('1')
     expect(cell.find('.custom-footer').exists()).toBe(true)
+  })
+})
+
+describe('Table — pagination (axe audit)', () => {
+  it('passes axe with pagination enabled', async () => {
+    const wrapper = mountTable(makeData(23), { pagination: { pageSize: 5 }, ariaLabel: 'Paginated items' })
+    document.body.appendChild(wrapper.element)
+    const results = await axe.run(wrapper.element)
+    wrapper.unmount()
+    expect(results.violations).toEqual([])
   })
 })

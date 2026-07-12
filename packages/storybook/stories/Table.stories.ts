@@ -203,6 +203,56 @@ const data: Person[] = [
   },
 };
 
+export const Paginated: Story = {
+  name: "Paginated",
+  render: (args) => ({
+    components: { Table },
+    setup() {
+      return { args, columns, data: makePeople(47) };
+    },
+    template:
+      '<Table v-bind="args" :columns="columns" :data="data" :pagination="{ pageSize: 10 }" ariaLabel="Paginated people" />',
+  }),
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Table } from '@auronui/vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+
+interface Person {
+  id: string
+  name: string
+  email: string
+  role: string
+  age: number
+}
+
+const columns: ColumnDef<Person, unknown>[] = [
+  { id: 'name', accessorKey: 'name', header: 'Name', enableSorting: true },
+  { id: 'email', accessorKey: 'email', header: 'Email', enableSorting: true },
+  { id: 'role', accessorKey: 'role', header: 'Role', enableSorting: true },
+  { id: 'age', accessorKey: 'age', header: 'Age', enableSorting: true },
+]
+
+// 47 rows, e.g. fetched from an API
+const data: Person[] = []
+</script>
+
+<template>
+  <Table
+    :columns="columns"
+    :data="data"
+    :pagination="{ pageSize: 10 }"
+    ariaLabel="Paginated people"
+  />
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+};
+
 export const SingleSelection: Story = {
   name: "Single selection",
   render: (args) => ({
