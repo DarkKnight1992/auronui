@@ -22,7 +22,11 @@ const sectionClass = menuSectionVariants()
 </script>
 
 <template>
-  <DropdownMenuGroup :as="props.as" :as-child="props.asChild" :class="[sectionClass.base(), props.class]">
+  <DropdownMenuGroup
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="[sectionClass.base(), props.class]"
+  >
     <DropdownMenuLabel
       v-if="props.title"
       :class="sectionClass.label()"

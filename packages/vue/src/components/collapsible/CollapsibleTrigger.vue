@@ -19,7 +19,11 @@ const ctx = useCollapsibleInject()
 </script>
 
 <template>
-  <CollapsibleTrigger :as="props.as" :as-child="props.asChild" :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)">
+  <CollapsibleTrigger
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="composeClassName(ctx.slotFns.value.trigger(), props.class, props.classNames?.trigger)"
+  >
     <slot />
     <span
       :class="composeClassName(ctx.slotFns.value.indicator(), props.classNames?.indicator)"

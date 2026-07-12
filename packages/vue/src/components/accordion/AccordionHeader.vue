@@ -16,7 +16,11 @@ const ctx = useAccordionInject()
 </script>
 
 <template>
-  <RekaAccordionHeader :as="props.as" :as-child="props.asChild" :class="composeClassName(ctx.slotFns.value.heading(), props.class, props.classNames?.heading)">
+  <RekaAccordionHeader
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="composeClassName(ctx.slotFns.value.heading(), props.class, props.classNames?.heading)"
+  >
     <slot />
   </RekaAccordionHeader>
 </template>

@@ -87,9 +87,13 @@ useAccordionProvide({ slotFns })
         :class-names="{ item: props.classNames?.item }"
       >
         <AccordionHeader>
-          <AccordionTrigger :class-names="{ trigger: props.classNames?.trigger, indicator: props.classNames?.indicator }">{{ item.title }}</AccordionTrigger>
+          <AccordionTrigger :class-names="{ trigger: props.classNames?.trigger, indicator: props.classNames?.indicator }">
+            {{ item.title }}
+          </AccordionTrigger>
         </AccordionHeader>
-        <AccordionContent :class-names="{ body: props.classNames?.body, bodyInner: props.classNames?.bodyInner }">{{ item.content }}</AccordionContent>
+        <AccordionContent :class-names="{ body: props.classNames?.body, bodyInner: props.classNames?.bodyInner }">
+          {{ item.content }}
+        </AccordionContent>
       </AccordionItem>
     </template>
     <slot v-else />

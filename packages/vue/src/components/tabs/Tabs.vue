@@ -114,7 +114,9 @@ useTabsProvide({
           :is-disabled="item.disabled"
           :class="item.class"
           :class-names="item.classNames"
-        >{{ item.label }}</Tab>
+        >
+          {{ item.label }}
+        </Tab>
       </TabList>
       <TabPanel
         v-for="item in props.items"
@@ -122,7 +124,9 @@ useTabsProvide({
         :value="item.value"
         :class="item.panelClass"
         :class-names="item.panelClassNames"
-      >{{ item.content }}</TabPanel>
+      >
+        {{ item.content }}
+      </TabPanel>
     </template>
     <slot v-else />
   </TabsRoot>

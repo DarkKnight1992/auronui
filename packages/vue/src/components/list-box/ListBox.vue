@@ -234,13 +234,19 @@ const rekaDefaultValue = computed(() =>
         :text-content="(o) => (o.label ?? o.value)"
       >
         <template #default="{ option, virtualItem }">
-          <slot name="item" :item="option" :index="virtualItem.index">
+          <slot
+            name="item"
+            :item="option"
+            :index="virtualItem.index"
+          >
             <ListBoxItem
               :value="option.value"
               :is-disabled="option.disabled"
               :text-value="option.textValue"
               :class-names="{ item: props.classNames?.item, indicator: props.classNames?.indicator }"
-            >{{ option.label ?? option.value }}</ListBoxItem>
+            >
+              {{ option.label ?? option.value }}
+            </ListBoxItem>
           </slot>
         </template>
       </ListboxVirtualizer>
@@ -253,7 +259,9 @@ const rekaDefaultValue = computed(() =>
           :is-disabled="item.disabled"
           :text-value="item.textValue"
           :class-names="{ item: props.classNames?.item, indicator: props.classNames?.indicator }"
-        >{{ item.label ?? item.value }}</ListBoxItem>
+        >
+          {{ item.label ?? item.value }}
+        </ListBoxItem>
       </template>
 
       <slot v-else />
@@ -268,7 +276,9 @@ const rekaDefaultValue = computed(() =>
       role="status"
       aria-live="polite"
     >
-      <slot name="loading">Loading…</slot>
+      <slot name="loading">
+        Loading…
+      </slot>
     </div>
 
     <div

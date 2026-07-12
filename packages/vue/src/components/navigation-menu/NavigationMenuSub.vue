@@ -14,7 +14,11 @@ const modelValue = defineModel<string>()
 </script>
 
 <template>
-  <NavigationMenuSub v-model="modelValue" :default-value="props.defaultValue" :orientation="props.orientation">
+  <NavigationMenuSub
+    v-model="modelValue"
+    :default-value="props.defaultValue"
+    :orientation="props.orientation"
+  >
     <slot />
   </NavigationMenuSub>
 </template>

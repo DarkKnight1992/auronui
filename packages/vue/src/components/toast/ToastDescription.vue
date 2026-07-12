@@ -14,7 +14,11 @@ const styles = toastVariants()
 </script>
 
 <template>
-  <RekaToastDescription :as="props.as" :as-child="props.asChild" :class="composeClassName(styles.description(), props.class)">
+  <RekaToastDescription
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="composeClassName(styles.description(), props.class)"
+  >
     <slot />
   </RekaToastDescription>
 </template>

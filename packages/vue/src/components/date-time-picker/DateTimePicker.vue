@@ -291,6 +291,7 @@ const slotFns = computed(() =>
     :placeholder="placeholder"
     :min-value="minValue"
     :max-value="maxValue"
+    :id="id"
     :is-date-unavailable="isDateUnavailable"
     :is-date-disabled="isDateDisabled"
     :locale="locale"
@@ -301,7 +302,6 @@ const slotFns = computed(() =>
     :readonly="isReadOnly"
     :name="name"
     :dir="dir"
-    :id="id"
     :required="required"
     :modal="modal"
     :paged-navigation="pagedNavigation"
@@ -475,7 +475,10 @@ const slotFns = computed(() =>
             :class="slotFns.timeDone()"
             data-slot="time-done"
           >
-            <slot name="footer" :close="() => { openModel = false }">
+            <slot
+              name="footer"
+              :close="() => { openModel = false }"
+            >
               <Button
                 size="sm"
                 color="primary"

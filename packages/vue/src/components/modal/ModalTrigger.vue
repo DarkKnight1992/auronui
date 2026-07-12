@@ -10,7 +10,10 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <DialogTrigger :as="props.as" :as-child="props.asChild">
+  <DialogTrigger
+    :as="props.as"
+    :as-child="props.asChild"
+  >
     <slot />
   </DialogTrigger>
 </template>

@@ -248,8 +248,8 @@ defineExpose({ table, keyboardNav, handleRowClick })
       :style="useVirtual ? { height: '400px', overflow: 'auto' } : undefined"
     >
       <table
-        :class="composeClassName(slotFns.content(), props.classNames?.content)"
         ref="rootRef"
+        :class="composeClassName(slotFns.content(), props.classNames?.content)"
         role="grid"
         :aria-label="ariaLabel"
         :aria-rowcount="rowCount"

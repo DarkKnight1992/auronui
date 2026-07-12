@@ -30,7 +30,12 @@ const styles = alertDialogVariants()
 </script>
 
 <template>
-  <AlertDialogPortal :to="props.to" :disabled="props.disabled" :defer="props.defer" :force-mount="props.forceMount">
+  <AlertDialogPortal
+    :to="props.to"
+    :disabled="props.disabled"
+    :defer="props.defer"
+    :force-mount="props.forceMount"
+  >
     <AlertDialogOverlay />
     <div
       :class="styles.container()"

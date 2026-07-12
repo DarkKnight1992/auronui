@@ -92,6 +92,7 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
 
 <template>
   <PinInputRoot
+    :id="props.id"
     :model-value="modelValueArray"
     :disabled="isDisabled"
     :placeholder="placeholder"
@@ -100,7 +101,6 @@ const handleComplete = (arr: string[]) => emit('complete', arr.join(''))
     :mask="mask"
     :name="name"
     :dir="props.dir"
-    :id="props.id"
     :as-child="props.asChild"
     :as="props.as"
     :required="isRequired"

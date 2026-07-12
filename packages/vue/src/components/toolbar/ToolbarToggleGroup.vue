@@ -94,7 +94,9 @@ const classes = computed(() =>
         :is-icon-only="item.isIconOnly"
         :is-disabled="item.disabled"
         :class="item.class"
-      >{{ item.label }}</ToolbarToggleItem>
+      >
+        {{ item.label }}
+      </ToolbarToggleItem>
     </template>
     <slot v-else />
   </RekaToolbarToggleGroup>

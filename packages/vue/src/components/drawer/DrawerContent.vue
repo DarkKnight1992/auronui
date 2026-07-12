@@ -113,7 +113,13 @@ function handleEscapeKeyDown(event: KeyboardEvent) {
   </template>
 
   <!-- default mode: teleported to <body>, optional backdrop -->
-  <DialogPortal v-else :to="props.to" :disabled="props.disabled" :defer="props.defer" :force-mount="props.forceMount">
+  <DialogPortal
+    v-else
+    :to="props.to"
+    :disabled="props.disabled"
+    :defer="props.defer"
+    :force-mount="props.forceMount"
+  >
     <DrawerOverlay v-if="!ctx.hideBackdrop.value" />
     <DialogContent
       :as="props.as"

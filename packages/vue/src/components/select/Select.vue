@@ -281,7 +281,9 @@ useSelectProvide({
               <slot
                 name="item"
                 :item="item"
-              >{{ item.label ?? String(item.value) }}</slot>
+              >
+                {{ item.label ?? String(item.value) }}
+              </slot>
             </SelectItem>
             <slot />
           </SelectContent>

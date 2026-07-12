@@ -142,12 +142,12 @@ const slotFns = computed(() =>
   -->
   <CheckboxRoot
     v-bind="attrs"
+    :id="props.id"
     :model-value="checkedState"
     :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
-    :id="props.id"
     :true-value="props.trueValue"
     :false-value="props.falseValue"
     :as-child="props.asChild"

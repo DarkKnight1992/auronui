@@ -583,7 +583,9 @@ useAutocompleteProvide({
               <slot
                 name="item"
                 :item="item"
-              >{{ item.label ?? item.textValue ?? item.value }}</slot>
+              >
+                {{ item.label ?? item.textValue ?? item.value }}
+              </slot>
             </AutocompleteItem>
           </AutocompleteContent>
         </template>

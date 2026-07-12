@@ -22,7 +22,7 @@ const props = defineProps<{
     :for="props.for"
     :class="props.class"
   >{{ label }}<span
-      v-if="isRequired"
-      aria-hidden="true"
-    > *</span></label>
+    v-if="isRequired"
+    aria-hidden="true"
+  > *</span></label>
 </template>

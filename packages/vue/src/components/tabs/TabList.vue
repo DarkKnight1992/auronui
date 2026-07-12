@@ -227,12 +227,27 @@ function selectOverflowTab(value: string) {
       tabindex="-1"
       @click="scrollTabs('left')"
     >
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M9 11L5 7L9 3" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M9 11L5 7L9 3"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </Button>
 
-    <div ref="scrollWrapperEl" :class="ctx.slotFns.value.scrollWrapper()">
+    <div
+      ref="scrollWrapperEl"
+      :class="ctx.slotFns.value.scrollWrapper()"
+    >
       <TabsList
         :loop="props.loop ?? true"
         :as="props.as"
@@ -253,8 +268,20 @@ function selectOverflowTab(value: string) {
       tabindex="-1"
       @click="scrollTabs('right')"
     >
-      <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
-        <path d="M5 3L9 7L5 11" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" />
+      <svg
+        width="14"
+        height="14"
+        viewBox="0 0 14 14"
+        fill="none"
+        aria-hidden="true"
+      >
+        <path
+          d="M5 3L9 7L5 11"
+          stroke="currentColor"
+          stroke-width="1.75"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        />
       </svg>
     </Button>
   </div>
@@ -289,12 +316,28 @@ function selectOverflowTab(value: string) {
         @click="dropdownOpen = !dropdownOpen"
       >
         +{{ hiddenTabs.length }}
-        <svg width="12" height="12" viewBox="0 0 12 12" fill="none" aria-hidden="true">
-          <path d="M2 4L6 8L10 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" />
+        <svg
+          width="12"
+          height="12"
+          viewBox="0 0 12 12"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path
+            d="M2 4L6 8L10 4"
+            stroke="currentColor"
+            stroke-width="1.5"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+          />
         </svg>
       </Button>
 
-      <div v-if="dropdownOpen" :class="ctx.slotFns.value.overflowMenu()" role="menu">
+      <div
+        v-if="dropdownOpen"
+        :class="ctx.slotFns.value.overflowMenu()"
+        role="menu"
+      >
         <Button
           v-for="tab in hiddenTabs"
           :key="tab.value"

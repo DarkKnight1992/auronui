@@ -99,7 +99,9 @@ useBreadcrumbsProvide({
           :href="item.href"
           :is-last="idx === renderedItems.length - 1"
           :class-names="{ item: props.classNames?.item, link: props.classNames?.link, separator: props.classNames?.separator }"
-        >{{ item.label }}</BreadcrumbItem>
+        >
+          {{ item.label }}
+        </BreadcrumbItem>
       </template>
       <template v-else>
         <component

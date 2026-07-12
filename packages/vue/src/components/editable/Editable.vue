@@ -69,6 +69,7 @@ const slotFns = computed(() => editableVariants())
   <EditableRoot
     v-model="modelValue"
     :default-value="defaultValue"
+    :id="id"
     :placeholder="placeholder"
     :dir="dir"
     :disabled="isDisabled"
@@ -79,7 +80,6 @@ const slotFns = computed(() => editableVariants())
     :start-with-edit-mode="startWithEditMode"
     :max-length="maxLength"
     :auto-resize="autoResize"
-    :id="id"
     :name="name"
     :required="isRequired"
     :as="as"

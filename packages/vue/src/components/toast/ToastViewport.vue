@@ -115,8 +115,13 @@ const viewportToasts = computed(() =>
         @update:open="(open) => handleOpenChange(toast.id, open)"
       >
         <div :class="composeClassName(styles.content(), props.classNames?.content)">
-          <ToastTitle :class="composeClassName(props.classNames?.title)">{{ toast.title }}</ToastTitle>
-          <ToastDescription v-if="toast.description" :class="composeClassName(props.classNames?.description)">
+          <ToastTitle :class="composeClassName(props.classNames?.title)">
+            {{ toast.title }}
+          </ToastTitle>
+          <ToastDescription
+            v-if="toast.description"
+            :class="composeClassName(props.classNames?.description)"
+          >
             {{ toast.description }}
           </ToastDescription>
         </div>
@@ -129,7 +134,10 @@ const viewportToasts = computed(() =>
           >
             {{ toast.action.label }}
           </ToastAction>
-          <ToastClose :class="composeClassName(props.classNames?.close)" @click="dismiss(toast.id)" />
+          <ToastClose
+            :class="composeClassName(props.classNames?.close)"
+            @click="dismiss(toast.id)"
+          />
         </div>
       </Toast>
       <slot />

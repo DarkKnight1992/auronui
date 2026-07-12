@@ -132,7 +132,9 @@ const slotFns = computed(() =>
         :color="btn.color"
         :class="btn.class"
         :class-names="btn.classNames"
-      >{{ btn.label }}</Button>
+      >
+        {{ btn.label }}
+      </Button>
     </template>
     <slot v-else />
   </div>

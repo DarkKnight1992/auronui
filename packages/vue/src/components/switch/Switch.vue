@@ -132,12 +132,12 @@ const slotFns = computed(() =>
   -->
   <SwitchRoot
     v-bind="attrs"
+    :id="props.id"
     :model-value="checked"
     :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
-    :id="props.id"
     :true-value="props.trueValue"
     :false-value="props.falseValue"
     :as-child="props.asChild"

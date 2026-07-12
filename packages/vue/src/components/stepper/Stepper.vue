@@ -95,17 +95,26 @@ provide(stepperContextKey, {
         :step="idx + 1"
         :class-names="{ item: props.classNames?.item }"
       >
-        <StepperIndicator :class-names="{ indicator: props.classNames?.indicator }">{{ idx + 1 }}</StepperIndicator>
+        <StepperIndicator :class-names="{ indicator: props.classNames?.indicator }">
+          {{ idx + 1 }}
+        </StepperIndicator>
         <StepperSeparator
           v-if="idx < props.items.length - 1"
           :class-names="{ separator: props.classNames?.separator }"
         />
         <StepperContent :class-names="{ content: props.classNames?.content }">
-          <StepperTitle v-if="item.title" :class-names="{ title: props.classNames?.title }">{{ item.title }}</StepperTitle>
+          <StepperTitle
+            v-if="item.title"
+            :class-names="{ title: props.classNames?.title }"
+          >
+            {{ item.title }}
+          </StepperTitle>
           <StepperDescription
             v-if="item.description"
             :class-names="{ description: props.classNames?.description }"
-          >{{ item.description }}</StepperDescription>
+          >
+            {{ item.description }}
+          </StepperDescription>
         </StepperContent>
       </StepperItem>
     </template>

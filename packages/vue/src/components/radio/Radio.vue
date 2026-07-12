@@ -98,10 +98,10 @@ const slotFns = computed(() => radioVariants())
 <template>
   <RadioGroupItem
     v-bind="attrs"
+    :id="props.id"
     :value="props.value"
     :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
-    :id="props.id"
     :as-child="props.asChild"
     :as="props.as"
     :name="props.name"

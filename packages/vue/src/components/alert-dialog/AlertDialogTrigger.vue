@@ -10,7 +10,10 @@ const props = withDefaults(defineProps<{
 </script>
 
 <template>
-  <AlertDialogTrigger :as="props.as" :as-child="props.asChild">
+  <AlertDialogTrigger
+    :as="props.as"
+    :as-child="props.asChild"
+  >
     <slot />
   </AlertDialogTrigger>
 </template>

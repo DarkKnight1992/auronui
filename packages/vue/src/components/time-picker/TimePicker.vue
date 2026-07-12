@@ -278,7 +278,10 @@ const slotFns = computed(() =>
             :class="composeClassName(slotFns.timeDone(), props.classNames?.timeDone)"
             data-slot="time-done"
           >
-            <slot name="footer" :close="() => { openModel = false }">
+            <slot
+              name="footer"
+              :close="() => { openModel = false }"
+            >
               <Button
                 size="sm"
                 color="primary"

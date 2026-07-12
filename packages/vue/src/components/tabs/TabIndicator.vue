@@ -16,5 +16,9 @@ const ctx = useTabsInject()
 </script>
 
 <template>
-  <TabsIndicator :as="props.as" :as-child="props.asChild" :class="composeClassName(ctx.slotFns.value.tabIndicator(), props.class, props.classNames?.tabIndicator)" />
+  <TabsIndicator
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="composeClassName(ctx.slotFns.value.tabIndicator(), props.class, props.classNames?.tabIndicator)"
+  />
 </template>

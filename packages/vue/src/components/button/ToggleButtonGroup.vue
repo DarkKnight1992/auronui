@@ -121,7 +121,9 @@ const slotFns = computed(() =>
         :is-icon-only="btn.isIconOnly"
         :is-disabled="btn.disabled"
         :class="btn.class"
-      >{{ btn.label }}</ToggleButton>
+      >
+        {{ btn.label }}
+      </ToggleButton>
     </template>
     <slot v-else />
   </div>

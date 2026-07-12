@@ -151,7 +151,9 @@ function itemClassNames(item: RadioShorthandItem) {
           :is-disabled="item.disabled"
           :class="item.class"
           :class-names="itemClassNames(item)"
-        >{{ item.label ?? item.value }}</Radio>
+        >
+          {{ item.label ?? item.value }}
+        </Radio>
       </template>
       <slot v-else />
     </div>

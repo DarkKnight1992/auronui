@@ -173,7 +173,10 @@ const isLabelVisible = computed(() => !!props.label)
       :class="composeClassName(slotFns.group(), props.classNames?.group)"
       data-slot="group"
     >
-      <NumberFieldDecrement :disabled="props.isDisabled || undefined" :class="composeClassName(slotFns.decrementButton(), props.classNames?.decrementButton)">
+      <NumberFieldDecrement
+        :disabled="props.isDisabled || undefined"
+        :class="composeClassName(slotFns.decrementButton(), props.classNames?.decrementButton)"
+      >
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"
@@ -196,7 +199,10 @@ const isLabelVisible = computed(() => !!props.label)
         :placeholder="props.placeholder"
       />
 
-      <NumberFieldIncrement :disabled="props.isDisabled || undefined" :class="composeClassName(slotFns.incrementButton(), props.classNames?.incrementButton)">
+      <NumberFieldIncrement
+        :disabled="props.isDisabled || undefined"
+        :class="composeClassName(slotFns.incrementButton(), props.classNames?.incrementButton)"
+      >
         <svg
           aria-hidden="true"
           xmlns="http://www.w3.org/2000/svg"

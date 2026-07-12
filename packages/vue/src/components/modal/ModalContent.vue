@@ -42,38 +42,43 @@ const styles = modalVariants()
 </script>
 
 <template>
-  <DialogPortal :to="props.to" :disabled="props.disabled" :defer="props.defer" :force-mount="props.forceMount">
+  <DialogPortal
+    :to="props.to"
+    :disabled="props.disabled"
+    :defer="props.defer"
+    :force-mount="props.forceMount"
+  >
     <div :class="styles.portal()">
-    <ModalOverlay />
-    <DialogContent
-      :as="props.as"
-      :as-child="props.asChild"
-      :force-mount="props.forceMount"
-      :disable-outside-pointer-events="props.disableOutsidePointerEvents"
-      :class="composeClassName(styles.container({ scroll: ctx.scroll }), props.class)"
-      :data-placement="ctx.placement"
-      :aria-hidden="!dialogRootContext.open.value || undefined"
-      @escape-key-down="emit('escape-key-down', $event)"
-      @pointer-down-outside="emit('pointer-down-outside', $event)"
-      @interact-outside="emit('interact-outside', $event)"
-      @open-auto-focus="emit('open-auto-focus', $event)"
-      @close-auto-focus="emit('close-auto-focus', $event)"
-      @focus-outside="emit('focus-outside', $event)"
-    >
-      <AnimatePresence>
-        <motion.div
-          v-if="dialogRootContext.open.value"
-          :class="composeClassName(styles.dialog({ size: ctx.size, scroll: ctx.scroll }), 'modal-content-inner')"
-          :data-placement="ctx.placement"
-          :initial="{ opacity: 0, scale: 0.95, y: -10 }"
-          :animate="{ opacity: 1, scale: 1, y: 0 }"
-          :exit="{ opacity: 0, scale: 0.95, y: -10 }"
-          :transition="{ duration: 0.2, ease: 'easeOut' }"
-        >
-          <slot />
-        </motion.div>
-      </AnimatePresence>
-    </DialogContent>
+      <ModalOverlay />
+      <DialogContent
+        :as="props.as"
+        :as-child="props.asChild"
+        :force-mount="props.forceMount"
+        :disable-outside-pointer-events="props.disableOutsidePointerEvents"
+        :class="composeClassName(styles.container({ scroll: ctx.scroll }), props.class)"
+        :data-placement="ctx.placement"
+        :aria-hidden="!dialogRootContext.open.value || undefined"
+        @escape-key-down="emit('escape-key-down', $event)"
+        @pointer-down-outside="emit('pointer-down-outside', $event)"
+        @interact-outside="emit('interact-outside', $event)"
+        @open-auto-focus="emit('open-auto-focus', $event)"
+        @close-auto-focus="emit('close-auto-focus', $event)"
+        @focus-outside="emit('focus-outside', $event)"
+      >
+        <AnimatePresence>
+          <motion.div
+            v-if="dialogRootContext.open.value"
+            :class="composeClassName(styles.dialog({ size: ctx.size, scroll: ctx.scroll }), 'modal-content-inner')"
+            :data-placement="ctx.placement"
+            :initial="{ opacity: 0, scale: 0.95, y: -10 }"
+            :animate="{ opacity: 1, scale: 1, y: 0 }"
+            :exit="{ opacity: 0, scale: 0.95, y: -10 }"
+            :transition="{ duration: 0.2, ease: 'easeOut' }"
+          >
+            <slot />
+          </motion.div>
+        </AnimatePresence>
+      </DialogContent>
     </div>
   </DialogPortal>
 </template>

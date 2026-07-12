@@ -20,5 +20,9 @@ const separatorClass = computed(() =>
 </script>
 
 <template>
-  <RekaToolbarSeparator :as="props.as" :as-child="props.asChild" :class="composeClassName(separatorClass, props.class)" />
+  <RekaToolbarSeparator
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="composeClassName(separatorClass, props.class)"
+  />
 </template>

@@ -24,7 +24,11 @@ const ctx = useDrawerInject()
   </Primitive>
 
   <!-- default / inline / hideBackdrop modes: Reka manages open state -->
-  <DialogTrigger v-else :as="props.as" :as-child="props.asChild">
+  <DialogTrigger
+    v-else
+    :as="props.as"
+    :as-child="props.asChild"
+  >
     <slot />
   </DialogTrigger>
 </template>

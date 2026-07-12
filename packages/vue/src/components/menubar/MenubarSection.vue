@@ -22,7 +22,11 @@ const sectionClass = menuSectionVariants()
 </script>
 
 <template>
-  <MenubarGroup :as="props.as" :as-child="props.asChild" :class="[sectionClass.base(), props.class]">
+  <MenubarGroup
+    :as="props.as"
+    :as-child="props.asChild"
+    :class="[sectionClass.base(), props.class]"
+  >
     <MenubarLabel
       v-if="props.title"
       :class="sectionClass.label()"

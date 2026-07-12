@@ -135,7 +135,9 @@ function itemClassNames(item: CheckboxShorthandItem) {
           :is-disabled="item.disabled"
           :class="item.class"
           :class-names="itemClassNames(item)"
-        >{{ item.label ?? item.value }}</Checkbox>
+        >
+          {{ item.label ?? item.value }}
+        </Checkbox>
       </template>
       <slot v-else />
     </div>
