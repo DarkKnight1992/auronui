@@ -359,6 +359,7 @@ defineExpose({ table, keyboardNav, handleRowClick })
         <TableFooter
           v-if="$slots.footer || paginationEnabled"
           :class-names="{ footer: props.classNames?.footer }"
+          :colspan="columnCount"
         >
           <slot
             v-if="$slots.footer"

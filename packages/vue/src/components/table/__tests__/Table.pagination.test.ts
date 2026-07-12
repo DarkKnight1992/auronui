@@ -128,4 +128,36 @@ describe('Table — pagination (footer UI & conflicts)', () => {
     expect(warnSpy).toHaveBeenCalledWith(expect.stringContaining('virtualRows'))
     warnSpy.mockRestore()
   })
+
+  it('auto-rendered Pagination footer content is wrapped in a single <tr><td colspan> for valid tfoot markup', () => {
+    const wrapper = mountTable(makeData(20), { pagination: { pageSize: 5 } })
+    const rows = wrapper.findAll('tfoot > tr')
+    expect(rows.length).toBe(1)
+    const cell = rows[0].find('td')
+    expect(cell.exists()).toBe(true)
+    // Single "name" column in this fixture -> colspan should be 1
+    expect(cell.attributes('colspan')).toBe('1')
+    expect(cell.find('nav').exists()).toBe(true)
+  })
+
+  it('custom #footer slot content is also wrapped in a single <tr><td colspan> for valid tfoot markup', () => {
+    const Wrapper = defineComponent({
+      components: { Table },
+      setup() {
+        return { columns, data: makeData(20) }
+      },
+      template: `
+        <Table :columns="columns" :data="data" :pagination="{ pageSize: 5 }">
+          <template #footer><span class="custom-footer">custom</span></template>
+        </Table>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    const rows = wrapper.findAll('tfoot > tr')
+    expect(rows.length).toBe(1)
+    const cell = rows[0].find('td')
+    expect(cell.exists()).toBe(true)
+    expect(cell.attributes('colspan')).toBe('1')
+    expect(cell.find('.custom-footer').exists()).toBe(true)
+  })
 })

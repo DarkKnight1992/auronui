@@ -11,6 +11,11 @@ interface Props {
   classNames?: Partial<{
     footer: ClassValue
   }>
+  /**
+   * Number of columns the footer content should span.
+   * Required for valid <tfoot> markup — content is wrapped in a single <tr><td>.
+   */
+  colspan?: number
 }
 
 const props = defineProps<Props>()
@@ -21,6 +26,10 @@ const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 
 <template>
   <tfoot :class="composeClassName(slotFns.footer(), props.classNames?.footer)">
-    <slot />
+    <tr>
+      <td :colspan="props.colspan">
+        <slot />
+      </td>
+    </tr>
   </tfoot>
 </template>
