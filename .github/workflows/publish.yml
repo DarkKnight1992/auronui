@@ -41,17 +41,15 @@ jobs:
 
       - name: Build @auronui/vue
         run: pnpm exec turbo build --filter=@auronui/vue
-
-      # Fixed: Navigates to styles, runs pack to strip workspace protocols, and publishes tarball via npm
+      
+      # Fixed: Publishes via pnpm from the root using workspace-aware filtering
       - name: Publish @auronui/styles
-        run: |
-          cd ./packages/styles
-          pnpm pack
-          npm publish *.tgz --no-git-checks --provenance --access public
+        run: pnpm --filter=@auronui/styles publish *.tgz --no-git-checks --provenance --access public
+        env:
+          NPM_CONFIG_PROVENANCE: true
 
-      # Fixed: Navigates to vue, runs pack to strip workspace protocols, and publishes tarball via npm
+      # Fixed: Publishes via pnpm from the root using workspace-aware filtering
       - name: Publish @auronui/vue
-        run: |
-          cd ./packages/vue
-          pnpm pack
-          npm publish *.tgz --no-git-checks --provenance --access public
+        run: pnpm --filter=@auronui/vue publish *.tgz --no-git-checks --provenance --access public
+        env:
+          NPM_CONFIG_PROVENANCE: true
