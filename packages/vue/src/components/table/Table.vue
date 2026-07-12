@@ -4,9 +4,11 @@ import {
   useVueTable,
   getCoreRowModel,
   getSortedRowModel,
+  getPaginationRowModel,
   type ColumnDef,
   type SortingState,
   type RowSelectionState,
+  type PaginationState,
   type Table as TableInstance,
   type RowData,
   type Row,
@@ -44,6 +46,20 @@ const props = withDefaults(
     estimatedRowHeight?: number
     /** Extra rows to render outside the visible viewport (default: 8) */
     virtualizerOverscan?: number
+    /**
+     * Opt-in pagination. Omit (default) to disable — Table renders all rows
+     * with no pagination row model applied.
+     */
+    pagination?: {
+      /** Rows per page. Default: 10 */
+      pageSize?: number
+      /** Server-side mode: `data` is assumed to already be just the current page's rows. Default: false */
+      manual?: boolean
+      /** Required when `manual: true` — total row count across all pages. */
+      totalItems?: number
+    }
+    /** Current page, 1-indexed. Use v-model:page. Default: 1 (uncontrolled if unbound). */
+    page?: number
     /** Per-slot CSS class overrides */
     classNames?: Partial<{
       base: ClassValue
@@ -65,11 +81,14 @@ const props = withDefaults(
     virtualRows: false,
     estimatedRowHeight: 44,
     virtualizerOverscan: 8,
+    pagination: undefined,
+    page: undefined,
   }
 )
 
 const emit = defineEmits<{
   'update:rowSelection': [value: RowSelectionState]
+  'update:page': [value: number]
 }>()
 
 // --- Sorting state ----------------------------------------------------
@@ -91,6 +110,27 @@ function updateRowSelection(
   const next = typeof updater === 'function' ? updater(internalRowSelection.value) : updater
   internalRowSelection.value = next
   emit('update:rowSelection', next)
+}
+
+// --- Pagination state (controlled/uncontrolled) -----------------------
+const paginationEnabled = computed(() => props.pagination !== undefined)
+const pageSize = computed(() => props.pagination?.pageSize ?? 10)
+const isManualPagination = computed(() => props.pagination?.manual ?? false)
+const paginationTotalItems = computed(() =>
+  isManualPagination.value ? (props.pagination?.totalItems ?? 0) : props.data.length
+)
+
+const internalPage = ref<number>(props.page ?? 1)
+watch(
+  () => props.page,
+  (next) => {
+    if (next !== undefined) internalPage.value = next
+  }
+)
+
+function updatePage(next: number) {
+  internalPage.value = next
+  emit('update:page', next)
 }
 
 // --- Selection column injected at position 0 when enabled -----------
@@ -116,6 +156,9 @@ const effectiveColumns = computed<ColumnDef<TData, any>[]>(() => {
   return [selectionColumn, ...props.columns]
 })
 
+// Instantiate pagination row model to avoid name collision with getter
+const paginationRowModel = getPaginationRowModel()
+
 // --- useVueTable instance ---------------------------------------------
 // Use getters so @tanstack/vue-table tracks prop reactivity.
 const table = useVueTable({
@@ -132,11 +175,19 @@ const table = useVueTable({
     get rowSelection() {
       return internalRowSelection.value
     },
+    get pagination(): PaginationState {
+      return { pageIndex: internalPage.value - 1, pageSize: pageSize.value }
+    },
   },
   onSortingChange: (updater) => {
     sorting.value = typeof updater === 'function' ? updater(sorting.value) : updater
   },
   onRowSelectionChange: updateRowSelection,
+  onPaginationChange: (updater) => {
+    const current: PaginationState = { pageIndex: internalPage.value - 1, pageSize: pageSize.value }
+    const next = typeof updater === 'function' ? updater(current) : updater
+    updatePage(next.pageIndex + 1)
+  },
   get enableRowSelection() {
     return props.selection !== 'none'
   },
@@ -145,6 +196,15 @@ const table = useVueTable({
   },
   getCoreRowModel: getCoreRowModel(),
   getSortedRowModel: getSortedRowModel(),
+  get getPaginationRowModel() {
+    return paginationEnabled.value ? paginationRowModel : undefined
+  },
+  get manualPagination() {
+    return isManualPagination.value
+  },
+  get pageCount() {
+    return isManualPagination.value ? Math.ceil(paginationTotalItems.value / pageSize.value) : undefined
+  },
 })
 
 // --- Virtualization ---------------------------------------------------
