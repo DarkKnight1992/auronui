@@ -475,3 +475,16 @@ export type { UseOTPOptions, UseOTPReturn } from './composables/useOTP'
 
 export { useSwatchPicker } from './composables/useSwatchPicker'
 export type { UseSwatchPickerOptions, UseSwatchPickerReturn } from './composables/useSwatchPicker'
+
+export {
+  Sidebar,
+  SidebarSearch,
+  SidebarSection,
+  SidebarItem,
+  useSidebarInject,
+  useSidebarProvide,
+  sidebarContextKey,
+} from './components/sidebar'
+export type { SidebarContext, SidebarItemData, SidebarSectionData } from './components/sidebar'
+
+export { useLocationPath } from './composables/useLocationPath'
