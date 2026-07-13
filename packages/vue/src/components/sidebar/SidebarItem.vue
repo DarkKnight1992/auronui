@@ -142,7 +142,7 @@ function toggleChildren(): void {
         {{ props.label }}
       </span>
       <span
-        :class="slotFns.itemToggle()"
+        :class="[slotFns.itemToggle(), { 'sidebar__item-toggle--open': showChildren }]"
         aria-hidden="true"
       >
         <svg
@@ -193,7 +193,7 @@ function toggleChildren(): void {
       type="button"
       :aria-expanded="showChildren"
       :aria-label="`Toggle ${props.label}`"
-      :class="slotFns.itemToggle()"
+      :class="[slotFns.itemToggle(), { 'sidebar__item-toggle--open': showChildren }]"
       @click="toggleChildren"
     >
       <svg

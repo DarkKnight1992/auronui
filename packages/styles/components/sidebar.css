@@ -113,12 +113,17 @@
     background-color 200ms var(--ease-smooth);
   @apply motion-reduce:transition-none;
 
+  /* Rotation is driven by an explicit .sidebar__item-toggle--open class bound
+     in the component (via showChildren), not by [aria-expanded="true"]: the
+     decorative chevron span for a href-less group item is a sibling of the
+     <button> that actually carries aria-expanded, not the same element, so
+     an attribute-selector chain can't reach it there. */
   & > svg {
     transition: transform 200ms var(--ease-smooth);
     @apply motion-reduce:transition-none;
   }
 
-  &[aria-expanded="true"] > svg {
+  &.sidebar__item-toggle--open > svg {
     @apply rotate-90;
   }
 
