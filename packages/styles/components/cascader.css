@@ -158,6 +158,12 @@
   --tw-ring-color: var(--color-secondary);
 }
 
+.cascader__trigger--accent:focus-visible,
+.cascader__trigger--accent[data-state="open"] {
+  border-color: var(--color-accent);
+  --tw-ring-color: var(--color-accent);
+}
+
 .cascader__trigger--success:focus-visible,
 .cascader__trigger--success[data-state="open"] {
   border-color: var(--color-success);
@@ -180,6 +186,7 @@
    even when a color variant is applied (mirrors input.css's equivalent). */
 .cascader__trigger--underlined.cascader__trigger--primary,
 .cascader__trigger--underlined.cascader__trigger--secondary,
+.cascader__trigger--underlined.cascader__trigger--accent,
 .cascader__trigger--underlined.cascader__trigger--success,
 .cascader__trigger--underlined.cascader__trigger--warning,
 .cascader__trigger--underlined.cascader__trigger--danger {

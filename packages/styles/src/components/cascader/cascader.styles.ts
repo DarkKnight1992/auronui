@@ -29,6 +29,7 @@ export const cascaderVariants = tv({
       default:   { trigger: "cascader__trigger--default" },
       primary:   { trigger: "cascader__trigger--primary" },
       secondary: { trigger: "cascader__trigger--secondary" },
+      accent:    { trigger: "cascader__trigger--accent" },
       success:   { trigger: "cascader__trigger--success" },
       warning:   { trigger: "cascader__trigger--warning" },
       danger:    { trigger: "cascader__trigger--danger" },

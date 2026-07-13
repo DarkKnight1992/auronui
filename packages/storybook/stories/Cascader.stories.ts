@@ -44,7 +44,7 @@ const meta: Meta<typeof Cascader> = {
     placeholder: { control: 'text' },
     separator: { control: 'text' },
     variant: { control: 'select', options: ['flat', 'bordered', 'faded', 'underlined', 'raised'] },
-    color: { control: 'select', options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] },
+    color: { control: 'select', options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] },
     isDisabled: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
     isRequired: { control: 'boolean' },
@@ -191,15 +191,17 @@ export const Colors: Story = {
     setup() {
       const primary = ref<string[]>([])
       const secondary = ref<string[]>([])
+      const accent = ref<string[]>([])
       const success = ref<string[]>([])
       const warning = ref<string[]>([])
       const danger = ref<string[]>([])
-      return { locations, primary, secondary, success, warning, danger }
+      return { locations, primary, secondary, accent, success, warning, danger }
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:16px;width:280px;">
         <Cascader color="primary" variant="bordered" label="Primary (open me)" v-model="primary" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
         <Cascader color="secondary" variant="bordered" label="Secondary (open me)" v-model="secondary" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader color="accent" variant="bordered" label="Accent (open me)" v-model="accent" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
         <Cascader color="success" variant="bordered" label="Success (open me)" v-model="success" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
         <Cascader color="warning" variant="bordered" label="Warning (open me)" v-model="warning" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
         <Cascader color="danger" variant="bordered" label="Danger (open me)" v-model="danger" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />

@@ -192,4 +192,9 @@ describe('Cascader', () => {
     const wrapper = mountCascader({ color: 'primary' })
     expect(wrapper.find('[data-slot="cascader-trigger"]').classes()).toContain('cascader__trigger--primary')
   })
+
+  it('accent color prop applies the matching trigger modifier class', () => {
+    const wrapper = mountCascader({ color: 'accent' })
+    expect(wrapper.find('[data-slot="cascader-trigger"]').classes()).toContain('cascader__trigger--accent')
+  })
 })
