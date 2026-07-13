@@ -412,7 +412,8 @@ defineExpose({ table, keyboardNav, handleRowClick })
               :model-value="internalPageSize"
               :items="pageSizeOptionItems"
               label="Rows per page"
-              class="w-36 shrink-0"
+              label-placement="outside-left"
+              class="w-fit shrink-0"
               @update:model-value="(v) => updatePageSize(Number(v))"
             />
             <Pagination
