@@ -1,0 +1,6 @@
+export { default as InputGroup } from './InputGroup.vue'
+export { default as InputGroupAddon } from './InputGroupAddon.vue'
+export { default as InputGroupInput } from './InputGroupInput.vue'
+export { useInputGroupProvide, useInputGroupInject, inputGroupContextKey } from './input-group.context'
+export type { InputGroupContext } from './input-group.context'
+export type { InputGroupVariants } from '@auronui/styles'

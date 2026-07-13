@@ -226,6 +226,10 @@
       "style": "./components/input.css",
       "default": "./components/input.css"
     },
+    "./input-group.css": {
+      "style": "./components/input-group.css",
+      "default": "./components/input-group.css"
+    },
     "./input-otp.css": {
       "style": "./components/input-otp.css",
       "default": "./components/input-otp.css"

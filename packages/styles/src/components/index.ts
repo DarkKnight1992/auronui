@@ -92,3 +92,4 @@ export * from "./aspect-ratio";
 export * from "./splitter";
 export * from "./stepper";
 export * from "./tree";
+export * from "./input-group";

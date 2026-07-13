@@ -113,6 +113,11 @@ export type { ValidationMode, FieldRules, CustomValidator, ValidationContext, Fi
 export { Input } from './components/input'
 export type { InputVariants } from './components/input'
 
+export { InputGroup, InputGroupAddon, InputGroupInput, useInputGroupProvide, useInputGroupInject, inputGroupContextKey } from './components/input-group'
+export type { InputGroupContext, InputGroupVariants } from './components/input-group'
+
+export { SearchField } from './components/search-field'
+
 export { Textarea } from './components/textarea'
 export type { TextAreaVariants } from './components/textarea'
 

@@ -1,0 +1,143 @@
+/* --------------------------------------------------------------------------
+   InputGroup — generic bordered box that visually merges arbitrary content
+   (icons, buttons, a bare native input) into one field-styled unit. Mirrors
+   .input's box treatment (see input.css) but stays agnostic about what its
+   children are — unlike Input, which owns a single <input> plus label/
+   clear/password-toggle machinery.
+   -------------------------------------------------------------------------- */
+.input-group {
+  @apply inline-flex h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none sm:text-sm;
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    background-color 300ms var(--ease-smooth),
+    border-color 300ms var(--ease-smooth),
+    box-shadow 300ms var(--ease-out);
+  @apply motion-reduce:transition-none;
+
+  @media (hover: hover) {
+    &:hover:not(:focus-within),
+    &[data-hovered="true"]:not(:focus-within) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  /* Focus-within needs no JS tracking — the native pseudo-class already
+     fires whenever the bare input (or any focusable addon) inside gains
+     focus. */
+  &:focus-within {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+    background-color: var(--color-field-focus);
+  }
+
+  /* Invalid state */
+  &[data-invalid="true"] {
+    @apply status-invalid-field;
+    background-color: var(--color-field-focus);
+    border-color: var(--color-field-border-invalid);
+  }
+
+  /* Disabled state */
+  &[data-disabled="true"] {
+    @apply status-disabled opacity-60 cursor-not-allowed;
+  }
+}
+
+.input-group--full-width {
+  @apply w-full;
+}
+
+.input-group--sm {
+  @apply text-xs;
+  height: 1.75rem;
+}
+
+.input-group--md {
+  /* No styles — md is the default size defined on .input-group base */
+}
+
+.input-group--lg {
+  @apply text-base;
+  height: 2.75rem;
+}
+
+/* ─── Addon slot ─────────────────────────────────────────────────────────── */
+
+.input-group__addon {
+  @apply inline-flex h-full shrink-0 items-center justify-center gap-2 px-3;
+  color: var(--color-field-placeholder);
+}
+
+.input-group--sm .input-group__addon {
+  @apply px-2;
+}
+
+.input-group--lg .input-group__addon {
+  @apply px-4;
+}
+
+.input-group__addon svg {
+  @apply size-4;
+}
+
+.input-group--sm .input-group__addon svg {
+  @apply size-3.5;
+}
+
+.input-group--lg .input-group__addon svg {
+  @apply size-5;
+}
+
+/* An addon holding an interactive child (button) tightens its own padding
+   so the button's own hit area/spacing does the rest. */
+.input-group__addon:has(button) {
+  @apply px-1.5;
+}
+
+.input-group__addon[data-disabled="true"] {
+  @apply opacity-60 cursor-not-allowed;
+}
+
+/* ─── Input slot ─────────────────────────────────────────────────────────── */
+
+.input-group__input {
+  @apply flex-1 self-stretch bg-transparent border-0 text-inherit outline-none !min-w-4;
+  @apply placeholder:text-field-placeholder;
+  padding: 0.5rem 0.75rem;
+  border-radius: inherit;
+
+  &:focus,
+  &:focus-visible {
+    outline: none;
+    box-shadow: none;
+  }
+
+  &:disabled {
+    @apply cursor-not-allowed;
+  }
+}
+
+.input-group--sm .input-group__input {
+  padding: 0.25rem 0.5rem;
+}
+
+.input-group--lg .input-group__input {
+  padding: 0.625rem 1rem;
+}
+
+/* When an addon sits directly beside the input, drop the input's own edge
+   padding on that side — the addon's own padding already provides the gap. */
+.input-group__addon + .input-group__input {
+  padding-left: 0;
+}
+
+.input-group__input:has(+ .input-group__addon) {
+  padding-right: 0;
+}
