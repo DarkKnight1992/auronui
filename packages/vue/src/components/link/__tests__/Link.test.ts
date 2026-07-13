@@ -68,6 +68,14 @@ describe('Link', () => {
     expect(wrapper.element.tagName.toLowerCase()).toBe('button')
   })
 
+  it('applies "link--color-secondary" class when color="secondary"', () => {
+    const wrapper = mount(Link, {
+      props: { href: '#', color: 'secondary' },
+      slots: { default: 'Click' },
+    })
+    expect(wrapper.classes()).toContain('link--color-secondary')
+  })
+
   it('does NOT import or use ButtonGroup context (D-20)', () => {
     // Structural test: Link.vue must not contain useButtonGroupInject
     // This is enforced by the acceptance_criteria grep check

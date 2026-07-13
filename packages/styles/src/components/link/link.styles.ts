@@ -11,6 +11,7 @@ export const linkVariants = tv({
     color: {
       default: {base: "link--color-default"},
       primary: {base: "link--color-primary"},
+      secondary: {base: "link--color-secondary"},
       accent: {base: "link--color-accent"},
       success: {base: "link--color-success"},
       warning: {base: "link--color-warning"},

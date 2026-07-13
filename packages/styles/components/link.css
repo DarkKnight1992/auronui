@@ -81,6 +81,10 @@
   color: var(--color-primary);
 }
 
+.link--color-secondary {
+  color: var(--color-secondary);
+}
+
 .link--color-accent {
   color: var(--color-accent);
 }

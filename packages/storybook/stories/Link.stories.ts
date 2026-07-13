@@ -8,7 +8,7 @@ const meta: Meta<typeof Link> = {
   argTypes: {
     color: {
       control: 'select',
-      options: ['default', 'primary', 'accent', 'success', 'warning', 'danger', 'foreground'],
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger', 'foreground'],
     },
     isExternal: { control: 'boolean' },
     disabled: { control: 'boolean' },
@@ -84,6 +84,7 @@ import { Link } from '@auronui/vue'
   <div style="display:flex;flex-wrap:wrap;gap:16px">
     <Link href="#" color="default">Default</Link>
     <Link href="#" color="primary">Primary</Link>
+    <Link href="#" color="secondary">Secondary</Link>
     <Link href="#" color="accent">Accent</Link>
     <Link href="#" color="success">Success</Link>
     <Link href="#" color="warning">Warning</Link>
@@ -102,6 +103,7 @@ import { Link } from '@auronui/vue'
       <div style="display:flex;flex-wrap:wrap;gap:16px">
         <Link v-bind="args" href="#" color="default">Default</Link>
         <Link v-bind="args" href="#" color="primary">Primary</Link>
+        <Link v-bind="args" href="#" color="secondary">Secondary</Link>
         <Link v-bind="args" href="#" color="accent">Accent</Link>
         <Link v-bind="args" href="#" color="success">Success</Link>
         <Link v-bind="args" href="#" color="warning">Warning</Link>
