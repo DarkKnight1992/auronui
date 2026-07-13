@@ -1,0 +1,63 @@
+/* --------------------------------------------------------------------------
+   Image — content <img> with lazy-loading, load-error fallback, and
+   optional click-to-zoom lightbox. Built on the same reka-ui Avatar*
+   primitives Avatar uses for load-state tracking, styled unstyled/generic
+   here rather than circular.
+   -------------------------------------------------------------------------- */
+.image {
+  @apply relative inline-block overflow-hidden;
+}
+
+.image--radius-none {
+  @apply rounded-none;
+}
+
+.image--radius-sm {
+  @apply rounded-sm;
+}
+
+.image--radius-md {
+  @apply rounded-md;
+}
+
+.image--radius-lg {
+  @apply rounded-lg;
+}
+
+.image--radius-full {
+  @apply rounded-full;
+}
+
+.image__img {
+  @apply block h-full w-full;
+}
+
+.image__img--cover {
+  object-fit: cover;
+}
+
+.image__img--contain {
+  object-fit: contain;
+}
+
+.image__img--fill {
+  object-fit: fill;
+}
+
+.image__fallback {
+  @apply flex h-full w-full items-center justify-center;
+  color: color-mix(in oklab, var(--color-foreground) 40%, transparent);
+  background-color: var(--color-default-100, var(--color-background-tertiary));
+
+  & svg {
+    @apply size-6;
+  }
+}
+
+.image__zoom-trigger {
+  @apply absolute inset-0 cursor-zoom-in border-0 bg-transparent p-0 outline-none;
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+}

@@ -1,0 +1,71 @@
+/* --------------------------------------------------------------------------
+   Statistic — single-number KPI/metric display: label + big value +
+   optional prefix/suffix, description, and trend indicator.
+   -------------------------------------------------------------------------- */
+.statistic {
+  @apply flex flex-col gap-1;
+}
+
+.statistic__label {
+  @apply text-sm font-medium;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.statistic__value-wrapper {
+  @apply flex items-baseline gap-1;
+}
+
+.statistic__value {
+  @apply text-3xl font-semibold tabular-nums;
+  color: var(--color-foreground);
+}
+
+.statistic__value--default {
+  color: var(--color-foreground);
+}
+
+.statistic__value--primary {
+  color: var(--color-primary);
+}
+
+.statistic__value--success {
+  color: var(--color-success);
+}
+
+.statistic__value--warning {
+  color: var(--color-warning);
+}
+
+.statistic__value--danger {
+  color: var(--color-danger);
+}
+
+.statistic__affix {
+  @apply text-lg font-medium;
+  color: color-mix(in oklab, currentColor 70%, transparent);
+}
+
+.statistic__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.statistic__trend {
+  @apply inline-flex items-center gap-0.5 text-xs font-medium;
+
+  &[data-trend="up"] {
+    color: var(--color-success);
+  }
+
+  &[data-trend="down"] {
+    color: var(--color-danger);
+  }
+
+  &[data-trend="neutral"] {
+    color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+  }
+
+  & svg {
+    @apply size-3.5;
+  }
+}

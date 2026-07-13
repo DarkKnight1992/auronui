@@ -1,0 +1,122 @@
+/* --------------------------------------------------------------------------
+   FileUpload — drag-and-drop or click-to-browse file input. Handles file
+   *selection* only; upload transport is left to the consumer.
+   -------------------------------------------------------------------------- */
+.file-upload-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.file-upload__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-foreground);
+}
+
+.file-upload-root[data-invalid="true"] > .file-upload__label {
+  color: var(--color-danger);
+}
+
+.file-upload__dropzone {
+  @apply flex flex-col items-center justify-center gap-2 rounded-field border-2 border-dashed px-6 py-8 text-center;
+  border-color: var(--color-field-border);
+  background-color: var(--color-field);
+  cursor: var(--cursor-interactive);
+  transition: background-color 200ms var(--ease-smooth), border-color 200ms var(--ease-smooth);
+
+  @media (hover: hover) {
+    &:hover:not([data-disabled="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+}
+
+.file-upload__dropzone--drag-active {
+  border-color: var(--color-primary);
+  background-color: color-mix(in oklab, var(--color-primary) 8%, var(--color-field));
+}
+
+.file-upload__dropzone--invalid {
+  border-color: var(--color-danger);
+}
+
+.file-upload__dropzone--disabled {
+  @apply cursor-not-allowed opacity-60;
+}
+
+.file-upload__icon {
+  color: color-mix(in oklab, var(--color-foreground) 45%, transparent);
+
+  & svg {
+    @apply size-8;
+  }
+}
+
+.file-upload__hint {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+}
+
+.file-upload__file-list {
+  @apply flex flex-col gap-1.5;
+}
+
+.file-upload__file-item {
+  @apply flex items-center gap-2 rounded-md border px-2.5 py-1.5 text-sm;
+  border-color: var(--color-field-border);
+  background-color: var(--color-field);
+}
+
+.file-upload__file-name {
+  @apply flex-1 truncate;
+  color: var(--color-foreground);
+}
+
+.file-upload__file-size {
+  @apply shrink-0 text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+}
+
+.file-upload__remove-button {
+  @apply inline-flex size-6 shrink-0 items-center justify-center rounded-md border-0 bg-transparent p-0;
+  color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+  cursor: var(--cursor-interactive);
+  transition: color 200ms var(--ease-smooth), background-color 200ms var(--ease-smooth);
+
+  @media (hover: hover) {
+    &:hover {
+      @apply bg-surface-hover;
+      color: var(--color-danger);
+    }
+  }
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  & svg {
+    @apply size-4;
+  }
+}
+
+.file-upload__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.file-upload__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.file-upload__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}

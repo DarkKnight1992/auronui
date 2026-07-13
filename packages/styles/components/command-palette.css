@@ -1,0 +1,51 @@
+/* --------------------------------------------------------------------------
+   CommandPalette — global Cmd/Ctrl+K search-and-action overlay. Composes
+   the existing Modal (backdrop/focus-trap/Escape) with a SearchField +
+   ListBox internally, so this stylesheet only covers the layout
+   glue — Modal/SearchField/ListBox bring their own styling.
+   -------------------------------------------------------------------------- */
+.command-palette__content {
+  @apply flex flex-col gap-0 overflow-hidden p-0;
+  max-height: 28rem;
+}
+
+.command-palette__search {
+  @apply shrink-0 border-b p-2;
+  border-color: var(--color-border);
+}
+
+.command-palette__list {
+  @apply flex-1 overflow-y-auto p-2;
+}
+
+.command-palette__item {
+  @apply flex w-full items-center gap-2;
+}
+
+/* Keyboard-driven "active row" highlight — applied directly via a plain
+   class comparison against a virtual active value tracked in the
+   component, not via ListBox's real selection model (see CommandPalette.vue
+   for why: reka-ui's ListboxRoot steals DOM focus back from the search
+   input whenever a controlled model-value changes). */
+.command-palette__item--active {
+  @apply bg-surface-hover;
+}
+
+.command-palette__item-icon {
+  @apply inline-flex size-4 shrink-0 items-center justify-center;
+  color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+}
+
+.command-palette__item-label {
+  @apply flex-1 truncate text-left;
+}
+
+.command-palette__item-shortcut {
+  @apply shrink-0 text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 50%, transparent);
+}
+
+.command-palette__empty {
+  @apply px-2 py-6 text-center text-sm;
+  color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+}

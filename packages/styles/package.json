@@ -418,6 +418,34 @@
       "style": "./components/tree.css",
       "default": "./components/tree.css"
     },
+    "./statistic.css": {
+      "style": "./components/statistic.css",
+      "default": "./components/statistic.css"
+    },
+    "./timeline.css": {
+      "style": "./components/timeline.css",
+      "default": "./components/timeline.css"
+    },
+    "./image.css": {
+      "style": "./components/image.css",
+      "default": "./components/image.css"
+    },
+    "./transfer.css": {
+      "style": "./components/transfer.css",
+      "default": "./components/transfer.css"
+    },
+    "./file-upload.css": {
+      "style": "./components/file-upload.css",
+      "default": "./components/file-upload.css"
+    },
+    "./cascader.css": {
+      "style": "./components/cascader.css",
+      "default": "./components/cascader.css"
+    },
+    "./command-palette.css": {
+      "style": "./components/command-palette.css",
+      "default": "./components/command-palette.css"
+    },
     "./components/*": {
       "types": "./dist/components/*/index.d.ts",
       "import": "./dist/components/*/index.js"

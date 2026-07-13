@@ -1,0 +1,125 @@
+/* --------------------------------------------------------------------------
+   Timeline — vertical (or horizontal) sequence of dated/stepped events.
+   Pure presentational, no Reka UI primitive backing.
+   -------------------------------------------------------------------------- */
+.timeline {
+  @apply flex;
+}
+
+.timeline--vertical {
+  @apply flex-col;
+}
+
+.timeline--horizontal {
+  @apply flex-row overflow-x-auto;
+}
+
+.timeline__item {
+  @apply relative flex;
+}
+
+.timeline__item--vertical {
+  @apply flex-row gap-3 pb-6;
+
+  &:last-child {
+    @apply pb-0;
+
+    .timeline__line {
+      @apply hidden;
+    }
+  }
+}
+
+.timeline__item--horizontal {
+  @apply flex-col items-center gap-3 pr-8 text-center;
+  min-width: 8rem;
+
+  &:last-child {
+    @apply pr-0;
+
+    .timeline__line {
+      @apply hidden;
+    }
+  }
+}
+
+.timeline__dot {
+  @apply relative z-10 inline-flex size-3 shrink-0 items-center justify-center rounded-full;
+  background-color: var(--color-default-300, var(--border));
+  margin-top: 0.25rem;
+
+  .timeline--horizontal & {
+    margin-top: 0;
+  }
+}
+
+.timeline__dot--pending {
+  background-color: var(--color-default-300, var(--border));
+}
+
+.timeline__dot--current {
+  background-color: var(--color-primary);
+  box-shadow: 0 0 0 3px color-mix(in oklab, var(--color-primary) 25%, transparent);
+}
+
+.timeline__dot--done {
+  background-color: var(--color-success);
+}
+
+.timeline__dot--color-default {
+  background-color: var(--color-default-300, var(--border));
+}
+
+.timeline__dot--color-primary {
+  background-color: var(--color-primary);
+}
+
+.timeline__dot--color-success {
+  background-color: var(--color-success);
+}
+
+.timeline__dot--color-warning {
+  background-color: var(--color-warning);
+}
+
+.timeline__dot--color-danger {
+  background-color: var(--color-danger);
+}
+
+.timeline__line {
+  @apply absolute;
+  background-color: var(--border);
+
+  .timeline__item--vertical & {
+    left: 0.3125rem; /* centers on a size-3 dot */
+    top: 1rem;
+    bottom: -1.5rem;
+    width: 1px;
+  }
+
+  .timeline__item--horizontal & {
+    top: 0.3125rem;
+    left: 1rem;
+    right: -1.75rem;
+    height: 1px;
+  }
+}
+
+.timeline__content {
+  @apply flex flex-col gap-0.5;
+}
+
+.timeline__title {
+  @apply text-sm font-medium;
+  color: var(--color-foreground);
+}
+
+.timeline__description {
+  @apply text-sm;
+  color: color-mix(in oklab, var(--color-foreground) 70%, transparent);
+}
+
+.timeline__timestamp {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 55%, transparent);
+}

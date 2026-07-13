@@ -1,0 +1,134 @@
+/* --------------------------------------------------------------------------
+   Cascader — chained/hierarchical linked select (region -> city ->
+   district). Cascading-columns UI: each selected level reveals an
+   adjacent column of its children.
+   -------------------------------------------------------------------------- */
+.cascader-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.cascader__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-foreground);
+}
+
+.cascader-root[data-invalid="true"] > .cascader__label {
+  color: var(--color-danger);
+}
+
+.cascader__trigger {
+  @apply flex h-9 w-full items-center justify-between gap-2 rounded-field border bg-field px-3 text-sm;
+  border-width: var(--border-width-field);
+  border-color: var(--color-field-border);
+  color: var(--color-field-foreground);
+  cursor: var(--cursor-interactive);
+  transition: background-color 200ms var(--ease-smooth), border-color 200ms var(--ease-smooth);
+
+  @media (hover: hover) {
+    &:hover:not([data-disabled="true"]) {
+      @apply bg-field-hover;
+      border-color: var(--color-field-border-hover);
+    }
+  }
+
+  &:focus-visible,
+  &[data-state="open"] {
+    @apply status-focused-field;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.cascader__trigger--invalid {
+  border-color: var(--color-field-border-invalid);
+}
+
+.cascader__trigger--disabled {
+  @apply cursor-not-allowed opacity-60;
+}
+
+.cascader__trigger-value {
+  @apply flex-1 truncate text-left;
+}
+
+.cascader__trigger-value[data-placeholder="true"] {
+  color: var(--color-field-placeholder);
+}
+
+.cascader__trigger-icon {
+  @apply shrink-0 transition-transform duration-200;
+  color: var(--color-field-placeholder);
+
+  .cascader__trigger[data-state="open"] & {
+    @apply rotate-180;
+  }
+
+  & svg {
+    @apply size-4;
+  }
+}
+
+.cascader__panel {
+  @apply flex overflow-hidden rounded-md border bg-surface p-0 shadow-lg;
+  border-color: var(--color-border);
+}
+
+.cascader__column {
+  @apply flex flex-col gap-0.5 overflow-y-auto p-1;
+  width: 12rem;
+  max-height: 16rem;
+
+  & + & {
+    border-left: 1px solid var(--color-border);
+  }
+}
+
+.cascader__item {
+  @apply flex w-full items-center justify-between gap-2 rounded-md px-2 py-1.5 text-left text-sm;
+  color: var(--color-foreground);
+  cursor: var(--cursor-interactive);
+  transition: background-color 200ms var(--ease-smooth);
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-surface-hover;
+    }
+  }
+
+  &:focus-visible,
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &[data-active="true"] {
+    @apply bg-primary-soft text-primary-soft-foreground;
+  }
+}
+
+.cascader__item-icon {
+  @apply shrink-0;
+  color: color-mix(in oklab, currentColor 60%, transparent);
+
+  & svg {
+    @apply size-3.5;
+  }
+}
+
+.cascader__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.cascader__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.cascader__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}

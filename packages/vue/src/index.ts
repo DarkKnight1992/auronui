@@ -493,3 +493,24 @@ export {
 export type { SidebarContext, SidebarItemData, SidebarSectionData } from './components/sidebar'
 
 export { useLocationPath } from './composables/useLocationPath'
+
+export { Statistic } from './components/statistic'
+export type { StatisticVariants } from './components/statistic'
+
+export { Timeline, TimelineItem, useTimelineProvide, useTimelineInject, timelineContextKey } from './components/timeline'
+export type { TimelineContext, TimelineVariants } from './components/timeline'
+
+export { Image } from './components/image'
+export type { ImageVariants } from './components/image'
+
+export { Transfer } from './components/transfer'
+export type { TransferItem, TransferVariants } from './components/transfer'
+
+export { FileUpload } from './components/file-upload'
+export type { FileRejection, FileUploadVariants } from './components/file-upload'
+
+export { Cascader } from './components/cascader'
+export type { CascaderVariants } from './components/cascader'
+
+export { CommandPalette } from './components/command-palette'
+export type { CommandPaletteItemData, CommandPaletteVariants } from './components/command-palette'
