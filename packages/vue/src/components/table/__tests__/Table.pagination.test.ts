@@ -19,12 +19,12 @@ const columns: ColumnDef<Item, unknown>[] = [
 function mountTable(data: Item[], props: Record<string, unknown> = {}) {
   const Wrapper = defineComponent({
     components: { Table },
-    emits: ['update:page', 'update:rowSelection'],
+    emits: ['update:page', 'update:rowSelection', 'update:pageSize'],
     setup(_, { emit }) {
       const tableRef = useTemplateRef('tableRef')
       return { columns, data, tableProps: props, tableRef, emit, table: tableRef }
     },
-    template: '<Table ref="tableRef" :columns="columns" :data="data" v-bind="tableProps" @update:page="emit(\'update:page\', $event)" @update:rowSelection="emit(\'update:rowSelection\', $event)" />',
+    template: '<Table ref="tableRef" :columns="columns" :data="data" v-bind="tableProps" @update:page="emit(\'update:page\', $event)" @update:rowSelection="emit(\'update:rowSelection\', $event)" @update:pageSize="emit(\'update:pageSize\', $event)" />',
   })
   const wrapper = mount(Wrapper)
   // Expose the table instance from the mounted wrapper for test access
@@ -196,7 +196,7 @@ describe('Table — pagination (page size selector)', () => {
       'Row 0', 'Row 1', 'Row 2', 'Row 3', 'Row 4', 'Row 5', 'Row 6', 'Row 7', 'Row 8', 'Row 9',
     ])
     expect(wrapper.emitted('update:page')).toContainEqual([1])
-    expect(wrapper.findComponent(Table).emitted('update:pageSize')).toEqual([[10]])
+    expect(wrapper.emitted('update:pageSize')).toEqual([[10]])
   })
 })
 
