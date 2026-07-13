@@ -60,6 +60,14 @@ describe('Timeline', () => {
     expect(wrapper.find('[data-slot="timeline-dot"]').classes()).toContain('timeline__dot--color-danger')
   })
 
+  it('applies all color variants to the dot', () => {
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mount(TimelineItem, { props: { color } })
+      expect(wrapper.find('[data-slot="timeline-dot"]').classes()).toContain(`timeline__dot--color-${color}`)
+    }
+  })
+
   it('defaults to vertical orientation', () => {
     const wrapper = mount(Timeline)
     expect(wrapper.find('[data-slot="timeline"]').classes()).toContain('timeline--vertical')

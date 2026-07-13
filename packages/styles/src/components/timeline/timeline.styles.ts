@@ -46,6 +46,12 @@ export const timelineVariants = tv({
       primary: {
         dot: "timeline__dot--color-primary",
       },
+      secondary: {
+        dot: "timeline__dot--color-secondary",
+      },
+      accent: {
+        dot: "timeline__dot--color-accent",
+      },
       success: {
         dot: "timeline__dot--color-success",
       },

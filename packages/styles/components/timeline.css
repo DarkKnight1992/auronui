@@ -74,6 +74,14 @@
   background-color: var(--color-primary);
 }
 
+.timeline__dot--color-secondary {
+  background-color: var(--color-secondary);
+}
+
+.timeline__dot--color-accent {
+  background-color: var(--color-accent);
+}
+
 .timeline__dot--color-success {
   background-color: var(--color-success);
 }
