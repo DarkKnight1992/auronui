@@ -274,6 +274,17 @@ import { Button } from '@auronui/vue'              // in packages/storybook or a
 Only reach for a raw HTML element when no AuronUI component covers the use case, and add a comment explaining why.
 <!-- GSD:conventions-end -->
 
+## Component Additions Log
+
+Running log of notable component additions and capability changes, most recent first. This tracks what's actually shipped, separate from the stack-decision tables above — append a new dated entry here whenever a component is added or gains a capability worth remembering for future sessions (new props, a11y fixes, deliberate scope exclusions).
+
+### 2026-07-13
+- **Sidebar** (new) — vertical navigation (`packages/vue/src/components/sidebar/`): grouped link sections, optional sticky search, active-link auto-detection via a dependency-free `history.pushState`/`replaceState` patch (`useLocationPath` composable), collapsible nested children.
+- **Tree** — fixed a keyboard-parity accessibility bug: Enter/Space only fired `select` (highlight), never `toggle` (expand/collapse), even though a mouse click fired both — reka-ui's own `TreeItem` keydown handler is asymmetric with its click handler. Fixed in `TreeItem.vue` by capturing reka-ui's exposed `handleToggle()` via a template ref and invoking it on Enter/Space for rows with children.
+- **InputGroup** (new) — generic bordered box (`packages/vue/src/components/input-group/`) for merging arbitrary content (icons, buttons, a bare input) into one field-styled unit. Compound API: `InputGroup` + `InputGroupAddon` + `InputGroupInput`, sharing state via context. Full field contract: `variant` (flat/bordered/faded/underlined/raised), `color` (default/primary/secondary/success/warning/danger), `size`, `label`/`description`/`errorMessage` (auto-wires `aria-describedby` + field `id` onto the contained `InputGroupInput`, no manual ids needed), `isInvalid`, `isDisabled`, `fullWidth`.
+- **SearchField** (new) — dedicated search/filter input (`packages/vue/src/components/search-field/`), mirrors `Input.vue`'s anatomy and a11y contract exactly (reuses `.input`/`.input__*` CSS wholesale, no new stylesheet). Built-in search icon, clear button on by default, Escape-to-clear.
+- **TagGroup** — deliberately excluded from the HeroUI parity set. `Autocomplete` already covers the "selectable, removable tag collection" use case; `Tag` (aliased from `Chip`) remains for single-tag rendering only. Do not re-flag as missing in future HeroUI parity comparisons.
+
 <!-- GSD:architecture-start source:ARCHITECTURE.md -->
 ## Architecture
 
