@@ -424,6 +424,8 @@ export type { TreeContext, TreeVariants } from './components/tree'
 
 export { Slider } from './components/slider'
 
+export { Icon } from './components/icon'
+
 export { ProgressBar } from './components/progress-bar'
 export { ProgressCircle } from './components/progress-circle'
 
