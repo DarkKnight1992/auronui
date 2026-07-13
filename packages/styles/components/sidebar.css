@@ -1,0 +1,94 @@
+/* --------------------------------------------------------------------------
+   Sidebar — vertical navigation: grouped link sections, optional sticky
+   search, active-link highlighting via aria-current="page".
+   -------------------------------------------------------------------------- */
+.sidebar {
+  @apply flex h-full w-64 flex-col overflow-hidden;
+}
+
+/* Sticky search — position: sticky keeps it pinned to the top of the
+   scrollable content area instead of scrolling out of view. */
+.sidebar__search {
+  @apply bg-surface sticky top-0 z-10 shrink-0 px-3 py-2;
+}
+
+.sidebar__content {
+  @apply flex-1 overflow-y-auto px-2 py-2;
+  scrollbar-width: thin;
+  scrollbar-color: oklch(0% 0 0 / 0.15) transparent;
+}
+
+.sidebar__section {
+  @apply flex flex-col gap-1;
+
+  & + & {
+    @apply mt-4;
+  }
+}
+
+.sidebar__section-heading {
+  @apply text-muted px-2 py-1 text-xs font-semibold tracking-wide uppercase select-none;
+}
+
+.sidebar__section-list {
+  @apply flex flex-col gap-0.5;
+}
+
+.sidebar__item {
+  @apply text-muted relative flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium no-underline outline-none;
+
+  /**
+   * Transitions
+   * CRITICAL: motion-reduce must be AFTER transition for correct override specificity
+   */
+  transition:
+    color 200ms var(--ease-smooth),
+    background-color 200ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  cursor: var(--cursor-interactive);
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-surface-hover text-foreground;
+    }
+  }
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
+
+  &[aria-disabled="true"] {
+    @apply status-disabled;
+  }
+
+  /* Active link */
+  &[aria-current="page"] {
+    @apply bg-primary/10 text-primary font-semibold;
+
+    @media (hover: hover) {
+      &:hover,
+      &[data-hovered="true"] {
+        @apply bg-primary/15;
+      }
+    }
+  }
+}
+
+.sidebar__item-icon {
+  @apply inline-flex size-4 shrink-0 items-center justify-center;
+}
+
+.sidebar__item-label {
+  @apply flex-1 truncate;
+}
+
+.sidebar__item-badge {
+  @apply shrink-0;
+}
+
+.sidebar__empty {
+  @apply text-muted px-2 py-6 text-center text-sm;
+}

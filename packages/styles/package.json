@@ -322,6 +322,10 @@
       "style": "./components/separator.css",
       "default": "./components/separator.css"
     },
+    "./sidebar.css": {
+      "style": "./components/sidebar.css",
+      "default": "./components/sidebar.css"
+    },
     "./skeleton.css": {
       "style": "./components/skeleton.css",
       "default": "./components/skeleton.css"
