@@ -55,21 +55,17 @@ const iconComponent = computed(() =>
 )
 
 const hasChildren = computed(() => !!props.items && props.items.length > 0)
-
-function containsHref(items: SidebarItemData[] | undefined, href: string | undefined): boolean {
-  if (!items || !href) return false
-  return items.some((child) => child.href === href || containsHref(child.items, href))
-}
-const hasActiveDescendant = computed(() => containsHref(props.items, ctx.activeHref.value))
 const isSearching = computed(() => ctx.searchQuery.value.trim() !== '')
 
-// Manual toggle state — null means "no explicit user choice yet", in which case
-// the children are expanded by default, or forced open while searching or while
-// they contain the active link (even overriding a prior manual collapse).
+// Manual toggle state — null means "no explicit user choice yet", in which
+// case children are expanded by default. Once the user explicitly toggles,
+// that choice sticks (including across the item containing the active
+// link) — only an active search temporarily forces children open again, to
+// surface matches, since that's a mode the user actively initiated.
 const manuallyOpen = ref<boolean | null>(null)
 const showChildren = computed(() => {
   if (!hasChildren.value) return false
-  if (isSearching.value || hasActiveDescendant.value) return true
+  if (isSearching.value) return true
   return manuallyOpen.value ?? true
 })
 

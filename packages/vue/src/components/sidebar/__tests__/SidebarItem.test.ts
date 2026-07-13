@@ -146,7 +146,7 @@ describe('SidebarItem', () => {
     expect(wrapper.find('a[href="/components"] button').exists()).toBe(false)
   })
 
-  it('re-expands automatically when a descendant becomes the active link, even if manually collapsed', async () => {
+  it('a manual collapse sticks even when the group contains the active link', async () => {
     const wrapper = mountItem(
       {
         label: 'Components',
@@ -156,7 +156,26 @@ describe('SidebarItem', () => {
       { activeHref: '/components/button' },
     )
     await wrapper.find('button[aria-expanded]').trigger('click')
-    // Still expanded — the active descendant forces it open regardless of the manual toggle.
+    // Collapsed, despite containing the active link — an explicit user
+    // choice must not be silently overridden.
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(false)
+  })
+
+  it('an active search query still reveals children even if manually collapsed', async () => {
+    const Harness = withSidebarContext(() =>
+      h(SidebarItem, {
+        label: 'Components',
+        href: '/components',
+        items: [{ label: 'Button', href: '/components/button' }],
+      }),
+    )
+    const wrapper = mount(Harness)
+    await wrapper.find('button[aria-expanded]').trigger('click')
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(false)
+
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    ;(wrapper.vm as any).searchQuery = 'button'
+    await wrapper.vm.$nextTick()
     expect(wrapper.find('.sidebar__item-children').exists()).toBe(true)
   })
 
