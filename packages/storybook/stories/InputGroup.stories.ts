@@ -16,7 +16,7 @@ const meta: Meta<typeof InputGroup> = {
     },
     color: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'],
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
     },
     label: { control: 'text' },
     description: { control: 'text' },
@@ -250,6 +250,10 @@ export const Colors: Story = {
         <InputGroup color="primary" variant="bordered">
           <InputGroupAddon>$</InputGroupAddon>
           <InputGroupInput placeholder="Primary (focus me)" aria-label="Primary amount" />
+        </InputGroup>
+        <InputGroup color="accent" variant="bordered">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Accent (focus me)" aria-label="Accent amount" />
         </InputGroup>
         <InputGroup color="success" variant="bordered">
           <InputGroupAddon>$</InputGroupAddon>

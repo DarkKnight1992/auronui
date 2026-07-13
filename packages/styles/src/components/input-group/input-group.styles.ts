@@ -36,6 +36,7 @@ export const inputGroupVariants = tv({
       default:   { base: "input-group--default" },
       primary:   { base: "input-group--primary" },
       secondary: { base: "input-group--secondary" },
+      accent:    { base: "input-group--accent" },
       success:   { base: "input-group--success" },
       warning:   { base: "input-group--warning" },
       danger:    { base: "input-group--danger" },

@@ -214,6 +214,11 @@
   --tw-ring-color: var(--color-secondary);
 }
 
+.input-group--accent:focus-within {
+  border-color: var(--color-accent);
+  --tw-ring-color: var(--color-accent);
+}
+
 .input-group--success:focus-within {
   border-color: var(--color-success);
   --tw-ring-color: var(--color-success);
@@ -233,6 +238,7 @@
    even when a color variant is applied (mirrors input.css's equivalent). */
 .input-group--underlined.input-group--primary,
 .input-group--underlined.input-group--secondary,
+.input-group--underlined.input-group--accent,
 .input-group--underlined.input-group--success,
 .input-group--underlined.input-group--warning,
 .input-group--underlined.input-group--danger {

@@ -60,7 +60,7 @@ describe('InputGroup', () => {
   })
 
   it('applies each color class', () => {
-    const colors = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] as const
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
     for (const color of colors) {
       const wrapper = mountGroup({ color })
       expect(wrapper.find('[data-slot="input-group"]').classes()).toContain(`input-group--${color}`)
