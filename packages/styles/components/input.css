@@ -240,6 +240,15 @@
   }
 }
 
+.input--accent {
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .input--success {
 
   &:focus-within,
@@ -274,6 +283,7 @@
 
 .input--underlined.input--primary,
 .input--underlined.input--secondary,
+.input--underlined.input--accent,
 .input--underlined.input--success,
 .input--underlined.input--warning,
 .input--underlined.input--danger {
@@ -695,6 +705,10 @@
 .input--label-inside.input--secondary:focus-within .input__label,
 .input--label-inside.input--secondary[data-focused="true"] .input__label {
   color: var(--color-secondary);
+}
+.input--label-inside.input--accent:focus-within .input__label,
+.input--label-inside.input--accent[data-focused="true"] .input__label {
+  color: var(--color-accent);
 }
 .input--label-inside.input--success:focus-within .input__label,
 .input--label-inside.input--success[data-focused="true"] .input__label {

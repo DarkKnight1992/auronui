@@ -17,7 +17,7 @@ const meta: Meta<typeof Input> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     labelPlacement: {
       control: "select",
@@ -276,6 +276,7 @@ import { Input } from '@auronui/vue'
     <Input variant="bordered" color="default" placeholder="default" aria-label="Default color input" />
     <Input variant="bordered" color="primary" placeholder="primary" aria-label="Primary color input" />
     <Input variant="bordered" color="secondary" placeholder="secondary" aria-label="Secondary color input" />
+    <Input variant="bordered" color="accent" placeholder="accent" aria-label="Accent color input" />
     <Input variant="bordered" color="success" placeholder="success" aria-label="Success color input" />
     <Input variant="bordered" color="warning" placeholder="warning" aria-label="Warning color input" />
     <Input variant="bordered" color="danger" placeholder="danger" aria-label="Danger color input" />
@@ -295,6 +296,7 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="bordered" color="default" placeholder="default" aria-label="Default color input" />
         <Input v-bind="args" variant="bordered" color="primary" placeholder="primary" aria-label="Primary color input" />
         <Input v-bind="args" variant="bordered" color="secondary" placeholder="secondary" aria-label="Secondary color input" />
+        <Input v-bind="args" variant="bordered" color="accent" placeholder="accent" aria-label="Accent color input" />
         <Input v-bind="args" variant="bordered" color="success" placeholder="success" aria-label="Success color input" />
         <Input v-bind="args" variant="bordered" color="warning" placeholder="warning" aria-label="Warning color input" />
         <Input v-bind="args" variant="bordered" color="danger" placeholder="danger" aria-label="Danger color input" />
@@ -312,11 +314,12 @@ import { Input } from '@auronui/vue'
 </script>
 
 <template>
-  <div style="display:grid;grid-template-columns:80px repeat(6,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
+  <div style="display:grid;grid-template-columns:80px repeat(7,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
     <div></div>
     <div style="font-size:11px;color:#666">default</div>
     <div style="font-size:11px;color:#666">primary</div>
     <div style="font-size:11px;color:#666">secondary</div>
+    <div style="font-size:11px;color:#666">accent</div>
     <div style="font-size:11px;color:#666">success</div>
     <div style="font-size:11px;color:#666">warning</div>
     <div style="font-size:11px;color:#666">danger</div>
@@ -325,6 +328,7 @@ import { Input } from '@auronui/vue'
     <Input variant="flat" color="default" placeholder="default" aria-label="flat default" />
     <Input variant="flat" color="primary" placeholder="primary" aria-label="flat primary" />
     <Input variant="flat" color="secondary" placeholder="secondary" aria-label="flat secondary" />
+    <Input variant="flat" color="accent" placeholder="accent" aria-label="flat accent" />
     <Input variant="flat" color="success" placeholder="success" aria-label="flat success" />
     <Input variant="flat" color="warning" placeholder="warning" aria-label="flat warning" />
     <Input variant="flat" color="danger" placeholder="danger" aria-label="flat danger" />
@@ -333,6 +337,7 @@ import { Input } from '@auronui/vue'
     <Input variant="faded" color="default" placeholder="default" aria-label="faded default" />
     <Input variant="faded" color="primary" placeholder="primary" aria-label="faded primary" />
     <Input variant="faded" color="secondary" placeholder="secondary" aria-label="faded secondary" />
+    <Input variant="faded" color="accent" placeholder="accent" aria-label="faded accent" />
     <Input variant="faded" color="success" placeholder="success" aria-label="faded success" />
     <Input variant="faded" color="warning" placeholder="warning" aria-label="faded warning" />
     <Input variant="faded" color="danger" placeholder="danger" aria-label="faded danger" />
@@ -341,6 +346,7 @@ import { Input } from '@auronui/vue'
     <Input variant="bordered" color="default" placeholder="default" aria-label="bordered default" />
     <Input variant="bordered" color="primary" placeholder="primary" aria-label="bordered primary" />
     <Input variant="bordered" color="secondary" placeholder="secondary" aria-label="bordered secondary" />
+    <Input variant="bordered" color="accent" placeholder="accent" aria-label="bordered accent" />
     <Input variant="bordered" color="success" placeholder="success" aria-label="bordered success" />
     <Input variant="bordered" color="warning" placeholder="warning" aria-label="bordered warning" />
     <Input variant="bordered" color="danger" placeholder="danger" aria-label="bordered danger" />
@@ -349,6 +355,7 @@ import { Input } from '@auronui/vue'
     <Input variant="underlined" color="default" placeholder="default" aria-label="underlined default" />
     <Input variant="underlined" color="primary" placeholder="primary" aria-label="underlined primary" />
     <Input variant="underlined" color="secondary" placeholder="secondary" aria-label="underlined secondary" />
+    <Input variant="underlined" color="accent" placeholder="accent" aria-label="underlined accent" />
     <Input variant="underlined" color="success" placeholder="success" aria-label="underlined success" />
     <Input variant="underlined" color="warning" placeholder="warning" aria-label="underlined warning" />
     <Input variant="underlined" color="danger" placeholder="danger" aria-label="underlined danger" />
@@ -357,6 +364,7 @@ import { Input } from '@auronui/vue'
     <Input variant="raised" color="default" placeholder="default" aria-label="raised default" />
     <Input variant="raised" color="primary" placeholder="primary" aria-label="raised primary" />
     <Input variant="raised" color="secondary" placeholder="secondary" aria-label="raised secondary" />
+    <Input variant="raised" color="accent" placeholder="accent" aria-label="raised accent" />
     <Input variant="raised" color="success" placeholder="success" aria-label="raised success" />
     <Input variant="raised" color="warning" placeholder="warning" aria-label="raised warning" />
     <Input variant="raised" color="danger" placeholder="danger" aria-label="raised danger" />
@@ -372,11 +380,12 @@ import { Input } from '@auronui/vue'
       return { args };
     },
     template: `
-      <div style="display:grid;grid-template-columns:80px repeat(6,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
+      <div style="display:grid;grid-template-columns:80px repeat(7,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
         <div></div>
         <div style="font-size:11px;color:#666">default</div>
         <div style="font-size:11px;color:#666">primary</div>
         <div style="font-size:11px;color:#666">secondary</div>
+        <div style="font-size:11px;color:#666">accent</div>
         <div style="font-size:11px;color:#666">success</div>
         <div style="font-size:11px;color:#666">warning</div>
         <div style="font-size:11px;color:#666">danger</div>
@@ -385,6 +394,7 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="flat" color="default" placeholder="default" aria-label="flat default" />
         <Input v-bind="args" variant="flat" color="primary" placeholder="primary" aria-label="flat primary" />
         <Input v-bind="args" variant="flat" color="secondary" placeholder="secondary" aria-label="flat secondary" />
+        <Input v-bind="args" variant="flat" color="accent" placeholder="accent" aria-label="flat accent" />
         <Input v-bind="args" variant="flat" color="success" placeholder="success" aria-label="flat success" />
         <Input v-bind="args" variant="flat" color="warning" placeholder="warning" aria-label="flat warning" />
         <Input v-bind="args" variant="flat" color="danger" placeholder="danger" aria-label="flat danger" />
@@ -393,6 +403,7 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="faded" color="default" placeholder="default" aria-label="faded default" />
         <Input v-bind="args" variant="faded" color="primary" placeholder="primary" aria-label="faded primary" />
         <Input v-bind="args" variant="faded" color="secondary" placeholder="secondary" aria-label="faded secondary" />
+        <Input v-bind="args" variant="faded" color="accent" placeholder="accent" aria-label="faded accent" />
         <Input v-bind="args" variant="faded" color="success" placeholder="success" aria-label="faded success" />
         <Input v-bind="args" variant="faded" color="warning" placeholder="warning" aria-label="faded warning" />
         <Input v-bind="args" variant="faded" color="danger" placeholder="danger" aria-label="faded danger" />
@@ -401,6 +412,7 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="bordered" color="default" placeholder="default" aria-label="bordered default" />
         <Input v-bind="args" variant="bordered" color="primary" placeholder="primary" aria-label="bordered primary" />
         <Input v-bind="args" variant="bordered" color="secondary" placeholder="secondary" aria-label="bordered secondary" />
+        <Input v-bind="args" variant="bordered" color="accent" placeholder="accent" aria-label="bordered accent" />
         <Input v-bind="args" variant="bordered" color="success" placeholder="success" aria-label="bordered success" />
         <Input v-bind="args" variant="bordered" color="warning" placeholder="warning" aria-label="bordered warning" />
         <Input v-bind="args" variant="bordered" color="danger" placeholder="danger" aria-label="bordered danger" />
@@ -409,6 +421,7 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="underlined" color="default" placeholder="default" aria-label="underlined default" />
         <Input v-bind="args" variant="underlined" color="primary" placeholder="primary" aria-label="underlined primary" />
         <Input v-bind="args" variant="underlined" color="secondary" placeholder="secondary" aria-label="underlined secondary" />
+        <Input v-bind="args" variant="underlined" color="accent" placeholder="accent" aria-label="underlined accent" />
         <Input v-bind="args" variant="underlined" color="success" placeholder="success" aria-label="underlined success" />
         <Input v-bind="args" variant="underlined" color="warning" placeholder="warning" aria-label="underlined warning" />
         <Input v-bind="args" variant="underlined" color="danger" placeholder="danger" aria-label="underlined danger" />
@@ -417,6 +430,7 @@ import { Input } from '@auronui/vue'
         <Input v-bind="args" variant="raised" color="default" placeholder="default" aria-label="raised default" />
         <Input v-bind="args" variant="raised" color="primary" placeholder="primary" aria-label="raised primary" />
         <Input v-bind="args" variant="raised" color="secondary" placeholder="secondary" aria-label="raised secondary" />
+        <Input v-bind="args" variant="raised" color="accent" placeholder="accent" aria-label="raised accent" />
         <Input v-bind="args" variant="raised" color="success" placeholder="success" aria-label="raised success" />
         <Input v-bind="args" variant="raised" color="warning" placeholder="warning" aria-label="raised warning" />
         <Input v-bind="args" variant="raised" color="danger" placeholder="danger" aria-label="raised danger" />

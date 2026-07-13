@@ -45,6 +45,7 @@ export const inputVariants = tv({
       default:   { inputWrapper: "input--default" },
       primary:   { inputWrapper: "input--primary" },
       secondary: { inputWrapper: "input--secondary" },
+      accent:    { inputWrapper: "input--accent" },
       success:   { inputWrapper: "input--success" },
       warning:   { inputWrapper: "input--warning" },
       danger:    { inputWrapper: "input--danger" },
