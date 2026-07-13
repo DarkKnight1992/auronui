@@ -19,6 +19,14 @@ export interface FieldRegistration {
   validate?: CustomValidator
 }
 
+export interface FieldArrayRegistration {
+  name: string
+  /** Row ids in current display order — used to assemble nested arrays in getValues(). */
+  order: Ref<string[]>
+  /** Regenerate default rows/ids, mirroring FieldRegistration.reset(). */
+  reset: () => void
+}
+
 export interface FormOptions {
   defaultValues?: Record<string, unknown>
   validationMode?: ValidationMode
@@ -39,6 +47,8 @@ export interface FormContext {
   defaultValues: Record<string, unknown>
   registerField(reg: FieldRegistration): void
   unregisterField(name: string): void
+  registerFieldArray(reg: FieldArrayRegistration): void
+  unregisterFieldArray(name: string): void
   triggerFieldValidation(name: string): Promise<void>
   getFieldRef(name: string): Ref<unknown> | undefined
   setErrors(newErrors: Record<string, string>): void

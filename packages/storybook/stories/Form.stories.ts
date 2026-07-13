@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { Form, FormField, Input } from '@auronui/vue'
+import { Form, FormField, FormFieldArray, Input } from '@auronui/vue'
 
 const meta: Meta<typeof Form> = {
   title: 'Components/Form',
@@ -997,6 +997,128 @@ const submitted = ref(null)
         </div>
         <p style="font-size: 12px; color: #71717a;">
           Demonstrates the three new rules: <code>url</code>, <code>integer</code>, and cross-field <code>matches</code>.
+        </p>
+      </div>
+    `,
+  }),
+}
+
+// ── Field Array (repeatable rows) ────────────────────────────────────────────
+
+export const FieldArray: Story = {
+  name: 'Field Array (repeatable rows)',
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Form, FormFieldArray, FormField, Input } from '@auronui/vue'
+
+const initialContacts = [
+  { name: 'Jane Doe', email: 'jane@example.com' },
+]
+
+function handleSubmit({ values }) {
+  console.log(values.contacts) // [{ name, email }, ...]
+}
+</script>
+
+<template>
+  <Form @submit="handleSubmit" style="display: flex; flex-direction: column; gap: 16px;">
+    <FormFieldArray
+      name="contacts"
+      :default-value="initialContacts"
+      :rules="{ required: true, minLength: 1, maxLength: 4 }"
+      v-slot="{ fields, fieldName, append, remove, error }"
+    >
+      <div v-for="row in fields" :key="row.id" style="display: flex; gap: 8px; align-items: flex-start;">
+        <FormField :name="fieldName(row.id, 'name')" :default-value="row.defaultValue.name" :rules="{ required: true }">
+          <template #default="{ fieldProps }">
+            <Input v-bind="fieldProps" label="Name" />
+          </template>
+        </FormField>
+        <FormField :name="fieldName(row.id, 'email')" :default-value="row.defaultValue.email" :rules="{ required: true, email: true }">
+          <template #default="{ fieldProps }">
+            <Input v-bind="fieldProps" label="Email" />
+          </template>
+        </FormField>
+        <button type="button" @click="remove(row.id)">Remove</button>
+      </div>
+
+      <p v-if="error" style="color: #ef4444; font-size: 13px;">{{ error }}</p>
+
+      <button type="button" @click="append({ name: '', email: '' })">Add contact</button>
+    </FormFieldArray>
+
+    <button type="submit">Save contacts</button>
+  </Form>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: () => ({
+    components: { Form, FormFieldArray, FormField, Input },
+    setup() {
+      const initialContacts = [{ name: 'Jane Doe', email: 'jane@example.com' }]
+      const submitted = ref<Record<string, unknown> | null>(null)
+
+      function handleSubmit({ values }: { values: Record<string, unknown> }) {
+        submitted.value = values
+      }
+
+      return { initialContacts, submitted, handleSubmit }
+    },
+    template: `
+      <div style="max-width: 480px; display: flex; flex-direction: column; gap: 16px;">
+        <Form @submit="handleSubmit" @invalid="submitted = null" style="display: flex; flex-direction: column; gap: 16px;">
+          <FormFieldArray
+            name="contacts"
+            :default-value="initialContacts"
+            :rules="{ required: true, minLength: 1, maxLength: 4 }"
+            v-slot="{ fields, fieldName, append, remove, error }"
+          >
+            <div v-for="row in fields" :key="row.id" style="display: flex; gap: 8px; align-items: flex-start;">
+              <FormField :name="fieldName(row.id, 'name')" :default-value="row.defaultValue.name" :rules="{ required: true }">
+                <template #default="{ fieldProps }">
+                  <Input v-bind="fieldProps" label="Name" />
+                </template>
+              </FormField>
+              <FormField :name="fieldName(row.id, 'email')" :default-value="row.defaultValue.email" :rules="{ required: true, email: true }">
+                <template #default="{ fieldProps }">
+                  <Input v-bind="fieldProps" label="Email" />
+                </template>
+              </FormField>
+              <button
+                type="button"
+                @click="remove(row.id)"
+                style="padding: 8px 12px; margin-top: 22px; background: #fff1f2; border: 1px solid #fecdd3; border-radius: 6px; cursor: pointer; font-size: 13px;"
+              >
+                Remove
+              </button>
+            </div>
+
+            <p v-if="error" style="color: #ef4444; font-size: 13px; margin: 0;">{{ error }}</p>
+
+            <button
+              type="button"
+              @click="append({ name: '', email: '' })"
+              style="padding: 8px 16px; background: #f4f4f5; color: #3f3f46; border: none; border-radius: 8px; cursor: pointer; align-self: flex-start;"
+            >
+              Add contact
+            </button>
+          </FormFieldArray>
+
+          <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer;">
+            Save contacts
+          </button>
+        </Form>
+
+        <div v-if="submitted" style="padding: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 13px;">
+          <strong>Submitted:</strong> {{ JSON.stringify(submitted) }}
+        </div>
+        <p style="font-size: 12px; color: #71717a;">
+          Add/remove rows, then submit. Rows are validated independently; the array itself requires 1–4 rows.
         </p>
       </div>
     `,
