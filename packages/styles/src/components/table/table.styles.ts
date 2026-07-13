@@ -14,6 +14,8 @@ export const tableVariants = tv({
     columnResizer: "table__column-resizer",
     content: "table__content",
     footer: "table__footer",
+    footerCell: "table__footer-cell",
+    footerContent: "table__footer-content",
     header: "table__header",
     loadMore: "table__load-more",
     loadMoreContent: "table__load-more-content",

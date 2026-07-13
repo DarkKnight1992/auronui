@@ -27,8 +27,13 @@ const slotFns = computed(() => tableVariants({ variant: ctx.variant.value }))
 <template>
   <tfoot :class="composeClassName(slotFns.footer(), props.classNames?.footer)">
     <tr>
-      <td :colspan="props.colspan">
-        <slot />
+      <td
+        :colspan="props.colspan"
+        :class="slotFns.footerCell()"
+      >
+        <div :class="slotFns.footerContent()">
+          <slot />
+        </div>
       </td>
     </tr>
   </tfoot>

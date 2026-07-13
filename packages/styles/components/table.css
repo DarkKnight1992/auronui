@@ -276,10 +276,20 @@
 }
 
 /* --------------------------------------------------------------------------
-   Table Footer (div outside <table>, sits on gray bg)
+   Table Footer (tfoot > tr > td, valid HTML content model — the flex layout
+   lives on the td's content wrapper, not tfoot, since tfoot's only direct
+   child is the wrapping <tr>).
    -------------------------------------------------------------------------- */
 .table__footer {
-  @apply flex items-center px-4 py-2.5;
+  @apply w-full;
+}
+
+.table__footer-cell {
+  @apply px-4 py-2.5;
+}
+
+.table__footer-content {
+  @apply flex flex-wrap items-center justify-between gap-4;
 }
 
 /* --------------------------------------------------------------------------
