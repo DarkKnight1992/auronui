@@ -31,6 +31,21 @@
   @apply flex-1 overflow-y-auto px-1 pb-2;
   min-height: 12rem;
   max-height: 16rem;
+  transition: background-color 150ms var(--ease-smooth);
+}
+
+/* Drag-and-drop: applied to the panel currently being dragged over —
+   the drop target, not the source of the drag. */
+.transfer__panel-body--drag-over {
+  background-color: color-mix(in oklab, var(--color-primary) 8%, transparent);
+  outline: 2px dashed var(--color-primary);
+  outline-offset: -2px;
+}
+
+/* The row currently being dragged — dimmed so the drop-target panel's
+   own highlight reads clearly against it. */
+.transfer__item--dragging {
+  opacity: 0.4;
 }
 
 .transfer__controls {

@@ -31,6 +31,10 @@ type Story = StoryObj<typeof Transfer>
 export const Default: Story = {
   parameters: {
     docs: {
+      description: {
+        story:
+          'Move items with the ›/‹/»/« buttons after checking them, or drag a row directly onto the other panel — both work the same way underneath.',
+      },
       source: {
         code: `<script setup>
 import { ref } from 'vue'

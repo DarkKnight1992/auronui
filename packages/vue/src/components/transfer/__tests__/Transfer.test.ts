@@ -180,4 +180,129 @@ describe('Transfer', () => {
     expect(wrapper.find('[data-slot="transfer"]').classes()).toContain('custom-class')
     expect(wrapper.find('[data-slot="transfer"]').classes()).toContain('transfer')
   })
+
+  // ─── Drag-and-drop ────────────────────────────────────────────────────
+  // Additional way to move a single item; the checkbox+button controls
+  // above remain the primary, always-present, keyboard-operable path.
+
+  function fakeDataTransfer() {
+    return { effectAllowed: '', dropEffect: '', setData: () => {} }
+  }
+
+  it('dragging a source item and dropping it on the target panel moves it', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: [] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" />',
+      }),
+      { attachTo: document.body },
+    )
+    const sourceOption = wrapper.find('[data-slot="transfer-source-body"] [role="option"]')
+    await sourceOption.trigger('dragstart', { dataTransfer: fakeDataTransfer() })
+    await wrapper.find('[data-slot="transfer-target-body"]').trigger('drop', { dataTransfer: fakeDataTransfer() })
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual(['alice'])
+    wrapper.unmount()
+  })
+
+  it('dragging a target item and dropping it on the source panel moves it back', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: ['alice', 'bob', 'carol'] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" />',
+      }),
+      { attachTo: document.body },
+    )
+    const targetOption = wrapper.find('[data-slot="transfer-target-body"] [role="option"]')
+    await targetOption.trigger('dragstart', { dataTransfer: fakeDataTransfer() })
+    await wrapper.find('[data-slot="transfer-source-body"]').trigger('drop', { dataTransfer: fakeDataTransfer() })
+    const remaining = (wrapper.vm as unknown as { modelValue: string[] }).modelValue
+    expect(remaining).toHaveLength(2)
+    expect(remaining).not.toContain('alice')
+    wrapper.unmount()
+  })
+
+  it('dropping on the same panel the drag started from is a no-op', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: [] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" />',
+      }),
+      { attachTo: document.body },
+    )
+    const sourceOption = wrapper.find('[data-slot="transfer-source-body"] [role="option"]')
+    await sourceOption.trigger('dragstart', { dataTransfer: fakeDataTransfer() })
+    await wrapper.find('[data-slot="transfer-source-body"]').trigger('drop', { dataTransfer: fakeDataTransfer() })
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual([])
+    wrapper.unmount()
+  })
+
+  it('dragend without a drop clears drag state without moving anything', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: [] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" />',
+      }),
+      { attachTo: document.body },
+    )
+    const sourceOption = wrapper.find('[data-slot="transfer-source-body"] [role="option"]')
+    await sourceOption.trigger('dragstart', { dataTransfer: fakeDataTransfer() })
+    await sourceOption.trigger('dragend')
+    await wrapper.find('[data-slot="transfer-target-body"]').trigger('drop', { dataTransfer: fakeDataTransfer() })
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual([])
+    wrapper.unmount()
+  })
+
+  it('a disabled item is not draggable', () => {
+    const withDisabled = [...items, { value: 'dave', label: 'Dave', isDisabled: true }]
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { withDisabled }
+        },
+        template: '<Transfer :items="withDisabled" />',
+      }),
+    )
+    const options = wrapper.findAll('[role="option"]')
+    const daveOption = options.find(o => o.text() === 'Dave')!
+    expect(daveOption.attributes('draggable')).toBe('false')
+  })
+
+  it('isDisabled: true on Transfer makes no item draggable', () => {
+    const wrapper = mountTransfer({ isDisabled: true })
+    const options = wrapper.findAll('[role="option"]')
+    options.forEach((o) => {
+      expect(o.attributes('draggable')).toBe('false')
+    })
+  })
+
+  it('a non-disabled item is draggable', () => {
+    const wrapper = mountTransfer()
+    const options = wrapper.findAll('[role="option"]')
+    expect(options[0]!.attributes('draggable')).toBe('true')
+  })
 })
