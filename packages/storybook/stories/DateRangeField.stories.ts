@@ -18,7 +18,7 @@ const meta: Meta<typeof DateRangeField> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     labelPlacement: {
       control: "select",

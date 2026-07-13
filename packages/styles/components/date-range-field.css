@@ -188,6 +188,14 @@
   }
 }
 
+.date-range-field--accent {
+
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .date-range-field--success {
 
   &[data-focused="true"] {
@@ -216,6 +224,7 @@
 
 .date-range-field--underlined.date-range-field--primary,
 .date-range-field--underlined.date-range-field--secondary,
+.date-range-field--underlined.date-range-field--accent,
 .date-range-field--underlined.date-range-field--success,
 .date-range-field--underlined.date-range-field--warning,
 .date-range-field--underlined.date-range-field--danger {
@@ -515,6 +524,9 @@
 }
 .date-range-field--label-inside.date-range-field--secondary[data-focused="true"] .date-range-field__label {
   color: var(--color-secondary);
+}
+.date-range-field--label-inside.date-range-field--accent[data-focused="true"] .date-range-field__label {
+  color: var(--color-accent);
 }
 .date-range-field--label-inside.date-range-field--success[data-focused="true"] .date-range-field__label {
   color: var(--color-success);

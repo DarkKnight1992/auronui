@@ -45,6 +45,7 @@ export const dateRangeFieldVariants = tv({
       default:   { inputWrapper: "date-range-field--default" },
       primary:   { inputWrapper: "date-range-field--primary" },
       secondary: { inputWrapper: "date-range-field--secondary" },
+      accent:    { inputWrapper: "date-range-field--accent" },
       success:   { inputWrapper: "date-range-field--success" },
       warning:   { inputWrapper: "date-range-field--warning" },
       danger:    { inputWrapper: "date-range-field--danger" },

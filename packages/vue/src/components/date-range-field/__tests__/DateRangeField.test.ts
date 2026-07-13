@@ -183,6 +183,20 @@ describe('DateRangeField', () => {
     expect(results.violations).toHaveLength(0)
   })
 
+  // Test 13b: applies all color variant classes to the inputWrapper (group) element
+  it('applies all color variants', async () => {
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mount(DateRangeField, {
+        props: { color },
+        attachTo: document.body,
+      })
+      await nextTick()
+      expect(wrapper.find('[role="group"]').classes()).toContain(`date-range-field--${color}`)
+      wrapper.unmount()
+    }
+  })
+
   // ── useFormField / FieldLabel / FormFieldHelper regression coverage ──
 
   // Test 14-16: label renders in the correct DOM location per labelPlacement
