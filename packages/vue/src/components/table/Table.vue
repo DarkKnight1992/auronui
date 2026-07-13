@@ -426,8 +426,8 @@ defineExpose({ table, keyboardNav, handleRowClick })
               <PaginationContent v-slot="{ items }">
                 <PaginationPrev />
                 <template
-                  v-for="item in items"
-                  :key="item.type === 'page' ? item.value : `e-${item.value}`"
+                  v-for="(item, itemIndex) in items"
+                  :key="item.type === 'page' ? item.value : `e-${itemIndex}`"
                 >
                   <PaginationItem
                     v-if="item.type === 'page'"

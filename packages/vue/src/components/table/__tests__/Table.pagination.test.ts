@@ -27,9 +27,12 @@ function mountTable(data: Item[], props: Record<string, unknown> = {}) {
     template: '<Table ref="tableRef" :columns="columns" :data="data" v-bind="tableProps" @update:page="emit(\'update:page\', $event)" @update:rowSelection="emit(\'update:rowSelection\', $event)" @update:pageSize="emit(\'update:pageSize\', $event)" />',
   })
   const wrapper = mount(Wrapper)
-  // Expose the table instance from the mounted wrapper for test access
+  // Expose the table instance from the mounted wrapper for test access.
+  // Reads through the component's own template ref (already captured in setup())
+  // rather than wrapper.findComponent(Table) — Table's generic SFC type breaks
+  // findComponent's overload resolution and falls back to an untyped WrapperLike.
   Object.defineProperty(wrapper.vm, 'table', {
-    get: () => wrapper.findComponent(Table).vm.table,
+    get: () => (wrapper.vm as unknown as { tableRef: { table: unknown } }).tableRef.table,
   })
   return wrapper
 }
