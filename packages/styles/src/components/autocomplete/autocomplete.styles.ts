@@ -45,6 +45,7 @@ export const autocompleteVariants = tv({
       default:   { trigger: "autocomplete__trigger--default" },
       primary:   { trigger: "autocomplete__trigger--primary" },
       secondary: { trigger: "autocomplete__trigger--secondary" },
+      accent:    { trigger: "autocomplete__trigger--accent" },
       success:   { trigger: "autocomplete__trigger--success" },
       warning:   { trigger: "autocomplete__trigger--warning" },
       danger:    { trigger: "autocomplete__trigger--danger" },

@@ -271,6 +271,15 @@
   }
 }
 
+.autocomplete__trigger--accent {
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .autocomplete__trigger--success {
 
   &:focus-within,
@@ -305,6 +314,7 @@
 
 .autocomplete__trigger--underlined.autocomplete__trigger--primary,
 .autocomplete__trigger--underlined.autocomplete__trigger--secondary,
+.autocomplete__trigger--underlined.autocomplete__trigger--accent,
 .autocomplete__trigger--underlined.autocomplete__trigger--success,
 .autocomplete__trigger--underlined.autocomplete__trigger--warning,
 .autocomplete__trigger--underlined.autocomplete__trigger--danger {
@@ -574,6 +584,10 @@
 .autocomplete__trigger--label-inside.autocomplete__trigger--secondary:focus-within .autocomplete__label,
 .autocomplete__trigger--label-inside.autocomplete__trigger--secondary[data-focused="true"] .autocomplete__label {
   color: var(--color-secondary);
+}
+.autocomplete__trigger--label-inside.autocomplete__trigger--accent:focus-within .autocomplete__label,
+.autocomplete__trigger--label-inside.autocomplete__trigger--accent[data-focused="true"] .autocomplete__label {
+  color: var(--color-accent);
 }
 .autocomplete__trigger--label-inside.autocomplete__trigger--success:focus-within .autocomplete__label,
 .autocomplete__trigger--label-inside.autocomplete__trigger--success[data-focused="true"] .autocomplete__label {

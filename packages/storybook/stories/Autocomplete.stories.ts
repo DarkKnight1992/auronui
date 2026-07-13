@@ -23,7 +23,7 @@ const meta: Meta<typeof Autocomplete> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     labelPlacement: {
       control: "select",
@@ -457,6 +457,7 @@ export const Colors: Story = {
         <Autocomplete v-bind="args" variant="bordered" color="default" :items="items" aria-label="Default color"><AutocompleteInput placeholder="default" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" color="primary" :items="items" aria-label="Primary color"><AutocompleteInput placeholder="primary" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" color="secondary" :items="items" aria-label="Secondary color"><AutocompleteInput placeholder="secondary" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
+        <Autocomplete v-bind="args" variant="bordered" color="accent" :items="items" aria-label="Accent color"><AutocompleteInput placeholder="accent" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" color="success" :items="items" aria-label="Success color"><AutocompleteInput placeholder="success" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" color="warning" :items="items" aria-label="Warning color"><AutocompleteInput placeholder="warning" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
         <Autocomplete v-bind="args" variant="bordered" color="danger" :items="items" aria-label="Danger color"><AutocompleteInput placeholder="danger" /><AutocompleteContent><AutocompleteItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</AutocompleteItem></AutocompleteContent></Autocomplete>
@@ -497,6 +498,12 @@ const items = [
     </Autocomplete>
     <Autocomplete variant="bordered" color="secondary" :items="items">
       <AutocompleteInput placeholder="secondary" />
+      <AutocompleteContent>
+        <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+      </AutocompleteContent>
+    </Autocomplete>
+    <Autocomplete variant="bordered" color="accent" :items="items">
+      <AutocompleteInput placeholder="accent" />
       <AutocompleteContent>
         <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
       </AutocompleteContent>

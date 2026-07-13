@@ -85,6 +85,23 @@ describe('Autocomplete', () => {
     expect(w.find('.autocomplete-root').exists()).toBe(true)
   })
 
+  it("applies 'autocomplete__trigger--accent' with color='accent'", () => {
+    const wrapper = mount({
+      components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
+      template: `
+        <Autocomplete :items="items" color="accent" aria-label="Fruit autocomplete">
+          <AutocompleteInput placeholder="Search fruits..." />
+          <AutocompleteContent>
+            <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</AutocompleteItem>
+          </AutocompleteContent>
+        </Autocomplete>
+      `,
+      setup() { return { items: staticItems } },
+    })
+    mountedWrappers.push(wrapper)
+    expect(wrapper.find('[data-slot="trigger"]').classes()).toContain('autocomplete__trigger--accent')
+  })
+
   it('isReadOnly (canonical) marks the root data-readonly and the input readonly', () => {
     const wrapper = mount({
       components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
