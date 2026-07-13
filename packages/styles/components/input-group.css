@@ -5,6 +5,49 @@
    children are — unlike Input, which owns a single <input> plus label/
    clear/password-toggle machinery.
    -------------------------------------------------------------------------- */
+
+/* ─── Root wrapper (holds optional label + the box + optional helper) ───── */
+
+.input-group-root {
+  display: flex;
+  flex-direction: column;
+  gap: 0.375rem;
+}
+
+.input-group-root--full-width {
+  @apply w-full;
+}
+
+.input-group__label {
+  @apply text-sm font-medium select-none;
+  color: var(--color-foreground);
+}
+
+.input-group-root[data-invalid="true"] > .input-group__label {
+  color: var(--color-danger);
+}
+
+/* ─── Helper text (description / error message) ──────────────────────────── */
+
+.input-group__helper-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 0.125rem;
+  padding: 0 0.25rem;
+}
+
+.input-group__description {
+  @apply text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.input-group__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
+}
+
+/* ─── The box itself ─────────────────────────────────────────────────────── */
+
 .input-group {
   @apply inline-flex h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none sm:text-sm;
   border-width: var(--border-width-field);
@@ -68,6 +111,137 @@
   height: 2.75rem;
 }
 
+/* ─── Variant modifiers (mirrors .input--* in input.css) ─────────────────── */
+
+.input-group--flat {
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:focus-within) {
+      @apply bg-transparent;
+    }
+  }
+
+  &:focus-within {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.input-group--bordered {
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not(:focus-within) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-within {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.input-group--faded {
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &:focus-within {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.input-group--underlined {
+  @apply rounded-none shadow-none bg-transparent;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not(:focus-within) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-within {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.input-group--raised {
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not(:focus-within) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &:focus-within {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Color modifiers ──────────────────────────────────────────────────── */
+
+.input-group--primary:focus-within {
+  border-color: var(--color-primary);
+  --tw-ring-color: var(--color-primary);
+}
+
+.input-group--secondary:focus-within {
+  border-color: var(--color-secondary);
+  --tw-ring-color: var(--color-secondary);
+}
+
+.input-group--success:focus-within {
+  border-color: var(--color-success);
+  --tw-ring-color: var(--color-success);
+}
+
+.input-group--warning:focus-within {
+  border-color: var(--color-warning);
+  --tw-ring-color: var(--color-warning);
+}
+
+.input-group--danger:focus-within {
+  border-color: var(--color-danger);
+  --tw-ring-color: var(--color-danger);
+}
+
+/* Underlined + color variant overrides — re-assert underline-only silhouette
+   even when a color variant is applied (mirrors input.css's equivalent). */
+.input-group--underlined.input-group--primary,
+.input-group--underlined.input-group--secondary,
+.input-group--underlined.input-group--success,
+.input-group--underlined.input-group--warning,
+.input-group--underlined.input-group--danger {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
 /* ─── Addon slot ─────────────────────────────────────────────────────────── */
 
 .input-group__addon {
@@ -105,6 +279,15 @@
   @apply opacity-60 cursor-not-allowed;
 }
 
+/* Underlined: edge-to-edge, no horizontal padding on the outermost slots */
+.input-group--underlined .input-group__addon:first-child {
+  padding-left: 0;
+}
+
+.input-group--underlined .input-group__addon:last-child {
+  padding-right: 0;
+}
+
 /* ─── Input slot ─────────────────────────────────────────────────────────── */
 
 .input-group__input {
@@ -130,6 +313,11 @@
 
 .input-group--lg .input-group__input {
   padding: 0.625rem 1rem;
+}
+
+.input-group--underlined .input-group__input {
+  padding-left: 0;
+  padding-right: 0;
 }
 
 /* When an addon sits directly beside the input, drop the input's own edge

@@ -24,6 +24,8 @@ const ctx = useInputGroupInject({
   size: computed(() => 'md'),
   isInvalid: computed(() => false),
   isDisabled: computed(() => false),
+  fieldId: computed(() => undefined),
+  ariaDescribedBy: computed(() => undefined),
 })
 
 const slotFns = computed(() => inputGroupVariants({ size: ctx.size.value }))

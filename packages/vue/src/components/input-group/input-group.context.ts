@@ -6,6 +6,10 @@ export interface InputGroupContext {
   size: ComputedRef<InputGroupVariants['size']>
   isInvalid: ComputedRef<boolean>
   isDisabled: ComputedRef<boolean>
+  /** Generated field id, adopted by InputGroupInput as its own id unless overridden. */
+  fieldId: ComputedRef<string | undefined>
+  /** Points at whichever helper text (error or description) is currently shown, if any. */
+  ariaDescribedBy: ComputedRef<string | undefined>
 }
 
 export const {

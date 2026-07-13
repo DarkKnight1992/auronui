@@ -44,6 +44,29 @@ describe('InputGroup', () => {
     expect(wrapper.find('[data-slot="input-group"]').classes()).toContain('input-group--full-width')
   })
 
+  it('defaults to flat variant and default color', () => {
+    const wrapper = mountGroup()
+    const base = wrapper.find('[data-slot="input-group"]')
+    expect(base.classes()).toContain('input-group--flat')
+    expect(base.classes()).toContain('input-group--default')
+  })
+
+  it('applies each variant class', () => {
+    const variants = ['flat', 'bordered', 'faded', 'underlined', 'raised'] as const
+    for (const variant of variants) {
+      const wrapper = mountGroup({ variant })
+      expect(wrapper.find('[data-slot="input-group"]').classes()).toContain(`input-group--${variant}`)
+    }
+  })
+
+  it('applies each color class', () => {
+    const colors = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mountGroup({ color })
+      expect(wrapper.find('[data-slot="input-group"]').classes()).toContain(`input-group--${color}`)
+    }
+  })
+
   it('isInvalid: true sets data-invalid on the root', () => {
     const wrapper = mountGroup({ isInvalid: true })
     expect(wrapper.find('[data-slot="input-group"]').attributes('data-invalid')).toBeTruthy()
@@ -104,6 +127,63 @@ describe('InputGroup', () => {
     expect((inputEl.element as HTMLInputElement).value).toBe('initial')
     await inputEl.setValue('changed')
     expect((wrapper.vm as unknown as { query: string }).query).toBe('changed')
+  })
+
+  it('no label prop → no <label> in DOM', () => {
+    const wrapper = mountGroup()
+    expect(wrapper.find('label').exists()).toBe(false)
+  })
+
+  it('label="Amount" renders a <label> whose for matches the contained input\'s id', () => {
+    const wrapper = mountGroup({ label: 'Amount' })
+    const lbl = wrapper.find('label')
+    expect(lbl.exists()).toBe(true)
+    expect(lbl.text()).toContain('Amount')
+    expect(lbl.attributes('for')).toBe(wrapper.find('input').attributes('id'))
+  })
+
+  it('isRequired: true adds a required asterisk to the label', () => {
+    const wrapper = mountGroup({ label: 'Amount', isRequired: true })
+    expect(wrapper.find('label').text()).toContain('*')
+  })
+
+  it('description renders below the box and is referenced by aria-describedby', () => {
+    const wrapper = mountGroup({ description: 'Enter the amount in USD' })
+    const describedBy = wrapper.find('input').attributes('aria-describedby')
+    expect(describedBy).toBeTruthy()
+    const target = wrapper.find(`#${describedBy}`)
+    expect(target.exists()).toBe(true)
+    expect(target.text()).toBe('Enter the amount in USD')
+  })
+
+  it('errorMessage only renders when isInvalid is also true', () => {
+    const invalid = mountGroup({ errorMessage: 'Required', isInvalid: true })
+    expect(invalid.text()).toContain('Required')
+
+    const valid = mountGroup({ errorMessage: 'Required', isInvalid: false })
+    expect(valid.text()).not.toContain('Required')
+  })
+
+  it('errorMessage takes precedence over description when both are set and isInvalid', () => {
+    const wrapper = mountGroup({ description: 'Helper', errorMessage: 'Bad value', isInvalid: true })
+    expect(wrapper.text()).toContain('Bad value')
+    expect(wrapper.text()).not.toContain('Helper')
+  })
+
+  it('an explicit id/aria-describedby on InputGroupInput overrides the inherited ones', () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { InputGroup, InputGroupInput },
+        template: `
+          <InputGroup description="Helper text">
+            <InputGroupInput id="custom-id" aria-describedby="custom-describedby" />
+          </InputGroup>
+        `,
+      }),
+    )
+    const input = wrapper.find('input')
+    expect(input.attributes('id')).toBe('custom-id')
+    expect(input.attributes('aria-describedby')).toBe('custom-describedby')
   })
 })
 

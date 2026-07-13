@@ -93,4 +93,40 @@ describe('InputGroup axe audit', () => {
     expect(results).toHaveNoViolations()
     document.body.removeChild(container)
   })
+
+  it('passes axe with own label + errorMessage (self-wired aria-describedby, no manual ids needed)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { InputGroup, InputGroupAddon, InputGroupInput },
+        template: `
+          <InputGroup label="Amount" is-invalid error-message="Enter a valid amount">
+            <InputGroupAddon aria-hidden="true">$</InputGroupAddon>
+            <InputGroupInput placeholder="0.00" />
+          </InputGroup>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    mountedWrappers.push(wrapper)
+    const results = await axe.run(wrapper.element)
+    expect(results).toHaveNoViolations()
+  })
+
+  it('passes axe with own label + description', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { InputGroup, InputGroupAddon, InputGroupInput },
+        template: `
+          <InputGroup label="Amount" description="In US dollars">
+            <InputGroupAddon aria-hidden="true">$</InputGroupAddon>
+            <InputGroupInput placeholder="0.00" />
+          </InputGroup>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    mountedWrappers.push(wrapper)
+    const results = await axe.run(wrapper.element)
+    expect(results).toHaveNoViolations()
+  })
 })

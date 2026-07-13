@@ -6,18 +6,33 @@ const meta: Meta<typeof InputGroup> = {
   component: InputGroup,
   tags: ['autodocs'],
   argTypes: {
+    variant: {
+      control: 'select',
+      options: ['flat', 'faded', 'bordered', 'underlined', 'raised'],
+    },
     size: {
       control: 'select',
       options: ['sm', 'md', 'lg'],
     },
+    color: {
+      control: 'select',
+      options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'],
+    },
+    label: { control: 'text' },
+    description: { control: 'text' },
+    errorMessage: { control: 'text' },
     isInvalid: { control: 'boolean' },
     isDisabled: { control: 'boolean' },
+    isRequired: { control: 'boolean' },
     fullWidth: { control: 'boolean' },
   },
   args: {
+    variant: 'flat',
     size: 'md',
+    color: 'default',
     isInvalid: false,
     isDisabled: false,
+    isRequired: false,
     fullWidth: false,
   },
 }
@@ -109,7 +124,7 @@ export const WithButton: Story = {
 }
 
 export const Invalid: Story = {
-  args: { isInvalid: true },
+  args: { isInvalid: true, label: 'Price', errorMessage: 'Enter a valid price' },
   render: (args) => ({
     components: { InputGroup, InputGroupAddon, InputGroupInput },
     setup() {
@@ -119,7 +134,34 @@ export const Invalid: Story = {
       <div style="width: 280px;">
         <InputGroup v-bind="args">
           <InputGroupAddon>$</InputGroupAddon>
-          <InputGroupInput placeholder="0.00" aria-label="Price" aria-invalid="true" />
+          <InputGroupInput placeholder="0.00" />
+        </InputGroup>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'label/description/errorMessage are owned by InputGroup itself — aria-describedby is wired to the contained InputGroupInput automatically, no manual ids required.',
+      },
+    },
+  },
+}
+
+export const WithDescription: Story = {
+  name: 'With label + description',
+  args: { label: 'Price', description: 'In US dollars, before tax' },
+  render: (args) => ({
+    components: { InputGroup, InputGroupAddon, InputGroupInput },
+    setup() {
+      return { args }
+    },
+    template: `
+      <div style="width: 280px;">
+        <InputGroup v-bind="args">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="0.00" />
         </InputGroup>
       </div>
     `,
@@ -164,4 +206,67 @@ export const Sizes: Story = {
       </div>
     `,
   }),
+}
+
+export const Variants: Story = {
+  render: () => ({
+    components: { InputGroup, InputGroupAddon, InputGroupInput },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px;width:280px;">
+        <InputGroup variant="flat">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Flat" aria-label="Flat amount" />
+        </InputGroup>
+        <InputGroup variant="bordered">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Bordered" aria-label="Bordered amount" />
+        </InputGroup>
+        <InputGroup variant="faded">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Faded" aria-label="Faded amount" />
+        </InputGroup>
+        <InputGroup variant="underlined">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Underlined" aria-label="Underlined amount" />
+        </InputGroup>
+        <InputGroup variant="raised">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Raised" aria-label="Raised amount" />
+        </InputGroup>
+      </div>
+    `,
+  }),
+}
+
+export const Colors: Story = {
+  render: () => ({
+    components: { InputGroup, InputGroupAddon, InputGroupInput },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px;width:280px;">
+        <InputGroup color="default" variant="bordered">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Default (focus me)" aria-label="Default amount" />
+        </InputGroup>
+        <InputGroup color="primary" variant="bordered">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Primary (focus me)" aria-label="Primary amount" />
+        </InputGroup>
+        <InputGroup color="success" variant="bordered">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Success (focus me)" aria-label="Success amount" />
+        </InputGroup>
+        <InputGroup color="danger" variant="bordered">
+          <InputGroupAddon>$</InputGroupAddon>
+          <InputGroupInput placeholder="Danger (focus me)" aria-label="Danger amount" />
+        </InputGroup>
+      </div>
+    `,
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story: 'Color only affects the focus-ring accent — click into each field to see it.',
+      },
+    },
+  },
 }
