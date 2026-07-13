@@ -77,6 +77,19 @@ describe('Meter', () => {
     expect(html).toContain('meter--danger')
   })
 
+  // Test 4b: color prop supports secondary
+  it('applies secondary color variant class', async () => {
+    const wrapper = mount(Meter, {
+      props: { value: 50, color: 'secondary' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+
+    const html = wrapper.html()
+    expect(html).toContain('meter--secondary')
+  })
+
   // Test 5: Clamp value above max to 100%
   it('clamps value above maxValue to 100% width', async () => {
     const wrapper = mount(Meter, {

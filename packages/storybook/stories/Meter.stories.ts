@@ -8,7 +8,7 @@ const meta: Meta<typeof Meter> = {
   argTypes: {
     color: {
       control: "select",
-      options: ["default", "primary", "accent", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     size: { control: "select", options: ["sm", "md", "lg"] },
     value: { control: { type: "range", min: 0, max: 100, step: 1 } },
@@ -162,6 +162,7 @@ import { Meter } from '@auronui/vue'
   <div class="flex flex-col gap-4 w-80">
     <Meter :value="60" color="default" label="Default" />
     <Meter :value="60" color="primary" label="Primary" />
+    <Meter :value="60" color="secondary" label="Secondary" />
     <Meter :value="60" color="accent" label="Accent" />
     <Meter :value="60" color="success" label="Success" />
     <Meter :value="60" color="warning" label="Warning" />
@@ -179,6 +180,7 @@ import { Meter } from '@auronui/vue'
       <div style="display: flex; flex-direction: column; gap: 16px; width: 320px;">
         <Meter v-bind="args" :value="60" color="default" label="Default" />
         <Meter v-bind="args" :value="60" color="primary" label="Primary" />
+        <Meter v-bind="args" :value="60" color="secondary" label="Secondary" />
         <Meter v-bind="args" :value="60" color="accent" label="Accent" />
         <Meter v-bind="args" :value="60" color="success" label="Success" />
         <Meter v-bind="args" :value="60" color="warning" label="Warning" />

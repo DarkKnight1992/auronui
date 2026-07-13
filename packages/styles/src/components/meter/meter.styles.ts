@@ -19,6 +19,9 @@ export const meterVariants = tv({
       primary: {
         base: "meter--primary",
       },
+      secondary: {
+        base: "meter--secondary",
+      },
       accent: {
         base: "meter--accent",
       },

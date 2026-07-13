@@ -91,6 +91,10 @@
   --meter-fill: var(--color-primary);
 }
 
+.meter--secondary {
+  --meter-fill: var(--color-secondary);
+}
+
 .meter--accent {
   --meter-fill: var(--color-accent);
 }
