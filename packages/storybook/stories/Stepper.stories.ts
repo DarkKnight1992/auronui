@@ -17,7 +17,7 @@ const meta: Meta<typeof Stepper> = {
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     size: { control: 'select', options: ['sm', 'md', 'lg'] },
-    color: { control: 'select', options: ['default', 'primary', 'accent', 'success', 'warning', 'danger'] },
+    color: { control: 'select', options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] },
     classNames: { control: 'object', description: 'Per-slot class overrides. Keys match the component anatomy slot names.' },
   },
   args: {
@@ -187,7 +187,7 @@ import {
   StepperSeparator,
 } from '@auronui/vue'
 
-const colors = ['default', 'primary', 'accent', 'success', 'warning', 'danger']
+const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger']
 </script>
 
 <template>
@@ -220,7 +220,7 @@ const colors = ['default', 'primary', 'accent', 'success', 'warning', 'danger']
   render: () => ({
     components: { Stepper, StepperItem, StepperIndicator, StepperTitle, StepperContent, StepperSeparator },
     setup() {
-      return { colors: ['default', 'primary', 'accent', 'success', 'warning', 'danger'] as const }
+      return { colors: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const }
     },
     template: `
       <div style="display:flex;flex-direction:column;gap:24px;">

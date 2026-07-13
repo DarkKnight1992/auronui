@@ -76,6 +76,10 @@
   @apply bg-primary text-primary-foreground ring-2 ring-primary/30;
 }
 
+.stepper__item[data-status="current"] .stepper__indicator--secondary {
+  @apply bg-secondary text-secondary-foreground ring-2 ring-secondary/30;
+}
+
 .stepper__item[data-status="current"] .stepper__indicator--accent {
   @apply bg-accent text-accent-foreground ring-2 ring-accent/30;
 }

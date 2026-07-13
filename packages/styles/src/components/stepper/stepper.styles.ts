@@ -42,6 +42,7 @@ export const stepperVariants = tv({
     color: {
       default: { indicator: "stepper__indicator--default" },
       primary: { indicator: "stepper__indicator--primary" },
+      secondary: { indicator: "stepper__indicator--secondary" },
       accent: { indicator: "stepper__indicator--accent" },
       success: { indicator: "stepper__indicator--success" },
       warning: { indicator: "stepper__indicator--warning" },

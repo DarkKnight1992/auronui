@@ -214,6 +214,14 @@ describe('Stepper', () => {
     expect(indicator.classes().join(' ')).toContain('stepper__indicator--danger')
   })
 
+  it('Test 13b: color prop reaches StepperIndicator via context (secondary)', () => {
+    const wrapper = mount(Stepper, {
+      props: { color: 'secondary', items: [{ title: 'One' }] },
+    })
+    const indicator = wrapper.find('[data-slot="stepper-indicator"]')
+    expect(indicator.classes().join(' ')).toContain('stepper__indicator--secondary')
+  })
+
   it('Test 14: color defaults to primary on StepperIndicator', () => {
     const wrapper = mount(Stepper, {
       props: { items: [{ title: 'One' }] },
