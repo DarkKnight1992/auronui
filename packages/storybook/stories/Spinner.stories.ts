@@ -9,7 +9,7 @@ const meta: Meta<typeof Spinner> = {
     size: { control: "select", options: ["sm", "md", "lg", "xl"] },
     color: {
       control: "select",
-      options: ["primary", "accent", "current", "danger", "success", "warning"],
+      options: ["default", "primary", "secondary", "accent", "current", "danger", "success", "warning"],
     },
   },
   args: {

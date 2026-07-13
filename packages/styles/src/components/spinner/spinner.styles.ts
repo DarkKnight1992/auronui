@@ -10,7 +10,9 @@ export const spinnerVariants = tv({
   },
   variants: {
     color: {
+      default: "spinner--default",
       primary: "spinner--primary",
+      secondary: "spinner--secondary",
       accent: "spinner--accent",
       current: "spinner--current",
       danger: "spinner--danger",

@@ -50,6 +50,20 @@ describe('Spinner', () => {
     expect(wrapper.classes()).toContain('spinner--current')
   })
 
+  it('applies class "spinner spinner--md spinner--default" with color="default"', () => {
+    const wrapper = mount(Spinner, { props: { color: 'default' } })
+    expect(wrapper.classes()).toContain('spinner')
+    expect(wrapper.classes()).toContain('spinner--md')
+    expect(wrapper.classes()).toContain('spinner--default')
+  })
+
+  it('applies class "spinner spinner--md spinner--secondary" with color="secondary"', () => {
+    const wrapper = mount(Spinner, { props: { color: 'secondary' } })
+    expect(wrapper.classes()).toContain('spinner')
+    expect(wrapper.classes()).toContain('spinner--md')
+    expect(wrapper.classes()).toContain('spinner--secondary')
+  })
+
   it('merges consumer class prop with TVA classes', () => {
     const wrapper = mount(Spinner, { props: { class: 'my-custom-class' } })
     expect(wrapper.classes()).toContain('spinner')
