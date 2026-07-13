@@ -18,7 +18,7 @@ const meta: Meta<typeof DateInput> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     labelPlacement: {
       control: "select",
@@ -189,7 +189,7 @@ import { DateInput } from '@auronui/vue'
 <template>
   <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
     <DateInput
-      v-for="c in ['default','primary','secondary','success','warning','danger']"
+      v-for="c in ['default','primary','secondary','accent','success','warning','danger']"
       :key="c"
       :color="c"
       :label="c"
@@ -207,7 +207,7 @@ import { DateInput } from '@auronui/vue'
       <div style="display:flex;flex-direction:column;gap:16px;max-width:360px">
         <DateInput
           v-bind="args"
-          v-for="c in ['default','primary','secondary','success','warning','danger']"
+          v-for="c in ['default','primary','secondary','accent','success','warning','danger']"
           :key="c"
           :color="c"
           :label="c"

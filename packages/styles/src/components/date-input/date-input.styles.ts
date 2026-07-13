@@ -44,6 +44,7 @@ export const dateInputVariants = tv({
       default:   { inputWrapper: "date-input--default" },
       primary:   { inputWrapper: "date-input--primary" },
       secondary: { inputWrapper: "date-input--secondary" },
+      accent:    { inputWrapper: "date-input--accent" },
       success:   { inputWrapper: "date-input--success" },
       warning:   { inputWrapper: "date-input--warning" },
       danger:    { inputWrapper: "date-input--danger" },

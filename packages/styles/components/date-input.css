@@ -186,6 +186,13 @@
   }
 }
 
+.date-input--accent {
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .date-input--success {
 
   &[data-focused="true"] {
@@ -214,6 +221,7 @@
 
 .date-input--underlined.date-input--primary,
 .date-input--underlined.date-input--secondary,
+.date-input--underlined.date-input--accent,
 .date-input--underlined.date-input--success,
 .date-input--underlined.date-input--warning,
 .date-input--underlined.date-input--danger {
@@ -502,6 +510,9 @@
 }
 .date-input--label-inside.date-input--secondary[data-focused="true"] .date-input__label {
   color: var(--color-secondary);
+}
+.date-input--label-inside.date-input--accent[data-focused="true"] .date-input__label {
+  color: var(--color-accent);
 }
 .date-input--label-inside.date-input--success[data-focused="true"] .date-input__label {
   color: var(--color-success);

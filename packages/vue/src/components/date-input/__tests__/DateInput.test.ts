@@ -176,6 +176,20 @@ describe('DateInput', () => {
     expect(wrapper.html()).toContain('date-input')
   })
 
+  // Test 11b: applies all color variant classes to the inputWrapper (group) element
+  it('applies all color variants', async () => {
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mount(DateInput, {
+        props: { color },
+        attachTo: document.body,
+      })
+      await nextTick()
+      expect(wrapper.find('[role="group"]').classes()).toContain(`date-input--${color}`)
+      wrapper.unmount()
+    }
+  })
+
   // Test 12: no forbidden date libs
   it('does not use date-fns, dayjs, or luxon (D-02)', () => {
     // This is a static code analysis check — verified by grep in acceptance criteria
