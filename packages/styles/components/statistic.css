@@ -28,6 +28,14 @@
   color: var(--color-primary);
 }
 
+.statistic__value--secondary {
+  color: var(--color-secondary);
+}
+
+.statistic__value--accent {
+  color: var(--color-accent);
+}
+
 .statistic__value--success {
   color: var(--color-success);
 }

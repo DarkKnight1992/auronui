@@ -23,6 +23,12 @@ export const statisticVariants = tv({
       primary: {
         value: "statistic__value--primary",
       },
+      secondary: {
+        value: "statistic__value--secondary",
+      },
+      accent: {
+        value: "statistic__value--accent",
+      },
       success: {
         value: "statistic__value--success",
       },

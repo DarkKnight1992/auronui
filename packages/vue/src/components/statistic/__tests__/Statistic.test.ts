@@ -53,7 +53,7 @@ describe('Statistic', () => {
   })
 
   it('applies each color class to the value', () => {
-    const colors = ['default', 'primary', 'success', 'warning', 'danger'] as const
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
     for (const color of colors) {
       const wrapper = mount(Statistic, { props: { label: 'X', value: 1, color } })
       expect(wrapper.find('[data-slot="statistic-value"]').classes()).toContain(`statistic__value--${color}`)

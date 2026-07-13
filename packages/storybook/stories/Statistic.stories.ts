@@ -8,7 +8,7 @@ const meta: Meta<typeof Statistic> = {
   argTypes: {
     color: {
       control: 'select',
-      options: ['default', 'primary', 'success', 'warning', 'danger'],
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
     },
     isLoading: { control: 'boolean' },
     trend: {
