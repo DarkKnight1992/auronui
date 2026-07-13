@@ -191,6 +191,14 @@
   }
 }
 
+.time-range-field--accent {
+
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .time-range-field--success {
 
   &[data-focused="true"] {
@@ -219,6 +227,7 @@
 
 .time-range-field--underlined.time-range-field--primary,
 .time-range-field--underlined.time-range-field--secondary,
+.time-range-field--underlined.time-range-field--accent,
 .time-range-field--underlined.time-range-field--success,
 .time-range-field--underlined.time-range-field--warning,
 .time-range-field--underlined.time-range-field--danger {
@@ -518,6 +527,9 @@
 }
 .time-range-field--label-inside.time-range-field--secondary[data-focused="true"] .time-range-field__label {
   color: var(--color-secondary);
+}
+.time-range-field--label-inside.time-range-field--accent[data-focused="true"] .time-range-field__label {
+  color: var(--color-accent);
 }
 .time-range-field--label-inside.time-range-field--success[data-focused="true"] .time-range-field__label {
   color: var(--color-success);

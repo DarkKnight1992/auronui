@@ -45,6 +45,7 @@ export const timeRangeFieldVariants = tv({
       default:   { inputWrapper: "time-range-field--default" },
       primary:   { inputWrapper: "time-range-field--primary" },
       secondary: { inputWrapper: "time-range-field--secondary" },
+      accent:    { inputWrapper: "time-range-field--accent" },
       success:   { inputWrapper: "time-range-field--success" },
       warning:   { inputWrapper: "time-range-field--warning" },
       danger:    { inputWrapper: "time-range-field--danger" },

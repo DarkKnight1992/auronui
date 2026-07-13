@@ -22,6 +22,7 @@ const meta: Meta<typeof TimeRangeField> = {
         "default",
         "primary",
         "secondary",
+        "accent",
         "success",
         "warning",
         "danger",

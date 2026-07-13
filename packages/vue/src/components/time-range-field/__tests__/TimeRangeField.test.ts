@@ -370,4 +370,17 @@ describe('TimeRangeField', () => {
     expect(errorEl.exists()).toBe(true)
     expect(errorEl.text()).toBe('Time range is required')
   })
+
+  it('applies all color variants', async () => {
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mount(TimeRangeField, {
+        props: { color },
+        attachTo: document.body,
+      })
+      wrappers.push(wrapper)
+      await nextTick()
+      expect(wrapper.find('[role="group"]').classes()).toContain(`time-range-field--${color}`)
+    }
+  })
 })
