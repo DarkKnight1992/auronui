@@ -175,4 +175,21 @@ describe('Cascader', () => {
     expect(describedBy).toBeTruthy()
     expect(wrapper.find(`#${describedBy}`).text()).toBe('Please choose a location')
   })
+
+  it('defaults to the flat variant and default color on the trigger', () => {
+    const wrapper = mountCascader()
+    const trigger = wrapper.find('[data-slot="cascader-trigger"]')
+    expect(trigger.classes()).toContain('cascader__trigger--flat')
+    expect(trigger.classes()).toContain('cascader__trigger--default')
+  })
+
+  it('variant prop applies the matching trigger modifier class', () => {
+    const wrapper = mountCascader({ variant: 'bordered' })
+    expect(wrapper.find('[data-slot="cascader-trigger"]').classes()).toContain('cascader__trigger--bordered')
+  })
+
+  it('color prop applies the matching trigger modifier class', () => {
+    const wrapper = mountCascader({ color: 'primary' })
+    expect(wrapper.find('[data-slot="cascader-trigger"]').classes()).toContain('cascader__trigger--primary')
+  })
 })

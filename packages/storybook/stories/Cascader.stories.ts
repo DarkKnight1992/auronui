@@ -43,12 +43,16 @@ const meta: Meta<typeof Cascader> = {
   argTypes: {
     placeholder: { control: 'text' },
     separator: { control: 'text' },
+    variant: { control: 'select', options: ['flat', 'bordered', 'faded', 'underlined', 'raised'] },
+    color: { control: 'select', options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] },
     isDisabled: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
     isRequired: { control: 'boolean' },
   },
   args: {
     placeholder: 'Select a location',
+    variant: 'flat',
+    color: 'default',
     isDisabled: false,
     isInvalid: false,
     isRequired: false,
@@ -153,6 +157,52 @@ export const Invalid: Story = {
           :get-key="(i) => i.value"
           :get-children="(i) => i.children"
         />
+      </div>
+    `,
+  }),
+}
+
+export const Variants: Story = {
+  render: () => ({
+    components: { Cascader },
+    setup() {
+      const flat = ref<string[]>([])
+      const bordered = ref<string[]>([])
+      const faded = ref<string[]>([])
+      const underlined = ref<string[]>([])
+      const raised = ref<string[]>([])
+      return { locations, flat, bordered, faded, underlined, raised }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px;width:280px;">
+        <Cascader variant="flat" label="Flat" v-model="flat" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader variant="bordered" label="Bordered" v-model="bordered" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader variant="faded" label="Faded" v-model="faded" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader variant="underlined" label="Underlined" v-model="underlined" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader variant="raised" label="Raised" v-model="raised" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+      </div>
+    `,
+  }),
+}
+
+export const Colors: Story = {
+  render: () => ({
+    components: { Cascader },
+    setup() {
+      const primary = ref<string[]>([])
+      const secondary = ref<string[]>([])
+      const success = ref<string[]>([])
+      const warning = ref<string[]>([])
+      const danger = ref<string[]>([])
+      return { locations, primary, secondary, success, warning, danger }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px;width:280px;">
+        <Cascader color="primary" variant="bordered" label="Primary (open me)" v-model="primary" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader color="secondary" variant="bordered" label="Secondary (open me)" v-model="secondary" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader color="success" variant="bordered" label="Success (open me)" v-model="success" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader color="warning" variant="bordered" label="Warning (open me)" v-model="warning" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
+        <Cascader color="danger" variant="bordered" label="Danger (open me)" v-model="danger" :items="locations" :get-key="(i) => i.value" :get-children="(i) => i.children" />
       </div>
     `,
   }),

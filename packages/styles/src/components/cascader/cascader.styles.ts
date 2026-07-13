@@ -18,6 +18,21 @@ export const cascaderVariants = tv({
     errorMessage: "cascader__error-message",
   },
   variants: {
+    variant: {
+      flat:       { trigger: "cascader__trigger--flat" },
+      bordered:   { trigger: "cascader__trigger--bordered" },
+      faded:      { trigger: "cascader__trigger--faded" },
+      underlined: { trigger: "cascader__trigger--underlined" },
+      raised:     { trigger: "cascader__trigger--raised" },
+    },
+    color: {
+      default:   { trigger: "cascader__trigger--default" },
+      primary:   { trigger: "cascader__trigger--primary" },
+      secondary: { trigger: "cascader__trigger--secondary" },
+      success:   { trigger: "cascader__trigger--success" },
+      warning:   { trigger: "cascader__trigger--warning" },
+      danger:    { trigger: "cascader__trigger--danger" },
+    },
     isInvalid: {
       true: {
         trigger: "cascader__trigger--invalid",
@@ -32,6 +47,8 @@ export const cascaderVariants = tv({
     },
   },
   defaultVariants: {
+    variant: "flat",
+    color: "default",
     isInvalid: false,
     isDisabled: false,
   },

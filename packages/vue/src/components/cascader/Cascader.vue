@@ -23,7 +23,7 @@
 -->
 <script setup lang="ts" generic="T extends Record<string, any>">
 import { computed, nextTick, ref, useId } from 'vue'
-import { cascaderVariants } from '@auronui/styles'
+import { cascaderVariants, type CascaderVariants } from '@auronui/styles'
 import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useFormField } from '../../composables/useFormField'
 import FieldLabel from '../_shared/FieldLabel.vue'
@@ -40,6 +40,8 @@ const props = withDefaults(
     getLabel?: (item: T) => string
     placeholder?: string
     separator?: string
+    variant?: CascaderVariants['variant']
+    color?: CascaderVariants['color']
     label?: string
     description?: string
     errorMessage?: string
@@ -64,6 +66,8 @@ const props = withDefaults(
     getLabel: undefined,
     placeholder: 'Select…',
     separator: ' / ',
+    variant: 'flat',
+    color: 'default',
     label: undefined,
     description: undefined,
     errorMessage: undefined,
@@ -216,7 +220,14 @@ function setColumnRef(el: Element | null, colIndex: number) {
   columnRefs.value[colIndex] = el as HTMLElement | null
 }
 
-const slotFns = computed(() => cascaderVariants({ isInvalid: props.isInvalid, isDisabled: props.isDisabled }))
+const slotFns = computed(() =>
+  cascaderVariants({
+    variant: props.variant,
+    color: props.color,
+    isInvalid: props.isInvalid,
+    isDisabled: props.isDisabled,
+  }),
+)
 </script>
 
 <template>

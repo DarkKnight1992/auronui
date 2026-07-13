@@ -48,6 +48,147 @@
   @apply cursor-not-allowed opacity-60;
 }
 
+/* ─── Variant modifiers (mirrors .input--* in input.css) ─────────────────── */
+
+.cascader__trigger--flat {
+  @apply shadow-none bg-transparent;
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-disabled="true"]) {
+      @apply bg-transparent;
+    }
+  }
+
+  &:focus-visible,
+  &[data-state="open"] {
+    @apply bg-transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.cascader__trigger--bordered {
+  @apply shadow-none;
+  background-color: transparent;
+  border-width: var(--border-width);
+  border-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-disabled="true"]) {
+      background-color: transparent;
+      border-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-visible,
+  &[data-state="open"] {
+    background-color: transparent;
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.cascader__trigger--faded {
+  @apply shadow-none;
+  background-color: var(--color-background-tertiary);
+  border-color: var(--color-border);
+
+  &:focus-visible,
+  &[data-state="open"] {
+    background-color: var(--color-background-tertiary);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+.cascader__trigger--underlined {
+  @apply rounded-none shadow-none bg-transparent !px-0;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+  border-bottom-color: var(--border);
+
+  @media (hover: hover) {
+    &:hover:not([data-disabled="true"]) {
+      background-color: transparent;
+      border-bottom-color: color-mix(in oklab, var(--border) 80%, var(--foreground) 20%);
+    }
+  }
+
+  &:focus-visible,
+  &[data-state="open"] {
+    @apply bg-transparent;
+    border-bottom-color: var(--color-field-border-focus);
+    --tw-ring-color: var(--focus);
+    box-shadow: 0 1.2px 0 0 var(--tw-ring-color, var(--color-field-border-focus));
+  }
+}
+
+.cascader__trigger--raised {
+  @apply shadow-md;
+  background-color: var(--snow);
+  border-color: transparent;
+
+  @media (hover: hover) {
+    &:hover:not([data-disabled="true"]) {
+      @apply shadow-lg;
+      background-color: var(--background);
+      border-color: transparent;
+    }
+  }
+
+  &:focus-visible,
+  &[data-state="open"] {
+    @apply shadow-lg;
+    background-color: var(--snow);
+    border-color: var(--color-field-border-focus);
+  }
+}
+
+/* ─── Color modifiers ──────────────────────────────────────────────────── */
+
+.cascader__trigger--primary:focus-visible,
+.cascader__trigger--primary[data-state="open"] {
+  border-color: var(--color-primary);
+  --tw-ring-color: var(--color-primary);
+}
+
+.cascader__trigger--secondary:focus-visible,
+.cascader__trigger--secondary[data-state="open"] {
+  border-color: var(--color-secondary);
+  --tw-ring-color: var(--color-secondary);
+}
+
+.cascader__trigger--success:focus-visible,
+.cascader__trigger--success[data-state="open"] {
+  border-color: var(--color-success);
+  --tw-ring-color: var(--color-success);
+}
+
+.cascader__trigger--warning:focus-visible,
+.cascader__trigger--warning[data-state="open"] {
+  border-color: var(--color-warning);
+  --tw-ring-color: var(--color-warning);
+}
+
+.cascader__trigger--danger:focus-visible,
+.cascader__trigger--danger[data-state="open"] {
+  border-color: var(--color-danger);
+  --tw-ring-color: var(--color-danger);
+}
+
+/* Underlined + color variant overrides — re-assert underline-only silhouette
+   even when a color variant is applied (mirrors input.css's equivalent). */
+.cascader__trigger--underlined.cascader__trigger--primary,
+.cascader__trigger--underlined.cascader__trigger--secondary,
+.cascader__trigger--underlined.cascader__trigger--success,
+.cascader__trigger--underlined.cascader__trigger--warning,
+.cascader__trigger--underlined.cascader__trigger--danger {
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-bottom-width: var(--border-width);
+}
+
 .cascader__trigger-value {
   @apply flex-1 truncate text-left;
 }
