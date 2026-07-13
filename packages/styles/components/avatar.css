@@ -44,6 +44,10 @@
   @apply text-accent;
 }
 
+.avatar__fallback--secondary {
+  @apply text-secondary;
+}
+
 .avatar__fallback--default {
   @apply text-default-foreground;
 }
@@ -71,6 +75,10 @@
 
 .avatar--soft .avatar__fallback--accent {
   @apply bg-accent-soft text-accent-soft-foreground;
+}
+
+.avatar--soft .avatar__fallback--secondary {
+  @apply bg-secondary-soft text-secondary-soft-foreground;
 }
 
 .avatar--soft .avatar__fallback--success {

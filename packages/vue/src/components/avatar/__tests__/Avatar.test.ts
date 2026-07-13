@@ -89,6 +89,15 @@ describe('Avatar', () => {
     expect(wrapper.text()).toBe('JD')
   })
 
+  it('applies the secondary color modifier class to the fallback slot', () => {
+    const wrapper = mount(Avatar, {
+      props: { name: 'Sam Lee', color: 'secondary' },
+    })
+    wrappers.push(wrapper)
+    const fallback = wrapper.find('.avatar__fallback')
+    expect(fallback.classes()).toContain('avatar__fallback--secondary')
+  })
+
   it('passes axe with zero violations — no src', async () => {
     const wrapper = mount(Avatar, { props: { name: 'Alice Bob' }, attachTo: document.body })
     wrappers.push(wrapper)

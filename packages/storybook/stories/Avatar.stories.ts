@@ -12,7 +12,7 @@ const meta: Meta<typeof Avatar> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "accent", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     variant: {
       control: "select",
@@ -119,6 +119,7 @@ import { Avatar } from '@auronui/vue'
   <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
     <Avatar color="default" name="DF" />
     <Avatar color="primary" name="PR" />
+    <Avatar color="secondary" name="SE" />
     <Avatar color="accent" name="AC" />
     <Avatar color="success" name="SC" />
     <Avatar color="warning" name="WA" />
@@ -136,6 +137,7 @@ import { Avatar } from '@auronui/vue'
       <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
         <Avatar v-bind="args" color="default" name="DF" />
         <Avatar v-bind="args" color="primary" name="PR" />
+        <Avatar v-bind="args" color="secondary" name="SE" />
         <Avatar v-bind="args" color="accent" name="AC" />
         <Avatar v-bind="args" color="success" name="SC" />
         <Avatar v-bind="args" color="warning" name="WA" />

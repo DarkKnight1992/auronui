@@ -22,6 +22,9 @@ export const avatarVariants = tv({
       accent: {
         fallback: "avatar__fallback--accent",
       },
+      secondary: {
+        fallback: "avatar__fallback--secondary",
+      },
       danger: {
         fallback: "avatar__fallback--danger",
       },
