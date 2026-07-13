@@ -72,7 +72,7 @@ describe('SidebarItem', () => {
     expect(wrapper.find('a').attributes('aria-current')).toBeUndefined()
   })
 
-  it('renders nested children always visible (no collapse toggle)', () => {
+  it('renders nested children, expanded by default', () => {
     const wrapper = mountItem({
       label: 'Components',
       href: '/components',
@@ -102,5 +102,76 @@ describe('SidebarItem', () => {
     const active = wrapper.findAll('a').filter((l) => l.attributes('aria-current') === 'page')
     expect(active.length).toBe(1)
     expect(active[0].text()).toBe('Button')
+  })
+
+  it('renders a toggle button with aria-expanded="true" when an item has children', () => {
+    const wrapper = mountItem({
+      label: 'Components',
+      href: '/components',
+      items: [{ label: 'Button', href: '/components/button' }],
+    })
+    const toggle = wrapper.find('button[aria-expanded]')
+    expect(toggle.exists()).toBe(true)
+    expect(toggle.attributes('aria-expanded')).toBe('true')
+  })
+
+  it('renders no toggle button when an item has no children', () => {
+    const wrapper = mountItem({ label: 'Home', href: '/' })
+    expect(wrapper.find('button[aria-expanded]').exists()).toBe(false)
+  })
+
+  it('clicking the toggle collapses the nested children', async () => {
+    const wrapper = mountItem({
+      label: 'Components',
+      href: '/components',
+      items: [{ label: 'Button', href: '/components/button' }],
+    })
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(true)
+
+    await wrapper.find('button[aria-expanded]').trigger('click')
+
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(false)
+    expect(wrapper.find('button[aria-expanded]').attributes('aria-expanded')).toBe('false')
+  })
+
+  it('clicking the toggle does not navigate the parent Link', async () => {
+    const wrapper = mountItem({
+      label: 'Components',
+      href: '/components',
+      items: [{ label: 'Button', href: '/components/button' }],
+    })
+    await wrapper.find('button[aria-expanded]').trigger('click')
+    // Parent Link itself is untouched by the toggle click (no navigation side effect
+    // to assert directly in jsdom, but the toggle must be a sibling, not nested in <a>).
+    expect(wrapper.find('a[href="/components"] button').exists()).toBe(false)
+  })
+
+  it('re-expands automatically when a descendant becomes the active link, even if manually collapsed', async () => {
+    const wrapper = mountItem(
+      {
+        label: 'Components',
+        href: '/components',
+        items: [{ label: 'Button', href: '/components/button' }],
+      },
+      { activeHref: '/components/button' },
+    )
+    await wrapper.find('button[aria-expanded]').trigger('click')
+    // Still expanded — the active descendant forces it open regardless of the manual toggle.
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(true)
+  })
+
+  it('renders a button (not a Link) for a childless-href group item, toggling on click', async () => {
+    const wrapper = mountItem({
+      label: 'Group',
+      items: [{ label: 'Button', href: '/components/button' }],
+    })
+    // The group's own row has no href, so it must render as a <button>, not
+    // an <a> — even though its child ("Button") legitimately has its own <a>.
+    const row = wrapper.find('button.sidebar__item')
+    expect(row.exists()).toBe(true)
+    expect(row.attributes('aria-expanded')).toBe('true')
+
+    await row.trigger('click')
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(false)
   })
 })

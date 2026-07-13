@@ -34,15 +34,25 @@
   @apply flex flex-col gap-0.5;
 }
 
-/* Nested list of a SidebarItem's own children (always visible — no collapse). */
+/* Nested list of a SidebarItem's own children — collapsible via a toggle
+   button, expanded by default (or forced open while searching, or while it
+   contains the active link). */
 .sidebar__item-children {
   @apply mt-0.5 flex flex-col gap-0.5 border-separator/60 border-l pl-3;
 }
 
+/* Wraps the item's own row (Link/button/span) and its optional sibling
+   toggle button — never nest a <button> inside the <a>, so the toggle sits
+   next to it in this flex row instead. */
+.sidebar__item-row {
+  @apply flex w-full items-center gap-1;
+}
+
 .sidebar__item {
-  /* Full-contrast text (vs. the muted, uppercase section heading) and w-full
-     so the active/hover background spans the entire row, not just the label. */
-  @apply text-foreground relative flex w-full items-center gap-2 rounded-md px-2 py-1 text-sm font-medium no-underline outline-none;
+  /* Full-contrast text (vs. the muted, uppercase section heading). flex-1
+     fills the row (alongside a sibling toggle button, if any) so the
+     active/hover background still spans the full available width. */
+  @apply text-foreground relative flex min-w-0 flex-1 items-center gap-2 rounded-md px-2 py-1 text-sm font-medium no-underline outline-none;
 
   /**
    * Transitions
@@ -89,7 +99,40 @@
 }
 
 .sidebar__item-label {
-  @apply flex-1 truncate;
+  @apply flex-1 truncate text-left;
+}
+
+/* Toggle button for a SidebarItem's nested children — a sibling of the
+   item's own row (Link/button/span), never nested inside it. */
+.sidebar__item-toggle {
+  @apply text-muted inline-flex size-6 shrink-0 items-center justify-center rounded-md;
+  cursor: var(--cursor-interactive);
+
+  transition:
+    color 200ms var(--ease-smooth),
+    background-color 200ms var(--ease-smooth);
+  @apply motion-reduce:transition-none;
+
+  & > svg {
+    transition: transform 200ms var(--ease-smooth);
+    @apply motion-reduce:transition-none;
+  }
+
+  &[aria-expanded="true"] > svg {
+    @apply rotate-90;
+  }
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      @apply bg-surface-hover text-foreground;
+    }
+  }
+
+  &:focus-visible:not(:focus),
+  &[data-focus-visible="true"] {
+    @apply status-focused;
+  }
 }
 
 .sidebar__item-badge {

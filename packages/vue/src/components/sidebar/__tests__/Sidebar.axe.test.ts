@@ -47,4 +47,33 @@ describe('Sidebar — axe audit', () => {
     const results = await axe.run(wrapper.element as HTMLElement)
     expect(results.violations).toEqual([])
   })
+
+  it('passes axe with nested, collapsible children (both a group-label item with no href, and a navigable parent with a toggle sibling)', async () => {
+    const nestedSections: SidebarSectionData[] = [
+      {
+        label: 'Components',
+        items: [
+          {
+            label: 'Forms',
+            items: [
+              { label: 'Input', href: '/components/input' },
+              { label: 'Select', href: '/components/select' },
+            ],
+          },
+          {
+            label: 'Layout',
+            href: '/components/layout',
+            items: [{ label: 'Grid', href: '/components/layout/grid' }],
+          },
+        ],
+      },
+    ]
+    const wrapper = mount(Sidebar, {
+      props: { sections: nestedSections, activeHref: '/components/select', ariaLabel: 'Docs navigation' },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    const results = await axe.run(wrapper.element as HTMLElement)
+    expect(results.violations).toEqual([])
+  })
 })

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import type { Component } from 'vue'
 import { sidebarVariants, type ChipVariants } from '@auronui/styles'
 import { composeClassName, type ClassValue } from '../../utils/composeClassName'
@@ -23,7 +23,7 @@ const props = withDefaults(
     badgeColor?: ChipVariants['color']
     isDisabled?: boolean
     isExternal?: boolean
-    /** Nested sub-links, always rendered (no collapse/expand). */
+    /** Nested sub-links. Collapsible via a toggle button; expanded by default. */
     items?: SidebarItemData[]
     classNames?: Partial<{
       item: ClassValue
@@ -53,45 +53,171 @@ const iconName = computed(() => (typeof props.icon === 'string' ? props.icon : u
 const iconComponent = computed(() =>
   props.icon && typeof props.icon !== 'string' ? props.icon : undefined,
 )
+
+const hasChildren = computed(() => !!props.items && props.items.length > 0)
+
+function containsHref(items: SidebarItemData[] | undefined, href: string | undefined): boolean {
+  if (!items || !href) return false
+  return items.some((child) => child.href === href || containsHref(child.items, href))
+}
+const hasActiveDescendant = computed(() => containsHref(props.items, ctx.activeHref.value))
+const isSearching = computed(() => ctx.searchQuery.value.trim() !== '')
+
+// Manual toggle state — null means "no explicit user choice yet", in which case
+// the children are expanded by default, or forced open while searching or while
+// they contain the active link (even overriding a prior manual collapse).
+const manuallyOpen = ref<boolean | null>(null)
+const showChildren = computed(() => {
+  if (!hasChildren.value) return false
+  if (isSearching.value || hasActiveDescendant.value) return true
+  return manuallyOpen.value ?? true
+})
+
+function toggleChildren(): void {
+  manuallyOpen.value = !showChildren.value
+}
 </script>
 
 <template>
-  <Link
-    :href="props.href"
-    :as="props.as"
-    :is-disabled="props.isDisabled"
-    :is-external="props.isExternal"
-    :aria-current="isActive ? 'page' : undefined"
-    :class="composeClassName(slotFns.item(), props.classNames?.item)"
-  >
+  <div :class="slotFns.itemRow()">
+    <Link
+      v-if="props.href"
+      :href="props.href"
+      :as="props.as"
+      :is-disabled="props.isDisabled"
+      :is-external="props.isExternal"
+      :aria-current="isActive ? 'page' : undefined"
+      :class="composeClassName(slotFns.item(), props.classNames?.item)"
+    >
+      <span
+        v-if="props.icon"
+        :class="composeClassName(slotFns.itemIcon(), props.classNames?.itemIcon)"
+        aria-hidden="true"
+      >
+        <Icon
+          v-if="iconName"
+          :icon="iconName"
+        />
+        <component
+          :is="iconComponent"
+          v-else
+        />
+      </span>
+      <span :class="composeClassName(slotFns.itemLabel(), props.classNames?.itemLabel)">
+        {{ props.label }}
+      </span>
+      <Chip
+        v-if="props.badge !== undefined"
+        :color="props.badgeColor"
+        size="sm"
+        :class="composeClassName(slotFns.itemBadge(), props.classNames?.itemBadge)"
+      >
+        {{ props.badge }}
+      </Chip>
+    </Link>
+    <!--
+      No href but has children: the whole row is the toggle itself (a plain Link
+      with no href isn't focusable/interactive, so a real <button> is used for
+      correct keyboard/AT semantics). Its own inline chevron is decorative only —
+      the button itself carries aria-expanded.
+    -->
+    <button
+      v-else-if="hasChildren"
+      type="button"
+      :aria-expanded="showChildren"
+      :class="composeClassName(slotFns.item(), props.classNames?.item)"
+      @click="toggleChildren"
+    >
+      <span
+        v-if="props.icon"
+        :class="composeClassName(slotFns.itemIcon(), props.classNames?.itemIcon)"
+        aria-hidden="true"
+      >
+        <Icon
+          v-if="iconName"
+          :icon="iconName"
+        />
+        <component
+          :is="iconComponent"
+          v-else
+        />
+      </span>
+      <span :class="composeClassName(slotFns.itemLabel(), props.classNames?.itemLabel)">
+        {{ props.label }}
+      </span>
+      <span
+        :class="slotFns.itemToggle()"
+        aria-hidden="true"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="14"
+          height="14"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="m9 18 6-6-6-6" />
+        </svg>
+      </span>
+    </button>
     <span
-      v-if="props.icon"
-      :class="composeClassName(slotFns.itemIcon(), props.classNames?.itemIcon)"
-      aria-hidden="true"
+      v-else
+      :class="composeClassName(slotFns.item(), props.classNames?.item)"
     >
-      <Icon
-        v-if="iconName"
-        :icon="iconName"
-      />
-      <component
-        :is="iconComponent"
-        v-else
-      />
+      <span
+        v-if="props.icon"
+        :class="composeClassName(slotFns.itemIcon(), props.classNames?.itemIcon)"
+        aria-hidden="true"
+      >
+        <Icon
+          v-if="iconName"
+          :icon="iconName"
+        />
+        <component
+          :is="iconComponent"
+          v-else
+        />
+      </span>
+      <span :class="composeClassName(slotFns.itemLabel(), props.classNames?.itemLabel)">
+        {{ props.label }}
+      </span>
     </span>
-    <span :class="composeClassName(slotFns.itemLabel(), props.classNames?.itemLabel)">
-      {{ props.label }}
-    </span>
-    <Chip
-      v-if="props.badge !== undefined"
-      :color="props.badgeColor"
-      size="sm"
-      :class="composeClassName(slotFns.itemBadge(), props.classNames?.itemBadge)"
+    <!--
+      Separate toggle button, sibling to (never nested inside) the Link, only
+      when the item both navigates AND has children — nesting a <button>
+      inside an <a> would be an invalid/inaccessible interactive-in-interactive
+      element.
+    -->
+    <button
+      v-if="props.href && hasChildren"
+      type="button"
+      :aria-expanded="showChildren"
+      :aria-label="`Toggle ${props.label}`"
+      :class="slotFns.itemToggle()"
+      @click="toggleChildren"
     >
-      {{ props.badge }}
-    </Chip>
-  </Link>
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="14"
+        height="14"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        aria-hidden="true"
+      >
+        <path d="m9 18 6-6-6-6" />
+      </svg>
+    </button>
+  </div>
   <ul
-    v-if="props.items"
+    v-if="showChildren"
     :class="slotFns.itemChildren()"
   >
     <li

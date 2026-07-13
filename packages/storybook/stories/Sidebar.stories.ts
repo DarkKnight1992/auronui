@@ -162,7 +162,7 @@ export const WithNestedChildren: Story = {
     docs: {
       description: {
         story:
-          "An item's items field renders its own nested sub-links, indented and always visible (no collapse/expand toggle).",
+          "An item's items field renders its own nested, indented sub-links. Each parent gets a toggle button to collapse/expand its children — expanded by default, and automatically re-expanded while it contains the active link (e.g. \"Select\" here) even if manually collapsed.",
       },
     },
   },
