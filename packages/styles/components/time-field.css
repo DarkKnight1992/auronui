@@ -185,6 +185,13 @@
   }
 }
 
+.time-field--accent {
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .time-field--success {
 
   &[data-focused="true"] {
@@ -213,6 +220,7 @@
 
 .time-field--underlined.time-field--primary,
 .time-field--underlined.time-field--secondary,
+.time-field--underlined.time-field--accent,
 .time-field--underlined.time-field--success,
 .time-field--underlined.time-field--warning,
 .time-field--underlined.time-field--danger {
@@ -501,6 +509,9 @@
 }
 .time-field--label-inside.time-field--secondary[data-focused="true"] .time-field__label {
   color: var(--color-secondary);
+}
+.time-field--label-inside.time-field--accent[data-focused="true"] .time-field__label {
+  color: var(--color-accent);
 }
 .time-field--label-inside.time-field--success[data-focused="true"] .time-field__label {
   color: var(--color-success);

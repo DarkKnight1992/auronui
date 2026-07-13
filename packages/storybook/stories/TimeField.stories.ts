@@ -22,6 +22,7 @@ const meta: Meta<typeof TimeField> = {
         "default",
         "primary",
         "secondary",
+        "accent",
         "success",
         "warning",
         "danger",
@@ -223,13 +224,15 @@ export const Colors: Story = {
       const v4 = ref(new Time(10, 30));
       const v5 = ref(new Time(10, 30));
       const v6 = ref(new Time(10, 30));
-      return { args, v1, v2, v3, v4, v5, v6 };
+      const v7 = ref(new Time(10, 30));
+      return { args, v1, v2, v3, v4, v5, v6, v7 };
     },
     template: `
       <div style="display:flex; flex-direction:column; gap:1rem; max-width:16rem;">
         <TimeField v-bind="args" label="Default" color="default" variant="bordered" v-model="v1" />
         <TimeField v-bind="args" label="Primary" color="primary" variant="bordered" v-model="v2" />
         <TimeField v-bind="args" label="Secondary" color="secondary" variant="bordered" v-model="v3" />
+        <TimeField v-bind="args" label="Accent" color="accent" variant="bordered" v-model="v7" />
         <TimeField v-bind="args" label="Success" color="success" variant="bordered" v-model="v4" />
         <TimeField v-bind="args" label="Warning" color="warning" variant="bordered" v-model="v5" />
         <TimeField v-bind="args" label="Danger" color="danger" variant="bordered" v-model="v6" />
@@ -250,6 +253,7 @@ const v3 = ref(new Time(10, 30))
 const v4 = ref(new Time(10, 30))
 const v5 = ref(new Time(10, 30))
 const v6 = ref(new Time(10, 30))
+const v7 = ref(new Time(10, 30))
 </script>
 
 <template>
@@ -257,6 +261,7 @@ const v6 = ref(new Time(10, 30))
     <TimeField label="Default" color="default" variant="bordered" v-model="v1" />
     <TimeField label="Primary" color="primary" variant="bordered" v-model="v2" />
     <TimeField label="Secondary" color="secondary" variant="bordered" v-model="v3" />
+    <TimeField label="Accent" color="accent" variant="bordered" v-model="v7" />
     <TimeField label="Success" color="success" variant="bordered" v-model="v4" />
     <TimeField label="Warning" color="warning" variant="bordered" v-model="v5" />
     <TimeField label="Danger" color="danger" variant="bordered" v-model="v6" />

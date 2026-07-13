@@ -175,6 +175,20 @@ describe('TimeField', () => {
     expect(wrapper.html()).toContain('time-field')
   })
 
+  // Test 12b: applies all color variant classes to the inputWrapper (group) element
+  it('applies all color variants', async () => {
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mount(TimeField, {
+        props: { color },
+        attachTo: document.body,
+      })
+      await nextTick()
+      expect(wrapper.find('[role="group"]').classes()).toContain(`time-field--${color}`)
+      wrapper.unmount()
+    }
+  })
+
   // Test 13: axe audit — zero violations with label
   it('passes axe audit with label prop', async () => {
     const wrapper = mount(TimeField, {

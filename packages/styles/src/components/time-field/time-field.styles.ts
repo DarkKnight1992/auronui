@@ -44,6 +44,7 @@ export const timeFieldVariants = tv({
       default:   { inputWrapper: "time-field--default" },
       primary:   { inputWrapper: "time-field--primary" },
       secondary: { inputWrapper: "time-field--secondary" },
+      accent:    { inputWrapper: "time-field--accent" },
       success:   { inputWrapper: "time-field--success" },
       warning:   { inputWrapper: "time-field--warning" },
       danger:    { inputWrapper: "time-field--danger" },
