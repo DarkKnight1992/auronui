@@ -17,7 +17,7 @@ const meta: Meta<typeof Textarea> = {
     },
     color: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'],
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
     },
     labelPlacement: {
       control: 'select',
@@ -236,6 +236,7 @@ export const Colors: Story = {
         <Textarea v-bind="args" variant="bordered" color="default" placeholder="default" aria-label="Default color textarea" />
         <Textarea v-bind="args" variant="bordered" color="primary" placeholder="primary" aria-label="Primary color textarea" />
         <Textarea v-bind="args" variant="bordered" color="secondary" placeholder="secondary" aria-label="Secondary color textarea" />
+        <Textarea v-bind="args" variant="bordered" color="accent" placeholder="accent" aria-label="Accent color textarea" />
         <Textarea v-bind="args" variant="bordered" color="success" placeholder="success" aria-label="Success color textarea" />
         <Textarea v-bind="args" variant="bordered" color="warning" placeholder="warning" aria-label="Warning color textarea" />
         <Textarea v-bind="args" variant="bordered" color="danger" placeholder="danger" aria-label="Danger color textarea" />
@@ -254,6 +255,7 @@ import { Textarea } from '@auronui/vue'
     <Textarea variant="bordered" color="default" placeholder="default" />
     <Textarea variant="bordered" color="primary" placeholder="primary" />
     <Textarea variant="bordered" color="secondary" placeholder="secondary" />
+    <Textarea variant="bordered" color="accent" placeholder="accent" />
     <Textarea variant="bordered" color="success" placeholder="success" />
     <Textarea variant="bordered" color="warning" placeholder="warning" />
     <Textarea variant="bordered" color="danger" placeholder="danger" />

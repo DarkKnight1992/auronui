@@ -213,6 +213,15 @@
   }
 }
 
+.textarea--accent {
+
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .textarea--success {
 
   &:focus-within,
@@ -244,6 +253,7 @@
 /* ─── Underlined + color variant overrides ─────────────────────────────────── */
 .textarea--underlined.textarea--primary,
 .textarea--underlined.textarea--secondary,
+.textarea--underlined.textarea--accent,
 .textarea--underlined.textarea--success,
 .textarea--underlined.textarea--warning,
 .textarea--underlined.textarea--danger {
@@ -563,6 +573,10 @@
 .textarea--label-inside.textarea--secondary:focus-within .textarea__label,
 .textarea--label-inside.textarea--secondary[data-focused="true"] .textarea__label {
   color: var(--color-secondary);
+}
+.textarea--label-inside.textarea--accent:focus-within .textarea__label,
+.textarea--label-inside.textarea--accent[data-focused="true"] .textarea__label {
+  color: var(--color-accent);
 }
 .textarea--label-inside.textarea--success:focus-within .textarea__label,
 .textarea--label-inside.textarea--success[data-focused="true"] .textarea__label {

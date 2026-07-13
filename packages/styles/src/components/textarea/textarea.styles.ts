@@ -44,6 +44,7 @@ export const textAreaVariants = tv({
       default:   { inputWrapper: "textarea--default" },
       primary:   { inputWrapper: "textarea--primary" },
       secondary: { inputWrapper: "textarea--secondary" },
+      accent:    { inputWrapper: "textarea--accent" },
       success:   { inputWrapper: "textarea--success" },
       warning:   { inputWrapper: "textarea--warning" },
       danger:    { inputWrapper: "textarea--danger" },

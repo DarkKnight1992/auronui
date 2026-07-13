@@ -132,7 +132,7 @@ describe('Textarea', () => {
   })
 
   it('applies all color variants', () => {
-    const colors = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] as const
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
     for (const color of colors) {
       const wrapper = mount(Textarea, { props: { color } })
       expect(wrapper.find('.textarea').classes()).toContain(`textarea--${color}`)
