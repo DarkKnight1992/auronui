@@ -58,6 +58,18 @@ const SCOPE_LIST_BY_PHASE: Record<string, string[]> = {
     'Link',
     'CloseButton',
   ],
+  'component-gap-batch-2026-07-13': [
+    'Sidebar',
+    'InputGroup',
+    'SearchField',
+    'Statistic',
+    'Timeline',
+    'Image',
+    'Transfer',
+    'FileUpload',
+    'Cascader',
+    'CommandPalette',
+  ],
 };
 
 const ACTIVE_SCOPE: Set<string> = new Set(
