@@ -214,6 +214,47 @@ describe('TreeItem', () => {
     wrapper.unmount()
   })
 
+  it('Test 7b: pressing Enter on a focused parent row toggles expansion, matching click behavior', async () => {
+    const Wrapper = defineComponent({
+      components: { Tree, TreeItem, TreeItemToggle },
+      setup() {
+        const selected = ref<FileNode | null>(null)
+        const expanded = ref<string[]>([])
+        return { fileTree, selected, expanded, treeProps: {}, onSelect: () => {}, onToggle: () => {} }
+      },
+      template: TREE_TEMPLATE,
+    })
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const srcRow = wrapper.findAll('[data-slot="tree-item"]')[0]!
+    expect(wrapper.findAll('[data-slot="tree-item"]')).toHaveLength(2)
+
+    await srcRow.trigger('keydown', { key: 'Enter' })
+    await nextTick()
+
+    const vm = wrapper.vm as unknown as { expanded: string[] }
+    expect(vm.expanded).toContain('src')
+    expect(wrapper.findAll('[data-slot="tree-item"]')).toHaveLength(4)
+    wrapper.unmount()
+  })
+
+  it('Test 7c: pressing Space on a focused leaf row (no children) does not attempt to toggle', async () => {
+    const Wrapper = defineComponent({
+      components: { Tree, TreeItem, TreeItemToggle },
+      setup() {
+        const selected = ref<FileNode | null>(null)
+        const expanded = ref<string[]>([])
+        return { fileTree, selected, expanded, treeProps: {}, onSelect: () => {}, onToggle: () => {} }
+      },
+      template: TREE_TEMPLATE,
+    })
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const packageRow = wrapper.findAll('[data-slot="tree-item"]')[1]! // 'package.json', no children
+    await packageRow.trigger('keydown', { key: ' ' })
+    await nextTick()
+    expect(wrapper.findAll('[data-slot="tree-item"]')).toHaveLength(2)
+    wrapper.unmount()
+  })
+
   it('Test 7: TreeItem emits select and toggle together on row click interaction', async () => {
     // reka-ui's TreeItem fires both select and toggle from a single row click
     // handler; toggle only mutates expanded state when the item has children,

@@ -1,5 +1,5 @@
 <script setup lang="ts" generic="T extends Record<string, any>">
-import { computed, inject } from 'vue'
+import { computed, inject, useTemplateRef } from 'vue'
 import { TreeItem } from 'reka-ui'
 import { treeVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -38,10 +38,24 @@ const hasChildren = computed(() => {
 const indentStyle = computed(() => ({
   '--tree-indent': props.level - 1,
 }))
+
+// reka-ui's TreeItem fires both select + toggle on click, but on Enter/Space
+// it only fires select — keyboard users can never expand/collapse a folder
+// node without also reaching for the arrow keys. Mirror click's behavior by
+// calling the same exposed handleToggle() reka-ui uses internally.
+const treeItemRef = useTemplateRef<{ handleToggle: () => void }>('treeItemRef')
+
+function handleActivateKeydown(ev: KeyboardEvent): void {
+  if (ev.target !== ev.currentTarget) return
+  if (ev.key !== 'Enter' && ev.key !== ' ') return
+  if (!hasChildren.value) return
+  treeItemRef.value?.handleToggle()
+}
 </script>
 
 <template>
   <TreeItem
+    ref="treeItemRef"
     :value="value"
     :level="level"
     :as="props.as"
@@ -50,6 +64,7 @@ const indentStyle = computed(() => ({
     data-slot="tree-item"
     @select="$emit('select')"
     @toggle="$emit('toggle')"
+    @keydown="handleActivateKeydown"
   >
     <template #default="s: any">
       <div
