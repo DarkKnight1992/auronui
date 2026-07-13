@@ -34,8 +34,15 @@
   @apply flex flex-col gap-0.5;
 }
 
+/* Nested list of a SidebarItem's own children (always visible — no collapse). */
+.sidebar__item-children {
+  @apply mt-0.5 flex flex-col gap-0.5 border-separator/60 border-l pl-3;
+}
+
 .sidebar__item {
-  @apply text-muted relative flex items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium no-underline outline-none;
+  /* Full-contrast text (vs. the muted, uppercase section heading) and w-full
+     so the active/hover background spans the entire row, not just the label. */
+  @apply text-foreground relative flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium no-underline outline-none;
 
   /**
    * Transitions
@@ -51,7 +58,7 @@
   @media (hover: hover) {
     &:hover,
     &[data-hovered="true"] {
-      @apply bg-surface-hover text-foreground;
+      @apply bg-surface-hover;
     }
   }
 

@@ -14,6 +14,7 @@ export const sidebarVariants = tv({
     itemIcon: "sidebar__item-icon",
     itemLabel: "sidebar__item-label",
     itemBadge: "sidebar__item-badge",
+    itemChildren: "sidebar__item-children",
     empty: "sidebar__empty",
   },
 });

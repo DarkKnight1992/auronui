@@ -146,4 +146,17 @@ describe('Sidebar — search', () => {
     await input.setValue('')
     expect(wrapper.findAll('a').length).toBe(4)
   })
+
+  it('a matching descendant keeps its whole branch (parent + all children) visible', async () => {
+    const nestedSections: SidebarSectionData[] = [
+      {
+        label: 'Components',
+        items: [{ label: 'Forms', items: [{ label: 'Button', href: '/button' }] }],
+      },
+    ]
+    const wrapper = mount(Sidebar, { props: { sections: nestedSections, search: true } })
+    await wrapper.find('input[type="search"]').setValue('but')
+    expect(wrapper.text()).toContain('Forms')
+    expect(wrapper.text()).toContain('Button')
+  })
 })

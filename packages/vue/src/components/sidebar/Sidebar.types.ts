@@ -12,6 +12,8 @@ export interface SidebarItemData {
   badgeColor?: ChipVariants['color']
   isDisabled?: boolean
   isExternal?: boolean
+  /** Nested sub-links, always rendered (no collapse/expand). */
+  items?: SidebarItemData[]
 }
 
 export interface SidebarSectionData {

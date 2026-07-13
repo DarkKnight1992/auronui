@@ -56,13 +56,17 @@ useSidebarProvide({
   searchQuery,
 })
 
+// A parent matches if its own label matches, or any descendant does — the
+// whole branch (parent + all children) stays visible on a descendant match,
+// since Sidebar doesn't do partial-subtree filtering.
 function itemMatches(item: SidebarItemData, query: string): boolean {
-  return item.label.toLowerCase().includes(query.toLowerCase())
+  if (item.label.toLowerCase().includes(query)) return true
+  return item.items?.some((child) => itemMatches(child, query)) ?? false
 }
 
 const filteredSections = computed(() => {
   if (!props.sections) return []
-  const query = searchQuery.value.trim()
+  const query = searchQuery.value.trim().toLowerCase()
   if (!query) return props.sections
   return props.sections
     .map((section) => ({

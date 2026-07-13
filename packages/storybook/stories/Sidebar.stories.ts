@@ -129,3 +129,41 @@ export const ControlledActiveLink: Story = {
     },
   },
 };
+
+const nestedSections: SidebarSectionData[] = [
+  {
+    label: "Components",
+    items: [
+      {
+        label: "Forms",
+        items: [
+          { label: "Input", href: "/components/input" },
+          { label: "Select", href: "/components/select" },
+          { label: "Checkbox", href: "/components/checkbox" },
+        ],
+      },
+      { label: "Table", href: "/components/table" },
+    ],
+  },
+];
+
+export const WithNestedChildren: Story = {
+  name: "With nested children",
+  args: { activeHref: "/components/select" },
+  render: (args) => ({
+    components: { Sidebar },
+    setup() {
+      return { args, nestedSections };
+    },
+    template:
+      '<div style="height: 320px; width: 280px;"><Sidebar v-bind="args" :sections="nestedSections" /></div>',
+  }),
+  parameters: {
+    docs: {
+      description: {
+        story:
+          "An item's items field renders its own nested sub-links, indented and always visible (no collapse/expand toggle).",
+      },
+    },
+  },
+};

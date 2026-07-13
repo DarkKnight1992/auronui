@@ -7,6 +7,11 @@ import { useSidebarInject } from './sidebar.context'
 import Link from '../link/Link.vue'
 import { Icon } from '../icon'
 import Chip from '../chip/Chip.vue'
+// Explicit self-import — Vue resolves this circular reference lazily at
+// render time, which is the standard way to make a <script setup> SFC
+// recursive without relying on filename-based name inference.
+import SidebarItem from './SidebarItem.vue'
+import type { SidebarItemData } from './Sidebar.types'
 
 const props = withDefaults(
   defineProps<{
@@ -18,6 +23,8 @@ const props = withDefaults(
     badgeColor?: ChipVariants['color']
     isDisabled?: boolean
     isExternal?: boolean
+    /** Nested sub-links, always rendered (no collapse/expand). */
+    items?: SidebarItemData[]
     classNames?: Partial<{
       item: ClassValue
       itemIcon: ClassValue
@@ -33,6 +40,7 @@ const props = withDefaults(
     badgeColor: undefined,
     isDisabled: undefined,
     isExternal: undefined,
+    items: undefined,
     classNames: undefined,
   },
 )
@@ -82,4 +90,18 @@ const iconComponent = computed(() =>
       {{ props.badge }}
     </Chip>
   </Link>
+  <ul
+    v-if="props.items"
+    :class="slotFns.itemChildren()"
+  >
+    <li
+      v-for="child in props.items"
+      :key="child.href ?? child.label"
+    >
+      <SidebarItem
+        v-bind="child"
+        :class-names="props.classNames"
+      />
+    </li>
+  </ul>
 </template>

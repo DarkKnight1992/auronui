@@ -71,4 +71,36 @@ describe('SidebarItem', () => {
     const wrapper = mountItem({ label: 'Home', href: '/' }, { activeHref: '/other' })
     expect(wrapper.find('a').attributes('aria-current')).toBeUndefined()
   })
+
+  it('renders nested children always visible (no collapse toggle)', () => {
+    const wrapper = mountItem({
+      label: 'Components',
+      href: '/components',
+      items: [
+        { label: 'Button', href: '/components/button' },
+        { label: 'Select', href: '/components/select' },
+      ],
+    })
+    const links = wrapper.findAll('a')
+    expect(links.map((l) => l.text())).toEqual(['Components', 'Button', 'Select'])
+  })
+
+  it('renders no nested list when items is not provided', () => {
+    const wrapper = mountItem({ label: 'Home', href: '/' })
+    expect(wrapper.find('.sidebar__item-children').exists()).toBe(false)
+  })
+
+  it('marks a nested child as active when its href matches activeHref', () => {
+    const wrapper = mountItem(
+      {
+        label: 'Components',
+        href: '/components',
+        items: [{ label: 'Button', href: '/components/button' }],
+      },
+      { activeHref: '/components/button' },
+    )
+    const active = wrapper.findAll('a').filter((l) => l.attributes('aria-current') === 'page')
+    expect(active.length).toBe(1)
+    expect(active[0].text()).toBe('Button')
+  })
 })
