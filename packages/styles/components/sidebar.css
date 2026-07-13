@@ -13,21 +13,21 @@
 }
 
 .sidebar__content {
-  @apply flex-1 overflow-y-auto px-2 py-2;
+  @apply flex-1 overflow-y-auto px-2 py-1.5;
   scrollbar-width: thin;
   scrollbar-color: oklch(0% 0 0 / 0.15) transparent;
 }
 
 .sidebar__section {
-  @apply flex flex-col gap-1;
+  @apply flex flex-col gap-0.5;
 
   & + & {
-    @apply mt-4;
+    @apply mt-2;
   }
 }
 
 .sidebar__section-heading {
-  @apply text-muted px-2 py-1 text-xs font-semibold tracking-wide uppercase select-none;
+  @apply text-muted px-2 py-0.5 text-xs font-semibold tracking-wide uppercase select-none;
 }
 
 .sidebar__section-list {
@@ -42,7 +42,7 @@
 .sidebar__item {
   /* Full-contrast text (vs. the muted, uppercase section heading) and w-full
      so the active/hover background spans the entire row, not just the label. */
-  @apply text-foreground relative flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm font-medium no-underline outline-none;
+  @apply text-foreground relative flex w-full items-center gap-2 rounded-md px-2 py-1 text-sm font-medium no-underline outline-none;
 
   /**
    * Transitions
