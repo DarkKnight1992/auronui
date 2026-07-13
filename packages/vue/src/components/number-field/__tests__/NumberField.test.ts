@@ -228,6 +228,15 @@ describe('NumberField', () => {
     wrapper.unmount()
   })
 
+  it('applies accent color class when color="accent"', () => {
+    const wrapper = mount(NumberField, {
+      props: { color: 'accent', ariaLabel: 'Quantity' },
+      attachTo: document.body,
+    })
+    expect(wrapper.classes()).toContain('number-field--accent')
+    wrapper.unmount()
+  })
+
   it('applies size class for sm', () => {
     const wrapper = mount(NumberField, {
       props: { size: 'sm', ariaLabel: 'Quantity' },

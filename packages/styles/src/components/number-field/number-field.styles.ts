@@ -51,6 +51,7 @@ export const numberFieldVariants = tv({
       default:   { base: "number-field--default" },
       primary:   { base: "number-field--primary" },
       secondary: { base: "number-field--secondary" },
+      accent:    { base: "number-field--accent" },
       success:   { base: "number-field--success" },
       warning:   { base: "number-field--warning" },
       danger:    { base: "number-field--danger" },

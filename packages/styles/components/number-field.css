@@ -342,6 +342,15 @@
   }
 }
 
+.number-field--accent .number-field__group {
+
+  &:focus-within,
+  &[data-focus-within="true"] {
+    border-color: var(--color-accent);
+    box-shadow: 0 0 0 1px var(--color-accent);
+  }
+}
+
 .number-field--success .number-field__group {
 
   &:focus-within,

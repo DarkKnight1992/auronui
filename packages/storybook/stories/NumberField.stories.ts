@@ -17,7 +17,7 @@ const meta: Meta<typeof NumberField> = {
     },
     color: {
       control: 'select',
-      options: ['default', 'primary', 'secondary', 'success', 'warning', 'danger'],
+      options: ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
     },
     fullWidth: { control: 'boolean' },
     isInvalid: { control: 'boolean' },
@@ -247,6 +247,7 @@ export const Colors: Story = {
         <NumberField v-bind="args" label="Default" color="default" />
         <NumberField v-bind="args" label="Primary" color="primary" />
         <NumberField v-bind="args" label="Secondary" color="secondary" />
+        <NumberField v-bind="args" label="Accent" color="accent" />
         <NumberField v-bind="args" label="Success" color="success" />
         <NumberField v-bind="args" label="Warning" color="warning" />
         <NumberField v-bind="args" label="Danger" color="danger" />
@@ -265,6 +266,7 @@ import { NumberField } from '@auronui/vue'
     <NumberField label="Default" color="default" />
     <NumberField label="Primary" color="primary" />
     <NumberField label="Secondary" color="secondary" />
+    <NumberField label="Accent" color="accent" />
     <NumberField label="Success" color="success" />
     <NumberField label="Warning" color="warning" />
     <NumberField label="Danger" color="danger" />
