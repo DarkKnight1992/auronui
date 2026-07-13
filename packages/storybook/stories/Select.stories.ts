@@ -30,7 +30,7 @@ const meta: Meta<typeof Select> = {
     },
     color: {
       control: "select",
-      options: ["default", "primary", "secondary", "success", "warning", "danger"],
+      options: ["default", "primary", "secondary", "accent", "success", "warning", "danger"],
     },
     labelPlacement: {
       control: "select",
@@ -554,6 +554,7 @@ export const Colors: Story = {
         <Select v-bind="args" variant="bordered" color="default" aria-label="Default color"><SelectTrigger><SelectValue placeholder="default" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
         <Select v-bind="args" variant="bordered" color="primary" aria-label="Primary color"><SelectTrigger><SelectValue placeholder="primary" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
         <Select v-bind="args" variant="bordered" color="secondary" aria-label="Secondary color"><SelectTrigger><SelectValue placeholder="secondary" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
+        <Select v-bind="args" variant="bordered" color="accent" aria-label="Accent color"><SelectTrigger><SelectValue placeholder="accent" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
         <Select v-bind="args" variant="bordered" color="success" aria-label="Success color"><SelectTrigger><SelectValue placeholder="success" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
         <Select v-bind="args" variant="bordered" color="warning" aria-label="Warning color"><SelectTrigger><SelectValue placeholder="warning" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
         <Select v-bind="args" variant="bordered" color="danger" aria-label="Danger color"><SelectTrigger><SelectValue placeholder="danger" /></SelectTrigger><SelectContent><SelectItem v-for="item in items" :key="item.value" :value="item.value" >{{ item.label }}</SelectItem></SelectContent></Select>
@@ -599,6 +600,12 @@ const items = [
         <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
       </SelectContent>
     </Select>
+    <Select variant="bordered" color="accent" aria-label="Accent color">
+      <SelectTrigger><SelectValue placeholder="accent" /></SelectTrigger>
+      <SelectContent>
+        <SelectItem v-for="item in items" :key="item.value" :value="item.value">{{ item.label }}</SelectItem>
+      </SelectContent>
+    </Select>
     <Select variant="bordered" color="success" aria-label="Success color">
       <SelectTrigger><SelectValue placeholder="success" /></SelectTrigger>
       <SelectContent>
@@ -630,11 +637,11 @@ export const FocusByColor: Story = {
     components: { Select, SelectTrigger, SelectValue, SelectContent, SelectItem },
     setup: () => {
       const variants = ["flat", "faded", "bordered", "underlined", "raised"] as const;
-      const colors = ["default", "primary", "secondary", "success", "warning", "danger"] as const;
+      const colors = ["default", "primary", "secondary", "accent", "success", "warning", "danger"] as const;
       return { args, items: allFruits, variants, colors };
     },
     template: `
-      <div style="display:grid;grid-template-columns:80px repeat(6,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
+      <div style="display:grid;grid-template-columns:80px repeat(7,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
         <div></div>
         <div v-for="c in colors" :key="c" style="font-size:11px;color:#666">{{ c }}</div>
 
@@ -674,11 +681,11 @@ const items = [
 ]
 
 const variants = ['flat', 'faded', 'bordered', 'underlined', 'raised'] as const
-const colors = ['default', 'primary', 'secondary', 'success', 'warning', 'danger'] as const
+const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
 </script>
 
 <template>
-  <div style="display:grid;grid-template-columns:80px repeat(6,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
+  <div style="display:grid;grid-template-columns:80px repeat(7,minmax(0,1fr));gap:8px;max-width:1040px;align-items:center">
     <div></div>
     <div v-for="c in colors" :key="c" style="font-size:11px;color:#666">{{ c }}</div>
 

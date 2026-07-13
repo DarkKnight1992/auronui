@@ -44,6 +44,7 @@ export const selectVariants = tv({
       default:   { trigger: "select__trigger--default" },
       primary:   { trigger: "select__trigger--primary" },
       secondary: { trigger: "select__trigger--secondary" },
+      accent:    { trigger: "select__trigger--accent" },
       success:   { trigger: "select__trigger--success" },
       warning:   { trigger: "select__trigger--warning" },
       danger:    { trigger: "select__trigger--danger" },

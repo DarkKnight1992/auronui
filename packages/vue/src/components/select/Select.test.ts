@@ -817,3 +817,20 @@ describe('Select — root data-attributes (rootDataAttrs from useFormField)', ()
     withHelper.unmount()
   })
 })
+
+describe('Select — color variants', () => {
+  it('applies all color variants to the trigger', () => {
+    const colors = ['default', 'primary', 'secondary', 'accent', 'success', 'warning', 'danger'] as const
+    for (const color of colors) {
+      const wrapper = mount(Select, {
+        props: {
+          color,
+          items: [{ value: 'apple', label: 'Apple' }],
+        },
+        attachTo: document.body,
+      })
+      expect(wrapper.find('button[role="combobox"]').classes()).toContain(`select__trigger--${color}`)
+      wrapper.unmount()
+    }
+  })
+})

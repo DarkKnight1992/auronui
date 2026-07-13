@@ -224,6 +224,16 @@
   }
 }
 
+.select__trigger--accent {
+
+  &:focus,
+  &:focus-within,
+  &[data-focused="true"] {
+    border-color: var(--color-accent);
+    --tw-ring-color: var(--color-accent);
+  }
+}
+
 .select__trigger--success {
 
   &:focus,
@@ -260,6 +270,7 @@
 
 .select__trigger--underlined.select__trigger--primary,
 .select__trigger--underlined.select__trigger--secondary,
+.select__trigger--underlined.select__trigger--accent,
 .select__trigger--underlined.select__trigger--success,
 .select__trigger--underlined.select__trigger--warning,
 .select__trigger--underlined.select__trigger--danger {
@@ -510,6 +521,11 @@
 .select__trigger--label-inside.select__trigger--secondary:focus-within .select__label,
 .select__trigger--label-inside.select__trigger--secondary[data-focused="true"] .select__label {
   color: var(--color-secondary);
+}
+.select__trigger--label-inside.select__trigger--accent:focus .select__label,
+.select__trigger--label-inside.select__trigger--accent:focus-within .select__label,
+.select__trigger--label-inside.select__trigger--accent[data-focused="true"] .select__label {
+  color: var(--color-accent);
 }
 .select__trigger--label-inside.select__trigger--success:focus .select__label,
 .select__trigger--label-inside.select__trigger--success:focus-within .select__label,
