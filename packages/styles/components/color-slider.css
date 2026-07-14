@@ -62,8 +62,21 @@
     /* Flex container for centering */
     @apply absolute flex cursor-grab items-center justify-center rounded-full no-highlight;
 
-    /* Border to create white ring around the thumb */
-    @apply border-3 border-white shadow-overlay;
+    /* Border reflects the color at the thumb's current position instead of a plain white ring */
+    @apply border-3;
+    border-color: var(--color-slider-thumb-color, white);
+
+    /* A color-matched border alone camouflages against the track's own gradient —
+       it always shows the same color the thumb sits on top of, by definition.
+       A white + dark ring pair (outside the color border) keeps the thumb
+       identifiable against any point on the gradient, mirroring ColorArea's
+       thumb treatment. NOTE: --shadow-overlay is a large panel shadow (14px
+       offset / 28px blur, sized for modals/toasts) — applying it to this small
+       16px circle rendered as a diffuse smudge beneath the thumb rather than a
+       crisp ring, so it's replaced entirely rather than combined with. */
+    box-shadow:
+      0 0 0 2px white,
+      0 0 0 3px rgba(0, 0, 0, 0.25);
 
     /* Ensure thumb is above edge caps */
     z-index: 1;

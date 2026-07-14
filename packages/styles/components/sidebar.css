@@ -7,9 +7,14 @@
 }
 
 /* Sticky search — position: sticky keeps it pinned to the top of the
-   scrollable content area instead of scrolling out of view. */
+   scrollable content area instead of scrolling out of view. Deliberately no
+   forced background here (previously bg-surface, which forced white and
+   didn't match whatever background the consumer's page actually used) — the
+   sidebar is meant to inherit its background from context, same as the rest
+   of the component. Trade-off: without an opaque background, content can
+   show through the search bar for an instant while scrolling underneath it. */
 .sidebar__search {
-  @apply bg-surface sticky top-0 z-10 shrink-0 px-3 py-2;
+  @apply sticky top-0 z-10 shrink-0 px-3 py-2;
 }
 
 .sidebar__content {

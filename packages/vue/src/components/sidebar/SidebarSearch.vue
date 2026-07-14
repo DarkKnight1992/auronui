@@ -25,6 +25,7 @@ const slotFns = computed(() => sidebarVariants())
     <Input
       v-model="ctx.searchQuery.value"
       type="search"
+      variant="bordered"
       :placeholder="props.placeholder"
       aria-label="Search sidebar links"
     />

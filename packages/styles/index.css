@@ -27,3 +27,5 @@
    directives extend the search to sibling workspace packages. */
 @source "../vue/src/**/*.{vue,ts,tsx,js,jsx}";
 @source "../storybook/stories/**/*.{vue,ts,tsx,js,jsx}";
+@source "../react/src/**/*.{ts,tsx,js,jsx}";
+@source "../storybook-react/stories/**/*.{ts,tsx,js,jsx}";

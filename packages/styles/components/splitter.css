@@ -24,9 +24,26 @@
     @apply status-focused;
   }
 
-  /* Active/dragging cursor */
+  /* ::before is the invisible hit-slop area (wider than the 1px visual line,
+     for an easier grab target) — also used below as a highlighted "lane"
+     background on hover/drag, so the whole draggable strip is visually
+     obvious while resizing, not just the thin center bar. */
+  &::before {
+    @apply rounded-full transition-colors duration-150;
+  }
+
+  @media (hover: hover) {
+    &:hover::before {
+      @apply bg-primary/10;
+    }
+  }
+
+  /* Active/dragging state — stronger highlight lane + accent border on the
+     bar itself, so it's unambiguous which handle is currently being dragged. */
   &[data-state="drag"] {
-    @apply opacity-100;
+    &::before {
+      @apply bg-primary/15;
+    }
   }
 }
 
@@ -52,7 +69,14 @@
 
 /* Visual bar inside the handle */
 .splitter-handle__bar {
-  @apply rounded-full bg-default transition-colors;
+  /* shrink-0: .splitter-handle is a (default row-direction) flex container
+     that's only 1px wide/tall for the actual handle hit-line — without this,
+     the bar's default flex-shrink:1 always shrank its main-axis size back
+     down to fit that 1px, silently discarding any explicit width/height
+     given below (the cross-axis size was never affected, which is why the
+     base 8-unit height/width already worked while the drag-state thickening
+     never visibly took effect). */
+  @apply rounded-full bg-default shrink-0 transition-all duration-150;
 
   .splitter-handle--horizontal & {
     @apply h-8 w-px;
@@ -64,11 +88,25 @@
 
   @media (hover: hover) {
     .splitter-handle:hover & {
-      @apply bg-default-hover;
+      @apply bg-primary;
     }
   }
 
+  /* Dragging: full accent color + a touch thicker, so the active handle
+     reads clearly against the hover state too. */
   .splitter-handle[data-state="drag"] & {
-    @apply bg-accent;
+    @apply bg-primary;
+  }
+
+  /* Flat compound selectors (not nested inside the rule above) — nesting
+     `.splitter-handle--horizontal &` there would require it as an ANCESTOR
+     of `.splitter-handle[data-state="drag"]`, but both classes sit on the
+     same element, so it would never match. */
+  .splitter-handle--horizontal[data-state="drag"] & {
+    @apply w-0.5;
+  }
+
+  .splitter-handle--vertical[data-state="drag"] & {
+    @apply h-0.5;
   }
 }

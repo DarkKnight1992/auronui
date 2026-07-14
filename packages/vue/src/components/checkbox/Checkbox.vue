@@ -11,6 +11,7 @@ defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
   variant?: CheckboxVariants['variant']
+  color?: CheckboxVariants['color']
   value?: string
   modelValue?: boolean
   defaultValue?: boolean
@@ -52,6 +53,7 @@ const props = withDefaults(defineProps<{
   }>
 }>(), {
   variant: undefined,
+  color: undefined,
   value: undefined,
   modelValue: undefined,
   defaultValue: false,
@@ -81,6 +83,7 @@ const attrs = useAttrs()
 // Inject CheckboxGroup context with fallback defaults (standalone mode)
 const groupCtx = useCheckboxGroupInject({
   variant: ref('primary'),
+  color: ref('primary'),
   disabled: ref(false),
   isInvalid: ref(false),
   selectedValues: ref([]),
@@ -104,6 +107,8 @@ const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInva
 
 // Child variant wins over group variant
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
+// Child color wins over group color
+const finalColor = computed(() => props.color ?? groupCtx.color.value)
 
 // Determine if inside a group (value prop is the signal)
 const isInGroup = computed(() => props.value !== undefined)
@@ -130,7 +135,7 @@ function handleUpdate(val: string | number | boolean) {
 }
 
 const slotFns = computed(() =>
-  checkboxVariants({ variant: finalVariant.value })
+  checkboxVariants({ variant: finalVariant.value, color: finalColor.value })
 )
 </script>
 

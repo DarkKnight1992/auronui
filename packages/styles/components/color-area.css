@@ -46,12 +46,16 @@
   /* Current color from React Aria */
   background-color: var(--color-area-thumb-color);
 
-  /* White border for visibility */
-  border: 3px solid white;
+  /* Border reflects the current color instead of a plain white ring */
+  border: 3px solid var(--color-area-thumb-color, white);
 
-  /* Inner shadow for depth */
+  /* A color-matched border alone camouflages against the area's own gradient —
+     it always shows the same color the thumb sits on top of, by definition.
+     A neutral white + dark ring pair (outside the color border) keeps the
+     thumb identifiable against any hue/lightness, same as most color pickers. */
   box-shadow:
-    0 0 0 1px rgba(0, 0, 0, 0.1),
+    0 0 0 2px white,
+    0 0 0 3px rgba(0, 0, 0, 0.25),
     inset 0 0 0 1px rgba(0, 0, 0, 0.1);
 
   /**

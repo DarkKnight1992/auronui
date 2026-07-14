@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref, toRef } from 'vue'
-import { checkboxGroupVariants, type CheckboxGroupVariants } from '@auronui/styles'
+import { checkboxGroupVariants, type CheckboxGroupVariants, type CheckboxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useCheckboxGroupProvide } from './checkbox-group.context'
 import Checkbox from './Checkbox.vue'
@@ -21,6 +21,7 @@ type CheckboxShorthandItem = {
 
 const props = withDefaults(defineProps<{
   variant?: CheckboxGroupVariants['variant']
+  color?: CheckboxVariants['color']
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
@@ -51,6 +52,7 @@ const props = withDefaults(defineProps<{
   }>
 }>(), {
   variant: 'primary',
+  color: 'primary',
   isDisabled: undefined,
   disabled: undefined,
   isInvalid: false,
@@ -89,6 +91,7 @@ const isDisabled = useDeprecatedBooleanProp(
 // Provide context to child Checkboxes
 useCheckboxGroupProvide({
   variant: toRef(props, 'variant'),
+  color: toRef(props, 'color'),
   disabled: isDisabled,
   isInvalid: toRef(props, 'isInvalid'),
   selectedValues: currentValues,

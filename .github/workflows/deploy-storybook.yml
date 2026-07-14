@@ -17,7 +17,7 @@ permissions:
 
 jobs:
   build:
-    name: Build Storybook
+    name: Build Storybooks
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -27,15 +27,42 @@ jobs:
         uses: ./.github/common-actions/install
 
       - name: Build packages
-        run: pnpm exec turbo build --filter=@auronui/vue --filter=@auronui/styles
+        run: pnpm exec turbo build --filter=@auronui/vue --filter=@auronui/react --filter=@auronui/styles
 
-      - name: Build Storybook
+      - name: Build Vue Storybook
         run: pnpm --filter @auronui/storybook build
+
+      - name: Build React Storybook
+        run: pnpm --filter @auronui/storybook-react build
+
+      - name: Assemble combined Pages site
+        run: |
+          mkdir -p dist-pages/vue dist-pages/react
+          cp -r packages/storybook/storybook-static/. dist-pages/vue/
+          cp -r packages/storybook-react/storybook-static/. dist-pages/react/
+          cat > dist-pages/index.html <<'EOF'
+          <!doctype html>
+          <html lang="en">
+          <head>
+            <meta charset="utf-8" />
+            <title>Auron UI</title>
+            <style>
+              body { font: 16px/1.5 system-ui, sans-serif; max-width: 40rem; margin: 4rem auto; padding: 0 1rem; }
+              a { display: block; margin: 0.5rem 0; font-size: 1.25rem; }
+            </style>
+          </head>
+          <body>
+            <h1>Auron UI — Storybooks</h1>
+            <a href="./vue/">Vue components →</a>
+            <a href="./react/">React components →</a>
+          </body>
+          </html>
+          EOF
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: packages/storybook/storybook-static
+          path: dist-pages
 
   deploy:
     name: Deploy to GitHub Pages

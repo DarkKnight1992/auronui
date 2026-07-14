@@ -41,6 +41,14 @@
     @apply absolute flex cursor-grab items-center justify-center rounded-full no-highlight;
     background-color: var(--slider-thumb-bg);
 
+    /* Centers the thumb ON its position along the track — the orientation
+       blocks below declare --reka-slider-thumb-transform, but nothing ever
+       consumed it. Without this, `left`/`bottom` place the thumb's EDGE (not
+       center) at the percentage mark, so roughly half of this same-colored
+       thumb sat directly on top of the (same-colored) fill — invisible there —
+       leaving only a stray crescent visible over the unfilled track. */
+    transform: var(--reka-slider-thumb-transform);
+
     /**
    * Transitions
    * CRITICAL: motion-reduce must be AFTER transition for correct override specificity

@@ -1,0 +1,33 @@
+{
+  "name": "@auronui/storybook-react",
+  "private": true,
+  "version": "0.0.0",
+  "description": "Shared Storybook 10 React config for Auron",
+  "type": "module",
+  "scripts": {
+    "dev": "storybook dev --config-dir .storybook -p 6007",
+    "build": "storybook build --config-dir .storybook"
+  },
+  "devDependencies": {
+    "@auronui/standard": "workspace:*",
+    "@auronui/styles": "workspace:*",
+    "@auronui/react": "workspace:*",
+    "@chromatic-com/storybook": "^5.2.1",
+    "@fontsource/inter": "^5.2.0",
+    "@internationalized/date": "^3.12.1",
+    "@storybook/addon-docs": "^10.4.6",
+    "@storybook/addon-vitest": "10.4.6",
+    "@storybook/react-vite": "10.4.6",
+    "@tailwindcss/vite": "4.2.2",
+    "@vitejs/plugin-react": "^5.0.0",
+    "@vitest/browser-playwright": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.4",
+    "playwright": "^1.59.1",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "storybook": "10.4.6",
+    "tailwindcss": "4.2.2",
+    "vite": "^8.0.8",
+    "vitest": "^4.1.4"
+  }
+}

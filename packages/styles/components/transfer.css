@@ -29,6 +29,8 @@
 
 .transfer__panel-body {
   @apply flex-1 overflow-y-auto px-1 pb-2;
+  display: flex;
+  flex-direction: column;
   min-height: 12rem;
   max-height: 16rem;
   transition: background-color 150ms var(--ease-smooth);
@@ -40,6 +42,24 @@
   background-color: color-mix(in oklab, var(--color-primary) 8%, transparent);
   outline: 2px dashed var(--color-primary);
   outline-offset: -2px;
+}
+
+/* Each row — reuses the same `list-item` utility every other selectable-row
+   component (ListBox, Select, Autocomplete, Dropdown) is built on, so Transfer
+   picks up identical padding/hover/focus-visible/pressed treatment for free. */
+.transfer__item {
+  @apply list-item gap-2 rounded-md text-sm;
+  cursor: var(--cursor-interactive);
+}
+
+.transfer__item-checkbox {
+  @apply size-4 shrink-0;
+  accent-color: var(--color-primary);
+  cursor: var(--cursor-interactive);
+}
+
+.transfer__item:has(input:disabled) {
+  @apply status-disabled;
 }
 
 /* The row currently being dragged — dimmed so the drop-target panel's

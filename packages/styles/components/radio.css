@@ -74,13 +74,14 @@
   /* Selected */
   .radio[aria-checked="true"] &,
   .radio[data-state="checked"] & {
-    @apply border-transparent bg-primary;
+    @apply border-transparent;
+    background-color: var(--radio-color, var(--color-primary));
   }
 
   /* Selected + Pressed */
   .radio:active[data-state="checked"] &,
   .radio:active[data-state="checked"] & {
-    @apply bg-primary-hover;
+    background-color: var(--radio-color-hover, var(--color-primary-hover));
   }
 
   /* Validation states */
@@ -132,7 +133,7 @@
 /* Selected state */
 .radio[aria-checked="true"] .radio__indicator:empty::before,
 .radio[data-state="checked"] .radio__indicator:empty::before {
-  @apply bg-primary-foreground;
+  background-color: var(--radio-color-fg, var(--color-primary-foreground));
   scale: 0.4286; /* 6px */
 }
 
@@ -155,4 +156,55 @@
 
 .radio--disabled {
   @apply status-disabled;
+}
+
+/* ==========================================================================
+   Color property definitions — theme the selected-state fill.
+   The `--radio-color*` custom properties feed every rule above that draws
+   the selected control/indicator; no color class falls back to the original
+   hardcoded primary look via each `var(..., var(--color-primary...))`.
+   Invalid state (`[aria-invalid="true"]`) still forces danger regardless of
+   color, via the existing `status-invalid-field` rules above.
+   ========================================================================== */
+
+.radio--color-default {
+  --radio-color: var(--color-default);
+  --radio-color-hover: var(--color-default-hover);
+  --radio-color-fg: var(--color-default-foreground);
+}
+
+.radio--color-primary {
+  --radio-color: var(--color-primary);
+  --radio-color-hover: var(--color-primary-hover);
+  --radio-color-fg: var(--color-primary-foreground);
+}
+
+.radio--color-secondary {
+  --radio-color: var(--color-secondary);
+  --radio-color-hover: var(--color-secondary-hover);
+  --radio-color-fg: var(--color-secondary-foreground);
+}
+
+.radio--color-accent {
+  --radio-color: var(--color-accent);
+  --radio-color-hover: var(--color-accent-hover);
+  --radio-color-fg: var(--color-accent-foreground);
+}
+
+.radio--color-success {
+  --radio-color: var(--color-success);
+  --radio-color-hover: var(--color-success-hover);
+  --radio-color-fg: var(--color-success-foreground);
+}
+
+.radio--color-warning {
+  --radio-color: var(--color-warning);
+  --radio-color-hover: var(--color-warning-hover);
+  --radio-color-fg: var(--color-warning-foreground);
+}
+
+.radio--color-danger {
+  --radio-color: var(--color-danger);
+  --radio-color-hover: var(--color-danger-hover);
+  --radio-color-fg: var(--color-danger-foreground);
 }

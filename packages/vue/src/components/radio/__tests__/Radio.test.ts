@@ -145,6 +145,22 @@ describe('RadioGroup + Radio', () => {
     expect(radios[1]!.find('[role="radio"]').attributes('data-variant')).toBe('secondary')
   })
 
+  it('Test 6b: defaults to the primary color class; group color cascades and a child color prop wins', () => {
+    const Wrapper = defineComponent({
+      components: { Radio, RadioGroup },
+      template: `
+        <RadioGroup color="success" label="Group">
+          <Radio value="a">Option A</Radio>
+          <Radio value="b" color="warning">Option B</Radio>
+        </RadioGroup>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    const radios = wrapper.findAllComponents(Radio)
+    expect(radios[0]!.find('[role="radio"]').classes().join(' ')).toContain('radio--color-success')
+    expect(radios[1]!.find('[role="radio"]').classes().join(' ')).toContain('radio--color-warning')
+  })
+
   it('Test 7: RadioGroupRoot renders with role="radiogroup" enabling native arrow-key navigation (Reka UI built-in)', () => {
     // Reka UI's RadioGroupRoot provides built-in arrow-key navigation via WAI-ARIA roving tabindex.
     // jsdom cannot fully simulate Reka's focus management, but we verify the structural contract:

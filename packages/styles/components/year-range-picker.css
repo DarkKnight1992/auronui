@@ -31,7 +31,7 @@
 }
 
 .year-range-picker__nav-button {
-  @apply flex size-6 items-center justify-center rounded-full text-accent;
+  @apply flex size-6 items-center justify-center rounded-full text-primary;
 
   will-change: scale;
   transition:
@@ -46,7 +46,7 @@
   @media (hover: hover) {
     &:hover,
     &[data-hovered="true"] {
-      @apply bg-default text-accent;
+      @apply bg-default text-primary;
     }
   }
 
@@ -105,7 +105,9 @@
  * Cell
  * -------------------------------------------------------------------------- */
 .year-range-picker__cell {
-  @apply relative m-0.5 flex size-auto items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
+  /* size-full (not size-auto) — see month-range-picker.css's identical fix:
+     track cells must fill their <td> to form a continuous highlighted band. */
+  @apply relative m-0.5 flex size-full items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
   will-change: scale;
   transition:
     transform 300ms var(--ease-out),
@@ -133,13 +135,13 @@
 
   /* Range track (middle segment) — any year within the range, including caps */
   &[data-selected] {
-    @apply rounded-none bg-accent-soft;
+    @apply rounded-none bg-primary-soft;
   }
 
-  /* Range caps (start/end) — solid accent fill, rounded */
+  /* Range caps (start/end) — solid primary fill, rounded */
   &[data-selection-start],
   &[data-selection-end] {
-    @apply rounded-lg bg-accent text-accent-foreground;
+    @apply rounded-lg bg-primary text-primary-foreground;
   }
 
   &:disabled,

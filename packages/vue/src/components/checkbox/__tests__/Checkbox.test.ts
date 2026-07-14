@@ -37,6 +37,23 @@ describe('Checkbox (standalone)', () => {
     expect(root.attributes('aria-required')).toBe('true')
   })
 
+  it('Test 4c: defaults to the primary color class and applies a color prop\'s class', () => {
+    const wrapper = mount(Checkbox, {
+      props: { modelValue: true, 'aria-label': 'Accept' },
+    })
+    const root = wrapper.find('[data-state]')
+    expect(root.classes().join(' ')).toContain('checkbox--color-primary')
+  })
+
+  it('Test 4d: applies the class for a non-default color prop', () => {
+    const wrapper = mount(Checkbox, {
+      props: { modelValue: true, color: 'danger', 'aria-label': 'Accept' },
+    })
+    const root = wrapper.find('[data-state]')
+    expect(root.classes().join(' ')).toContain('checkbox--color-danger')
+    expect(root.classes().join(' ')).not.toContain('checkbox--color-primary')
+  })
+
   it('Test 4: clicking Checkbox toggles v-model boolean (standalone)', async () => {
     const modelValue = ref(false)
     const Wrapper = defineComponent({
@@ -158,5 +175,22 @@ describe('CheckboxGroup', () => {
     expect(btnA!.classes().join(' ')).toContain('checkbox--primary')
     // cbB inherits secondary from group
     expect(btnB!.classes().join(' ')).toContain('checkbox--secondary')
+  })
+
+  it('Test 10: group color cascades to children; a child color prop wins', () => {
+    const Wrapper = defineComponent({
+      components: { Checkbox, CheckboxGroup },
+      template: `
+        <CheckboxGroup color="success" label="Group">
+          <Checkbox value="a" aria-label="A" />
+          <Checkbox value="b" aria-label="B" color="warning" />
+        </CheckboxGroup>
+      `,
+    })
+    const wrapper = mount(Wrapper)
+    const buttons = wrapper.findAll('button[role="checkbox"]')
+    const [btnA, btnB] = buttons
+    expect(btnA!.classes().join(' ')).toContain('checkbox--color-success')
+    expect(btnB!.classes().join(' ')).toContain('checkbox--color-warning')
   })
 })

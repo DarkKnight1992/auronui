@@ -104,7 +104,12 @@
  * Cell
  * -------------------------------------------------------------------------- */
 .month-range-picker__cell {
-  @apply relative m-0.5 flex size-auto items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
+  /* size-full (not size-auto): the button must fill its <td> grid cell, not
+     just wrap its own text — track cells (data-selected, rounded-none) are
+     meant to visually merge edge-to-edge across a row into one continuous
+     highlighted band. With size-auto they only ever wrapped the text into a
+     tiny illegible pill, so the "in-range" months barely showed any highlight. */
+  @apply relative m-0.5 flex size-full items-center justify-center rounded-lg text-center text-xs font-medium outline-none no-highlight;
   will-change: scale;
   transition:
     transform 300ms var(--ease-out),

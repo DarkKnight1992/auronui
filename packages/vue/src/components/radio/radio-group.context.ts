@@ -1,5 +1,5 @@
 import type { Ref } from 'vue'
-import type { RadioGroupVariants } from '@auronui/styles'
+import type { RadioGroupVariants, RadioVariants } from '@auronui/styles'
 import { createContext } from '../../utils/context'
 
 /**
@@ -16,6 +16,7 @@ import { createContext } from '../../utils/context'
  */
 export interface RadioGroupContext {
   variant: Ref<RadioGroupVariants['variant']>
+  color: Ref<RadioVariants['color']>
   disabled: Ref<boolean>
   isInvalid: Ref<boolean>
 }

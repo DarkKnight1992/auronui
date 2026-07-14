@@ -12,7 +12,14 @@
 }
 
 .date-range-picker__trigger {
-  @apply inline-flex w-full items-center rounded-field p-1 text-sm no-highlight;
+  /* NOTE: no `w-full` — this button is one item in the field's flex row
+     (alongside the start/end DateInputs), not the whole row. `w-full` made it
+     demand the entire row's width as its flex-basis, so the browser's flex-shrink
+     algorithm squeezed it and the end-date segments together to fit, badly
+     compressing the end date underneath the oversized button. `shrink-0`
+     (matching the working single DatePicker's `.date-picker__trigger`) keeps it
+     at its natural content size instead. */
+  @apply inline-flex shrink-0 items-center justify-center rounded-field p-1 text-sm no-highlight;
 
   cursor: var(--cursor-interactive);
 
@@ -45,7 +52,8 @@
 
 .date-range-picker__popover {
   z-index: var(--z-popover);
-  @apply max-w-(--trigger-width) origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto overscroll-contain bg-overlay p-3;
+  /* NOTE: deliberately NOT constrained to --trigger-width — see date-picker.css. */
+  @apply origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto overscroll-contain bg-overlay p-3;
   @apply motion-reduce:transition-none;
 
   box-shadow: var(--shadow-overlay);

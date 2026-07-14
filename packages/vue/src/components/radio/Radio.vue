@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, ref, useAttrs } from 'vue'
 import { RadioGroupItem, RadioGroupIndicator } from 'reka-ui'
-import { radioVariants, type RadioGroupVariants } from '@auronui/styles'
+import { radioVariants, type RadioGroupVariants, type RadioVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useRadioGroupInject } from './radio-group.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -12,6 +12,7 @@ defineOptions({ inheritAttrs: false })
 const props = withDefaults(defineProps<{
   value: string
   variant?: RadioGroupVariants['variant']
+  color?: RadioVariants['color']
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
@@ -46,6 +47,7 @@ const props = withDefaults(defineProps<{
   }>
 }>(), {
   variant: undefined,
+  color: undefined,
   isDisabled: undefined,
   disabled: undefined,
   isInvalid: false,
@@ -71,6 +73,7 @@ const attrs = useAttrs()
 // Inject RadioGroup context with fallback defaults (standalone mode)
 const groupCtx = useRadioGroupInject({
   variant: ref(undefined),
+  color: ref('primary'),
   disabled: ref(false),
   isInvalid: ref(false),
 })
@@ -91,8 +94,10 @@ const effectiveInvalid = computed(() => groupCtx.isInvalid.value || props.isInva
 
 // Child variant wins over group variant (used for data-variant attribute propagation)
 const finalVariant = computed(() => props.variant ?? groupCtx.variant.value)
+// Child color wins over group color
+const finalColor = computed(() => props.color ?? groupCtx.color.value)
 
-const slotFns = computed(() => radioVariants())
+const slotFns = computed(() => radioVariants({ color: finalColor.value }))
 </script>
 
 <template>

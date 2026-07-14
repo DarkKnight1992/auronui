@@ -9,6 +9,8 @@ export const transferVariants = tv({
     panelHeader: "transfer__panel-header",
     panelSearch: "transfer__panel-search",
     panelBody: "transfer__panel-body",
+    item: "transfer__item",
+    itemCheckbox: "transfer__item-checkbox",
     controls: "transfer__controls",
     controlButton: "transfer__control-button",
   },

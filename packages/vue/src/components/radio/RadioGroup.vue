@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, toRef } from 'vue'
 import { RadioGroupRoot } from 'reka-ui'
-import { radioGroupVariants, type RadioGroupVariants } from '@auronui/styles'
+import { radioGroupVariants, type RadioGroupVariants, type RadioVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { useRadioGroupProvide } from './radio-group.context'
 import Radio from './Radio.vue'
@@ -22,6 +22,7 @@ type RadioShorthandItem = {
 
 const props = withDefaults(defineProps<{
   variant?: RadioGroupVariants['variant']
+  color?: RadioVariants['color']
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
@@ -66,6 +67,7 @@ const props = withDefaults(defineProps<{
   }>
 }>(), {
   variant: 'primary',
+  color: 'primary',
   isDisabled: undefined,
   disabled: undefined,
   isInvalid: false,
@@ -99,6 +101,7 @@ const isRequired = useDeprecatedBooleanProp(
 // Provide context to child Radio components
 useRadioGroupProvide({
   variant: toRef(props, 'variant'),
+  color: toRef(props, 'color'),
   disabled: isDisabled,
   isInvalid: toRef(props, 'isInvalid'),
 })

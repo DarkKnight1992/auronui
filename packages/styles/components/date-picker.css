@@ -42,7 +42,11 @@
 
 .date-picker__popover {
   z-index: var(--z-popover);
-  @apply max-w-(--trigger-width) origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto overscroll-contain bg-overlay p-3;
+  /* NOTE: deliberately NOT constrained to --trigger-width. RAC's generic
+     <Popover> always populates that variable with the trigger's own measured
+     width — for a narrow date input that's far too small for a 7-column
+     calendar grid, which needs to size to its own content instead. */
+  @apply origin-(--trigger-anchor-point) overflow-x-hidden overflow-y-auto overscroll-contain bg-overlay p-3;
   @apply motion-reduce:transition-none;
 
   box-shadow: var(--shadow-overlay);

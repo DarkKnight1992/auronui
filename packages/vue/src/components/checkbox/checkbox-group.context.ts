@@ -16,6 +16,7 @@ import { createContext } from '../../utils/context'
  */
 export interface CheckboxGroupContext {
   variant: Ref<CheckboxVariants['variant']>
+  color: Ref<CheckboxVariants['color']>
   disabled: Ref<boolean>
   isInvalid: Ref<boolean>
   selectedValues: Ref<string[]>
