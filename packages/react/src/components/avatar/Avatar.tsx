@@ -83,7 +83,7 @@ export const Avatar = forwardRef<HTMLElement, AvatarProps>(function Avatar(
 
   useEffect(() => {
     setStatus(hasImage ? "loading" : "idle");
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [src, hasImage]);
 
   useEffect(() => {
@@ -103,7 +103,7 @@ export const Avatar = forwardRef<HTMLElement, AvatarProps>(function Avatar(
     setCanShowFallback(false);
     const timer = setTimeout(() => setCanShowFallback(true), effectiveDelay);
     return () => clearTimeout(timer);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [effectiveDelay, src]);
 
   const initials = useMemo(() => getInitials(name), [name]);

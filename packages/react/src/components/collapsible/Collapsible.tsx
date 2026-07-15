@@ -67,7 +67,7 @@ export const Collapsible = forwardRef<HTMLDivElement, CollapsibleProps>(function
     if (!group) return;
     group.register({ id, close: () => setInternalOpen(false) });
     return () => group.unregister(id);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [group, id]);
 
   function toggle(): void {

@@ -1,4 +1,4 @@
-import { useId, useMemo, useRef, useState, type ReactNode } from "react";
+import { useCallback, useId, useMemo, useRef, useState, type ReactNode } from "react";
 import { editableVariants } from "@auronui/styles";
 import { composeClassName, resolveDeprecatedBooleanProp, type ClassValue } from "../../utils";
 import { EditableProvider } from "./editable.context";
@@ -109,12 +109,15 @@ export function Editable({
 
   const [isEditing, setIsEditing] = useState(startWithEditMode);
 
-  function setInputValue(next: string) {
-    if (!isControlled) setUncontrolledValue(next);
-    onChange?.(next);
-  }
+  const setInputValue = useCallback(
+    (next: string) => {
+      if (!isControlled) setUncontrolledValue(next);
+      onChange?.(next);
+    },
+    [isControlled, onChange],
+  );
 
-  function edit() {
+  const edit = useCallback(() => {
     if (resolvedIsDisabled || resolvedIsReadOnly) return;
     previousValueRef.current = currentValue;
     setIsEditing(true);
@@ -125,19 +128,19 @@ export function Editable({
       el.focus();
       if (selectOnFocus) el.select();
     });
-  }
+  }, [resolvedIsDisabled, resolvedIsReadOnly, currentValue, onStateChange, selectOnFocus]);
 
-  function submit() {
+  const submit = useCallback(() => {
     setIsEditing(false);
     onStateChange?.("submit");
     onSubmit?.(currentValue);
-  }
+  }, [onStateChange, onSubmit, currentValue]);
 
-  function cancel() {
+  const cancel = useCallback(() => {
     setInputValue(previousValueRef.current);
     setIsEditing(false);
     onStateChange?.("cancel");
-  }
+  }, [setInputValue, onStateChange]);
 
   const slotFns = useMemo(() => editableVariants(), []);
 
@@ -170,6 +173,10 @@ export function Editable({
       activationMode,
       submitMode,
       inputId,
+      setInputValue,
+      edit,
+      submit,
+      cancel,
     ],
   );
 

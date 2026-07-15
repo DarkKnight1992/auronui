@@ -32,7 +32,7 @@ export function TabIndicator({ className, classNames }: TabIndicatorProps) {
 
   useLayoutEffect(() => {
     setTabList(ctx.tabListRef.current);
-  });
+  }, [ctx.tabListRef]);
 
   useLayoutEffect(() => {
     if (!tabList) return;

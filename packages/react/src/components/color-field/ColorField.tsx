@@ -88,7 +88,7 @@ export const ColorField = forwardRef<HTMLInputElement, ColorFieldProps>(function
   useEffect(() => {
     if (isFocusedRef.current) return;
     setText(color.toString("hex"));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [color]);
 
   function applyColor(next: Color) {

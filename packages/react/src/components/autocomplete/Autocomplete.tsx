@@ -128,7 +128,7 @@ export function Autocomplete({
   const [internalItems, setInternalItems] = useState<AutocompleteItemData[]>(items);
   useEffect(() => {
     if (!loadItems) setInternalItems(items);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+     
   }, [items, loadItems]);
 
   const itemByValue = useMemo(() => new Map(internalItems.map((i) => [i.value, i])), [internalItems]);

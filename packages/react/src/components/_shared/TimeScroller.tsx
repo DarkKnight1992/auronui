@@ -154,7 +154,6 @@ export function TimeScroller({ value, onChange, granularity = "minute", hourCycl
         >
           {renderItems(col).map((item, idx) => (
             <div
-              // eslint-disable-next-line react/no-array-index-key -- repeated-copy items are not individually addressable
               key={idx}
               className={composeClassName(slotFns.scrollerItem(), classNames?.scrollerItem)}
               data-selected={isSelected(col.key, item) ? "true" : undefined}

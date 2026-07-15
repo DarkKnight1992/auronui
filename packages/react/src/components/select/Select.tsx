@@ -131,12 +131,15 @@ export function Select({
   );
   const currentValue = isControlled ? value : internalValue;
 
-  function removeValue(v: SelectItemValue) {
-    const current = Array.isArray(currentValue) ? currentValue : [];
-    const next = current.filter((x) => x !== v);
-    if (!isControlled) setInternalValue(next);
-    onValueChange?.(next);
-  }
+  const removeValue = useCallback(
+    (v: SelectItemValue) => {
+      const current = Array.isArray(currentValue) ? currentValue : [];
+      const next = current.filter((x) => x !== v);
+      if (!isControlled) setInternalValue(next);
+      onValueChange?.(next);
+    },
+    [currentValue, isControlled, onValueChange],
+  );
 
   const handleChange = useCallback(
     (key: Key | Key[] | null) => {
@@ -188,7 +191,7 @@ export function Select({
       itemLabel,
       removeValue,
     }),
-    [isDisabled, isInvalid, isReadOnly, isRequired, fullWidth, hasLabel, labelPlacement, triggerId, label, ariaDescribedBy, slots, multiple, isFilled, itemLabel],
+    [isDisabled, isInvalid, isReadOnly, isRequired, fullWidth, hasLabel, labelPlacement, triggerId, label, ariaDescribedBy, slots, multiple, isFilled, itemLabel, removeValue],
   );
 
   const usesCustomChrome = children != null;

@@ -222,7 +222,6 @@ export function Cascader<T extends object>({
       data-required={dataAttr(isRequired)}
     >
       {hasLabel && (
-        // eslint-disable-next-line jsx-a11y/label-has-associated-control -- htmlFor points at the trigger button below
         <label htmlFor={generatedId} className={composeClassName(slotFns.label(), classNames?.label)}>
           {label}
           {isRequired && <span aria-hidden="true"> *</span>}
