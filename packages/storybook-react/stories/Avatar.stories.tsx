@@ -16,7 +16,7 @@ const meta: Meta<typeof Avatar> = {
     },
     variant: {
       control: "select",
-      options: ["default", "soft"],
+      options: ["default", "soft", "solid", "bordered"],
     },
     isBordered: { control: "boolean" },
     isDisabled: { control: "boolean" },
@@ -86,6 +86,31 @@ export const SoftVariant: Story = {
       <Avatar {...args} variant="soft" color="success" name="SC" />
       <Avatar {...args} variant="soft" color="warning" name="WA" />
       <Avatar {...args} variant="soft" color="danger" name="DG" />
+    </div>
+  ),
+};
+
+export const SolidVariant: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+      <Avatar {...args} variant="solid" color="primary" name="PR" />
+      <Avatar {...args} variant="solid" color="accent" name="AC" />
+      <Avatar {...args} variant="solid" color="success" name="SC" />
+      <Avatar {...args} variant="solid" color="warning" name="WA" />
+      <Avatar {...args} variant="solid" color="danger" name="DG" />
+    </div>
+  ),
+};
+
+export const BorderedVariant: Story = {
+  render: (args) => (
+    <div style={{ display: "flex", gap: 12, alignItems: "center", flexWrap: "wrap" }}>
+      <Avatar {...args} variant="bordered" color="default" name="DF" />
+      <Avatar {...args} variant="bordered" color="primary" name="PR" />
+      <Avatar {...args} variant="bordered" color="accent" name="AC" />
+      <Avatar {...args} variant="bordered" color="success" name="SC" />
+      <Avatar {...args} variant="bordered" color="warning" name="WA" />
+      <Avatar {...args} variant="bordered" color="danger" name="DG" />
     </div>
   ),
 };

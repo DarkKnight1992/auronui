@@ -16,7 +16,7 @@ const meta: Meta<typeof Avatar> = {
     },
     variant: {
       control: "select",
-      options: ["default", "soft"],
+      options: ["default", "soft", "solid", "bordered"],
     },
     isBordered: { control: "boolean" },
     isDisabled: { control: "boolean" },
@@ -179,6 +179,82 @@ import { Avatar } from '@auronui/vue'
         <Avatar v-bind="args" variant="soft" color="success" name="SC" />
         <Avatar v-bind="args" variant="soft" color="warning" name="WA" />
         <Avatar v-bind="args" variant="soft" color="danger" name="DG" />
+      </div>
+    `,
+  }),
+};
+
+export const SolidVariant: Story = {
+  parameters: {
+    controls: { exclude: ['color'] },
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <Avatar variant="solid" color="primary" name="PR" />
+    <Avatar variant="solid" color="accent" name="AC" />
+    <Avatar variant="solid" color="success" name="SC" />
+    <Avatar variant="solid" color="warning" name="WA" />
+    <Avatar variant="solid" color="danger" name="DG" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Avatar },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <Avatar v-bind="args" variant="solid" color="primary" name="PR" />
+        <Avatar v-bind="args" variant="solid" color="accent" name="AC" />
+        <Avatar v-bind="args" variant="solid" color="success" name="SC" />
+        <Avatar v-bind="args" variant="solid" color="warning" name="WA" />
+        <Avatar v-bind="args" variant="solid" color="danger" name="DG" />
+      </div>
+    `,
+  }),
+};
+
+export const BorderedVariant: Story = {
+  parameters: {
+    controls: { exclude: ['color'] },
+    docs: {
+      source: {
+        code: `<script setup>
+import { Avatar } from '@auronui/vue'
+</script>
+
+<template>
+  <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+    <Avatar variant="bordered" color="default" name="DF" />
+    <Avatar variant="bordered" color="primary" name="PR" />
+    <Avatar variant="bordered" color="accent" name="AC" />
+    <Avatar variant="bordered" color="success" name="SC" />
+    <Avatar variant="bordered" color="warning" name="WA" />
+    <Avatar variant="bordered" color="danger" name="DG" />
+  </div>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Avatar },
+    setup: () => ({ args }),
+    template: `
+      <div style="display: flex; gap: 12px; align-items: center; flex-wrap: wrap;">
+        <Avatar v-bind="args" variant="bordered" color="default" name="DF" />
+        <Avatar v-bind="args" variant="bordered" color="primary" name="PR" />
+        <Avatar v-bind="args" variant="bordered" color="accent" name="AC" />
+        <Avatar v-bind="args" variant="bordered" color="success" name="SC" />
+        <Avatar v-bind="args" variant="bordered" color="warning" name="WA" />
+        <Avatar v-bind="args" variant="bordered" color="danger" name="DG" />
       </div>
     `,
   }),

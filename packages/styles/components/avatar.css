@@ -92,3 +92,71 @@
 .avatar--soft .avatar__fallback--danger {
   @apply bg-danger-soft text-danger-soft-foreground;
 }
+
+/* solid: fallback filled with the full-strength color (matches Button's solid) */
+.avatar--solid .avatar__fallback--default {
+  @apply bg-default text-default-foreground;
+}
+
+.avatar--solid .avatar__fallback--primary {
+  @apply bg-primary text-primary-foreground;
+}
+
+.avatar--solid .avatar__fallback--accent {
+  @apply bg-accent text-accent-foreground;
+}
+
+.avatar--solid .avatar__fallback--secondary {
+  @apply bg-secondary text-secondary-foreground;
+}
+
+.avatar--solid .avatar__fallback--success {
+  @apply bg-success text-success-foreground;
+}
+
+.avatar--solid .avatar__fallback--warning {
+  @apply bg-warning text-warning-foreground;
+}
+
+.avatar--solid .avatar__fallback--danger {
+  @apply bg-danger text-danger-foreground;
+}
+
+/* bordered: transparent circle, ring outline, colored text only (matches Button's bordered).
+   Independent of the isBordered prop's ring augmentation — this is a full variant,
+   not an additive ring, so it clears the neutral bg-default backdrop other variants keep.
+   Ring defaults to ring-default, then gets recolored to match `color` below — same
+   compound-selector technique as Button's per-color tokens: `avatar--color-{name}` is
+   applied to the base slot for every color (not just under `bordered`), so it's a no-op
+   ambient class the rest of the time and only becomes visible once scoped here. */
+.avatar--bordered {
+  @apply bg-transparent ring-2 ring-offset-2 ring-default;
+}
+
+.avatar--bordered .avatar__fallback {
+  @apply bg-transparent;
+}
+
+.avatar--bordered.avatar--color-primary {
+  @apply ring-primary;
+}
+
+.avatar--bordered.avatar--color-accent {
+  @apply ring-accent;
+}
+
+.avatar--bordered.avatar--color-secondary {
+  @apply ring-secondary;
+}
+
+.avatar--bordered.avatar--color-success {
+  @apply ring-success;
+}
+
+.avatar--bordered.avatar--color-warning {
+  @apply ring-warning;
+}
+
+.avatar--bordered.avatar--color-danger {
+  @apply ring-danger;
+}

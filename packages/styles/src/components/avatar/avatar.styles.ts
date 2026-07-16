@@ -17,24 +17,31 @@ export const avatarVariants = tv({
   variants: {
     color: {
       primary: {
+        base: "avatar--color-primary",
         fallback: "avatar__fallback--primary",
       },
       accent: {
+        base: "avatar--color-accent",
         fallback: "avatar__fallback--accent",
       },
       secondary: {
+        base: "avatar--color-secondary",
         fallback: "avatar__fallback--secondary",
       },
       danger: {
+        base: "avatar--color-danger",
         fallback: "avatar__fallback--danger",
       },
       default: {
+        base: "avatar--color-default",
         fallback: "avatar__fallback--default",
       },
       success: {
+        base: "avatar--color-success",
         fallback: "avatar__fallback--success",
       },
       warning: {
+        base: "avatar--color-warning",
         fallback: "avatar__fallback--warning",
       },
     },
@@ -53,6 +60,12 @@ export const avatarVariants = tv({
       default: {},
       soft: {
         base: "avatar--soft",
+      },
+      solid: {
+        base: "avatar--solid",
+      },
+      bordered: {
+        base: "avatar--bordered",
       },
     },
   },

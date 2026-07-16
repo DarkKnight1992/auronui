@@ -98,6 +98,22 @@ describe('Avatar', () => {
     expect(fallback.classes()).toContain('avatar__fallback--secondary')
   })
 
+  it('applies the solid variant class', () => {
+    const wrapper = mount(Avatar, {
+      props: { name: 'Sam Lee', variant: 'solid' },
+    })
+    wrappers.push(wrapper)
+    expect(wrapper.classes()).toContain('avatar--solid')
+  })
+
+  it('applies the bordered variant class', () => {
+    const wrapper = mount(Avatar, {
+      props: { name: 'Sam Lee', variant: 'bordered' },
+    })
+    wrappers.push(wrapper)
+    expect(wrapper.classes()).toContain('avatar--bordered')
+  })
+
   it('passes axe with zero violations — no src', async () => {
     const wrapper = mount(Avatar, { props: { name: 'Alice Bob' }, attachTo: document.body })
     wrappers.push(wrapper)
