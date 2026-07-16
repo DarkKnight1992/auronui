@@ -43,6 +43,14 @@ describe('buttonVariants (slots)', () => {
     expect(buttonVariants({ variant: 'danger-soft' }).base()).toContain('button--soft')
   })
 
+  it('text variant', () => {
+    expect(buttonVariants({ variant: 'text' }).base()).toContain('button--text')
+  })
+
+  it('link variant', () => {
+    expect(buttonVariants({ variant: 'link' }).base()).toContain('button--link')
+  })
+
   it('isLoading=true adds button--loading to base', () => {
     expect(buttonVariants({ isLoading: true }).base()).toContain('button--loading')
   })

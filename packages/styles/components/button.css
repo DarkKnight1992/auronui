@@ -107,6 +107,14 @@
 
 }
 
+/* text/link: no height, padding, or rounding at any size — collapses to fit like inline text.
+   Compound selector (matches the radius-override pattern below) beats the single-class
+   size rules above regardless of source order, so `size` keeps controlling font/icon size only. */
+.button.button--text,
+.button.button--link {
+  @apply h-auto w-fit rounded-none px-0 py-0;
+}
+
 /* ============================================================
    Variant classes — visual behavior (structural)
    ============================================================ */
@@ -150,6 +158,68 @@
   --button-bg-hover: var(--btn-soft-bg-hover, var(--color-default-hover));
   --button-bg-pressed: color-mix(in oklab, var(--btn-soft-bg-hover, var(--color-default-hover)) 72%, black);
   --button-fg: var(--btn-soft-fg, var(--color-default-foreground));
+}
+
+/* text: no background at rest, hover, or press — text opacity is the only feedback.
+   Opacity (not a recolor) is used deliberately: it reads clearly regardless of how light
+   or dark the resolved color is, whereas mixing toward each color's existing *-hover token
+   (tuned for subtle background tints) was imperceptible as a text color, especially for
+   color="default", whose foreground is already near-black. */
+.button--text {
+  --button-bg: transparent;
+  --button-bg-hover: transparent;
+  --button-bg-pressed: transparent;
+  --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      opacity: 0.7;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    opacity: 0.5;
+  }
+}
+
+/* link: same as text, plus an always-on underline (mirrors .link's base underline).
+   `.button__label` is itself `display: inline-flex` — a flex *container*, whose own
+   text-decoration never paints through its flex-item content (a longstanding
+   Chromium/WebKit quirk: flex items establish a formatting context that blocks
+   decoration propagation, even for the container's own declared decoration). Setting
+   the decoration on the button root, or on the label without also flattening its
+   display, both silently no-op. Overriding the label to plain `inline` for this variant
+   sidesteps it — link labels are plain text, so the flex alignment isn't needed here. */
+.button--link {
+  --button-bg: transparent;
+  --button-bg-hover: transparent;
+  --button-bg-pressed: transparent;
+  --button-fg: var(--btn-tint-fg, var(--color-default-foreground));
+
+  @media (hover: hover) {
+    &:hover,
+    &[data-hovered="true"] {
+      opacity: 0.7;
+    }
+  }
+
+  &:active,
+  &[data-pressed="true"] {
+    opacity: 0.5;
+  }
+}
+
+/* overflow: visible undoes .button__label's inherited truncate() clipping — with
+   text-underline-offset pushing the line below the baseline, overflow: hidden was
+   silently clipping the underline out of existence. */
+.button--link .button__label {
+  display: inline;
+  overflow: visible;
+  text-decoration: underline;
+  text-decoration-color: currentColor;
+  text-underline-offset: 2px;
 }
 
 /* ============================================================

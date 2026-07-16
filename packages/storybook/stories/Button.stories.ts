@@ -8,7 +8,7 @@ const meta: Meta<typeof Button> = {
   argTypes: {
     variant: {
       control: "select",
-      options: ["solid", "default", "bordered", "ghost", "soft"],
+      options: ["solid", "default", "bordered", "ghost", "soft", "text", "link"],
     },
     color: {
       control: "select",
@@ -157,6 +157,8 @@ export const AllVariants: Story = {
         <Button v-bind="args" variant="default">Default</Button>
         <Button v-bind="args" variant="bordered">Bordered</Button>
         <Button v-bind="args" variant="ghost">Ghost</Button>
+        <Button v-bind="args" variant="text">Text</Button>
+        <Button v-bind="args" variant="link">Link</Button>
       </div>
     `,
   }),
@@ -174,6 +176,8 @@ import { Button } from '@auronui/vue'
     <Button size="sm" color="primary" variant="default">Default</Button>
     <Button size="sm" color="primary" variant="bordered">Bordered</Button>
     <Button size="sm" color="primary" variant="ghost">Ghost</Button>
+    <Button size="sm" color="primary" variant="text">Text</Button>
+    <Button size="sm" color="primary" variant="link">Link</Button>
   </div>
 </template>`,
         language: 'vue',

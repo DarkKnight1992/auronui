@@ -54,6 +54,8 @@ export const buttonVariants = tv({
       bordered: { base: "button--bordered" },
       ghost: { base: "button--ghost" },
       soft: { base: "button--soft" },
+      text: { base: "button--text" },
+      link: { base: "button--link" },
       // Legacy aliases — resolved to new variant+color in Button.vue
       primary: { base: "button--solid" },
       secondary: { base: "button--default" },
