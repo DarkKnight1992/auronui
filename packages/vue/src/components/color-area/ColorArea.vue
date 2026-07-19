@@ -4,7 +4,6 @@ import {
   ColorAreaRoot,
   ColorAreaArea,
   ColorAreaThumb,
-  getAreaBackgroundStyle,
   getChannelValue,
   type Color,
   type ColorChannel,
@@ -66,7 +65,7 @@ const isRequired = useDeprecatedBooleanProp(
 const pickerCtx = inject(ColorPickerContextKey, null)
 const local = pickerCtx
   ? null
-  : useColorState({ value: props.modelValue, defaultValue: props.defaultValue })
+  : useColorState({ value: () => props.modelValue, defaultValue: () => props.defaultValue })
 
 const color = computed<Color>(() =>
   pickerCtx ? pickerCtx.color.value : local!.color.value
@@ -76,12 +75,20 @@ const styles = computed(() =>
   colorAreaVariants({ showDots: props.showDots })
 )
 
-const areaBgStyle = computed(() => ({
-  ...getAreaBackgroundStyle(color.value, props.xChannel!, props.yChannel!),
-  position: 'absolute' as const,
-  inset: 0,
-  borderRadius: 'inherit',
-}))
+// Explicit, stable color space for the xChannel/yChannel pairing — must NOT be derived
+// from color.value.space, which starts as 'rgb' (hex parsing) and later flips to 'hsb'
+// once a brightness-touching update runs through setChannelValues. Falling back to that
+// transient space would flip the area's gradient direction the moment the user interacts.
+const effectiveColorSpace = computed<ColorSpace>(() => {
+  if (props.colorSpace) return props.colorSpace
+  if (props.yChannel === 'lightness') return 'hsl'
+  if (props.yChannel === 'brightness') return 'hsb'
+  if (
+    props.xChannel === 'red' || props.xChannel === 'green' || props.xChannel === 'blue' ||
+    props.yChannel === 'red' || props.yChannel === 'green' || props.yChannel === 'blue'
+  ) return 'rgb'
+  return 'hsl'
+})
 
 function onColorUpdate(next: Color) {
   if (pickerCtx) {
@@ -102,7 +109,7 @@ function onColorUpdate(next: Color) {
     :model-value="color"
     :x-channel="xChannel"
     :y-channel="yChannel"
-    :color-space="colorSpace"
+    :color-space="effectiveColorSpace"
     :disabled="isDisabled"
     :as="props.as"
     :as-child="props.asChild"
@@ -115,8 +122,10 @@ function onColorUpdate(next: Color) {
     @change="(v: string) => emit('change', v as unknown as Color)"
     @change-end="(v: string) => emit('change-end', v as unknown as Color)"
   >
-    <ColorAreaArea :style="areaBgStyle">
-      <ColorAreaThumb :class="composeClassName(styles.thumb(), thumbClass)" />
-    </ColorAreaArea>
+    <template #default="{ style }">
+      <ColorAreaArea :style="{ ...style, position: 'absolute', inset: 0, borderRadius: 'inherit' }">
+        <ColorAreaThumb :class="composeClassName(styles.thumb(), thumbClass)" />
+      </ColorAreaArea>
+    </template>
   </ColorAreaRoot>
 </template>

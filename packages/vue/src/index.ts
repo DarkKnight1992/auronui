@@ -469,6 +469,7 @@ export { ColorSwatch } from './components/color-swatch'
 export { ColorSwatchPicker } from './components/color-swatch-picker'
 export { ColorInputGroup } from './components/color-input-group'
 export { ColorPicker } from './components/color-picker'
+export { ColorPickerInput } from './components/color-picker-input'
 export { useColorState } from './composables/useColorState'
 export type { UseColorStateProps, UseColorStateReturn, ColorFormat } from './composables/useColorState'
 

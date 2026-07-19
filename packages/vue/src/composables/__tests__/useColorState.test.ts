@@ -70,6 +70,20 @@ describe('useColorState', () => {
     expect(colorToHex(color.value)).toBe('#ff0000')
   })
 
+  it('Test 10: controlled mode updates when value is passed as an arrow-function getter', async () => {
+    // Regression test: components call useColorState({ value: props.modelValue })
+    // from their own setup(), i.e. a plain destructured value captured once —
+    // never reactive. Consumers (ColorArea, ColorSlider, ColorField,
+    // ColorInputGroup, ColorSwatchPicker, ColorPicker) must instead pass
+    // `value: () => props.modelValue` for the internal watcher to see updates.
+    const valueRef = ref<string>('#ff0000')
+    const { color } = useColorState({ value: () => valueRef.value })
+    expect(colorToHex(color.value)).toBe('#ff0000')
+    valueRef.value = '#00ff00'
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(colorToHex(color.value)).toBe('#00ff00')
+  })
+
   it('Test 9: onChange fires with serialized string on every setChannel call', () => {
     const onChange = vi.fn()
     const { setChannel } = useColorState({ defaultValue: '#ff0000', format: 'hex', onChange })

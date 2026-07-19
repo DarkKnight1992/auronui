@@ -29,4 +29,33 @@ describe("ColorField", () => {
     const results = await axe.run(container);
     expect(results).toHaveNoViolations();
   });
+
+  it("does not render an end-content slot by default", () => {
+    render(<ColorField defaultValue="#ff0000" label="Hex color" />);
+    expect(screen.queryByTestId("end-content-marker")).not.toBeInTheDocument();
+  });
+
+  it("renders endContent inside the input wrapper", () => {
+    render(
+      <ColorField
+        defaultValue="#ff0000"
+        label="Hex color"
+        endContent={<button data-testid="end-content-marker">Open</button>}
+      />,
+    );
+    expect(screen.getByTestId("end-content-marker")).toBeInTheDocument();
+  });
+
+  it("applies classNames.inputWrapper and classNames.endContent overrides", () => {
+    const { container } = render(
+      <ColorField
+        defaultValue="#ff0000"
+        label="Hex color"
+        endContent={<button>Open</button>}
+        classNames={{ inputWrapper: "custom-wrapper", endContent: "custom-end" }}
+      />,
+    );
+    expect(container.querySelector(".custom-wrapper")).not.toBeNull();
+    expect(container.querySelector(".custom-end")).not.toBeNull();
+  });
 });

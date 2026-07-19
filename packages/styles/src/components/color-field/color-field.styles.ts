@@ -6,7 +6,9 @@ export const colorFieldVariants = tv({
   slots: {
     base: "color-field",
     label: "color-field__label",
+    inputWrapper: "color-field__input-wrapper",
     input: "color-field__input",
+    endContent: "color-field__end-content",
     description: "color-field__description",
     errorMessage: "color-field__error-message",
   },

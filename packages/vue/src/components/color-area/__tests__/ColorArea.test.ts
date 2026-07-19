@@ -1,9 +1,14 @@
 import { describe, it, expect, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, provide, ref } from 'vue'
-import { parseColor } from 'reka-ui'
+import { parseColor, setChannelValues } from 'reka-ui'
 import { ColorPickerContextKey } from '../../color-picker/color-picker.context'
 import ColorArea from '../ColorArea.vue'
+
+function findGradientStyle(wrapper: ReturnType<typeof mount>): string {
+  const el = wrapper.findAll('*').find(node => /linear-gradient/i.test(node.attributes('style') || ''))
+  return el?.attributes('style') || ''
+}
 
 describe('ColorArea', () => {
   afterEach(() => {
@@ -123,6 +128,54 @@ describe('ColorArea', () => {
     })
     // Component mounts without error — it read context color
     expect(wrapper.findComponent(ColorArea).exists()).toBe(true)
+    wrapper.unmount()
+  })
+
+  it('Test 8: brightness axis gradient direction does not flip after a channel update converts color space', async () => {
+    // Mirrors ColorPicker's real wiring: default color starts in 'rgb' space (from hex
+    // parsing), then a saturation/brightness update converts the stored color to 'hsb'.
+    // The rendered gradient must stay visually identical (dark bottom, light top) both
+    // before and after — it must never depend on the color's transient internal space.
+    const contextColor = ref(parseColor('#000000'))
+    const Parent = defineComponent({
+      setup() {
+        provide(ColorPickerContextKey, {
+          color: contextColor,
+          setChannel: () => {},
+          setChannels: (values: Array<{ channel: string; value: number }>) => {
+            contextColor.value = setChannelValues(contextColor.value, values as any)
+          },
+          format: ref('hex' as const),
+          emitUpdate: () => {},
+        })
+      },
+      template: '<slot />',
+    })
+    const wrapper = mount(Parent, {
+      slots: {
+        default: '<ColorArea xChannel="saturation" yChannel="brightness" />',
+      },
+      global: { components: { ColorArea } },
+      attachTo: document.body,
+    })
+
+    expect(contextColor.value.space).toBe('rgb')
+    const before = findGradientStyle(wrapper)
+    expect(before).toContain('linear-gradient')
+
+    const colorAreaRoot = wrapper.findComponent({ name: 'ColorAreaRoot' })
+    await colorAreaRoot.vm.$emit('update:color', parseColor('hsb(0, 40%, 60%)'))
+    await wrapper.vm.$nextTick()
+
+    expect(contextColor.value.space).toBe('hsb')
+    const after = findGradientStyle(wrapper)
+
+    // Both must place the dark stop at the bottom of the "to top" gradient and the
+    // light/transparent stop at the top — never reversed.
+    const darkFirst = /linear-gradient\(to top,\s*(?:#000000|rgba\(0, 0, 0, 1\))/i
+    expect(before).toMatch(darkFirst)
+    expect(after).toMatch(darkFirst)
+
     wrapper.unmount()
   })
 })

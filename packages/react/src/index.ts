@@ -22,6 +22,7 @@ export * from "./components/color-area";
 export * from "./components/color-field";
 export * from "./components/color-input-group";
 export * from "./components/color-picker";
+export * from "./components/color-picker-input";
 export * from "./components/color-slider";
 export * from "./components/color-swatch";
 export * from "./components/color-swatch-picker";

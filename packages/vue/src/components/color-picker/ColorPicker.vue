@@ -38,9 +38,9 @@ const isDisabled = useDeprecatedBooleanProp(
 )
 
 const state = useColorState({
-  value: props.modelValue,
-  defaultValue: props.defaultValue,
-  format: props.format,
+  value: () => props.modelValue,
+  defaultValue: () => props.defaultValue,
+  format: () => props.format,
   onChange: (value) => emit('update:modelValue', value),
 })
 

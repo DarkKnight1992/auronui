@@ -143,4 +143,39 @@ describe('ColorField', () => {
     mountedWrappers.push(wrapper)
     expect(wrapper.find('input').exists()).toBe(true)
   })
+
+  it('Test 9: endContent slot is absent by default', async () => {
+    const wrapper = mount(ColorField, {
+      props: { defaultValue: '#ff0000' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    expect(wrapper.find('[data-slot="end-content"]').exists()).toBe(false)
+  })
+
+  it('Test 10: endContent slot renders provided content inside the input wrapper', async () => {
+    const wrapper = mount(ColorField, {
+      props: { defaultValue: '#ff0000' },
+      slots: { endContent: '<button class="trigger-btn">Open</button>' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    const endContent = wrapper.find('[data-slot="end-content"]')
+    expect(endContent.exists()).toBe(true)
+    expect(endContent.find('.trigger-btn').exists()).toBe(true)
+  })
+
+  it('Test 11: classNames.inputWrapper and classNames.endContent overrides apply', async () => {
+    const wrapper = mount(ColorField, {
+      props: {
+        defaultValue: '#ff0000',
+        classNames: { inputWrapper: 'custom-wrapper', endContent: 'custom-end' },
+      },
+      slots: { endContent: '<button>Open</button>' },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    expect(wrapper.find('.custom-wrapper').exists()).toBe(true)
+    expect(wrapper.find('.custom-end').exists()).toBe(true)
+  })
 })

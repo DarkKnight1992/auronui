@@ -1,0 +1,50 @@
+/* ==========================================================================
+   ColorPickerInput - Hex field with a swatch trigger that opens ColorPicker
+   in a popover
+   ========================================================================== */
+
+.color-picker-input {
+  @apply inline-flex;
+}
+
+/* ==========================================================================
+   Trigger (swatch button, merged into ColorField's endContent)
+   ========================================================================== */
+
+.color-picker-input__trigger {
+  @apply inline-flex items-center justify-center rounded-full outline-none;
+
+  cursor: var(--cursor-interactive);
+
+  &:focus-visible {
+    @apply status-focused;
+  }
+
+  &:disabled,
+  &[data-disabled] {
+    @apply status-disabled;
+
+    cursor: not-allowed;
+  }
+}
+
+.color-picker-input__swatch {
+  /* Size comes from ColorSwatch's own `size="xs"` prop — the shared
+     `.color-swatch--md` default (imported after this file) would otherwise
+     win any width/height utility declared here at equal specificity. */
+  @apply ring-1;
+
+  ring-color: var(--border);
+}
+
+/* ==========================================================================
+   Popover
+   Deliberately does NOT reuse the default `.popover` panel chrome (bg,
+   shadow, rounding, padding) — ColorPicker already supplies its own full
+   panel styling (border, bg-overlay, shadow, rounded-2xl, padding), and
+   stacking both would double-box the dropdown.
+   ========================================================================== */
+
+.color-picker-input__popover {
+  @apply !bg-transparent !p-0 !shadow-none;
+}

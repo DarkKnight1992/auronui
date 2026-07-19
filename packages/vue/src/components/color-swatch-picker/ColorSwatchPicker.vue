@@ -79,8 +79,8 @@ const pickerCtx = inject(ColorPickerContextKey, null)
 const local = pickerCtx
   ? null
   : useColorState({
-      value: props.modelValue,
-      defaultValue: props.defaultValue,
+      value: () => props.modelValue,
+      defaultValue: () => props.defaultValue,
     })
 
 // ColorSwatchPickerRoot works with hex strings

@@ -37,7 +37,9 @@ const props = withDefaults(defineProps<{
   /** Per-slot class overrides */
   classNames?: Partial<{
     label: ClassValue
+    inputWrapper: ClassValue
     input: ClassValue
+    endContent: ClassValue
     description: ClassValue
     errorMessage: ClassValue
   }>
@@ -79,8 +81,8 @@ const pickerCtx = inject(ColorPickerContextKey, null)
 const local = pickerCtx
   ? null
   : useColorState({
-      value: props.modelValue,
-      defaultValue: props.defaultValue,
+      value: () => props.modelValue,
+      defaultValue: () => props.defaultValue,
     })
 
 const color = computed<Color>(() =>
@@ -129,12 +131,25 @@ function onColorUpdate(next: Color) {
       :for="id"
       :class="composeClassName(styles.label(), props.classNames?.label)"
     >{{ label }}</label>
-    <ColorFieldInput
-      :id="id"
-      :placeholder="placeholder"
-      :aria-label="label ? undefined : (props.ariaLabel ?? 'Color value')"
-      :class="composeClassName(styles.input(), props.classNames?.input)"
-    />
+    <div
+      :class="composeClassName(styles.inputWrapper(), props.classNames?.inputWrapper)"
+      :data-disabled="isDisabled || undefined"
+      :data-readonly="isReadOnly || undefined"
+    >
+      <ColorFieldInput
+        :id="id"
+        :placeholder="placeholder"
+        :aria-label="label ? undefined : (props.ariaLabel ?? 'Color value')"
+        :class="composeClassName(styles.input(), props.classNames?.input)"
+      />
+      <span
+        v-if="$slots.endContent"
+        :class="composeClassName(styles.endContent(), props.classNames?.endContent)"
+        data-slot="end-content"
+      >
+        <slot name="endContent" />
+      </span>
+    </div>
     <span
       v-if="description && !errorMessage"
       :class="composeClassName(styles.description(), props.classNames?.description)"

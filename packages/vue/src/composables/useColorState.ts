@@ -1,4 +1,4 @@
-import { ref, watch, type Ref } from 'vue'
+import { ref, watch, toValue, type Ref, type MaybeRefOrGetter } from 'vue'
 import {
   parseColor,
   colorToHex,
@@ -15,12 +15,14 @@ export type { ColorFormat }
 
 export interface UseColorStateProps {
   /** Controlled Color value or string (hex/hsl/rgb). When provided, the internal
-   *  ref syncs to this value whenever it changes. */
-  value?: string | Color
+   *  ref syncs to this value whenever it changes. Pass a getter (`() => props.modelValue`)
+   *  rather than a bare value if the caller's prop can change after this composable is
+   *  called — a bare value is captured once and never re-read. */
+  value?: MaybeRefOrGetter<string | Color | undefined>
   /** Uncontrolled initial value. Only applied when `value` is not provided. */
-  defaultValue?: string | Color
+  defaultValue?: MaybeRefOrGetter<string | Color | undefined>
   /** Output format for toString() and the onChange callback. Defaults to 'hex'. */
-  format?: ColorFormat
+  format?: MaybeRefOrGetter<ColorFormat | undefined>
   /** Fires with the serialized color string whenever the color changes. */
   onChange?: (value: string, color: Color) => void
 }
@@ -49,17 +51,19 @@ function toColor(value: string | Color): Color {
 }
 
 export function useColorState(props: UseColorStateProps = {}): UseColorStateReturn {
-  const initial = props.value !== undefined
-    ? toColor(props.value)
-    : props.defaultValue !== undefined
-      ? toColor(props.defaultValue)
+  const initialValue = toValue(props.value)
+  const initialDefault = toValue(props.defaultValue)
+  const initial = initialValue !== undefined
+    ? toColor(initialValue)
+    : initialDefault !== undefined
+      ? toColor(initialDefault)
       : parseColor('#000000')
 
   const color = ref<Color>(initial)
 
   // Controlled mode: sync when props.value changes externally.
   watch(
-    () => props.value,
+    () => toValue(props.value),
     (next) => {
       if (next !== undefined) {
         color.value = toColor(next)
@@ -72,7 +76,7 @@ export function useColorState(props: UseColorStateProps = {}): UseColorStateRetu
   }
 
   function _emit(): void {
-    const serialized = colorToString(color.value, props.format ?? 'hex')
+    const serialized = colorToString(color.value, toValue(props.format) ?? 'hex')
     props.onChange?.(serialized, color.value)
   }
 
@@ -87,7 +91,7 @@ export function useColorState(props: UseColorStateProps = {}): UseColorStateRetu
   }
 
   function toString(format?: ColorFormat): string {
-    return colorToString(color.value, format ?? props.format ?? 'hex')
+    return colorToString(color.value, format ?? toValue(props.format) ?? 'hex')
   }
 
   function toHex(): string {

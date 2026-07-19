@@ -73,7 +73,7 @@ const isRequired = useDeprecatedBooleanProp(
 const pickerCtx = inject(ColorPickerContextKey, null)
 const local = pickerCtx
   ? null
-  : useColorState({ value: props.modelValue, defaultValue: props.defaultValue })
+  : useColorState({ value: () => props.modelValue, defaultValue: () => props.defaultValue })
 
 const color = computed<Color>(() =>
   pickerCtx ? pickerCtx.color.value : local!.color.value

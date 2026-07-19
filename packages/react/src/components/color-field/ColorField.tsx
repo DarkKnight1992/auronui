@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useId, useRef, useState, type ChangeEvent, type FocusEvent } from "react";
+import { forwardRef, useEffect, useId, useRef, useState, type ChangeEvent, type FocusEvent, type ReactNode } from "react";
 import { colorFieldVariants, type ColorFieldVariants } from "@auronui/styles";
 import { composeClassName, resolveDeprecatedBooleanProp, type ClassValue } from "../../utils";
 import { parseColor } from "react-stately";
@@ -27,11 +27,15 @@ export interface ColorFieldOwnProps {
   required?: boolean;
   classNames?: Partial<{
     label: ClassValue;
+    inputWrapper: ClassValue;
     input: ClassValue;
+    endContent: ClassValue;
     description: ClassValue;
     errorMessage: ClassValue;
   }>;
   onChange?: (color: Color) => void;
+  /** Trailing adornment rendered inside the field's bordered box, after the input. */
+  endContent?: ReactNode;
 }
 
 export type ColorFieldProps = ColorFieldOwnProps;
@@ -63,6 +67,7 @@ export const ColorField = forwardRef<HTMLInputElement, ColorFieldProps>(function
     required,
     classNames,
     onChange,
+    endContent,
   },
   forwardedRef,
 ) {
@@ -136,23 +141,34 @@ export const ColorField = forwardRef<HTMLInputElement, ColorFieldProps>(function
           {label}
         </label>
       )}
-      <input
-        ref={forwardedRef}
-        id={id}
-        type="text"
-        name={name}
-        placeholder={placeholder}
-        value={text}
-        disabled={resolvedDisabled || undefined}
-        readOnly={resolvedReadOnly || undefined}
-        required={resolvedRequired || undefined}
-        aria-label={label ? undefined : (ariaLabel ?? "Color value")}
-        aria-invalid={errorMessage ? true : undefined}
-        className={composeClassName(styles.input(), classNames?.input)}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
-      />
+      <div
+        className={composeClassName(styles.inputWrapper(), classNames?.inputWrapper)}
+        data-disabled={resolvedDisabled || undefined}
+        data-readonly={resolvedReadOnly || undefined}
+      >
+        <input
+          ref={forwardedRef}
+          id={id}
+          type="text"
+          name={name}
+          placeholder={placeholder}
+          value={text}
+          disabled={resolvedDisabled || undefined}
+          readOnly={resolvedReadOnly || undefined}
+          required={resolvedRequired || undefined}
+          aria-label={label ? undefined : (ariaLabel ?? "Color value")}
+          aria-invalid={errorMessage ? true : undefined}
+          className={composeClassName(styles.input(), classNames?.input)}
+          onChange={handleChange}
+          onFocus={handleFocus}
+          onBlur={handleBlur}
+        />
+        {endContent && (
+          <span className={composeClassName(styles.endContent(), classNames?.endContent)} data-slot="end-content">
+            {endContent}
+          </span>
+        )}
+      </div>
       {description && !errorMessage && (
         <span className={composeClassName(styles.description(), classNames?.description)}>{description}</span>
       )}
