@@ -41,7 +41,10 @@ jobs:
 
       - name: Build @auronui/vue
         run: pnpm exec turbo build --filter=@auronui/vue
-      
+
+      - name: Build @auronui/react
+        run: pnpm exec turbo build --filter=@auronui/react
+
       # Fixed: Publishes via pnpm from the root using workspace-aware filtering
       - name: Publish @auronui/styles
         run: pnpm --filter=@auronui/styles publish *.tgz --no-git-checks --provenance --access public
@@ -51,5 +54,10 @@ jobs:
       # Fixed: Publishes via pnpm from the root using workspace-aware filtering
       - name: Publish @auronui/vue
         run: pnpm --filter=@auronui/vue publish *.tgz --no-git-checks --provenance --access public
+        env:
+          NPM_CONFIG_PROVENANCE: true
+
+      - name: Publish @auronui/react
+        run: pnpm --filter=@auronui/react publish *.tgz --no-git-checks --provenance --access public
         env:
           NPM_CONFIG_PROVENANCE: true
