@@ -249,612 +249,6 @@
       "/home/ghost/workspace/ai/auronui/packages/vue/src/components/_shared/TimeScroller.vue"
     ]
   },
-  "Alert": {
-    "exportName": "default",
-    "displayName": "Alert",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "severity",
-        "description": "Severity/status of the alert",
-        "required": false,
-        "type": {
-          "name": "AlertSeverity"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'default'"
-        }
-      },
-      {
-        "name": "isClosable",
-        "description": "Whether the alert can be dismissed by the user",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "class",
-        "description": "Additional CSS class to merge onto the root element",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "close",
-        "description": "Emitted when the alert is dismissed"
-      }
-    ],
-    "slots": [
-      {
-        "name": "icon"
-      },
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/Alert.vue"
-    ]
-  },
-  "AlertDescription": {
-    "exportName": "default",
-    "displayName": "AlertDescription",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/AlertDescription.vue"
-    ]
-  },
-  "AlertIcon": {
-    "exportName": "default",
-    "displayName": "AlertIcon",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/AlertIcon.vue"
-    ]
-  },
-  "AlertTitle": {
-    "exportName": "default",
-    "displayName": "AlertTitle",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/AlertTitle.vue"
-    ]
-  },
-  "Accordion": {
-    "exportName": "default",
-    "displayName": "Accordion",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "type",
-        "required": true,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"single\""
-            },
-            {
-              "name": "\"multiple\""
-            }
-          ]
-        }
-      },
-      {
-        "name": "modelValue",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "SingleValue"
-            },
-            {
-              "name": "MultipleValue"
-            }
-          ]
-        }
-      },
-      {
-        "name": "defaultValue",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "SingleValue"
-            },
-            {
-              "name": "MultipleValue"
-            }
-          ]
-        }
-      },
-      {
-        "name": "collapsible",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "true"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "disabled",
-        "tags": {
-          "deprecated": [
-            {
-              "description": "Use isDisabled instead.",
-              "title": "deprecated"
-            }
-          ]
-        },
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "dir",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"ltr\""
-            },
-            {
-              "name": "\"rtl\""
-            }
-          ]
-        }
-      },
-      {
-        "name": "orientation",
-        "required": false,
-        "type": {
-          "name": "union",
-          "elements": [
-            {
-              "name": "\"horizontal\""
-            },
-            {
-              "name": "\"vertical\""
-            }
-          ]
-        }
-      },
-      {
-        "name": "unmountOnHide",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "variant",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'default'"
-        }
-      },
-      {
-        "name": "size",
-        "required": false,
-        "type": {
-          "name": "TSIndexedAccessType"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "'md'"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes for any slot",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n  item: ClassValue\n  trigger: ClassValue\n  indicator: ClassValue\n  body: ClassValue\n  bodyInner: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "items",
-        "description": "Shorthand API: render items from an array instead of the compound slot API",
-        "required": false,
-        "type": {
-          "name": "Array",
-          "elements": [
-            {
-              "name": "AccordionShorthandItem"
-            }
-          ]
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "update:modelValue",
-        "type": {
-          "names": [
-            "union"
-          ],
-          "elements": [
-            {
-              "name": "SingleValue"
-            },
-            {
-              "name": "MultipleValue"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/Accordion.vue"
-    ]
-  },
-  "AccordionContent": {
-    "exportName": "default",
-    "displayName": "AccordionContent",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class overrides",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  body: ClassValue\n  bodyInner: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionContent.vue"
-    ]
-  },
-  "AccordionHeader": {
-    "exportName": "default",
-    "displayName": "AccordionHeader",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "description": "Override classes on specific slots",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  heading: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionHeader.vue"
-    ]
-  },
-  "AccordionItem": {
-    "exportName": "default",
-    "displayName": "AccordionItem",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "value",
-        "required": true,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "disabled",
-        "tags": {
-          "deprecated": [
-            {
-              "description": "Use isDisabled instead.",
-              "title": "deprecated"
-            }
-          ]
-        },
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "unmountOnHide",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Override classes on named slots",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  item: ClassValue\n}"
-            }
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionItem.vue"
-    ]
-  },
-  "AccordionTrigger": {
-    "exportName": "default",
-    "displayName": "AccordionTrigger",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        }
-      },
-      {
-        "name": "classNames",
-        "description": "Per-slot class overrides.",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  trigger: ClassValue\n  indicator: ClassValue\n}"
-            }
-          ]
-        }
-      },
-      {
-        "name": "as",
-        "required": false,
-        "type": {
-          "name": "string"
-        }
-      },
-      {
-        "name": "asChild",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "default"
-      },
-      {
-        "name": "indicator",
-        "scoped": true,
-        "bindings": [
-          {
-            "name": "open",
-            "title": "binding"
-          }
-        ]
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionTrigger.vue"
-    ]
-  },
   "AlertDialog": {
     "displayName": "AlertDialog",
     "exportName": "default",
@@ -1576,6 +970,132 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert-dialog/AlertDialogTrigger.vue"
+    ]
+  },
+  "Alert": {
+    "exportName": "default",
+    "displayName": "Alert",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "severity",
+        "description": "Severity/status of the alert",
+        "required": false,
+        "type": {
+          "name": "AlertSeverity"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "isClosable",
+        "description": "Whether the alert can be dismissed by the user",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "description": "Additional CSS class to merge onto the root element",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "close",
+        "description": "Emitted when the alert is dismissed"
+      }
+    ],
+    "slots": [
+      {
+        "name": "icon"
+      },
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/Alert.vue"
+    ]
+  },
+  "AlertDescription": {
+    "exportName": "default",
+    "displayName": "AlertDescription",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/AlertDescription.vue"
+    ]
+  },
+  "AlertIcon": {
+    "exportName": "default",
+    "displayName": "AlertIcon",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/AlertIcon.vue"
+    ]
+  },
+  "AlertTitle": {
+    "exportName": "default",
+    "displayName": "AlertTitle",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/alert/AlertTitle.vue"
     ]
   },
   "AspectRatio": {
@@ -3331,6 +2851,486 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auronui/packages/vue/src/components/autocomplete/AutocompleteOverflowChips.vue"
+    ]
+  },
+  "Accordion": {
+    "exportName": "default",
+    "displayName": "Accordion",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "type",
+        "required": true,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"single\""
+            },
+            {
+              "name": "\"multiple\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "modelValue",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "SingleValue"
+            },
+            {
+              "name": "MultipleValue"
+            }
+          ]
+        }
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "SingleValue"
+            },
+            {
+              "name": "MultipleValue"
+            }
+          ]
+        }
+      },
+      {
+        "name": "collapsible",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "true"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disabled",
+        "tags": {
+          "deprecated": [
+            {
+              "description": "Use isDisabled instead.",
+              "title": "deprecated"
+            }
+          ]
+        },
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "dir",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"ltr\""
+            },
+            {
+              "name": "\"rtl\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "orientation",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"horizontal\""
+            },
+            {
+              "name": "\"vertical\""
+            }
+          ]
+        }
+      },
+      {
+        "name": "unmountOnHide",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'default'"
+        }
+      },
+      {
+        "name": "size",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'md'"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes for any slot",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  item: ClassValue\n  trigger: ClassValue\n  indicator: ClassValue\n  body: ClassValue\n  bodyInner: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "items",
+        "description": "Shorthand API: render items from an array instead of the compound slot API",
+        "required": false,
+        "type": {
+          "name": "Array",
+          "elements": [
+            {
+              "name": "AccordionShorthandItem"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "type": {
+          "names": [
+            "union"
+          ],
+          "elements": [
+            {
+              "name": "SingleValue"
+            },
+            {
+              "name": "MultipleValue"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/Accordion.vue"
+    ]
+  },
+  "AccordionContent": {
+    "exportName": "default",
+    "displayName": "AccordionContent",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class overrides",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  body: ClassValue\n  bodyInner: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionContent.vue"
+    ]
+  },
+  "AccordionHeader": {
+    "exportName": "default",
+    "displayName": "AccordionHeader",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "description": "Override classes on specific slots",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  heading: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionHeader.vue"
+    ]
+  },
+  "AccordionItem": {
+    "exportName": "default",
+    "displayName": "AccordionItem",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "value",
+        "required": true,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "disabled",
+        "tags": {
+          "deprecated": [
+            {
+              "description": "Use isDisabled instead.",
+              "title": "deprecated"
+            }
+          ]
+        },
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "unmountOnHide",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Override classes on named slots",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  item: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionItem.vue"
+    ]
+  },
+  "AccordionTrigger": {
+    "exportName": "default",
+    "displayName": "AccordionTrigger",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "description": "Per-slot class overrides.",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  trigger: ClassValue\n  indicator: ClassValue\n}"
+            }
+          ]
+        }
+      },
+      {
+        "name": "as",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "asChild",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "default"
+      },
+      {
+        "name": "indicator",
+        "scoped": true,
+        "bindings": [
+          {
+            "name": "open",
+            "title": "binding"
+          }
+        ]
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/accordion/AccordionTrigger.vue"
     ]
   },
   "Avatar": {
@@ -5795,6 +5795,17 @@
         }
       },
       {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
         "name": "value",
         "required": false,
         "type": {
@@ -6087,6 +6098,17 @@
     "props": [
       {
         "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'primary'"
+        }
+      },
+      {
+        "name": "color",
         "required": false,
         "type": {
           "name": "TSIndexedAccessType"
@@ -7195,7 +7217,7 @@
           "name": "Partial",
           "elements": [
             {
-              "name": "{\n  label: ClassValue\n  input: ClassValue\n  description: ClassValue\n  errorMessage: ClassValue\n}"
+              "name": "{\n  label: ClassValue\n  inputWrapper: ClassValue\n  input: ClassValue\n  endContent: ClassValue\n  description: ClassValue\n  errorMessage: ClassValue\n}"
             }
           ]
         }
@@ -7217,6 +7239,11 @@
             "Color"
           ]
         }
+      }
+    ],
+    "slots": [
+      {
+        "name": "endContent"
       }
     ],
     "sourceFiles": [
@@ -7614,6 +7641,253 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auronui/packages/vue/src/components/color-picker/ColorPicker.vue"
+    ]
+  },
+  "ColorPickerInput": {
+    "exportName": "default",
+    "displayName": "ColorPickerInput",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "modelValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "defaultValue",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'#000000'"
+        }
+      },
+      {
+        "name": "format",
+        "required": false,
+        "type": {
+          "name": "ColorFormat"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'hex'"
+        }
+      },
+      {
+        "name": "label",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "description",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "errorMessage",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isReadOnly",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isRequired",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "fullWidth",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "placeholder",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "name",
+        "required": false,
+        "type": {
+          "name": "string"
+        }
+      },
+      {
+        "name": "defaultOpen",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "open",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "side",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"top\""
+            },
+            {
+              "name": "\"right\""
+            },
+            {
+              "name": "\"bottom\""
+            },
+            {
+              "name": "\"left\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'bottom'"
+        }
+      },
+      {
+        "name": "align",
+        "required": false,
+        "type": {
+          "name": "union",
+          "elements": [
+            {
+              "name": "\"start\""
+            },
+            {
+              "name": "\"center\""
+            },
+            {
+              "name": "\"end\""
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'start'"
+        }
+      },
+      {
+        "name": "sideOffset",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "8"
+        }
+      },
+      {
+        "name": "modal",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        }
+      },
+      {
+        "name": "classNames",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  trigger: ClassValue\n  swatch: ClassValue\n  popover: ClassValue\n}"
+            }
+          ]
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "update:modelValue",
+        "type": {
+          "names": [
+            "string"
+          ]
+        }
+      },
+      {
+        "name": "update:open",
+        "type": {
+          "names": [
+            "boolean"
+          ]
+        }
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/color-picker-input/ColorPickerInput.vue"
     ]
   },
   "ColorSlider": {
@@ -18866,208 +19140,6 @@
       "/home/ghost/workspace/ai/auronui/packages/vue/src/components/fieldset/Fieldset.vue"
     ]
   },
-  "FileUpload": {
-    "exportName": "default",
-    "displayName": "FileUpload",
-    "description": "",
-    "tags": {},
-    "props": [
-      {
-        "name": "accept",
-        "required": false,
-        "type": {
-          "name": "string"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "multiple",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "maxFiles",
-        "required": false,
-        "type": {
-          "name": "number"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "maxSizeBytes",
-        "required": false,
-        "type": {
-          "name": "number"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "label",
-        "required": false,
-        "type": {
-          "name": "string"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "description",
-        "required": false,
-        "type": {
-          "name": "string"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "errorMessage",
-        "required": false,
-        "type": {
-          "name": "string"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "isInvalid",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isDisabled",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "isRequired",
-        "required": false,
-        "type": {
-          "name": "boolean"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "false"
-        }
-      },
-      {
-        "name": "class",
-        "required": false,
-        "type": {
-          "name": "ClassValue"
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      },
-      {
-        "name": "classNames",
-        "required": false,
-        "type": {
-          "name": "Partial",
-          "elements": [
-            {
-              "name": "{\n  base: ClassValue\n  label: ClassValue\n  dropzone: ClassValue\n  icon: ClassValue\n  hint: ClassValue\n  fileList: ClassValue\n  fileItem: ClassValue\n  fileName: ClassValue\n  fileSize: ClassValue\n  removeButton: ClassValue\n  helperWrapper: ClassValue\n  description: ClassValue\n  errorMessage: ClassValue\n}"
-            }
-          ]
-        },
-        "defaultValue": {
-          "func": false,
-          "value": "undefined"
-        }
-      }
-    ],
-    "events": [
-      {
-        "name": "change",
-        "type": {
-          "names": [
-            "Array"
-          ],
-          "elements": [
-            {
-              "name": "File"
-            }
-          ]
-        }
-      },
-      {
-        "name": "reject",
-        "type": {
-          "names": [
-            "Array"
-          ],
-          "elements": [
-            {
-              "name": "FileRejection"
-            }
-          ]
-        }
-      },
-      {
-        "name": "remove",
-        "type": {
-          "names": [
-            "File"
-          ]
-        }
-      }
-    ],
-    "slots": [
-      {
-        "name": "icon"
-      },
-      {
-        "name": "hint"
-      },
-      {
-        "name": "fileItem",
-        "scoped": true,
-        "bindings": [
-          {
-            "name": "file",
-            "title": "binding"
-          }
-        ]
-      }
-    ],
-    "sourceFiles": [
-      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/file-upload/FileUpload.vue"
-    ]
-  },
   "Form": {
     "exportName": "default",
     "displayName": "Form",
@@ -19483,6 +19555,208 @@
     ],
     "sourceFiles": [
       "/home/ghost/workspace/ai/auronui/packages/vue/src/components/form/FormFieldArray.vue"
+    ]
+  },
+  "FileUpload": {
+    "exportName": "default",
+    "displayName": "FileUpload",
+    "description": "",
+    "tags": {},
+    "props": [
+      {
+        "name": "accept",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "multiple",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "maxFiles",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "maxSizeBytes",
+        "required": false,
+        "type": {
+          "name": "number"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "label",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "description",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "errorMessage",
+        "required": false,
+        "type": {
+          "name": "string"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "isInvalid",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isDisabled",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "isRequired",
+        "required": false,
+        "type": {
+          "name": "boolean"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "false"
+        }
+      },
+      {
+        "name": "class",
+        "required": false,
+        "type": {
+          "name": "ClassValue"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
+        "name": "classNames",
+        "required": false,
+        "type": {
+          "name": "Partial",
+          "elements": [
+            {
+              "name": "{\n  base: ClassValue\n  label: ClassValue\n  dropzone: ClassValue\n  icon: ClassValue\n  hint: ClassValue\n  fileList: ClassValue\n  fileItem: ClassValue\n  fileName: ClassValue\n  fileSize: ClassValue\n  removeButton: ClassValue\n  helperWrapper: ClassValue\n  description: ClassValue\n  errorMessage: ClassValue\n}"
+            }
+          ]
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      }
+    ],
+    "events": [
+      {
+        "name": "change",
+        "type": {
+          "names": [
+            "Array"
+          ],
+          "elements": [
+            {
+              "name": "File"
+            }
+          ]
+        }
+      },
+      {
+        "name": "reject",
+        "type": {
+          "names": [
+            "Array"
+          ],
+          "elements": [
+            {
+              "name": "FileRejection"
+            }
+          ]
+        }
+      },
+      {
+        "name": "remove",
+        "type": {
+          "names": [
+            "File"
+          ]
+        }
+      }
+    ],
+    "slots": [
+      {
+        "name": "icon"
+      },
+      {
+        "name": "hint"
+      },
+      {
+        "name": "fileItem",
+        "scoped": true,
+        "bindings": [
+          {
+            "name": "file",
+            "title": "binding"
+          }
+        ]
+      }
+    ],
+    "sourceFiles": [
+      "/home/ghost/workspace/ai/auronui/packages/vue/src/components/file-upload/FileUpload.vue"
     ]
   },
   "Header": {
@@ -27644,6 +27918,17 @@
         }
       },
       {
+        "name": "color",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "undefined"
+        }
+      },
+      {
         "name": "isDisabled",
         "required": false,
         "type": {
@@ -27855,6 +28140,17 @@
     "props": [
       {
         "name": "variant",
+        "required": false,
+        "type": {
+          "name": "TSIndexedAccessType"
+        },
+        "defaultValue": {
+          "func": false,
+          "value": "'primary'"
+        }
+      },
+      {
+        "name": "color",
         "required": false,
         "type": {
           "name": "TSIndexedAccessType"

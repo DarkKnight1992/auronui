@@ -277,6 +277,13 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 </EmptyState>
 ```
 
+**Image** — image with lazy loading, zoom, and fallback
+```vue
+<Image src="/photo.jpg" alt="Photo" fallback-src="/placeholder.jpg" :is-lazy="true" :is-zoomable="true" />
+<!-- fit: cover | contain | fill | none -->
+<!-- radius: none | sm | md | lg | full -->
+```
+
 ---
 
 ### Buttons & Actions
@@ -420,6 +427,38 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 </Form>
 ```
 
+**FormFieldArray** — repeatable field group inside a Form (add/remove/reorder rows)
+```vue
+<FormFieldArray name="contacts" v-slot="{ fields, append, remove }">
+  <div v-for="(row, i) in fields" :key="row.id">
+    <FormField :name="`${row.name}.email`">
+      <Input v-model="row.value.email" label="Email" />
+    </FormField>
+    <Button @click="remove(i)">Remove</Button>
+  </div>
+  <Button @click="append({ email: '' })">Add contact</Button>
+</FormFieldArray>
+```
+
+**InputGroup** — bordered box for merging icons/buttons with a bare input
+```vue
+<InputGroup label="Amount">
+  <InputGroupAddon>$</InputGroupAddon>
+  <InputGroupInput v-model="amount" />
+</InputGroup>
+<!-- variant: flat | bordered | faded | underlined | raised -->
+```
+
+**SearchField** — dedicated search/filter input with a built-in clear button
+```vue
+<SearchField v-model="query" label="Search" placeholder="Search…" />
+```
+
+**FileUpload** — drag-and-drop / click-to-browse file input
+```vue
+<FileUpload v-model="files" accept="image/*" :multiple="true" :max-files="5" label="Attachments" />
+```
+
 ---
 
 ### Overlays
@@ -506,6 +545,13 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
     <HoverCardArrow />
   </HoverCardContent>
 </HoverCard>
+```
+
+**CommandPalette** — keyboard-shortcut-triggered command search (⌘K style)
+```vue
+<CommandPalette v-model:open="isOpen" :items="commands" shortcut="mod+k" placeholder="Type a command…" />
+<!-- items: { value, label, icon?, shortcut?, group?, isDisabled?, onSelect? }[] -->
+<!-- shortcut: e.g. 'mod+k' — 'mod' resolves to Cmd on Mac, Ctrl elsewhere -->
 ```
 
 ---
@@ -633,6 +679,13 @@ function notify() {
 </Pagination>
 ```
 
+**Sidebar** — vertical navigation with grouped sections and active-link detection
+```vue
+<Sidebar :sections="sections" search />
+<!-- sections: { label?: string, items: { label, href?, icon?, badge?, isDisabled?, isExternal? }[] }[] -->
+<!-- activeHref: controlled active link; auto-detected from the current URL when omitted -->
+```
+
 ---
 
 ### Selection & Menus
@@ -712,6 +765,27 @@ function notify() {
 </ComboBox>
 ```
 
+**Cascader** — chained/hierarchical select (region → city → district)
+```vue
+<Cascader
+  v-model="path"
+  :items="regions"
+  :get-key="item => item.id"
+  :get-children="item => item.children"
+  :get-label="item => item.name"
+  placeholder="Select a region"
+/>
+<!-- variant: flat | bordered | faded | underlined | raised -->
+<!-- color: default | primary | secondary | accent | success | warning | danger -->
+```
+
+**Transfer** — dual-list, move items between two panels
+```vue
+<Transfer v-model="targetKeys" :items="items" :titles="['Available', 'Selected']" :is-searchable="true" />
+<!-- items: { value: string, label?: string, isDisabled?: boolean }[] -->
+<!-- modelValue: string[] of keys currently in the target (right) panel -->
+```
+
 ---
 
 ### Data Display
@@ -732,6 +806,24 @@ function notify() {
     </TableRow>
   </TableBody>
 </Table>
+```
+
+**Statistic** — labeled numeric stat with an optional trend indicator
+```vue
+<Statistic label="Revenue" :value="42500" prefix="$" trend="up" trend-value="+12%" />
+<!-- color: default | primary | secondary | success | warning | danger -->
+<!-- precision: number of decimal places; isLoading: boolean -->
+```
+
+**Timeline** — vertical sequence of events
+```vue
+<Timeline orientation="vertical">
+  <TimelineItem title="Order placed" timestamp="Jan 1" status="complete" />
+  <TimelineItem title="Shipped" timestamp="Jan 3" status="current" />
+  <TimelineItem title="Delivered" status="pending" />
+</Timeline>
+<!-- TimelineItem status: complete | current | pending -->
+<!-- TimelineItem color: default | primary | secondary | success | warning | danger -->
 ```
 
 ---
@@ -815,9 +907,19 @@ function notify() {
 <!-- allowNonContiguousRanges / disabled / readonly: boolean -->
 ```
 
-**ColorPicker** — full color picker
+**ColorPicker** — full color picker (saturation/brightness area + hue/alpha sliders + hex field)
 ```vue
 <ColorPicker v-model="color" />
+```
+
+**ColorField** — bare hex/channel text input for typing a color value
+```vue
+<ColorField v-model="color" label="Hex color" />
+```
+
+**ColorPickerInput** — compact hex field with a swatch trigger that opens the full ColorPicker in a popover
+```vue
+<ColorPickerInput v-model="color" label="Accent color" />
 ```
 
 **Editable** — inline click/dblclick-to-edit text field
