@@ -173,7 +173,7 @@
   --trigger-anchor-point: var(--reka-combobox-content-transform-origin);
 
   z-index: var(--z-popover);
-  @apply scroll-py-1 overflow-y-auto overscroll-contain rounded-3xl bg-overlay p-0 text-sm;
+  @apply scroll-py-1 overflow-y-auto overscroll-contain rounded-field bg-overlay p-0 text-sm;
   width: var(--trigger-width);
   transform-origin: var(--trigger-anchor-point);
   box-shadow: var(--shadow-overlay);
