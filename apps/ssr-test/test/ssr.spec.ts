@@ -6,6 +6,11 @@ describe("SSR Smoke Test", async () => {
     rootDir: new URL("..", import.meta.url).pathname,
     server: true,
     browser: false,
+    // @nuxt/test-utils registers its own beforeAll timeout (default 120000ms)
+    // independent of vitest's hookTimeout below — that setting alone does not
+    // cover this hook. A cold Nuxt build/server-start in a sandboxed CI
+    // environment can take several minutes.
+    setupTimeout: 300000,
   });
 
   it("renders SmokeTest component server-side without errors", async () => {
