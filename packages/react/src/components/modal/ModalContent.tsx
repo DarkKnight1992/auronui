@@ -1,7 +1,8 @@
-import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { Dialog as AriaDialog, Modal as AriaModal } from "react-aria-components";
 import { modalVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
+import { useOverlayLayer } from "../../hooks/useOverlayLayer";
 import { useModalContext } from "./modal.context";
 import { ModalOverlay } from "./ModalOverlay";
 
@@ -51,12 +52,14 @@ export function ModalContent({ children, className, role = "dialog", isDismissab
   const styles = modalVariants();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
+  const layer = useOverlayLayer();
 
   return (
-    <ModalOverlay isDismissable={isDismissable}>
+    <ModalOverlay isDismissable={isDismissable} style={{ "--z-modal-backdrop": layer.backdropZIndex } as CSSProperties}>
       <div
         ref={containerRef}
         className={styles.container({ scroll: ctx.scroll, size: ctx.size })}
+        style={{ "--z-modal": layer.panelZIndex } as CSSProperties}
         data-placement={ctx.placement}
       >
         <AriaModal

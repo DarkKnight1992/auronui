@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { ModalOverlay as AriaModalOverlay } from "react-aria-components";
 import { alertDialogVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
@@ -7,6 +7,8 @@ import { useAlertDialogContext } from "./alert-dialog.context";
 export interface AlertDialogOverlayProps {
   children: ReactNode;
   className?: ClassValue;
+  /** Merged onto the backdrop's inline style — used internally to claim its stacking depth. */
+  style?: CSSProperties;
 }
 
 /**
@@ -37,7 +39,7 @@ function AlertDialogBackdropStateAttrs({
  * alertdialog pattern (an explicit Action/Cancel button is required) —
  * `isDismissable` is always `false`, unlike `Modal`'s `ModalOverlay`.
  */
-export function AlertDialogOverlay({ children, className }: AlertDialogOverlayProps) {
+export function AlertDialogOverlay({ children, className, style }: AlertDialogOverlayProps) {
   const ctx = useAlertDialogContext();
   const styles = alertDialogVariants();
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -49,6 +51,7 @@ export function AlertDialogOverlay({ children, className }: AlertDialogOverlayPr
       onOpenChange={(next) => (next ? ctx.open() : ctx.close())}
       isDismissable={false}
       className={composeClassName(styles.backdrop({ variant: ctx.variant }), className)}
+      style={style}
     >
       {({ isExiting }) => (
         <>

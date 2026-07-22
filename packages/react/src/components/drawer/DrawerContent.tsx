@@ -1,7 +1,8 @@
-import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { Dialog as AriaDialog, Modal as AriaModal } from "react-aria-components";
 import { drawerVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
+import { useOverlayLayer } from "../../hooks/useOverlayLayer";
 import { useDrawerContext } from "./drawer.context";
 import { DrawerOverlay } from "./DrawerOverlay";
 
@@ -43,6 +44,9 @@ export function DrawerContent({ children, className }: DrawerContentProps) {
   const ctx = useDrawerContext();
   const styles = drawerVariants();
   const panelRef = useRef<HTMLDivElement | null>(null);
+  // Called unconditionally (Rules of Hooks) even though dock mode — a plain
+  // DOM-flow panel, not a page-level overlay — doesn't use the claimed layer.
+  const layer = useOverlayLayer();
 
   if (ctx.dock) {
     return (
@@ -58,13 +62,14 @@ export function DrawerContent({ children, className }: DrawerContentProps) {
   }
 
   return (
-    <DrawerOverlay>
+    <DrawerOverlay style={{ "--z-modal-backdrop": layer.backdropZIndex } as CSSProperties}>
       <AriaModal
         ref={panelRef}
         className={composeClassName(
           styles.dialog({ placement: ctx.placement, inline: ctx.inline }),
           className,
         )}
+        style={{ "--z-modal": layer.panelZIndex } as CSSProperties}
         data-placement={ctx.placement}
       >
         {({ isExiting }) => (

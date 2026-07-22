@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { ModalOverlay as AriaModalOverlay } from "react-aria-components";
 import { modalVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
@@ -9,6 +9,8 @@ export interface ModalOverlayProps {
   className?: ClassValue;
   /** Whether clicking outside / pressing Escape dismisses the Modal. Defaults to true. */
   isDismissable?: boolean;
+  /** Merged onto the backdrop's inline style — used internally to claim its stacking depth. */
+  style?: CSSProperties;
 }
 
 /**
@@ -42,7 +44,7 @@ function ModalBackdropStateAttrs({
  * share overlay state through React context — so `ModalContent` nests its
  * dialog box inside this component instead of rendering it alongside.
  */
-export function ModalOverlay({ children, className, isDismissable = true }: ModalOverlayProps) {
+export function ModalOverlay({ children, className, isDismissable = true, style }: ModalOverlayProps) {
   const ctx = useModalContext();
   const styles = modalVariants();
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -54,6 +56,7 @@ export function ModalOverlay({ children, className, isDismissable = true }: Moda
       onOpenChange={(next) => (next ? ctx.open() : ctx.close())}
       isDismissable={isDismissable}
       className={composeClassName(styles.backdrop({ variant: ctx.variant }), className)}
+      style={style}
     >
       {({ isExiting }) => (
         <>

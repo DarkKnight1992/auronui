@@ -1,7 +1,8 @@
-import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { Dialog as AriaDialog, Modal as AriaModal } from "react-aria-components";
 import { alertDialogVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
+import { useOverlayLayer } from "../../hooks/useOverlayLayer";
 import { useAlertDialogContext } from "./alert-dialog.context";
 import { AlertDialogOverlay } from "./AlertDialogOverlay";
 
@@ -51,10 +52,16 @@ export function AlertDialogContent({ children, className }: AlertDialogContentPr
   const styles = alertDialogVariants();
   const containerRef = useRef<HTMLDivElement | null>(null);
   const dialogRef = useRef<HTMLDivElement | null>(null);
+  const layer = useOverlayLayer();
 
   return (
-    <AlertDialogOverlay>
-      <div ref={containerRef} className={styles.container()} data-placement={ctx.placement}>
+    <AlertDialogOverlay style={{ "--z-modal-backdrop": layer.backdropZIndex } as CSSProperties}>
+      <div
+        ref={containerRef}
+        className={styles.container()}
+        style={{ "--z-modal": layer.panelZIndex } as CSSProperties}
+        data-placement={ctx.placement}
+      >
         <AriaModal
           ref={dialogRef}
           className={composeClassName(styles.dialog({ size: ctx.size }), className)}

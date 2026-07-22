@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef, type ReactNode, type RefObject } from "react";
+import { useLayoutEffect, useRef, type CSSProperties, type ReactNode, type RefObject } from "react";
 import { ModalOverlay as AriaModalOverlay } from "react-aria-components";
 import { drawerVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
@@ -7,6 +7,8 @@ import { useDrawerContext } from "./drawer.context";
 export interface DrawerOverlayProps {
   children: ReactNode;
   className?: ClassValue;
+  /** Merged onto the backdrop's inline style — used internally to claim its stacking depth. */
+  style?: CSSProperties;
 }
 
 /**
@@ -39,7 +41,7 @@ function DrawerBackdropStateAttrs({
  * nests its panel inside this component instead of rendering it alongside, matching this
  * package's `ModalOverlay`/`ModalContent` split.
  */
-export function DrawerOverlay({ children, className }: DrawerOverlayProps) {
+export function DrawerOverlay({ children, className, style }: DrawerOverlayProps) {
   const ctx = useDrawerContext();
   const styles = drawerVariants();
   const overlayRef = useRef<HTMLDivElement | null>(null);
@@ -56,6 +58,7 @@ export function DrawerOverlay({ children, className }: DrawerOverlayProps) {
         ctx.hideBackdrop && "pointer-events-none opacity-0",
         className,
       )}
+      style={style}
     >
       {({ isExiting }) => (
         <>
