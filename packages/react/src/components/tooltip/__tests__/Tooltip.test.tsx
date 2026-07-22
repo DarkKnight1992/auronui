@@ -136,6 +136,44 @@ describe("Tooltip", () => {
     });
   });
 
+  it("applies the trigger's interactive affordance class to any child, not just Button", () => {
+    render(
+      <TooltipProvider delayDuration={0} closeDelay={0}>
+        <Tooltip>
+          <TooltipTrigger>
+            <span data-testid="plain-trigger">glossary term</span>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Definition</span>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
+    );
+
+    expect(screen.getByTestId("plain-trigger").className).toContain("tooltip__trigger");
+  });
+
+  it("merges the trigger class with a pre-existing className on the child", () => {
+    render(
+      <TooltipProvider delayDuration={0} closeDelay={0}>
+        <Tooltip>
+          <TooltipTrigger>
+            <span data-testid="plain-trigger" className="custom-class">
+              glossary term
+            </span>
+          </TooltipTrigger>
+          <TooltipContent>
+            <span>Definition</span>
+          </TooltipContent>
+        </Tooltip>
+      </TooltipProvider>,
+    );
+
+    const cls = screen.getByTestId("plain-trigger").className;
+    expect(cls).toContain("tooltip__trigger");
+    expect(cls).toContain("custom-class");
+  });
+
   it("has no accessibility violations when closed", async () => {
     const { container } = renderTooltip();
     const results = await axe.run(container);
