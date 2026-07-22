@@ -11,6 +11,16 @@ import {
   ModalTitle,
   ModalDescription,
   ModalClose,
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
 } from '@auronui/vue'
 
 const meta: Meta = {
@@ -119,6 +129,16 @@ const components = {
   ModalTitle,
   ModalDescription,
   ModalClose,
+  AlertDialog,
+  AlertDialogTrigger,
+  AlertDialogContent,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogDescription,
+  AlertDialogBody,
+  AlertDialogFooter,
+  AlertDialogCancel,
+  AlertDialogAction,
 }
 
 export const Default: Story = {
@@ -815,4 +835,63 @@ import {
       },
     },
   },
+}
+
+export const AlertDialogOverModal: Story = {
+  name: 'AlertDialog over Modal (stacking)',
+  render: () => ({
+    components,
+    template: `
+      <Modal>
+        <ModalTrigger as-child>
+          <Button>Open Modal</Button>
+        </ModalTrigger>
+        <ModalContent>
+          <ModalClose as-child class="modal__close-trigger">
+            <CloseButton aria-label="Close modal" />
+          </ModalClose>
+          <ModalHeader>
+            <ModalTitle>Edit Item</ModalTitle>
+            <ModalDescription>Open the confirmation dialog on top of this modal.</ModalDescription>
+          </ModalHeader>
+          <ModalBody>
+            <p v-for="i in 12" :key="i" style="margin: 0 0 12px; font-size: 14px; color: #555;">
+              Padding paragraph {{ i }} to make this modal taller/wider than the alert dialog on top of it.
+            </p>
+            <AlertDialog>
+              <AlertDialogTrigger as-child>
+                <Button color="danger" variant="solid">Delete Item</Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>Are you sure?</AlertDialogTitle>
+                  <AlertDialogDescription>
+                    The alert dialog's backdrop should cover the modal completely.
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogBody>
+                  <p style="margin: 0; font-size: 14px; color: #555;">
+                    If the backdrop covers the modal behind it, stacking is working correctly.
+                  </p>
+                </AlertDialogBody>
+                <AlertDialogFooter>
+                  <AlertDialogCancel as-child>
+                    <Button variant="flat">Cancel</Button>
+                  </AlertDialogCancel>
+                  <AlertDialogAction as-child>
+                    <Button color="danger" variant="solid">Delete</Button>
+                  </AlertDialogAction>
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
+          </ModalBody>
+          <ModalFooter>
+            <ModalClose as-child>
+              <Button variant="default">Close Modal</Button>
+            </ModalClose>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>
+    `,
+  }),
 }

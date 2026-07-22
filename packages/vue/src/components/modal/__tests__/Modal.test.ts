@@ -210,4 +210,26 @@ describe('Modal', () => {
     const focused = document.activeElement
     expect(dialogEl.contains(focused)).toBe(true)
   })
+
+  it('propagates the size variant to the container (not just the inner dialog box)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Modal, ModalContent },
+        template: `<Modal default-open size="full"><ModalContent>content</ModalContent></Modal>`,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    // [role="dialog"] is rendered on the .modal__container element — regression
+    // check for a bug where styles.container() was only ever called with
+    // `{ scroll }`, silently dropping `size` and leaving container-level size
+    // modifiers (e.g. modal__container--full) permanently unreachable.
+    const dialogEl = document.body.querySelector('[role="dialog"]') as HTMLElement
+    expect(dialogEl).not.toBeNull()
+    expect(dialogEl.classList.contains('modal__container')).toBe(true)
+    expect(dialogEl.classList.contains('modal__container--full')).toBe(true)
+  })
 })

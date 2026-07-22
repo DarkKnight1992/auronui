@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { DialogOverlay } from 'reka-ui'
+import { DialogOverlay, injectDialogRootContext } from 'reka-ui'
 import { drawerVariants } from '@auronui/styles/components/drawer'
 import { composeClassName } from '../../utils/composeClassName'
+import { useOverlayLayer } from '../../composables/useOverlayLayer'
 
 const props = withDefaults(defineProps<{
   as?: string
@@ -14,6 +15,9 @@ const props = withDefaults(defineProps<{
 })
 
 const styles = drawerVariants()
+
+const dialogRootContext = injectDialogRootContext()
+const { backdropZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
 </script>
 
 <template>
@@ -22,5 +26,6 @@ const styles = drawerVariants()
     :as-child="props.asChild"
     :force-mount="props.forceMount"
     :class="composeClassName(styles.backdrop(), props.class)"
+    :style="{ '--z-modal-backdrop': backdropZIndex }"
   />
 </template>

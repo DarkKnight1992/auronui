@@ -1,8 +1,9 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import { DialogPortal, DialogContent } from 'reka-ui'
+import { DialogPortal, DialogContent, injectDialogRootContext } from 'reka-ui'
 import { drawerVariants } from '@auronui/styles/components/drawer'
 import { composeClassName } from '../../utils/composeClassName'
+import { useOverlayLayer } from '../../composables/useOverlayLayer'
 import { useDrawerInject } from './drawer.context'
 import DrawerOverlay from './DrawerOverlay.vue'
 
@@ -34,6 +35,13 @@ const emit = defineEmits<{
 
 const ctx = useDrawerInject()
 const styles = drawerVariants()
+
+// Only the default (teleported, full-overlay) mode shares the global
+// backdrop/panel stacking concern with Modal/AlertDialog — dock and inline
+// modes render in normal document flow / a local positioned ancestor, not a
+// page-level overlay, so they don't need a claimed z-index.
+const dialogRootContext = injectDialogRootContext()
+const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
 
 const isHorizontal = computed(() =>
   ctx.placement.value === 'left' || ctx.placement.value === 'right',
@@ -127,6 +135,7 @@ function handleEscapeKeyDown(event: KeyboardEvent) {
       :force-mount="props.forceMount"
       :disable-outside-pointer-events="props.disableOutsidePointerEvents"
       :class="composeClassName(styles.dialog({ placement: ctx.placement.value }), props.class)"
+      :style="{ '--z-modal': panelZIndex }"
       :data-placement="ctx.placement.value"
       @pointer-down-outside="handlePointerDownOutside"
       @interact-outside="handleInteractOutside"

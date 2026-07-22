@@ -3,6 +3,7 @@ import { DialogPortal, DialogContent, injectDialogRootContext } from 'reka-ui'
 import { motion, AnimatePresence } from 'motion-v'
 import { modalVariants } from '@auronui/styles/components/modal'
 import { composeClassName } from '../../utils/composeClassName'
+import { useOverlayLayer } from '../../composables/useOverlayLayer'
 import { useModalInject } from './Modal.vue'
 import ModalOverlay from './ModalOverlay.vue'
 
@@ -38,6 +39,8 @@ const ctx = useModalInject({ size: 'md', scroll: 'inside', variant: 'opaque', pl
 // Inject Reka's dialog root context to read open state for AnimatePresence
 const dialogRootContext = injectDialogRootContext()
 
+const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
+
 const styles = modalVariants()
 </script>
 
@@ -55,7 +58,8 @@ const styles = modalVariants()
         :as-child="props.asChild"
         :force-mount="props.forceMount"
         :disable-outside-pointer-events="props.disableOutsidePointerEvents"
-        :class="composeClassName(styles.container({ scroll: ctx.scroll }), props.class)"
+        :class="composeClassName(styles.container({ size: ctx.size, scroll: ctx.scroll }), props.class)"
+        :style="{ '--z-modal': panelZIndex }"
         :data-placement="ctx.placement"
         :aria-hidden="!dialogRootContext.open.value || undefined"
         @escape-key-down="emit('escape-key-down', $event)"

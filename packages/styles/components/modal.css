@@ -109,7 +109,7 @@
  * Element: container - the positioning wrapper for the modal
  */
 .modal__container {
-  @apply flex flex-col items-center fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] max-w-[450px] translate-x-[-50%] translate-y-[-50%];
+  @apply flex flex-col items-center fixed top-[50%] left-[50%] max-h-[85vh] w-[90vw] translate-x-[-50%] translate-y-[-50%];
   z-index: var(--z-modal);
   @apply h-(--visual-viewport-height) w-full min-w-0 flex-1;
   @apply p-4;
@@ -168,7 +168,7 @@
  * Modifier: container--full
  */
 .modal__container--full {
-  @apply p-0 sm:p-0;
+  @apply p-0 sm:p-0 sm:w-full max-h-none;
 
   /* Entering animation */
   & {

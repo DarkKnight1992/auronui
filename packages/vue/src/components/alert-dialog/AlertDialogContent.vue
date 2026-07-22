@@ -1,7 +1,8 @@
 <script setup lang="ts">
-import { AlertDialogPortal, AlertDialogContent } from 'reka-ui'
+import { AlertDialogPortal, AlertDialogContent, injectDialogRootContext } from 'reka-ui'
 import { alertDialogVariants } from '@auronui/styles/components/alert-dialog'
 import { composeClassName } from '../../utils/composeClassName'
+import { useOverlayLayer } from '../../composables/useOverlayLayer'
 import { useAlertDialogInject } from './AlertDialog.vue'
 import AlertDialogOverlay from './AlertDialogOverlay.vue'
 
@@ -27,6 +28,11 @@ const emit = defineEmits<{
 
 const ctx = useAlertDialogInject({ size: 'md', variant: 'opaque', placement: 'center', status: 'danger' })
 const styles = alertDialogVariants()
+
+// AlertDialogRoot renders reka-ui's DialogRoot internally, so this injects
+// the same context key Modal/Drawer use — see useOverlayLayer for why.
+const dialogRootContext = injectDialogRootContext()
+const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
 </script>
 
 <template>
@@ -39,6 +45,7 @@ const styles = alertDialogVariants()
     <AlertDialogOverlay />
     <div
       :class="styles.container()"
+      :style="{ '--z-modal': panelZIndex }"
       :data-placement="ctx.placement"
     >
       <AlertDialogContent
