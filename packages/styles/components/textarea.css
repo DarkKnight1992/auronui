@@ -364,6 +364,17 @@
 
 .textarea--label-inside .textarea__input {
   padding-top: 1.5rem;
+
+  /*
+   * The label is absolutely positioned over the textarea, and this
+   * padding-top only reserves space for it in the first visible frame.
+   * Once the (non-autoresizing) textarea scrolls internally, that padding
+   * scrolls away too, so wrapped-up text would otherwise render directly
+   * behind the label. Fade the textarea's own content out at the top edge
+   * so scrolled text disappears into the field instead of overlapping it.
+   */
+  mask-image: linear-gradient(to bottom, transparent 1.4rem, black 1.6rem);
+  -webkit-mask-image: linear-gradient(to bottom, transparent 1.4rem, black 1.6rem);
 }
 
 .textarea--label-inside .textarea__label {
