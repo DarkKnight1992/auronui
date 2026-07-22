@@ -2,9 +2,9 @@
 
 /* Base tooltip styles */
 .tooltip {
-  @apply max-w-xs text-xs break-all;
+  @apply max-w-xs rounded-lg bg-overlay px-2.5 py-1.5 text-xs text-overlay-foreground break-all;
   z-index: var(--z-tooltip);
-  /* box-shadow: var(--shadow-overlay); */
+  box-shadow: var(--shadow-overlay);
   will-change: opacity, transform;
 
   /* Entering animations */
@@ -46,6 +46,7 @@
 /* Tooltip trigger */
 .tooltip__trigger {
   @apply inline-block;
+  cursor: var(--cursor-interactive);
 
   /**
    * Transitions

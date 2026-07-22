@@ -111,9 +111,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
         <Button variant="outline">Hover me</Button>
       </TooltipTrigger>
       <TooltipContent>
-        <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-          Tooltip content
-        </div>
+        Tooltip content
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -151,9 +149,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
             @escape-key-down="args.contentEscapeKeyDown"
             @pointer-down-outside="args.contentPointerDownOutside"
           >
-            <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-              Tooltip content
-            </div>
+            Tooltip content
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -177,9 +173,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
         <Button variant="outline">Hover (slow)</Button>
       </TooltipTrigger>
       <TooltipContent>
-        <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-          Appears after 1200ms delay
-        </div>
+        Appears after 1200ms delay
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -198,9 +192,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
             <Button variant="outline">Hover (slow)</Button>
           </TooltipTrigger>
           <TooltipContent>
-            <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-              Appears after 1200ms delay
-            </div>
+            Appears after 1200ms delay
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -225,9 +217,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
           <Button variant="outline" style="text-transform: capitalize;">{{ side }}</Button>
         </TooltipTrigger>
         <TooltipContent :side="side">
-          <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-            Appears on {{ side }}
-          </div>
+          Appears on {{ side }}
         </TooltipContent>
       </Tooltip>
     </div>
@@ -248,9 +238,7 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
               <Button variant="outline" style="text-transform: capitalize;">{{ side }}</Button>
             </TooltipTrigger>
             <TooltipContent :side="side">
-              <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-                Appears on {{ side }}
-              </div>
+              Appears on {{ side }}
             </TooltipContent>
           </Tooltip>
         </div>
@@ -275,10 +263,8 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, Toolt
         <Button variant="outline">Hover for arrow</Button>
       </TooltipTrigger>
       <TooltipContent side="bottom" :side-offset="8">
-        <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-          Tooltip with directional arrow
-        </div>
-        <TooltipArrow style="fill: #222;" />
+        Tooltip with directional arrow
+        <TooltipArrow />
       </TooltipContent>
     </Tooltip>
   </TooltipProvider>
@@ -297,10 +283,8 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent, Toolt
             <Button variant="outline">Hover for arrow</Button>
           </TooltipTrigger>
           <TooltipContent side="bottom" :side-offset="8">
-            <div style="padding: 6px 10px; font-size: 13px; background: #222; color: #fff; border-radius: 4px;">
-              Tooltip with directional arrow
-            </div>
-            <TooltipArrow style="fill: #222;" />
+            Tooltip with directional arrow
+            <TooltipArrow />
           </TooltipContent>
         </Tooltip>
       </TooltipProvider>
@@ -324,8 +308,8 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
         <Button color="primary">Rich Tooltip</Button>
       </TooltipTrigger>
       <TooltipContent :side-offset="8">
-        <div style="padding: 10px 14px; max-width: 220px; background: #1e1b4b; color: #e0e7ff; border-radius: 8px; font-size: 13px;">
-          <strong style="display: block; margin-bottom: 4px; color: #a5b4fc;">Pro tip</strong>
+        <div style="max-width: 220px;">
+          <strong style="display: block; margin-bottom: 4px;">Pro tip</strong>
           <span>You can add rich content including icons, links, and formatted text inside a tooltip.</span>
         </div>
       </TooltipContent>
@@ -346,12 +330,63 @@ import { Button, TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from
             <Button color="primary">Rich Tooltip</Button>
           </TooltipTrigger>
           <TooltipContent :side-offset="8">
-            <div style="padding: 10px 14px; max-width: 220px; background: #1e1b4b; color: #e0e7ff; border-radius: 8px; font-size: 13px;">
-              <strong style="display: block; margin-bottom: 4px; color: #a5b4fc;">Pro tip</strong>
+            <div style="max-width: 220px;">
+              <strong style="display: block; margin-bottom: 4px;">Pro tip</strong>
               <span>You can add rich content including icons, links, and formatted text inside a tooltip.</span>
             </div>
           </TooltipContent>
         </Tooltip>
+      </TooltipProvider>
+    `,
+  }),
+}
+
+export const NonButtonTrigger: Story = {
+  name: 'Non-Button Trigger',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'TooltipTrigger applies its own hover/focus affordance (cursor + focus ring) regardless of what it wraps, so a plain span still reads as interactive.',
+      },
+      source: {
+        code: `<script setup>
+import { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent } from '@auronui/vue'
+</script>
+
+<template>
+  <TooltipProvider :delay-duration="300">
+    <p>
+      This paragraph has a
+      <Tooltip>
+        <TooltipTrigger as-child>
+          <span style="text-decoration: underline dotted;">glossary term</span>
+        </TooltipTrigger>
+        <TooltipContent>Definition of the term.</TooltipContent>
+      </Tooltip>
+      inside plain text — no Button involved.
+    </p>
+  </TooltipProvider>
+</template>`,
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { TooltipProvider, Tooltip, TooltipTrigger, TooltipContent },
+    setup: () => ({ args }),
+    template: `
+      <TooltipProvider :delay-duration="300">
+        <p>
+          This paragraph has a
+          <Tooltip v-bind="args">
+            <TooltipTrigger as-child>
+              <span style="text-decoration: underline dotted;">glossary term</span>
+            </TooltipTrigger>
+            <TooltipContent>Definition of the term.</TooltipContent>
+          </Tooltip>
+          inside plain text — no Button involved.
+        </p>
       </TooltipProvider>
     `,
   }),

@@ -1,7 +1,5 @@
 <script setup lang="ts">
 import { TooltipArrow } from 'reka-ui'
-import { tooltipVariants } from '@auronui/styles/components/tooltip'
-import { composeClassName } from '../../utils/composeClassName'
 
 const props = defineProps<{
   as?: string | object
@@ -10,8 +8,6 @@ const props = defineProps<{
   height?: number
   class?: string
 }>()
-
-const styles = tooltipVariants()
 </script>
 
 <template>
@@ -20,7 +16,8 @@ const styles = tooltipVariants()
     :as-child="props.asChild"
     :width="props.width"
     :height="props.height"
-    :class="composeClassName(styles.trigger(), props.class)"
+    data-slot="overlay-arrow"
+    :class="props.class"
     v-bind="$attrs"
   />
 </template>

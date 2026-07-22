@@ -26,11 +26,7 @@ export const Default: Story = {
         <TooltipTrigger>
           <Button variant="bordered">Hover me</Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <div style={{ padding: "6px 10px", fontSize: 13, background: "#222", color: "#fff", borderRadius: 4 }}>
-            Tooltip content
-          </div>
-        </TooltipContent>
+        <TooltipContent>Tooltip content</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   ),
@@ -44,11 +40,7 @@ export const WithDelay: Story = {
         <TooltipTrigger>
           <Button variant="bordered">Hover (slow)</Button>
         </TooltipTrigger>
-        <TooltipContent>
-          <div style={{ padding: "6px 10px", fontSize: 13, background: "#222", color: "#fff", borderRadius: 4 }}>
-            Appears after 1200ms delay
-          </div>
-        </TooltipContent>
+        <TooltipContent>Appears after 1200ms delay</TooltipContent>
       </Tooltip>
     </TooltipProvider>
   ),
@@ -66,11 +58,7 @@ export const FourSides: Story = {
                 {side}
               </Button>
             </TooltipTrigger>
-            <TooltipContent side={side}>
-              <div style={{ padding: "6px 10px", fontSize: 13, background: "#222", color: "#fff", borderRadius: 4 }}>
-                Appears on {side}
-              </div>
-            </TooltipContent>
+            <TooltipContent side={side}>Appears on {side}</TooltipContent>
           </Tooltip>
         ))}
       </div>
@@ -87,9 +75,7 @@ export const WithArrow: Story = {
           <Button variant="bordered">Hover for arrow</Button>
         </TooltipTrigger>
         <TooltipContent side="bottom" sideOffset={8}>
-          <div style={{ padding: "6px 10px", fontSize: 13, background: "#222", color: "#fff", borderRadius: 4 }}>
-            Tooltip with directional arrow
-          </div>
+          Tooltip with directional arrow
           <TooltipArrow />
         </TooltipContent>
       </Tooltip>
