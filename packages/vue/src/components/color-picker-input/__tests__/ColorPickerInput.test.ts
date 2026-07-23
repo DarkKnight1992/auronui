@@ -185,4 +185,83 @@ describe('ColorPickerInput', () => {
     }
     expect(mountError).toBeNull()
   })
+
+  it('Test 12: ColorArea dragging through white/black never changes the hue slider, even through the real ColorPickerInput <-> ColorPicker v-model round-trip', async () => {
+    // End-to-end regression test for the actual production bug: ColorArea
+    // writes a color change into ColorPicker's internal state, which emits a
+    // serialized hex string up to ColorPickerInput; ColorPickerInput re-emits
+    // that string back down as a new `modelValue` prop to ColorPicker. Before
+    // the fix, ColorPicker's useColorState unconditionally reparsed any
+    // incoming modelValue — even this redundant echo of its own last emit —
+    // discarding the precise in-memory color and reconstructing it from a
+    // lossy hex round-trip. A unit test against ColorArea alone (with a bare
+    // mock context) never exercises this loop, so it can't catch this: only
+    // a real ColorPickerInput mount does.
+    const wrapper = mount(ColorPickerInput, {
+      props: { defaultValue: '#3b82f6', open: true },
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+
+    const colorAreaRoot = wrapper.findComponent({ name: 'ColorAreaRoot' })
+    expect(colorAreaRoot.exists()).toBe(true)
+
+    // Drag to the white corner (saturation 0), then back to a fully
+    // saturated corner — the exact sequence that reproduced the bug live.
+    const { parseColor } = await import('reka-ui')
+    await colorAreaRoot.vm.$emit('update:color', parseColor('hsb(0, 0%, 100%)'))
+    await nextTick()
+    await colorAreaRoot.vm.$emit('update:color', parseColor('hsb(0, 100%, 100%)'))
+    await nextTick()
+
+    const triggerInput = document.body.querySelectorAll('input')[0] as HTMLInputElement
+    // Must stay in the blue family (hue ~217°), never jump to red (#ff0000-ish).
+    expect(triggerInput.value.toLowerCase()).not.toMatch(/^#ff[01][01]/)
+  })
+
+  it('Test 13: typing a new hex value in the dropdown, then dragging ColorArea, does not revert to the previous hue', async () => {
+    // Regression test: ColorField's hex input writes via
+    // pickerCtx.setChannels([red, green, blue, alpha]) — no explicit hue
+    // channel. ColorPicker's rememberedHue must resync from that write (the
+    // color IS a fully new one), not silently stay pointed at the color that
+    // was current before the hex edit. Otherwise the next ColorArea drag
+    // reasserts the stale (pre-edit) hue and visibly corrupts the color back
+    // to it, even though the hex edit had already taken effect correctly.
+    const wrapper = mount(ColorPickerInput, {
+      props: { defaultValue: '#3b82f6', open: true }, // starts blue
+      attachTo: document.body,
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+
+    // Type a gold/sand hex value into the dropdown's own "Hex color" field.
+    const dropdownInput = document.body.querySelectorAll('input')[1] as HTMLInputElement
+    dropdownInput.value = '#c9a84c'
+    dropdownInput.dispatchEvent(new Event('input', { bubbles: true }))
+    dropdownInput.dispatchEvent(new Event('blur', { bubbles: true }))
+    await nextTick()
+    await new Promise(r => setTimeout(r, 20))
+
+    const triggerInput = document.body.querySelectorAll('input')[0] as HTMLInputElement
+    expect(triggerInput.value.toLowerCase()).toBe('#c9a84c')
+
+    // Now drag within ColorArea (saturation/brightness only — must never
+    // reintroduce the old blue hue).
+    const { parseColor, setChannelValues, getChannelValue } = await import('reka-ui')
+    const gold = parseColor('#c9a84c')
+    const dragged = setChannelValues(gold, [
+      { channel: 'saturation', value: getChannelValue(gold, 'saturation') - 5 },
+      { channel: 'brightness', value: getChannelValue(gold, 'brightness') },
+    ])
+    const colorAreaRoot = wrapper.findComponent({ name: 'ColorAreaRoot' })
+    await colorAreaRoot.vm.$emit('update:color', dragged)
+    await nextTick()
+
+    // Must stay in the gold family (hue ~40°), never revert toward the
+    // original blue (hue ~217°).
+    const finalHue = Math.round(getChannelValue(parseColor(triggerInput.value), 'hue'))
+    expect(finalHue).toBeGreaterThan(20)
+    expect(finalHue).toBeLessThan(70)
+  })
 })

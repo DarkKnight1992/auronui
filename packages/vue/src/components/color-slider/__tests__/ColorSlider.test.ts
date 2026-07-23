@@ -128,6 +128,7 @@ describe('ColorSlider', () => {
             // captured for context write-back verification
           },
           setChannels: () => {},
+          rememberedHue: ref(0),
           format: ref('hex' as const),
           emitUpdate: () => {},
         })

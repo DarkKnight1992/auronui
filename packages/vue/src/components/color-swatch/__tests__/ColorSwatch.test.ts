@@ -45,6 +45,7 @@ describe('ColorSwatch', () => {
           format: ref('hex'),
           setChannel: () => {},
           setChannels: () => {},
+          rememberedHue: ref(0),
           emitUpdate: () => {},
         }
         provideColorPickerContext(ctx)

@@ -1,7 +1,7 @@
 import { describe, it, expect, afterEach } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, provide, ref } from 'vue'
-import { parseColor, setChannelValues } from 'reka-ui'
+import { parseColor, setChannelValues, getChannelValue } from 'reka-ui'
 import { ColorPickerContextKey } from '../../color-picker/color-picker.context'
 import ColorArea from '../ColorArea.vue'
 
@@ -111,6 +111,7 @@ describe('ColorArea', () => {
           color: contextColor,
           setChannel: () => {},
           setChannels: () => {},
+          rememberedHue: ref(0),
           format: ref('hex' as const),
           emitUpdate: () => {},
         })
@@ -145,6 +146,7 @@ describe('ColorArea', () => {
           setChannels: (values: Array<{ channel: string; value: number }>) => {
             contextColor.value = setChannelValues(contextColor.value, values as any)
           },
+          rememberedHue: ref(0),
           format: ref('hex' as const),
           emitUpdate: () => {},
         })
@@ -175,6 +177,68 @@ describe('ColorArea', () => {
     const darkFirst = /linear-gradient\(to top,\s*(?:#000000|rgba\(0, 0, 0, 1\))/i
     expect(before).toMatch(darkFirst)
     expect(after).toMatch(darkFirst)
+
+    wrapper.unmount()
+  })
+
+  it('Test 9: preserves hue across an achromatic (zero-saturation) crossing, even when reka-ui reports a corrupted hue on the way back', async () => {
+    // Regression test for a confirmed reka-ui@2.9.5 bug: setChannelValues() loses
+    // hue whenever a color round-trips through an achromatic state (saturation or
+    // brightness at 0) — a wide range of hues collapse to the same/nearly-same
+    // RGB triple there, so re-deriving hue from the round-tripped output afterward
+    // is itself unreliable. This ColorArea's own two axes (saturation/brightness)
+    // should never change hue at all regardless of what reka-ui's ColorAreaRoot
+    // reports on its `update:color` emit — verified live via Playwright dragging
+    // a #3b82f6 (blue, hue~217°) swatch through the white and black corners and
+    // back, which reka-ui's own internals reset to pure red (hue 0) without this
+    // fix in place.
+    const contextColor = ref(parseColor('#3b82f6'))
+    const Parent = defineComponent({
+      setup() {
+        provide(ColorPickerContextKey, {
+          color: contextColor,
+          setChannel: () => {},
+          setChannels: (values: Array<{ channel: string; value: number }>) => {
+            contextColor.value = setChannelValues(contextColor.value, values as any)
+          },
+          rememberedHue: ref(0),
+          format: ref('hex' as const),
+          emitUpdate: () => {},
+        })
+      },
+      template: '<slot />',
+    })
+    const wrapper = mount(Parent, {
+      slots: {
+        default: '<ColorArea xChannel="saturation" yChannel="brightness" />',
+      },
+      global: { components: { ColorArea } },
+      attachTo: document.body,
+    })
+
+    const initialHue = getChannelValue(contextColor.value, 'hue')
+    expect(Math.round(initialHue)).toBe(217)
+
+    const colorAreaRoot = wrapper.findComponent({ name: 'ColorAreaRoot' })
+
+    // Drag to the white corner (saturation 0, brightness 100). reka-ui's own
+    // ColorAreaRoot would emit this achromatic color with SOME hue value — the
+    // exact number is irrelevant/undefined at zero saturation, so simulate it
+    // reporting hue 0 (matching the live-observed corruption).
+    await colorAreaRoot.vm.$emit('update:color', parseColor('hsb(0, 0%, 100%)'))
+    await wrapper.vm.$nextTick()
+    expect(getChannelValue(contextColor.value, 'saturation')).toBe(0)
+
+    // Drag back to a fully saturated corner. Simulate reka-ui's own confirmed bug:
+    // it reports hue 0 (red) here too, even though the user never touched hue.
+    await colorAreaRoot.vm.$emit('update:color', parseColor('hsb(0, 100%, 100%)'))
+    await wrapper.vm.$nextTick()
+
+    // The fix must not trust reka-ui's reported hue — it must reassert the
+    // original, independently-remembered hue instead.
+    expect(Math.round(getChannelValue(contextColor.value, 'hue'))).toBe(Math.round(initialHue))
+    expect(getChannelValue(contextColor.value, 'saturation')).toBe(100)
+    expect(getChannelValue(contextColor.value, 'brightness')).toBe(100)
 
     wrapper.unmount()
   })

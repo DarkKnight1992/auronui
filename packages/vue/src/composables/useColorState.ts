@@ -25,6 +25,12 @@ export interface UseColorStateProps {
   format?: MaybeRefOrGetter<ColorFormat | undefined>
   /** Fires with the serialized color string whenever the color changes. */
   onChange?: (value: string, color: Color) => void
+  /** Fires only when `value` changes to a genuinely different color from an
+   *  external source (not an echo of this composable's own last emit round-
+   *  tripping back through a parent's v-model). Lets callers distinguish a
+   *  real external change (e.g. the app setting a new controlled value) from
+   *  a redundant re-sync, without guessing from timing. */
+  onExternalChange?: (color: Color) => void
 }
 
 export interface UseColorStateReturn {
@@ -62,12 +68,26 @@ export function useColorState(props: UseColorStateProps = {}): UseColorStateRetu
   const color = ref<Color>(initial)
 
   // Controlled mode: sync when props.value changes externally.
+  //
+  // Skips the sync when the incoming value is just an echo of this ref's own
+  // last emit — e.g. a parent component that round-trips through a string
+  // v-model (ColorPickerInput -> ColorPicker's `modelValue` prop) re-emits
+  // the same color as a freshly-serialized hex string on every change,
+  // including changes that originated from THIS composable's own setChannel/
+  // setChannels calls. Unconditionally reparsing that string would discard
+  // this ref's precise internal representation (e.g. full-precision HSB from
+  // a ColorArea drag) and reconstruct it from a lossy 8-bit-RGB round-trip —
+  // even though nothing about the color actually changed. Comparing
+  // serialized hex first and skipping the reassignment when it's unchanged
+  // keeps the existing, precise value intact.
   watch(
     () => toValue(props.value),
     (next) => {
-      if (next !== undefined) {
-        color.value = toColor(next)
-      }
+      if (next === undefined) return
+      const nextColor = toColor(next)
+      if (colorToHex(nextColor) === colorToHex(color.value)) return
+      color.value = nextColor
+      props.onExternalChange?.(nextColor)
     },
   )
 

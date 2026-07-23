@@ -6,6 +6,7 @@ import {
   ColorSliderThumb,
   getSliderBackgroundStyle,
   getChannelValue,
+  setChannelValues,
   type Color,
   type ColorChannel,
   type ColorSpace,
@@ -79,15 +80,49 @@ const color = computed<Color>(() =>
   pickerCtx ? pickerCtx.color.value : local!.color.value
 )
 
+// reka-ui's ColorSliderRoot caches its own internal color representation and
+// re-derives it from whatever `model-value` it receives whenever the color's
+// hex string changes *for any reason* — including an unrelated channel update
+// from a sibling ColorArea (saturation/brightness). That re-derivation (a
+// fuzzy "is this close enough to the cached value?" heuristic, see
+// ColorSliderRoot's `shouldPreserve` check) is lossy specifically for hue, so
+// the hue slider can visibly jump even though hue never actually changed.
+// Pin every other channel to fixed reference values so this slider's own
+// hex string only changes when hue genuinely does — ColorSliderRoot's buggy
+// re-derivation then never gets a spurious reason to fire. Scoped to `hue`
+// only: it's the one channel reka-ui special-cases in that heuristic, and
+// this slider's other channel types (saturation/brightness/alpha/etc.)
+// haven't shown this symptom.
+//
+// The hue value itself comes from ColorPickerContext.rememberedHue when
+// composed inside ColorPicker, not from `getChannelValue(color.value, 'hue')`
+// — hue is mathematically undefined once the color is a pure black/white/
+// gray (R=G=B has no hue information at all), so ColorArea dragging into an
+// achromatic corner would otherwise make this slider visibly snap to red
+// (hue 0) even though rememberedHue itself never changed.
+const sliderModelValue = computed<Color>(() => {
+  if (props.channel !== 'hue') return color.value
+  const hue = pickerCtx ? pickerCtx.rememberedHue.value : getChannelValue(color.value, 'hue')
+  return setChannelValues(color.value, [
+    { channel: 'saturation', value: 100 },
+    { channel: 'lightness', value: 50 },
+    { channel: 'alpha', value: 1 },
+    { channel: 'hue', value: hue },
+  ])
+})
+
 const styles = colorSliderVariants()
 
 const trackBgStyle = computed(() =>
   getSliderBackgroundStyle(color.value, props.channel)
 )
 
-const channelDisplay = computed(() =>
-  Math.round(getChannelValue(color.value, props.channel)).toString()
-)
+const channelDisplay = computed(() => {
+  if (props.channel === 'hue' && pickerCtx) {
+    return Math.round(pickerCtx.rememberedHue.value).toString()
+  }
+  return Math.round(getChannelValue(color.value, props.channel)).toString()
+})
 
 function onColorUpdate(next: Color) {
   if (pickerCtx) {
@@ -102,7 +137,7 @@ function onColorUpdate(next: Color) {
 <template>
   <ColorSliderRoot
     v-bind="attrs"
-    :model-value="color"
+    :model-value="sliderModelValue"
     :channel="channel"
     :color-space="colorSpace"
     :orientation="orientation"

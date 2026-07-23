@@ -1,10 +1,11 @@
 <script setup lang="ts">
-import { computed, inject } from 'vue'
+import { computed, inject, ref } from 'vue'
 import {
   ColorAreaRoot,
   ColorAreaArea,
   ColorAreaThumb,
   getChannelValue,
+  setChannelValues,
   type Color,
   type ColorChannel,
   type ColorSpace,
@@ -63,9 +64,28 @@ const isRequired = useDeprecatedBooleanProp(
 
 // Optional picker context — when absent, fall back to local useColorState
 const pickerCtx = inject(ColorPickerContextKey, null)
+
+const usesHueAxis = computed(() => props.xChannel === 'hue' || props.yChannel === 'hue')
+
+function isChromatic(c: Color): boolean {
+  return getChannelValue(c, 'saturation') > 0 && getChannelValue(c, 'brightness') > 0
+}
+
+// Standalone (no ColorPicker ancestor): mirror ColorPicker's own rememberedHue
+// tracking locally — see ColorPickerContext.rememberedHue for the full
+// rationale. Unused when composed inside ColorPicker, which already owns this
+// via context.
+const localRememberedHue = ref(0)
 const local = pickerCtx
   ? null
-  : useColorState({ value: () => props.modelValue, defaultValue: () => props.defaultValue })
+  : useColorState({
+    value: () => props.modelValue,
+    defaultValue: () => props.defaultValue,
+    onExternalChange: (next) => {
+      if (!usesHueAxis.value && isChromatic(next)) localRememberedHue.value = getChannelValue(next, 'hue')
+    },
+  })
+if (local) localRememberedHue.value = getChannelValue(local.color.value, 'hue')
 
 const color = computed<Color>(() =>
   pickerCtx ? pickerCtx.color.value : local!.color.value
@@ -90,16 +110,24 @@ const effectiveColorSpace = computed<ColorSpace>(() => {
   return 'hsl'
 })
 
+// Hue preservation: when composed inside ColorPicker, its context already
+// owns rememberedHue (see ColorPickerContext.rememberedHue) and its
+// setChannels wrapper already reasserts it on every non-hue write — this
+// component just needs to defer to it. Standalone usage reassembles the same
+// behavior locally via localRememberedHue above, since there's no shared
+// context to delegate to.
 function onColorUpdate(next: Color) {
   if (pickerCtx) {
-    // Write both active channels back via context
     pickerCtx.setChannels([
       { channel: props.xChannel!, value: getChannelValue(next, props.xChannel!) },
       { channel: props.yChannel!, value: getChannelValue(next, props.yChannel!) },
     ])
   } else {
-    emit('update:modelValue', next)
-    emit('update:color', next)
+    const corrected = usesHueAxis.value
+      ? next
+      : setChannelValues(next, [{ channel: 'hue', value: localRememberedHue.value }])
+    emit('update:modelValue', corrected)
+    emit('update:color', corrected)
   }
 }
 </script>

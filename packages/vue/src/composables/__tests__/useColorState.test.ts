@@ -91,4 +91,30 @@ describe('useColorState', () => {
     expect(onChange).toHaveBeenCalledOnce()
     expect(onChange).toHaveBeenCalledWith('#00ff00', expect.any(Object))
   })
+
+  it('Test 11: skips re-parsing (and does not fire onExternalChange) when the incoming value is an echo of the current color', async () => {
+    // Regression test for the real production bug behind "ColorArea dragging
+    // changes the hue slider": a parent that round-trips through a string
+    // v-model (ColorPickerInput -> ColorPicker's `modelValue` prop) re-emits
+    // the same color as a freshly-serialized hex string on every change,
+    // including ones that originated from this composable's own setChannel/
+    // setChannels calls. Unconditionally reparsing that string discarded the
+    // precise in-memory color and reconstructed it from a lossy 8-bit-RGB
+    // round-trip, even though nothing about the color had actually changed.
+    const valueRef = ref<string>('#3b82f6')
+    const onExternalChange = vi.fn()
+    const { color } = useColorState({ value: () => valueRef.value, onExternalChange })
+
+    const before = color.value
+    valueRef.value = colorToHex(color.value)
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(color.value).toBe(before)
+    expect(onExternalChange).not.toHaveBeenCalled()
+
+    // A genuinely different external value must still sync normally.
+    valueRef.value = '#ff0000'
+    await new Promise(resolve => setTimeout(resolve, 0))
+    expect(colorToHex(color.value)).toBe('#ff0000')
+    expect(onExternalChange).toHaveBeenCalledOnce()
+  })
 })

@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { toRef } from 'vue'
-import { type ColorFormat } from 'reka-ui'
+import { ref, toRef } from 'vue'
+import { getChannelValue, type Color, type ColorChannel, type ColorFormat } from 'reka-ui'
 import { colorPickerVariants } from '@auronui/styles'
 import { composeClassName } from '../../utils/composeClassName'
 import { useColorState } from '../../composables/useColorState'
@@ -37,19 +37,84 @@ const isDisabled = useDeprecatedBooleanProp(
   'ColorPicker', 'isDisabled', () => props.isDisabled, 'disabled', () => props.disabled,
 )
 
+// See ColorPickerContext.rememberedHue for the full rationale. In short: hue
+// is mathematically undefined for a pure black/white/gray color, so a
+// ColorArea drag into a corner of the saturation/brightness plane loses hue
+// at that exact point — updated directly from the actual input value
+// whenever a hue channel is explicitly set (never re-derived from the
+// stored color afterward), so it can't be corrupted by that loss.
+function isChromatic(color: Color): boolean {
+  return getChannelValue(color, 'saturation') > 0 && getChannelValue(color, 'brightness') > 0
+}
+
 const state = useColorState({
   value: () => props.modelValue,
   defaultValue: () => props.defaultValue,
   format: () => props.format,
   onChange: (value) => emit('update:modelValue', value),
+  onExternalChange: (next) => {
+    if (isChromatic(next)) rememberedHue.value = getChannelValue(next, 'hue')
+  },
 })
+
+const rememberedHue = ref(getChannelValue(state.color.value, 'hue'))
+
+// A write either (a) explicitly defines a whole new color — the hue slider
+// itself, or ColorField's hex input writing red/green/blue directly — in
+// which case rememberedHue must be RESYNCED from it afterward (it's stale
+// otherwise, and the next ColorArea drag would reassert that stale hue and
+// visibly corrupt the color back to it, even though the stored color was
+// already correct) — or (b) only touches saturation/brightness/lightness/
+// alpha (ColorArea, the alpha slider), which must never affect hue at all,
+// so rememberedHue is reasserted onto it instead.
+const RGB_CHANNELS: ColorChannel[] = ['red', 'green', 'blue']
+
+function resyncRememberedHue() {
+  if (isChromatic(state.color.value)) {
+    rememberedHue.value = getChannelValue(state.color.value, 'hue')
+  }
+}
+
+function setChannel(channel: ColorChannel, value: number) {
+  if (channel === 'hue') {
+    rememberedHue.value = value
+    state.setChannel(channel, value)
+    return
+  }
+  if (RGB_CHANNELS.includes(channel)) {
+    state.setChannel(channel, value)
+    resyncRememberedHue()
+    return
+  }
+  state.setChannels([{ channel, value }, { channel: 'hue', value: rememberedHue.value }])
+}
+
+function setChannels(values: Array<{ channel: ColorChannel; value: number }>) {
+  const channels = values.map((v) => v.channel)
+  const isFullColorWrite = channels.includes('hue') || channels.some((c) => RGB_CHANNELS.includes(c))
+  if (isFullColorWrite) {
+    state.setChannels(values)
+    const hueEntry = values.find((v) => v.channel === 'hue')
+    if (hueEntry) {
+      // An explicit hue entry is authoritative even if the stored/re-derived
+      // result rounds slightly differently — avoids the same round-trip
+      // noise ColorArea's own reassertion exists to prevent.
+      rememberedHue.value = hueEntry.value
+    } else {
+      resyncRememberedHue()
+    }
+    return
+  }
+  state.setChannels([...values, { channel: 'hue', value: rememberedHue.value }])
+}
 
 const formatRef = toRef(props, 'format')
 
 provideColorPickerContext({
   color: state.color,
-  setChannel: state.setChannel,
-  setChannels: state.setChannels,
+  setChannel,
+  setChannels,
+  rememberedHue,
   format: formatRef,
   emitUpdate: (value) => emit('update:modelValue', value),
 })

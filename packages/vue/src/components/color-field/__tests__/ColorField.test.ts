@@ -133,6 +133,7 @@ describe('ColorField', () => {
           format,
           setChannel: (ch, val) => { contextCalls.push({ channel: ch, value: val }) },
           setChannels: () => {},
+          rememberedHue: ref(0),
           emitUpdate: () => {},
         }
         provideColorPickerContext(ctx)
