@@ -1,6 +1,6 @@
 {
   "name": "@auronui/styles",
-  "version": "1.9.2",
+  "version": "1.9.3",
   "description": "Auron core styles — adapted for Reka UI",
   "type": "module",
   "license": "MIT",
