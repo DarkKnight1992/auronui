@@ -166,16 +166,16 @@
 }
 
 .select__trigger--raised {
-  /* Elevated look: white bg + shadow, transparent border */
+  /* Elevated look: surface color + shadow, transparent border */
   @apply shadow-md;
-  background-color: var(--snow);
+  background-color: var(--color-surface);
   border-color: transparent;
 
   @media (hover: hover) {
     &:hover:not(:focus),
     &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
       @apply shadow-lg;
-      background-color: var(--background);
+      background-color: var(--color-surface-hover);
       border-color: transparent;
     }
   }
@@ -184,7 +184,7 @@
   &:focus-within,
   &[data-focused="true"] {
     @apply shadow-lg;
-    background-color: var(--snow);
+    background-color: var(--color-surface);
     border-color: var(--color-field-border-focus);
   }
 }

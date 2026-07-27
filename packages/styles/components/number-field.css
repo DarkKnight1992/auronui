@@ -285,16 +285,16 @@
 }
 
 .number-field--raised .number-field__group {
-  /* Elevated look: white bg + shadow, transparent border */
+  /* Elevated look: surface color + shadow, transparent border */
   @apply shadow-md;
-  background-color: var(--snow);
+  background-color: var(--color-surface);
   border-color: transparent;
 
   @media (hover: hover) {
     &:hover:not(:focus-within),
     &[data-hovered="true"]:not([data-focus-within="true"]) {
       @apply shadow-lg;
-      background-color: var(--background);
+      background-color: var(--color-surface-hover);
       border-color: transparent;
     }
   }
@@ -302,7 +302,7 @@
   &:focus-within,
   &[data-focus-within="true"] {
     @apply shadow-lg;
-    background-color: var(--snow);
+    background-color: var(--color-surface);
     border-color: var(--color-field-border-focus);
   }
 }

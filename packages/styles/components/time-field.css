@@ -134,21 +134,21 @@
 
 .time-field--raised {
   @apply shadow-md;
-  background-color: var(--snow);
+  background-color: var(--color-surface);
   border-color: transparent;
 
   @media (hover: hover) {
     &:hover:not([data-focused="true"]),
     &[data-hovered="true"]:not([data-focused="true"]):not([data-focus-visible="true"]) {
       @apply shadow-lg;
-      background-color: var(--background);
+      background-color: var(--color-surface-hover);
       border-color: transparent;
     }
   }
 
   &[data-focused="true"] {
     @apply shadow-lg;
-    background-color: var(--snow);
+    background-color: var(--color-surface);
     border-color: var(--color-field-border-focus);
   }
 }

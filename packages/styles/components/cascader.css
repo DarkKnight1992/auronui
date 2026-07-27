@@ -125,13 +125,13 @@
 
 .cascader__trigger--raised {
   @apply shadow-md;
-  background-color: var(--snow);
+  background-color: var(--color-surface);
   border-color: transparent;
 
   @media (hover: hover) {
     &:hover:not([data-disabled="true"]) {
       @apply shadow-lg;
-      background-color: var(--background);
+      background-color: var(--color-surface-hover);
       border-color: transparent;
     }
   }
@@ -139,7 +139,7 @@
   &:focus-visible,
   &[data-state="open"] {
     @apply shadow-lg;
-    background-color: var(--snow);
+    background-color: var(--color-surface);
     border-color: var(--color-field-border-focus);
   }
 }
