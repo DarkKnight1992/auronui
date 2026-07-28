@@ -91,13 +91,16 @@ function moveLeft() {
 }
 
 function moveAllRight() {
-  modelValue.value = [...modelValue.value, ...sourceItems.value.filter(i => !i.isDisabled).map(i => i.value)]
+  modelValue.value = [
+    ...modelValue.value,
+    ...filteredSourceItems.value.filter(i => !i.isDisabled).map(i => i.value),
+  ]
   sourceChecked.value = []
 }
 
 function moveAllLeft() {
-  const keepDisabled = targetItems.value.filter(i => i.isDisabled).map(i => i.value)
-  modelValue.value = keepDisabled
+  const moving = new Set(filteredTargetItems.value.filter(i => !i.isDisabled).map(i => i.value))
+  modelValue.value = modelValue.value.filter(v => !moving.has(v))
   targetChecked.value = []
 }
 
@@ -133,7 +136,7 @@ function handleDragEnd() {
 }
 
 function handleDragOverPanel(ev: DragEvent, panel: TransferPanel) {
-  if (!draggedValue.value || draggedFrom.value === panel) return
+  if (draggedValue.value == null || draggedFrom.value === panel) return
   ev.preventDefault()
   if (ev.dataTransfer) ev.dataTransfer.dropEffect = 'move'
   dragOverPanel.value = panel
@@ -144,7 +147,7 @@ function handleDropPanel(ev: DragEvent, panel: TransferPanel) {
   const value = draggedValue.value
   const from = draggedFrom.value
   handleDragEnd()
-  if (!value || !from || from === panel) return
+  if (value == null || from == null || from === panel) return
 
   if (from === 'source' && panel === 'target') {
     modelValue.value = [...modelValue.value, value]
@@ -240,7 +243,7 @@ const slotFns = computed(() => transferVariants({ isDisabled: props.isDisabled }
         :class="composeClassName(slotFns.controlButton(), props.classNames?.controlButton)"
         data-slot="transfer-move-all-right"
         aria-label="Move all to the right panel"
-        :disabled="isDisabled || sourceItems.length === 0"
+        :disabled="isDisabled || filteredSourceItems.length === 0"
         @click="moveAllRight"
       >
         <svg
@@ -259,7 +262,7 @@ const slotFns = computed(() => transferVariants({ isDisabled: props.isDisabled }
         :class="composeClassName(slotFns.controlButton(), props.classNames?.controlButton)"
         data-slot="transfer-move-all-left"
         aria-label="Move all to the left panel"
-        :disabled="isDisabled || targetItems.length === 0"
+        :disabled="isDisabled || filteredTargetItems.length === 0"
         @click="moveAllLeft"
       >
         <svg

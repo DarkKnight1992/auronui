@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState, type DragEvent } from "react";
+import { useCallback, useMemo, useState, type DragEvent } from "react";
 import { transferVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
 import { SearchField } from "../search-field";
@@ -27,25 +27,41 @@ export interface TransferItem {
  *    TabIndicator inside TabList did (both come from the same
  *    react-aria collection machinery, which uses useSyncExternalStore
  *    internally): a genuine infinite re-render loop, not just a cosmetic miss.
+ *
+ * Returns a ref CALLBACK, not a ref object read from a separate `useEffect`.
+ * That distinction is load-bearing, not stylistic: react-aria-components'
+ * Collection (`CollectionBuilder`, used internally by ListBox) builds its
+ * item list via `useSyncExternalStore` in a first render pass that does not
+ * yet attach the item's real DOM node, then commits the real node on a
+ * follow-up render. An `elementRef.current` read inside a `useEffect` whose
+ * deps never change between those two renders (isDraggable/onDragStart/
+ * onDragEnd are all stable here) only runs once, on the FIRST pass, and so
+ * it observes `elementRef.current === null` forever — draggable is never
+ * set and no listeners are ever attached, confirmed even against a bare
+ * `<ListBoxItem ref={ref}>` straight from the react-aria-components package
+ * with none of this file's logic involved. A ref *callback* sidesteps this
+ * entirely: React invokes it exactly when a real DOM node is committed at
+ * that fiber position, on whichever render pass that turns out to be.
  */
-function useDraggable(
-  elementRef: React.RefObject<HTMLElement | null>,
+function useDraggableRef(
   isDraggable: boolean,
   onDragStart: (ev: globalThis.DragEvent) => void,
   onDragEnd: () => void,
 ) {
-  useEffect(() => {
-    const el = elementRef.current;
-    if (!el) return;
-    el.draggable = isDraggable;
-    if (!isDraggable) return;
-    el.addEventListener("dragstart", onDragStart);
-    el.addEventListener("dragend", onDragEnd);
-    return () => {
-      el.removeEventListener("dragstart", onDragStart);
-      el.removeEventListener("dragend", onDragEnd);
-    };
-  }, [elementRef, isDraggable, onDragStart, onDragEnd]);
+  return useCallback(
+    (el: HTMLElement | null) => {
+      if (!el) return;
+      el.draggable = isDraggable;
+      if (!isDraggable) return;
+      el.addEventListener("dragstart", onDragStart);
+      el.addEventListener("dragend", onDragEnd);
+      return () => {
+        el.removeEventListener("dragstart", onDragStart);
+        el.removeEventListener("dragend", onDragEnd);
+      };
+    },
+    [isDraggable, onDragStart, onDragEnd],
+  );
 }
 
 function DraggableTransferItem({
@@ -63,16 +79,15 @@ function DraggableTransferItem({
   onItemDragStart: (ev: globalThis.DragEvent, item: TransferItem, from: TransferPanel) => void;
   onItemDragEnd: () => void;
 }) {
-  const ref = useRef<HTMLElement | null>(null);
   const handleStart = useCallback(
     (ev: globalThis.DragEvent) => onItemDragStart(ev, item, panel),
     [onItemDragStart, item, panel],
   );
-  useDraggable(ref, !isDisabled && !item.isDisabled, handleStart, onItemDragEnd);
+  const dragRef = useDraggableRef(!isDisabled && !item.isDisabled, handleStart, onItemDragEnd);
 
   return (
     <ListBoxItem
-      ref={ref as React.RefObject<HTMLDivElement>}
+      ref={dragRef}
       value={item.value}
       isDisabled={item.isDisabled}
       className={isDragging ? "transfer__item--dragging" : undefined}
@@ -191,12 +206,13 @@ export function Transfer({
   }
 
   function moveAllRight() {
-    commit([...value, ...sourceItems.filter((i) => !i.isDisabled).map((i) => i.value)]);
+    commit([...value, ...filteredSourceItems.filter((i) => !i.isDisabled).map((i) => i.value)]);
     setSourceChecked([]);
   }
 
   function moveAllLeft() {
-    commit(targetItems.filter((i) => i.isDisabled).map((i) => i.value));
+    const moving = new Set(filteredTargetItems.filter((i) => !i.isDisabled).map((i) => i.value));
+    commit(value.filter((v) => !moving.has(v)));
     setTargetChecked([]);
   }
 
@@ -226,7 +242,7 @@ export function Transfer({
   }, []);
 
   function handleDragOverPanel(ev: DragEvent, panel: TransferPanel) {
-    if (!draggedValue || draggedFrom === panel) return;
+    if (draggedValue == null || draggedFrom === panel) return;
     ev.preventDefault();
     ev.dataTransfer.dropEffect = "move";
     setDragOverPanel(panel);
@@ -237,7 +253,7 @@ export function Transfer({
     const dropValue = draggedValue;
     const from = draggedFrom;
     handleDragEnd();
-    if (!dropValue || !from || from === panel) return;
+    if (dropValue == null || from == null || from === panel) return;
 
     if (from === "source" && panel === "target") {
       commit([...value, dropValue]);
@@ -339,7 +355,7 @@ export function Transfer({
           className={composeClassName(slotFns.controlButton(), classNames?.controlButton)}
           data-slot="transfer-move-all-right"
           aria-label="Move all to the right panel"
-          disabled={isDisabled || sourceItems.length === 0}
+          disabled={isDisabled || filteredSourceItems.length === 0}
           onClick={moveAllRight}
         >
           <svg
@@ -360,7 +376,7 @@ export function Transfer({
           className={composeClassName(slotFns.controlButton(), classNames?.controlButton)}
           data-slot="transfer-move-all-left"
           aria-label="Move all to the left panel"
-          disabled={isDisabled || targetItems.length === 0}
+          disabled={isDisabled || filteredTargetItems.length === 0}
           onClick={moveAllLeft}
         >
           <svg

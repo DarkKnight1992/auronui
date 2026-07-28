@@ -146,6 +146,87 @@ describe('Transfer', () => {
     expect(wrapper.find('[data-slot="transfer-move-all-left"]').attributes('disabled')).toBeDefined()
   })
 
+  // ─── "Move all" respects the search filter ───────────────────────────
+  // Regression: "Move all" used to operate on the full unfiltered
+  // underlying array, so narrowing the source panel down to one visible
+  // item and clicking move-all-right would move all 3 underlying items,
+  // including 2 the user couldn't even see.
+
+  it('move-all-right only moves the currently visible (filtered) source items, not filtered-out ones', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: [] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" is-searchable />',
+      }),
+    )
+    const sourceSearch = wrapper.find('[data-slot="transfer-source-panel"] input[type="search"]')
+    await sourceSearch.setValue('ali')
+    await wrapper.find('[data-slot="transfer-move-all-right"]').trigger('click')
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual(['alice'])
+  })
+
+  it('move-all-right is disabled when the filtered source view is empty, even though unfiltered items exist', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: [] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" is-searchable />',
+      }),
+    )
+    const sourceSearch = wrapper.find('[data-slot="transfer-source-panel"] input[type="search"]')
+    await sourceSearch.setValue('no-such-item')
+    expect(wrapper.find('[data-slot="transfer-move-all-right"]').attributes('disabled')).toBeDefined()
+  })
+
+  it('move-all-left only moves the currently visible (filtered) target items, not filtered-out ones', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: ['alice', 'bob', 'carol'] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" is-searchable />',
+      }),
+    )
+    const targetSearch = wrapper.find('[data-slot="transfer-target-panel"] input[type="search"]')
+    await targetSearch.setValue('bob')
+    await wrapper.find('[data-slot="transfer-move-all-left"]').trigger('click')
+    const remaining = (wrapper.vm as unknown as { modelValue: string[] }).modelValue
+    expect(remaining.sort()).toEqual(['alice', 'carol'])
+  })
+
+  it('move-all-left is disabled when the filtered target view is empty, even though unfiltered items exist', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: ['alice', 'bob', 'carol'] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="items" is-searchable />',
+      }),
+    )
+    const targetSearch = wrapper.find('[data-slot="transfer-target-panel"] input[type="search"]')
+    await targetSearch.setValue('no-such-item')
+    expect(wrapper.find('[data-slot="transfer-move-all-left"]').attributes('disabled')).toBeDefined()
+  })
+
   it('renders panel titles when provided', () => {
     const wrapper = mountTransfer({ titles: ['Available', 'Selected'] })
     expect(wrapper.find('[data-slot="transfer-source-header"]').text()).toBe('Available')
@@ -304,5 +385,32 @@ describe('Transfer', () => {
     const wrapper = mountTransfer()
     const options = wrapper.findAll('[role="option"]')
     expect(options[0]!.attributes('draggable')).toBe('true')
+  })
+
+  // Regression: the drag/drop guards used `!draggedValue`/`!value` truthy
+  // checks instead of null/undefined checks, so an item whose value is the
+  // falsy-but-valid empty string couldn't be dropped even though the same
+  // item's checkbox+button move path worked fine for it.
+  it('dragging and dropping an item whose value is an empty string still moves it', async () => {
+    const falsyItems = [{ value: '', label: 'Falsy' }, ...items]
+    const wrapper = mount(
+      defineComponent({
+        components: { Transfer },
+        setup() {
+          return { falsyItems }
+        },
+        data() {
+          return { modelValue: [] as string[] }
+        },
+        template: '<Transfer v-model="modelValue" :items="falsyItems" />',
+      }),
+      { attachTo: document.body },
+    )
+    const options = wrapper.findAll('[data-slot="transfer-source-body"] [role="option"]')
+    const falsyOption = options.find(o => o.text() === 'Falsy')!
+    await falsyOption.trigger('dragstart', { dataTransfer: fakeDataTransfer() })
+    await wrapper.find('[data-slot="transfer-target-body"]').trigger('drop', { dataTransfer: fakeDataTransfer() })
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual([''])
+    wrapper.unmount()
   })
 })
