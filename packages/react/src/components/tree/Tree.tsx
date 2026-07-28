@@ -1,4 +1,4 @@
-import { useCallback, useMemo, useState, type ReactNode } from "react";
+import { useCallback, useMemo, useRef, useState, type ReactNode } from "react";
 import { treeVariants, type TreeVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
 import { TreeProvider } from "./tree.context";
@@ -13,6 +13,8 @@ export interface FlattenedTreeItem<T> {
   /** 1-based nesting depth, mirroring Vue's `level` prop on TreeItem. */
   level: number;
   hasChildren: boolean;
+  /** Key of the containing row, or null for root-level items. */
+  parentKey: string | null;
 }
 
 export interface TreeSlotProps<T> {
@@ -133,22 +135,58 @@ export function Tree<T extends object>({
 
   const flattenItems = useMemo(() => {
     const result: FlattenedTreeItem<T>[] = [];
-    const walk = (nodes: T[], level: number) => {
+    const walk = (nodes: T[], level: number, parentKey: string | null) => {
       for (const item of nodes) {
         const key = getKey(item);
         const kids = getChildren(item);
         const hasChildren = Array.isArray(kids) ? kids.length > 0 : !!kids;
-        result.push({ key, item, level, hasChildren });
+        result.push({ key, item, level, hasChildren, parentKey });
         if (hasChildren && currentExpanded.includes(key)) {
-          walk(kids as T[], level + 1);
+          walk(kids as T[], level + 1, key);
         }
       }
     };
-    walk(items, 1);
+    walk(items, 1, null);
     return result;
   }, [items, getKey, getChildren, currentExpanded]);
 
   const slotFns = useMemo(() => treeVariants({ size }), [size]);
+
+  // Roving tabindex (WAI-ARIA TreeView pattern): exactly one row tree-wide is
+  // a tab stop; arrow keys move an internally-tracked "active" row and
+  // imperatively focus its DOM node. `navOrder` is the depth-first order of
+  // *visible* rows only (collapsed subtrees are absent), matching
+  // `flattenItems` — that's what lets ArrowDown/Up/Right/Left move between
+  // rows, into a first child, or out to a parent without re-walking `items`.
+  const [activeKey, setActiveKeyState] = useState<string | null>(null);
+  const nodeRefs = useRef(new Map<string, HTMLElement>());
+
+  const navOrder = useMemo(
+    () => flattenItems.map((fi) => ({ key: fi.key, parentKey: fi.parentKey })),
+    [flattenItems],
+  );
+
+  // Falls back to the first visible row whenever nothing has been focused
+  // yet, or the previously-active row was hidden out from under it (e.g. an
+  // ancestor collapsed via a controlled `expanded` prop change).
+  const effectiveActiveKey = useMemo(() => {
+    if (activeKey !== null && navOrder.some((n) => n.key === activeKey)) return activeKey;
+    return navOrder[0]?.key ?? null;
+  }, [activeKey, navOrder]);
+
+  const setActiveKey = useCallback((key: string) => {
+    setActiveKeyState(key);
+  }, []);
+
+  const registerNode = useCallback((key: string, el: HTMLElement | null) => {
+    if (el) nodeRefs.current.set(key, el);
+    else nodeRefs.current.delete(key);
+  }, []);
+
+  const focusNode = useCallback((key: string) => {
+    nodeRefs.current.get(key)?.focus();
+    setActiveKeyState(key);
+  }, []);
 
   return (
     <TreeProvider
@@ -160,6 +198,11 @@ export function Tree<T extends object>({
         isExpanded,
         select,
         toggleExpand,
+        activeKey: effectiveActiveKey,
+        setActiveKey,
+        navOrder,
+        registerNode,
+        focusNode,
       }}
     >
       <div

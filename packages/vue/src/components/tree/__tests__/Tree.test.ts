@@ -255,6 +255,31 @@ describe('TreeItem', () => {
     wrapper.unmount()
   })
 
+  it('Test 7a: pressing Enter on a focused parent row emits the toggle event, not just select (regression: keyboard toggle bypassed the toggle emit)', async () => {
+    // Reka-ui's exposed handleToggle() mutates internal expand state directly
+    // without going through the component's own `toggle` emit — a consumer
+    // relying on @toggle (e.g. to lazy-load children only once expanded)
+    // must still be notified for keyboard-driven expansion, matching click.
+    const selectSpy = vi.fn()
+    const toggleSpy = vi.fn()
+    const Wrapper = defineComponent({
+      components: { Tree, TreeItem, TreeItemToggle },
+      setup() {
+        const selected = ref<FileNode | null>(null)
+        const expanded = ref<string[]>([])
+        return { fileTree, selected, expanded, treeProps: {}, onSelect: selectSpy, onToggle: toggleSpy }
+      },
+      template: TREE_TEMPLATE,
+    })
+    const wrapper = mount(Wrapper, { attachTo: document.body })
+    const srcRow = wrapper.findAll('[data-slot="tree-item"]')[0]!
+    await srcRow.trigger('keydown', { key: 'Enter' })
+    await nextTick()
+    expect(toggleSpy).toHaveBeenCalledTimes(1)
+    expect(selectSpy).toHaveBeenCalledTimes(1)
+    wrapper.unmount()
+  })
+
   it('Test 7: TreeItem emits select and toggle together on row click interaction', async () => {
     // reka-ui's TreeItem fires both select and toggle from a single row click
     // handler; toggle only mutates expanded state when the item has children,

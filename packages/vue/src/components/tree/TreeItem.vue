@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<{
   classNames: undefined,
 })
 
-defineEmits<{
+const emit = defineEmits<{
   select: []
   toggle: []
 }>()
@@ -43,6 +43,15 @@ const indentStyle = computed(() => ({
 // it only fires select — keyboard users can never expand/collapse a folder
 // node without also reaching for the arrow keys. Mirror click's behavior by
 // calling the same exposed handleToggle() reka-ui uses internally.
+//
+// Note: reka-ui's exposed `handleToggle` is `() => rootContext.onToggle(value)`
+// — it mutates reka's internal expanded state directly but does NOT go
+// through the component's own `emits('toggle', ev)` call the way the click
+// handler does. That means consumers listening on our `@toggle` (e.g. to
+// lazy-load a node's children only once it's actually expanded) never heard
+// about keyboard-driven expansion, even though the DOM visually updated. Fix:
+// explicitly re-emit our own `toggle` event alongside the internal call so
+// both interaction methods notify consumers identically.
 const treeItemRef = useTemplateRef<{ handleToggle: () => void }>('treeItemRef')
 
 function handleActivateKeydown(ev: KeyboardEvent): void {
@@ -50,6 +59,7 @@ function handleActivateKeydown(ev: KeyboardEvent): void {
   if (ev.key !== 'Enter' && ev.key !== ' ') return
   if (!hasChildren.value) return
   treeItemRef.value?.handleToggle()
+  emit('toggle')
 }
 </script>
 
