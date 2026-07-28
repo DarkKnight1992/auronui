@@ -69,6 +69,39 @@ describe("Tabs", () => {
     expect(screen.getByText("A content")).toBeInTheDocument();
   });
 
+  it("defaults to fullWidth (no auto-width modifier)", () => {
+    render(<BasicTabs />);
+    expect(document.querySelector(".tabs__list--auto-width")).toBeNull();
+  });
+
+  it("fullWidth={false} applies the tabs__list--auto-width modifier", () => {
+    render(<BasicTabs fullWidth={false} />);
+    expect(document.querySelector(".tabs__list--auto-width")).not.toBeNull();
+  });
+
+  it("fullWidth={false} still applies with the secondary variant", () => {
+    render(<BasicTabs fullWidth={false} variant="secondary" />);
+    expect(document.querySelector(".tabs--secondary")).not.toBeNull();
+    expect(document.querySelector(".tabs__list--auto-width")).not.toBeNull();
+  });
+
+  it("defaults to no trackFullWidth modifier", () => {
+    render(<BasicTabs fullWidth={false} />);
+    expect(document.querySelector(".tabs__list--track-full-width")).toBeNull();
+  });
+
+  it("trackFullWidth={true} applies the tabs__list--track-full-width modifier alongside auto-width", () => {
+    render(<BasicTabs fullWidth={false} trackFullWidth />);
+    expect(document.querySelector(".tabs__list--auto-width")).not.toBeNull();
+    expect(document.querySelector(".tabs__list--track-full-width")).not.toBeNull();
+  });
+
+  it("trackFullWidth={true} applies with the secondary variant too (same shared prop)", () => {
+    render(<BasicTabs fullWidth={false} trackFullWidth variant="secondary" />);
+    expect(document.querySelector(".tabs--secondary")).not.toBeNull();
+    expect(document.querySelector(".tabs__list--track-full-width")).not.toBeNull();
+  });
+
   it("has no accessibility violations", async () => {
     const { container } = render(<BasicTabs />);
     const results = await axe.run(container);

@@ -25,6 +25,19 @@ const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   variant?: TabsVariants['variant']
   color?: TabsVariants['color']
+  /**
+   * When false, horizontal tabs shrink to fit their own text instead of
+   * stretching evenly across the full width. Has no effect on vertical
+   * tabs, which fill the sidebar width by design. @default true
+   */
+  fullWidth?: boolean
+  /**
+   * Only meaningful combined with `fullWidth={false}`: keeps the track — the
+   * pill background on the primary variant, the bottom border on the
+   * secondary variant — spanning the full width, while the tabs inside it
+   * still shrink to their own text. @default false
+   */
+  trackFullWidth?: boolean
   activationMode?: 'automatic' | 'manual'
   class?: ClassValue
   /** Override classes for individual slots */
@@ -50,6 +63,8 @@ const props = withDefaults(defineProps<{
   orientation: 'horizontal',
   variant: 'primary',
   color: 'primary',
+  fullWidth: true,
+  trackFullWidth: false,
   activationMode: 'automatic',
 })
 
@@ -78,7 +93,7 @@ function changeTab(value: string) {
   emit('update:modelValue', value)
 }
 
-const slotFns = computed(() => tabsVariants({ variant: props.variant, color: props.color }))
+const slotFns = computed(() => tabsVariants({ variant: props.variant, color: props.color, fullWidth: props.fullWidth, trackFullWidth: props.trackFullWidth }))
 
 useTabsProvide({
   slotFns,

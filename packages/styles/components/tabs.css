@@ -214,6 +214,29 @@
   /* Horizontal orientation */
   &[data-orientation="horizontal"] {
     @apply w-full flex-row;
+
+    /* fullWidth={false} — shrink the list and each tab to their content
+       instead of stretching evenly across the full width. Scoped to
+       horizontal only: vertical tabs' full-width look is a separate,
+       intentional "fill the sidebar" behavior, not this stretch-to-fit
+       issue, so this modifier is a no-op there regardless of the prop. */
+    &.tabs__list--auto-width {
+      @apply w-fit;
+
+      .tabs__tab {
+        @apply w-auto flex-none;
+      }
+
+      /* trackFullWidth={true} — the track (this element's own background on
+         primary, its own border-b on secondary — see .tabs--secondary
+         .tabs__list below) stretches back to full width while .tabs__tab
+         above keeps the tabs shrunk to their text. Two classes on the same
+         element beats the single .tabs__list--auto-width selector above on
+         specificity, so this reliably wins regardless of source order. */
+      &.tabs__list--track-full-width {
+        @apply w-full;
+      }
+    }
   }
 
   /* Vertical orientation */

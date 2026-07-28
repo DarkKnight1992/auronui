@@ -13,11 +13,23 @@ const meta: Meta<typeof Tabs> = {
       options: ["primary", "secondary", "accent", "success", "warning", "danger"],
       description: "Indicator color — only visible on the secondary (underline) variant.",
     },
+    fullWidth: {
+      control: "boolean",
+      description: "When false, horizontal tabs shrink to fit their own text instead of stretching evenly across the full width. No effect on vertical tabs.",
+      table: { category: "Tabs", defaultValue: { summary: "true" } },
+    },
+    trackFullWidth: {
+      control: "boolean",
+      description: "Only meaningful combined with fullWidth=false: keeps the track (pill background on primary, bottom border on secondary) spanning the full width, while the tabs inside it still shrink to their own text.",
+      table: { category: "Tabs", defaultValue: { summary: "false" } },
+    },
   },
   args: {
     orientation: "horizontal",
     variant: "primary",
     color: "primary",
+    fullWidth: true,
+    trackFullWidth: false,
   },
 };
 
@@ -26,6 +38,42 @@ type Story = StoryObj<typeof Tabs>;
 
 export const Horizontal: Story = {
   args: { defaultValue: "one" },
+  render: (args) => (
+    <Tabs {...args}>
+      <TabList>
+        <Tab value="one">Overview</Tab>
+        <Tab value="two">Specifications</Tab>
+        <Tab value="three">Reviews</Tab>
+      </TabList>
+      <TabIndicator />
+      <TabPanel value="one">Overview content</TabPanel>
+      <TabPanel value="two">Specs content</TabPanel>
+      <TabPanel value="three">Reviews content</TabPanel>
+    </Tabs>
+  ),
+};
+
+export const AutoWidth: Story = {
+  name: "Auto Width (fullWidth=false)",
+  args: { defaultValue: "one", fullWidth: false },
+  render: (args) => (
+    <Tabs {...args}>
+      <TabList>
+        <Tab value="one">Overview</Tab>
+        <Tab value="two">Specifications</Tab>
+        <Tab value="three">Reviews</Tab>
+      </TabList>
+      <TabIndicator />
+      <TabPanel value="one">Overview content</TabPanel>
+      <TabPanel value="two">Specs content</TabPanel>
+      <TabPanel value="three">Reviews content</TabPanel>
+    </Tabs>
+  ),
+};
+
+export const AutoWidthFullTrack: Story = {
+  name: "Auto Width + Full-Width Track (fullWidth=false, trackFullWidth=true)",
+  args: { defaultValue: "one", fullWidth: false, trackFullWidth: true },
   render: (args) => (
     <Tabs {...args}>
       <TabList>

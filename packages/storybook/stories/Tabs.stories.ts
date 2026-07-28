@@ -11,6 +11,16 @@ const meta: Meta<TabsArgs> = {
   argTypes: {
     orientation: { control: 'select', options: ['horizontal', 'vertical'] },
     variant: { control: 'select', options: ['primary', 'secondary'] },
+    fullWidth: {
+      control: 'boolean',
+      description: 'When false, horizontal tabs shrink to fit their own text instead of stretching evenly across the full width. No effect on vertical tabs.',
+      table: { category: 'Tabs', defaultValue: { summary: 'true' } },
+    },
+    trackFullWidth: {
+      control: 'boolean',
+      description: 'Only meaningful combined with fullWidth=false: keeps the track (pill background on primary, bottom border on secondary) spanning the full width, while the tabs inside it still shrink to their own text.',
+      table: { category: 'Tabs', defaultValue: { summary: 'false' } },
+    },
     color: {
       control: 'select',
       options: ['primary', 'secondary', 'accent', 'success', 'warning', 'danger'],
@@ -86,6 +96,8 @@ const meta: Meta<TabsArgs> = {
     },
   },
   args: {
+    fullWidth: true,
+    trackFullWidth: false,
     asChild: false,
     unmountOnHide: false,
     tabListAsChild: false,
@@ -139,6 +151,103 @@ import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
         <TabPanel value="one" :as="args.panelAs" :as-child="args.panelAsChild" :force-mount="args.panelForceMount">Overview content</TabPanel>
         <TabPanel value="two" :as="args.panelAs" :as-child="args.panelAsChild" :force-mount="args.panelForceMount">Specs content</TabPanel>
         <TabPanel value="three" :as="args.panelAs" :as-child="args.panelAsChild" :force-mount="args.panelForceMount">Reviews content</TabPanel>
+      </Tabs>
+    `,
+  }),
+}
+
+export const AutoWidth: Story = {
+  name: 'Auto Width (fullWidth=false)',
+  args: { orientation: 'horizontal', variant: 'primary', defaultValue: 'one', fullWidth: false },
+  parameters: {
+    docs: {
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs orientation="horizontal" variant="primary" default-value="one" :full-width="false">
+    <TabList>
+      <Tab value="one">Overview</Tab>
+      <Tab value="two">Specifications</Tab>
+      <Tab value="three">Reviews</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one">Overview content</TabPanel>
+    <TabPanel value="two">Specs content</TabPanel>
+    <TabPanel value="three">Reviews content</TabPanel>
+  </Tabs>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
+    setup() { return { args } },
+    template: `
+      <Tabs v-bind="args">
+        <TabList>
+          <Tab value="one">Overview</Tab>
+          <Tab value="two">Specifications</Tab>
+          <Tab value="three">Reviews</Tab>
+          <TabIndicator />
+        </TabList>
+        <TabPanel value="one">Overview content</TabPanel>
+        <TabPanel value="two">Specs content</TabPanel>
+        <TabPanel value="three">Reviews content</TabPanel>
+      </Tabs>
+    `,
+  }),
+}
+
+export const AutoWidthFullTrack: Story = {
+  name: 'Auto Width + Full-Width Track (fullWidth=false, trackFullWidth=true)',
+  args: { orientation: 'horizontal', variant: 'primary', defaultValue: 'one', fullWidth: false, trackFullWidth: true },
+  parameters: {
+    docs: {
+      description: {
+        story: 'Tabs shrink to their own text, but the surrounding track — the pill background here, or the bottom border on the secondary variant — still spans the full width. Same `trackFullWidth` prop drives both looks.',
+      },
+      source: {
+        code: `<script setup>
+import { Tabs, TabList, Tab, TabPanel, TabIndicator } from '@auronui/vue'
+</script>
+
+<template>
+  <Tabs orientation="horizontal" variant="primary" default-value="one" :full-width="false" :track-full-width="true">
+    <TabList>
+      <Tab value="one">Overview</Tab>
+      <Tab value="two">Specifications</Tab>
+      <Tab value="three">Reviews</Tab>
+      <TabIndicator />
+    </TabList>
+    <TabPanel value="one">Overview content</TabPanel>
+    <TabPanel value="two">Specs content</TabPanel>
+    <TabPanel value="three">Reviews content</TabPanel>
+  </Tabs>
+</template>`,
+        type: 'code',
+        language: 'vue',
+      },
+    },
+  },
+  render: (args) => ({
+    components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
+    setup() { return { args } },
+    template: `
+      <Tabs v-bind="args">
+        <TabList>
+          <Tab value="one">Overview</Tab>
+          <Tab value="two">Specifications</Tab>
+          <Tab value="three">Reviews</Tab>
+          <TabIndicator />
+        </TabList>
+        <TabPanel value="one">Overview content</TabPanel>
+        <TabPanel value="two">Specs content</TabPanel>
+        <TabPanel value="three">Reviews content</TabPanel>
       </Tabs>
     `,
   }),

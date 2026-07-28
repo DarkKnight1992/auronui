@@ -12,7 +12,7 @@ afterEach(() => {
 function makeHarness(props: Record<string, unknown> = {}) {
   const w = mount({
     components: { Tabs, TabList, Tab, TabPanel, TabIndicator },
-    props: ['modelValue', 'orientation', 'variant', 'color', 'defaultValue'],
+    props: ['modelValue', 'orientation', 'variant', 'color', 'defaultValue', 'fullWidth', 'trackFullWidth'],
     template: `
       <Tabs
         :model-value="modelValue"
@@ -20,6 +20,8 @@ function makeHarness(props: Record<string, unknown> = {}) {
         :orientation="orientation"
         :variant="variant"
         :color="color"
+        :full-width="fullWidth"
+        :track-full-width="trackFullWidth"
       >
         <TabList>
           <Tab value="one">One</Tab>
@@ -91,5 +93,38 @@ describe('Tabs', () => {
     const triggers = w.findAll('.tabs__tab')
     // Third trigger (value="three") is disabled
     expect(triggers[2].attributes('data-disabled')).toBeDefined()
+  })
+
+  it('defaults to fullWidth (no auto-width modifier)', () => {
+    const w = makeHarness({ defaultValue: 'one' })
+    expect(w.find('.tabs__list--auto-width').exists()).toBe(false)
+  })
+
+  it('fullWidth={false} applies the tabs__list--auto-width modifier', () => {
+    const w = makeHarness({ defaultValue: 'one', fullWidth: false })
+    expect(w.find('.tabs__list--auto-width').exists()).toBe(true)
+  })
+
+  it('fullWidth={false} still applies with the secondary variant', () => {
+    const w = makeHarness({ defaultValue: 'one', fullWidth: false, variant: 'secondary' })
+    expect(w.find('.tabs--secondary').exists()).toBe(true)
+    expect(w.find('.tabs__list--auto-width').exists()).toBe(true)
+  })
+
+  it('defaults to no trackFullWidth modifier', () => {
+    const w = makeHarness({ defaultValue: 'one', fullWidth: false })
+    expect(w.find('.tabs__list--track-full-width').exists()).toBe(false)
+  })
+
+  it('trackFullWidth={true} applies the tabs__list--track-full-width modifier alongside auto-width', () => {
+    const w = makeHarness({ defaultValue: 'one', fullWidth: false, trackFullWidth: true })
+    expect(w.find('.tabs__list--auto-width').exists()).toBe(true)
+    expect(w.find('.tabs__list--track-full-width').exists()).toBe(true)
+  })
+
+  it('trackFullWidth={true} applies with the secondary variant too (same shared prop)', () => {
+    const w = makeHarness({ defaultValue: 'one', fullWidth: false, trackFullWidth: true, variant: 'secondary' })
+    expect(w.find('.tabs--secondary').exists()).toBe(true)
+    expect(w.find('.tabs__list--track-full-width').exists()).toBe(true)
   })
 })
