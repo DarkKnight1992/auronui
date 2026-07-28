@@ -10,6 +10,21 @@ describe("Button", () => {
     expect(screen.getByRole("button", { name: "Click me" })).toBeInTheDocument();
   });
 
+  it('defaults type="button" so it never submits an ancestor form', () => {
+    render(<Button>Click me</Button>);
+    expect(screen.getByRole("button")).toHaveAttribute("type", "button");
+  });
+
+  it("an explicit type prop overrides the type=\"button\" default", () => {
+    render(<Button type="submit">Save</Button>);
+    expect(screen.getByRole("button")).toHaveAttribute("type", "submit");
+  });
+
+  it("does not force a type attr when rendered as a non-button element", () => {
+    const { container } = render(<Button as="a">Click me</Button>);
+    expect(container.querySelector("a")).not.toHaveAttribute("type");
+  });
+
   it("fires onClick", async () => {
     const onClick = vi.fn();
     render(<Button onClick={onClick}>Click me</Button>);

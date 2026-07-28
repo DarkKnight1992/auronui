@@ -18,6 +18,7 @@ const ctx = useDrawerInject()
     v-if="ctx.dock.value"
     :as-child="props.asChild"
     :as="props.as ?? 'button'"
+    :type="(props.as ?? 'button') === 'button' ? 'button' : undefined"
     @click="ctx.toggleDock()"
   >
     <slot />

@@ -134,6 +134,7 @@ export const Button = forwardRef<HTMLElement, ButtonProps>(function Button(
   return (
     <Comp
       ref={ref}
+      type={As === "button" ? "button" : undefined}
       className={composeClassName(slotFns.base(), className, classNames?.base)}
       disabled={effectiveDisabled || isLoading || undefined}
       data-disabled={dataAttr(effectiveDisabled)}

@@ -56,6 +56,7 @@ const resolvedRel = computed(() => {
 <template>
   <Primitive
     :as="props.as"
+    :type="props.as === 'button' ? 'button' : undefined"
     :href="props.href"
     :target="resolvedTarget"
     :rel="resolvedRel"

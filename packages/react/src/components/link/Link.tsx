@@ -61,6 +61,7 @@ export const Link = forwardRef<HTMLElement, LinkProps>(function Link(
   return (
     <Comp
       ref={ref}
+      type={As === "button" ? "button" : undefined}
       href={href}
       target={resolvedTarget}
       rel={resolvedRel}

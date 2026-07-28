@@ -15,6 +15,21 @@ describe('Button', () => {
     expect(wrapper.element.tagName.toLowerCase()).toBe('button')
   })
 
+  it('defaults type="button" so it never submits an ancestor form', () => {
+    const wrapper = mount(Button, { slots: { default: 'Click' } })
+    expect(wrapper.attributes('type')).toBe('button')
+  })
+
+  it('an explicit type attr overrides the type="button" default', () => {
+    const wrapper = mount(Button, { attrs: { type: 'submit' }, slots: { default: 'Save' } })
+    expect(wrapper.attributes('type')).toBe('submit')
+  })
+
+  it('does not force a type attr when rendered as a non-button element', () => {
+    const wrapper = mount(Button, { props: { as: 'a' }, slots: { default: 'Click' } })
+    expect(wrapper.attributes('type')).toBeUndefined()
+  })
+
   it('applies variant class', () => {
     const wrapper = mount(Button, { props: { variant: 'soft' }, slots: { default: 'OK' } })
     expect(wrapper.classes()).toContain('button--soft')

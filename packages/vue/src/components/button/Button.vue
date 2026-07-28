@@ -136,6 +136,7 @@ const spinnerSize = computed(() => {
 <template>
   <Primitive
     :as="props.as"
+    :type="props.as === 'button' ? 'button' : undefined"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
     :disabled="effectiveDisabled || props.isLoading || undefined"
     :data-disabled="effectiveDisabled || undefined"
