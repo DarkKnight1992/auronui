@@ -173,6 +173,44 @@ describe('CommandPalette', () => {
     expect(document.activeElement).toBe(search)
   })
 
+  it('a disabled item cannot be activated via keyboard Enter, matching the mouse-click behavior', async () => {
+    let called = false
+    const itemsWithDisabled: CommandPaletteItemData[] = [
+      { value: 'disabled-item', label: 'Disabled Command', isDisabled: true, onSelect: () => { called = true } },
+      { value: 'enabled-item', label: 'Enabled Command' },
+    ]
+    const wrapper = mount(CommandPalette, {
+      props: { items: itemsWithDisabled, open: true },
+      attachTo: document.body,
+    })
+    mountedWrappers.push(wrapper)
+    await nextTick()
+    const search = document.querySelector('input[type="search"]') as HTMLInputElement
+    // activeValue defaults to the first item, which is disabled here.
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'Enter', bubbles: true, cancelable: true }))
+    await nextTick()
+    expect(called).toBe(false)
+    expect(wrapper.emitted('select')).toBeFalsy()
+    // The palette should still be open — a no-op selection must not close it.
+    expect(document.querySelector('[data-slot="command-palette-content"]')).not.toBeNull()
+  })
+
+  it('exposes the virtual active item to assistive tech via aria-activedescendant, updated as ArrowDown moves', async () => {
+    const wrapper = mount(CommandPalette, { props: { items, open: true }, attachTo: document.body })
+    mountedWrappers.push(wrapper)
+    await nextTick()
+    const search = document.querySelector('input[type="search"]') as HTMLInputElement
+    const firstOption = document.querySelector('[role="option"]') as HTMLElement
+    expect(firstOption.id).toBe('command-palette-item-new-file')
+    expect(search.getAttribute('aria-activedescendant')).toBe(firstOption.id)
+
+    search.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true, cancelable: true }))
+    await nextTick()
+    expect(search.getAttribute('aria-activedescendant')).toBe('command-palette-item-open-file')
+    const activeOption = document.getElementById('command-palette-item-open-file')
+    expect(activeOption?.getAttribute('role')).toBe('option')
+  })
+
   it('clearing the search query on close means reopening shows the full list again', async () => {
     const wrapper = mount(CommandPalette, { props: { items, open: true }, attachTo: document.body })
     mountedWrappers.push(wrapper)

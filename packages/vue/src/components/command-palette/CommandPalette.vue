@@ -98,6 +98,7 @@ const groupedItems = computed(() => {
 function handleSelect(value: string) {
   const item = filteredItems.value.find(i => i.value === value)
   if (!item) return
+  if (item.isDisabled) return
   item.onSelect?.()
   emit('select', item)
   isOpen.value = false
@@ -241,12 +242,17 @@ const slotFns = computed(() => commandPaletteVariants())
             :placeholder="placeholder"
             variant="flat"
             aria-label="Search commands"
+            role="combobox"
+            aria-expanded="true"
+            aria-controls="command-palette-list"
+            :aria-activedescendant="activeValue ? `command-palette-item-${activeValue}` : undefined"
             @keydown="handleSearchKeydown"
           />
         </div>
 
         <EmptyState
           v-if="!filteredItems.length"
+          id="command-palette-list"
           :class="composeClassName(slotFns.empty(), props.classNames?.empty)"
           data-slot="command-palette-empty"
         >
@@ -255,6 +261,7 @@ const slotFns = computed(() => commandPaletteVariants())
 
         <ListBox
           v-else
+          id="command-palette-list"
           :class="composeClassName(slotFns.list(), props.classNames?.list)"
           data-slot="command-palette-list"
           aria-label="Commands"
@@ -279,6 +286,7 @@ const slotFns = computed(() => commandPaletteVariants())
               -->
               <ListBoxItem
                 v-for="item in group.items"
+                :id="`command-palette-item-${item.value}`"
                 :key="`${item.value}-${item.value === activeValue}`"
                 :value="item.value"
                 :is-disabled="item.isDisabled"
@@ -309,6 +317,7 @@ const slotFns = computed(() => commandPaletteVariants())
               -->
               <ListBoxItem
                 v-for="item in group.items"
+                :id="`command-palette-item-${item.value}`"
                 :key="`${item.value}-${item.value === activeValue}`"
                 :value="item.value"
                 :is-disabled="item.isDisabled"

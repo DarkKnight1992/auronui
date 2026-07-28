@@ -106,11 +106,21 @@ export function CommandPalette({
     return Array.from(groups.entries()).map(([group, groupItems]) => ({ group, items: groupItems }));
   }, [filteredItems]);
 
+  // Flattened in the same order the rows are actually rendered (grouped,
+  // not the raw filteredItems order). activeIndex is tracked against THIS
+  // array everywhere — selection, keyboard nav, aria-activedescendant, and
+  // the visual highlight (flatIndex, computed during render below) — so the
+  // row that's highlighted and the row Enter selects can never diverge.
+  // Using filteredItems' order for some of these and the grouped order for
+  // others is what caused that divergence when items interleave across
+  // groups (e.g. [itemA-group1, itemB-group2, itemC-group1]).
+  const flatItems = useMemo(() => groupedItems.flatMap((g) => g.items), [groupedItems]);
+
   // Reset the active row whenever the filtered set changes (new search
   // results), clamping so it never points past the end of the list.
   useEffect(() => {
-    setActiveIndex((prev) => (filteredItems.length === 0 ? 0 : Math.min(prev, filteredItems.length - 1)));
-  }, [filteredItems]);
+    setActiveIndex((prev) => (flatItems.length === 0 ? 0 : Math.min(prev, flatItems.length - 1)));
+  }, [flatItems]);
 
   useEffect(() => {
     if (!isOpen) {
@@ -130,8 +140,8 @@ export function CommandPalette({
   }
 
   function moveActive(delta: number) {
-    if (!filteredItems.length) return;
-    setActiveIndex((prev) => Math.max(0, Math.min(filteredItems.length - 1, prev + delta)));
+    if (!flatItems.length) return;
+    setActiveIndex((prev) => Math.max(0, Math.min(flatItems.length - 1, prev + delta)));
   }
 
   function handleSearchKeydown(ev: ReactKeyboardEvent<HTMLInputElement>) {
@@ -143,7 +153,7 @@ export function CommandPalette({
       moveActive(-1);
     } else if (ev.key === "Enter") {
       ev.preventDefault();
-      const item = filteredItems[activeIndex];
+      const item = flatItems[activeIndex];
       if (item) handleSelect(item);
     } else if (ev.key === "Escape") {
       ev.preventDefault();
@@ -215,7 +225,7 @@ export function CommandPalette({
               placeholder={placeholder}
               aria-label="Search commands"
               aria-activedescendant={
-                filteredItems[activeIndex] ? `command-palette-item-${filteredItems[activeIndex].value}` : undefined
+                flatItems[activeIndex] ? `command-palette-item-${flatItems[activeIndex].value}` : undefined
               }
               role="combobox"
               aria-expanded="true"
