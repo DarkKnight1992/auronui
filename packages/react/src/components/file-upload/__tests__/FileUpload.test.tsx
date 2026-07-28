@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { FileUpload } from "../FileUpload";
@@ -61,6 +61,81 @@ describe("FileUpload", () => {
 
     expect(onChange).not.toHaveBeenCalled();
     expect(onReject).toHaveBeenCalledWith([expect.objectContaining({ reason: "maxSize" })]);
+  });
+
+  it("label pairs with the hidden native file input via htmlFor/id (a div[role=button] is not labelable)", () => {
+    render(<FileUpload label="Attachments" />);
+    const label = screen.getByText("Attachments");
+    const input = document.querySelector('input[type="file"]') as HTMLInputElement;
+    const dropzone = document.querySelector('[data-slot="file-upload-dropzone"]') as HTMLElement;
+
+    expect(label.getAttribute("for")).toBe(input.id);
+    expect(label.getAttribute("for")).not.toBe(dropzone.id);
+  });
+
+  it("the dropzone carries aria-labelledby pointing at the label so its accessible name still reflects the label text", () => {
+    render(<FileUpload label="Attachments" />);
+    const label = screen.getByText("Attachments");
+    const dropzone = document.querySelector('[data-slot="file-upload-dropzone"]') as HTMLElement;
+
+    expect(dropzone.getAttribute("aria-labelledby")).toBeTruthy();
+    expect(dropzone.getAttribute("aria-labelledby")).toBe(label.id);
+  });
+
+  it("without a label, the dropzone has no aria-labelledby", () => {
+    render(<FileUpload />);
+    const dropzone = document.querySelector('[data-slot="file-upload-dropzone"]') as HTMLElement;
+    expect(dropzone.hasAttribute("aria-labelledby")).toBe(false);
+  });
+
+  // jsdom does not implement a DragEvent constructor, so
+  // @testing-library's fireEvent.dragLeave() (which asks jsdom's `window`
+  // for one) silently falls back to a bare Event that never carries a
+  // `relatedTarget`. Build the event by hand instead, defining
+  // `relatedTarget` directly — that's all the component's handler reads —
+  // and dispatch it through `fireEvent(element, event)` so the resulting
+  // state update is still act()-wrapped.
+  function dragLeaveEvent(relatedTarget: EventTarget | null) {
+    const event = new Event("dragleave", { bubbles: true, cancelable: true });
+    Object.defineProperty(event, "relatedTarget", { value: relatedTarget, configurable: true });
+    return event as unknown as DragEvent;
+  }
+
+  it("dragleave onto a child element inside the dropzone does not clear drag-active state (no flicker)", () => {
+    render(<FileUpload />);
+    const dropzone = document.querySelector('[data-slot="file-upload-dropzone"]') as HTMLElement;
+    const child = dropzone.querySelector("span") as HTMLElement;
+
+    fireEvent.dragOver(dropzone);
+    expect(dropzone.getAttribute("data-drag-active")).toBe("true");
+
+    fireEvent(dropzone, dragLeaveEvent(child));
+    expect(dropzone.getAttribute("data-drag-active")).toBe("true");
+  });
+
+  it("dragleave to outside the dropzone clears drag-active state", () => {
+    render(<FileUpload />);
+    const dropzone = document.querySelector('[data-slot="file-upload-dropzone"]') as HTMLElement;
+
+    fireEvent.dragOver(dropzone);
+    expect(dropzone.getAttribute("data-drag-active")).toBe("true");
+
+    fireEvent(dropzone, dragLeaveEvent(document.body));
+    expect(dropzone.hasAttribute("data-drag-active")).toBe(false);
+  });
+
+  it("onChange emits the FULL resulting file list on remove, not just the removed file", async () => {
+    const onChange = vi.fn();
+    const onRemove = vi.fn();
+    const file = makeFile("a.txt", 10);
+    const other = makeFile("b.txt", 10);
+    render(<FileUpload defaultValue={[file, other]} onChange={onChange} onRemove={onRemove} />);
+
+    const [removeFirst] = screen.getAllByRole("button", { name: /remove/i });
+    await userEvent.click(removeFirst!);
+
+    expect(onChange).toHaveBeenCalledWith([other]);
+    expect(onRemove).toHaveBeenCalledWith(file);
   });
 
   it("errorMessage is referenced by aria-describedby when isInvalid", () => {

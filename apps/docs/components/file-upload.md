@@ -44,7 +44,7 @@ A visually-hidden native `<input type="file">` opens the OS file picker; the sty
 
 - The dropzone renders as a real `role="button"` with `tabindex="0"` (or `-1` when `isDisabled`). Clicking it, or pressing **Enter** or **Space** while it's focused, opens the native file picker — drag-and-drop is a supplementary interaction only, never the sole way to select a file.
 - The hidden native `<input type="file">` is `aria-hidden` and untabbable (`tabindex="-1"`); it exists purely so the browser can host the OS file picker, and the dropzone is the actual keyboard/focus target.
-- When `label` is set, `FieldLabel` is associated with the dropzone via matching `for`/`id`.
+- When `label` is set, `FieldLabel`'s `for`/`id` points at the hidden native `<input type="file">` (the only labelable element in the pair — a `<div role="button">` cannot be a label's target per the HTML spec), and the dropzone carries a matching `aria-labelledby` pointing back at the label's own id, so the dropzone's accessible name is still the label text when a screen reader focuses it directly.
 - `description` and `errorMessage` are wired to the dropzone through `aria-describedby`, and `errorMessage` only participates when `isInvalid` is true (via `useFormField`), matching the field-contract pattern shared with `Input`/`InputGroup`.
 - `isDisabled` sets `aria-disabled="true"` and `data-disabled` on the dropzone, drops its `tabindex` to `-1`, and disables the native input and each file's remove button.
 - Each selected file's remove button carries an `aria-label` of `Remove <file name>` so it's identifiable out of context in a screen reader's control list.

@@ -192,11 +192,97 @@ describe('FileUpload', () => {
     expect(dropzone.attributes('tabindex')).toBe('-1')
   })
 
-  it('label renders and pairs with the dropzone via for/id', () => {
+  it('label renders and pairs with the hidden native file input via for/id (the only labelable element)', () => {
     const wrapper = mount(FileUpload, { props: { label: 'Attachments' } })
     const label = wrapper.find('label')
     expect(label.text()).toContain('Attachments')
-    expect(label.attributes('for')).toBe(wrapper.find('[data-slot="file-upload-dropzone"]').attributes('id'))
+    expect(label.attributes('for')).toBe(wrapper.find('input[type="file"]').attributes('id'))
+    // The dropzone div is not labelable (only form controls are), so it
+    // never pairs with the label via for/id.
+    expect(label.attributes('for')).not.toBe(wrapper.find('[data-slot="file-upload-dropzone"]').attributes('id'))
+  })
+
+  it('the dropzone carries aria-labelledby pointing at the label so its accessible name still reflects the label text', () => {
+    const wrapper = mount(FileUpload, { props: { label: 'Attachments' } })
+    const dropzone = wrapper.find('[data-slot="file-upload-dropzone"]')
+    const label = wrapper.find('label')
+    expect(dropzone.attributes('aria-labelledby')).toBeTruthy()
+    expect(dropzone.attributes('aria-labelledby')).toBe(label.attributes('id'))
+  })
+
+  it('without a label, the dropzone has no aria-labelledby', () => {
+    const wrapper = mount(FileUpload)
+    expect(wrapper.find('[data-slot="file-upload-dropzone"]').attributes('aria-labelledby')).toBeUndefined()
+  })
+
+  it('dragleave onto a child element inside the dropzone does not clear isDragActive (no flicker)', async () => {
+    const wrapper = mount(FileUpload, { attachTo: document.body })
+    const dropzone = wrapper.find('[data-slot="file-upload-dropzone"]')
+    const child = wrapper.find('[data-slot="file-upload-dropzone"] span').element
+
+    await dropzone.trigger('dragover')
+    expect(dropzone.attributes('data-drag-active')).toBeTruthy()
+
+    await dropzone.trigger('dragleave', { relatedTarget: child })
+    expect(dropzone.attributes('data-drag-active')).toBeTruthy()
+
+    wrapper.unmount()
+  })
+
+  it('dragleave to outside the dropzone clears isDragActive', async () => {
+    const wrapper = mount(FileUpload, { attachTo: document.body })
+    const dropzone = wrapper.find('[data-slot="file-upload-dropzone"]')
+
+    await dropzone.trigger('dragover')
+    expect(dropzone.attributes('data-drag-active')).toBeTruthy()
+
+    await dropzone.trigger('dragleave', { relatedTarget: document.body })
+    expect(dropzone.attributes('data-drag-active')).toBeUndefined()
+
+    wrapper.unmount()
+  })
+
+  it('dragleave with no relatedTarget (left the window) clears isDragActive', async () => {
+    const wrapper = mount(FileUpload, { attachTo: document.body })
+    const dropzone = wrapper.find('[data-slot="file-upload-dropzone"]')
+
+    await dropzone.trigger('dragover')
+    await dropzone.trigger('dragleave', { relatedTarget: null })
+    expect(dropzone.attributes('data-drag-active')).toBeUndefined()
+
+    wrapper.unmount()
+  })
+
+  it('change emits the FULL resulting file list on add, matching the React contract', async () => {
+    let modelValue: File[] = [makeFile('existing.txt', 10)]
+    const wrapper = mount(FileUpload, {
+      props: {
+        multiple: true,
+        modelValue,
+        'onUpdate:modelValue': (v: File[]) => { modelValue = v },
+      },
+    })
+    const input = wrapper.find('input[type="file"]').element as HTMLInputElement
+    const file = makeFile('new.txt', 10)
+    setInputFiles(input, [file])
+    await wrapper.find('input[type="file"]').trigger('change')
+    expect(wrapper.emitted('change')?.[0]?.[0]).toEqual([expect.any(File), expect.any(File)])
+    expect((wrapper.emitted('change')?.[0]?.[0] as File[]).map(f => f.name)).toEqual(['existing.txt', 'new.txt'])
+  })
+
+  it('change also emits the FULL resulting file list on remove (not just the remove event)', async () => {
+    const file = makeFile('a.txt', 10)
+    const other = makeFile('b.txt', 10)
+    let modelValue: File[] = [file, other]
+    const wrapper = mount(FileUpload, {
+      props: {
+        modelValue,
+        'onUpdate:modelValue': (v: File[]) => { modelValue = v },
+      },
+    })
+    await wrapper.find('[data-slot="file-upload-remove-button"]').trigger('click')
+    expect(wrapper.emitted('change')?.[0]?.[0]).toEqual([other])
+    expect(wrapper.emitted('remove')?.[0]?.[0]).toBe(file)
   })
 
   it('errorMessage renders and is referenced by aria-describedby when isInvalid', () => {

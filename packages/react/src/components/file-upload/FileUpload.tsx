@@ -52,8 +52,14 @@ export interface FileUploadProps {
   }>;
   value?: File[];
   defaultValue?: File[];
+  /**
+   * Fires with the FULL resulting file list on every mutation — both
+   * newly-accepted files being added and a file being removed — not just
+   * the delta. Mirrors the @auronui/vue `change` event contract.
+   */
   onChange?: (files: File[]) => void;
   onReject?: (rejections: FileRejection[]) => void;
+  /** Fires alongside `onChange` specifically on removal, carrying just the removed File. */
   onRemove?: (file: File) => void;
   icon?: ReactNode;
   hint?: ReactNode;
@@ -102,7 +108,10 @@ export function FileUpload({
   renderFileItem,
 }: FileUploadProps) {
   const generatedId = useId();
+  const inputId = `${generatedId}-input`;
+  const labelId = `${generatedId}-label`;
   const inputRef = useRef<HTMLInputElement>(null);
+  const dropzoneRef = useRef<HTMLDivElement>(null);
   const [isDragActive, setDragActive] = useState(false);
   const [internalFiles, setInternalFiles] = useState<File[]>(defaultValue ?? []);
   const files = value ?? internalFiles;
@@ -195,12 +204,18 @@ export function FileUpload({
       {...rootDataAttrs}
     >
       {hasLabel && (
-        <Label htmlFor={generatedId} isRequired={isRequired} className={composeClassName(slots.label(), classNames?.label)}>
+        <Label
+          id={labelId}
+          htmlFor={inputId}
+          isRequired={isRequired}
+          className={composeClassName(slots.label(), classNames?.label)}
+        >
           {label}
         </Label>
       )}
 
       <div
+        ref={dropzoneRef}
         id={generatedId}
         role="button"
         tabIndex={isDisabled ? -1 : 0}
@@ -209,6 +224,7 @@ export function FileUpload({
         aria-disabled={isDisabled || undefined}
         aria-invalid={isInvalid || undefined}
         aria-describedby={ariaDescribedBy}
+        aria-labelledby={hasLabel ? labelId : undefined}
         data-disabled={dataAttr(isDisabled)}
         data-drag-active={dataAttr(isDragActive)}
         onClick={openPicker}
@@ -219,6 +235,12 @@ export function FileUpload({
         }}
         onDragLeave={(event) => {
           event.preventDefault();
+          // dragleave fires like mouseout — including when the pointer
+          // moves off the dropzone onto a child element (icon, hint text)
+          // inside it. Only clear the active state once the pointer has
+          // actually left the dropzone's bounds.
+          const related = event.relatedTarget as Node | null;
+          if (related && dropzoneRef.current?.contains(related)) return;
           setDragActive(false);
         }}
         onDrop={handleDrop}
@@ -237,6 +259,7 @@ export function FileUpload({
         </span>
         {/* Hidden native <input type="file"> — the only way to open the OS file picker; a bare <input> is used deliberately, no AuronUI Input equivalent covers type="file" pickers. */}
         <input
+          id={inputId}
           ref={inputRef}
           type="file"
           accept={accept}

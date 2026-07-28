@@ -76,6 +76,11 @@ const props = withDefaults(
   },
 )
 
+// `change` mirrors the @auronui/react contract: it fires with the FULL
+// resulting file list on every mutation (both newly-accepted files being
+// added AND a file being removed), not just the delta. `remove` fires
+// alongside it specifically on removal, carrying just the removed File,
+// for consumers that only care which single file went away.
 const emit = defineEmits<{
   change: [files: File[]]
   reject: [rejections: FileRejection[]]
@@ -85,7 +90,10 @@ const emit = defineEmits<{
 const modelValue = defineModel<File[]>({ default: () => [] })
 
 const generatedId = useId()
+const inputId = computed(() => `${generatedId}-input`)
+const labelId = computed(() => `${generatedId}-label`)
 const inputEl = useTemplateRef<HTMLInputElement>('inputEl')
+const dropzoneEl = useTemplateRef<HTMLDivElement>('dropzoneEl')
 const isDragActive = ref(false)
 
 const {
@@ -147,8 +155,16 @@ function processFiles(fileList: FileList | File[]) {
   }
 
   if (accepted.length) {
-    modelValue.value = props.multiple ? [...modelValue.value, ...accepted] : [accepted[0]!]
-    emit('change', accepted)
+    // Compute the next list and emit that same reference directly, rather
+    // than reading modelValue.value back after assignment: when a caller
+    // binds both the modelValue prop and an update:modelValue listener
+    // (exactly what `v-model` compiles to), defineModel's customRef does
+    // not optimistically apply the local value — it waits for the prop to
+    // actually flow back down from the parent — so a same-tick read of
+    // modelValue.value can still observe the *previous* value.
+    const next = props.multiple ? [...modelValue.value, ...accepted] : [accepted[0]!]
+    modelValue.value = next
+    emit('change', next)
   }
   if (rejected.length) emit('reject', rejected)
 }
@@ -170,6 +186,16 @@ function handleInputChange(ev: Event) {
   target.value = ''
 }
 
+function handleDropzoneDragLeave(ev: DragEvent) {
+  // dragleave fires like mouseout — including when the pointer moves off
+  // the dropzone onto a child element (icon, hint text) inside it. Only
+  // clear the active state once the pointer has actually left the
+  // dropzone's bounds, not on every internal boundary crossing.
+  const related = ev.relatedTarget as Node | null
+  if (related && dropzoneEl.value?.contains(related)) return
+  isDragActive.value = false
+}
+
 function handleDrop(ev: DragEvent) {
   isDragActive.value = false
   if (props.isDisabled) return
@@ -178,7 +204,9 @@ function handleDrop(ev: DragEvent) {
 }
 
 function removeFile(file: File) {
-  modelValue.value = modelValue.value.filter(f => f !== file)
+  const next = modelValue.value.filter(f => f !== file)
+  modelValue.value = next
+  emit('change', next)
   emit('remove', file)
 }
 
@@ -201,13 +229,15 @@ const slotFns = computed(() =>
   >
     <FieldLabel
       v-if="hasLabel"
-      :for="generatedId"
+      :id="labelId"
+      :for="inputId"
       :label="label"
       :is-required="isRequired"
       :class="composeClassName(slotFns.label(), props.classNames?.label)"
     />
 
     <div
+      ref="dropzoneEl"
       :id="generatedId"
       role="button"
       :tabindex="isDisabled ? -1 : 0"
@@ -216,12 +246,13 @@ const slotFns = computed(() =>
       :aria-disabled="isDisabled || undefined"
       :aria-invalid="isInvalid || undefined"
       :aria-describedby="ariaDescribedBy"
+      :aria-labelledby="hasLabel ? labelId : undefined"
       :data-disabled="isDisabled || undefined"
       :data-drag-active="isDragActive || undefined"
       @click="openPicker"
       @keydown="handleDropzoneKeydown"
       @dragover.prevent="isDisabled ? undefined : (isDragActive = true)"
-      @dragleave.prevent="isDragActive = false"
+      @dragleave.prevent="handleDropzoneDragLeave"
       @drop.prevent="handleDrop"
     >
       <span
@@ -255,6 +286,7 @@ const slotFns = computed(() =>
         </slot>
       </span>
       <input
+        :id="inputId"
         ref="inputEl"
         type="file"
         :accept="accept"
