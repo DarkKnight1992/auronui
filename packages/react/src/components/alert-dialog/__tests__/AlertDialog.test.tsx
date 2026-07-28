@@ -104,6 +104,38 @@ describe("AlertDialog", () => {
     await waitFor(() => expect(screen.queryByRole("alertdialog")).not.toBeInTheDocument());
   });
 
+  it("AlertDialogCancel skips closing when onClick calls event.preventDefault()", async () => {
+    render(
+      <AlertDialog defaultOpen>
+        <AlertDialogContent>
+          <AlertDialogBody>Content</AlertDialogBody>
+          <AlertDialogFooter>
+            <AlertDialogCancel onClick={(e) => e.preventDefault()}>Cancel</AlertDialogCancel>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>,
+    );
+    await screen.findByRole("alertdialog");
+    await userEvent.click(screen.getByRole("button", { name: "Cancel" }));
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+  });
+
+  it("AlertDialogAction skips closing when onClick calls event.preventDefault() (async destructive action escape hatch)", async () => {
+    render(
+      <AlertDialog defaultOpen>
+        <AlertDialogContent>
+          <AlertDialogBody>Content</AlertDialogBody>
+          <AlertDialogFooter>
+            <AlertDialogAction onClick={(e) => e.preventDefault()}>Delete</AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>,
+    );
+    await screen.findByRole("alertdialog");
+    await userEvent.click(screen.getByRole("button", { name: "Delete" }));
+    expect(screen.getByRole("alertdialog")).toBeInTheDocument();
+  });
+
   it("has no accessibility violations when closed", async () => {
     renderAlertDialog();
     const results = await axe.run(document.body);

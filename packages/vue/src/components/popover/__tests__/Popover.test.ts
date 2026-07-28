@@ -197,6 +197,47 @@ describe('Popover', () => {
     expect(document.body.querySelector('.popover-body')).toBeNull()
   })
 
+  it('PopoverClose skips closing when the wrapped child calls event.preventDefault() (async-action escape hatch)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Popover, PopoverTrigger, PopoverContent, PopoverClose },
+        setup() {
+          function onSaveClick(event: Event) {
+            event.preventDefault()
+          }
+          return { onSaveClick }
+        },
+        template: `
+          <Popover :default-open="true">
+            <PopoverTrigger>
+              <button>Open</button>
+            </PopoverTrigger>
+            <PopoverContent>
+              <div class="popover-body">
+                <PopoverClose as-child>
+                  <button class="save-btn" @click="onSaveClick">Save</button>
+                </PopoverClose>
+              </div>
+            </PopoverContent>
+          </Popover>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.popover-body')).not.toBeNull()
+
+    const saveBtn = document.body.querySelector('.save-btn') as HTMLElement
+    saveBtn.click()
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.popover-body')).not.toBeNull()
+  })
+
   it('PopoverClose renders the disabled attribute when the deprecated disabled prop is set', async () => {
     const wrapper = mount(
       defineComponent({

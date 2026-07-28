@@ -8,6 +8,7 @@ import DrawerHeader from '../DrawerHeader.vue'
 import DrawerBody from '../DrawerBody.vue'
 import DrawerFooter from '../DrawerFooter.vue'
 import DrawerClose from '../DrawerClose.vue'
+import DrawerMain from '../DrawerMain.vue'
 
 // Helper: mount a full Drawer compound in document.body
 function mountDrawer(defaultOpen = false, placement: 'top' | 'right' | 'bottom' | 'left' = 'right') {
@@ -152,6 +153,96 @@ describe('Drawer', () => {
     await nextTick()
 
     expect(document.body.querySelector('.drawer-body-content')).toBeNull()
+  })
+
+  it('dock mode mounts DrawerContent + DrawerClose without throwing (regression: injectDialogRootContext must not run in dock mode)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Drawer, DrawerMain, DrawerContent, DrawerClose },
+        template: `
+          <Drawer dock placement="right" :default-open="true">
+            <DrawerMain><div>main</div></DrawerMain>
+            <DrawerContent>
+              <DrawerClose class="drawer-close-btn">Close</DrawerClose>
+              <div class="drawer-body-content">panel</div>
+            </DrawerContent>
+          </Drawer>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.drawer-body-content')).not.toBeNull()
+  })
+
+  it('dock mode DrawerClose still closes the panel on click', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Drawer, DrawerMain, DrawerContent, DrawerClose },
+        template: `
+          <Drawer dock placement="right" :default-open="true">
+            <DrawerMain><div>main</div></DrawerMain>
+            <DrawerContent>
+              <DrawerClose class="drawer-close-btn">Close</DrawerClose>
+              <div class="drawer-body-content">panel</div>
+            </DrawerContent>
+          </Drawer>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    const closeBtn = document.body.querySelector('.drawer-close-btn') as HTMLElement
+    closeBtn.click()
+    await flushPromises()
+    await nextTick()
+
+    const panel = document.body.querySelector('[data-state]')
+    expect(panel?.getAttribute('data-state')).toBe('closed')
+  })
+
+  it('DrawerClose skips closing when the wrapped child calls event.preventDefault() (async-save escape hatch)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Drawer, DrawerTrigger, DrawerContent, DrawerBody, DrawerClose },
+        setup() {
+          function onSaveClick(event: Event) {
+            event.preventDefault()
+          }
+          return { onSaveClick }
+        },
+        template: `
+          <Drawer :default-open="true">
+            <DrawerContent>
+              <DrawerBody><div class="drawer-body-content">Content</div></DrawerBody>
+              <DrawerClose as-child>
+                <button class="drawer-save-btn" @click="onSaveClick">Save</button>
+              </DrawerClose>
+            </DrawerContent>
+          </Drawer>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.drawer-body-content')).not.toBeNull()
+
+    const saveBtn = document.body.querySelector('.drawer-save-btn') as HTMLElement
+    saveBtn.click()
+    await flushPromises()
+    await nextTick()
+
+    // preventDefault() in the child's own handler cancels the auto-close
+    expect(document.body.querySelector('.drawer-body-content')).not.toBeNull()
   })
 
   it('v-model:open binding reflects open/close state changes', async () => {

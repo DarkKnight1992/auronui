@@ -60,6 +60,7 @@ export const AlertDialogCancel = forwardRef<HTMLButtonElement, AlertDialogCancel
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
     onClick?.(event);
+    if (event.defaultPrevented) return;
     ctx.close();
   }
 

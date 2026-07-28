@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed } from 'vue'
+import { computed, ref } from 'vue'
 import { DialogPortal, DialogContent, injectDialogRootContext } from 'reka-ui'
 import { drawerVariants } from '@auronui/styles/components/drawer'
 import { composeClassName } from '../../utils/composeClassName'
@@ -39,9 +39,15 @@ const styles = drawerVariants()
 // Only the default (teleported, full-overlay) mode shares the global
 // backdrop/panel stacking concern with Modal/AlertDialog — dock and inline
 // modes render in normal document flow / a local positioned ancestor, not a
-// page-level overlay, so they don't need a claimed z-index.
-const dialogRootContext = injectDialogRootContext()
-const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
+// page-level overlay, so they don't need a claimed z-index. Dock mode is
+// also the only mode where Reka's DialogRoot is never rendered (Drawer.vue
+// renders a plain div instead), so injectDialogRootContext() must be
+// skipped there — calling it unconditionally throws ("must be used within
+// `DialogRoot`") and crashes the whole dock-mode panel on mount.
+const dialogRootContext = ctx.dock.value ? null : injectDialogRootContext()
+const { panelZIndex } = dialogRootContext
+  ? useOverlayLayer(dialogRootContext, dialogRootContext.open)
+  : { panelZIndex: ref<number | undefined>(undefined) }
 
 const isHorizontal = computed(() =>
   ctx.placement.value === 'left' || ctx.placement.value === 'right',

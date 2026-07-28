@@ -191,6 +191,43 @@ describe('Modal', () => {
     expect(document.body.querySelector('.modal-body-content')).toBeNull()
   })
 
+  it('ModalClose skips closing when the wrapped child calls event.preventDefault() (async-save escape hatch)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Modal, ModalContent, ModalBody, ModalClose },
+        setup() {
+          function onSaveClick(event: Event) {
+            event.preventDefault()
+          }
+          return { onSaveClick }
+        },
+        template: `
+          <Modal :default-open="true">
+            <ModalContent>
+              <ModalBody><div class="modal-body-content">Content</div></ModalBody>
+              <ModalClose as-child>
+                <button class="modal-save-btn" @click="onSaveClick">Save</button>
+              </ModalClose>
+            </ModalContent>
+          </Modal>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.modal-body-content')).not.toBeNull()
+
+    const saveBtn = document.body.querySelector('.modal-save-btn') as HTMLElement
+    saveBtn.click()
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.modal-body-content')).not.toBeNull()
+  })
+
   it('focus is inside modal content after opening', async () => {
     const wrapper = mountModal(false)
     wrappers.push(wrapper)

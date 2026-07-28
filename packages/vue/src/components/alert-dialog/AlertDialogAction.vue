@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { AlertDialogAction } from 'reka-ui'
+import { Primitive, injectDialogRootContext } from 'reka-ui'
 import { buttonVariants, type ButtonVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { warnDeprecatedVariant } from '../../utils/warnDeprecated'
@@ -57,14 +57,35 @@ const resolvedVariant = computed(() => {
 })
 
 const slotFns = computed(() => buttonVariants({ variant: resolvedVariant.value, size: props.size }))
+
+const rootContext = injectDialogRootContext()
+
+// With as-child, Reka's Slot merges our onClick and the wrapped child's own
+// onClick onto the same element, and OUR handler runs first — so deferring
+// the actual close to a microtask lets the child's handler (which still
+// runs synchronously within the same click dispatch, right after ours) call
+// event.preventDefault() first if it wants to keep the dialog open (e.g.
+// while an async destructive action is in flight, so the user gets error
+// feedback before the dialog disappears); the caller then closes it
+// manually once that async work resolves.
+function handleClick(event: Event) {
+  queueMicrotask(() => {
+    if (event.defaultPrevented) return
+    rootContext.onOpenChange(false)
+  })
+}
+
+const resolvedAs = () => props.as ?? 'button'
 </script>
 
 <template>
-  <AlertDialogAction
-    :as="props.as"
+  <Primitive
     :as-child="props.asChild"
+    :as="resolvedAs()"
+    :type="resolvedAs() === 'button' ? 'button' : undefined"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
+    @click="handleClick"
   >
     <slot />
-  </AlertDialogAction>
+  </Primitive>
 </template>

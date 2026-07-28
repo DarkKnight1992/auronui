@@ -53,6 +53,27 @@ describe("Popover", () => {
     );
   });
 
+  it("PopoverClose skips closing when the wrapped child calls event.preventDefault() (async-action escape hatch)", async () => {
+    render(
+      <Popover defaultOpen>
+        <PopoverTrigger>
+          <button type="button">Open Popover</button>
+        </PopoverTrigger>
+        <PopoverContent aria-label="Popover">
+          <p>Popover content goes here.</p>
+          <PopoverClose>
+            <button type="button" onClick={(e) => e.preventDefault()}>
+              Save
+            </button>
+          </PopoverClose>
+        </PopoverContent>
+      </Popover>,
+    );
+    await screen.findByText("Popover content goes here.");
+    await userEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(screen.getByText("Popover content goes here.")).toBeInTheDocument();
+  });
+
   it("closes when clicking outside the popover", async () => {
     render(
       <div>

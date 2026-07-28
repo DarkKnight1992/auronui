@@ -48,7 +48,10 @@ export type AlertDialogActionProps = AlertDialogActionOwnProps &
  * `DialogClose`, so clicking it both fires the consumer's `onClick` AND
  * closes the dialog — it does not natively distinguish "confirm" from
  * "cancel" behaviorally, only visually (variant/color). This React port
- * preserves that: `onClick` runs first, then `close()` always fires.
+ * preserves that: `onClick` runs first, then `close()` fires, UNLESS
+ * `onClick` calls `event.preventDefault()` — e.g. to keep the dialog open
+ * while an async action (delete/publish/etc.) is in flight — in which case
+ * the caller is responsible for calling `ctx.close()` once it resolves.
  */
 export const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogActionProps>(function AlertDialogAction(
   { variant = "danger", size = "md", className, classNames, onClick, children, ...rest },
@@ -68,6 +71,7 @@ export const AlertDialogAction = forwardRef<HTMLButtonElement, AlertDialogAction
 
   function handleClick(event: MouseEvent<HTMLButtonElement>) {
     onClick?.(event);
+    if (event.defaultPrevented) return;
     ctx.close();
   }
 

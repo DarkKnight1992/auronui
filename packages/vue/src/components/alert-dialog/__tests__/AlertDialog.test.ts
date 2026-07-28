@@ -215,4 +215,94 @@ describe('AlertDialog', () => {
     const focused = document.activeElement
     expect(dialogEl.contains(focused)).toBe(true)
   })
+
+  it('focus lands specifically on AlertDialogCancel after opening (a11y: default focus must favor the safe action, not the destructive one)', async () => {
+    const wrapper = mountAlertDialog(false)
+    wrappers.push(wrapper)
+    await flushPromises()
+
+    const trigger = document.body.querySelector('.alert-dialog-trigger') as HTMLElement
+    trigger.click()
+    await flushPromises()
+    await nextTick()
+    await new Promise((r) => setTimeout(r, 50))
+
+    const cancelEl = document.body.querySelector('.alert-dialog-cancel')
+    expect(cancelEl).not.toBeNull()
+    expect(document.activeElement).toBe(cancelEl)
+  })
+
+  it('AlertDialogCancel skips closing when the wrapped child calls event.preventDefault()', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { AlertDialog, AlertDialogContent, AlertDialogCancel },
+        setup() {
+          function onCancelClick(event: Event) {
+            event.preventDefault()
+          }
+          return { onCancelClick }
+        },
+        template: `
+          <AlertDialog :default-open="true">
+            <AlertDialogContent>
+              <div class="alert-dialog-body">Content</div>
+              <AlertDialogCancel as-child>
+                <button class="cancel-btn" @click="onCancelClick">Cancel</button>
+              </AlertDialogCancel>
+            </AlertDialogContent>
+          </AlertDialog>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.alert-dialog-body')).not.toBeNull()
+
+    const cancelBtn = document.body.querySelector('.cancel-btn') as HTMLElement
+    cancelBtn.click()
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.alert-dialog-body')).not.toBeNull()
+  })
+
+  it('AlertDialogAction skips closing when the wrapped child calls event.preventDefault() (async destructive action escape hatch)', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { AlertDialog, AlertDialogContent, AlertDialogAction },
+        setup() {
+          function onDeleteClick(event: Event) {
+            event.preventDefault()
+          }
+          return { onDeleteClick }
+        },
+        template: `
+          <AlertDialog :default-open="true">
+            <AlertDialogContent>
+              <div class="alert-dialog-body">Content</div>
+              <AlertDialogAction as-child>
+                <button class="delete-btn" @click="onDeleteClick">Delete</button>
+              </AlertDialogAction>
+            </AlertDialogContent>
+          </AlertDialog>
+        `,
+      }),
+      { attachTo: document.body },
+    )
+    wrappers.push(wrapper)
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.alert-dialog-body')).not.toBeNull()
+
+    const deleteBtn = document.body.querySelector('.delete-btn') as HTMLElement
+    deleteBtn.click()
+    await flushPromises()
+    await nextTick()
+
+    expect(document.body.querySelector('.alert-dialog-body')).not.toBeNull()
+  })
 })

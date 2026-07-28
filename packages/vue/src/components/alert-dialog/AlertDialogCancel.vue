@@ -1,13 +1,12 @@
 <script setup lang="ts">
-import { AlertDialogCancel } from 'reka-ui'
+import { Primitive, injectDialogRootContext, injectAlertDialogContentContext, useForwardExpose } from 'reka-ui'
 import { buttonVariants, type ButtonVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import { warnDeprecatedVariant } from '../../utils/warnDeprecated'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 
 /**
- * AlertDialogCancel — dismiss button for alert dialogs.
- * Wraps reka-ui AlertDialogCancel which renders <button type="button"> by default.
+ * AlertDialogCancel — dismiss button for alert dialogs. Renders <button type="button"> by default.
  */
 const props = withDefaults(defineProps<{
   /** variant — use 'bordered' for the outline style; 'outline' is @deprecated */
@@ -50,14 +49,46 @@ const resolvedVariant = computed(() => {
 })
 
 const slotFns = computed(() => buttonVariants({ variant: resolvedVariant.value, size: props.size }))
+
+const rootContext = injectDialogRootContext()
+const contentContext = injectAlertDialogContentContext()
+const { forwardRef, currentElement } = useForwardExpose()
+
+// Reka's AlertDialogContent auto-focuses the Cancel element on open (a11y
+// best practice: default focus should land on the safe action, not the
+// destructive one) — that wiring lives in reka's own AlertDialogCancel,
+// which this component no longer delegates to (see handleClick below), so
+// it's replicated here directly to avoid silently regressing that behavior.
+onMounted(() => {
+  contentContext.onCancelElementChange(currentElement.value)
+})
+
+// With as-child, Reka's Slot merges our onClick and the wrapped child's own
+// onClick onto the same element, and OUR handler runs first — so deferring
+// the actual close to a microtask lets the child's handler (which still
+// runs synchronously within the same click dispatch, right after ours) call
+// event.preventDefault() first if it wants to keep the dialog open (e.g.
+// while an async action is in flight); the caller then closes it manually
+// once that async work resolves.
+function handleClick(event: Event) {
+  queueMicrotask(() => {
+    if (event.defaultPrevented) return
+    rootContext.onOpenChange(false)
+  })
+}
+
+const resolvedAs = () => props.as ?? 'button'
 </script>
 
 <template>
-  <AlertDialogCancel
-    :as="props.as"
+  <Primitive
+    :ref="forwardRef"
     :as-child="props.asChild"
+    :as="resolvedAs()"
+    :type="resolvedAs() === 'button' ? 'button' : undefined"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"
+    @click="handleClick"
   >
     <slot />
-  </AlertDialogCancel>
+  </Primitive>
 </template>

@@ -63,6 +63,28 @@ describe("Modal", () => {
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
 
+  it("ModalClose skips closing when the wrapped child calls event.preventDefault() (async-save escape hatch)", async () => {
+    render(
+      <Modal defaultOpen>
+        <ModalContent>
+          <ModalBody>
+            <p>Modal content goes here.</p>
+          </ModalBody>
+          <ModalFooter>
+            <ModalClose>
+              <button type="button" onClick={(e) => e.preventDefault()}>
+                Save
+              </button>
+            </ModalClose>
+          </ModalFooter>
+        </ModalContent>
+      </Modal>,
+    );
+    await screen.findByRole("dialog");
+    await userEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
   it("clicking outside the dialog closes it (isDismissable default)", async () => {
     renderModal();
     await userEvent.click(screen.getByRole("button", { name: "Open Modal" }));

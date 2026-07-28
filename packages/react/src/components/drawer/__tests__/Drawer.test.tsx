@@ -61,6 +61,28 @@ describe("Drawer", () => {
     await waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
   });
 
+  it("DrawerClose skips closing when the wrapped child calls event.preventDefault() (async-save escape hatch)", async () => {
+    render(
+      <Drawer defaultOpen>
+        <DrawerContent>
+          <DrawerBody>
+            <p>Drawer content goes here.</p>
+          </DrawerBody>
+          <DrawerFooter>
+            <DrawerClose>
+              <button type="button" onClick={(e) => e.preventDefault()}>
+                Save
+              </button>
+            </DrawerClose>
+          </DrawerFooter>
+        </DrawerContent>
+      </Drawer>,
+    );
+    await screen.findByRole("dialog");
+    await userEvent.click(screen.getByRole("button", { name: "Save" }));
+    expect(screen.getByRole("dialog")).toBeInTheDocument();
+  });
+
   it("renders the panel with the requested placement as a data attribute", async () => {
     renderDrawer({ placement: "left" });
     await userEvent.click(screen.getByRole("button", { name: "Open Drawer" }));
