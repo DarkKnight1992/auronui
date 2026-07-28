@@ -57,3 +57,31 @@ body {
 [data-reka-popper-content-wrapper]:has(.tooltip) {
   z-index: var(--z-tooltip) !important;
 }
+
+/* Reka's DismissableLayer writes `data-dismissable-layer` on every overlay
+ * that uses it (Select, Autocomplete, ComboBox, DatePicker, Popover,
+ * ContextMenu, Dropdown, HoverCard, Menubar, NavigationMenu, Tooltip, Modal,
+ * AlertDialog, Drawer, ...) — it's Reka's own shared primitive, not
+ * something specific to any one component here.
+ *
+ * DismissableLayer also reactively writes an inline `pointer-events`
+ * override onto that same element: `auto` when it's the topmost active
+ * layer, `none` when something opened after it should take precedence, and
+ * nothing at all when it doesn't believe anything is currently locking
+ * pointer events. That last computation can go stale relative to a
+ * different layer elsewhere in the tree (e.g. a Dialog) that HAS locked
+ * `<body>` — and since pointer-events is inherited, a layer with no
+ * override silently inherits `none` from the locked body: invisible to
+ * clicks and to the browser's own inspect-element hit-testing, despite
+ * painting on top visually.
+ *
+ * :where() keeps this at zero specificity, so it only ever supplies a
+ * default and can never fight a real override — not Reka's own inline
+ * pointer-events (inline always wins over any selector-based rule,
+ * :where() or not), and not a component's own deliberate CSS, like
+ * .modal__container's permanent pointer-events-none on the empty
+ * positioning shell around .modal__dialog (which carries this same
+ * attribute but needs to stay non-interactive itself). */
+:where([data-dismissable-layer]) {
+  pointer-events: auto;
+}
