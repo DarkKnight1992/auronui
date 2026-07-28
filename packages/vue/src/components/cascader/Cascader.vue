@@ -79,10 +79,6 @@ const props = withDefaults(
   },
 )
 
-const emit = defineEmits<{
-  'update:modelValue': [value: string[]]
-}>()
-
 const modelValue = defineModel<string[]>({ default: () => [] })
 
 const generatedId = useId()
@@ -163,7 +159,6 @@ function selectAt(colIndex: number, item: T) {
   const newPath = [...path.value.slice(0, colIndex), item]
   const newKeys = newPath.map(props.getKey)
   modelValue.value = newKeys
-  emit('update:modelValue', newKeys)
 
   const children = childrenOf(item)
   if (!children || !children.length) {
@@ -196,7 +191,17 @@ function handleColumnKeydown(ev: KeyboardEvent, colIndex: number, item: T) {
     const children = childrenOf(item)
     if (children && children.length) {
       ev.preventDefault()
-      selectAt(colIndex, item)
+      // Re-confirming the already-selected option at this level must not
+      // re-commit it — selectAt() truncates anything selected deeper than
+      // colIndex, so calling it here would silently clear a fully-selected
+      // deeper chain even though the user didn't change this level's
+      // selection. Just move focus into the (already-rendered) child
+      // column instead.
+      if (isActive(item, colIndex)) {
+        nextTick(() => focusFirstIn(colIndex + 1))
+      } else {
+        selectAt(colIndex, item)
+      }
     }
     return
   }
@@ -292,7 +297,8 @@ const slotFns = computed(() =>
           :key="colIndex"
           :class="composeClassName(slotFns.column(), props.classNames?.column)"
           data-slot="cascader-column"
-          role="group"
+          role="listbox"
+          :aria-label="`${label ?? 'Cascader'} level ${colIndex + 1}`"
         >
           <button
             v-for="item in column"
@@ -300,6 +306,8 @@ const slotFns = computed(() =>
             type="button"
             :class="composeClassName(slotFns.item(), props.classNames?.item)"
             data-slot="cascader-item"
+            role="option"
+            :aria-selected="isActive(item, colIndex)"
             :data-active="isActive(item, colIndex) || undefined"
             @click="selectAt(colIndex, item)"
             @keydown="handleColumnKeydown($event, colIndex, item)"

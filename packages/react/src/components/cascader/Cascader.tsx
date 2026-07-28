@@ -81,6 +81,7 @@ export function Cascader<T extends object>({
   const value = valueProp !== undefined ? valueProp : internalValue;
 
   const rootRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
   const columnRefs = useRef<Record<number, HTMLDivElement | null>>({});
 
   const { descriptionId, errorMessageId, showError, showDescription, hasHelper, ariaDescribedBy, hasLabel } =
@@ -138,6 +139,20 @@ export function Cascader<T extends object>({
     first?.focus();
   }
 
+  // Closes the panel. When `restoreFocus` is true, focus is returned to the
+  // trigger button — needed because the focused column item unmounts when
+  // the panel closes, which would otherwise silently drop focus to
+  // `document.body`. Only pass true for closes the user triggered from
+  // *inside* the panel (completing a leaf selection, Escape); an
+  // outside-pointerdown close should NOT steal focus back to the trigger,
+  // since the user's focus/click already intentionally went elsewhere.
+  function closePanel(restoreFocus: boolean) {
+    setIsOpen(false);
+    if (restoreFocus) {
+      requestAnimationFrame(() => triggerRef.current?.focus());
+    }
+  }
+
   function selectAt(colIndex: number, item: T) {
     if (isDisabled) return;
     const newPath = [...path.slice(0, colIndex), item];
@@ -147,7 +162,7 @@ export function Cascader<T extends object>({
 
     const kids = childrenOf(item);
     if (!kids || !kids.length) {
-      setIsOpen(false);
+      closePanel(true);
     } else {
       requestAnimationFrame(() => focusFirstIn(colIndex + 1));
     }
@@ -169,7 +184,17 @@ export function Cascader<T extends object>({
       const kids = childrenOf(item);
       if (kids && kids.length) {
         ev.preventDefault();
-        selectAt(colIndex, item);
+        // Re-confirming the already-selected option at this level must not
+        // re-commit it — selectAt() truncates anything selected deeper than
+        // colIndex, so calling it here would silently clear a fully-selected
+        // deeper chain even though the user didn't change this level's
+        // selection. Just move focus into the (already-rendered) child
+        // column instead.
+        if (isActive(item, colIndex)) {
+          requestAnimationFrame(() => focusFirstIn(colIndex + 1));
+        } else {
+          selectAt(colIndex, item);
+        }
       }
       return;
     }
@@ -187,7 +212,7 @@ export function Cascader<T extends object>({
       selectAt(colIndex, item);
     }
     if (ev.key === "Escape") {
-      setIsOpen(false);
+      closePanel(true);
     }
   }
 
@@ -197,7 +222,7 @@ export function Cascader<T extends object>({
       if (!rootRef.current?.contains(ev.target as Node)) setIsOpen(false);
     }
     function handleKeydown(ev: globalThis.KeyboardEvent) {
-      if (ev.key === "Escape") setIsOpen(false);
+      if (ev.key === "Escape") closePanel(true);
     }
     document.addEventListener("pointerdown", handlePointerDown);
     document.addEventListener("keydown", handleKeydown);
@@ -230,6 +255,7 @@ export function Cascader<T extends object>({
 
       <div style={{ position: "relative" }}>
         <button
+          ref={triggerRef}
           id={generatedId}
           type="button"
           className={composeClassName(slotFns.trigger(), classNames?.trigger)}
@@ -279,7 +305,8 @@ export function Cascader<T extends object>({
                 }}
                 className={composeClassName(slotFns.column(), classNames?.column)}
                 data-slot="cascader-column"
-                role="group"
+                role="listbox"
+                aria-label={`${label ?? "Cascader"} level ${colIndex + 1}`}
               >
                 {column.map((item) => (
                   <button
@@ -287,6 +314,8 @@ export function Cascader<T extends object>({
                     type="button"
                     className={composeClassName(slotFns.item(), classNames?.item)}
                     data-slot="cascader-item"
+                    role="option"
+                    aria-selected={isActive(item, colIndex)}
                     data-active={dataAttr(isActive(item, colIndex))}
                     onClick={() => selectAt(colIndex, item)}
                     onKeyDown={(ev) => handleColumnKeydown(ev, colIndex, item)}

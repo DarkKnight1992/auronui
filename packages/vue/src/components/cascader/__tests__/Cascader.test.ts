@@ -1,4 +1,4 @@
-import { describe, it, expect } from 'vitest'
+import { describe, it, expect, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, nextTick } from 'vue'
 import Cascader from '../Cascader.vue'
@@ -154,6 +154,95 @@ describe('Cascader', () => {
     california.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
     await nextTick()
     expect(document.querySelectorAll('[data-slot="cascader-column"]').length).toBe(2)
+    wrapper.unmount()
+  })
+
+  it('ArrowRight re-confirming an already-selected option does not truncate a deeper selection', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Cascader },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: ['ca', 'sf'] as string[] }
+        },
+        template: '<Cascader v-model="modelValue" :items="items" :get-key="(i) => i.value" :get-children="(i) => i.children" />',
+      }),
+      { attachTo: document.body },
+    )
+    await wrapper.find('[data-slot="cascader-trigger"]').trigger('click')
+    await nextTick()
+    // Move focus back into the first (root) column, onto the already-active California item.
+    const california = Array.from(document.querySelectorAll('[data-slot="cascader-item"]'))
+      .find(el => el.textContent?.includes('California'))! as HTMLElement
+    california.focus()
+    california.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+    await nextTick()
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual(['ca', 'sf'])
+    expect(document.querySelectorAll('[data-slot="cascader-column"]').length).toBe(2)
+    wrapper.unmount()
+  })
+
+  it('ArrowRight on a genuinely different option still truncates deeper selections', async () => {
+    const wrapper = mount(
+      defineComponent({
+        components: { Cascader },
+        setup() {
+          return { items }
+        },
+        data() {
+          return { modelValue: ['ca', 'sf'] as string[] }
+        },
+        template: '<Cascader v-model="modelValue" :items="items" :get-key="(i) => i.value" :get-children="(i) => i.children" />',
+      }),
+      { attachTo: document.body },
+    )
+    await wrapper.find('[data-slot="cascader-trigger"]').trigger('click')
+    await nextTick()
+    const newYork = Array.from(document.querySelectorAll('[data-slot="cascader-item"]'))
+      .find(el => el.textContent?.includes('New York'))! as HTMLElement
+    newYork.focus()
+    newYork.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight', bubbles: true }))
+    await nextTick()
+    expect((wrapper.vm as unknown as { modelValue: string[] }).modelValue).toEqual(['ny'])
+    wrapper.unmount()
+  })
+
+  it('selecting an item emits update:modelValue exactly once', async () => {
+    const wrapper = mountCascader({ 'onUpdate:modelValue': undefined })
+    const handler = vi.fn()
+    await wrapper.setProps({ 'onUpdate:modelValue': handler })
+    await wrapper.find('[data-slot="cascader-trigger"]').trigger('click')
+    await nextTick()
+    const texas = Array.from(document.querySelectorAll('[data-slot="cascader-item"]'))
+      .find(el => el.textContent?.includes('Texas'))!
+    await texas.dispatchEvent(new MouseEvent('click', { bubbles: true }))
+    await nextTick()
+    expect(handler).toHaveBeenCalledTimes(1)
+    expect(handler).toHaveBeenCalledWith(['tx'])
+    wrapper.unmount()
+  })
+
+  it('each cascader column has role="listbox" and each item has role="option" with aria-selected wired to the active item', async () => {
+    const wrapper = mountCascader({ modelValue: ['ny', 'buf'] })
+    await wrapper.find('[data-slot="cascader-trigger"]').trigger('click')
+    await nextTick()
+    const columns = document.querySelectorAll('[data-slot="cascader-column"]')
+    expect(columns.length).toBe(2)
+    columns.forEach((col) => {
+      expect(col.getAttribute('role')).toBe('listbox')
+    })
+    const items = document.querySelectorAll('[data-slot="cascader-item"]')
+    items.forEach((el) => {
+      expect(el.getAttribute('role')).toBe('option')
+    })
+    const newYork = Array.from(items).find(el => el.textContent?.includes('New York'))!
+    expect(newYork.getAttribute('aria-selected')).toBe('true')
+    expect(newYork.getAttribute('data-active')).toBe('true')
+    const texas = Array.from(items).find(el => el.textContent?.includes('Texas'))!
+    expect(texas.getAttribute('aria-selected')).toBe('false')
+    expect(texas.getAttribute('data-active')).toBeNull()
     wrapper.unmount()
   })
 
