@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeAll } from 'vitest'
+import { describe, it, expect, beforeAll, afterEach, vi } from 'vitest'
 import { mount } from '@vue/test-utils'
 import { defineComponent, nextTick } from 'vue'
 import axe from 'axe-core'
@@ -815,6 +815,48 @@ describe('Select — root data-attributes (rootDataAttrs from useFormField)', ()
     const withHelper = mount(Wrapper, { attachTo: document.body })
     expect(withHelper.attributes('data-has-helper')).toBeTruthy()
     withHelper.unmount()
+  })
+})
+
+describe('Select — open-on-focus guard', () => {
+  // jsdom's matches(':focus-visible') always returns true for any focused
+  // element — it has no real focus-visible heuristic — so these tests stub
+  // HTMLElement.prototype.matches to simulate the two real-world cases a
+  // browser actually distinguishes: a genuine keyboard Tab (focus-visible)
+  // vs. a program-driven .focus() call like a Dialog auto-focusing its first
+  // focusable descendant on open (not focus-visible).
+  const original = HTMLElement.prototype.matches
+  function stubFocusVisible(value: boolean) {
+    vi.spyOn(HTMLElement.prototype, 'matches').mockImplementation(function (
+      this: HTMLElement,
+      selector: string,
+    ) {
+      if (selector === ':focus-visible') return value
+      return original.call(this, selector)
+    })
+  }
+  afterEach(() => {
+    vi.restoreAllMocks()
+  })
+
+  it('does not open when focus is not focus-visible (e.g. a Dialog auto-focusing the trigger on open)', async () => {
+    stubFocusVisible(false)
+    const wrapper = mount(BasicSelect, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    await trigger.trigger('focus')
+    await nextTick()
+    expect(trigger.attributes('aria-expanded')).toBe('false')
+    wrapper.unmount()
+  })
+
+  it('opens when focus is focus-visible (a genuine keyboard Tab into the field)', async () => {
+    stubFocusVisible(true)
+    const wrapper = mount(BasicSelect, { attachTo: document.body })
+    const trigger = wrapper.find('button[role="combobox"]')
+    await trigger.trigger('focus')
+    await nextTick()
+    expect(trigger.attributes('aria-expanded')).toBe('true')
+    wrapper.unmount()
   })
 })
 

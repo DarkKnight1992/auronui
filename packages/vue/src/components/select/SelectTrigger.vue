@@ -68,8 +68,16 @@ watch(() => rootContext.open.value, (open, wasOpen) => {
   }
 }, { flush: 'sync' })
 
-function handleFocus() {
+function handleFocus(event: FocusEvent) {
   if (ctx.isDisabled.value || ctx.isReadonly.value || skipNextFocus.value || rootContext.open.value) return
+  // Only open for a genuine keyboard-driven focus (e.g. Tab into the field).
+  // Without this check, a Dialog auto-focusing this trigger as its first
+  // focusable descendant on open (standard, correct dialog a11y behavior)
+  // would silently open the dropdown too — the user's first real click then
+  // toggles it closed instead of opening it. Mouse clicks open the dropdown
+  // via Reka's own built-in trigger click handling, unaffected by this guard.
+  const target = event.target as HTMLElement | null
+  if (!target?.matches(':focus-visible')) return
   rootContext.onOpenChange(true)
 }
 </script>
