@@ -75,6 +75,14 @@ export interface TableProps<TData extends RowData = RowData> {
    */
   pageSizeOptions?: number[];
   onPageSizeChange?: (pageSize: number) => void;
+  /**
+   * Derives a stable row id for TanStack's `getRowId`, so row selection stays
+   * anchored to the underlying data (not array-index position) across
+   * reorders/removals of `data`. Mirrors Tree/Cascader's `getKey` convention.
+   * Defaults to the row's `id` field, then `key`, falling back to its index
+   * when neither is present.
+   */
+  getKey?: (row: TData, index: number) => string;
   /** Per-slot CSS class overrides */
   classNames?: Partial<{
     base: ClassValue;
@@ -96,6 +104,21 @@ export interface TableProps<TData extends RowData = RowData> {
 
 const selectionColumnId = "__select__";
 
+// Without an explicit getRowId, TanStack keys rows by array index, so
+// removing/reordering `data` while rows are selected leaves the checked
+// *indices* checked — now pointing at different underlying rows. Default to
+// the row's own `id`/`key` field (the common shape, e.g. this component's
+// own tests' `{ id, name }` fixtures) and fall back to index only when
+// neither is present, matching Tree/Cascader's `getKey` convention.
+function defaultGetRowId<TData>(row: TData, index: number): string {
+  if (row && typeof row === "object") {
+    const r = row as Record<string, unknown>;
+    if (typeof r.id === "string" || typeof r.id === "number") return String(r.id);
+    if (typeof r.key === "string" || typeof r.key === "number") return String(r.key);
+  }
+  return String(index);
+}
+
 export function Table<TData extends RowData = RowData>({
   columns,
   data,
@@ -112,6 +135,7 @@ export function Table<TData extends RowData = RowData>({
   onPageChange,
   pageSizeOptions,
   onPageSizeChange,
+  getKey,
   classNames,
   className,
   renderCell,
@@ -202,6 +226,7 @@ export function Table<TData extends RowData = RowData>({
       setSorting((prev) => (typeof updater === "function" ? updater(prev) : updater));
     },
     onRowSelectionChange: updateRowSelection,
+    getRowId: (row: TData, index: number) => (getKey ? getKey(row, index) : defaultGetRowId(row, index)),
     onPaginationChange: (updater) => {
       const next = typeof updater === "function" ? updater(paginationState) : updater;
       if (next.pageSize !== internalPageSize) {
@@ -290,6 +315,7 @@ export function Table<TData extends RowData = RowData>({
         selectionMode: selection,
         variant,
         handleRowClick,
+        onCellFocus: keyboardNav.onCellFocus,
       }}
     >
       <div className={composeClassName(slotFns.base(), className, classNames?.base)}>

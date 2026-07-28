@@ -24,8 +24,14 @@ export function TableCheckboxCell<TData extends RowData = RowData>({
 }: TableCheckboxCellProps<TData>) {
   const inputRef = useRef<HTMLInputElement>(null);
 
-  const isIndeterminate = !row && table ? table.getIsSomeRowsSelected() && !table.getIsAllRowsSelected() : false;
-  const checked = row ? row.getIsSelected() : table ? table.getIsAllRowsSelected() : false;
+  // Header select-all is scoped to the *current page* (getIsAllPageRowsSelected/
+  // toggleAllPageRowsSelected), not the whole filtered dataset
+  // (getIsAllRowsSelected/toggleAllRowsSelected) — otherwise "select all" under
+  // client-side pagination silently selects rows on pages the user never saw.
+  // When pagination is disabled, TanStack's page row model falls back to the
+  // full row model, so these page-scoped APIs are safe to use unconditionally.
+  const isIndeterminate = !row && table ? table.getIsSomePageRowsSelected() : false;
+  const checked = row ? row.getIsSelected() : table ? table.getIsAllPageRowsSelected() : false;
   const disabled = row ? !row.getCanSelect() : false;
 
   useEffect(() => {
@@ -37,7 +43,7 @@ export function TableCheckboxCell<TData extends RowData = RowData>({
     if (row) {
       row.toggleSelected(nextChecked);
     } else if (table) {
-      table.toggleAllRowsSelected(nextChecked);
+      table.toggleAllPageRowsSelected(nextChecked);
     }
   }
 

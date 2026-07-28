@@ -26,6 +26,12 @@ export interface TableContext<TData extends RowData = RowData> {
   selectionMode: TableSelectionMode;
   /** Shift+Click range handler called from TableBody/TableVirtualBody row click listener */
   handleRowClick: (rowIndex: number, event: MouseEvent) => void;
+  /**
+   * Syncs the roving-tabindex activeCell to whatever cell actually receives
+   * DOM focus (mouse click, Tab-entry) — not just arrow-key navigation.
+   * Bind to each gridcell's `onFocus`.
+   */
+  onCellFocus: (rowIndex: number, columnIndex: number) => void;
 }
 
 export const {

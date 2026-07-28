@@ -1,6 +1,6 @@
 import { describe, it, expect } from 'vitest'
 import { mount } from '@vue/test-utils'
-import { defineComponent } from 'vue'
+import { defineComponent, nextTick } from 'vue'
 import type { ColumnDef } from '@tanstack/vue-table'
 import Table from '../Table.vue'
 
@@ -116,5 +116,28 @@ describe('Table — core', () => {
     const wrapper = mountTable()
     const firstHeader = wrapper.find('th[role="columnheader"]')
     expect(firstHeader.attributes('aria-sort')).toBe('none')
+  })
+
+  it('directly focusing a cell (mouse click) syncs the roving tabindex, so a subsequent arrow key moves from the actually-focused cell', async () => {
+    // Regression test: onCellFocus previously existed in useTableKeyboardNav
+    // but was never bound to any cell's focus event, so clicking a cell
+    // directly left the tracked activeCell stale — the next arrow key would
+    // jump from wherever activeCell last was (or the (0,0) default) instead
+    // of the cell the user actually clicked into.
+    const wrapper = mountTable()
+    const targetCell = wrapper.find('[data-row-index="1"][data-col-index="1"]')
+    await targetCell.trigger('focus')
+    // Focusing (1,1) directly should already move the roving tabindex there.
+    expect(targetCell.attributes('tabindex')).toBe('0')
+    expect(wrapper.find('[data-row-index="0"][data-col-index="0"]').attributes('tabindex')).toBe('-1')
+
+    await wrapper.find('table').trigger('keydown', { key: 'ArrowDown' })
+    await nextTick()
+
+    // Nav should move from (1,1) -> (2,1), the cell actually focused, not
+    // from a stale tracked position (which — before the fix — would still
+    // have been null/(0,0), moving to (1,0) instead).
+    expect(wrapper.find('[data-row-index="2"][data-col-index="1"]').attributes('tabindex')).toBe('0')
+    expect(targetCell.attributes('tabindex')).toBe('-1')
   })
 })

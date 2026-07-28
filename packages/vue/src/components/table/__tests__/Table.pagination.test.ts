@@ -203,6 +203,48 @@ describe('Table — pagination (page size selector)', () => {
   })
 })
 
+describe('Table — pagination (select-all scoping)', () => {
+  it('header select-all only selects rows on the current page, not the whole dataset', async () => {
+    // Regression test: TableCheckboxCell previously called
+    // getIsAllRowsSelected/toggleAllRowsSelected, which operate on the whole
+    // filtered dataset regardless of pagination — "select all" would
+    // silently select rows on pages the user never saw.
+    const wrapper = mountTable(makeData(10), { selection: 'multiple', pagination: { pageSize: 3 } })
+    // rowNames() reads the first <td>, which is now the checkbox cell since
+    // selection="multiple" injects a column at position 0 — read the name
+    // column (second <td>) directly instead.
+    const visibleNames = wrapper.findAll('tbody tr[role="row"]').map((tr) => tr.findAll('td')[1].text())
+    expect(visibleNames).toEqual(['Row 0', 'Row 1', 'Row 2'])
+
+    const headerCheckbox = wrapper.find('thead [role="checkbox"]')
+    await headerCheckbox.trigger('click')
+    await nextTick()
+
+    const emitted = wrapper.emitted('update:rowSelection') as Array<[Record<string, boolean>]>
+    expect(emitted).toBeTruthy()
+    const lastSelection = emitted[emitted.length - 1][0]
+    const selectedIds = Object.keys(lastSelection).filter((k) => lastSelection[k])
+    // Only ids '0', '1', '2' (the visible page) should be selected — not all 10 rows.
+    expect(selectedIds.sort()).toEqual(['0', '1', '2'])
+  })
+
+  it('header select-all checkbox reflects only the current page\'s selection state (indeterminate/checked)', async () => {
+    const wrapper = mountTable(makeData(10), { selection: 'multiple', pagination: { pageSize: 3 } })
+    const rowCheckboxes = wrapper.findAll('tbody [role="checkbox"]')
+    // Select all 3 visible rows individually
+    await rowCheckboxes[0].trigger('click')
+    await rowCheckboxes[1].trigger('click')
+    await rowCheckboxes[2].trigger('click')
+    await nextTick()
+
+    const headerCheckbox = wrapper.find('thead [role="checkbox"]')
+    // Header should report fully checked (all page rows selected), not
+    // indeterminate/unchecked, since only the page-scoped rows are selected
+    // and all of them are checked — even though 7 rows elsewhere are not.
+    expect(headerCheckbox.attributes('aria-checked')).toBe('true')
+  })
+})
+
 describe('Table — pagination (axe audit)', () => {
   it('passes axe with pagination enabled', async () => {
     const wrapper = mountTable(makeData(23), { pagination: { pageSize: 5 }, ariaLabel: 'Paginated items' })

@@ -114,6 +114,7 @@ export const TableVirtualBody = forwardRef<TableVirtualBodyHandle, TableVirtualB
                       ? 0
                       : -1
                 }
+                onFocus={() => ctx.onCellFocus(vItem.index, colIndex)}
               >
                 {flexRender(cell.column.columnDef.cell, cell.getContext())}
               </td>

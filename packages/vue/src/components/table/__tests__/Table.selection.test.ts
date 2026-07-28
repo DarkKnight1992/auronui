@@ -66,8 +66,10 @@ describe('Table — selection', () => {
     const firstRowCheckbox = wrapper.findAll('tbody [role="checkbox"], tbody input[type="checkbox"]')[0]
     await firstRowCheckbox.trigger('click')
     expect(emitted.length).toBeGreaterThan(0)
-    // TanStack uses row index as string ID by default ('0', '1', ...)
-    expect(emitted[0]).toEqual({ '0': true })
+    // Table derives a stable row id from the row's own `id` field (getRowId),
+    // not the array index, so selection survives reorders/removals — the
+    // first row (Alice) has id 'a'.
+    expect(emitted[0]).toEqual({ a: true })
   })
 
   it('selected row has data-state="checked"', async () => {
@@ -96,9 +98,10 @@ describe('Table — selection', () => {
     const checkboxes = wrapper.findAll('tbody [role="checkbox"], tbody input[type="checkbox"]')
     await checkboxes[0].trigger('click')
     await checkboxes[1].trigger('click')
-    // Only row '1' should be selected (single-select replaces; TanStack uses index IDs)
+    // Only the second row (Bob, id 'b') should be selected — single-select
+    // replaces; row selection is keyed by the row's stable id, not its index.
     const selectedKeys = Object.keys(rowSelection.value).filter((k) => (rowSelection.value as any)[k])
-    expect(selectedKeys).toEqual(['1'])
+    expect(selectedKeys).toEqual(['b'])
   })
 
   it('multiple selection: header checkbox selects all', async () => {
@@ -132,12 +135,52 @@ describe('Table — selection', () => {
   })
 
   it('v-model:rowSelection is reactive (parent -> child)', async () => {
-    // TanStack uses row index as string ID: '0'=Alice, '1'=Bob, '2'=Charlie, '3'=Dave
-    const rowSelection = ref<Record<string, boolean>>({ '1': true })
+    // Row selection is keyed by each row's stable id (its `id` field), not
+    // array index: a='Alice', b='Bob', c='Charlie', d='Dave'.
+    const rowSelection = ref<Record<string, boolean>>({ b: true })
     const wrapper = mountTable({ selection: 'multiple', rowSelection: rowSelection.value })
     await nextTick()
     const rows = wrapper.findAll('tbody tr[role="row"]')
-    // Row at index 1 (Bob) should be checked
+    // Row at index 1 (Bob, id 'b') should be checked
     expect(rows[1].attributes('data-state')).toBe('checked')
+  })
+
+  it('selection survives a row being removed from `data` (stable getRowId, not index)', async () => {
+    // Regression test: previously TanStack fell back to index-based row ids,
+    // so removing a row shifted every subsequent row's "id" and desynced
+    // selection from the underlying data. Now selection is keyed by each
+    // row's own `id` field and follows the row across removals.
+    const currentData = ref([...data])
+    const rowSelection = ref<Record<string, boolean>>({})
+    const Wrapper = defineComponent({
+      components: { Table },
+      setup() {
+        return {
+          columns,
+          currentData,
+          onUpdate: (v: Record<string, boolean>) => { rowSelection.value = v },
+        }
+      },
+      template:
+        '<Table :columns="columns" :data="currentData" selection="multiple" :row-selection="rowSelection" @update:row-selection="onUpdate" />',
+    })
+    const wrapper = mount(Wrapper)
+    // Select Charlie (id 'c', row index 2)
+    const checkboxes = wrapper.findAll('tbody [role="checkbox"], tbody input[type="checkbox"]')
+    await checkboxes[2].trigger('click')
+    expect(rowSelection.value).toEqual({ c: true })
+
+    // Remove Alice (index 0) — Charlie shifts from index 2 to index 1
+    currentData.value = currentData.value.filter((p) => p.id !== 'a')
+    await nextTick()
+
+    // Charlie (id 'c') is still the selected row, now rendered at index 1
+    const rowsAfterRemoval = wrapper.findAll('tbody tr[role="row"]')
+    expect(rowsAfterRemoval.length).toBe(3)
+    expect(rowsAfterRemoval[0].text()).toContain('Bob')
+    expect(rowsAfterRemoval[1].text()).toContain('Charlie')
+    expect(rowsAfterRemoval[1].attributes('data-state')).toBe('checked')
+    // Bob (now at index 0, where Charlie used to be pre-removal-adjacent) is NOT checked
+    expect(rowsAfterRemoval[0].attributes('data-state')).toBeUndefined()
   })
 })

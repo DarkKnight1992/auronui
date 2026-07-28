@@ -11,9 +11,15 @@ const props = defineProps<{
   ariaLabel?: string
 }>()
 
+// Header select-all is scoped to the *current page* (getIsAllPageRowsSelected/
+// toggleAllPageRowsSelected), not the whole filtered dataset
+// (getIsAllRowsSelected/toggleAllRowsSelected) — otherwise "select all" under
+// client-side pagination silently selects rows on pages the user never saw.
+// When pagination is disabled, TanStack's page row model falls back to the
+// full row model, so these page-scoped APIs are safe to use unconditionally.
 const isIndeterminate = computed<boolean>(() => {
   if (!props.row && props.table) {
-    return props.table.getIsSomeRowsSelected() && !props.table.getIsAllRowsSelected()
+    return props.table.getIsSomePageRowsSelected()
   }
   return false
 })
@@ -23,7 +29,7 @@ const modelValue = computed<boolean>(() => {
     return props.row.getIsSelected()
   }
   if (props.table) {
-    return props.table.getIsAllRowsSelected()
+    return props.table.getIsAllPageRowsSelected()
   }
   return false
 })
@@ -37,7 +43,7 @@ function onToggle(nextChecked: boolean) {
   if (props.row) {
     props.row.toggleSelected(nextChecked)
   } else if (props.table) {
-    props.table.toggleAllRowsSelected(nextChecked)
+    props.table.toggleAllPageRowsSelected(nextChecked)
   }
 }
 </script>

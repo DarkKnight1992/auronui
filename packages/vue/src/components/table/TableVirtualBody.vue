@@ -119,6 +119,7 @@ defineExpose({
               ? 0
               : -1
         "
+        @focus="ctx.onCellFocus(vItem.index, colIndex)"
       >
         <FlexRender
           :render="cell.column.columnDef.cell"

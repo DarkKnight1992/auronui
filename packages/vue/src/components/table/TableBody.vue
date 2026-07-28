@@ -67,6 +67,7 @@ function onRowKeydown(row: Row<TData>, event: KeyboardEvent) {
         :data-row-index="rowIndex"
         :data-col-index="colIndex"
         :tabindex="ctx.activeCell.value && ctx.activeCell.value.rowIndex === rowIndex && ctx.activeCell.value.columnIndex === colIndex ? 0 : (ctx.activeCell.value === null && rowIndex === 0 && colIndex === 0 ? 0 : -1)"
+        @focus="ctx.onCellFocus(rowIndex, colIndex)"
       >
         <slot
           name="cell"

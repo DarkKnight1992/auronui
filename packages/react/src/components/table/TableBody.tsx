@@ -78,6 +78,7 @@ export function TableBody<TData extends RowData = RowData>({ classNames, renderC
                     ? 0
                     : -1
               }
+              onFocus={() => ctx.onCellFocus(rowIndex, colIndex)}
             >
               {renderCell
                 ? renderCell({ row, cell, column: cell.column, value: cell.getValue() })

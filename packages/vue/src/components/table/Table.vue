@@ -75,6 +75,14 @@ const props = withDefaults(
      * `pagination.pageSize`. Requires `pagination` to be set.
      */
     pageSizeOptions?: number[]
+    /**
+     * Derives a stable row id for TanStack's `getRowId`, so row selection stays
+     * anchored to the underlying data (not array-index position) across
+     * reorders/removals of `data`. Mirrors Tree/Cascader's `getKey` convention.
+     * Defaults to the row's `id` field, then `key`, falling back to its index
+     * when neither is present.
+     */
+    getKey?: (row: TData, index: number) => string
     /** Per-slot CSS class overrides */
     classNames?: Partial<{
       base: ClassValue
@@ -99,6 +107,7 @@ const props = withDefaults(
     pagination: undefined,
     page: undefined,
     pageSizeOptions: undefined,
+    getKey: undefined,
   }
 )
 
@@ -195,6 +204,22 @@ const effectiveColumns = computed<ColumnDef<TData, any>[]>(() => {
 // Instantiate once for a stable reference; a new model per getter access would bust TanStack's memoization.
 const paginationRowModel = getPaginationRowModel()
 
+// --- Stable row id derivation ------------------------------------------
+// Without an explicit getRowId, TanStack keys rows by array index, so
+// removing/reordering `data` while rows are selected leaves the checked
+// *indices* checked — now pointing at different underlying rows. Default to
+// the row's own `id`/`key` field (the common shape, e.g. this component's
+// own tests' `{ id, name }` fixtures) and fall back to index only when
+// neither is present, matching Tree/Cascader's `getKey` convention.
+function defaultGetRowId(row: TData, index: number): string {
+  if (row && typeof row === 'object') {
+    const r = row as unknown as Record<string, unknown>
+    if (typeof r.id === 'string' || typeof r.id === 'number') return String(r.id)
+    if (typeof r.key === 'string' || typeof r.key === 'number') return String(r.key)
+  }
+  return String(index)
+}
+
 // --- useVueTable instance ---------------------------------------------
 // Use getters so @tanstack/vue-table tracks prop reactivity.
 const table = useVueTable({
@@ -219,6 +244,7 @@ const table = useVueTable({
     sorting.value = typeof updater === 'function' ? updater(sorting.value) : updater
   },
   onRowSelectionChange: updateRowSelection,
+  getRowId: (row: TData, index: number) => (props.getKey ? props.getKey(row, index) : defaultGetRowId(row, index)),
   onPaginationChange: (updater) => {
     const current: PaginationState = { pageIndex: internalPage.value - 1, pageSize: internalPageSize.value }
     const next = typeof updater === 'function' ? updater(current) : updater
@@ -346,6 +372,7 @@ useTableProvide({
   selectionMode,
   variant: variantRef,
   handleRowClick,
+  onCellFocus: keyboardNav.onCellFocus,
 })
 
 // --- Slot class derivation -------------------------------------------
