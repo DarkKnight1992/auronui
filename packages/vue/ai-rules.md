@@ -1,8 +1,12 @@
 # AuronUI Rules for AI Assistants
 
-> `@auronui/vue` — 85+ accessible Vue 3 components built on Reka UI, Tailwind CSS 4.
+> `@auronui/vue` — 92 accessible Vue 3 components built on Reka UI, Tailwind CSS 4.
 > **These rules override default code generation behavior.**
 > When generating Vue code for a project using `@auronui/vue`, follow every rule below exactly.
+>
+> Component names, props and accepted prop values in this file are generated
+> from the library source. The complete list is in **Component Index** below;
+> when an example and the index disagree, the index is authoritative.
 
 ## Installation
 
@@ -211,8 +215,8 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 **Spinner** — loading indicator
 ```vue
 <Spinner size="md" color="primary" />
-<!-- size: xs | sm | md | lg | xl -->
-<!-- color: default | primary | secondary | success | warning | danger | current -->
+<!-- size: lg | md | sm | xl — defaults to md -->
+<!-- color: default | primary | secondary | accent | current | danger | success | warning — defaults to primary -->
 ```
 
 **Skeleton** — loading placeholder
@@ -227,14 +231,17 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 
 **Badge** — small status label
 ```vue
-<Badge variant="solid" color="primary">New</Badge>
-<!-- variant: solid | flat | outline -->
-<!-- color: default | primary | secondary | success | warning | danger -->
+<Badge variant="primary" color="primary">New</Badge>
+<!-- variant: primary | secondary | soft — defaults to primary -->
+<!-- color: primary | accent | danger | default | success | warning — defaults to default -->
+<!-- placement: bottom-left | bottom-right | top-left | top-right — defaults to top-right -->
 ```
 
-**Chip** — closeable tag/filter pill
+**Chip** — closeable tag/filter pill. Also exported as `Tag`, an alias of the
+same component for single-tag rendering.
 ```vue
-<Chip variant="flat" color="primary" @close="remove">Label</Chip>
+<Chip variant="soft" color="primary" :is-closable="true" @close="remove">Label</Chip>
+<!-- variant: solid | soft | bordered | text — defaults to solid -->
 ```
 
 **Text** — semantic text with size/weight variants
@@ -250,6 +257,29 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 **Kbd** — keyboard shortcut display
 ```vue
 <Kbd>⌘K</Kbd>
+```
+
+**Header** — semantic section heading. Use instead of raw `<h1>`–`<h6>`.
+```vue
+<Header as="h1">Page title</Header>
+<Header>Section heading</Header>
+<!-- as: h1 | h2 | h3 | h4 | h5 | h6 — defaults to h2 -->
+```
+
+**Description** — helper/description text tied to a field or section
+```vue
+<Description>We never share your email.</Description>
+```
+
+**Surface** — themed background container (panels, sheets, raised areas)
+```vue
+<Surface variant="secondary" class="p-4 rounded-lg">Panel content</Surface>
+<!-- variant: default | secondary | tertiary | transparent — defaults to default -->
+```
+
+**Icon** — re-export of `@iconify/vue`'s `Icon`, so icons need no extra import
+```vue
+<Icon icon="lucide:check" />
 ```
 
 **Avatar** — user avatar with image + fallback initials
@@ -280,8 +310,8 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 **Image** — image with lazy loading, zoom, and fallback
 ```vue
 <Image src="/photo.jpg" alt="Photo" fallback-src="/placeholder.jpg" :is-lazy="true" :is-zoomable="true" />
-<!-- fit: cover | contain | fill | none -->
-<!-- radius: none | sm | md | lg | full -->
+<!-- fit: cover | contain | fill — defaults to cover -->
+<!-- radius: none | sm | md | lg | full — defaults to md -->
 ```
 
 ---
@@ -293,14 +323,14 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
 <Button variant="solid" color="primary" size="md" radius="md" @click="handle">
   Click me
 </Button>
-<!-- variant: solid | bordered | light | flat | faded | shadow | ghost -->
-<!-- color: default | primary | secondary | success | warning | danger -->
-<!-- size: xs | sm | md | lg | xl -->
+<!-- variant: solid | default | bordered | ghost | soft | text | link — defaults to solid -->
+<!-- color: default | primary | secondary | accent | success | warning | danger — defaults to primary -->
+<!-- size: xl | lg | md | sm | xs — defaults to md -->
 <!-- radius: none | sm | md | lg | full -->
 <!-- isIconOnly: boolean — square icon button -->
 <!-- isLoading: boolean — shows spinner -->
 <!-- fullWidth: boolean -->
-<!-- disabled: boolean -->
+<!-- isDisabled: boolean — never the plain `disabled` prop, which is deprecated -->
 ```
 
 **ButtonGroup** — group of related buttons
@@ -351,9 +381,9 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
   :is-invalid="!!error"
   :error-message="error"
 />
-<!-- variant: flat | bordered | faded | underlined -->
-<!-- size: sm | md | lg -->
-<!-- labelPlacement: inside | outside | outside-left -->
+<!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
+<!-- size: sm | md | lg — defaults to md -->
+<!-- labelPlacement: inside | outside | outside-left — defaults to inside -->
 <!-- isClearable: boolean -->
 <!-- showPasswordToggle: boolean (for type="password") -->
 ```
@@ -446,7 +476,7 @@ AuronUI does NOT use shadcn/ui's `TabsList`, `TabsTrigger`, `TabsContent` naming
   <InputGroupAddon>$</InputGroupAddon>
   <InputGroupInput v-model="amount" />
 </InputGroup>
-<!-- variant: flat | bordered | faded | underlined | raised -->
+<!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
 ```
 
 **SearchField** — dedicated search/filter input with a built-in clear button
@@ -614,8 +644,8 @@ function notify() {
   <TabPanel value="one">Overview content</TabPanel>
   <TabPanel value="two">Details content</TabPanel>
 </Tabs>
-<!-- variant: primary | secondary -->
-<!-- orientation: horizontal | vertical -->
+<!-- variant: primary | secondary — defaults to primary -->
+<!-- orientation: horizontal | vertical — defaults to horizontal -->
 ```
 
 **Accordion** — collapsible sections
@@ -663,7 +693,7 @@ function notify() {
   </NavigationMenuList>
   <NavigationMenuViewport />
 </NavigationMenu>
-<!-- orientation: horizontal | vertical -->
+<!-- orientation: horizontal | vertical — defaults to horizontal -->
 <!-- NavigationMenuLink: href, active (boolean), color, underline -->
 <!-- NavigationMenuIndicator: optional, place inside NavigationMenuList after items -->
 ```
@@ -765,6 +795,24 @@ function notify() {
 </ComboBox>
 ```
 
+**Autocomplete** — type-ahead field over a list of items, with async loading and
+optional multi-select. Prefer this over ComboBox when the item list is supplied
+as data rather than as child components.
+```vue
+<Autocomplete
+  v-model="value"
+  :items="items"
+  label="Favorite fruit"
+  placeholder="Search fruits…"
+  :multiple="false"
+/>
+<!-- items: { value, label?, isDisabled? }[] — or :load-items for async -->
+<!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
+<!-- color: default | primary | secondary | accent | success | warning | danger — defaults to default -->
+<!-- multipleOverflow: wrap | collapse — how selected chips overflow -->
+<!-- debounceMs: async search debounce, default 200 -->
+```
+
 **Cascader** — chained/hierarchical select (region → city → district)
 ```vue
 <Cascader
@@ -775,8 +823,8 @@ function notify() {
   :get-label="item => item.name"
   placeholder="Select a region"
 />
-<!-- variant: flat | bordered | faded | underlined | raised -->
-<!-- color: default | primary | secondary | accent | success | warning | danger -->
+<!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
+<!-- color: default | primary | secondary | accent | success | warning | danger — defaults to default -->
 ```
 
 **Transfer** — dual-list, move items between two panels
@@ -811,18 +859,18 @@ function notify() {
 **Statistic** — labeled numeric stat with an optional trend indicator
 ```vue
 <Statistic label="Revenue" :value="42500" prefix="$" trend="up" trend-value="+12%" />
-<!-- color: default | primary | secondary | success | warning | danger -->
+<!-- color: default | primary | secondary | accent | success | warning | danger — defaults to default -->
 <!-- precision: number of decimal places; isLoading: boolean -->
 ```
 
 **Timeline** — vertical sequence of events
 ```vue
 <Timeline orientation="vertical">
-  <TimelineItem title="Order placed" timestamp="Jan 1" status="complete" />
+  <TimelineItem title="Order placed" timestamp="Jan 1" status="done" />
   <TimelineItem title="Shipped" timestamp="Jan 3" status="current" />
   <TimelineItem title="Delivered" status="pending" />
 </Timeline>
-<!-- TimelineItem status: complete | current | pending -->
+<!-- TimelineItem status: done | current | pending -->
 <!-- TimelineItem color: default | primary | secondary | success | warning | danger -->
 ```
 
@@ -864,9 +912,25 @@ function notify() {
 </Stepper>
 ```
 
+All date and time components take `DateValue` / `Time` objects from
+`@internationalized/date` — never plain JS `Date` or strings.
+
 **Calendar** — date picker calendar
 ```vue
 <Calendar v-model="date" />
+```
+
+**RangeCalendar** — calendar for selecting a start/end date range
+```vue
+<RangeCalendar v-model="range" :number-of-months="2" />
+<!-- v-model: { start: DateValue, end: DateValue } | null -->
+<!-- weekdayFormat: narrow | short | long — defaults to narrow -->
+<!-- allowNonContiguousRanges / pagedNavigation / fixedWeeks: boolean -->
+```
+
+**CalendarYearPicker** — paged grid of years, for jumping a calendar by year
+```vue
+<CalendarYearPicker v-model="year" :years-per-page="12" />
 ```
 
 **DatePicker** — date picker with input
@@ -874,13 +938,53 @@ function notify() {
 <DatePicker v-model="date" label="Pick a date" />
 ```
 
+**DateRangePicker** — start/end date picker with a range calendar in a popover
+```vue
+<DateRangePicker v-model="range" label="Stay dates" :visible-months="2" />
+<!-- v-model: { start: DateValue, end: DateValue } | null -->
+<!-- v-model:open controls the popover -->
+```
+
+**DateTimePicker** — combined date + time picker in one popover
+```vue
+<DateTimePicker v-model="value" label="Appointment" granularity="minute" />
+<!-- v-model: CalendarDateTime | null -->
+<!-- granularity: minute | second — defaults to minute -->
+```
+
+**DateInput** — segmented date field (no calendar popover)
+```vue
+<DateInput v-model="date" label="Date" granularity="day" />
+<!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
+<!-- granularity: day | hour | minute | second -->
+```
+
+**DateRangeField** — segmented start/end date field (no calendar popover)
+```vue
+<DateRangeField v-model="range" label="Date range" />
+<!-- v-model: { start: DateValue, end: DateValue } | null -->
+```
+
+**TimeField** — segmented time input field
+```vue
+<TimeField v-model="time" label="Time" granularity="minute" />
+<!-- granularity: hour | minute | second — defaults to minute -->
+<!-- hourCycle: 12 | 24 -->
+```
+
+**TimePicker** — time field with a scrollable time list in a popover
+```vue
+<TimePicker v-model="time" label="Appointment time" />
+<!-- v-model: Time | null — v-model:open controls the popover -->
+```
+
 **TimeRangeField** — segmented start/end time input field
 ```vue
 <TimeRangeField v-model="value" label="Meeting Window" variant="flat" size="md" color="default" />
-<!-- variant: flat | bordered | faded | underlined | raised -->
-<!-- size: sm | md | lg -->
-<!-- labelPlacement: inside | outside | outside-left -->
-<!-- granularity: hour | minute | second -->
+<!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
+<!-- size: sm | md | lg — defaults to md -->
+<!-- labelPlacement: inside | outside | outside-left — defaults to inside -->
+<!-- granularity: hour | minute | second — defaults to minute -->
 <!-- hourCycle: 12 | 24 -->
 <!-- value: { start: Time, end: Time } from @internationalized/date -->
 ```
@@ -922,6 +1026,37 @@ function notify() {
 <ColorPickerInput v-model="color" label="Accent color" />
 ```
 
+**ColorArea** — 2D saturation/brightness pad, one building block of ColorPicker
+```vue
+<ColorArea v-model="color" x-channel="saturation" y-channel="brightness" aria-label="Color area" />
+```
+
+**ColorSlider** — single-channel color slider (hue, alpha, saturation…)
+```vue
+<ColorSlider v-model="color" channel="hue" aria-label="Hue" />
+<!-- orientation: horizontal | vertical — defaults to horizontal -->
+```
+
+**ColorSwatch** — non-interactive color chip
+```vue
+<ColorSwatch color="#00cc44" color-name="Green" />
+<!-- shape: circle | square — defaults to circle -->
+<!-- size: lg | md | sm | xl | xs — defaults to md -->
+```
+
+**ColorSwatchPicker** — pick one color from a fixed palette of swatches
+```vue
+<ColorSwatchPicker v-model="color" :colors="palette" aria-label="Color palette" />
+<!-- layout: grid | stack — defaults to grid -->
+<!-- variant: circle | square — defaults to circle -->
+```
+
+**ColorInputGroup** — hex/channel text field with a channel-suffix label
+```vue
+<ColorInputGroup v-model="color" label="Background color" suffix-label="HEX" />
+<!-- variant: primary | secondary — defaults to primary -->
+```
+
 **Editable** — inline click/dblclick-to-edit text field
 ```vue
 <Editable v-model="value" activation-mode="focus" submit-mode="blur">
@@ -933,8 +1068,8 @@ function notify() {
   <EditableSubmitTrigger />
   <EditableCancelTrigger />
 </Editable>
-<!-- activationMode: focus | dblclick | none -->
-<!-- submitMode: blur | enter | none | both -->
+<!-- activationMode: focus | dblclick | none — defaults to focus -->
+<!-- submitMode: blur | enter | none | both — defaults to blur -->
 ```
 
 **AspectRatio** — enforces a width/height ratio
@@ -970,6 +1105,457 @@ function notify() {
   <SplitterPanel>Main</SplitterPanel>
 </SplitterGroup>
 ```
+
+---
+
+## Component Index
+
+
+Every name below is exported from `@auronui/vue`. Sub-components are listed
+with their parent — a compound component must be used with them, never alone.
+Values shown are the complete accepted set; anything else is invalid.
+
+**Accordion** — AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent
+  - type: single | multiple
+  - dir: ltr | rtl
+  - orientation: horizontal | vertical
+  - variant: default | surface — defaults to default
+  - size: sm | md | lg — defaults to md
+
+**Alert** — AlertIcon, AlertTitle, AlertDescription
+
+**AlertDialog** — AlertDialogTrigger, AlertDialogContent, AlertDialogOverlay, AlertDialogHeader, AlertDialogBody, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription, AlertDialogIcon, AlertDialogAction, AlertDialogCancel
+
+**AspectRatio**
+
+**Autocomplete** — AutocompleteInput, AutocompleteContent, AutocompleteItem, AutocompleteCreateItem
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - dir: ltr | rtl
+  - multipleOverflow: wrap | collapse — defaults to wrap
+
+**Avatar** — AvatarGroup
+  - size: lg | md | sm — defaults to md
+  - color: primary | accent | secondary | danger | default | success | warning — defaults to default
+  - variant: default | soft | solid | bordered
+
+**Badge**
+  - color: primary | accent | danger | default | success | warning — defaults to default
+  - size: lg | md | sm | xs — defaults to md
+  - variant: primary | secondary | soft — defaults to primary
+  - placement: bottom-left | bottom-right | top-left | top-right — defaults to top-right
+
+**Breadcrumbs** — BreadcrumbItem
+
+**Button** — ButtonGroup, CloseButton, ToggleButton, ToggleButtonGroup
+  - variant: solid | default | bordered | ghost | soft | text | link — defaults to solid
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to primary
+  - size: xl | lg | md | sm | xs — defaults to md
+  - radius: none | sm | md | lg | full
+  - deprecated variants, do not generate: primary, secondary, tertiary, danger, danger-soft, success, success-soft, warning, warning-soft, outline
+
+**Calendar**
+  - weekdayFormat: narrow | short | long — defaults to narrow
+  - dir: ltr | rtl
+  - v-model: `v-model` (DateValue)
+
+**CalendarYearPicker**
+  - dir: ltr | rtl
+  - v-model: `v-model` (DateValue | undefined), `v-model:placeholder` (DateValue | undefined)
+
+**Card** — CardHeader, CardBody, CardFooter
+
+**Cascader**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - v-model: `v-model` (string[])
+
+**Checkbox** — CheckboxGroup
+  - variant: primary | secondary — defaults to primary
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to primary
+
+**Chip** — Tag
+  - color: primary | secondary | accent | danger | default | success | warning — defaults to default
+  - size: lg | md | sm — defaults to md
+  - variant: solid | soft | bordered | text — defaults to solid
+  - deprecated variants, do not generate: outlined
+
+**Collapsible** — CollapsibleTrigger, CollapsibleContent, CollapsibleGroup
+
+**ColorArea**
+  - showDots: false | true — defaults to false
+
+**ColorField**
+  - fullWidth: false | true — defaults to false
+
+**ColorInputGroup**
+  - fullWidth: false | true — defaults to false
+  - variant: primary | secondary — defaults to primary
+
+**ColorPicker**
+
+**ColorPickerInput**
+  - side: top | right | bottom | left — defaults to bottom
+  - align: start | center | end — defaults to start
+
+**ColorSlider**
+  - orientation: horizontal | vertical — defaults to horizontal
+  - dir: ltr | rtl
+
+**ColorSwatch**
+  - shape: circle | square — defaults to circle
+  - size: lg | md | sm | xl | xs — defaults to md
+
+**ColorSwatchPicker**
+  - layout: grid | stack — defaults to grid
+  - size: lg | md | sm | xl | xs — defaults to md
+  - variant: circle | square — defaults to circle
+  - orientation: horizontal | vertical
+  - dir: ltr | rtl
+  - selectionBehavior: replace | toggle
+
+**ComboBox** — ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty
+  - dir: ltr | rtl
+
+**CommandPalette**
+  - v-model: `v-model:open` (boolean)
+
+**ContextMenu** — ContextMenuTrigger, ContextMenuContent, ContextMenuItem, ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSection, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent
+  - dir: ltr | rtl
+
+**DateInput**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: day | hour | minute | second
+  - dir: ltr | rtl
+  - v-model: `v-model` (DateValue | null | undefined)
+
+**DatePicker**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: day | hour | minute | second
+  - pageBehavior: visible | single
+  - dir: ltr | rtl
+  - weekdayFormat: narrow | short | long
+  - side: top | right | bottom | left
+  - align: start | center | end
+  - sticky: partial | always
+  - positionStrategy: fixed | absolute
+  - updatePositionStrategy: always | optimized
+  - v-model: `v-model` (DateValue | null | undefined), `v-model:open` (boolean)
+
+**DateRangeField**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: day | hour | minute | second
+  - dir: ltr | rtl
+  - v-model: `v-model` (DateRange | null | undefined)
+
+**DateRangePicker**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: day | hour | minute | second
+  - pageBehavior: visible | single
+  - dir: ltr | rtl
+  - weekdayFormat: narrow | short | long
+  - fixedDate: start | end
+  - side: top | right | bottom | left
+  - align: start | center | end
+  - sticky: partial | always
+  - positionStrategy: fixed | absolute
+  - updatePositionStrategy: always | optimized
+  - v-model: `v-model` (DateRange | null | undefined), `v-model:open` (boolean)
+
+**DateTimePicker**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: minute | second — defaults to minute
+  - dir: ltr | rtl
+  - weekdayFormat: narrow | short | long
+  - side: top | right | bottom | left
+  - align: start | center | end
+  - sticky: partial | always
+  - positionStrategy: fixed | absolute
+  - updatePositionStrategy: always | optimized
+  - v-model: `v-model` (CalendarDateTime | null | undefined), `v-model:open` (boolean)
+
+**Description**
+
+**Drawer** — DrawerTrigger, DrawerContent, DrawerOverlay, DrawerMain, DrawerHeader, DrawerBody, DrawerFooter, DrawerClose, DrawerTitle
+
+**Dropdown** — DropdownTrigger, DropdownMenu, DropdownItem, DropdownCheckboxItem, DropdownRadioGroup, DropdownRadioItem, DropdownSection, DropdownSub, DropdownSubTrigger, DropdownSubContent
+  - variant: flat | solid | bordered | light | faded | shadow
+  - color: default | primary | secondary | success | warning | danger
+  - size: sm | md | lg
+  - dir: ltr | rtl
+
+**Editable** — EditableArea, EditablePreview, EditableInput, EditableEditTrigger, EditableSubmitTrigger, EditableCancelTrigger
+  - dir: ltr | rtl
+  - activationMode: focus | dblclick | none — defaults to focus
+  - submitMode: blur | enter | none | both — defaults to blur
+  - v-model: `v-model` (string | null)
+
+**EmptyState** — EmptyStateContent
+
+**Fieldset**
+
+**FileUpload**
+  - v-model: `v-model` (File[])
+
+**Form** — FormField, FormFieldArray
+
+**Header**
+  - as: h1 | h2 | h3 | h4 | h5 | h6 — defaults to h2
+
+**HoverCard** — HoverCardTrigger, HoverCardContent, HoverCardArrow
+
+**Icon**
+  - re-exported from `@iconify/vue`
+
+**Image**
+  - fit: cover | contain | fill — defaults to cover
+  - radius: none | sm | md | lg | full — defaults to md
+
+**Input**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - v-model: `v-model` (string | number | null)
+
+**InputGroup** — InputGroupAddon, InputGroupInput
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+
+**InputOTP**
+  - variant: primary | secondary — defaults to primary
+  - dir: ltr | rtl
+
+**Kbd**
+  - variant: default | light — defaults to default
+
+**Label**
+
+**Link**
+  - color: default | primary | secondary | accent | success | warning | danger | foreground
+  - underline: none | hover | always | active | focus
+
+**ListBox** — ListBoxItem, ListBoxSection
+  - selectionMode: single | multiple — defaults to single
+  - orientation: horizontal | vertical
+  - dir: ltr | rtl
+  - selectionBehavior: toggle | replace
+  - loadMode: scroll | button — defaults to scroll
+
+**Menubar** — MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem, MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSection, MenubarSub, MenubarSubTrigger, MenubarSubContent
+  - dir: ltr | rtl
+  - v-model: `v-model` (string)
+
+**Meter**
+  - size: lg | md | sm — defaults to md
+  - color: primary | secondary | accent | danger | default | success | warning — defaults to primary
+
+**Modal** — ModalTrigger, ModalContent, ModalOverlay, ModalHeader, ModalBody, ModalFooter, ModalTitle, ModalDescription, ModalClose
+
+**MonthPicker**
+  - dir: ltr | rtl
+  - v-model: `v-model` (DateValue | undefined), `v-model:placeholder` (DateValue | undefined)
+
+**MonthRangePicker**
+  - dir: ltr | rtl
+  - fixedDate: start | end
+  - v-model: `v-model` (DateRange | null), `v-model:placeholder` (DateValue | undefined)
+
+**NavigationMenu** — NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger, NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport, NavigationMenuIndicator, NavigationMenuSub
+  - dir: ltr | rtl
+  - orientation: horizontal | vertical — defaults to horizontal
+  - v-model: `v-model` (string)
+
+**NumberField**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - v-model: `v-model` (number | undefined)
+
+**Pagination** — PaginationContent, PaginationItem, PaginationPrev, PaginationNext, PaginationFirst, PaginationLast, PaginationEllipsis
+  - size: lg | md | sm — defaults to md
+  - type: numeric | cursor — defaults to numeric
+
+**Popover** — PopoverTrigger, PopoverContent, PopoverArrow, PopoverAnchor, PopoverClose
+
+**ProgressBar**
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | success | warning | danger | accent — defaults to default
+  - radius: none | sm | md | lg | full — defaults to full
+
+**ProgressCircle**
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | success | warning | danger | accent — defaults to default
+
+**Radio** — RadioGroup
+  - variant: primary | secondary — defaults to primary
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to primary
+
+**RangeCalendar**
+  - weekdayFormat: narrow | short | long — defaults to narrow
+  - dir: ltr | rtl
+  - fixedDate: start | end
+  - v-model: `v-model` (DateRange | null)
+
+**ScrollArea**
+  - type: auto | always | scroll | hover — defaults to hover
+  - orientation: vertical | horizontal | both — defaults to vertical
+  - dir: ltr | rtl
+
+**ScrollShadow**
+  - orientation: vertical | horizontal | both — defaults to vertical
+  - visibility: auto | top | bottom | left | right | both | none — defaults to auto
+
+**SearchField**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - v-model: `v-model` (string)
+
+**Select** — SelectTrigger, SelectValue, SelectContent, SelectItem
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - dir: ltr | rtl
+
+**Separator**
+
+**Sidebar** — SidebarSearch, SidebarSection, SidebarItem
+
+**Skeleton**
+  - animationType: none | pulse | shimmer — defaults to shimmer
+
+**Slider**
+  - orientation: horizontal | vertical — defaults to horizontal
+  - size: sm | md | lg
+  - color: primary | secondary | accent | success | warning | danger — defaults to primary
+  - radius: none | sm | md | lg | full
+  - dir: ltr | rtl
+  - thumbAlignment: contain | overflow — defaults to overflow
+
+**Spinner**
+  - size: lg | md | sm | xl — defaults to md
+  - color: default | primary | secondary | accent | current | danger | success | warning — defaults to primary
+
+**SplitterGroup** — SplitterPanel, SplitterResizeHandle
+  - direction: horizontal | vertical — defaults to horizontal
+
+**Statistic**
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - trend: up | down | neutral
+
+**Stepper** — StepperItem, StepperIndicator, StepperTitle, StepperDescription, StepperContent, StepperSeparator
+  - orientation: horizontal | vertical — defaults to horizontal
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to primary
+
+**Surface**
+  - variant: default | secondary | tertiary | transparent — defaults to default
+
+**Switch** — SwitchGroup
+  - size: lg | md | sm — defaults to md
+
+**Table** — TableHeader, TableBody, TableRow, TableCell, TableHeaderCell, TableFooter
+  - variant: primary | secondary — defaults to primary
+
+**Tabs** — TabList, Tab, TabPanel, TabIndicator
+  - orientation: horizontal | vertical — defaults to horizontal
+  - variant: primary | secondary — defaults to primary
+  - color: primary | secondary | accent | success | warning | danger — defaults to primary
+  - activationMode: automatic | manual — defaults to automatic
+  - dir: ltr | rtl
+  - overflow: arrows | dropdown
+
+**Text**
+  - size: base | lg | sm | xl | xs — defaults to base
+  - variant: danger | default | muted | success | warning — defaults to default
+
+**Textarea**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - v-model: `v-model` (string)
+
+**TimeField**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: hour | minute | second — defaults to minute
+  - dir: ltr | rtl
+  - v-model: `v-model` (TimeValue | null | undefined)
+
+**TimePicker**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: hour | minute | second — defaults to minute
+  - dir: ltr | rtl
+  - side: top | right | bottom | left
+  - align: start | center | end
+  - sticky: partial | always
+  - positionStrategy: fixed | absolute
+  - updatePositionStrategy: always | optimized
+  - v-model: `v-model` (Time | null | undefined), `v-model:open` (boolean)
+
+**TimeRangeField**
+  - variant: flat | bordered | faded | underlined | raised — defaults to flat
+  - size: sm | md | lg — defaults to md
+  - color: default | primary | secondary | accent | success | warning | danger — defaults to default
+  - labelPlacement: inside | outside | outside-left — defaults to inside
+  - granularity: hour | minute | second — defaults to minute
+  - dir: ltr | rtl
+  - v-model: `v-model` (TimeRange | null | undefined)
+
+**Timeline** — TimelineItem
+  - orientation: vertical | horizontal — defaults to vertical
+
+**Toast** — ToastProvider, ToastTitle, ToastDescription, ToastAction, ToastClose, ToastViewport
+  - variant: primary | accent | danger | default | success | warning — defaults to default
+  - type: foreground | background
+
+**Toolbar** — ToolbarButton, ToolbarLink, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem
+  - orientation: horizontal | vertical — defaults to horizontal
+  - dir: ltr | rtl
+
+**Tooltip** — TooltipProvider, TooltipTrigger, TooltipContent, TooltipArrow
+
+**Transfer**
+  - v-model: `v-model` (string[])
+
+**Tree** — TreeItem, TreeItemToggle
+  - selectionBehavior: toggle | replace — defaults to toggle
+  - size: sm | md | lg — defaults to md
+  - dir: ltr | rtl
+
+**YearRangePicker**
+  - dir: ltr | rtl
+  - fixedDate: start | end
+  - v-model: `v-model` (DateRange | null), `v-model:placeholder` (DateValue | undefined)
+
+
 
 ---
 
@@ -1311,57 +1897,107 @@ const { selectedColor, hasSelection, setColor, clearSelection, isSelected, onCol
 <ColorSwatchPicker :model-value="selectedColor.value" @update:model-value="onColorChange" />
 ```
 
+
+Also exported, same import path, no separate example above:
+
+- `useCSSVariable()`
+- `useColorState()`
+- `useField()`
+- `useFieldArray()`
+- `useForm()`
+- `useIsHydrated()`
+- `useIsMounted()`
+- `useListData()`
+- `useLocationPath()`
+- `useMeasuredHeight()`
+- `useMediaQuery()`
+- `useOverlayState()`
+- `useTableKeyboardNav()`
+- `useToast()`
+
+
 ---
 
 ## Imports
 
+Every export, in one place. Import only what you use — the package is
+tree-shakeable.
+
 ```ts
 import {
-  Button, ButtonGroup, CloseButton, ToggleButton, ToggleButtonGroup,
-  Input, Textarea, NumberField, Checkbox, CheckboxGroup,
-  Radio, RadioGroup, Switch, SwitchGroup,
-  Select, SelectTrigger, SelectContent, SelectItem,
-  Modal, ModalTrigger, ModalContent, ModalHeader, ModalBody, ModalFooter,
-  ModalTitle, ModalDescription, ModalClose,
-  AlertDialog, AlertDialogTrigger, AlertDialogContent, AlertDialogHeader,
-  AlertDialogBody, AlertDialogFooter, AlertDialogTitle, AlertDialogDescription,
-  AlertDialogAction, AlertDialogCancel,
-  Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody,
-  Tooltip, TooltipProvider, TooltipTrigger, TooltipContent,
-  Popover, PopoverTrigger, PopoverContent,
-  HoverCard, HoverCardTrigger, HoverCardContent, HoverCardArrow,
-  Tabs, TabList, Tab, TabPanel, TabIndicator,
-  Accordion, AccordionItem, AccordionHeader, AccordionTrigger, AccordionContent,
-  NavigationMenu, NavigationMenuList, NavigationMenuItem, NavigationMenuTrigger,
-  NavigationMenuContent, NavigationMenuLink, NavigationMenuViewport,
-  NavigationMenuIndicator, NavigationMenuSub,
-  Alert, AlertIcon, AlertTitle, AlertDescription,
-  ToastProvider, Toast, ToastViewport, useToast,
-  useDisclosure, usePagination, useStepper, useTabs, useAccordion,
-  useSlider, useListBox, useCheckboxGroup, useRadioGroup,
-  useCalendar, useRangeCalendar, useTree, useSplitter,
-  useColorPicker, useColorState, useOTP, useSwatchPicker,
-  Badge, Chip, Avatar, AvatarGroup, Card, CardHeader, CardBody, CardFooter,
-  Spinner, Skeleton, Separator, Text, Label, Kbd,
-  Pagination, PaginationContent, PaginationItem, PaginationPrev, PaginationNext,
-  Table, TableHeader, TableBody, TableRow, TableCell, TableHeaderCell,
-  ListBox, ListBoxItem, Dropdown, DropdownTrigger, DropdownMenu, DropdownItem,
-  ContextMenu, ContextMenuTrigger, ContextMenuContent, ContextMenuItem,
-  ContextMenuCheckboxItem, ContextMenuRadioGroup, ContextMenuRadioItem,
-  ContextMenuSection, ContextMenuSub, ContextMenuSubTrigger, ContextMenuSubContent,
-  Menubar, MenubarMenu, MenubarTrigger, MenubarContent, MenubarItem,
-  MenubarCheckboxItem, MenubarRadioGroup, MenubarRadioItem, MenubarSection,
-  MenubarSub, MenubarSubTrigger, MenubarSubContent,
-  ComboBox, ComboBoxInput, ComboBoxContent, ComboBoxItem, ComboBoxEmpty,
-  Autocomplete, AutocompleteInput, AutocompleteContent,
-  Slider, ScrollArea, ScrollShadow, ProgressBar, ProgressCircle, Meter,
-  Calendar, DatePicker, ColorPicker,
-  TimeRangeField, MonthPicker, MonthRangePicker, YearRangePicker,
-  Editable, EditableArea, EditablePreview, EditableInput,
-  EditableEditTrigger, EditableSubmitTrigger, EditableCancelTrigger,
-  Breadcrumbs, BreadcrumbItem, Toolbar, ToolbarButton, ToolbarSeparator,
-  Collapsible, CollapsibleTrigger, CollapsibleContent,
-  Stepper, StepperItem, StepperIndicator, StepperTitle, StepperSeparator,
-  Tree, TreeItem, AspectRatio, SplitterGroup, SplitterPanel, SplitterResizeHandle,
+  Accordion, AccordionContent, AccordionHeader, AccordionItem,
+  AccordionTrigger, Alert, AlertDescription, AlertDialog, AlertDialogAction,
+  AlertDialogBody, AlertDialogCancel, AlertDialogContent,
+  AlertDialogDescription, AlertDialogFooter, AlertDialogHeader,
+  AlertDialogIcon, AlertDialogOverlay, AlertDialogTitle, AlertDialogTrigger,
+  AlertIcon, AlertTitle, AspectRatio, Autocomplete, AutocompleteContent,
+  AutocompleteCreateItem, AutocompleteInput, AutocompleteItem, Avatar,
+  AvatarGroup, Badge, BreadcrumbItem, Breadcrumbs, Button, ButtonGroup,
+  Calendar, CalendarYearPicker, Card, CardBody, CardFooter, CardHeader,
+  Cascader, Checkbox, CheckboxGroup, Chip, CloseButton, Collapsible,
+  CollapsibleContent, CollapsibleGroup, CollapsibleTrigger, ColorArea,
+  ColorField, ColorInputGroup, ColorPicker, ColorPickerInput, ColorSlider,
+  ColorSwatch, ColorSwatchPicker, ComboBox, ComboBoxContent, ComboBoxEmpty,
+  ComboBoxInput, ComboBoxItem, CommandPalette, ContextMenu,
+  ContextMenuCheckboxItem, ContextMenuContent, ContextMenuItem,
+  ContextMenuRadioGroup, ContextMenuRadioItem, ContextMenuSection,
+  ContextMenuSub, ContextMenuSubContent, ContextMenuSubTrigger,
+  ContextMenuTrigger, DateInput, DatePicker, DateRangeField, DateRangePicker,
+  DateTimePicker, Description, Drawer, DrawerBody, DrawerClose, DrawerContent,
+  DrawerFooter, DrawerHeader, DrawerMain, DrawerOverlay, DrawerTitle,
+  DrawerTrigger, Dropdown, DropdownCheckboxItem, DropdownItem, DropdownMenu,
+  DropdownRadioGroup, DropdownRadioItem, DropdownSection, DropdownSub,
+  DropdownSubContent, DropdownSubTrigger, DropdownTrigger, Editable,
+  EditableArea, EditableCancelTrigger, EditableEditTrigger, EditableInput,
+  EditablePreview, EditableSubmitTrigger, EmptyState, EmptyStateContent,
+  Fieldset, FileUpload, Form, FormField, FormFieldArray, Header, HoverCard,
+  HoverCardArrow, HoverCardContent, HoverCardTrigger, Icon, Image, Input,
+  InputGroup, InputGroupAddon, InputGroupInput, InputOTP, Kbd, Label, Link,
+  ListBox, ListBoxItem, ListBoxSection, Menubar, MenubarCheckboxItem,
+  MenubarContent, MenubarItem, MenubarMenu, MenubarRadioGroup,
+  MenubarRadioItem, MenubarSection, MenubarSub, MenubarSubContent,
+  MenubarSubTrigger, MenubarTrigger, Meter, Modal, ModalBody, ModalClose,
+  ModalContent, ModalDescription, ModalFooter, ModalHeader, ModalOverlay,
+  ModalTitle, ModalTrigger, MonthPicker, MonthRangePicker, NavigationMenu,
+  NavigationMenuContent, NavigationMenuIndicator, NavigationMenuItem,
+  NavigationMenuLink, NavigationMenuList, NavigationMenuSub,
+  NavigationMenuTrigger, NavigationMenuViewport, NumberField, Pagination,
+  PaginationContent, PaginationEllipsis, PaginationFirst, PaginationItem,
+  PaginationLast, PaginationNext, PaginationPrev, Popover, PopoverAnchor,
+  PopoverArrow, PopoverClose, PopoverContent, PopoverTrigger, ProgressBar,
+  ProgressCircle, Radio, RadioGroup, RangeCalendar, ScrollArea, ScrollShadow,
+  SearchField, Select, SelectContent, SelectItem, SelectTrigger, SelectValue,
+  Separator, Sidebar, SidebarItem, SidebarSearch, SidebarSection, Skeleton,
+  Slider, Spinner, SplitterGroup, SplitterPanel, SplitterResizeHandle,
+  Statistic, Stepper, StepperContent, StepperDescription, StepperIndicator,
+  StepperItem, StepperSeparator, StepperTitle, Surface, Switch, SwitchGroup,
+  Tab, TabIndicator, TabList, TabPanel, Table, TableBody, TableCell,
+  TableFooter, TableHeader, TableHeaderCell, TableRow, Tabs, Tag, Text,
+  Textarea, TimeField, TimePicker, TimeRangeField, Timeline, TimelineItem,
+  Toast, ToastAction, ToastClose, ToastDescription, ToastProvider, ToastTitle,
+  ToastViewport, ToggleButton, ToggleButtonGroup, Toolbar, ToolbarButton,
+  ToolbarLink, ToolbarSeparator, ToolbarToggleGroup, ToolbarToggleItem,
+  Tooltip, TooltipArrow, TooltipContent, TooltipProvider, TooltipTrigger,
+  Transfer, Tree, TreeItem, TreeItemToggle, YearRangePicker,
+  autocompleteContextKey, checkboxGroupContextKey, comboBoxContextKey,
+  composeClassName, composeSlotClassName, createContext,
+  createPaginationContext, cx, dataAttr, dropdownContextKey,
+  inputGroupContextKey, mapPropsVariants, paginationContextKey,
+  radioGroupContextKey, sidebarContextKey, splitterContextKey,
+  stepperContextKey, surfaceContextKey, switchGroupContextKey,
+  tableContextKey, timelineContextKey, treeContextKey, useAccordion,
+  useAutocompleteInject, useAutocompleteProvide, useCSSVariable, useCalendar,
+  useCheckboxGroup, useCheckboxGroupInject, useCheckboxGroupProvide,
+  useColorPicker, useColorState, useComboBoxInject, useComboBoxProvide,
+  useDisclosure, useDropdownInject, useDropdownProvide, useField,
+  useFieldArray, useForm, useInputGroupInject, useInputGroupProvide,
+  useIsHydrated, useIsMounted, useListBox, useListData, useLocationPath,
+  useMeasuredHeight, useMediaQuery, useOTP, useOverlayState, usePagination,
+  usePaginationInject, usePaginationProvide, useRadioGroup,
+  useRadioGroupInject, useRadioGroupProvide, useRangeCalendar,
+  useSidebarInject, useSidebarProvide, useSlider, useSplitter, useStepper,
+  useSurfaceInject, useSwatchPicker, useSwitchGroupInject,
+  useSwitchGroupProvide, useTableInject, useTableKeyboardNav, useTableProvide,
+  useTabs, useTimelineInject, useTimelineProvide, useToast, useTree,
 } from '@auronui/vue'
 ```

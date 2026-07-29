@@ -1,7 +1,7 @@
 {
   "name": "@auronui/vue",
   "version": "1.10.1",
-  "description": "Vue 3 85 components with full visual and functional parity",
+  "description": "Vue 3 90+ components with full visual and functional parity",
   "type": "module",
   "license": "MIT",
   "homepage": "https://darkknight1992.github.io/auronui",
@@ -57,10 +57,11 @@
   },
   "scripts": {
     "build:ai": "node src/ai-rules/generate.mjs",
+    "check:ai": "node src/ai-rules/generate.mjs --check",
     "build": "node src/ai-rules/generate.mjs && vite build",
     "dev": "vite build --watch",
     "typecheck": "vue-tsc --noEmit",
-    "lint": "eslint src --ext .ts,.vue",
+    "lint": "eslint src --ext .ts,.vue && node src/ai-rules/generate.mjs --check",
     "test": "vitest run",
     "test:watch": "vitest"
   },

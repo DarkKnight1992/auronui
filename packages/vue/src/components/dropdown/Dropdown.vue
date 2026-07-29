@@ -7,8 +7,15 @@ const props = withDefaults(defineProps<{
   isOpen?: boolean
   defaultOpen?: boolean
   modal?: boolean
+  /**
+   * Published to descendants through the Dropdown context for custom items to
+   * read. `dropdownVariants` defines no variants, so this applies no styling of
+   * its own — style DropdownItem with its own `variant` prop instead.
+   */
   variant?: 'flat' | 'solid' | 'bordered' | 'light' | 'faded' | 'shadow'
+  /** Context-only, like `variant` — applies no styling on its own. */
   color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
+  /** Context-only, like `variant` — applies no styling on its own. */
   size?: 'sm' | 'md' | 'lg'
   closeOnSelect?: boolean
   disableAnimation?: boolean

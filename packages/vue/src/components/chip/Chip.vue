@@ -9,8 +9,9 @@ const props = withDefaults(
     color?: ChipVariants["color"];
     size?: ChipVariants["size"];
     /**
-     * Visual style of the chip.
-     * @deprecated 'outlined' — use 'bordered' instead.
+     * Visual style of the chip. The value `'outlined'` is deprecated — use
+     * `'bordered'` instead. Kept as prose rather than a JSDoc deprecation
+     * tag, which would mark the whole prop deprecated instead of one value.
      */
     variant?: ChipVariants["variant"] | 'outlined';
     /** Show a colored dot indicator before the label */

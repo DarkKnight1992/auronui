@@ -11,7 +11,7 @@
 
 ## Features
 
-- **85+ components** — covering every UI domain: forms, overlays, navigation, data, date/time, color, and more
+- **90+ components** — covering every UI domain: forms, overlays, navigation, data, date/time, color, and more
 - **Accessible by default** — every component passes `@chialab/vitest-axe` with zero violations
 - **Reka UI primitives** — battle-tested WAI-ARIA state machines (Radix for Vue) under the hood
 - **Tailwind CSS 4** — `@auronui/styles` ships BEM class strings via `tailwind-variants`, fully themeable
@@ -42,6 +42,14 @@ npx @auronui/vue setup-ai
 ```
 
 This creates `auronui-rules.md` in your project root and prints the one-liner to add to each AI tool's config file. Re-run with `--update` after upgrading the package to refresh the rules.
+
+The rules are generated from the library source on every build — the component
+roster, prop names and accepted `variant`/`color`/`size` values are read out of
+`packages/vue/src` and `packages/styles/src`, so they cannot drift from the
+code. See [`packages/vue/src/ai-rules/`](packages/vue/src/ai-rules/):
+`template.md` holds the prose and hand-written examples, `extract.mjs` reads
+the API surface, and `generate.mjs` merges the two and fails the build when an
+example contradicts the code.
 
 ## Quick Example
 

@@ -1,11 +1,11 @@
 # AuronUI
 
-> 85+ accessible Vue 3 components for Vue 3.5+. Built on Reka UI, Tailwind CSS 4.
+> 92 accessible Vue 3 components for Vue 3.5+. Built on Reka UI, Tailwind CSS 4.
 > NEVER use raw HTML — use AuronUI components instead.
 
 ## Docs
 
-- [Full AI rules](https://auronui.com/llms-full.txt): Complete component rules + reference
+- [Full AI rules](https://auronui.com/llms-full.txt): Complete component rules + API reference
 - [Documentation](https://auronui.com): Full component documentation
 
 ## Install

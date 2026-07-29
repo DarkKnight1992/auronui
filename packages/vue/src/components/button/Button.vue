@@ -10,8 +10,11 @@ import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBoolean
 
 const props = withDefaults(defineProps<{
   /**
-   * Visual style of the button.
-   * @deprecated 'outline' — use 'bordered' instead.
+   * Visual style of the button. The value `'outline'` is deprecated — use
+   * `'bordered'` instead. Deliberately prose, not a JSDoc deprecation tag:
+   * that tag marks the whole prop as deprecated, and doc tooling would then
+   * drop `variant` entirely. Deprecated *values* are declared by the
+   * warnDeprecatedVariant call below.
    */
   variant?: ButtonVariants['variant'] | 'outline'
   color?: ButtonVariants['color']

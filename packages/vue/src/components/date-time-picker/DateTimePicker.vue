@@ -13,7 +13,7 @@ import {
   today,
   getLocalTimeZone,
 } from '@internationalized/date'
-import { dateTimePickerVariants } from '@auronui/styles'
+import { dateTimePickerVariants, type InputVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 import Calendar from '../calendar/Calendar.vue'
 import DateInput from '../date-input/DateInput.vue'
@@ -23,10 +23,13 @@ import Button from '../button/Button.vue'
 defineOptions({ inheritAttrs: false })
 
 const props = withDefaults(defineProps<{
-  variant?: 'flat' | 'bordered' | 'faded' | 'underlined'
-  size?: 'sm' | 'md' | 'lg'
-  color?: 'default' | 'primary' | 'secondary' | 'success' | 'warning' | 'danger'
-  labelPlacement?: 'inside' | 'outside' | 'outside-left'
+  // typed off the shared field variants rather than hand-listed, so this stays
+  // in step with the DateInput these are forwarded to — the hand-written union
+  // had fallen behind on `raised` and `accent`
+  variant?: InputVariants['variant']
+  size?: InputVariants['size']
+  color?: InputVariants['color']
+  labelPlacement?: InputVariants['labelPlacement']
   fullWidth?: boolean
   label?: string
   description?: string

@@ -3,7 +3,7 @@
 [![npm version](https://img.shields.io/npm/v/@auronui/vue.svg?style=flat)](https://npmjs.com/package/@auronui/vue)
 [![license](https://img.shields.io/npm/l/@auronui/vue.svg)](../../LICENSE)
 
-> 85+ accessible Vue 3 components powered by [Reka UI](https://reka-ui.com) and [Tailwind CSS 4](https://tailwindcss.com). Inspired by [HeroUI](https://heroui.com).
+> 90+ accessible Vue 3 components powered by [Reka UI](https://reka-ui.com) and [Tailwind CSS 4](https://tailwindcss.com). Inspired by [HeroUI](https://heroui.com).
 
 ## Installation
 
