@@ -1,6 +1,6 @@
 {
   "name": "@auronui/react",
-  "version": "1.10.2",
+  "version": "1.10.3",
   "description": "React 85+ components with full visual and functional parity with @auronui/vue",
   "type": "module",
   "license": "MIT",
