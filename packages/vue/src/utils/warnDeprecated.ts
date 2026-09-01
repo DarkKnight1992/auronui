@@ -43,6 +43,24 @@ export function warnConflictingProps(
   )
 }
 
+export function warnPanelOrderMismatch(
+  domIndex: number,
+  registrationIndex: number,
+): void {
+  if (!import.meta.env.DEV) return
+  const key = 'SplitterPanel:order-mismatch'
+  if (warned.has(key)) return
+  warned.add(key)
+  console.warn(
+    `[AuronUI] SplitterPanel: a panel mounted after its SplitterGroup is registered at `
+    + `position ${registrationIndex} but rendered at position ${domIndex}. reka-ui orders `
+    + `panels by their "order" prop and falls back to mount order — it never reads DOM `
+    + `order — while resize handles take their pivot from the DOM, so dragging a handle `
+    + `will resize the wrong panels. Give every conditionally rendered SplitterPanel an `
+    + `explicit "order" (and a stable "id").`,
+  )
+}
+
 /** @internal — test helper to reset the deduplication cache between tests */
 export function _clearWarnedCache(): void {
   warned.clear()
