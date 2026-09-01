@@ -26,7 +26,17 @@ const ctx = useFormInject()
 
 const resolvedDefault = computed(() => {
   if (props.defaultValue !== undefined) return props.defaultValue
-  return ctx?.defaultValues[props.name]
+  return ctx?.getDefaultValue(props.name)
+})
+
+// Form-level defaultValues are commonly fetched, so they land after this field
+// has already mounted and seeded itself from `undefined`. Adopt the new default
+// only while the field still holds whatever the previous default gave it — a
+// value the user typed, or one the parent supplied via v-model, always wins.
+watch(resolvedDefault, (next, previous) => {
+  if (next === undefined || next === modelValue.value) return
+  if (modelValue.value !== undefined && modelValue.value !== previous) return
+  modelValue.value = next
 })
 
 // ── Field state ──────────────────────────────────────────────────────────────
@@ -57,7 +67,9 @@ watch(modelValue, (val) => {
 // ── Validation ───────────────────────────────────────────────────────────────
 
 async function triggerValidation(val: unknown): Promise<void> {
-  const context = ctx ? { values: ctx.getValues() } : undefined
+  const context = ctx
+    ? { values: ctx.getValues(), getFieldValue: ctx.getFieldValue }
+    : undefined
   const error = await runValidation(val, props.rules, props.validate, context)
 
   if (ctx) {

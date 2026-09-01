@@ -1,3 +1,5 @@
+import { getPath } from '../../utils/path'
+
 type RuleWithMessage<T> = T | { value: T; message: string }
 
 export interface FieldRules {
@@ -15,8 +17,17 @@ export interface FieldRules {
 }
 
 export interface ValidationContext {
-  /** All current form field values — available for cross-field rules and custom validators. */
+  /**
+   * All current form field values, in the same nested shape getValues()
+   * returns — so `values.password.min_length` and a dotted lookup both work.
+   */
   values: Record<string, unknown>
+  /**
+   * Read one field by its registered name. Prefer this over indexing `values`
+   * for cross-field rules: it resolves names that are not paths in the public
+   * shape (a field-array row id) as well as ordinary dotted paths.
+   */
+  getFieldValue?(name: string): unknown
 }
 
 export type CustomValidator = (
@@ -115,7 +126,9 @@ export async function runValidation(
 
   if (rules?.matches !== undefined) {
     const { value: fieldName, message } = resolveStringRule(rules.matches)
-    const otherValue = context?.values[fieldName]
+    const otherValue = context?.getFieldValue
+      ? context.getFieldValue(fieldName)
+      : getPath(context?.values, fieldName)
     if (value !== otherValue) return message ?? `Must match ${fieldName}`
   }
 

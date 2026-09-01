@@ -1,4 +1,4 @@
-import { inject, type Ref, type ComputedRef } from 'vue'
+import { inject, type Ref, type ComputedRef, type MaybeRefOrGetter } from 'vue'
 import { createContext } from '../../utils/context'
 import type { FieldRules, CustomValidator } from './validation'
 
@@ -28,7 +28,8 @@ export interface FieldArrayRegistration {
 }
 
 export interface FormOptions {
-  defaultValues?: Record<string, unknown>
+  /** Accepts a ref/getter so defaults fetched after mount still reach pristine fields. */
+  defaultValues?: MaybeRefOrGetter<Record<string, unknown> | undefined>
   validationMode?: ValidationMode
   isDisabled?: boolean
 }
@@ -45,6 +46,17 @@ export interface FormContext {
   validationMode: ComputedRef<ValidationMode>
   values: ComputedRef<Record<string, unknown>>
   defaultValues: Record<string, unknown>
+  /**
+   * Resolve a field name against defaultValues. Handles dotted names as paths
+   * into nested objects (`"auth_factor.force_mfa"`), and stays reactive when
+   * defaultValues is replaced after mount.
+   */
+  getDefaultValue(name: string): unknown
+  /**
+   * Read one field's value by registered name. Resolves dotted paths at any
+   * depth, and field-array row ids, which are not paths in the public shape.
+   */
+  getFieldValue(name: string): unknown
   registerField(reg: FieldRegistration): void
   unregisterField(name: string): void
   registerFieldArray(reg: FieldArrayRegistration): void
@@ -54,7 +66,13 @@ export interface FormContext {
   setErrors(newErrors: Record<string, string>): void
   setError(name: string, message: string): void
   clearErrors(name?: string): void
+  /** Whole form as a nested object, or one field/subtree by dotted path. */
   getValues(): Record<string, unknown>
+  getValues(name: string): unknown
+  /**
+   * Set one field by registered name. A name with no field registered under it
+   * is treated as a subtree write and fanned out to the fields it covers.
+   */
   setValue(name: string, value: unknown): void
   trigger(name?: string): Promise<boolean>
   reset(): void

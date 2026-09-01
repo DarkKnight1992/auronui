@@ -1,6 +1,6 @@
 import { describe, it, expectTypeOf } from 'vitest'
 import type { FieldRegistration, FormContext, FormOptions } from '../form.context'
-import type { Ref, ComputedRef } from 'vue'
+import type { Ref, ComputedRef, MaybeRefOrGetter } from 'vue'
 
 describe('form.context types', () => {
   it('FieldRegistration has valueRef', () => {
@@ -25,7 +25,8 @@ describe('form.context types', () => {
   })
 
   it('FormOptions shape', () => {
-    expectTypeOf<FormOptions>().toHaveProperty('defaultValues').toEqualTypeOf<Record<string, unknown> | undefined>()
+    // Widened to a ref/getter so useForm() callers can feed in defaults fetched after mount.
+    expectTypeOf<FormOptions>().toHaveProperty('defaultValues').toEqualTypeOf<MaybeRefOrGetter<Record<string, unknown> | undefined>>()
     expectTypeOf<FormOptions>().toHaveProperty('validationMode').toEqualTypeOf<'on-submit' | 'on-blur' | 'on-change' | undefined>()
     expectTypeOf<FormOptions>().toHaveProperty('isDisabled').toEqualTypeOf<boolean | undefined>()
   })

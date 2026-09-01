@@ -52,7 +52,7 @@ export function useFieldArray<T extends Record<string, unknown> = Record<string,
 
   const resolvedDefault = computed<T[]>(() => {
     if (options.defaultValue !== undefined) return options.defaultValue
-    const fromCtx = ctx?.defaultValues[name]
+    const fromCtx = ctx?.getDefaultValue(name)
     return Array.isArray(fromCtx) ? (fromCtx as T[]) : []
   })
 
@@ -76,6 +76,15 @@ export function useFieldArray<T extends Record<string, unknown> = Record<string,
   }
 
   seedRows(resolvedDefault.value)
+
+  // Default rows can arrive after mount (fetched from an API). Re-seed only
+  // while the array is structurally untouched — once rows have been added,
+  // removed or reordered, that structure is the user's, not the default's.
+  watch(resolvedDefault, (next) => {
+    if (!next.length) return
+    if (!arraysEqual(order.value, initialOrderSnapshot)) return
+    seedRows(next)
+  })
 
   const fields = computed<FieldArrayRow<T>[]>(() =>
     order.value.map((id, index) => ({

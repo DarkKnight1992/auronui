@@ -45,3 +45,44 @@ forced into the rename:
   observable effect (no template site consumes them yet) — this predates
   the migration and is unchanged by it, just now exposed under both prop
   names.
+
+## 1.10.4
+
+### Fixed
+
+- **`Form` now applies `defaultValues` that arrive after mount.** The context
+  snapshotted the object once at creation, so defaults fetched from an API
+  never reached the fields — the form rendered empty. `defaultValues` is now
+  read through reactively, and a field adopts a newly-arrived default as long
+  as it still holds what the previous default gave it. A value the user typed,
+  or one a parent supplied via `v-model`, always wins.
+- **Dotted field names resolve against nested `defaultValues`.** A field named
+  `auth_factor.force_mfa` looked up that literal key and found nothing in
+  `{ auth_factor: { force_mfa: true } }`. Names are now paths, at any depth,
+  through objects and arrays alike. A literal dotted key still takes
+  precedence, so flat default maps keep working unchanged.
+- **Cross-field rules and custom validators now see one consistent value
+  shape.** `context.values` was nested on change/blur but flat on submit, so a
+  `matches` rule or `validate` function written against one shape silently
+  broke under the other. It is now the nested shape — the same one
+  `getValues()` returns — on every trigger.
+
+### Added
+
+- `getValues(name)` reads a single field or a whole subtree by path
+  (`getValues('password.min_length')`, `getValues('password')`).
+- `setValue(name, value)` accepts a subtree and fans it out to the fields it
+  covers: `setValue('auth_factor', { force_mfa: true })` reaches
+  `auth_factor.force_mfa`. Field-array rows are still added and removed
+  through `append`/`remove`/etc., not `setValue`.
+- `ValidationContext.getFieldValue(name)` — reads a sibling by its registered
+  name inside a rule or custom validator. Prefer it over indexing
+  `context.values`: it also resolves field-array row names, which are not
+  paths in the public value shape.
+- `getPath` / `setPath` are exported from the package root.
+
+### Notes
+
+- `errors` remains keyed by literal field name. It is a lookup by field
+  identity rather than a value shape, and every field reads its own error by
+  its own name.

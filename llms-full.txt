@@ -1981,9 +1981,9 @@ import {
   Transfer, Tree, TreeItem, TreeItemToggle, YearRangePicker,
   autocompleteContextKey, checkboxGroupContextKey, comboBoxContextKey,
   composeClassName, composeSlotClassName, createContext,
-  createPaginationContext, cx, dataAttr, dropdownContextKey,
+  createPaginationContext, cx, dataAttr, dropdownContextKey, getPath,
   inputGroupContextKey, mapPropsVariants, paginationContextKey,
-  radioGroupContextKey, sidebarContextKey, splitterContextKey,
+  radioGroupContextKey, setPath, sidebarContextKey, splitterContextKey,
   stepperContextKey, surfaceContextKey, switchGroupContextKey,
   tableContextKey, timelineContextKey, treeContextKey, useAccordion,
   useAutocompleteInject, useAutocompleteProvide, useCSSVariable, useCalendar,
@@ -4925,6 +4925,7 @@ import {
 - `classNames?` — per-slot class overrides: group
 - `keyboardResizeBy?: number` — Keyboard resize increment in pixels
 - `storage?: object` — Custom storage for persisting layout
+- `preservePanelOrder?: boolean` — default `false` — Repair panel order when a conditionally rendered panel is mounted back in. reka-ui keeps its panels in registration order — it sorts by the `order` prop and otherwise falls back to the order panels mounted in, never DOM order — while resize handles take their pivot indices from the DOM. A panel that is unmounted and later remounted re-registers last while rendering in its original position, so the two disagree and dragging a handle resizes the wrong panels. With this enabled, the group remounts the panels that follow the restored one so they re-register behind it and the registry matches the DOM. Disclaimer: repairing the order remounts those panels, so anything stateful inside them (scroll position, focus, uncontrolled inputs, component state) is lost — and, as with any panel being added, the group recomputes its layout from each panel's `defaultSize`. Prefer giving conditional panels an explicit `order`, which costs nothing; reach for this when their order is not known ahead of time.
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - emits: `@layout`

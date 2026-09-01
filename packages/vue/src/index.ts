@@ -61,6 +61,7 @@ export { composeSlotClassName } from "./utils/composeSlotClassName";
 export { mapPropsVariants } from "./utils/mapPropsVariants";
 export { dataAttr } from "./utils/dataAttr";
 export { createContext } from "./utils/context";
+export { getPath, setPath } from "./utils/path";
 
 // Phase 1 — Foundation: Presentational Components
 export { Spinner } from './components/spinner'

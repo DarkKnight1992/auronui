@@ -29,7 +29,7 @@ const emit = defineEmits<{
 }>()
 
 const ctx: FormContext = props.form ?? createFormState({
-  defaultValues: props.defaultValues,
+  defaultValues: toRef(props, 'defaultValues'),
   validationMode: toRef(props, 'validationMode'),
   isDisabled: toRef(props, 'isDisabled'),
 })

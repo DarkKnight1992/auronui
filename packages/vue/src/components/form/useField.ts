@@ -37,20 +37,26 @@ export interface FieldHandle {
 export function useField(name: string, options: FieldOptions = {}): FieldHandle {
   const ctx = useFormInject()
 
-  const modelValue = ref<unknown>(
-    options.defaultValue !== undefined
-      ? options.defaultValue
-      : ctx?.defaultValues[name],
-  )
+  const resolvedDefault = computed(() => {
+    if (options.defaultValue !== undefined) return options.defaultValue
+    return ctx?.getDefaultValue(name)
+  })
+
+  const modelValue = ref<unknown>(resolvedDefault.value)
 
   const localError = ref<string | undefined>(undefined)
   const touched = ref(false)
   const dirty = ref(false)
   const hasBeenInvalid = ref(false)
 
-  const resolvedDefault = computed(() => {
-    if (options.defaultValue !== undefined) return options.defaultValue
-    return ctx?.defaultValues[name]
+  // Form-level defaultValues are commonly fetched, so they land after this
+  // field has already mounted and seeded itself from `undefined`. Adopt the
+  // new default only while the field still holds whatever the previous default
+  // gave it — a value the user typed, or one the caller supplied, always wins.
+  watch(resolvedDefault, (next, previous) => {
+    if (next === undefined || next === modelValue.value) return
+    if (modelValue.value !== undefined && modelValue.value !== previous) return
+    modelValue.value = next
   })
 
   const error: ComputedRef<string | undefined> = computed(() =>
@@ -66,7 +72,9 @@ export function useField(name: string, options: FieldOptions = {}): FieldHandle 
   // ── Validation ───────────────────────────────────────────────────────────────
 
   async function triggerValidation(val: unknown): Promise<void> {
-    const context = ctx ? { values: ctx.getValues() } : undefined
+    const context = ctx
+    ? { values: ctx.getValues(), getFieldValue: ctx.getFieldValue }
+    : undefined
     const err = await runValidation(val, options.rules, options.validate, context)
 
     if (ctx) {
