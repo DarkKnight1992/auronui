@@ -86,3 +86,41 @@ forced into the rename:
 - `errors` remains keyed by literal field name. It is a lookup by field
   identity rather than a value shape, and every field reads its own error by
   its own name.
+
+## 1.10.5
+
+### Added
+
+- **`FormControl`** — a bound field that renders its own control:
+  `<FormControl name="auth_factor.force_mfa" :as="Checkbox">Require MFA</FormControl>`.
+  It forwards every `FormField` prop, passes all other attributes and slots
+  through to the control, and binds only the props the control actually
+  declares, so nothing stray reaches the DOM.
+
+  Reach for it instead of writing a wrapper component per input. The obvious
+  wrapper is subtly broken: declaring `defaultValue?: boolean` makes Vue cast
+  the *absent* prop to `false` rather than `undefined`, which then beats the
+  form's `default-values` for that field — so the control renders unset and,
+  worse, submits `false` over whatever the server had. Only Boolean props are
+  affected, which is why numeric and text fields in the same form look fine.
+  `FormControl` declares `defaultValue` as `unknown`, which Vue never casts.
+
+  If you keep a hand-written wrapper, declare the prop with runtime syntax so
+  an absent value stays `undefined` — the type-only form cannot express it:
+
+  ```ts
+  defineProps({ defaultValue: { type: Boolean, default: undefined } })
+  ```
+
+- A dev-only warning from `FormField` when a field-level `defaultValue` of
+  `false` shadows a truthy form-level default, since that is nearly always the
+  cast above rather than a deliberate override.
+
+### Known issues
+
+- Controls that render reka-ui's visually-hidden native input — `Checkbox`,
+  `NumberField` and others — produce axe `label` (and, for `Checkbox`,
+  `nested-interactive`) violations when a `name` is bound inside a `<form>`.
+  This is pre-existing and unrelated to `FormControl`: the hand-written
+  `FormField` binding pattern produces the identical result. It is tracked by a
+  parity assertion in the test suite.

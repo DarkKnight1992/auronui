@@ -1314,7 +1314,7 @@ Values shown are the complete accepted set; anything else is invalid.
 **FileUpload**
   - v-model: `v-model` (File[])
 
-**Form** — FormField, FormFieldArray
+**Form** — FormControl, FormField, FormFieldArray
 
 **Header**
   - as: h1 | h2 | h3 | h4 | h5 | h6 — defaults to h2
@@ -1950,10 +1950,10 @@ import {
   DropdownSubContent, DropdownSubTrigger, DropdownTrigger, Editable,
   EditableArea, EditableCancelTrigger, EditableEditTrigger, EditableInput,
   EditablePreview, EditableSubmitTrigger, EmptyState, EmptyStateContent,
-  Fieldset, FileUpload, Form, FormField, FormFieldArray, Header, HoverCard,
-  HoverCardArrow, HoverCardContent, HoverCardTrigger, Icon, Image, Input,
-  InputGroup, InputGroupAddon, InputGroupInput, InputOTP, Kbd, Label, Link,
-  ListBox, ListBoxItem, ListBoxSection, Menubar, MenubarCheckboxItem,
+  Fieldset, FileUpload, Form, FormControl, FormField, FormFieldArray, Header,
+  HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger, Icon, Image,
+  Input, InputGroup, InputGroupAddon, InputGroupInput, InputOTP, Kbd, Label,
+  Link, ListBox, ListBoxItem, ListBoxSection, Menubar, MenubarCheckboxItem,
   MenubarContent, MenubarItem, MenubarMenu, MenubarRadioGroup,
   MenubarRadioItem, MenubarSection, MenubarSub, MenubarSubContent,
   MenubarSubTrigger, MenubarTrigger, Meter, Modal, ModalBody, ModalClose,

@@ -62,6 +62,34 @@ export function warnPanelOrderMismatch(
 }
 
 /** @internal — test helper to reset the deduplication cache between tests */
+/**
+ * A field-level `defaultValue` of `false` is shadowing a truthy form-level
+ * default. Almost always the Vue Boolean-prop cast: a wrapper component
+ * declaring `defaultValue?: boolean` forwards `false` on every render where its
+ * own author passed nothing, because Vue casts an absent Boolean prop to
+ * `false` rather than `undefined`.
+ *
+ * Deliberately narrow. Warning on *any* field-level default that differs from a
+ * form-level one would nag on legitimate per-field overrides; the cast can only
+ * ever manufacture `false`, so that is the only case worth flagging.
+ */
+export function warnDefaultValueShadow(
+  name: string,
+  formValue: unknown,
+): void {
+  if (!import.meta.env.DEV) return
+  const key = `FormField:default-shadow:${name}`
+  if (warned.has(key)) return
+  warned.add(key)
+  console.warn(
+    `[AuronUI] FormField "${name}": field-level defaultValue is false but Form `
+    + `defaultValues has ${String(formValue)} — the field-level value wins, so this field `
+    + `seeds to false. If you did not pass default-value yourself, a wrapper component `
+    + `declaring \`defaultValue?: boolean\` is the likely cause: Vue casts an absent `
+    + `Boolean prop to false, not undefined. Type it \`unknown\`, or use FormControl.`,
+  )
+}
+
 export function _clearWarnedCache(): void {
   warned.clear()
 }

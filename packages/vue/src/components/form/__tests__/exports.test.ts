@@ -10,6 +10,11 @@ describe('form/index.ts exports', () => {
     const mod = await import('../index')
     expect(typeof mod.useField).toBe('function')
   })
+
+  it('exports FormControl', async () => {
+    const mod = await import('../index')
+    expect(mod.FormControl).toBeTruthy()
+  })
 })
 
 describe('@auronui/vue re-exports', () => {
@@ -21,5 +26,10 @@ describe('@auronui/vue re-exports', () => {
   it('re-exports useField from main index', async () => {
     const mod = await import('../../../index')
     expect(typeof mod.useField).toBe('function')
+  }, 30_000)
+
+  it('re-exports FormControl from main index', async () => {
+    const mod = await import('../../../index')
+    expect(mod.FormControl).toBeTruthy()
   }, 30_000)
 })

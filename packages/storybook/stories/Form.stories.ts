@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/vue3-vite'
 import { ref } from 'vue'
-import { Form, FormField, FormFieldArray, Input } from '@auronui/vue'
+import { Form, FormControl, FormField, FormFieldArray, Input, Checkbox, NumberField, Switch } from '@auronui/vue'
 
 const meta: Meta<typeof Form> = {
   title: 'Components/Form',
@@ -1119,6 +1119,78 @@ function handleSubmit({ values }) {
         </div>
         <p style="font-size: 12px; color: #71717a;">
           Add/remove rows, then submit. Rows are validated independently; the array itself requires 1–4 rows.
+        </p>
+      </div>
+    `,
+  }),
+}
+
+// ── FormControl: bound controls seeded from :default-values ──────────────────
+
+export const BoundControls: Story = {
+  name: 'FormControl (seeded from :default-values)',
+  parameters: {
+    docs: {
+      description: {
+        story:
+          'FormControl binds a control to a field for you, so there is no hand-written wrapper '
+          + 'in between. That matters beyond ergonomics: a wrapper declaring `defaultValue?: boolean` '
+          + 'makes Vue cast the absent prop to `false`, which shadows the form-level default and '
+          + 'silently leaves every checkbox unchecked. Here a single nested `:default-values` object '
+          + 'seeds a boolean, a number and a text field, and dotted names resolve into it.',
+      },
+    },
+  },
+  render: () => ({
+    components: { Form, FormControl },
+    setup() {
+      const submitted = ref<Record<string, unknown> | null>(null)
+      const policy = {
+        auth_factor: { force_mfa: true, allow_register: false },
+        password: { min_length: 8 },
+        privacy: { tos_link: 'https://example.com/tos' },
+      }
+      return {
+        submitted,
+        policy,
+        Checkbox,
+        NumberField,
+        Switch,
+        Input,
+        onSubmit: ({ values }: { values: Record<string, unknown> }) => { submitted.value = values },
+      }
+    },
+    template: `
+      <div style="display: flex; flex-direction: column; gap: 16px; max-width: 420px;">
+        <Form :default-values="policy" @submit="onSubmit" style="display: flex; flex-direction: column; gap: 14px;">
+          <FormControl name="auth_factor.force_mfa" :as="Checkbox">
+            Require multi-factor authentication
+          </FormControl>
+
+          <FormControl name="auth_factor.allow_register" :as="Switch" aria-label="Allow self-registration" />
+
+          <FormControl
+            name="password.min_length"
+            :as="NumberField"
+            label="Minimum length"
+            variant="bordered"
+            :min="1"
+            :rules="{ required: 'Set a minimum length.' }"
+          />
+
+          <FormControl name="privacy.tos_link" :as="Input" label="Terms of service link" variant="bordered" />
+
+          <button type="submit" style="padding: 8px 16px; background: #006FEE; color: white; border: none; border-radius: 8px; cursor: pointer; align-self: flex-start;">
+            Save policy
+          </button>
+        </Form>
+
+        <div v-if="submitted" style="padding: 12px; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; font-size: 13px;">
+          <strong>Submitted:</strong> {{ JSON.stringify(submitted) }}
+        </div>
+        <p style="font-size: 12px; color: #71717a;">
+          The checkbox, switch, number and text fields all render pre-populated from one nested
+          object — no per-field default-value props.
         </p>
       </div>
     `,

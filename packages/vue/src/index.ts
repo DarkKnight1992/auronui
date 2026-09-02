@@ -107,7 +107,7 @@ export type { ButtonVariants, ButtonGroupContext, ToggleButtonGroupContext } fro
 export { Link } from './components/link'
 
 // Form wrapper
-export { Form, FormField, FormFieldArray, useForm, useField, useFieldArray } from './components/form'
+export { Form, FormControl, FormField, FormFieldArray, useForm, useField, useFieldArray } from './components/form'
 export type { ValidationMode, FieldRules, CustomValidator, ValidationContext, FieldRegistration, FieldArrayRegistration, FormContext, FormOptions, FieldHandle, FieldOptions, FieldArrayHandle, FieldArrayOptions, FieldArrayRow } from './components/form'
 
 // Phase 3 — Form: Simple Inputs

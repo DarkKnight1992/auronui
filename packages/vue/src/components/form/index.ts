@@ -1,4 +1,5 @@
 export { default as Form } from './Form.vue'
+export { default as FormControl } from './FormControl.vue'
 export { default as FormField } from './FormField.vue'
 export { default as FormFieldArray } from './FormFieldArray.vue'
 export { useForm } from './useForm'

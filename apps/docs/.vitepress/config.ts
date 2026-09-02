@@ -46,6 +46,7 @@ export default defineConfig({
             { text: 'Editable', link: '/components/editable' },
             { text: 'EmptyState', link: '/components/empty-state' },
             { text: 'FileUpload', link: '/components/file-upload' },
+            { text: 'FormControl', link: '/components/form-control' },
             { text: 'FormFieldArray', link: '/components/form-field-array' },
             { text: 'Header', link: '/components/header' },
             { text: 'HoverCard', link: '/components/hover-card' },

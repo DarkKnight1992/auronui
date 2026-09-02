@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
 import { useFormInject } from './form.context'
+import { warnDefaultValueShadow } from '../../utils/warnDeprecated'
 import { runValidation } from './validation'
 import type { FieldRules, CustomValidator } from './validation'
 
@@ -125,6 +126,16 @@ function resetField(): void {
 }
 
 onMounted(() => {
+  // A field-level `false` beating a truthy form-level default is nearly always
+  // a wrapper's absent Boolean prop being cast, not a deliberate override.
+  // Resolved through getDefaultValue so a nested/dotted name is seen too.
+  if (props.defaultValue === false && ctx) {
+    const formValue = ctx.getDefaultValue(props.name)
+    if (formValue !== undefined && formValue !== false) {
+      warnDefaultValueShadow(props.name, formValue)
+    }
+  }
+
   // Initialize to resolved default when no value was passed by the parent
   if (modelValue.value === undefined && resolvedDefault.value !== undefined) {
     modelValue.value = resolvedDefault.value

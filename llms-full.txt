@@ -1314,7 +1314,7 @@ Values shown are the complete accepted set; anything else is invalid.
 **FileUpload**
   - v-model: `v-model` (File[])
 
-**Form** — FormField, FormFieldArray
+**Form** — FormControl, FormField, FormFieldArray
 
 **Header**
   - as: h1 | h2 | h3 | h4 | h5 | h6 — defaults to h2
@@ -1950,10 +1950,10 @@ import {
   DropdownSubContent, DropdownSubTrigger, DropdownTrigger, Editable,
   EditableArea, EditableCancelTrigger, EditableEditTrigger, EditableInput,
   EditablePreview, EditableSubmitTrigger, EmptyState, EmptyStateContent,
-  Fieldset, FileUpload, Form, FormField, FormFieldArray, Header, HoverCard,
-  HoverCardArrow, HoverCardContent, HoverCardTrigger, Icon, Image, Input,
-  InputGroup, InputGroupAddon, InputGroupInput, InputOTP, Kbd, Label, Link,
-  ListBox, ListBoxItem, ListBoxSection, Menubar, MenubarCheckboxItem,
+  Fieldset, FileUpload, Form, FormControl, FormField, FormFieldArray, Header,
+  HoverCard, HoverCardArrow, HoverCardContent, HoverCardTrigger, Icon, Image,
+  Input, InputGroup, InputGroupAddon, InputGroupInput, InputOTP, Kbd, Label,
+  Link, ListBox, ListBoxItem, ListBoxSection, Menubar, MenubarCheckboxItem,
   MenubarContent, MenubarItem, MenubarMenu, MenubarRadioGroup,
   MenubarRadioItem, MenubarSection, MenubarSub, MenubarSubContent,
   MenubarSubTrigger, MenubarTrigger, Meter, Modal, ModalBody, ModalClose,
@@ -3740,6 +3740,17 @@ import {
 - `class?: string`
 - emits: `@submit`, `@invalid`, `@reset`
 - slots: `#default`
+
+**FormControl**
+- `name: string`
+- `as: Component` — The control to render. A component, never a string tag — a bound field is always one of the library's controls.
+- `defaultValue?: unknown` — Typed `unknown` on purpose. Declaring this `boolean` would compile to `{ type: Boolean }`, and Vue casts an *absent* Boolean prop to `false` rather than `undefined` — which would shadow the form-level default for every control the consumer did not explicitly set. `unknown` compiles to `{ type: null }`, which Vue never casts.
+- `rules?: FieldRules`
+- `validate?: CustomValidator`
+- `validationMode?: 'on-submit' | 'on-blur' | 'on-change'`
+- `deps?: string[]`
+- `v-model: unknown`
+- slots: `#slotName`
 
 **FormField**
 - `name: string`
