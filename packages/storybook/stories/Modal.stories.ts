@@ -159,7 +159,7 @@ export const Default: Story = {
           :disabled="args.contentDisabled"
           :defer="args.contentDefer"
         >
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader>
@@ -205,7 +205,7 @@ import {
       <Button>Open Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader>
@@ -241,7 +241,7 @@ export const SizeSm: Story = {
           <Button>Open Small Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Small Modal</ModalTitle></ModalHeader>
@@ -279,7 +279,7 @@ import {
       <Button>Open Small Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Small Modal</ModalTitle></ModalHeader>
@@ -309,7 +309,7 @@ export const SizeLg: Story = {
           <Button>Open Large Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Large Modal</ModalTitle></ModalHeader>
@@ -347,7 +347,7 @@ import {
       <Button>Open Large Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Large Modal</ModalTitle></ModalHeader>
@@ -377,7 +377,7 @@ export const SizeFull: Story = {
           <Button>Open Full Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Full Screen Modal</ModalTitle></ModalHeader>
@@ -415,7 +415,7 @@ import {
       <Button>Open Full Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Full Screen Modal</ModalTitle></ModalHeader>
@@ -445,7 +445,7 @@ export const PlacementTop: Story = {
           <Button>Open Top Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Top Placement</ModalTitle></ModalHeader>
@@ -483,7 +483,7 @@ import {
       <Button>Open Top Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Top Placement</ModalTitle></ModalHeader>
@@ -513,7 +513,7 @@ export const PlacementBottom: Story = {
           <Button>Open Bottom Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Bottom Placement</ModalTitle></ModalHeader>
@@ -551,7 +551,7 @@ import {
       <Button>Open Bottom Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Bottom Placement</ModalTitle></ModalHeader>
@@ -581,7 +581,7 @@ export const WithScrollableContent: Story = {
           <Button>Open Scrollable Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Scrollable Content</ModalTitle></ModalHeader>
@@ -623,7 +623,7 @@ import {
       <Button>Open Scrollable Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Scrollable Content</ModalTitle></ModalHeader>
@@ -657,7 +657,7 @@ export const NestedModals: Story = {
           <Button>Open First Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader>
@@ -670,7 +670,7 @@ export const NestedModals: Story = {
                 <Button color="primary" variant="solid">Open Second Modal</Button>
               </ModalTrigger>
               <ModalContent>
-                <ModalClose as-child class="modal__close-trigger">
+                <ModalClose as-child>
                   <CloseButton aria-label="Close modal" />
                 </ModalClose>
                 <ModalHeader>
@@ -724,7 +724,7 @@ import {
       <Button>Open First Modal</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader>
@@ -737,7 +737,7 @@ import {
             <Button color="primary" variant="solid">Open Second Modal</Button>
           </ModalTrigger>
           <ModalContent>
-            <ModalClose as-child class="modal__close-trigger">
+            <ModalClose as-child>
               <CloseButton aria-label="Close modal" />
             </ModalClose>
             <ModalHeader>
@@ -780,7 +780,7 @@ export const BlurBackdrop: Story = {
           <Button>Open with Blur Backdrop</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader><ModalTitle>Blur Backdrop</ModalTitle></ModalHeader>
@@ -818,7 +818,7 @@ import {
       <Button>Open with Blur Backdrop</Button>
     </ModalTrigger>
     <ModalContent>
-      <ModalClose as-child class="modal__close-trigger">
+      <ModalClose as-child>
         <CloseButton aria-label="Close modal" />
       </ModalClose>
       <ModalHeader><ModalTitle>Blur Backdrop</ModalTitle></ModalHeader>
@@ -847,7 +847,7 @@ export const AlertDialogOverModal: Story = {
           <Button>Open Modal</Button>
         </ModalTrigger>
         <ModalContent>
-          <ModalClose as-child class="modal__close-trigger">
+          <ModalClose as-child>
             <CloseButton aria-label="Close modal" />
           </ModalClose>
           <ModalHeader>

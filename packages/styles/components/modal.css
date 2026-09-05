@@ -338,7 +338,15 @@
  * Element: close-trigger - the optional x icon button to close the modal
  */
 .modal__close-trigger {
-  @apply absolute top-4 right-4;
+  @apply absolute top-3 right-3;
+}
+
+/* The dismiss X is positioned against `.modal__dialog` by default, so it lands
+   in the corner from anywhere it is placed — dialog root, header, or body.
+   INVARIANT: any container that lays close triggers out inline must reset them
+   here, or its buttons will fly to the corner and overlap the X. */
+.modal__footer .modal__close-trigger {
+  @apply static;
 }
 
 /**

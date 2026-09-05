@@ -157,7 +157,7 @@ function ToastItem({ toast, dismiss, remove, classNames }: ToastItemProps) {
         </div>
         <div className={composeClassName("flex shrink-0 items-center gap-1 ml-auto", classNames?.actions)}>
           {toast.action && (
-            <Button size="sm" variant="ghost" className={composeClassName(classNames?.action)} onClick={toast.action.onClick}>
+            <Button size="sm" variant="ghost" className={composeClassName(styles.action(), classNames?.action)} onClick={toast.action.onClick}>
               {toast.action.label}
             </Button>
           )}

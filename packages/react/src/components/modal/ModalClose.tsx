@@ -1,5 +1,7 @@
 import { isValidElement, cloneElement, type ReactElement, type SyntheticEvent } from "react";
 import { useModalContext } from "./modal.context";
+import { modalVariants } from "@auronui/styles/components/modal";
+import { composeClassName } from "../../utils/composeClassName";
 
 export interface ModalCloseProps {
   /** A single element (typically Auron's `<Button>`) that becomes the Modal's close trigger. */
@@ -14,9 +16,11 @@ export interface ModalCloseProps {
  */
 export function ModalClose({ children }: ModalCloseProps) {
   const ctx = useModalContext();
+  const styles = modalVariants();
   if (!isValidElement(children)) return children;
-  const childProps = children.props as { onClick?: (event: SyntheticEvent) => void };
+  const childProps = children.props as { onClick?: (event: SyntheticEvent) => void; className?: string };
   return cloneElement(children, {
+    className: composeClassName(styles.closeTrigger(), childProps.className),
     onClick: (event: SyntheticEvent) => {
       childProps.onClick?.(event);
       if (event.defaultPrevented) return;

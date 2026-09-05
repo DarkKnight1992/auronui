@@ -175,7 +175,6 @@ export function Image({
             <ModalClose>
               <button
                 type="button"
-                className="modal__close-trigger"
                 aria-label="Close zoomed image"
               >
                 <svg

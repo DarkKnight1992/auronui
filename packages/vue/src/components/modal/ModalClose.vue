@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { Primitive, injectDialogRootContext } from 'reka-ui'
+import { modalVariants } from '@auronui/styles/components/modal'
 import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
@@ -11,6 +12,7 @@ const props = withDefaults(defineProps<{
 })
 
 const rootContext = injectDialogRootContext()
+const styles = modalVariants()
 
 // With as-child, Reka's Slot merges our onClick and the wrapped child's own
 // onClick onto the same element, and OUR handler runs first — so deferring
@@ -36,7 +38,7 @@ const resolvedAs = () => props.as ?? 'button'
     :as-child="props.asChild"
     :as="resolvedAs()"
     :type="resolvedAs() === 'button' ? 'button' : undefined"
-    :class="composeClassName(props.class)"
+    :class="composeClassName(styles.closeTrigger(), props.class)"
     @click="handleClick"
   >
     <slot />

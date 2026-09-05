@@ -1,6 +1,8 @@
 <script setup lang="ts">
 import { ToastAction as RekaToastAction } from 'reka-ui'
+import { toastVariants } from '@auronui/styles/components/toast'
 import Button from '../button/Button.vue'
+import { composeClassName } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   /** Required by Reka UI for screen reader announcements */
@@ -13,6 +15,8 @@ const props = withDefaults(defineProps<{
 }>(), {
   altText: 'Action',
 })
+
+const styles = toastVariants()
 </script>
 
 <template>
@@ -23,7 +27,7 @@ const props = withDefaults(defineProps<{
     <Button
       size="sm"
       variant="ghost"
-      :class="props.class"
+      :class="composeClassName(styles.action(), props.class)"
     >
       <slot />
     </Button>

@@ -1,5 +1,7 @@
 import { isValidElement, cloneElement, type ReactElement, type SyntheticEvent } from "react";
 import { useDrawerContext } from "./drawer.context";
+import { drawerVariants } from "@auronui/styles/components/drawer";
+import { composeClassName } from "../../utils/composeClassName";
 
 export interface DrawerCloseProps {
   /** A single element (typically Auron's `<Button>`) that becomes the Drawer's close trigger. */
@@ -16,9 +18,11 @@ export interface DrawerCloseProps {
  */
 export function DrawerClose({ children }: DrawerCloseProps) {
   const ctx = useDrawerContext();
+  const styles = drawerVariants();
   if (!isValidElement(children)) return children;
-  const childProps = children.props as { onClick?: (event: SyntheticEvent) => void };
+  const childProps = children.props as { onClick?: (event: SyntheticEvent) => void; className?: string };
   return cloneElement(children, {
+    className: composeClassName(styles.closeTrigger(), childProps.className),
     onClick: (event: SyntheticEvent) => {
       childProps.onClick?.(event);
       if (event.defaultPrevented) return;

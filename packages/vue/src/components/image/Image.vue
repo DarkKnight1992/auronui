@@ -165,10 +165,7 @@ const slotFns = computed(() => imageVariants({ fit: props.fit, radius: props.rad
     @update:open="isZoomOpen = $event"
   >
     <ModalContent>
-      <ModalClose
-        as-child
-        class="modal__close-trigger"
-      >
+      <ModalClose as-child>
         <CloseButton aria-label="Close zoomed image" />
       </ModalClose>
       <img

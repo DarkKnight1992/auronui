@@ -85,7 +85,7 @@ export function SidebarItem({
             )}
             <span className={composeClassName(styles.itemLabel(), classNames?.itemLabel)}>{label}</span>
             {badge !== undefined && (
-              <Chip color={badgeColor} size="sm" className={composeClassName(classNames?.itemBadge)}>
+              <Chip color={badgeColor} size="sm" className={composeClassName(styles.itemBadge(), classNames?.itemBadge)}>
                 {badge}
               </Chip>
             )}

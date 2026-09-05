@@ -124,11 +124,11 @@ import { Link } from '@auronui/vue'
 
 <template>
   <div style="display:flex;flex-wrap:wrap;gap:16px">
-    <Link href="#" class="link--underline-none">No underline</Link>
-    <Link href="#" class="link--underline-hover">Underline on hover</Link>
-    <Link href="#" class="link--underline-always">Always underline</Link>
-    <Link href="#" class="link--underline-active">Underline when active</Link>
-    <Link href="#" class="link--underline-focus">Underline when focused</Link>
+    <Link href="#" underline="none">No underline</Link>
+    <Link href="#" underline="hover">Underline on hover</Link>
+    <Link href="#" underline="always">Always underline</Link>
+    <Link href="#" underline="active">Underline when active</Link>
+    <Link href="#" underline="focus">Underline when focused</Link>
   </div>
 </template>`,
         language: 'vue',
@@ -140,11 +140,11 @@ import { Link } from '@auronui/vue'
     setup() { return { args } },
     template: `
       <div style="display:flex;flex-wrap:wrap;gap:16px">
-        <Link v-bind="args" href="#" class="link--underline-none">No underline</Link>
-        <Link v-bind="args" href="#" class="link--underline-hover">Underline on hover</Link>
-        <Link v-bind="args" href="#" class="link--underline-always">Always underline</Link>
-        <Link v-bind="args" href="#" class="link--underline-active">Underline when active</Link>
-        <Link v-bind="args" href="#" class="link--underline-focus">Underline when focused</Link>
+        <Link v-bind="args" href="#" underline="none">No underline</Link>
+        <Link v-bind="args" href="#" underline="hover">Underline on hover</Link>
+        <Link v-bind="args" href="#" underline="always">Always underline</Link>
+        <Link v-bind="args" href="#" underline="active">Underline when active</Link>
+        <Link v-bind="args" href="#" underline="focus">Underline when focused</Link>
       </div>
     `,
   }),

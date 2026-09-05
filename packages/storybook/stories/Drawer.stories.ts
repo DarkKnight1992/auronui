@@ -124,7 +124,7 @@ const baseComponents = {
 }
 
 const closeButton = `
-  <DrawerClose as-child class="absolute top-3 right-3">
+  <DrawerClose as-child>
     <CloseButton aria-label="Close drawer" size="sm" />
   </DrawerClose>
 `
@@ -144,7 +144,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
       <Button variant="bordered">Open Right Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -180,7 +180,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
           :disabled="args.contentDisabled"
           :defer="args.contentDefer"
         >
-          <DrawerClose :as="args.closeAs" as-child class="absolute top-3 right-3">
+          <DrawerClose :as="args.closeAs" as-child>
             <CloseButton aria-label="Close drawer" size="sm" />
           </DrawerClose>
           <DrawerHeader>
@@ -212,7 +212,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
       <Button variant="bordered">Open Left Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -269,7 +269,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
       <Button variant="bordered">Open Top Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -326,7 +326,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
       <Button variant="bordered">Open Bottom Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -383,7 +383,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
       <Button variant="bordered">Open Scrollable Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -454,7 +454,7 @@ const open = ref(false)
       </div>
     </DrawerMain>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -533,7 +533,7 @@ const open = ref(false)
       </main>
     </DrawerMain>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close sidebar" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -623,7 +623,7 @@ const open = ref(false)
         </DrawerTrigger>
       </div>
       <DrawerContent>
-        <DrawerClose as-child class="absolute top-3 right-3">
+        <DrawerClose as-child>
           <CloseButton aria-label="Close drawer" size="sm" />
         </DrawerClose>
         <DrawerHeader>
@@ -693,7 +693,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerC
       <Button variant="bordered">Open Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>
@@ -752,7 +752,7 @@ import { Drawer, DrawerTrigger, DrawerContent, DrawerHeader, DrawerBody, DrawerF
       <Button variant="bordered">Open Form Drawer</Button>
     </DrawerTrigger>
     <DrawerContent>
-      <DrawerClose as-child class="absolute top-3 right-3">
+      <DrawerClose as-child>
         <CloseButton aria-label="Close drawer" size="sm" />
       </DrawerClose>
       <DrawerHeader>

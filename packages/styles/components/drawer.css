@@ -334,7 +334,14 @@
  * Element: close-trigger
  */
 .drawer__close-trigger {
-  @apply cursor-pointer;
+  @apply absolute top-3 right-3 cursor-pointer;
+}
+
+/* See the matching INVARIANT note in modal.css — every drawer mode keeps a
+   positioning context (base `fixed`, `--inline` absolute, `--dock` relative),
+   so the X anchors to the panel in all of them. */
+.drawer__footer .drawer__close-trigger {
+  @apply static;
 }
 
 /**
