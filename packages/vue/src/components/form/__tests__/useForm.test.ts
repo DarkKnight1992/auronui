@@ -197,3 +197,46 @@ describe('useForm — validationMode and isDisabled', () => {
     expect(vm.form.isDisabled.value).toBe(true)
   })
 })
+
+describe('<Form :form> with :default-values', () => {
+  function mountWith(handleDefaults: Record<string, unknown> | undefined, propDefaults: Record<string, unknown>) {
+    let form!: ReturnType<typeof useForm>
+    const Wrapper = defineComponent({
+      components: { Form, FormField, Input },
+      setup() {
+        form = useForm({ defaultValues: handleDefaults })
+        return { form, propDefaults }
+      },
+      template: `
+        <Form :form="form" :default-values="propDefaults">
+          <FormField name="name"><template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Name" /></template></FormField>
+          <FormField name="team.slug"><template #default="{ fieldProps }"><Input v-bind="fieldProps" label="Slug" /></template></FormField>
+        </Form>
+      `,
+    })
+    const w = mount(Wrapper)
+    return { w, form: () => form }
+  }
+
+  it('seeds fields from the :default-values prop when a handle is given', async () => {
+    const { form } = mountWith(undefined, { name: 'Ada', team: { slug: 'core' } })
+    await flushPromises()
+    expect(form().getValues()).toEqual({ name: 'Ada', team: { slug: 'core' } })
+  })
+
+  it('handle defaults fill paths the prop does not define', async () => {
+    const { form } = mountWith({ name: 'From handle', team: { slug: 'handle' } }, { name: 'From prop' })
+    await flushPromises()
+    expect(form().getValues()).toEqual({ name: 'From prop', team: { slug: 'handle' } })
+  })
+
+  it('reset() restores the merged defaults', async () => {
+    const { form } = mountWith({ team: { slug: 'handle' } }, { name: 'Ada' })
+    await flushPromises()
+    form().setValue('name', 'changed')
+    form().setValue('team.slug', 'changed')
+    form().reset()
+    await nextTick()
+    expect(form().getValues()).toEqual({ name: 'Ada', team: { slug: 'handle' } })
+  })
+})

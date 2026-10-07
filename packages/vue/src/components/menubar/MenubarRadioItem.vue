@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { MenubarRadioItem, MenubarItemIndicator } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -8,7 +9,7 @@ const props = withDefaults(defineProps<{
   textValue?: string
   isDisabled?: boolean
   variant?: 'default' | 'danger'
-  class?: string
+  class?: ClassValue
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */

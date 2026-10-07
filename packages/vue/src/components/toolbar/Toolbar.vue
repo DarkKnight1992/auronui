@@ -2,14 +2,14 @@
 import { computed, toRef } from 'vue'
 import { ToolbarRoot } from 'reka-ui'
 import { toolbarVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useToolbarProvide } from './toolbar.context'
 
 const props = withDefaults(defineProps<{
   orientation?: 'horizontal' | 'vertical'
   loop?: boolean
   isAttached?: boolean
-  class?: string
+  class?: ClassValue
   /** Text direction */
   dir?: 'ltr' | 'rtl'
   /** Render as a different element */

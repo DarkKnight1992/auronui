@@ -33,7 +33,7 @@ const props = withDefaults(defineProps<{
   label?: string
   description?: string
   errorMessage?: string
-  class?: string
+  class?: ClassValue
   /** Shorthand API: render checkboxes from an array instead of the compound slot API */
   items?: CheckboxShorthandItem[]
   /** Per-slot class overrides */

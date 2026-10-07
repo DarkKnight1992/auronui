@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { DropdownMenuCheckboxItem, DropdownMenuItemIndicator } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -7,7 +8,7 @@ const props = withDefaults(defineProps<{
   textValue?: string
   isDisabled?: boolean
   variant?: 'default' | 'danger'
-  class?: string
+  class?: ClassValue
   /** Controlled checked state. */
   modelValue?: boolean
   /** @deprecated Use isDisabled instead. */

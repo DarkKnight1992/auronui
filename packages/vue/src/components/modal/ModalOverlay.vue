@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { DialogOverlay, injectDialogRootContext } from 'reka-ui'
-import { modalVariants } from '@auronui/styles/components/modal'
-import { composeClassName } from '../../utils/composeClassName'
+import { modalVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useOverlayLayer } from '../../composables/useOverlayLayer'
 import { useModalInject } from './Modal.vue'
 
@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   forceMount?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   asChild: false,
   forceMount: false,

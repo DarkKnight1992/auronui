@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import Button from './Button.vue'
 import type { ButtonVariants } from '@auronui/styles'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -12,7 +13,7 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   isLoading?: boolean
   ariaLabel?: string
-  class?: string
+  class?: ClassValue
 }>(), {
   size: 'md',
   variant: 'ghost',

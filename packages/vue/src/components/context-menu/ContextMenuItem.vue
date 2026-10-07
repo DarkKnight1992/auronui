@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { ContextMenuItem } from 'reka-ui'
 import { menuItemVariants, type MenuItemVariants } from '@auronui/styles'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -9,7 +10,7 @@ const props = withDefaults(defineProps<{
   variant?: MenuItemVariants['variant']
   shortcut?: string
   description?: string
-  class?: string
+  class?: ClassValue
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */

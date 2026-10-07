@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import { alertVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { AnimatePresence, motion } from '../../utils/motion'
 import CloseButton from '../button/CloseButton.vue'
 
@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   /** Whether the alert can be dismissed by the user */
   isClosable?: boolean
   /** Additional CSS class to merge onto the root element */
-  class?: string
+  class?: ClassValue
 }>(), {
   severity: 'default',
   isClosable: false,

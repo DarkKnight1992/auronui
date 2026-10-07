@@ -3,12 +3,12 @@ import { computed } from 'vue'
 import { ToastClose as RekaToastClose } from 'reka-ui'
 import { toastVariants } from '@auronui/styles'
 import type { ButtonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import CloseButton from '../button/CloseButton.vue'
 import { useToastInject } from './toast.context'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
   ariaLabel?: string
   /** Render as a different element */
   as?: string

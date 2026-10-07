@@ -264,4 +264,19 @@ describe('ColorPickerInput', () => {
     expect(finalHue).toBeGreaterThan(20)
     expect(finalHue).toBeLessThan(70)
   })
+
+  it('accepts an empty string as "no colour" and can open without throwing', async () => {
+    const errors: unknown[] = []
+    const wrapper = mount(ColorPickerInput, {
+      props: { modelValue: '', open: true },
+      attachTo: document.body,
+      global: { config: { errorHandler: (e) => { errors.push(e) } } },
+    })
+    wrappers.push(wrapper)
+    await nextTick()
+    await nextTick()
+    expect(errors).toEqual([])
+    expect((wrapper.find('input').element as HTMLInputElement).value).toBe('')
+    expect(wrapper.emitted('update:modelValue')).toBeUndefined()
+  })
 })

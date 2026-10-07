@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { AlertDialogTitle } from 'reka-ui'
-import { alertDialogVariants } from '@auronui/styles/components/alert-dialog'
-import { composeClassName } from '../../utils/composeClassName'
+import { alertDialogVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   as: 'h2',
   asChild: false,

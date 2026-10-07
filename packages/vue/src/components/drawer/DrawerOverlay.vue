@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import { DialogOverlay, injectDialogRootContext } from 'reka-ui'
-import { drawerVariants } from '@auronui/styles/components/drawer'
-import { composeClassName } from '../../utils/composeClassName'
+import { drawerVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useOverlayLayer } from '../../composables/useOverlayLayer'
 
 const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   forceMount?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   asChild: false,
   forceMount: false,

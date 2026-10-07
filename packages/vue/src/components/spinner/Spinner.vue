@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed, useId } from 'vue'
 import { spinnerVariants, type SpinnerVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   size?: SpinnerVariants['size']
   color?: SpinnerVariants['color']
   label?: string
-  class?: string
+  class?: ClassValue
 }>(), {
   size: 'md',
   color: 'primary',

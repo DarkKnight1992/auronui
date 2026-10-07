@@ -15,7 +15,7 @@ type ButtonShorthandItem = {
   isLoading?: boolean
   variant?: ButtonVariants['variant']
   color?: ButtonVariants['color']
-  class?: string
+  class?: ClassValue
   classNames?: Partial<{
     base: ClassValue
     startContent: ClassValue

@@ -12,6 +12,7 @@ export const checkboxVariants = tv({
     content: "checkbox__content",
     control: "checkbox__control",
     indicator: "checkbox__indicator",
+    errorMessage: "checkbox__error-message",
   },
   variants: {
     variant: {

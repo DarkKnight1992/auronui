@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import { DialogTitle } from 'reka-ui'
-import { modalVariants } from '@auronui/styles/components/modal'
-import { composeClassName } from '../../utils/composeClassName'
+import { modalVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   as: 'h2',
   asChild: false,

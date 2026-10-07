@@ -10,6 +10,44 @@ interface FormStateOptions {
   isDisabled?: Ref<boolean>
 }
 
+// Kept on the context as a plain-looking object for backwards compatibility,
+// but reads proxy through to the live source so they stay reactive.
+function liveRecord(source: ComputedRef<Record<string, unknown>>): Record<string, unknown> {
+  return new Proxy({} as Record<string, unknown>, {
+    get: (_target, key) =>
+      typeof key === 'string' ? source.value[key] : undefined,
+    has: (_target, key) => typeof key === 'string' && key in source.value,
+    ownKeys: () => Reflect.ownKeys(source.value),
+    getOwnPropertyDescriptor: (_target, key) => {
+      const descriptor = Object.getOwnPropertyDescriptor(source.value, key)
+      return descriptor && { ...descriptor, configurable: true }
+    },
+  })
+}
+
+/**
+ * Layers extra form-level defaults over an existing context — used when
+ * `<Form :form="handle" :default-values>` gets both. Paths the extra source
+ * defines win; everything else falls through to the handle's own defaults.
+ * Only default resolution changes: registration, values and errors are still
+ * the handle's, so the handle's owner sees the same state as the fields.
+ */
+export function withDefaultValues(
+  ctx: FormContext,
+  extra: MaybeRefOrGetter<Record<string, unknown> | undefined>,
+): FormContext {
+  const extraSource = computed(() => toValue(extra) ?? {})
+  const merged = computed(() => ({ ...ctx.defaultValues, ...extraSource.value }))
+  return {
+    ...ctx,
+    defaultValues: liveRecord(merged),
+    getDefaultValue(name: string): unknown {
+      const own = getPath(extraSource.value, name)
+      return own !== undefined ? own : ctx.getDefaultValue(name)
+    },
+  }
+}
+
 export function createFormState(options: FormStateOptions = {}): FormContext {
   // Read through on every access rather than snapshotting at creation, so
   // defaultValues that arrive after mount (fetched from an API) still land.
@@ -21,18 +59,7 @@ export function createFormState(options: FormStateOptions = {}): FormContext {
     return getPath(defaultValuesSource.value, name)
   }
 
-  // Kept on the context as a plain-looking object for backwards compatibility,
-  // but reads proxy through to the live source so they stay reactive.
-  const defaultValues = new Proxy({} as Record<string, unknown>, {
-    get: (_target, key) =>
-      typeof key === 'string' ? defaultValuesSource.value[key] : undefined,
-    has: (_target, key) => typeof key === 'string' && key in defaultValuesSource.value,
-    ownKeys: () => Reflect.ownKeys(defaultValuesSource.value),
-    getOwnPropertyDescriptor: (_target, key) => {
-      const descriptor = Object.getOwnPropertyDescriptor(defaultValuesSource.value, key)
-      return descriptor && { ...descriptor, configurable: true }
-    },
-  })
+  const defaultValues = liveRecord(defaultValuesSource)
 
   const errors = ref<Record<string, string>>({})
   const isSubmitting = ref(false)
@@ -328,8 +355,12 @@ export function createFormState(options: FormStateOptions = {}): FormContext {
 
     errors.value = {}
     isSubmitted.value = true
-    isSubmitting.value = false
-    await onValid(getNestedValues(), { setErrors })
+    // Stay submitting until the handler settles, so `isSubmitting` can drive a spinner.
+    try {
+      await onValid(getNestedValues(), { setErrors })
+    } finally {
+      isSubmitting.value = false
+    }
   }
 
   return {

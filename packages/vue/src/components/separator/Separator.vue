@@ -6,7 +6,7 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 const props = withDefaults(defineProps<{
   orientation?: SeparatorVariants['orientation']
   variant?: SeparatorVariants['variant']
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
     line: ClassValue

@@ -192,9 +192,12 @@ describe('Autocomplete', () => {
     })
     mountedWrappers.push(wrapper)
 
-    // loadItems called on mount with empty query (immediate)
+    // Nothing is fetched until the dropdown is needed
     await flushPromises()
-    expect(loadItems).toHaveBeenCalled()
+    expect(loadItems).not.toHaveBeenCalled()
+    await wrapper.find('input').setValue('a')
+    await flushPromises()
+    expect(loadItems).toHaveBeenCalledWith('a')
   })
 
   it('async: loadItems is called with the typed query', async () => {
@@ -226,7 +229,7 @@ describe('Autocomplete', () => {
     const wrapper = mount({
       components: { Autocomplete, AutocompleteInput, AutocompleteContent, AutocompleteItem },
       template: `
-        <Autocomplete :load-items="loadItems" :debounce-ms="0" aria-label="Async fruit">
+        <Autocomplete :load-items="loadItems" :debounce-ms="0" :default-open="true" aria-label="Async fruit">
           <AutocompleteInput placeholder="Type to search..." />
           <AutocompleteContent>
             <template #loading>
@@ -239,8 +242,9 @@ describe('Autocomplete', () => {
     })
     mountedWrappers.push(wrapper)
 
-    // Promise pending — isLoading should be true
+    // Opening triggers the (lazy) load; the promise is pending
     await nextTick()
+    expect(loadItems).toHaveBeenCalledTimes(1)
     // Resolve to clean up
     resolveLoad([])
     await flushPromises()
@@ -686,5 +690,81 @@ describe('Autocomplete — root data-attributes (rootDataAttrs from useFormField
     })
     mountedWrappers.push(withHelper)
     expect(withHelper.find('.autocomplete-root').attributes('data-has-helper')).toBeTruthy()
+  })
+})
+
+describe('Autocomplete — lazy loadItems', () => {
+  function mountAsync(attrs: string, loadItems: ReturnType<typeof vi.fn>) {
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({ loadItems }),
+      template: `<Autocomplete :load-items="loadItems" :debounce-ms="0" aria-label="Async fruit" ${attrs} />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    return w
+  }
+
+  it('does not call loadItems on mount when nothing is selected', async () => {
+    const loadItems = vi.fn().mockResolvedValue([])
+    mountAsync('', loadItems)
+    await flushPromises()
+    expect(loadItems).not.toHaveBeenCalled()
+  })
+
+  it('loads once the dropdown opens', async () => {
+    const loadItems = vi.fn().mockResolvedValue([{ value: 'apple', label: 'Apple' }])
+    mountAsync(':default-open="true"', loadItems)
+    await flushPromises()
+    expect(loadItems).toHaveBeenCalledTimes(1)
+    expect(loadItems).toHaveBeenCalledWith('')
+  })
+
+  it('loads on mount when a value is pre-selected (so its label can resolve)', async () => {
+    const loadItems = vi.fn().mockResolvedValue([{ value: 'apple', label: 'Apple' }])
+    const w = mountAsync('model-value="apple"', loadItems)
+    await flushPromises()
+    expect(loadItems).toHaveBeenCalledTimes(1)
+    expect((w.find('input').element as HTMLInputElement).value).toBe('Apple')
+  })
+
+  it('load-on-mount forces an eager load', async () => {
+    const loadItems = vi.fn().mockResolvedValue([])
+    mountAsync('load-on-mount', loadItems)
+    await flushPromises()
+    expect(loadItems).toHaveBeenCalledTimes(1)
+  })
+})
+
+describe('Autocomplete — creatable (default chrome)', () => {
+  it('offers a create item for unmatched text', async () => {
+    const selected = ref<string | undefined>()
+    const created: string[] = []
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({ selected, items: staticItems, onCreate: (v: string) => created.push(v) }),
+      template: `<Autocomplete v-model="selected" :items="items" creatable aria-label="Fruit" @create="onCreate" />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    const input = w.find('input')
+    await input.trigger('focus')
+    await input.setValue('Carol')
+    await flushPromises()
+    const options = [...document.body.querySelectorAll('[role="option"]')].map(o => o.textContent?.trim())
+    expect(options).toContain('Create "Carol"')
+  })
+
+  it('does not render a create item without creatable', async () => {
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({ items: staticItems }),
+      template: `<Autocomplete :items="items" aria-label="Fruit" />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    const input = w.find('input')
+    await input.trigger('focus')
+    await input.setValue('Carol')
+    await flushPromises()
+    const options = [...document.body.querySelectorAll('[role="option"]')].map(o => o.textContent?.trim())
+    expect(options.some(o => o?.startsWith('Create'))).toBe(false)
   })
 })

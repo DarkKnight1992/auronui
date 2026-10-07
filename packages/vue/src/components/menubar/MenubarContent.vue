@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { MenubarPortal, MenubarContent } from 'reka-ui'
 import { menubarVariants, menuVariants } from '@auronui/styles'
 
@@ -8,7 +9,7 @@ const props = withDefaults(defineProps<{
   side?: 'top' | 'right' | 'bottom' | 'left'
   align?: 'start' | 'center' | 'end'
   alignOffset?: number
-  class?: string
+  class?: ClassValue
   /** Portal target element or selector. */
   to?: string | HTMLElement
   /** Disable the portal. */

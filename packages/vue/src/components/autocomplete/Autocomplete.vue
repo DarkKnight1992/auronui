@@ -8,6 +8,7 @@ import { hasSlotComponent } from '../../utils/hasSlotComponent'
 import AutocompleteInput from './AutocompleteInput.vue'
 import AutocompleteContent from './AutocompleteContent.vue'
 import AutocompleteItem from './AutocompleteItem.vue'
+import AutocompleteCreateItem from './AutocompleteCreateItem.vue'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import { useFormField } from '../../composables/useFormField'
 import FieldLabel from '../_shared/FieldLabel.vue'
@@ -165,6 +166,22 @@ type Props = {
   items?: AutocompleteItem[]
   /** Async data source: called on every query change. */
   loadItems?: (query: string) => Promise<AutocompleteItem[]>
+  /**
+   * Call `loadItems` as soon as the component mounts. By default it is called
+   * lazily — when the dropdown first opens or the user types — unless a value
+   * is already selected (its label has to resolve from the loaded items).
+   * @default false
+   */
+  loadOnMount?: boolean
+  /**
+   * Offer a "Create …" item for text that matches no option, in the built-in
+   * chrome (custom chrome adds `<AutocompleteCreateItem>` itself). Selecting it
+   * sets the typed text as the value and fires `create`.
+   * @default false
+   */
+  creatable?: boolean
+  /** Label for the `creatable` item. Defaults to `Create "<term>"`. */
+  createLabel?: string | ((term: string) => string)
   /** Debounce delay for loadItems calls (ms). 0 = no debounce. */
   debounceMs?: number
   /** Apply filter immediately on open (default: false — show all items until user types). */
@@ -427,8 +444,11 @@ function onCreateValue(value: string) {
 // ── Async loading ──────────────────────────────────────────────────────────
 let debounceTimer: ReturnType<typeof setTimeout> | undefined
 
+let hasLoaded = false
+
 async function runLoadItems(query: string) {
   if (!props.loadItems) return
+  hasLoaded = true
   isLoading.value = true
   try {
     internalItems.value = await props.loadItems(query)
@@ -447,11 +467,30 @@ function scheduleLoad(query: string) {
   }
 }
 
+const hasSelection = () =>
+  props.multiple ? selectedValues.value.length > 0 : !!singleModelValue.value
+
+// Lazy by default: a mounted-but-unused Autocomplete (say, in a hidden tab)
+// should not hit the network. A pre-selected value still loads up front so
+// its label can resolve.
 onMounted(() => {
-  if (props.loadItems) void runLoadItems(searchTerm.value)
+  if (props.loadItems && (props.loadOnMount || hasSelection())) void runLoadItems(searchTerm.value)
 })
 
+watch(
+  () => (props.multiple ? internalOpen.value : singleOpen.value),
+  (open) => {
+    if (open && props.loadItems && !hasLoaded) void runLoadItems(searchTerm.value)
+  },
+  { immediate: true },
+)
+
+// Set while the input text is rewritten to a resolved label, so that sync
+// does not count as a new query.
+let syncingLabel = false
+
 watch(searchTerm, (q) => {
+  if (syncingLabel) { syncingLabel = false; return }
   if (props.loadItems) scheduleLoad(q)
 })
 
@@ -463,6 +502,7 @@ watch(internalItems, () => {
   if (props.multiple) return
   const next = labelFor(singleModelValue.value)
   if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (singleModelValue.value ?? '')) {
+    syncingLabel = true
     searchTerm.value = next
   }
 })
@@ -587,6 +627,11 @@ useAutocompleteProvide({
                 {{ item.label ?? item.textValue ?? item.value }}
               </slot>
             </AutocompleteItem>
+            <AutocompleteCreateItem
+              v-if="props.creatable"
+              :label="props.createLabel"
+              :class-names="{ item: props.classNames?.item, text: props.classNames?.text }"
+            />
           </AutocompleteContent>
         </template>
       </AutocompleteRoot>

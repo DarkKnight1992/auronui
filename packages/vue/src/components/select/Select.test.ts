@@ -876,3 +876,88 @@ describe('Select — color variants', () => {
     }
   })
 })
+
+describe('Select — accessible name from aria-label', () => {
+  const Unlabelled = (attrs: string, chrome: boolean) => makeWrapper(`
+    <Select ${attrs} placeholder="Any status" :items="[{ value: 'a', label: 'A' }]">
+      ${chrome ? '<SelectTrigger><SelectValue /></SelectTrigger><SelectContent><SelectItem value="a">A</SelectItem></SelectContent>' : ''}
+    </Select>
+  `)
+
+  it('forwards aria-label to the combobox (terse API)', () => {
+    const w = mount(Unlabelled('aria-label="Status filter"', false), { attachTo: document.body })
+    expect(w.find('[role="combobox"]').attributes('aria-label')).toBe('Status filter')
+    w.unmount()
+  })
+
+  it('forwards aria-label to the combobox (compound API)', () => {
+    const w = mount(Unlabelled('aria-label="Status filter"', true), { attachTo: document.body })
+    expect(w.find('[role="combobox"]').attributes('aria-label')).toBe('Status filter')
+    w.unmount()
+  })
+
+  it('forwards aria-labelledby to the combobox', () => {
+    const w = mount(Unlabelled('aria-labelledby="ext-label"', false), { attachTo: document.body })
+    expect(w.find('[role="combobox"]').attributes('aria-labelledby')).toBe('ext-label')
+    w.unmount()
+  })
+
+  it('aria-label on the root passes axe with no visible label', async () => {
+    const w = mount(Unlabelled('aria-label="Status filter"', false), { attachTo: document.body })
+    const results = await axe.run(w.element as HTMLElement)
+    expect(results.violations).toEqual([])
+    w.unmount()
+  })
+})
+
+describe('Select — SelectTrigger without children', () => {
+  it('renders the selected label when SelectTrigger is self-closing', async () => {
+    const W = makeWrapper(`
+      <Select label="Fruit" :model-value="'banana'">
+        <SelectTrigger />
+        <SelectContent>
+          <SelectItem value="apple">Apple</SelectItem>
+          <SelectItem value="banana">Banana</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const w = mount(W, { attachTo: document.body })
+    await nextTick()
+    expect(w.find('[data-slot="value"]').exists()).toBe(true)
+    expect(w.find('[role="combobox"]').text()).toContain('Banana')
+    w.unmount()
+  })
+
+  it('renders the Select placeholder when SelectTrigger is self-closing', () => {
+    const W = makeWrapper(`
+      <Select label="Fruit" placeholder="Pick a fruit">
+        <SelectTrigger />
+        <SelectContent><SelectItem value="apple">Apple</SelectItem></SelectContent>
+      </Select>
+    `)
+    const w = mount(W, { attachTo: document.body })
+    expect(w.find('[role="combobox"]').text()).toContain('Pick a fruit')
+    w.unmount()
+  })
+})
+
+describe('Select — empty-string item value', () => {
+  it('warns in dev with the fix, since reka-ui reserves "" for clearing', async () => {
+    const warn = vi.spyOn(console, 'warn').mockImplementation(() => {})
+    const W = makeWrapper(`
+      <Select label="Status" :open="true">
+        <SelectTrigger />
+        <SelectContent>
+          <SelectItem value="">Any</SelectItem>
+          <SelectItem value="open">Open</SelectItem>
+        </SelectContent>
+      </Select>
+    `)
+    const w = mount(W, { attachTo: document.body, global: { config: { errorHandler: () => {} } } })
+    await nextTick()
+    const messages = warn.mock.calls.map(c => String(c[0]))
+    warn.mockRestore()
+    w.unmount()
+    expect(messages.some(m => m.includes('[AuronUI] SelectItem') && m.includes('value=""'))).toBe(true)
+  })
+})

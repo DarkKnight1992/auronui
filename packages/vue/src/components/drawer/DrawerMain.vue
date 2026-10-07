@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { drawerVariants } from '@auronui/styles/components/drawer'
-import { composeClassName } from '../../utils/composeClassName'
+import { drawerVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 /**
  * DrawerMain wraps the main content area inside a dock Drawer.
@@ -16,7 +16,7 @@ import { composeClassName } from '../../utils/composeClassName'
  *   </Drawer>
  */
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
 }>(), {})
 
 const styles = drawerVariants()

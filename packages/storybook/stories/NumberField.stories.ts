@@ -309,6 +309,30 @@ import { NumberField } from '@auronui/vue'
   },
 }
 
+export const WithDescriptionAndError: Story = {
+  name: 'Description & error message',
+  render: (args) => ({
+    components: { NumberField },
+    setup() {
+      const seats = ref<number | undefined>(12)
+      return { args, seats }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:16px;max-width:280px">
+        <NumberField v-bind="args" label="Seats" description="Up to 10 seats on this plan" />
+        <NumberField
+          v-bind="args"
+          v-model="seats"
+          label="Seats"
+          description="Up to 10 seats on this plan"
+          :is-invalid="(seats ?? 0) > 10"
+          error-message="This plan allows at most 10 seats"
+        />
+      </div>
+    `,
+  }),
+}
+
 export const Disabled: Story = {
   name: 'Disabled',
   render: (args) => ({

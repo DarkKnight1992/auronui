@@ -2,7 +2,7 @@
 import { ref, toRef } from 'vue'
 import { getChannelValue, type Color, type ColorChannel, type ColorFormat } from 'reka-ui'
 import { colorPickerVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useColorState } from '../../composables/useColorState'
 import { provideColorPickerContext } from './color-picker.context'
 import ColorArea from '../color-area/ColorArea.vue'
@@ -23,7 +23,7 @@ const props = withDefaults(defineProps<{
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   label?: string
-  class?: string
+  class?: ClassValue
 }>(), {
   format: 'hex',
   isDisabled: undefined,

@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { DialogDescription } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   as: 'p',
   asChild: false,

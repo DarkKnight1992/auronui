@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { modalVariants } from '@auronui/styles/components/modal'
-import { composeClassName } from '../../utils/composeClassName'
+import { modalVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
 }>(), {})
 
 const styles = modalVariants()

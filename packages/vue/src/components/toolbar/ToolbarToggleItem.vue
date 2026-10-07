@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { ToolbarToggleItem as RekaToolbarToggleItem } from 'reka-ui'
 import { toggleButtonVariants, type ToggleButtonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
-  class?: string
+  class?: ClassValue
   /** Render as a different element */
   as?: string
   /** Merge props onto child element */

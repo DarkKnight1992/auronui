@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import {
   SelectContent,
   SelectViewport,
@@ -12,7 +13,7 @@ import { useSelectInject } from './Select.context'
 const props = withDefaults(defineProps<{
   position?: 'item-aligned' | 'popper'
   sideOffset?: number
-  class?: string
+  class?: ClassValue
   /** Keep content mounted even when closed. */
   forceMount?: boolean
   /** Lock body scroll when content is open. */

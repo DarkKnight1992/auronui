@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs } from 'vue'
+import { computed, ref, useAttrs, useId } from 'vue'
 import { SwitchRoot, SwitchThumb } from 'reka-ui'
 import { switchVariants, type SwitchVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -12,6 +12,8 @@ defineOptions({ inheritAttrs: false })
 const props = withDefaults(defineProps<{
   size?: SwitchVariants['size']
   isInvalid?: boolean
+  /** Error text shown under the label while `isInvalid`. */
+  errorMessage?: string
   value?: string
   modelValue?: boolean
   defaultValue?: boolean
@@ -46,6 +48,7 @@ const props = withDefaults(defineProps<{
     control: ClassValue
     thumb: ClassValue
     content: ClassValue
+    errorMessage: ClassValue
   }>
 }>(), {
   size: undefined,
@@ -72,6 +75,14 @@ const emit = defineEmits<{
 }>()
 
 const attrs = useAttrs()
+
+const errorId = useId()
+const showError = computed(() => effectiveInvalid.value && !!props.errorMessage)
+// Merged with any consumer-supplied aria-describedby rather than replacing it.
+const ariaDescribedBy = computed(() =>
+  [attrs['aria-describedby'] as string | undefined, showError.value ? errorId : undefined]
+    .filter(Boolean).join(' ') || undefined,
+)
 
 // Inject SwitchGroup context with fallback defaults (standalone mode)
 const groupCtx = useSwitchGroupInject({
@@ -136,6 +147,7 @@ const slotFns = computed(() =>
     :model-value="checked"
     :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
+    :aria-describedby="ariaDescribedBy"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
     :true-value="props.trueValue"
@@ -154,10 +166,21 @@ const slotFns = computed(() =>
       />
     </span>
     <span
-      v-if="$slots.default"
+      v-if="$slots.default || showError"
       :class="composeClassName(slotFns.content(), props.classNames?.content)"
     >
       <slot />
+      <!--
+        Inside the control so it sits under the label, but aria-hidden so it is
+        not folded into the accessible name; aria-describedby announces it.
+      -->
+      <span
+        v-if="showError"
+        :id="errorId"
+        aria-hidden="true"
+        data-slot="error-message"
+        :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
+      >{{ props.errorMessage }}</span>
     </span>
   </SwitchRoot>
 </template>

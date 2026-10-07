@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs } from 'vue'
+import { computed, ref, useAttrs, useId } from 'vue'
 import { CheckboxRoot, CheckboxIndicator } from 'reka-ui'
 import { checkboxVariants, type CheckboxVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -19,6 +19,8 @@ const props = withDefaults(defineProps<{
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   isInvalid?: boolean
+  /** Error text shown under the label while `isInvalid`. */
+  errorMessage?: string
   isIndeterminate?: boolean
   name?: string
   /** HTML id attribute forwarded to CheckboxRoot. */
@@ -50,6 +52,7 @@ const props = withDefaults(defineProps<{
     control: ClassValue
     indicator: ClassValue
     content: ClassValue
+    errorMessage: ClassValue
   }>
 }>(), {
   variant: undefined,
@@ -79,6 +82,14 @@ const emit = defineEmits<{
 }>()
 
 const attrs = useAttrs()
+
+const errorId = useId()
+const showError = computed(() => effectiveInvalid.value && !!props.errorMessage)
+// Merged with any consumer-supplied aria-describedby rather than replacing it.
+const ariaDescribedBy = computed(() =>
+  [attrs['aria-describedby'] as string | undefined, showError.value ? errorId : undefined]
+    .filter(Boolean).join(' ') || undefined,
+)
 
 // Inject CheckboxGroup context with fallback defaults (standalone mode)
 const groupCtx = useCheckboxGroupInject({
@@ -151,6 +162,7 @@ const slotFns = computed(() =>
     :model-value="checkedState"
     :disabled="effectiveDisabled"
     :aria-invalid="effectiveInvalid || undefined"
+    :aria-describedby="ariaDescribedBy"
     :name="props.name ?? groupCtx.name.value"
     :value="props.value"
     :true-value="props.trueValue"
@@ -208,6 +220,17 @@ const slotFns = computed(() =>
     </span>
     <span :class="composeClassName(slotFns.content(), props.classNames?.content)">
       <slot />
+      <!--
+        Inside the control so it sits under the label, but aria-hidden so it is
+        not folded into the accessible name; aria-describedby announces it.
+      -->
+      <span
+        v-if="showError"
+        :id="errorId"
+        aria-hidden="true"
+        data-slot="error-message"
+        :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
+      >{{ props.errorMessage }}</span>
     </span>
   </CheckboxRoot>
 </template>

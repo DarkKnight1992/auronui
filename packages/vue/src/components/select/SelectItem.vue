@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { warnEmptySelectItemValue } from '../../utils/warnDeprecated'
 import { onMounted, useTemplateRef } from 'vue'
 import { SelectItem, SelectItemText, SelectItemIndicator } from 'reka-ui'
 import { listboxItemVariants } from '@auronui/styles'
@@ -16,7 +17,7 @@ const props = withDefaults(defineProps<{
    */
   textValue?: string
   isDisabled?: boolean
-  class?: string
+  class?: ClassValue
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */
@@ -52,6 +53,8 @@ const itemSlots = listboxItemVariants()
 // Register immediately with textValue if provided — this runs at setup time,
 // before mount, so SelectValue shows the correct label for a pre-set modelValue
 // even before the dropdown has ever been opened.
+if (props.value === '') warnEmptySelectItemValue()
+
 if (props.textValue !== undefined) {
   ctx.registerItem(props.value, props.textValue)
 }

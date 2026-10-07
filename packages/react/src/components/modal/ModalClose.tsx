@@ -1,6 +1,6 @@
 import { isValidElement, cloneElement, type ReactElement, type SyntheticEvent } from "react";
 import { useModalContext } from "./modal.context";
-import { modalVariants } from "@auronui/styles/components/modal";
+import { modalVariants } from "@auronui/styles";
 import { composeClassName } from "../../utils/composeClassName";
 
 export interface ModalCloseProps {

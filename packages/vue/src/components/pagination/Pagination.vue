@@ -2,7 +2,7 @@
 import { computed, toRef, type Ref } from 'vue'
 import { PaginationRoot } from 'reka-ui'
 import { paginationVariants, type PaginationVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { createPaginationContext } from './pagination.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
   /** Cursor mode: after cursor value */
   afterCursor?: string | null
   /** Additional CSS class */
-  class?: string
+  class?: ClassValue
   /** Render as a different element */
   as?: string
   /** Merge props onto child element */

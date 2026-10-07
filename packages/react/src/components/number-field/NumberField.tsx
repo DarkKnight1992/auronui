@@ -37,6 +37,10 @@ export interface NumberFieldOwnProps {
   id?: string;
   placeholder?: string;
   label?: string;
+  /** Helper text under the field. Hidden while an error message is shown. */
+  description?: string;
+  /** Error text under the field, shown while `isInvalid`. */
+  errorMessage?: string;
   ariaLabel?: string;
   /** Controlled value. */
   value?: number;
@@ -55,6 +59,8 @@ export interface NumberFieldOwnProps {
     decrementButton: ClassValue;
     input: ClassValue;
     incrementButton: ClassValue;
+    description: ClassValue;
+    errorMessage: ClassValue;
   }>;
 }
 
@@ -80,6 +86,8 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(functi
     id,
     placeholder,
     label,
+    description,
+    errorMessage,
     ariaLabel,
     value,
     defaultValue,
@@ -131,12 +139,18 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(functi
     isRequired: resolvedIsRequired,
   });
 
-  const { groupProps, inputProps, incrementButtonProps, decrementButtonProps } = useNumberField(
+  const showError = isInvalid && !!errorMessage;
+  const showDescription = !showError && !!description;
+
+  const { groupProps, inputProps, incrementButtonProps, decrementButtonProps, descriptionProps, errorMessageProps } = useNumberField(
     {
       "aria-label": ariaLabel,
       "aria-labelledby": isLabelVisible ? resolvedInputId + "-label" : undefined,
       id: resolvedInputId,
       placeholder,
+      description: showDescription ? description : undefined,
+      errorMessage: showError ? errorMessage : undefined,
+      isInvalid,
       isDisabled,
       isReadOnly: resolvedIsReadOnly,
       isRequired: resolvedIsRequired,
@@ -242,6 +256,24 @@ export const NumberField = forwardRef<HTMLInputElement, NumberFieldProps>(functi
           </svg>
         </button>
       </div>
+
+      {showError ? (
+        <span
+          {...errorMessageProps}
+          data-slot="error-message"
+          className={composeClassName(slotFns.errorMessage(), classNames?.errorMessage)}
+        >
+          {errorMessage}
+        </span>
+      ) : showDescription ? (
+        <span
+          {...descriptionProps}
+          data-slot="description"
+          className={composeClassName(slotFns.description(), classNames?.description)}
+        >
+          {description}
+        </span>
+      ) : null}
     </div>
   );
 });

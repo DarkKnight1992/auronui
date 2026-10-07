@@ -33,6 +33,11 @@ export interface SelectContext {
   triggerId: Ref<string>
   label: Ref<string | undefined>
   ariaDescribedBy: Ref<string | undefined>
+  /** `aria-label` / `aria-labelledby` passed to Select, forwarded to the combobox trigger. */
+  ariaLabel: Ref<string | undefined>
+  ariaLabelledby: Ref<string | undefined>
+  /** Select-level placeholder, used by a SelectTrigger rendered without children. */
+  placeholder: Ref<string | undefined>
   slots: ComputedRef<ReturnType<typeof selectVariants>>
   multiple: Ref<boolean>
   /**

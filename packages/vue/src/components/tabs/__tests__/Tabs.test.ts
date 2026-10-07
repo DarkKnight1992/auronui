@@ -128,3 +128,26 @@ describe('Tabs', () => {
     expect(w.find('.tabs__list--track-full-width').exists()).toBe(true)
   })
 })
+
+describe('Tabs unmountOnHide default', () => {
+  it('does not mount hidden panels by default', () => {
+    const w = makeHarness({ defaultValue: 'one' })
+    expect(w.text()).toContain('Panel One')
+    expect(w.text()).not.toContain('Panel Two')
+  })
+
+  it('keeps hidden panels mounted when unmount-on-hide is false', () => {
+    const w = mount({
+      components: { Tabs, TabList, Tab, TabPanel },
+      template: `
+        <Tabs default-value="one" :unmount-on-hide="false">
+          <TabList><Tab value="one">One</Tab><Tab value="two">Two</Tab></TabList>
+          <TabPanel value="one">Panel One</TabPanel>
+          <TabPanel value="two">Panel Two</TabPanel>
+        </Tabs>
+      `,
+    }, { attachTo: document.body })
+    wrappers.push(w)
+    expect(w.text()).toContain('Panel Two')
+  })
+})

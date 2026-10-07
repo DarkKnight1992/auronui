@@ -1,8 +1,8 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { DialogPortal, DialogContent, injectDialogRootContext } from 'reka-ui'
-import { drawerVariants } from '@auronui/styles/components/drawer'
-import { composeClassName } from '../../utils/composeClassName'
+import { drawerVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useOverlayLayer } from '../../composables/useOverlayLayer'
 import { useDrawerInject } from './drawer.context'
 import DrawerOverlay from './DrawerOverlay.vue'
@@ -15,7 +15,7 @@ const props = withDefaults(defineProps<{
   to?: string | HTMLElement
   disabled?: boolean
   defer?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   asChild: false,
   forceMount: false,

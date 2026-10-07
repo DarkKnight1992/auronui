@@ -23,6 +23,7 @@ export default defineConfig({
   plugins: [
     dts({
       include: ["src/**/*.ts"],
+      exclude: ["src/**/__tests__/**"],
       outDir: "dist",
       compilerOptions: { rootDir: "src", noEmitOnError: false, skipLibCheck: true },
     }),

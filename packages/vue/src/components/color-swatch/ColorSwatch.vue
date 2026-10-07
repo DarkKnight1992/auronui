@@ -2,7 +2,7 @@
 import { computed, inject } from 'vue'
 import { ColorSwatch as RekaColorSwatch, parseColor, colorToHex, type Color } from 'reka-ui'
 import { colorSwatchVariants, type ColorSwatchVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 
 const props = defineProps<{
@@ -10,7 +10,7 @@ const props = defineProps<{
   colorName?: string
   shape?: ColorSwatchVariants['shape']
   size?: ColorSwatchVariants['size']
-  class?: string
+  class?: ClassValue
   as?: string
   asChild?: boolean
   label?: string

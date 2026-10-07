@@ -1,6 +1,6 @@
 import { isValidElement, cloneElement, type ReactElement, type SyntheticEvent } from "react";
 import { useDrawerContext } from "./drawer.context";
-import { drawerVariants } from "@auronui/styles/components/drawer";
+import { drawerVariants } from "@auronui/styles";
 import { composeClassName } from "../../utils/composeClassName";
 
 export interface DrawerCloseProps {

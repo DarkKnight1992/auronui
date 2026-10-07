@@ -180,3 +180,35 @@ describe('ColorField', () => {
     expect(wrapper.find('.custom-end').exists()).toBe(true)
   })
 })
+
+describe('ColorField — empty value', () => {
+  it('shows an empty input (and its placeholder) for an empty-string value', () => {
+    const w = mount(ColorField, { props: { modelValue: '', placeholder: 'No colour' }, attachTo: document.body })
+    mountedWrappers.push(w)
+    const input = w.find('input').element as HTMLInputElement
+    expect(input.value).toBe('')
+    expect(input.placeholder).toBe('No colour')
+  })
+
+  it('stays empty after focus and blur without typing, and emits nothing', async () => {
+    const w = mount(ColorField, { props: { modelValue: '' }, attachTo: document.body })
+    mountedWrappers.push(w)
+    const input = w.find('input')
+    await input.trigger('focus')
+    await input.trigger('blur')
+    expect((input.element as HTMLInputElement).value).toBe('')
+    expect(w.emitted('update:modelValue')).toBeUndefined()
+  })
+
+  it('accepts a typed colour starting from empty', async () => {
+    const w = mount(ColorField, { props: { modelValue: '' }, attachTo: document.body })
+    mountedWrappers.push(w)
+    const input = w.find('input')
+    await input.trigger('focus')
+    await input.setValue('#ff0000')
+    await input.trigger('blur')
+    const emitted = w.emitted('update:modelValue')
+    expect(emitted).toBeTruthy()
+    expect(colorToHex(emitted!.at(-1)![0] as any)).toBe('#ff0000')
+  })
+})

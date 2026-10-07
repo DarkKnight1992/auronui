@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { Primitive, injectPopoverRootContext } from 'reka-ui'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -8,7 +9,7 @@ const props = withDefaults(defineProps<{
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   isDisabled: undefined,
   disabled: undefined,

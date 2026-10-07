@@ -3,11 +3,13 @@ import { colorFieldVariants, type ColorFieldVariants } from "@auronui/styles";
 import { composeClassName, resolveDeprecatedBooleanProp, type ClassValue } from "../../utils";
 import { parseColor } from "react-stately";
 import { useColorState, type Color } from "../../hooks";
+import { isEmptyColor } from "../../hooks/useColorState";
 import { useColorPickerContext } from "../color-picker/color-picker.context";
 
 export interface ColorFieldOwnProps {
-  value?: Color | string;
-  defaultValue?: Color | string;
+  /** Controlled colour. `''` or `null` means "no colour set" — the input renders empty (showing its placeholder). */
+  value?: Color | string | null;
+  defaultValue?: Color | string | null;
   label?: string;
   description?: string;
   errorMessage?: string;
@@ -83,7 +85,13 @@ export const ColorField = forwardRef<HTMLInputElement, ColorFieldProps>(function
 
   const styles = colorFieldVariants({ fullWidth });
 
-  const [text, setText] = useState(() => color.toString("hex"));
+  // A controlled `''`/`null` means "no colour set", so the visible text stays
+  // blank (placeholder showing) until the user enters a valid colour — rather
+  // than rendering the black fallback colour useColorState holds internally.
+  const isEmptyValue = !pickerCtx && value !== undefined && isEmptyColor(value);
+  const hasAppliedRef = useRef(false);
+
+  const [text, setText] = useState(() => (isEmptyValue ? "" : color.toString("hex")));
   const isFocusedRef = useRef(false);
 
   // Keep the text in sync when the color changes externally (context, controlled value)
@@ -92,11 +100,15 @@ export const ColorField = forwardRef<HTMLInputElement, ColorFieldProps>(function
   // mid-edit and corrupt whatever the user is still typing.
   useEffect(() => {
     if (isFocusedRef.current) return;
+    if (isEmptyValue && !hasAppliedRef.current) {
+      setText("");
+      return;
+    }
     setText(color.toString("hex"));
-     
-  }, [color]);
+  }, [color, isEmptyValue]);
 
   function applyColor(next: Color) {
+    hasAppliedRef.current = true;
     if (pickerCtx) {
       pickerCtx.setChannels([
         { channel: "red", value: next.getChannelValue("red") },
@@ -129,8 +141,9 @@ export const ColorField = forwardRef<HTMLInputElement, ColorFieldProps>(function
     try {
       parseColor(text);
     } catch {
-      // Revert to the last valid color's string form.
-      setText(color.toString("hex"));
+      // Revert to the last valid color's string form — or back to blank when
+      // there is no colour set and the user never produced a valid one.
+      setText(isEmptyValue && !hasAppliedRef.current ? "" : color.toString("hex"));
     }
   }
 

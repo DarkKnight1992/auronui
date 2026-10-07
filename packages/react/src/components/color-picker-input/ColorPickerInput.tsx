@@ -1,15 +1,17 @@
-import { forwardRef } from "react";
+import { forwardRef, useState } from "react";
 import { colorPickerInputVariants } from "@auronui/styles";
 import { composeClassName, type ClassValue } from "../../utils";
 import { useColorState, type Color, type ColorFormat } from "../../hooks";
+import { isEmptyColor } from "../../hooks/useColorState";
 import { Popover, PopoverTrigger, PopoverContent } from "../popover";
 import { ColorField } from "../color-field";
 import { ColorSwatch } from "../color-swatch";
 import { ColorPicker } from "../color-picker";
 
 export interface ColorPickerInputProps {
-  value?: string;
-  defaultValue?: string;
+  /** Controlled colour string. `''` or `null` means "no colour set" — the field renders empty. */
+  value?: string | null;
+  defaultValue?: string | null;
   format?: ColorFormat;
   label?: string;
   description?: string;
@@ -83,14 +85,24 @@ export const ColorPickerInput = forwardRef<HTMLDivElement, ColorPickerInputProps
   },
   forwardedRef,
 ) {
+  // Uncontrolled: flips once the user picks a colour, ending the "no colour" state.
+  const [hasPicked, setHasPicked] = useState(false);
   const state = useColorState({
     value,
     defaultValue,
     format,
-    onChange: (next) => onValueChange?.(next),
+    onChange: (next) => {
+      setHasPicked(true);
+      onValueChange?.(next);
+    },
   });
 
   const sharedValue = state.color.toString(format);
+  // "No colour set": the field shows blank (its placeholder) instead of the
+  // black fallback colour useColorState holds. The swatch and dropdown picker
+  // still show that fallback — they have no blank state.
+  const isEmpty = value !== undefined ? isEmptyColor(value) : isEmptyColor(defaultValue) && !hasPicked;
+  const fieldValue = isEmpty ? "" : sharedValue;
   const styles = colorPickerInputVariants();
 
   return (
@@ -101,7 +113,7 @@ export const ColorPickerInput = forwardRef<HTMLDivElement, ColorPickerInputProps
     >
       <Popover open={open} defaultOpen={defaultOpen} onOpenChange={onOpenChange} modal={modal}>
         <ColorField
-          value={sharedValue}
+          value={fieldValue}
           onChange={(next: Color) => state.setColor(next)}
           label={label}
           description={description}

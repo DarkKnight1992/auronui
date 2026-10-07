@@ -27,6 +27,8 @@ export interface CheckboxOwnProps {
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean;
   isInvalid?: boolean;
+  /** Error text shown under the label while `isInvalid`. */
+  errorMessage?: string;
   isIndeterminate?: boolean;
   name?: string;
   isRequired?: boolean;
@@ -39,6 +41,7 @@ export interface CheckboxOwnProps {
     control: ClassValue;
     indicator: ClassValue;
     content: ClassValue;
+    errorMessage: ClassValue;
   }>;
   onChange?: (isSelected: boolean) => void;
   children?: ReactNode;
@@ -75,6 +78,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
     isDisabled,
     disabled,
     isInvalid = false,
+    errorMessage,
     isIndeterminate = false,
     name,
     isRequired,
@@ -120,6 +124,11 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   // group disabled ALWAYS wins over child prop; all other props: child prop wins over group value
   const effectiveDisabled = groupCtx.disabled || resolvedDisabled;
   const effectiveInvalid = groupCtx.isInvalid || isInvalid;
+  const errorId = `${generatedId}-error`;
+  const showError = effectiveInvalid && !!errorMessage;
+  // Merged with any consumer-supplied aria-describedby rather than replacing it.
+  const ariaDescribedBy =
+    [rest["aria-describedby"], showError ? errorId : undefined].filter(Boolean).join(" ") || undefined;
   const finalVariant = variant ?? groupCtx.variant;
   const finalColor = color ?? groupCtx.color;
   const isInGroup = value !== undefined;
@@ -182,6 +191,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
         onFocus={handleFocus}
         onBlur={handleBlur}
         {...rest}
+        aria-describedby={ariaDescribedBy}
       />
       <span
         className={composeClassName(
@@ -229,7 +239,21 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
           )}
         </span>
       </span>
-      <span className={composeClassName(slotFns.content(), classNames?.content)}>{children}</span>
+      <span className={composeClassName(slotFns.content(), classNames?.content)}>
+        {children}
+        {/* Inside the label so it sits under the label text, but aria-hidden so
+            it stays out of the accessible name; aria-describedby announces it. */}
+        {showError && (
+          <span
+            id={errorId}
+            aria-hidden="true"
+            data-slot="error-message"
+            className={composeClassName(slotFns.errorMessage(), classNames?.errorMessage)}
+          >
+            {errorMessage}
+          </span>
+        )}
+      </span>
     </label>
   );
 });

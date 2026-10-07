@@ -12,7 +12,7 @@ import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
-  class?: string
+  class?: ClassValue
   /** Two-way bound search input value. */
   modelValue?: string
   /** Auto-focus the input on mount. */

@@ -130,3 +130,35 @@ describe("Tabs", () => {
     expect(screen.getByRole("tab", { name: "Two" })).toHaveAttribute("aria-selected", "true");
   });
 });
+
+describe("Tabs — hidden panel mounting", () => {
+  it("unmounts inactive panels by default, mounting each only while selected", async () => {
+    render(<BasicTabs />);
+    expect(screen.getByText("Panel one")).toBeInTheDocument();
+    expect(screen.queryByText("Panel two")).not.toBeInTheDocument();
+
+    await userEvent.click(screen.getByRole("tab", { name: "Two" }));
+    expect(screen.getByText("Panel two")).toBeInTheDocument();
+    expect(screen.queryByText("Panel one")).not.toBeInTheDocument();
+  });
+
+  it("keeps an inactive panel mounted (but hidden) with shouldForceMount", () => {
+    render(
+      <Tabs defaultValue="one">
+        <TabList>
+          <Tab value="one">One</Tab>
+          <Tab value="two">Two</Tab>
+        </TabList>
+        <TabPanel value="one">Panel one</TabPanel>
+        <TabPanel value="two" shouldForceMount>
+          Panel two
+        </TabPanel>
+      </Tabs>,
+    );
+    const hidden = screen.getByText("Panel two");
+    expect(hidden).toBeInTheDocument();
+    // RAC renders a force-mounted inactive panel inert, without the tabpanel role.
+    expect(hidden).toHaveAttribute("inert");
+    expect(hidden).not.toHaveAttribute("role", "tabpanel");
+  });
+});

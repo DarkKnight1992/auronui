@@ -277,7 +277,7 @@ export { ListBox, ListBoxItem, ListBoxSection } from './components/list-box'
 export type { ListBoxContext, ListBoxVariants, ListBoxItemVariants, ListBoxSectionVariants } from './components/list-box'
 
 export { Select, SelectTrigger, SelectValue, SelectContent, SelectItem } from './components/select'
-export type { SelectContext, SelectVariants } from './components/select'
+export type { SelectContext, SelectVariants, SelectItemValue, SelectItemData } from './components/select'
 
 // Phase 7 — Selection: Dropdown
 export {

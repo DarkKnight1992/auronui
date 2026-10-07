@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { alertDialogVariants } from '@auronui/styles/components/alert-dialog'
-import { composeClassName } from '../../utils/composeClassName'
+import { alertDialogVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
 }>(), {})
 
 const styles = alertDialogVariants()

@@ -9,7 +9,7 @@ import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBoolean
 const props = withDefaults(defineProps<{
   value: string
   isDisabled?: boolean
-  class?: string
+  class?: ClassValue
   /** A string value for typeahead matching. Defaults to display text. */
   textValue?: string
   /** @deprecated Use isDisabled instead. */

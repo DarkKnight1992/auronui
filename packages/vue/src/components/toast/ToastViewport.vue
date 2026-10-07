@@ -30,7 +30,7 @@ type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 
 
 const props = withDefaults(defineProps<{
   position?: ToastPosition
-  class?: string
+  class?: ClassValue
   hotkey?: string[]
   label?: string
   swipeDirection?: 'up' | 'down' | 'left' | 'right'

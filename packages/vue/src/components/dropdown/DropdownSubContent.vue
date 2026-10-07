@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { DropdownMenuSubContent, DropdownMenuPortal } from 'reka-ui'
 import { dropdownVariants } from '@auronui/styles'
 
 const props = withDefaults(defineProps<{
   sideOffset?: number
   alignOffset?: number
-  class?: string
+  class?: ClassValue
   /** Keep sub-content mounted even when closed. */
   forceMount?: boolean
   /** Keep keyboard focus loop within the content. */

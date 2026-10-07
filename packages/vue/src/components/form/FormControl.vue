@@ -26,7 +26,7 @@ const props = defineProps<{
   deps?: string[]
 }>()
 
-const modelValue = defineModel<unknown>({ default: undefined })
+const modelValue = defineModel<unknown>()
 
 const attrs = useAttrs()
 const slots = useSlots()

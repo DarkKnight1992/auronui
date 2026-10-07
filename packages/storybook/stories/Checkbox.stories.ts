@@ -136,6 +136,25 @@ export const Invalid: Story = {
   }),
 }
 
+export const WithErrorMessage: Story = {
+  name: 'With error message',
+  render: (args) => ({
+    components: { Checkbox },
+    setup() {
+      const accepted = ref(false)
+      return { args, accepted }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <Checkbox v-bind="args" v-model="accepted" :is-invalid="!accepted" error-message="You must accept the terms to continue">
+          I accept the terms and conditions
+        </Checkbox>
+        <Checkbox v-bind="args" :is-invalid="true" error-message="Required">Short label</Checkbox>
+      </div>
+    `,
+  }),
+}
+
 export const WithLabel: Story = {
   render: (args) => ({
     components: { Checkbox },

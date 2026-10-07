@@ -9,6 +9,8 @@ export const numberFieldVariants = tv({
     input: "number-field__input",
     incrementButton: "number-field__increment-button",
     decrementButton: "number-field__decrement-button",
+    description: "number-field__description",
+    errorMessage: "number-field__error-message",
   },
   defaultVariants: {
     variant: "flat",

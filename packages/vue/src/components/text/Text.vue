@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { computed } from "vue";
 import { textVariants, type TextVariants } from "@auronui/styles";
 import { composeClassName } from "../../utils/composeClassName";
@@ -8,7 +9,7 @@ const props = withDefaults(
     as?: string;
     size?: TextVariants["size"];
     variant?: TextVariants["variant"];
-    class?: string;
+    class?: ClassValue;
   }>(),
   {
     as: "p",

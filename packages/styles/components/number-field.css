@@ -18,6 +18,16 @@
   }
 }
 
+.number-field__description {
+  @apply px-1 text-xs;
+  color: color-mix(in oklab, var(--color-foreground) 60%, transparent);
+}
+
+.number-field__error-message {
+  @apply px-1 text-xs;
+  color: var(--color-danger);
+}
+
 .number-field__group {
   @apply grid h-9 items-center overflow-hidden rounded-field border bg-field text-sm text-field-foreground shadow-field outline-none;
   border-width: var(--border-width-field);

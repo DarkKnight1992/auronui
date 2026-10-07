@@ -10,7 +10,7 @@ import { scrollAreaVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
   viewportClass?: string
   type?: 'auto' | 'always' | 'scroll' | 'hover'
   scrollHideDelay?: number

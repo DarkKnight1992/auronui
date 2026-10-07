@@ -49,7 +49,7 @@ const props = withDefaults(defineProps<{
   items?: TabShorthandItem[]
   /** Reading direction of the tabs. */
   dir?: 'ltr' | 'rtl'
-  /** Whether to unmount tab panels when they are hidden. */
+  /** Whether to unmount tab panels when they are hidden. @default true */
   unmountOnHide?: boolean
   /** Render as a different element type. */
   as?: string
@@ -66,6 +66,7 @@ const props = withDefaults(defineProps<{
   fullWidth: true,
   trackFullWidth: false,
   activationMode: 'automatic',
+  unmountOnHide: true,
 })
 
 const emit = defineEmits<{

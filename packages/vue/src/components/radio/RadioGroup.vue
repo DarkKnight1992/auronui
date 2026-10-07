@@ -48,7 +48,7 @@ const props = withDefaults(defineProps<{
    * @deprecated Use isRequired instead.
    */
   required?: boolean
-  class?: string
+  class?: ClassValue
   /** Shorthand API: render radio options from an array instead of the compound slot API */
   items?: RadioShorthandItem[]
   /** Per-slot class overrides */

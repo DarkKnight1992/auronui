@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { computed } from "vue";
 import { labelVariants } from "@auronui/styles";
 import { composeClassName } from "../../utils/composeClassName";
@@ -9,7 +10,7 @@ const props = withDefaults(
     isDisabled?: boolean;
     isInvalid?: boolean;
     isRequired?: boolean;
-    class?: string;
+    class?: ClassValue;
   }>(),
   {
     isDisabled: false,

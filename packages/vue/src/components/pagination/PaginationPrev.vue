@@ -2,11 +2,11 @@
 import { computed } from 'vue'
 import { PaginationPrev } from 'reka-ui'
 import { paginationVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { usePaginationInject, paginationContextDefaults } from './pagination.context'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
   /** Render as a different element */
   as?: string
   /** Merge props onto child element */

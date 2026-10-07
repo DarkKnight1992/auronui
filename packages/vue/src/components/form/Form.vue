@@ -1,17 +1,32 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { toRef, provide } from 'vue'
 import { formContextKey, type FormContext, type ValidationMode } from './form.context'
-import { createFormState } from './form.state'
+import { createFormState, withDefaultValues } from './form.state'
+
+interface FormSubmitPayload {
+  values: Record<string, unknown>
+  setErrors: (e: Record<string, string>) => void
+}
 
 const props = withDefaults(
   defineProps<{
     /** External form handle from useForm(). When provided, Form uses it instead of creating its own state. */
     form?: FormContext
-    /** Centralized default values. Field-level defaultValue prop wins if both set. */
+    /**
+     * Centralized default values. Field-level defaultValue prop wins if both set.
+     * With `form`, these are layered over the handle's own `defaultValues`.
+     */
     defaultValues?: Record<string, unknown>
     validationMode?: ValidationMode
     isDisabled?: boolean
-    class?: string
+    class?: ClassValue
+    /**
+     * Submit handler, bound with `@submit`. Declared as a prop rather than an
+     * emit so an async handler is awaited: `isSubmitting` stays `true` until
+     * the promise it returns settles.
+     */
+    onSubmit?: (payload: FormSubmitPayload) => void | Promise<void>
   }>(),
   {
     form: undefined,
@@ -19,16 +34,20 @@ const props = withDefaults(
     validationMode: 'on-submit',
     isDisabled: false,
     class: undefined,
+    onSubmit: undefined,
   },
 )
 
 const emit = defineEmits<{
-  submit: [payload: { values: Record<string, unknown>; setErrors: (e: Record<string, string>) => void }]
   invalid: [errors: Record<string, string>]
   reset: []
 }>()
 
-const ctx: FormContext = props.form ?? createFormState({
+// With a handle, `:default-values` is layered over the handle's own defaults
+// rather than silently ignored.
+const ctx: FormContext = props.form
+  ? withDefaultValues(props.form, toRef(props, 'defaultValues'))
+  : createFormState({
   defaultValues: toRef(props, 'defaultValues'),
   validationMode: toRef(props, 'validationMode'),
   isDisabled: toRef(props, 'isDisabled'),
@@ -58,7 +77,7 @@ const {
 
 async function onFormSubmit(): Promise<void> {
   await ctx.handleSubmit(
-    (vals) => emit('submit', { values: vals, setErrors }),
+    async (vals) => { await props.onSubmit?.({ values: vals, setErrors }) },
     (errs) => emit('invalid', errs),
   )
 }

@@ -93,6 +93,23 @@ export const Invalid: Story = {
   ),
 };
 
+export const WithDescriptionAndError: Story = {
+  name: "Description & error message",
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 16, maxWidth: 280 }}>
+      <NumberField {...args} label="Seats" description="Up to 10 seats on this plan" />
+      <NumberField
+        {...args}
+        label="Seats"
+        defaultValue={12}
+        description="Up to 10 seats on this plan"
+        isInvalid
+        errorMessage="This plan allows at most 10 seats"
+      />
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   args: { variant: "bordered", isDisabled: true, label: "Disabled", defaultValue: 10 },
   render: (args) => (

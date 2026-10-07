@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { safeHref } from '../../utils/safeHref'
 import { computed } from 'vue'
 import { Primitive } from 'reka-ui'
 import { linkVariants, type LinkVariants } from '@auronui/styles'
@@ -57,7 +58,7 @@ const resolvedRel = computed(() => {
   <Primitive
     :as="props.as"
     :type="props.as === 'button' ? 'button' : undefined"
-    :href="props.href"
+    :href="safeHref(props.href)"
     :target="resolvedTarget"
     :rel="resolvedRel"
     :class="composeClassName(slotFns.base(), props.class, props.classNames?.base)"

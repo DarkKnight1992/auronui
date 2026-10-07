@@ -24,7 +24,7 @@ const props = withDefaults(defineProps<{
   max?: number
   total?: number
   renderCount?: (count: number) => string
-  class?: string
+  class?: ClassValue
   /** Shorthand API: render avatars from an array instead of the compound slot API */
   avatars?: AvatarShorthandItem[]
   /** Class overrides forwarded to each shorthand-rendered Avatar's own classNames slots */

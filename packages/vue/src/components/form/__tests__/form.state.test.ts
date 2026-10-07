@@ -144,6 +144,28 @@ describe('createFormState — handleSubmit', () => {
     expect(ctx.submitCount.value).toBe(1)
   })
 
+  it('keeps isSubmitting true until an async onValid handler settles', async () => {
+    const ctx = createFormState({})
+    let seen: boolean | undefined
+    let release!: () => void
+    const pending = ctx.handleSubmit(() => new Promise<void>((resolve) => {
+      seen = ctx.isSubmitting.value
+      release = resolve
+    }))
+    await Promise.resolve(); await Promise.resolve()
+    expect(seen).toBe(true)
+    expect(ctx.isSubmitting.value).toBe(true)
+    release()
+    await pending
+    expect(ctx.isSubmitting.value).toBe(false)
+  })
+
+  it('clears isSubmitting even when onValid throws', async () => {
+    const ctx = createFormState({})
+    await expect(ctx.handleSubmit(async () => { throw new Error('boom') })).rejects.toThrow('boom')
+    expect(ctx.isSubmitting.value).toBe(false)
+  })
+
   it('setErrors helper from onValid merges server errors', async () => {
     const ctx = createFormState({})
     const { reg } = makeField('email', 'taken@example.com')

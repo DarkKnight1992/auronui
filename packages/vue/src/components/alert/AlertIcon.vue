@@ -1,9 +1,9 @@
 <script setup lang="ts">
 import { alertVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
 }>()
 
 const styles = alertVariants()

@@ -2,7 +2,7 @@
 import { computed } from 'vue'
 import { ToolbarToggleGroup as RekaToolbarToggleGroup } from 'reka-ui'
 import { toggleButtonGroupVariants, type ToggleButtonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useToolbarInject } from './toolbar.context'
 import ToolbarToggleItem from './ToolbarToggleItem.vue'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -20,7 +20,7 @@ const props = withDefaults(defineProps<{
   disabled?: boolean
   orientation?: 'horizontal' | 'vertical'
   isDetached?: boolean
-  class?: string
+  class?: ClassValue
   /** Shorthand API: render toggle items from an array instead of the compound slot API */
   items?: ToolbarToggleShorthandItem[]
   /** Whether to use roving focus for keyboard navigation */

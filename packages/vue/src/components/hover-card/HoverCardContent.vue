@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { HoverCardPortal, HoverCardContent } from 'reka-ui'
-import { hoverCardVariants } from '@auronui/styles/components/hover-card'
-import { composeClassName } from '../../utils/composeClassName'
+import { hoverCardVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -22,7 +22,7 @@ const props = withDefaults(defineProps<{
   disableUpdateOnLayoutShift?: boolean
   prioritizePosition?: boolean
   forceMount?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   side: 'bottom',
   sideOffset: 8,

@@ -12,7 +12,7 @@ const props = withDefaults(defineProps<{
    * the current search term. Defaults to `Create "${term}"`.
    */
   label?: string | ((term: string) => string)
-  class?: string
+  class?: ClassValue
   /** The value of this item when selected. Defaults to the current search term. */
   value?: string
   /** A string value that represents this item during typeahead navigation. */

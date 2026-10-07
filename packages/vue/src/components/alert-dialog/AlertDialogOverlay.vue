@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { AlertDialogOverlay, injectDialogRootContext } from 'reka-ui'
-import { alertDialogVariants } from '@auronui/styles/components/alert-dialog'
-import { composeClassName } from '../../utils/composeClassName'
+import { alertDialogVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useOverlayLayer } from '../../composables/useOverlayLayer'
 import { useAlertDialogInject } from './AlertDialog.vue'
 
@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
   forceMount?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   asChild: false,
   forceMount: false,

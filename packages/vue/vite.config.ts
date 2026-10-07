@@ -4,18 +4,10 @@ import dts from "vite-plugin-dts";
 import tailwindcss from "@tailwindcss/vite";
 import { resolve } from "node:path";
 import { fileURLToPath } from "node:url";
+import { isExternal } from "./vite.external";
 
 const __dirname = fileURLToPath(new URL(".", import.meta.url));
 
-const external = [
-  "vue",
-  "reka-ui",
-  "@vueuse/core",
-  "tailwind-variants",
-  "tailwind-merge",
-  "@auronui/styles",
-  "@internationalized/date",
-];
 
 export default defineConfig({
   plugins: [
@@ -23,6 +15,7 @@ export default defineConfig({
     tailwindcss(),
     dts({
       include: ["src/**/*.ts", "src/**/*.vue"],
+      exclude: ["src/**/__tests__/**"],
       outDir: "dist",
       rollupTypes: true,
       compilerOptions: { rootDir: "src", noEmitOnError: false, skipLibCheck: true },
@@ -35,9 +28,9 @@ export default defineConfig({
       fileName: (format) => (format === "es" ? "index.js" : "index.cjs"),
     },
     rollupOptions: {
-      // CRITICAL: Externalize all peer deps — do NOT bundle them
-      // See RESEARCH.md Pitfall 3
-      external,
+      // CRITICAL: externalize every dependency and peer dependency, subpaths
+      // included — see vite.external.ts. See RESEARCH.md Pitfall 3.
+      external: isExternal,
       output: [
         {
           format: "es",

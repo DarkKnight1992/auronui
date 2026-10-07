@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { drawerVariants } from '@auronui/styles/components/drawer'
-import { composeClassName } from '../../utils/composeClassName'
+import { drawerVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
 }>(), {})
 
 const styles = drawerVariants()

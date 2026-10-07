@@ -5,9 +5,10 @@ import { useSelectInject } from './Select.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import FieldLabel from '../_shared/FieldLabel.vue'
+import SelectValue from './SelectValue.vue'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
   /** Whether the trigger is disabled. */
   isDisabled?: boolean
   /** @deprecated Use isDisabled instead. */
@@ -91,6 +92,8 @@ function handleFocus(event: FocusEvent) {
     :data-readonly="ctx.isReadonly.value || undefined"
     :aria-invalid="ctx.isInvalid.value || undefined"
     :aria-describedby="ctx.ariaDescribedBy.value"
+    :aria-label="ctx.ariaLabel.value"
+    :aria-labelledby="ctx.ariaLabelledby.value"
     :disabled="isDisabled"
     :reference="(props.reference as any)"
     :as="props.as"
@@ -112,7 +115,10 @@ function handleFocus(event: FocusEvent) {
     >
       <slot name="startContent" />
     </span>
-    <slot />
+    <!-- A bare <SelectTrigger /> still shows the selection / placeholder. -->
+    <slot>
+      <SelectValue :placeholder="ctx.placeholder.value" />
+    </slot>
     <SelectIcon
       :class="composeClassName(ctx.slots.value.indicator(), props.classNames?.indicator)"
       data-slot="select-default-indicator"

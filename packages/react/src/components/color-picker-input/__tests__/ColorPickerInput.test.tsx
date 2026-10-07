@@ -67,3 +67,24 @@ describe("ColorPickerInput", () => {
     expect(await axe.run(container)).toHaveNoViolations();
   });
 });
+
+describe("ColorPickerInput — empty value", () => {
+  it('accepts an empty string as "no colour" and can open without throwing', async () => {
+    const onValueChange = vi.fn();
+    render(<ColorPickerInput value="" open label="Accent color" onValueChange={onValueChange} />);
+    expect(await screen.findByLabelText("Hex color")).toBeInTheDocument();
+    expect((screen.getByLabelText("Accent color") as HTMLInputElement).value).toBe("");
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("uncontrolled: typing from an empty defaultValue commits the colour", async () => {
+    const onValueChange = vi.fn();
+    render(<ColorPickerInput defaultValue="" label="Accent color" onValueChange={onValueChange} />);
+    const input = screen.getByLabelText("Accent color") as HTMLInputElement;
+    expect(input.value).toBe("");
+    await userEvent.type(input, "#00ff00");
+    await userEvent.tab();
+    expect(onValueChange).toHaveBeenLastCalledWith("#00FF00");
+    expect(input.value.toLowerCase()).toBe("#00ff00");
+  });
+});

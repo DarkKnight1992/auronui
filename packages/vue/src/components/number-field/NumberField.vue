@@ -30,6 +30,10 @@ const props = withDefaults(defineProps<{
   id?: string
   placeholder?: string
   label?: string
+  /** Helper text under the field. Hidden while an error message is shown. */
+  description?: string
+  /** Error text under the field, shown while `isInvalid`. */
+  errorMessage?: string
   // camelCase prop; in templates users write aria-label="…" (Vue auto-converts)
   ariaLabel?: string
   /** Default value when uncontrolled. */
@@ -72,6 +76,8 @@ const props = withDefaults(defineProps<{
     decrementButton: ClassValue
     input: ClassValue
     incrementButton: ClassValue
+    description: ClassValue
+    errorMessage: ClassValue
   }>
 }>(), {
   variant: 'flat',
@@ -88,6 +94,8 @@ const props = withDefaults(defineProps<{
   formatOptions: undefined,
   locale: undefined,
   label: undefined,
+  description: undefined,
+  errorMessage: undefined,
   ariaLabel: undefined,
   isRequired: undefined,
   required: undefined,
@@ -129,6 +137,14 @@ const slotFns = computed(() =>
 const generatedInputId = useId()
 // Use caller-provided id if given, otherwise our generated id.
 const resolvedInputId = computed(() => props.id ?? generatedInputId)
+
+const descriptionId = `${generatedInputId}-description`
+const errorMessageId = `${generatedInputId}-error`
+const showError = computed(() => props.isInvalid && !!props.errorMessage)
+const showDescription = computed(() => !showError.value && !!props.description)
+const ariaDescribedBy = computed(() =>
+  showError.value ? errorMessageId : showDescription.value ? descriptionId : undefined,
+)
 
 // Whether to show a label element (visible or sr-only).
 const hasLabel = computed(() => !!(props.label || props.ariaLabel))
@@ -197,6 +213,8 @@ const isLabelVisible = computed(() => !!props.label)
       <NumberFieldInput
         :class="composeClassName(slotFns.input(), props.classNames?.input)"
         :placeholder="props.placeholder"
+        :aria-describedby="ariaDescribedBy"
+        :aria-invalid="props.isInvalid || undefined"
       />
 
       <NumberFieldIncrement
@@ -221,5 +239,18 @@ const isLabelVisible = computed(() => !!props.label)
         </svg>
       </NumberFieldIncrement>
     </div>
+
+    <span
+      v-if="showError"
+      :id="errorMessageId"
+      data-slot="error-message"
+      :class="composeClassName(slotFns.errorMessage(), props.classNames?.errorMessage)"
+    >{{ props.errorMessage }}</span>
+    <span
+      v-else-if="showDescription"
+      :id="descriptionId"
+      data-slot="description"
+      :class="composeClassName(slotFns.description(), props.classNames?.description)"
+    >{{ props.description }}</span>
   </NumberFieldRoot>
 </template>

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { safeHref } from '../../utils/safeHref'
 import { linkVariants, type LinkVariants } from '@auronui/styles'
 import { NavigationMenuLink } from 'reka-ui'
 import { composeClassName, type ClassValue } from '../../utils/composeClassName'
@@ -40,7 +41,7 @@ const slotFns = linkVariants({
 
 <template>
   <NavigationMenuLink
-    :href="props.href"
+    :href="safeHref(props.href)"
     :target="props.target"
     :rel="props.rel"
     :active="props.active"

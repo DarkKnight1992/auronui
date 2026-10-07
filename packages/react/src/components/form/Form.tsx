@@ -110,17 +110,26 @@ export function Form<TValues extends FieldValues = FieldValues>({
     onReset?.();
   }, [form, onReset]);
 
+  // Routed through react-hook-form's own handleSubmit (rather than a bare
+  // trigger() + onSubmit) so formState.isSubmitting stays true until the
+  // async onSubmit settles, and isSubmitted/submitCount advance — RHF only
+  // tracks those for submits it drives itself.
   const handleSubmit = useCallback(
-    async (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      const validRegisteredFields = await form.trigger();
-      const errors = flattenErrors(form.formState.errors);
-      if (!validRegisteredFields || Object.keys(errors).length > 0) {
-        onInvalid?.(errors);
-        return;
-      }
-      await onSubmit?.({ values: form.getValues(), setErrors });
-    },
+    (event: FormEvent<HTMLFormElement>) =>
+      form.handleSubmit(
+        async () => {
+          // RHF validated the registered fields; manual errors it does not
+          // own (e.g. a FormFieldArray's `<name>.root` row-count error) still
+          // block the submit.
+          const errors = flattenErrors(form.formState.errors);
+          if (Object.keys(errors).length > 0) {
+            onInvalid?.(errors);
+            return;
+          }
+          await onSubmit?.({ values: form.getValues(), setErrors });
+        },
+        (errors) => onInvalid?.(flattenErrors(errors)),
+      )(event),
     [form, onInvalid, onSubmit, setErrors],
   );
 

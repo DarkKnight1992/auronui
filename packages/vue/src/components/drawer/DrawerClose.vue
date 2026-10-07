@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { Primitive, injectDialogRootContext } from 'reka-ui'
-import { drawerVariants } from '@auronui/styles/components/drawer'
-import { composeClassName } from '../../utils/composeClassName'
+import { drawerVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useDrawerInject } from './drawer.context'
 
 const props = withDefaults(defineProps<{
   as?: string
   asChild?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   asChild: false,
 })

@@ -2,7 +2,7 @@
 import { computed, ref } from 'vue'
 import { Toggle } from 'reka-ui'
 import { toggleButtonVariants, type ToggleButtonVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useToggleButtonGroupInject } from './toggle-button-group.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
@@ -16,7 +16,7 @@ const props = withDefaults(defineProps<{
   modelValue?: boolean
   defaultValue?: boolean
   value?: string
-  class?: string
+  class?: ClassValue
   as?: string
   asChild?: boolean
   name?: string

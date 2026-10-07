@@ -119,6 +119,14 @@ const inputAttrs = computed(() =>
 
 const textareaEl = useTemplateRef<HTMLTextAreaElement>('textareaEl')
 
+// A template ref on this SFC resolves to the component instance, not the native
+// element, so expose the imperative focus API explicitly.
+defineExpose({
+  focus: (options?: FocusOptions) => textareaEl.value?.focus(options),
+  blur: () => textareaEl.value?.blur(),
+  get el() { return textareaEl.value },
+})
+
 const isReadOnly = useDeprecatedBooleanProp(
   'Textarea', 'isReadOnly', () => props.isReadOnly, 'isReadonly', () => props.isReadonly,
 )

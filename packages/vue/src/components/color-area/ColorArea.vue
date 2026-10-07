@@ -11,7 +11,7 @@ import {
   type ColorSpace,
 } from 'reka-ui'
 import { colorAreaVariants, type ColorAreaVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<{
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   showDots?: ColorAreaVariants['showDots']
-  class?: string
+  class?: ClassValue
   thumbClass?: string
   as?: string
   asChild?: boolean

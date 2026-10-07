@@ -47,6 +47,15 @@ export const Invalid: Story = {
   render: (args) => <Switch {...args}>Accept required setting</Switch>,
 };
 
+export const WithErrorMessage: Story = {
+  name: "With error message",
+  render: (args) => (
+    <Switch {...args} isInvalid errorMessage="Two-factor authentication is required for admins">
+      Enable two-factor authentication
+    </Switch>
+  ),
+};
+
 export const Disabled: Story = {
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

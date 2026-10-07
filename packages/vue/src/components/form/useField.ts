@@ -1,5 +1,6 @@
 import { computed, onMounted, onUnmounted, ref, watch, type ComputedRef, type Ref } from 'vue'
 import { useFormInject } from './form.context'
+import { isEqual } from '../../utils/isEqual'
 import { runValidation } from './validation'
 import type { FieldRules, CustomValidator, ValidationMode } from './form.context'
 
@@ -37,9 +38,11 @@ export interface FieldHandle {
 export function useField(name: string, options: FieldOptions = {}): FieldHandle {
   const ctx = useFormInject()
 
-  const resolvedDefault = computed(() => {
-    if (options.defaultValue !== undefined) return options.defaultValue
-    return ctx?.getDefaultValue(name)
+  const resolvedDefault = computed((previous) => {
+    const next = options.defaultValue !== undefined ? options.defaultValue : ctx?.getDefaultValue(name)
+    // Keep the previous object while it is structurally equal, so an inline
+    // `:default-value="[]"` (a fresh array every render) is not a new default.
+    return previous !== undefined && isEqual(previous, next) ? previous : next
   })
 
   const modelValue = ref<unknown>(resolvedDefault.value)
@@ -54,8 +57,8 @@ export function useField(name: string, options: FieldOptions = {}): FieldHandle 
   // new default only while the field still holds whatever the previous default
   // gave it — a value the user typed, or one the caller supplied, always wins.
   watch(resolvedDefault, (next, previous) => {
-    if (next === undefined || next === modelValue.value) return
-    if (modelValue.value !== undefined && modelValue.value !== previous) return
+    if (next === undefined || isEqual(next, modelValue.value)) return
+    if (modelValue.value !== undefined && !isEqual(modelValue.value, previous)) return
     modelValue.value = next
   })
 
@@ -67,7 +70,7 @@ export function useField(name: string, options: FieldOptions = {}): FieldHandle 
   const effectiveMode = computed(() => options.validationMode ?? ctx?.validationMode.value ?? 'on-submit')
 
   watch(error, (e) => { if (e) hasBeenInvalid.value = true })
-  watch(modelValue, (val) => { dirty.value = val !== resolvedDefault.value })
+  watch(modelValue, (val) => { dirty.value = !isEqual(val, resolvedDefault.value) })
 
   // ── Validation ───────────────────────────────────────────────────────────────
 

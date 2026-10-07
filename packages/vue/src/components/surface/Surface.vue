@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { surfaceVariants, type SurfaceVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useSurfaceProvide } from './surface.context'
 
 const {
@@ -11,7 +11,7 @@ const {
 } = defineProps<{
   as?: string
   variant?: SurfaceVariants['variant']
-  class?: string
+  class?: ClassValue
 }>()
 
 useSurfaceProvide({ variant: computed(() => variant) })

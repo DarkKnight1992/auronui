@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { computed } from 'vue'
 import { fieldsetVariants } from '@auronui/styles'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -30,7 +31,7 @@ const props = withDefaults(
     /** @deprecated Use isDisabled instead. */
     disabled?: boolean
     /** Additional CSS classes applied to the <fieldset> element */
-    class?: string
+    class?: ClassValue
   }>(),
   {
     legend: undefined,
@@ -46,11 +47,7 @@ const isDisabled = useDeprecatedBooleanProp(
 
 const styles = fieldsetVariants()
 
-const baseClass = computed(() => {
-  const classes = [styles.base()]
-  if (props.class) classes.push(props.class)
-  return classes.join(' ')
-})
+const baseClass = computed(() => composeClassName(styles.base(), props.class))
 </script>
 
 <template>

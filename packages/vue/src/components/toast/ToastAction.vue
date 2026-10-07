@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { ToastAction as RekaToastAction } from 'reka-ui'
-import { toastVariants } from '@auronui/styles/components/toast'
+import { toastVariants } from '@auronui/styles'
 import Button from '../button/Button.vue'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   /** Required by Reka UI for screen reader announcements */
   altText?: string
-  class?: string
+  class?: ClassValue
   /** Render as a different element */
   as?: string
   /** Merge props onto child element */

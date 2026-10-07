@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { computed } from 'vue'
 import { ListboxGroup, ListboxGroupLabel } from 'reka-ui'
 import { listboxSectionVariants } from '@auronui/styles'
@@ -6,7 +7,7 @@ import { listboxSectionVariants } from '@auronui/styles'
 const props = withDefaults(defineProps<{
   title?: string
   showDivider?: boolean
-  class?: string
+  class?: ClassValue
   /** Render the ListboxGroup as a different element. */
   as?: string
   /** Merge group props onto child element. */

@@ -9,7 +9,7 @@ const props = withDefaults(defineProps<{
   modelValue: Time | CalendarDateTime
   granularity?: 'minute' | 'second'
   hourCycle?: 12 | 24
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
     scrollerWrap: ClassValue

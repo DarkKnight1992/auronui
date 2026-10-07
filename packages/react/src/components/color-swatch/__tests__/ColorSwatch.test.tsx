@@ -25,3 +25,10 @@ describe("ColorSwatch", () => {
     expect(results).toHaveNoViolations();
   });
 });
+
+describe("ColorSwatch — empty colour", () => {
+  it("falls back to black for an empty-string colour instead of throwing", () => {
+    render(<ColorSwatch color="" />);
+    expect(screen.getByRole("img")).toHaveAttribute("aria-label", "#000000");
+  });
+});

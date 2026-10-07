@@ -214,7 +214,7 @@ const emit = defineEmits<{
 }>()
 
 const modelValue = defineModel<CalendarDateTime | null | undefined>('modelValue')
-const openModel = defineModel<boolean>('open', { default: undefined })
+const openModel = defineModel<boolean | undefined>('open', { default: undefined })
 
 // Seed controlled open state from defaultOpen so portal renders in uncontrolled mode too
 if (props.defaultOpen && openModel.value === undefined) {

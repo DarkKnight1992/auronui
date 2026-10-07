@@ -3,7 +3,7 @@ import { ref, computed, onMounted, onBeforeUnmount, watch } from 'vue'
 import { ToastRoot } from 'reka-ui'
 import { toastVariants } from '@auronui/styles'
 import type { ToastVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useToastProvide } from './toast.context'
 
 type ToastPosition = 'top-right' | 'top-center' | 'top-left' | 'bottom-right' | 'bottom-center' | 'bottom-left'
@@ -13,7 +13,7 @@ const props = withDefaults(defineProps<{
   duration?: number
   position?: ToastPosition
   variant?: ToastVariants['variant']
-  class?: string
+  class?: ClassValue
   /** Default open state for uncontrolled usage */
   defaultOpen?: boolean
   /** Keep mounted in DOM when closed */

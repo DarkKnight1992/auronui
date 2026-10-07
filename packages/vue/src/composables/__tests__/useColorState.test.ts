@@ -118,3 +118,24 @@ describe('useColorState', () => {
     expect(onExternalChange).toHaveBeenCalledOnce()
   })
 })
+
+describe('useColorState — empty values', () => {
+  it.each(['', null, undefined])('treats %j as "no value" instead of throwing', (v) => {
+    expect(() => useColorState({ value: v as string })).not.toThrow()
+  })
+
+  it('falls back to defaultValue when value is an empty string', () => {
+    const { color } = useColorState({ value: '', defaultValue: '#ff0000' })
+    expect(colorToHex(color.value)).toBe('#ff0000')
+  })
+
+  it('ignores a controlled value that changes to an empty string', async () => {
+    const v = ref<string | null>('#00ff00')
+    const { color } = useColorState({ value: () => v.value as string })
+    v.value = ''
+    await Promise.resolve()
+    v.value = null
+    await Promise.resolve()
+    expect(colorToHex(color.value)).toBe('#00ff00')
+  })
+})

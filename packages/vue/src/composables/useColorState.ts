@@ -18,9 +18,9 @@ export interface UseColorStateProps {
    *  ref syncs to this value whenever it changes. Pass a getter (`() => props.modelValue`)
    *  rather than a bare value if the caller's prop can change after this composable is
    *  called — a bare value is captured once and never re-read. */
-  value?: MaybeRefOrGetter<string | Color | undefined>
+  value?: MaybeRefOrGetter<string | Color | null | undefined>
   /** Uncontrolled initial value. Only applied when `value` is not provided. */
-  defaultValue?: MaybeRefOrGetter<string | Color | undefined>
+  defaultValue?: MaybeRefOrGetter<string | Color | null | undefined>
   /** Output format for toString() and the onChange callback. Defaults to 'hex'. */
   format?: MaybeRefOrGetter<ColorFormat | undefined>
   /** Fires with the serialized color string whenever the color changes. */
@@ -49,6 +49,11 @@ export interface UseColorStateReturn {
   toHex: () => string
 }
 
+/** `''`, `null` and `undefined` all mean "no colour set". */
+function isEmptyColor(value: string | Color | null | undefined): value is '' | null | undefined {
+  return value == null || value === ''
+}
+
 function toColor(value: string | Color): Color {
   if (typeof value === 'string') {
     return parseColor(value)
@@ -59,9 +64,9 @@ function toColor(value: string | Color): Color {
 export function useColorState(props: UseColorStateProps = {}): UseColorStateReturn {
   const initialValue = toValue(props.value)
   const initialDefault = toValue(props.defaultValue)
-  const initial = initialValue !== undefined
+  const initial = !isEmptyColor(initialValue)
     ? toColor(initialValue)
-    : initialDefault !== undefined
+    : !isEmptyColor(initialDefault)
       ? toColor(initialDefault)
       : parseColor('#000000')
 
@@ -83,7 +88,7 @@ export function useColorState(props: UseColorStateProps = {}): UseColorStateRetu
   watch(
     () => toValue(props.value),
     (next) => {
-      if (next === undefined) return
+      if (isEmptyColor(next)) return
       const nextColor = toColor(next)
       if (colorToHex(nextColor) === colorToHex(color.value)) return
       color.value = nextColor

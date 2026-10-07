@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed, h, toRef, ref } from 'vue'
 import { DialogRoot } from 'reka-ui'
-import { drawerVariants } from '@auronui/styles/components/drawer'
+import { drawerVariants } from '@auronui/styles'
 import { useDrawerProvide } from './drawer.context'
 import type { DrawerPlacement, DrawerSize } from './drawer.context'
 

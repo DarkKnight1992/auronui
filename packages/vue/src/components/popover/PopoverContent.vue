@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { PopoverPortal, PopoverContent } from 'reka-ui'
-import { popoverVariants } from '@auronui/styles/components/popover'
-import { composeClassName } from '../../utils/composeClassName'
+import { popoverVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
   updatePositionStrategy?: 'always' | 'optimized'
   disableUpdateOnLayoutShift?: boolean
   prioritizePosition?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   side: 'bottom',
   sideOffset: 8,

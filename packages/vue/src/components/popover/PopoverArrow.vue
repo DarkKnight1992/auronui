@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { PopoverArrow } from 'reka-ui'
 
 const props = defineProps<{
@@ -6,7 +7,7 @@ const props = defineProps<{
   asChild?: boolean
   width?: number
   height?: number
-  class?: string
+  class?: ClassValue
 }>()
 </script>
 

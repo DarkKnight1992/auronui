@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { useTemplateRef, watchEffect, onUnmounted } from 'vue'
 import { DropdownMenuSubTrigger } from 'reka-ui'
 import { menuItemVariants } from '@auronui/styles'
@@ -8,7 +9,7 @@ import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBoolean
 const props = withDefaults(defineProps<{
   isDisabled?: boolean
   textValue?: string
-  class?: string
+  class?: ClassValue
   /** @deprecated Use isDisabled instead. */
   disabled?: boolean
   /** Render as a different element or component. */

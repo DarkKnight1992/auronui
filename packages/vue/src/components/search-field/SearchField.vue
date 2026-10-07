@@ -108,6 +108,14 @@ const inputAttrs = computed(() =>
 
 const inputEl = useTemplateRef<HTMLInputElement>('inputEl')
 
+// A template ref on this SFC resolves to the component instance, not the native
+// element, so expose the imperative focus API explicitly.
+defineExpose({
+  focus: (options?: FocusOptions) => inputEl.value?.focus(options),
+  blur: () => inputEl.value?.blur(),
+  get el() { return inputEl.value },
+})
+
 const isFilled = computed(() => modelValue.value !== '')
 
 const {

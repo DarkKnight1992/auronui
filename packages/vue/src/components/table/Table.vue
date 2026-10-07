@@ -67,6 +67,16 @@ const props = withDefaults(
       /** Required when `manual: true` — total row count across all pages. */
       totalItems?: number
     }
+    /** Controlled sort state (TanStack `SortingState`). Use v-model:sorting. Uncontrolled if unbound. */
+    sorting?: SortingState
+    /**
+     * Server-side sorting: `data` is assumed to already be in the requested
+     * order, so the table never reorders rows itself. Headers still toggle and
+     * report the requested sort via `update:sorting`. Use together with
+     * `pagination.manual` — otherwise a header click sorts only the rows of
+     * the current page. Default: false
+     */
+    manualSorting?: boolean
     /** Current page, 1-indexed. Use v-model:page. Default: 1 (uncontrolled if unbound). */
     page?: number
     /**
@@ -106,6 +116,8 @@ const props = withDefaults(
     virtualizerOverscan: 8,
     pagination: undefined,
     page: undefined,
+    sorting: undefined,
+    manualSorting: false,
     pageSizeOptions: undefined,
     getKey: undefined,
   }
@@ -114,11 +126,18 @@ const props = withDefaults(
 const emit = defineEmits<{
   'update:rowSelection': [value: RowSelectionState]
   'update:page': [value: number]
+  'update:sorting': [value: SortingState]
   'update:pageSize': [value: number]
 }>()
 
-// --- Sorting state ----------------------------------------------------
-const sorting = ref<SortingState>([])
+// --- Sorting state (controlled/uncontrolled) --------------------------
+const sorting = ref<SortingState>(props.sorting ?? [])
+watch(
+  () => props.sorting,
+  (next) => {
+    if (next !== undefined) sorting.value = next
+  }
+)
 
 // --- Row selection state (controlled/uncontrolled) -------------------
 const internalRowSelection = ref<RowSelectionState>(props.rowSelection ?? {})
@@ -242,6 +261,10 @@ const table = useVueTable({
   },
   onSortingChange: (updater) => {
     sorting.value = typeof updater === 'function' ? updater(sorting.value) : updater
+    emit('update:sorting', sorting.value)
+  },
+  get manualSorting() {
+    return props.manualSorting
   },
   onRowSelectionChange: updateRowSelection,
   getRowId: (row: TData, index: number) => (props.getKey ? props.getKey(row, index) : defaultGetRowId(row, index)),

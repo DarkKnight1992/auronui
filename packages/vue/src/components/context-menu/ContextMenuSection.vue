@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { ContextMenuGroup, ContextMenuLabel, ContextMenuSeparator } from 'reka-ui'
 import { menuSectionVariants } from '@auronui/styles'
 
 const props = withDefaults(defineProps<{
   title?: string
   showDivider?: boolean
-  class?: string
+  class?: ClassValue
   /** Render as a different element or component (applied to the group wrapper). */
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */

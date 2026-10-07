@@ -6,10 +6,11 @@ export type { Color, ColorChannel, ColorFormat };
 
 export interface UseColorStateProps {
   /** Controlled Color value or string (hex/hsl/rgb). When provided, the internal
-   *  state syncs to this value whenever it changes. */
-  value?: string | Color;
-  /** Uncontrolled initial value. Only applied when `value` is not provided. */
-  defaultValue?: string | Color;
+   *  state syncs to this value whenever it changes. `''` and `null` mean "no
+   *  colour set": the state keeps its current colour instead of throwing. */
+  value?: string | Color | null;
+  /** Uncontrolled initial value. Only applied when `value` is empty. */
+  defaultValue?: string | Color | null;
   /** Output format for toString() and the onChange callback. Defaults to 'hex'. */
   format?: ColorFormat;
   /** Fires with the serialized color string whenever the color changes. */
@@ -31,6 +32,11 @@ export interface UseColorStateReturn {
   toString: (format?: ColorFormat) => string;
   /** Get the current color as a hex string (e.g. '#ff0000'). */
   toHex: () => string;
+}
+
+/** `''`, `null` and `undefined` all mean "no colour set". */
+export function isEmptyColor(value: string | Color | null | undefined): value is "" | null | undefined {
+  return value == null || value === "";
 }
 
 function toColor(value: string | Color): Color {
@@ -76,16 +82,17 @@ export function useColorState(props: UseColorStateProps = {}): UseColorStateRetu
   const { value, defaultValue, format = "hex", onChange } = props;
 
   const [color, setColor] = useState<Color>(() =>
-    value !== undefined
+    !isEmptyColor(value)
       ? toColor(value)
-      : defaultValue !== undefined
+      : !isEmptyColor(defaultValue)
         ? toColor(defaultValue)
         : parseColor("#000000"),
   );
 
-  // Controlled mode: sync when `value` changes externally.
+  // Controlled mode: sync when `value` changes externally. A change to an
+  // empty value is ignored — there is no colour to sync to.
   useEffect(() => {
-    if (value !== undefined) {
+    if (!isEmptyColor(value)) {
       setColor(toColor(value));
     }
   }, [value]);

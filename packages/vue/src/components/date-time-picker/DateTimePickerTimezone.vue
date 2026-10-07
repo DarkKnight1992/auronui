@@ -6,7 +6,7 @@ import { composeClassName , type ClassValue} from '../../utils/composeClassName'
 
 const props = defineProps<{
   currentZone: string
-  class?: string
+  class?: ClassValue
   /** Per-slot class overrides */
   classNames?: Partial<{
     tzPanel: ClassValue

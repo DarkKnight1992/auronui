@@ -5,6 +5,6 @@
     "types": ["node"],
     "skipLibCheck": true
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "vitest.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "vite.config.ts", "vite.external.ts", "vitest.config.ts"],
   "exclude": ["dist", "node_modules"]
 }

@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onMounted, onUnmounted, ref, watch } from 'vue'
+import { isEqual } from '../../utils/isEqual'
 import { useFormInject } from './form.context'
 import { warnDefaultValueShadow } from '../../utils/warnDeprecated'
 import { runValidation } from './validation'
@@ -18,16 +19,18 @@ const props = defineProps<{
   deps?: string[]
 }>()
 
-const modelValue = defineModel<unknown>({ default: undefined })
+const modelValue = defineModel<unknown>()
 
 const ctx = useFormInject()
 
 // ── Default value resolution ─────────────────────────────────────────────────
 // Priority: field-level defaultValue prop > form-level defaultValues[name] > undefined
 
-const resolvedDefault = computed(() => {
-  if (props.defaultValue !== undefined) return props.defaultValue
-  return ctx?.getDefaultValue(props.name)
+const resolvedDefault = computed((previous) => {
+  const next = props.defaultValue !== undefined ? props.defaultValue : ctx?.getDefaultValue(props.name)
+  // Keep the previous object while it is structurally equal, so an inline
+  // `:default-value="[]"` (a fresh array every render) is not a new default.
+  return previous !== undefined && isEqual(previous, next) ? previous : next
 })
 
 // Form-level defaultValues are commonly fetched, so they land after this field
@@ -35,8 +38,8 @@ const resolvedDefault = computed(() => {
 // only while the field still holds whatever the previous default gave it — a
 // value the user typed, or one the parent supplied via v-model, always wins.
 watch(resolvedDefault, (next, previous) => {
-  if (next === undefined || next === modelValue.value) return
-  if (modelValue.value !== undefined && modelValue.value !== previous) return
+  if (next === undefined || isEqual(next, modelValue.value)) return
+  if (modelValue.value !== undefined && !isEqual(modelValue.value, previous)) return
   modelValue.value = next
 })
 
@@ -45,7 +48,7 @@ watch(resolvedDefault, (next, previous) => {
 const localError = ref<string | undefined>(undefined)
 const touched = ref(false)
 const dirty = ref(
-  resolvedDefault.value !== undefined && modelValue.value !== resolvedDefault.value,
+  resolvedDefault.value !== undefined && !isEqual(modelValue.value, resolvedDefault.value),
 )
 
 const fieldError = computed<string | undefined>(() =>
@@ -62,7 +65,7 @@ const validationMode = computed(() => props.validationMode ?? ctx?.validationMod
 // ── Dirty tracking ───────────────────────────────────────────────────────────
 
 watch(modelValue, (val) => {
-  dirty.value = val !== resolvedDefault.value
+  dirty.value = !isEqual(val, resolvedDefault.value)
 })
 
 // ── Validation ───────────────────────────────────────────────────────────────

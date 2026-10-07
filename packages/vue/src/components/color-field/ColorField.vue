@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, useId } from 'vue'
+import { computed, inject, ref, useId } from 'vue'
 import { ColorFieldRoot, ColorFieldInput, getChannelValue, type Color } from 'reka-ui'
 import { colorFieldVariants, type ColorFieldVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   placeholder?: string
   fullWidth?: ColorFieldVariants['fullWidth']
-  class?: string
+  class?: ClassValue
   ariaLabel?: string
   as?: string
   asChild?: boolean
@@ -89,10 +89,23 @@ const color = computed<Color>(() =>
   pickerCtx ? pickerCtx.color.value : local!.color.value,
 )
 
+// reka's ColorFieldRoot has no "no colour" state: it renders `#000000` for an
+// empty model. A controlled `''`/`null` means "no colour set", so blank the
+// visible text until the user types — keystrokes then flow through reka's own
+// input handling, and a blur without a valid colour leaves the model untouched.
+const isEmptyModel = computed(() => !pickerCtx && (props.modelValue === '' || props.modelValue === null))
+const hasTyped = ref(false)
+const emptyInputOverride = computed(() =>
+  isEmptyModel.value && !hasTyped.value ? { value: '' } : {},
+)
+
 const styles = colorFieldVariants({ fullWidth: props.fullWidth })
 
 // Listen to update:color (emits Color object) instead of update:modelValue (emits string)
 function onColorUpdate(next: Color) {
+  // A blur on an untouched empty field makes reka commit its `#000000`
+  // placeholder colour; that is not a user choice, so drop it.
+  if (isEmptyModel.value && !hasTyped.value) return
   if (pickerCtx) {
     // Propagate through picker context channels using the exported getChannelValue function
     pickerCtx.setChannels([
@@ -141,6 +154,9 @@ function onColorUpdate(next: Color) {
         :placeholder="placeholder"
         :aria-label="label ? undefined : (props.ariaLabel ?? 'Color value')"
         :class="composeClassName(styles.input(), props.classNames?.input)"
+        v-bind="emptyInputOverride"
+        @input="hasTyped = true"
+        @blur="hasTyped = false"
       />
       <span
         v-if="$slots.endContent"

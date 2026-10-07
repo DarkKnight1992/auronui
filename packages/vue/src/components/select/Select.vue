@@ -139,6 +139,10 @@ type Props = {
 const attrs = useAttrs()
 const generatedId = useId()
 const triggerId = computed(() => (attrs.id as string | undefined) ?? generatedId)
+// `inheritAttrs: false` would otherwise drop these; the combobox is the trigger,
+// so that is where an accessible name has to land.
+const ariaLabel = computed(() => attrs['aria-label'] as string | undefined)
+const ariaLabelledby = computed(() => attrs['aria-labelledby'] as string | undefined)
 
 const slots = useSlots()
 // Tier 3 (advanced): consumer supplied explicit compound chrome → pass through.
@@ -220,6 +224,9 @@ useSelectProvide({
   triggerId,
   label: toRef(props, 'label'),
   ariaDescribedBy,
+  ariaLabel,
+  ariaLabelledby,
+  placeholder: toRef(props, 'placeholder'),
   slots: slotFns,
   multiple: toRef(props, 'multiple'),
   registerItem,

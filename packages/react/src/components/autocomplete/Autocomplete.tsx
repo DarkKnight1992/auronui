@@ -7,7 +7,7 @@ import { AutocompleteProvider } from "./Autocomplete.context";
 import { AutocompleteInput } from "./AutocompleteInput";
 import { AutocompleteContent } from "./AutocompleteContent";
 import { AutocompleteItem } from "./AutocompleteItem";
-import { AutocompleteCreateItem } from "./AutocompleteCreateItem";
+import { AutocompleteCreateItem, CREATE_ITEM_ID } from "./AutocompleteCreateItem";
 
 export interface AutocompleteItemData {
   value: string;
@@ -66,14 +66,30 @@ export interface AutocompleteOwnProps {
   onOpenChange?: (open: boolean) => void;
   /** Static items list — used when no loadItems is provided. */
   items?: AutocompleteItemData[];
-  /** Async data source: called on every query change. */
+  /**
+   * Async data source: called on every query change. Lazy by default — first
+   * called when the dropdown opens or the user types, unless a value is
+   * pre-selected (so its label can resolve) or `loadOnMount` is set.
+   */
   loadItems?: (query: string) => Promise<AutocompleteItemData[]>;
+  /**
+   * Call `loadItems` as soon as the component mounts. By default it is called
+   * lazily — when the dropdown first opens or the user types — unless a value
+   * is already selected. @default false
+   */
+  loadOnMount?: boolean;
   /** Debounce delay for loadItems calls (ms). 0 = no debounce. */
   debounceMs?: number;
   /** Fired when the user creates a new value via the create-item row. */
   onCreate?: (value: string) => void;
-  /** Enables the built-in "Create "term"" row when the typed term has no exact match. */
+  /**
+   * Enables the built-in "Create "term"" row when the typed term has no exact
+   * match (default chrome only — custom chrome adds <AutocompleteCreateItem>
+   * itself). Selecting it sets the typed text as the value and fires `onCreate`.
+   */
   creatable?: boolean;
+  /** Label for the `creatable` item. Defaults to `Create "<term>"`. */
+  createLabel?: string | ((term: string) => string);
   startContent?: ReactNode;
   renderItem?: (item: AutocompleteItemData) => ReactNode;
   children?: ReactNode;
@@ -106,9 +122,11 @@ export function Autocomplete({
   onOpenChange,
   items = [],
   loadItems,
+  loadOnMount = false,
   debounceMs = 200,
   onCreate,
   creatable = false,
+  createLabel,
   startContent,
   renderItem,
   children,
@@ -145,6 +163,9 @@ export function Autocomplete({
     [multiple, currentValue],
   );
 
+  const renderedValuesRef = useRef(selectedValues);
+  renderedValuesRef.current = selectedValues;
+
   function commit(next: string | string[]) {
     if (!isControlled) setInternalValue(next);
     onValueChange?.(next);
@@ -156,10 +177,18 @@ export function Autocomplete({
 
   const [isLoading, setIsLoading] = useState(false);
   const debounceRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
+  const hasLoadedRef = useRef(false);
+  // The query last handed to the debounced loader. Starts at the initial term
+  // so mounting alone never counts as a query change.
+  const lastQueryRef = useRef(searchTerm);
+  // Set while the input text is rewritten to a resolved label, so that sync
+  // does not count as a new query.
+  const syncingLabelRef = useRef(false);
 
   const runLoadItems = useCallback(
     async (query: string) => {
       if (!loadItems) return;
+      hasLoadedRef.current = true;
       setIsLoading(true);
       try {
         setInternalItems(await loadItems(query));
@@ -170,8 +199,24 @@ export function Autocomplete({
     [loadItems],
   );
 
+  const hasSelection = multiple ? selectedValues.length > 0 : !!currentValue;
+
+  // Lazy by default: a mounted-but-unused Autocomplete (say, in a hidden tab)
+  // should not hit the network. A pre-selected value still loads up front so
+  // its label can resolve.
+  useEffect(() => {
+    if (loadItems && (loadOnMount || hasSelection)) void runLoadItems(searchTerm);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (!loadItems) return;
+    if (searchTerm === lastQueryRef.current) return;
+    lastQueryRef.current = searchTerm;
+    if (syncingLabelRef.current) {
+      syncingLabelRef.current = false;
+      return;
+    }
     if (debounceMs === 0) {
       void runLoadItems(searchTerm);
       return;
@@ -182,12 +227,35 @@ export function Autocomplete({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchTerm, debounceMs, loadItems]);
 
+  // Once items arrive, swap a pre-selected value's raw key in the input for
+  // its resolved label (single mode — multiple mode renders labels as chips).
+  useEffect(() => {
+    if (multiple || !currentValue) return;
+    const v = currentValue as string;
+    const resolved = labelFor(v);
+    if (searchTerm === v && resolved !== v) {
+      syncingLabelRef.current = true;
+      setSearchTerm(resolved);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [itemByValue]);
+
+  const handleOpenChange = useCallback(
+    (open: boolean) => {
+      if (open && loadItems && !hasLoadedRef.current) void runLoadItems(searchTerm);
+      onOpenChange?.(open);
+    },
+    [loadItems, runLoadItems, searchTerm, onOpenChange],
+  );
+
   const handleInputChange = useCallback((text: string) => {
     setSearchTerm(text);
   }, []);
 
   const handleSingleSelectionChange = useCallback(
     (key: Key | null) => {
+      // The create row performs its own commit via onCreateValue.
+      if (key === CREATE_ITEM_ID) return;
       const next = key == null ? "" : String(key);
       commit(next);
       setSearchTerm(labelFor(next));
@@ -198,7 +266,14 @@ export function Autocomplete({
 
   const handleMultiSelectionChange = useCallback(
     (keys: Key[]) => {
+      if (keys.includes(CREATE_ITEM_ID)) return;
       const next = keys.map((k) => String(k));
+      // react-stately re-emits its current (rendered) value when the menu
+      // closes after an item action. That is a resync, not a change — and
+      // right after a create it is stale, so committing it would drop the
+      // value the create row just added.
+      const rendered = renderedValuesRef.current;
+      if (next.length === rendered.length && next.every((v, i) => v === rendered[i])) return;
       commit(next);
       setSearchTerm("");
     },
@@ -256,7 +331,7 @@ export function Autocomplete({
       onCreate?.(trimmed);
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    [multiple, selectedValues],
+    [multiple, selectedValues, onCreate],
   );
 
   const slots = useMemo(
@@ -299,6 +374,8 @@ export function Autocomplete({
       clearAll,
       isSelected,
       searchTerm,
+      hasExactMatch,
+      onCreateValue: handleCreate,
     }),
     [
       isDisabled,
@@ -323,6 +400,8 @@ export function Autocomplete({
       clearAll,
       isSelected,
       searchTerm,
+      hasExactMatch,
+      handleCreate,
     ],
   );
 
@@ -354,7 +433,7 @@ export function Autocomplete({
               isRequired={isRequired}
               isInvalid={isInvalid}
               name={name}
-              onOpenChange={onOpenChange}
+              onOpenChange={handleOpenChange}
               defaultFilter={defaultFilter}
               allowsEmptyCollection
             >
@@ -387,6 +466,7 @@ export function Autocomplete({
                         {renderItem ? renderItem(item) : (item.label ?? item.textValue ?? item.value)}
                       </AutocompleteItem>
                     ))}
+                    {creatable && <AutocompleteCreateItem label={createLabel} className={classNames?.item} />}
                   </AutocompleteContent>
                 </>
               )}
@@ -402,7 +482,7 @@ export function Autocomplete({
               isRequired={isRequired}
               isInvalid={isInvalid}
               name={name}
-              onOpenChange={onOpenChange}
+              onOpenChange={handleOpenChange}
               defaultFilter={defaultFilter}
               allowsEmptyCollection
             >
@@ -435,7 +515,7 @@ export function Autocomplete({
                         {renderItem ? renderItem(item) : (item.label ?? item.textValue ?? item.value)}
                       </AutocompleteItem>
                     ))}
-                    {creatable && <AutocompleteCreateItem hasExactMatch={hasExactMatch} onCreate={handleCreate} />}
+                    {creatable && <AutocompleteCreateItem label={createLabel} className={classNames?.item} />}
                   </AutocompleteContent>
                 </>
               )}

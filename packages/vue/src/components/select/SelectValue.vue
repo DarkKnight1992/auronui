@@ -6,7 +6,7 @@ import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
-  class?: string
+  class?: ClassValue
   /** Render as a different element or component. */
   as?: string
   /** Merge props onto child element instead of rendering a wrapper. */

@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { ContextMenuPortal, ContextMenuContent } from 'reka-ui'
 import { contextMenuVariants, menuVariants } from '@auronui/styles'
 
 const props = withDefaults(defineProps<{
   ariaLabel?: string
   alignOffset?: number
-  class?: string
+  class?: ClassValue
   /** Portal target element or selector. */
   to?: string | HTMLElement
   /** Disable the portal. */

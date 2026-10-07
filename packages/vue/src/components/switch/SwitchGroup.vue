@@ -32,7 +32,7 @@ const props = withDefaults(defineProps<{
   errorMessage?: string
   label?: string
   description?: string
-  class?: string
+  class?: ClassValue
   /** Shorthand API: render switches from an array instead of the compound slot API */
   items?: SwitchShorthandItem[]
   /** Per-slot class overrides */

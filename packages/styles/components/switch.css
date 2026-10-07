@@ -190,7 +190,15 @@
 
 /* Switch content */
 .switch__content {
-  @apply flex flex-col gap-0 text-sm select-none;
+  /* text-start: the root is a <button>, whose UA style centers text — that
+     centered a wrapped label and its error message against each other. */
+  @apply flex flex-col gap-0 text-start text-sm select-none;
+}
+
+/* Error text under the label */
+.switch__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
 }
 
 /* Invalid: label color */

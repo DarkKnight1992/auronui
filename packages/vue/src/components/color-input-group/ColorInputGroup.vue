@@ -29,7 +29,7 @@ const props = withDefaults(defineProps<{
   readonly?: boolean
   fullWidth?: ColorInputGroupVariants['fullWidth']
   variant?: ColorInputGroupVariants['variant']
-  class?: string
+  class?: ClassValue
   as?: string
   asChild?: boolean
   name?: string

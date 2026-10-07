@@ -11,7 +11,7 @@ import {
   type Color,
 } from 'reka-ui'
 import { colorSwatchPickerVariants, type ColorSwatchPickerVariants } from '@auronui/styles'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { ColorPickerContextKey } from '../color-picker/color-picker.context'
 import { useColorState } from '../../composables/useColorState'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
@@ -26,7 +26,7 @@ const props = withDefaults(defineProps<{
   layout?: ColorSwatchPickerVariants['layout']
   size?: ColorSwatchPickerVariants['size']
   variant?: ColorSwatchPickerVariants['variant']
-  class?: string
+  class?: ClassValue
   as?: string
   asChild?: boolean
   name?: string

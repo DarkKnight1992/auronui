@@ -1,9 +1,11 @@
 <script setup lang="ts">
+import { useTemplateRef } from 'vue'
 import { DialogPortal, DialogContent, injectDialogRootContext } from 'reka-ui'
 import { motion, AnimatePresence } from 'motion-v'
-import { modalVariants } from '@auronui/styles/components/modal'
-import { composeClassName } from '../../utils/composeClassName'
+import { modalVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useOverlayLayer } from '../../composables/useOverlayLayer'
+import { useMountWhilePresent } from '../../composables/useMountWhilePresent'
 import { useModalInject } from './Modal.vue'
 import ModalOverlay from './ModalOverlay.vue'
 
@@ -15,7 +17,7 @@ const props = withDefaults(defineProps<{
   to?: string | HTMLElement
   disabled?: boolean
   defer?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   asChild: false,
   forceMount: false,
@@ -41,6 +43,13 @@ const dialogRootContext = injectDialogRootContext()
 
 const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
 
+// Only insert the wrapper into <body> while open (or animating out) — see
+// useMountWhilePresent for why a closed wrapper breaks nested dialogs.
+const portalEl = useTemplateRef<HTMLElement>('portalEl')
+const { isMounted } = useMountWhilePresent(dialogRootContext.open, portalEl, {
+  forceMount: () => props.forceMount,
+})
+
 const styles = modalVariants()
 </script>
 
@@ -51,7 +60,11 @@ const styles = modalVariants()
     :defer="props.defer"
     :force-mount="props.forceMount"
   >
-    <div :class="styles.portal()">
+    <div
+      v-if="isMounted()"
+      ref="portalEl"
+      :class="styles.portal()"
+    >
       <ModalOverlay />
       <DialogContent
         :as="props.as"

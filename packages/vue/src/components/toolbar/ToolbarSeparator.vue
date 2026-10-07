@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { computed } from 'vue'
 import { ToolbarSeparator as RekaToolbarSeparator } from 'reka-ui'
-import { composeClassName } from '../../utils/composeClassName'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useToolbarInject } from './toolbar.context'
 
 const props = defineProps<{
-  class?: string
+  class?: ClassValue
   /** Render as a different element */
   as?: string
   /** Merge props onto child element */

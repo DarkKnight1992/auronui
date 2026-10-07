@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { render, screen, waitFor } from "@testing-library/react";
+import { act, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
 import { Form } from "../Form";
@@ -153,6 +153,23 @@ describe("FormFieldArray", () => {
     });
   });
 
+  it("an array-level row-count error blocks submit", async () => {
+    const onSubmit = vi.fn();
+    const onInvalid = vi.fn();
+    render(
+      <Form onSubmit={onSubmit} onInvalid={onInvalid} defaultValues={{ contacts: [{ name: "Jane" }] }}>
+        <FormFieldArray name="contacts" rules={{ minLength: { value: 2, message: "Add at least two" } }}>
+          {() => null}
+        </FormFieldArray>
+        <button type="submit">Submit</button>
+      </Form>,
+    );
+    await userEvent.click(screen.getByRole("button", { name: "Submit" }));
+    await waitFor(() => expect(onInvalid).toHaveBeenCalledTimes(1));
+    expect(onInvalid.mock.calls[0]![0]).toHaveProperty(["contacts.root"]);
+    expect(onSubmit).not.toHaveBeenCalled();
+  });
+
   it("remove drops the targeted row", async () => {
     const onSubmit = vi.fn();
     render(<ContactsForm onSubmit={onSubmit} />);
@@ -196,5 +213,32 @@ describe("Form — accessibility", () => {
 
     const results = await axe.run(container);
     expect(results).toHaveNoViolations();
+  });
+});
+
+describe("Form — isSubmitting", () => {
+  it("stays true until an async onSubmit settles, then flips back", async () => {
+    let resolveSubmit!: () => void;
+    const onSubmit = vi.fn(() => new Promise<void>((resolve) => (resolveSubmit = resolve)));
+    render(
+      <Form onSubmit={onSubmit}>
+        {({ isSubmitting }) => (
+          <>
+            <span data-testid="submitting">{String(isSubmitting)}</span>
+            <button type="submit">Submit</button>
+          </>
+        )}
+      </Form>,
+    );
+
+    expect(screen.getByTestId("submitting")).toHaveTextContent("false");
+    await userEvent.click(screen.getByRole("button", { name: "Submit" }));
+    await waitFor(() => expect(onSubmit).toHaveBeenCalledTimes(1));
+    // The handler is still pending — the form must still report submitting.
+    await new Promise((r) => setTimeout(r, 20));
+    expect(screen.getByTestId("submitting")).toHaveTextContent("true");
+
+    await act(async () => resolveSubmit());
+    await waitFor(() => expect(screen.getByTestId("submitting")).toHaveTextContent("false"));
   });
 });

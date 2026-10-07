@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { ComboboxPortal, ComboboxContent, ComboboxViewport, injectComboboxRootContext } from 'reka-ui'
 import { motion, AnimatePresence } from 'motion-v'
 import { useSlots, watchEffect, type VNode } from 'vue'
@@ -6,7 +7,7 @@ import { useComboBoxInject } from './ComboBox.context'
 
 const props = withDefaults(defineProps<{
   sideOffset?: number
-  class?: string
+  class?: ClassValue
   /** Portal target selector or element. */
   to?: string | HTMLElement
   /** Disable the portal. */

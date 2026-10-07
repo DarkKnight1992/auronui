@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { safeHref } from '../../utils/safeHref'
 import { computed, h } from 'vue'
 import { useBreadcrumbsInject } from './breadcrumbs.context'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -38,7 +39,7 @@ const SeparatorRenderer = computed(() =>
   >
     <a
       v-if="props.href && !props.isLast"
-      :href="props.href"
+      :href="safeHref(props.href)"
       :class="composeClassName(ctx.slotFns.value.link(), props.classNames?.link)"
     >
       <slot />

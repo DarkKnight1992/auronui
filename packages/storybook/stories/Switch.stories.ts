@@ -162,6 +162,24 @@ export const Invalid: Story = {
   }),
 }
 
+export const WithErrorMessage: Story = {
+  name: 'With error message',
+  render: (args) => ({
+    components: { Switch },
+    setup() {
+      const enabled = ref(false)
+      return { args, enabled }
+    },
+    template: `
+      <div style="display:flex;flex-direction:column;gap:0.75rem">
+        <Switch v-bind="args" v-model="enabled" :is-invalid="!enabled" error-message="Two-factor authentication is required for admins">
+          Enable two-factor authentication
+        </Switch>
+      </div>
+    `,
+  }),
+}
+
 export const AllSizes: Story = {
   render: (args) => ({
     components: { Switch },

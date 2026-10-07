@@ -8,12 +8,12 @@
   cursor: var(--cursor-interactive);
 
   /* Align center when there's no description */
-  &:not(:has([data-slot="description"])) {
+  &:not(:has([data-slot="description"], [data-slot="error-message"])) {
     @apply items-center;
   }
 
   /* Align start when there's a description */
-  &:has([data-slot="description"]) {
+  &:has([data-slot="description"], [data-slot="error-message"]) {
     @apply items-start;
   }
 
@@ -100,7 +100,7 @@
   cursor: var(--cursor-interactive);
 
   /* Add top margin when there's a description */
-  .checkbox:has([data-slot="description"]) & {
+  .checkbox:has([data-slot="description"], [data-slot="error-message"]) & {
     @apply mt-0.5;
   }
 
@@ -215,7 +215,15 @@
    ========================================================================== */
 
 .checkbox__content {
-  @apply flex flex-col gap-0;
+  /* text-start: the root is a <button>, whose UA style centers text — that
+     centered a wrapped label and its error message against each other. */
+  @apply flex flex-col gap-0 text-start;
+}
+
+/* Error text under the label; danger-coloured like the invalid label itself */
+.checkbox__error-message {
+  @apply text-xs;
+  color: var(--color-danger);
 }
 
 /* ==========================================================================

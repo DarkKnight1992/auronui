@@ -1,4 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
@@ -55,5 +56,18 @@ describe("Input", () => {
     );
     const results = await axe.run(container);
     expect(results).toHaveNoViolations();
+  });
+});
+
+describe("Input — ref", () => {
+  it("forwards a ref to the native element so focus()/blur() work", () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<Input ref={ref} label="Name" />);
+    const native = screen.getByRole("textbox", { name: "Name" });
+    expect(ref.current).toBe(native);
+    ref.current!.focus();
+    expect(native).toHaveFocus();
+    ref.current!.blur();
+    expect(native).not.toHaveFocus();
   });
 });

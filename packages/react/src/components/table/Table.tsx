@@ -65,6 +65,18 @@ export interface TableProps<TData extends RowData = RowData> {
    * with no pagination row model applied.
    */
   pagination?: TablePaginationOptions;
+  /** Controlled sort state (TanStack `SortingState`). Uncontrolled when undefined. */
+  sorting?: SortingState;
+  /** Fired on every header-driven sort change, whether `sorting` is controlled or not. */
+  onSortingChange?: (sorting: SortingState) => void;
+  /**
+   * Server-side sorting: `data` is assumed to already be in the requested
+   * order, so the table never reorders rows itself. Headers still toggle and
+   * report the requested sort via `onSortingChange`. Use together with
+   * `pagination.manual` — otherwise a header click sorts only the rows of
+   * the current page. Default: false
+   */
+  manualSorting?: boolean;
   /** Current page, 1-indexed. Default: 1 (uncontrolled if unbound). */
   page?: number;
   onPageChange?: (page: number) => void;
@@ -131,6 +143,9 @@ export function Table<TData extends RowData = RowData>({
   estimatedRowHeight = 44,
   virtualizerOverscan = 8,
   pagination,
+  sorting,
+  onSortingChange,
+  manualSorting = false,
   page,
   onPageChange,
   pageSizeOptions,
@@ -141,8 +156,9 @@ export function Table<TData extends RowData = RowData>({
   renderCell,
   footer,
 }: TableProps<TData>) {
-  // --- Sorting state ------------------------------------------------------
-  const [sorting, setSorting] = useState<SortingState>([]);
+  // --- Sorting state (controlled/uncontrolled) ----------------------------
+  const [internalSorting, setInternalSorting] = useState<SortingState>(sorting ?? []);
+  const resolvedSorting = sorting ?? internalSorting;
 
   // --- Row selection state (controlled/uncontrolled) ----------------------
   const [internalRowSelection, setInternalRowSelection] = useState<RowSelectionState>(rowSelection ?? {});
@@ -218,12 +234,14 @@ export function Table<TData extends RowData = RowData>({
     data,
     columns: effectiveColumns,
     state: {
-      sorting,
+      sorting: resolvedSorting,
       rowSelection: resolvedRowSelection,
       pagination: paginationState,
     },
     onSortingChange: (updater) => {
-      setSorting((prev) => (typeof updater === "function" ? updater(prev) : updater));
+      const next = typeof updater === "function" ? updater(resolvedSorting) : updater;
+      setInternalSorting(next);
+      onSortingChange?.(next);
     },
     onRowSelectionChange: updateRowSelection,
     getRowId: (row: TData, index: number) => (getKey ? getKey(row, index) : defaultGetRowId(row, index)),
@@ -239,6 +257,7 @@ export function Table<TData extends RowData = RowData>({
     enableMultiRowSelection: selection === "multiple",
     getCoreRowModel: getCoreRowModel(),
     getSortedRowModel: getSortedRowModel(),
+    manualSorting,
     getPaginationRowModel: paginationEnabled ? getPaginationRowModel() : undefined,
     manualPagination: isManualPagination,
     pageCount: isManualPagination ? Math.ceil(paginationTotalItems / internalPageSize) : undefined,

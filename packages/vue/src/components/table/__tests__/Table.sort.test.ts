@@ -98,3 +98,35 @@ describe('Table — sorting', () => {
     expect(name.attributes('data-allows-sorting')).toBe('true')
   })
 })
+
+describe('Table — controlled / manual sorting', () => {
+  function mountControlled(props: Record<string, unknown>) {
+    return mount(Table as any, { props: { columns: sortableColumns, data, ...props } })
+  }
+
+  it('emits update:sorting when a sortable header is clicked', async () => {
+    const wrapper = mountControlled({})
+    await wrapper.findAll('th[role="columnheader"]')[0].trigger('click')
+    expect(wrapper.emitted('update:sorting')?.[0]).toEqual([[{ id: 'name', desc: false }]])
+  })
+
+  it('reflects a controlled sorting prop in aria-sort and row order', async () => {
+    const wrapper = mountControlled({ sorting: [{ id: 'age', desc: true }] })
+    const ageHeader = wrapper.findAll('th[role="columnheader"]')[1]
+    expect(ageHeader.attributes('aria-sort')).toBe('descending')
+    expect(getCellText(wrapper, 0, 0)).toBe('Charlie')
+    await wrapper.setProps({ sorting: [{ id: 'name', desc: false }] })
+    expect(getCellText(wrapper, 0, 0)).toBe('Alice')
+  })
+
+  it('manual-sorting leaves row order to the caller but still reports the sort', async () => {
+    const wrapper = mountControlled({ manualSorting: true })
+    const nameHeader = wrapper.findAll('th[role="columnheader"]')[0]
+    await nameHeader.trigger('click')
+    expect(wrapper.emitted('update:sorting')?.[0]).toEqual([[{ id: 'name', desc: false }]])
+    expect(nameHeader.attributes('aria-sort')).toBe('ascending')
+    // data order unchanged: Charlie, Alice, Bob
+    expect(getCellText(wrapper, 0, 0)).toBe('Charlie')
+    expect(getCellText(wrapper, 1, 0)).toBe('Alice')
+  })
+})

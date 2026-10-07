@@ -1,10 +1,10 @@
 <script setup lang="ts">
-import { alertDialogVariants } from '@auronui/styles/components/alert-dialog'
-import { composeClassName } from '../../utils/composeClassName'
+import { alertDialogVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useAlertDialogInject } from './AlertDialog.vue'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
   status?: 'default' | 'accent' | 'danger' | 'success' | 'warning'
 }>(), {})
 

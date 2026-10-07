@@ -14,6 +14,8 @@ import { DEFAULT_SWITCH_GROUP_CONTEXT, useSwitchGroupContext } from "./switch-gr
 export interface SwitchOwnProps {
   size?: SwitchVariants["size"];
   isInvalid?: boolean;
+  /** Error text shown under the label while `isInvalid`. */
+  errorMessage?: string;
   /** Value used to identify this switch within a SwitchGroup. */
   value?: string;
   /** Controlled checked state (standalone mode only — ignored inside a SwitchGroup). */
@@ -34,6 +36,7 @@ export interface SwitchOwnProps {
     control: ClassValue;
     thumb: ClassValue;
     content: ClassValue;
+    errorMessage: ClassValue;
   }>;
   onChange?: (isSelected: boolean) => void;
   children?: ReactNode;
@@ -59,6 +62,7 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   {
     size,
     isInvalid = false,
+    errorMessage,
     value,
     isSelected,
     defaultSelected = false,
@@ -99,6 +103,11 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
   // group disabled ALWAYS wins over child prop; all other props: child prop wins over group value
   const effectiveDisabled = groupCtx.disabled || resolvedDisabled;
   const effectiveInvalid = groupCtx.isInvalid || isInvalid;
+  const errorId = `${generatedId}-error`;
+  const showError = effectiveInvalid && !!errorMessage;
+  // Merged with any consumer-supplied aria-describedby rather than replacing it.
+  const ariaDescribedBy =
+    [rest["aria-describedby"], showError ? errorId : undefined].filter(Boolean).join(" ") || undefined;
   const finalSize = size ?? groupCtx.size;
   const isInGroup = value !== undefined;
 
@@ -143,12 +152,27 @@ export const Switch = forwardRef<HTMLButtonElement, SwitchProps>(function Switch
         className={composeClassName(slotFns.base(), className, classNames?.base)}
         onClick={handleClick}
         {...rest}
+        aria-describedby={ariaDescribedBy}
       >
         <span className={composeClassName(slotFns.control(), classNames?.control)}>
           <span className={composeClassName(slotFns.thumb(), classNames?.thumb)} />
         </span>
-        {children != null && (
-          <span className={composeClassName(slotFns.content(), classNames?.content)}>{children}</span>
+        {(children != null || showError) && (
+          <span className={composeClassName(slotFns.content(), classNames?.content)}>
+            {children}
+          {/* Inside the label so it sits under the label text, but aria-hidden so
+              it stays out of the accessible name; aria-describedby announces it. */}
+          {showError && (
+            <span
+              id={errorId}
+              aria-hidden="true"
+              data-slot="error-message"
+              className={composeClassName(slotFns.errorMessage(), classNames?.errorMessage)}
+            >
+              {errorMessage}
+            </span>
+          )}
+          </span>
         )}
       </button>
       {/* Buttons can't contain interactive content, so the hidden form-submission

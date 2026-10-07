@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
@@ -30,5 +31,18 @@ describe("SearchField", () => {
     const { container } = render(<SearchField label="Search" description="Filter results" />);
     const results = await axe.run(container);
     expect(results).toHaveNoViolations();
+  });
+});
+
+describe("SearchField — ref", () => {
+  it("forwards a ref to the native element so focus()/blur() work", () => {
+    const ref = createRef<HTMLInputElement>();
+    render(<SearchField ref={ref} label="Search" />);
+    const native = screen.getByRole("searchbox", { name: "Search" });
+    expect(ref.current).toBe(native);
+    ref.current!.focus();
+    expect(native).toHaveFocus();
+    ref.current!.blur();
+    expect(native).not.toHaveFocus();
   });
 });

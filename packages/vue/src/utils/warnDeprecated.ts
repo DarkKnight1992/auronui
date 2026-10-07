@@ -1,11 +1,26 @@
 const warned = new Set<string>()
 
+// Gated on `process.env.NODE_ENV`, never Vite's env object: Vite statically
+// replaces the latter when building *this library*, which compiled every
+// warning here to a no-op in the published package. `process.env.NODE_ENV` is
+// left for the consumer's bundler to replace (Vite, webpack and Nuxt all do),
+// the convention Vue's own esm-bundler build relies on. Written as the bare
+// expression — not behind a `typeof process` check — so that replacement
+// happens in the browser too; the try/catch covers unbundled ESM.
+function isDev(): boolean {
+  try {
+    return process.env.NODE_ENV !== 'production'
+  } catch {
+    return false
+  }
+}
+
 export function warnDeprecatedVariant(
   component: string,
   deprecated: string,
   canonical: string,
 ): void {
-  if (!import.meta.env.DEV) return
+  if (!isDev()) return
   const key = `${component}:${deprecated}`
   if (warned.has(key)) return
   warned.add(key)
@@ -19,7 +34,7 @@ export function warnDeprecatedProp(
   deprecated: string,
   canonical: string,
 ): void {
-  if (!import.meta.env.DEV) return
+  if (!isDev()) return
   const key = `${component}:prop:${deprecated}`
   if (warned.has(key)) return
   warned.add(key)
@@ -34,7 +49,7 @@ export function warnConflictingProps(
   propB: string,
   resolution: string,
 ): void {
-  if (!import.meta.env.DEV) return
+  if (!isDev()) return
   const key = `${component}:conflict:${propA}:${propB}`
   if (warned.has(key)) return
   warned.add(key)
@@ -47,7 +62,7 @@ export function warnPanelOrderMismatch(
   domIndex: number,
   registrationIndex: number,
 ): void {
-  if (!import.meta.env.DEV) return
+  if (!isDev()) return
   const key = 'SplitterPanel:order-mismatch'
   if (warned.has(key)) return
   warned.add(key)
@@ -58,6 +73,31 @@ export function warnPanelOrderMismatch(
     + `order — while resize handles take their pivot from the DOM, so dragging a handle `
     + `will resize the wrong panels. Give every conditionally rendered SplitterPanel an `
     + `explicit "order" (and a stable "id").`,
+  )
+}
+
+/**
+ * reka-ui reserves `""` as the Select value that clears the selection, and
+ * throws a generic error for a `<SelectItem value="">`. Say what to do instead.
+ */
+export function warnEmptySelectItemValue(): void {
+  if (!isDev()) return
+  const key = 'SelectItem:empty-value'
+  if (warned.has(key)) return
+  warned.add(key)
+  console.warn(
+    `[AuronUI] SelectItem: value="" is not allowed — reka-ui reserves the empty string `
+    + `for clearing the selection (it shows the placeholder). For an "any"/"none" option, `
+    + `use a sentinel value such as value="__none__" and map it in your handler.`,
+  )
+}
+
+/** A link component dropped a `javascript:` / `vbscript:` href (see safeHref). */
+export function warnUnsafeHref(href: string): void {
+  if (!isDev()) return
+  console.warn(
+    `[AuronUI] Blocked a script URL in href ("${href.slice(0, 40)}"). The link is rendered `
+    + `without an href. Validate user-supplied URLs before passing them to a link.`,
   )
 }
 
@@ -77,7 +117,7 @@ export function warnDefaultValueShadow(
   name: string,
   formValue: unknown,
 ): void {
-  if (!import.meta.env.DEV) return
+  if (!isDev()) return
   const key = `FormField:default-shadow:${name}`
   if (warned.has(key)) return
   warned.add(key)

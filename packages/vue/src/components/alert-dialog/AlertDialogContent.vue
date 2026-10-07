@@ -1,13 +1,15 @@
 <script setup lang="ts">
+import { useTemplateRef } from 'vue'
 import { AlertDialogPortal, AlertDialogContent, injectDialogRootContext } from 'reka-ui'
-import { alertDialogVariants } from '@auronui/styles/components/alert-dialog'
-import { composeClassName } from '../../utils/composeClassName'
+import { alertDialogVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 import { useOverlayLayer } from '../../composables/useOverlayLayer'
+import { useMountWhilePresent } from '../../composables/useMountWhilePresent'
 import { useAlertDialogInject } from './AlertDialog.vue'
 import AlertDialogOverlay from './AlertDialogOverlay.vue'
 
 const props = withDefaults(defineProps<{
-  class?: string
+  class?: ClassValue
   to?: string | HTMLElement
   disabled?: boolean
   defer?: boolean
@@ -33,6 +35,13 @@ const styles = alertDialogVariants()
 // the same context key Modal/Drawer use — see useOverlayLayer for why.
 const dialogRootContext = injectDialogRootContext()
 const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.open)
+
+// Only insert the container into <body> while open (or animating out) — see
+// useMountWhilePresent for why a closed container breaks nested dialogs.
+const containerEl = useTemplateRef<HTMLElement>('containerEl')
+const { isMounted } = useMountWhilePresent(dialogRootContext.open, containerEl, {
+  forceMount: () => !!props.forceMount,
+})
 </script>
 
 <template>
@@ -44,6 +53,8 @@ const { panelZIndex } = useOverlayLayer(dialogRootContext, dialogRootContext.ope
   >
     <AlertDialogOverlay />
     <div
+      v-if="isMounted()"
+      ref="containerEl"
       :class="styles.container()"
       :style="{ '--z-modal': panelZIndex }"
       :data-placement="ctx.placement"

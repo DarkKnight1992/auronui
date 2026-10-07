@@ -408,3 +408,36 @@ describe('Form — :default-values prop', () => {
     expect(val.value).toBe('admin')
   })
 })
+
+describe('Form — async @submit handler', () => {
+  it('keeps isSubmitting true until an async @submit handler settles', async () => {
+    let release!: () => void
+    const onSubmit = vi.fn(() => new Promise<void>((r) => { release = r }))
+    const Wrapper = defineComponent({
+      components: { Form },
+      setup: () => ({ onSubmit }),
+      template: `<Form v-slot="{ isSubmitting }" @submit="onSubmit"><span :data-v="String(isSubmitting)" /></Form>`,
+    })
+    const wrapper = mount(Wrapper)
+    await wrapper.find('form').trigger('submit')
+    await flushPromises()
+    expect(onSubmit).toHaveBeenCalledTimes(1)
+    expect(wrapper.find('[data-v]').attributes('data-v')).toBe('true')
+    release()
+    await flushPromises()
+    expect(wrapper.find('[data-v]').attributes('data-v')).toBe('false')
+  })
+
+  it('still passes values and setErrors to @submit', async () => {
+    const onSubmit = vi.fn()
+    const Wrapper = defineComponent({
+      components: { Form },
+      setup: () => ({ onSubmit }),
+      template: `<Form @submit="onSubmit"><span /></Form>`,
+    })
+    const wrapper = mount(Wrapper)
+    await wrapper.find('form').trigger('submit')
+    await flushPromises()
+    expect(onSubmit).toHaveBeenCalledWith(expect.objectContaining({ values: {}, setErrors: expect.any(Function) }))
+  })
+})

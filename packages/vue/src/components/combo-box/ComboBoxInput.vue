@@ -1,11 +1,12 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { ComboboxAnchor, ComboboxInput, ComboboxTrigger, ComboboxCancel } from 'reka-ui'
 import { useComboBoxInject } from './ComboBox.context'
 import { useDeprecatedBooleanProp } from '../../composables/useDeprecatedBooleanProp'
 
 const props = withDefaults(defineProps<{
   placeholder?: string
-  class?: string
+  class?: ClassValue
   /** Custom reference element for the anchor. */
   anchorReference?: object | null
   /** Render the anchor as a different element. */

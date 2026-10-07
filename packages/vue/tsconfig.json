@@ -9,6 +9,6 @@
       "reka-ui/dist/index3": ["./node_modules/reka-ui/dist/index3.d.ts"]
     }
   },
-  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts", "vitest.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.vue", "vite.config.ts", "vite.external.ts", "vitest.config.ts"],
   "exclude": ["dist", "node_modules", "src/style-smoke-test.ts"]
 }

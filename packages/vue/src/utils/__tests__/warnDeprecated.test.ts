@@ -2,7 +2,7 @@ import { describe, it, expect, vi, beforeEach, afterEach } from 'vitest'
 
 describe('warnDeprecatedVariant', () => {
   beforeEach(() => {
-    vi.stubEnv('DEV', true)
+    vi.stubEnv('NODE_ENV', 'development')
     vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
@@ -37,7 +37,7 @@ describe('warnDeprecatedVariant', () => {
   })
 
   it('suppresses warning when DEV is false', async () => {
-    vi.stubEnv('DEV', false)
+    vi.stubEnv('NODE_ENV', 'production')
     const { warnDeprecatedVariant } = await import('../warnDeprecated')
     warnDeprecatedVariant('Button', 'outline', 'bordered')
     expect(console.warn).not.toHaveBeenCalled()
@@ -46,7 +46,7 @@ describe('warnDeprecatedVariant', () => {
 
 describe('warnDeprecatedProp', () => {
   beforeEach(() => {
-    vi.stubEnv('DEV', true)
+    vi.stubEnv('NODE_ENV', 'development')
     vi.spyOn(console, 'warn').mockImplementation(() => {})
   })
 
@@ -80,7 +80,7 @@ describe('warnDeprecatedProp', () => {
   })
 
   it('suppresses warning when DEV is false', async () => {
-    vi.stubEnv('DEV', false)
+    vi.stubEnv('NODE_ENV', 'production')
     const { warnDeprecatedProp } = await import('../warnDeprecated')
     warnDeprecatedProp('Switch', 'disabled', 'isDisabled')
     expect(console.warn).not.toHaveBeenCalled()

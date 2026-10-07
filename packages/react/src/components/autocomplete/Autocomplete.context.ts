@@ -33,6 +33,10 @@ export interface AutocompleteContextValue {
   isSelected: (value: string) => boolean;
   /** Current search/filter term. */
   searchTerm: string;
+  /** Whether an item's label/text exactly matches the current term (hides the create row). */
+  hasExactMatch: boolean;
+  /** Commits `term` as a newly created value and fires the root's `onCreate`. */
+  onCreateValue: (term: string) => void;
 }
 
 export const {

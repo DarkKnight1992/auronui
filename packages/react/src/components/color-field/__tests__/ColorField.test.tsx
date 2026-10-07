@@ -59,3 +59,43 @@ describe("ColorField", () => {
     expect(container.querySelector(".custom-end")).not.toBeNull();
   });
 });
+
+describe("ColorField — empty value", () => {
+  it.each(["", null])("shows an empty input (and its placeholder) for a %j value", (v) => {
+    render(<ColorField value={v} placeholder="No colour" label="Color" />);
+    const input = screen.getByLabelText("Color") as HTMLInputElement;
+    expect(input.value).toBe("");
+    expect(input.placeholder).toBe("No colour");
+  });
+
+  it("stays empty after focus and blur without typing, and emits nothing", async () => {
+    const onChange = vi.fn();
+    render(<ColorField value="" onChange={onChange} label="Color" />);
+    const input = screen.getByLabelText("Color") as HTMLInputElement;
+    await userEvent.click(input);
+    await userEvent.tab();
+    expect(input.value).toBe("");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("reverts to empty (not black) when invalid text is blurred", async () => {
+    const onChange = vi.fn();
+    render(<ColorField value="" onChange={onChange} label="Color" />);
+    const input = screen.getByLabelText("Color") as HTMLInputElement;
+    await userEvent.type(input, "zz");
+    await userEvent.tab();
+    expect(input.value).toBe("");
+    expect(onChange).not.toHaveBeenCalled();
+  });
+
+  it("accepts a typed colour starting from empty", async () => {
+    const onChange = vi.fn();
+    render(<ColorField value="" onChange={onChange} label="Color" />);
+    const input = screen.getByLabelText("Color") as HTMLInputElement;
+    await userEvent.type(input, "#ff0000");
+    await userEvent.tab();
+    expect(onChange).toHaveBeenCalled();
+    expect(onChange.mock.calls.at(-1)![0].toString("hex")).toBe("#FF0000");
+    expect(input.value.toLowerCase()).toBe("#ff0000");
+  });
+});

@@ -76,6 +76,20 @@ export const Invalid: Story = {
   render: (args) => <Checkbox {...args}>I agree (required)</Checkbox>,
 };
 
+export const WithErrorMessage: Story = {
+  name: "With error message",
+  render: (args) => (
+    <div style={{ display: "flex", flexDirection: "column", gap: 12 }}>
+      <Checkbox {...args} isInvalid errorMessage="You must accept the terms to continue">
+        I accept the terms and conditions
+      </Checkbox>
+      <Checkbox {...args} isInvalid errorMessage="Required">
+        Short label
+      </Checkbox>
+    </div>
+  ),
+};
+
 export const Disabled: Story = {
   render: (args) => (
     <div style={{ display: "flex", flexDirection: "column", gap: 8 }}>

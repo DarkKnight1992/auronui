@@ -12,6 +12,7 @@ export const switchVariants = tv({
     control: "switch__control",
     icon: "switch__icon",
     thumb: "switch__thumb",
+    errorMessage: "switch__error-message",
   },
   variants: {
     size: {

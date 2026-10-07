@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { toRef } from 'vue'
 import { DropdownMenuRoot } from 'reka-ui'
 import { useDropdownProvide } from './Dropdown.context'
@@ -19,7 +20,7 @@ const props = withDefaults(defineProps<{
   size?: 'sm' | 'md' | 'lg'
   closeOnSelect?: boolean
   disableAnimation?: boolean
-  class?: string
+  class?: ClassValue
   /** Controlled open state of the dropdown. */
   open?: boolean
   /** Text direction for the dropdown. */

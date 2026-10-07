@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { TooltipTrigger } from 'reka-ui'
-import { tooltipVariants } from '@auronui/styles/components/tooltip'
+import { tooltipVariants } from '@auronui/styles'
 import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = defineProps<{

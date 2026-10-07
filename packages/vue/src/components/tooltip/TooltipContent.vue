@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { TooltipPortal, TooltipContent } from 'reka-ui'
-import { tooltipVariants } from '@auronui/styles/components/tooltip'
-import { composeClassName } from '../../utils/composeClassName'
+import { tooltipVariants } from '@auronui/styles'
+import { composeClassName, type ClassValue } from '../../utils/composeClassName'
 
 const props = withDefaults(defineProps<{
   side?: 'top' | 'right' | 'bottom' | 'left'
@@ -21,7 +21,7 @@ const props = withDefaults(defineProps<{
   updatePositionStrategy?: 'always' | 'optimized'
   disableUpdateOnLayoutShift?: boolean
   prioritizePosition?: boolean
-  class?: string
+  class?: ClassValue
 }>(), {
   side: 'top',
   sideOffset: 8,

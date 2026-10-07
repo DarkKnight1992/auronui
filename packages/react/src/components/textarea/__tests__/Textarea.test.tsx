@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { createRef } from "react";
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import axe from "axe-core";
@@ -32,5 +33,18 @@ describe("Textarea", () => {
     const { container } = render(<Textarea label="Bio" description="Tell us about you" isRequired />);
     const results = await axe.run(container);
     expect(results).toHaveNoViolations();
+  });
+});
+
+describe("Textarea — ref", () => {
+  it("forwards a ref to the native element so focus()/blur() work", () => {
+    const ref = createRef<HTMLTextAreaElement>();
+    render(<Textarea ref={ref} label="Bio" />);
+    const native = screen.getByRole("textbox", { name: "Bio" });
+    expect(ref.current).toBe(native);
+    ref.current!.focus();
+    expect(native).toHaveFocus();
+    ref.current!.blur();
+    expect(native).not.toHaveFocus();
   });
 });

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import type { ClassValue } from '../../utils/composeClassName'
 import { computed } from "vue";
 import { descriptionVariants } from "@auronui/styles";
 import { composeClassName } from "../../utils/composeClassName";
@@ -6,7 +7,7 @@ import { composeClassName } from "../../utils/composeClassName";
 const props = withDefaults(
   defineProps<{
     id?: string;
-    class?: string;
+    class?: ClassValue;
   }>(),
   {},
 );
