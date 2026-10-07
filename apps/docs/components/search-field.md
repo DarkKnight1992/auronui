@@ -48,6 +48,25 @@ const query = ref('');
 
 <EventsTable name="SearchField" />
 
+## Template ref
+
+`SearchField` (like `Input` and `Textarea`) exposes `focus()`, `blur()` and
+`el` — the native `<input>` element — through a template ref:
+
+```vue
+<script setup>
+import { useTemplateRef } from 'vue'
+import { SearchField } from '@auronui/vue'
+
+const search = useTemplateRef('search')
+// search.value?.focus()
+</script>
+
+<template>
+  <SearchField ref="search" v-model="query" label="Search" />
+</template>
+```
+
 ## Accessibility
 
 - **Search icon.** The default `startContent` is a decorative magnifying-glass `<svg>` marked

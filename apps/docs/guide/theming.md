@@ -16,29 +16,27 @@ Override any token by redefining it on `:root` (or a scoped selector) **after** 
 /* --- Your overrides go here --- */
 :root {
   /* Primary color (oklch, rgb, hsl, hex — all accepted) */
-  --auron-primary: oklch(55% 0.2 262);
-  --auron-primary-foreground: #ffffff;
+  --primary: oklch(55% 0.2 262);
+  --primary-foreground: #ffffff;
 
   /* Danger/error */
-  --auron-danger: oklch(60% 0.22 25);
-  --auron-danger-foreground: #ffffff;
+  --danger: oklch(60% 0.22 25);
+  --danger-foreground: #ffffff;
 
   /* Success */
-  --auron-success: oklch(65% 0.18 145);
-  --auron-success-foreground: #ffffff;
+  --success: oklch(65% 0.18 145);
+  --success-foreground: #ffffff;
 
   /* Warning */
-  --auron-warning: oklch(75% 0.18 75);
-  --auron-warning-foreground: #000000;
+  --warning: oklch(75% 0.18 75);
+  --warning-foreground: #000000;
 
-  /* Border radius */
-  --auron-radius-small: 0.25rem;
-  --auron-radius-medium: 0.5rem;
-  --auron-radius-large: 0.75rem;
+  /* Corner radius — fields derive theirs from it (--field-radius) */
+  --radius: 0.5rem;
 }
 ```
 
-These variables flow into every component through `@auronui/styles` — changing `--auron-primary` automatically updates buttons, badges, checkboxes, and any other component that uses the `color="primary"` variant.
+These variables flow into every component through `@auronui/styles` — changing `--primary` automatically updates buttons, badges, checkboxes, and any other component that uses the `color="primary"` variant.
 
 ## Dark Mode
 
@@ -49,7 +47,16 @@ Auron uses the `.dark` class approach, matching Tailwind CSS 4 convention. Add o
 document.documentElement.classList.toggle('dark')
 ```
 
-The `@auronui/styles` stylesheet ships dark-mode overrides inside a `.dark` selector block. No additional configuration is needed.
+The `@auronui/styles` stylesheet ships dark-mode tokens for `.dark` / `[data-theme="dark"]`, and also follows the OS setting (`prefers-color-scheme: dark`) unless the root carries `.light` / `[data-theme="light"]`. No additional configuration is needed.
+
+Every theme token block is declared with zero specificity (`:where(…)`), so a plain selector always wins — to re-theme dark mode, override the tokens under `.dark` (and, if you rely on the OS setting, inside your own `@media (prefers-color-scheme: dark) { :root { … } }`):
+
+```css
+.dark {
+  --surface: oklch(0.22 0.01 60);
+  --border: oklch(0.32 0.01 60);
+}
+```
 
 ```vue
 <script setup lang="ts">
@@ -68,6 +75,22 @@ function toggleDark() {
     {{ isDark ? 'Switch to light' : 'Switch to dark' }}
   </button>
 </template>
+```
+
+### Border colour
+
+`--border` is the theme's border colour token, defined separately for light
+mode and for dark mode (`.dark` / `[data-theme="dark"]` and
+`prefers-color-scheme: dark`). Bordered surfaces such as `variant="bordered"`
+fields use it directly, and other field borders resolve to
+`var(--field-border, var(--border))`. To change border colour in dark mode,
+override `--border` inside your dark selector:
+
+```css
+.dark,
+[data-theme="dark"] {
+  --border: oklch(35% 0.006 286);
+}
 ```
 
 ## Custom Variants

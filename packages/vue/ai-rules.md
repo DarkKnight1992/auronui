@@ -133,8 +133,10 @@ import { Button, Modal, ModalContent } from '@auronui/vue'
 </select>
 
 <!-- ✅ Always -->
-<Select v-model="country" label="Country" placeholder="Select country">
-  <SelectTrigger />
+<Select v-model="country" label="Country">
+  <SelectTrigger>
+    <SelectValue placeholder="Select country" />
+  </SelectTrigger>
   <SelectContent>
     <SelectItem value="us">United States</SelectItem>
     <SelectItem value="gb">United Kingdom</SelectItem>
@@ -242,6 +244,7 @@ same component for single-tag rendering.
 ```vue
 <Chip variant="soft" color="primary" :is-closable="true" @close="remove">Label</Chip>
 <!-- variant: solid | soft | bordered | text — defaults to solid -->
+<!-- color: primary | secondary | accent | danger | default | success | warning — defaults to default -->
 ```
 
 **Text** — semantic text with size/weight variants
@@ -388,6 +391,20 @@ same component for single-tag rendering.
 <!-- showPasswordToggle: boolean (for type="password") -->
 ```
 
+`Input`, `Textarea` and `SearchField` expose `focus()`, `blur()` and `el` (the
+native element) through a template ref:
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef } from 'vue'
+const emailInput = useTemplateRef('emailInput')
+// emailInput.value?.focus()  ·  emailInput.value?.el
+</script>
+<template>
+  <Input ref="emailInput" v-model="email" label="Email" />
+</template>
+```
+
 **Textarea** — multiline text input
 ```vue
 <Textarea v-model="bio" label="Bio" :min-rows="3" />
@@ -424,16 +441,30 @@ same component for single-tag rendering.
 <Switch v-model="enabled">Notifications</Switch>
 ```
 
-**Select** — dropdown select
+**Select** — dropdown select. Either pass data through `:items` (the
+terse API — trigger, value and list are rendered for you):
 ```vue
-<Select v-model="country" label="Country" placeholder="Pick one">
-  <SelectTrigger />
+<Select v-model="country" label="Country" placeholder="Pick one" :items="countries" />
+<!-- items: { value: string | number, label?, textValue?, isDisabled? }[] -->
+```
+or compose it yourself:
+```vue
+<Select v-model="country" label="Country">
+  <SelectTrigger>
+    <SelectValue placeholder="Pick one" />
+  </SelectTrigger>
   <SelectContent>
     <SelectItem value="us">United States</SelectItem>
     <SelectItem value="gb">United Kingdom</SelectItem>
   </SelectContent>
 </Select>
 ```
+- A bare `<SelectTrigger />` is also valid: it renders `<SelectValue />` with
+  the Select's `placeholder` by default.
+- With no visible `label`, put `aria-label` on `<Select>` — it is forwarded to
+  the combobox trigger.
+- **Never use `<SelectItem value="">`** — reka-ui reserves `""` for clearing the
+  selection and throws. Use a sentinel value instead (e.g. `value="none"`).
 
 **InputOTP** — one-time password input
 ```vue
@@ -448,26 +479,58 @@ same component for single-tag rendering.
 </Fieldset>
 ```
 
-**Form / FormField** — form wrapper with validation
+**Form / FormField / FormControl** — form wrapper with validation.
+`FormField` is slot-only: it renders no element and passes nothing to its
+children implicitly. Bind its `fieldProps` slot prop onto the control —
+it carries `name`, `modelValue`, `onUpdate:modelValue`, `isInvalid`,
+`errorMessage`, `isDisabled` and `onBlur`. Do NOT put `v-model` on the control;
+the field owns the value, and `@submit` receives it as `values`.
 ```vue
-<Form @submit="onSubmit">
-  <FormField name="email" :rules="{ required: true }">
-    <Input v-model="email" label="Email" />
+<Form :default-values="{ email: '' }" @submit="onSubmit">
+  <FormField name="email" :rules="{ required: true, email: true }" v-slot="{ fieldProps }">
+    <Input v-bind="fieldProps" label="Email" />
   </FormField>
+  <Button type="submit">Save</Button>
+</Form>
+<!-- onSubmit({ values, setErrors }) — values is nested by field-name path -->
+```
+`FormControl` is the shortcut: it renders a `FormField` and binds `fieldProps`
+onto the component named by `as` (only the props that component declares).
+Other attributes and the default slot pass through to the control.
+```vue
+<Form :default-values="settings" @submit="onSave">
+  <FormControl name="auth_factor.force_mfa" :as="Checkbox">Require MFA</FormControl>
+  <FormControl name="password.min_length" :as="NumberField" label="Minimum length" />
+  <FormControl name="email" :as="Input" label="Email" :rules="{ required: true }" />
 </Form>
 ```
+- Field names are paths: `auth_factor.force_mfa` reads/writes
+  `settings.auth_factor.force_mfa` in `default-values` and in `values`.
+- Prefer `FormControl` (or `FormField` + `v-bind="fieldProps"`) over a custom
+  wrapper component that declares its own Boolean `defaultValue` prop: Vue casts
+  an absent Boolean prop to `false`, which overrides the form-level default.
+- `useForm()` returns a headless handle; `<Form :form="handle" :default-values="…">`
+  layers the prop over the handle's own `defaultValues` (the prop wins per path).
+- `isSubmitting` stays `true` until an async submit handler settles — both
+  `<Form @submit="async ({ values }) => …">` and `handle.handleSubmit(async …)`
+  are awaited — so it can drive a loading button.
 
 **FormFieldArray** — repeatable field group inside a Form (add/remove/reorder rows)
 ```vue
-<FormFieldArray name="contacts" v-slot="{ fields, append, remove }">
-  <div v-for="(row, i) in fields" :key="row.id">
-    <FormField :name="`${row.name}.email`">
-      <Input v-model="row.value.email" label="Email" />
+<FormFieldArray name="contacts" v-slot="{ fields, fieldName, append, remove }">
+  <div v-for="row in fields" :key="row.id">
+    <FormField
+      :name="fieldName(row.id, 'email')"
+      :default-value="row.defaultValue.email"
+      v-slot="{ fieldProps }"
+    >
+      <Input v-bind="fieldProps" label="Email" />
     </FormField>
-    <Button @click="remove(i)">Remove</Button>
+    <Button @click="remove(row.id)">Remove</Button>
   </div>
   <Button @click="append({ email: '' })">Add contact</Button>
 </FormFieldArray>
+<!-- rows: { id, index, defaultValue } — key by row.id; remove() takes the row id -->
 ```
 
 **InputGroup** — bordered box for merging icons/buttons with a bare input
@@ -590,12 +653,12 @@ same component for single-tag rendering.
 
 **Alert** — inline status message
 ```vue
-<Alert severity="success">
+<Alert severity="success" :is-closable="true">
   <AlertIcon />
   <AlertTitle>Done!</AlertTitle>
   <AlertDescription>Your changes were saved.</AlertDescription>
 </Alert>
-<!-- severity: info | success | warning | danger -->
+<!-- severity: default | primary | accent | success | warning | danger — defaults to default (there is no `info`) -->
 ```
 
 **Toast** — ephemeral notification (imperative API)
@@ -647,6 +710,9 @@ function notify() {
 <!-- variant: primary | secondary — defaults to primary -->
 <!-- orientation: horizontal | vertical — defaults to horizontal -->
 ```
+Hidden `TabPanel`s are unmounted by default (`unmountOnHide` defaults to
+`true`), so panel state is lost on switch. Pass `:unmount-on-hide="false"` on
+`<Tabs>` to keep every panel mounted.
 
 **Accordion** — collapsible sections
 ```vue
@@ -700,13 +766,17 @@ function notify() {
 
 **Pagination** — page navigation
 ```vue
-<Pagination v-model:page="page" :total="100" :per-page="10">
-  <PaginationContent>
+<Pagination v-model:page="page" :total-items="100" :items-per-page="10">
+  <PaginationContent v-slot="{ items }">
     <PaginationPrev />
-    <PaginationItem v-for="p in pages" :key="p" :value="p">{{ p }}</PaginationItem>
+    <template v-for="(item, i) in items" :key="item.type === 'page' ? item.value : `e-${i}`">
+      <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+      <PaginationEllipsis v-else />
+    </template>
     <PaginationNext />
   </PaginationContent>
 </Pagination>
+<!-- props: page (v-model:page) / itemsPerPage / totalItems / siblingCount / showEdges — there is no `total` or `perPage` -->
 ```
 
 **Sidebar** — vertical navigation with grouped sections and active-link detection
@@ -812,6 +882,28 @@ as data rather than as child components.
 <!-- multipleOverflow: wrap | collapse — how selected chips overflow -->
 <!-- debounceMs: async search debounce, default 200 -->
 ```
+- `:load-items="(query) => Promise<items>"` loads lazily — on first open or when
+  the user types — except that it loads on mount when a value is already
+  selected (so its label resolves). `:load-on-mount="true"` forces eager loading.
+- `:creatable="true"` adds a "Create …" option for text that matches nothing
+  (label via `create-label`, a string or `(term) => string`); choosing it sets
+  the typed text as the value and fires `@create(value)`.
+- **Custom chrome:** putting `<AutocompleteInput>` / `<AutocompleteContent>` in
+  the default slot replaces the built-in input and list entirely. You must then
+  render the `<AutocompleteItem>` children yourself (and `<AutocompleteCreateItem>`
+  if you want creation) — otherwise nothing is selectable. The slot exposes
+  `items` and `isLoading`.
+```vue
+<Autocomplete v-model="value" :load-items="search" label="User" v-slot="{ items, isLoading }">
+  <AutocompleteInput placeholder="Search users…" />
+  <AutocompleteContent>
+    <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+      {{ item.label }}
+    </AutocompleteItem>
+    <AutocompleteCreateItem />
+  </AutocompleteContent>
+</Autocomplete>
+```
 
 **Cascader** — chained/hierarchical select (region → city → district)
 ```vue
@@ -838,23 +930,39 @@ as data rather than as child components.
 
 ### Data Display
 
-**Table** — accessible data table
+**Table** — accessible data grid driven by TanStack Table. It is NOT a compound
+`<TableHeader>`/`<TableBody>`/`<TableRow>` API: pass `columns`
+(TanStack `ColumnDef[]`) and `data`, and the table renders header, rows and
+cells itself.
 ```vue
-<Table>
-  <TableHeader>
-    <TableRow>
-      <TableHeaderCell>Name</TableHeaderCell>
-      <TableHeaderCell>Role</TableHeaderCell>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow v-for="row in rows" :key="row.id">
-      <TableCell>{{ row.name }}</TableCell>
-      <TableCell>{{ row.role }}</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
+<script setup lang="ts">
+import type { ColumnDef } from '@tanstack/vue-table'
+type User = { id: string; name: string; role: string }
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'role', header: 'Role', enableSorting: false },
+]
+</script>
+<template>
+  <Table :columns="columns" :data="users" aria-label="Users" />
+</template>
+<!-- variant: primary | secondary — defaults to primary -->
+<!-- selection: none | single | multiple, with v-model:row-selection -->
+<!-- virtualRows: boolean | number — virtualize rows (always, or above N rows) -->
+<!-- #cell slot: { row, cell, column, value } — overrides cell rendering (non-virtual body) -->
+<!-- #footer slot: replaces the footer (including the built-in pagination) -->
 ```
+- **Pagination is built in:** `:pagination="{ pageSize: 10 }"` renders a
+  `Pagination` in the footer; bind `v-model:page` to control the page and
+  `:page-size-options="[10, 25, 50]"` to offer a rows-per-page select. For
+  server-side paging pass `{ pageSize, manual: true, totalItems }` and supply
+  only the current page's rows as `data`.
+- **Sorting:** `v-model:sorting` (TanStack `SortingState`, e.g.
+  `[{ id: 'name', desc: false }]`) controls the sort; omit it for uncontrolled
+  sorting. `:manual-sorting="true"` is for server-side sorting — `data` is
+  assumed to be already ordered and header clicks only emit `update:sorting`.
+  Use it together with `pagination.manual`, otherwise a header click sorts only
+  the rows of the current page.
 
 **Statistic** — labeled numeric stat with an optional trend indicator
 ```vue
@@ -1019,11 +1127,13 @@ All date and time components take `DateValue` / `Time` objects from
 **ColorField** — bare hex/channel text input for typing a color value
 ```vue
 <ColorField v-model="color" label="Hex color" />
+<!-- a model of '' or null means "no colour": the field shows empty instead of #000000 -->
 ```
 
 **ColorPickerInput** — compact hex field with a swatch trigger that opens the full ColorPicker in a popover
 ```vue
 <ColorPickerInput v-model="color" label="Accent color" />
+<!-- a model of '' means "no colour": the field shows empty until the user picks one -->
 ```
 
 **ColorArea** — 2D saturation/brightness pad, one building block of ColorPicker
@@ -1289,7 +1399,7 @@ Values shown are the complete accepted set; anything else is invalid.
   - sticky: partial | always
   - positionStrategy: fixed | absolute
   - updatePositionStrategy: always | optimized
-  - v-model: `v-model` (CalendarDateTime | null | undefined), `v-model:open` (boolean)
+  - v-model: `v-model` (CalendarDateTime | null | undefined), `v-model:open` (boolean | undefined)
 
 **Description**
 
@@ -1518,7 +1628,7 @@ Values shown are the complete accepted set; anything else is invalid.
   - sticky: partial | always
   - positionStrategy: fixed | absolute
   - updatePositionStrategy: always | optimized
-  - v-model: `v-model` (Time | null | undefined), `v-model:open` (boolean)
+  - v-model: `v-model` (Time | null | undefined), `v-model:open` (boolean | undefined)
 
 **TimeRangeField**
   - variant: flat | bordered | faded | underlined | raised — defaults to flat
@@ -1565,24 +1675,20 @@ Values shown are the complete accepted set; anything else is invalid.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Button, Input, Form, FormField, Link, Separator, Text } from '@auronui/vue'
 
-const email = ref('')
-const password = ref('')
-
-async function onSubmit() {
-  // handle login
+async function onSubmit({ values, setErrors }) {
+  // values = { email, password } — handle login; setErrors({ email: '…' }) for server errors
 }
 </script>
 
 <template>
-  <Form @submit="onSubmit" class="space-y-4 w-full max-w-sm">
-    <FormField name="email">
-      <Input v-model="email" type="email" label="Email" :is-required="true" />
+  <Form :default-values="{ email: '', password: '' }" @submit="onSubmit" class="space-y-4 w-full max-w-sm">
+    <FormField name="email" :rules="{ required: true, email: true }" v-slot="{ fieldProps }">
+      <Input v-bind="fieldProps" type="email" label="Email" :is-required="true" />
     </FormField>
-    <FormField name="password">
-      <Input v-model="password" type="password" label="Password" :show-password-toggle="true" />
+    <FormField name="password" :rules="{ required: true }" v-slot="{ fieldProps }">
+      <Input v-bind="fieldProps" type="password" label="Password" :show-password-toggle="true" />
     </FormField>
     <Button type="submit" color="primary" :full-width="true">Sign in</Button>
     <Separator />
@@ -1630,57 +1736,84 @@ const emit = defineEmits<{ deleted: [] }>()
 
 ### Data Table with Pagination
 
+Client-side: hand `Table` every row and let its built-in `pagination` page them.
+
 ```vue
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import {
-  Table, TableHeader, TableBody, TableRow, TableHeaderCell, TableCell,
-  Pagination, PaginationContent, PaginationItem, PaginationPrev, PaginationNext,
-  Spinner,
-} from '@auronui/vue'
+import { ref } from 'vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+import { Table, Chip, Spinner } from '@auronui/vue'
 
-const props = defineProps<{
-  rows: Array<{ id: string; name: string; email: string; role: string }>
-  loading?: boolean
-}>()
+type User = { id: string; name: string; email: string; role: string }
 
+defineProps<{ rows: User[]; loading?: boolean }>()
+
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'email', header: 'Email' },
+  { accessorKey: 'role', header: 'Role' },
+]
 const page = ref(1)
-const perPage = 10
-const totalPages = computed(() => Math.ceil(props.rows.length / perPage))
-const pageRows = computed(() =>
-  props.rows.slice((page.value - 1) * perPage, page.value * perPage)
-)
 </script>
 
 <template>
-  <div class="space-y-4">
-    <div v-if="loading" class="flex justify-center py-8">
-      <Spinner size="lg" color="primary" />
-    </div>
-    <Table v-else>
-      <TableHeader>
-        <TableRow>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Email</TableHeaderCell>
-          <TableHeaderCell>Role</TableHeaderCell>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="row in pageRows" :key="row.id">
-          <TableCell>{{ row.name }}</TableCell>
-          <TableCell>{{ row.email }}</TableCell>
-          <TableCell>{{ row.role }}</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-    <Pagination v-model:page="page" :total="rows.length" :per-page="perPage">
-      <PaginationContent>
-        <PaginationPrev />
-        <PaginationItem v-for="p in totalPages" :key="p" :value="p">{{ p }}</PaginationItem>
-        <PaginationNext />
-      </PaginationContent>
-    </Pagination>
+  <div v-if="loading" class="flex justify-center py-8">
+    <Spinner size="lg" color="primary" />
   </div>
+  <Table
+    v-else
+    v-model:page="page"
+    :columns="columns"
+    :data="rows"
+    :pagination="{ pageSize: 10 }"
+    :page-size-options="[10, 25, 50]"
+    aria-label="Users"
+  >
+    <template #cell="{ column, value }">
+      <Chip v-if="column.id === 'role'" size="sm" variant="soft">{{ value }}</Chip>
+      <template v-else>{{ value }}</template>
+    </template>
+  </Table>
+</template>
+```
+
+Server-side: the API returns one sorted page at a time, so both paging and
+sorting are manual — `data` is only the current page, already in order.
+
+```vue
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import type { ColumnDef, SortingState } from '@tanstack/vue-table'
+import { Table } from '@auronui/vue'
+
+type User = { id: string; name: string; email: string }
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'email', header: 'Email' },
+]
+
+const rows = ref<User[]>([])
+const total = ref(0)
+const page = ref(1)
+const sorting = ref<SortingState>([{ id: 'name', desc: false }])
+
+watch([page, sorting], async () => {
+  const res = await fetchUsers({ page: page.value, pageSize: 20, sort: sorting.value })
+  rows.value = res.rows
+  total.value = res.total
+}, { immediate: true })
+</script>
+
+<template>
+  <Table
+    v-model:page="page"
+    v-model:sorting="sorting"
+    :columns="columns"
+    :data="rows"
+    :pagination="{ pageSize: 20, manual: true, totalItems: total }"
+    :manual-sorting="true"
+    aria-label="Users"
+  />
 </template>
 ```
 
@@ -1723,7 +1856,9 @@ const { page, totalPages, nextPage, prevPage, goToPage, isFirst, isLast } = useP
 ```
 
 ```html
-<Pagination :page="page.value" :total="totalPages.value" @change="goToPage" />
+<Pagination :page="page" :items-per-page="pageSize" :total-items="totalItems" @update:page="onPageChange">
+  <PaginationContent v-slot="{ items }">…</PaginationContent>
+</Pagination>
 ```
 
 ### useStepper

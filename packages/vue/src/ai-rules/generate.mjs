@@ -241,6 +241,7 @@ const KNOWN_NON_COMPONENTS = new Set([
   'TabsList', 'TabsTrigger', 'TabsContent',
   // types / values referenced in prose, not components
   'Ref', 'DateValue', 'Time', 'File', 'Color', 'Partial', 'Record', 'Set', 'Array',
+  'SortingState', 'User', // TanStack type and an example row type in the Table examples
 ])
 
 function checkGhostComponents(md) {

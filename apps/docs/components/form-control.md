@@ -175,6 +175,48 @@ The type-only form cannot express this. In development, `FormField` warns when
 a field-level `false` shadows a truthy form-level default, since that is almost
 always this bug rather than a deliberate override.
 
+## With a `useForm()` handle
+
+`<Form :form="handle">` uses the handle's state instead of creating its own.
+A `:default-values` prop passed alongside it is layered over the handle's own
+`defaultValues` — the prop wins path by path, and paths it does not define
+fall back to the handle:
+
+```vue
+<script setup>
+import { Form, FormControl, Input, useForm } from '@auronui/vue'
+
+const form = useForm({ defaultValues: { team: { slug: 'core' } } })
+const fetched = { name: 'Ada' }
+</script>
+
+<template>
+  <Form :form="form" :default-values="fetched">
+    <!-- seeds to 'Ada' (from the prop) -->
+    <FormControl name="name" :as="Input" label="Name" />
+    <!-- seeds to 'core' (from the handle) -->
+    <FormControl name="team.slug" :as="Input" label="Team" />
+  </Form>
+</template>
+```
+
+`isSubmitting` stays `true` until an async submit handler settles (and is reset
+if the handler throws), so it can drive a loading button. That holds for both
+`<Form @submit="async ({ values }) => { … }">` — the handler is awaited — and
+`form.handleSubmit(async (values) => { … })`.
+
+## FormField without FormControl
+
+`FormField` renders nothing of its own and passes nothing to its children
+implicitly — the control must bind the `fieldProps` slot prop. Putting
+`v-model` on a bare child does not connect it to the form:
+
+```vue
+<FormField name="email" :rules="{ required: true }" v-slot="{ fieldProps }">
+  <Input v-bind="fieldProps" label="Email" />
+</FormField>
+```
+
 ## Related
 
 - [FormFieldArray](/components/form-field-array) — repeatable groups of fields.

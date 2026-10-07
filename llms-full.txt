@@ -133,8 +133,10 @@ import { Button, Modal, ModalContent } from '@auronui/vue'
 </select>
 
 <!-- ✅ Always -->
-<Select v-model="country" label="Country" placeholder="Select country">
-  <SelectTrigger />
+<Select v-model="country" label="Country">
+  <SelectTrigger>
+    <SelectValue placeholder="Select country" />
+  </SelectTrigger>
   <SelectContent>
     <SelectItem value="us">United States</SelectItem>
     <SelectItem value="gb">United Kingdom</SelectItem>
@@ -242,6 +244,7 @@ same component for single-tag rendering.
 ```vue
 <Chip variant="soft" color="primary" :is-closable="true" @close="remove">Label</Chip>
 <!-- variant: solid | soft | bordered | text — defaults to solid -->
+<!-- color: primary | secondary | accent | danger | default | success | warning — defaults to default -->
 ```
 
 **Text** — semantic text with size/weight variants
@@ -388,6 +391,20 @@ same component for single-tag rendering.
 <!-- showPasswordToggle: boolean (for type="password") -->
 ```
 
+`Input`, `Textarea` and `SearchField` expose `focus()`, `blur()` and `el` (the
+native element) through a template ref:
+
+```vue
+<script setup lang="ts">
+import { useTemplateRef } from 'vue'
+const emailInput = useTemplateRef('emailInput')
+// emailInput.value?.focus()  ·  emailInput.value?.el
+</script>
+<template>
+  <Input ref="emailInput" v-model="email" label="Email" />
+</template>
+```
+
 **Textarea** — multiline text input
 ```vue
 <Textarea v-model="bio" label="Bio" :min-rows="3" />
@@ -424,16 +441,30 @@ same component for single-tag rendering.
 <Switch v-model="enabled">Notifications</Switch>
 ```
 
-**Select** — dropdown select
+**Select** — dropdown select. Either pass data through `:items` (the
+terse API — trigger, value and list are rendered for you):
 ```vue
-<Select v-model="country" label="Country" placeholder="Pick one">
-  <SelectTrigger />
+<Select v-model="country" label="Country" placeholder="Pick one" :items="countries" />
+<!-- items: { value: string | number, label?, textValue?, isDisabled? }[] -->
+```
+or compose it yourself:
+```vue
+<Select v-model="country" label="Country">
+  <SelectTrigger>
+    <SelectValue placeholder="Pick one" />
+  </SelectTrigger>
   <SelectContent>
     <SelectItem value="us">United States</SelectItem>
     <SelectItem value="gb">United Kingdom</SelectItem>
   </SelectContent>
 </Select>
 ```
+- A bare `<SelectTrigger />` is also valid: it renders `<SelectValue />` with
+  the Select's `placeholder` by default.
+- With no visible `label`, put `aria-label` on `<Select>` — it is forwarded to
+  the combobox trigger.
+- **Never use `<SelectItem value="">`** — reka-ui reserves `""` for clearing the
+  selection and throws. Use a sentinel value instead (e.g. `value="none"`).
 
 **InputOTP** — one-time password input
 ```vue
@@ -448,26 +479,58 @@ same component for single-tag rendering.
 </Fieldset>
 ```
 
-**Form / FormField** — form wrapper with validation
+**Form / FormField / FormControl** — form wrapper with validation.
+`FormField` is slot-only: it renders no element and passes nothing to its
+children implicitly. Bind its `fieldProps` slot prop onto the control —
+it carries `name`, `modelValue`, `onUpdate:modelValue`, `isInvalid`,
+`errorMessage`, `isDisabled` and `onBlur`. Do NOT put `v-model` on the control;
+the field owns the value, and `@submit` receives it as `values`.
 ```vue
-<Form @submit="onSubmit">
-  <FormField name="email" :rules="{ required: true }">
-    <Input v-model="email" label="Email" />
+<Form :default-values="{ email: '' }" @submit="onSubmit">
+  <FormField name="email" :rules="{ required: true, email: true }" v-slot="{ fieldProps }">
+    <Input v-bind="fieldProps" label="Email" />
   </FormField>
+  <Button type="submit">Save</Button>
+</Form>
+<!-- onSubmit({ values, setErrors }) — values is nested by field-name path -->
+```
+`FormControl` is the shortcut: it renders a `FormField` and binds `fieldProps`
+onto the component named by `as` (only the props that component declares).
+Other attributes and the default slot pass through to the control.
+```vue
+<Form :default-values="settings" @submit="onSave">
+  <FormControl name="auth_factor.force_mfa" :as="Checkbox">Require MFA</FormControl>
+  <FormControl name="password.min_length" :as="NumberField" label="Minimum length" />
+  <FormControl name="email" :as="Input" label="Email" :rules="{ required: true }" />
 </Form>
 ```
+- Field names are paths: `auth_factor.force_mfa` reads/writes
+  `settings.auth_factor.force_mfa` in `default-values` and in `values`.
+- Prefer `FormControl` (or `FormField` + `v-bind="fieldProps"`) over a custom
+  wrapper component that declares its own Boolean `defaultValue` prop: Vue casts
+  an absent Boolean prop to `false`, which overrides the form-level default.
+- `useForm()` returns a headless handle; `<Form :form="handle" :default-values="…">`
+  layers the prop over the handle's own `defaultValues` (the prop wins per path).
+- `isSubmitting` stays `true` until an async submit handler settles — both
+  `<Form @submit="async ({ values }) => …">` and `handle.handleSubmit(async …)`
+  are awaited — so it can drive a loading button.
 
 **FormFieldArray** — repeatable field group inside a Form (add/remove/reorder rows)
 ```vue
-<FormFieldArray name="contacts" v-slot="{ fields, append, remove }">
-  <div v-for="(row, i) in fields" :key="row.id">
-    <FormField :name="`${row.name}.email`">
-      <Input v-model="row.value.email" label="Email" />
+<FormFieldArray name="contacts" v-slot="{ fields, fieldName, append, remove }">
+  <div v-for="row in fields" :key="row.id">
+    <FormField
+      :name="fieldName(row.id, 'email')"
+      :default-value="row.defaultValue.email"
+      v-slot="{ fieldProps }"
+    >
+      <Input v-bind="fieldProps" label="Email" />
     </FormField>
-    <Button @click="remove(i)">Remove</Button>
+    <Button @click="remove(row.id)">Remove</Button>
   </div>
   <Button @click="append({ email: '' })">Add contact</Button>
 </FormFieldArray>
+<!-- rows: { id, index, defaultValue } — key by row.id; remove() takes the row id -->
 ```
 
 **InputGroup** — bordered box for merging icons/buttons with a bare input
@@ -590,12 +653,12 @@ same component for single-tag rendering.
 
 **Alert** — inline status message
 ```vue
-<Alert severity="success">
+<Alert severity="success" :is-closable="true">
   <AlertIcon />
   <AlertTitle>Done!</AlertTitle>
   <AlertDescription>Your changes were saved.</AlertDescription>
 </Alert>
-<!-- severity: info | success | warning | danger -->
+<!-- severity: default | primary | accent | success | warning | danger — defaults to default (there is no `info`) -->
 ```
 
 **Toast** — ephemeral notification (imperative API)
@@ -647,6 +710,9 @@ function notify() {
 <!-- variant: primary | secondary — defaults to primary -->
 <!-- orientation: horizontal | vertical — defaults to horizontal -->
 ```
+Hidden `TabPanel`s are unmounted by default (`unmountOnHide` defaults to
+`true`), so panel state is lost on switch. Pass `:unmount-on-hide="false"` on
+`<Tabs>` to keep every panel mounted.
 
 **Accordion** — collapsible sections
 ```vue
@@ -700,13 +766,17 @@ function notify() {
 
 **Pagination** — page navigation
 ```vue
-<Pagination v-model:page="page" :total="100" :per-page="10">
-  <PaginationContent>
+<Pagination v-model:page="page" :total-items="100" :items-per-page="10">
+  <PaginationContent v-slot="{ items }">
     <PaginationPrev />
-    <PaginationItem v-for="p in pages" :key="p" :value="p">{{ p }}</PaginationItem>
+    <template v-for="(item, i) in items" :key="item.type === 'page' ? item.value : `e-${i}`">
+      <PaginationItem v-if="item.type === 'page'" :value="item.value" />
+      <PaginationEllipsis v-else />
+    </template>
     <PaginationNext />
   </PaginationContent>
 </Pagination>
+<!-- props: page (v-model:page) / itemsPerPage / totalItems / siblingCount / showEdges — there is no `total` or `perPage` -->
 ```
 
 **Sidebar** — vertical navigation with grouped sections and active-link detection
@@ -812,6 +882,28 @@ as data rather than as child components.
 <!-- multipleOverflow: wrap | collapse — how selected chips overflow -->
 <!-- debounceMs: async search debounce, default 200 -->
 ```
+- `:load-items="(query) => Promise<items>"` loads lazily — on first open or when
+  the user types — except that it loads on mount when a value is already
+  selected (so its label resolves). `:load-on-mount="true"` forces eager loading.
+- `:creatable="true"` adds a "Create …" option for text that matches nothing
+  (label via `create-label`, a string or `(term) => string`); choosing it sets
+  the typed text as the value and fires `@create(value)`.
+- **Custom chrome:** putting `<AutocompleteInput>` / `<AutocompleteContent>` in
+  the default slot replaces the built-in input and list entirely. You must then
+  render the `<AutocompleteItem>` children yourself (and `<AutocompleteCreateItem>`
+  if you want creation) — otherwise nothing is selectable. The slot exposes
+  `items` and `isLoading`.
+```vue
+<Autocomplete v-model="value" :load-items="search" label="User" v-slot="{ items, isLoading }">
+  <AutocompleteInput placeholder="Search users…" />
+  <AutocompleteContent>
+    <AutocompleteItem v-for="item in items" :key="item.value" :value="item.value">
+      {{ item.label }}
+    </AutocompleteItem>
+    <AutocompleteCreateItem />
+  </AutocompleteContent>
+</Autocomplete>
+```
 
 **Cascader** — chained/hierarchical select (region → city → district)
 ```vue
@@ -838,23 +930,39 @@ as data rather than as child components.
 
 ### Data Display
 
-**Table** — accessible data table
+**Table** — accessible data grid driven by TanStack Table. It is NOT a compound
+`<TableHeader>`/`<TableBody>`/`<TableRow>` API: pass `columns`
+(TanStack `ColumnDef[]`) and `data`, and the table renders header, rows and
+cells itself.
 ```vue
-<Table>
-  <TableHeader>
-    <TableRow>
-      <TableHeaderCell>Name</TableHeaderCell>
-      <TableHeaderCell>Role</TableHeaderCell>
-    </TableRow>
-  </TableHeader>
-  <TableBody>
-    <TableRow v-for="row in rows" :key="row.id">
-      <TableCell>{{ row.name }}</TableCell>
-      <TableCell>{{ row.role }}</TableCell>
-    </TableRow>
-  </TableBody>
-</Table>
+<script setup lang="ts">
+import type { ColumnDef } from '@tanstack/vue-table'
+type User = { id: string; name: string; role: string }
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'role', header: 'Role', enableSorting: false },
+]
+</script>
+<template>
+  <Table :columns="columns" :data="users" aria-label="Users" />
+</template>
+<!-- variant: primary | secondary — defaults to primary -->
+<!-- selection: none | single | multiple, with v-model:row-selection -->
+<!-- virtualRows: boolean | number — virtualize rows (always, or above N rows) -->
+<!-- #cell slot: { row, cell, column, value } — overrides cell rendering (non-virtual body) -->
+<!-- #footer slot: replaces the footer (including the built-in pagination) -->
 ```
+- **Pagination is built in:** `:pagination="{ pageSize: 10 }"` renders a
+  `Pagination` in the footer; bind `v-model:page` to control the page and
+  `:page-size-options="[10, 25, 50]"` to offer a rows-per-page select. For
+  server-side paging pass `{ pageSize, manual: true, totalItems }` and supply
+  only the current page's rows as `data`.
+- **Sorting:** `v-model:sorting` (TanStack `SortingState`, e.g.
+  `[{ id: 'name', desc: false }]`) controls the sort; omit it for uncontrolled
+  sorting. `:manual-sorting="true"` is for server-side sorting — `data` is
+  assumed to be already ordered and header clicks only emit `update:sorting`.
+  Use it together with `pagination.manual`, otherwise a header click sorts only
+  the rows of the current page.
 
 **Statistic** — labeled numeric stat with an optional trend indicator
 ```vue
@@ -1019,11 +1127,13 @@ All date and time components take `DateValue` / `Time` objects from
 **ColorField** — bare hex/channel text input for typing a color value
 ```vue
 <ColorField v-model="color" label="Hex color" />
+<!-- a model of '' or null means "no colour": the field shows empty instead of #000000 -->
 ```
 
 **ColorPickerInput** — compact hex field with a swatch trigger that opens the full ColorPicker in a popover
 ```vue
 <ColorPickerInput v-model="color" label="Accent color" />
+<!-- a model of '' means "no colour": the field shows empty until the user picks one -->
 ```
 
 **ColorArea** — 2D saturation/brightness pad, one building block of ColorPicker
@@ -1289,7 +1399,7 @@ Values shown are the complete accepted set; anything else is invalid.
   - sticky: partial | always
   - positionStrategy: fixed | absolute
   - updatePositionStrategy: always | optimized
-  - v-model: `v-model` (CalendarDateTime | null | undefined), `v-model:open` (boolean)
+  - v-model: `v-model` (CalendarDateTime | null | undefined), `v-model:open` (boolean | undefined)
 
 **Description**
 
@@ -1518,7 +1628,7 @@ Values shown are the complete accepted set; anything else is invalid.
   - sticky: partial | always
   - positionStrategy: fixed | absolute
   - updatePositionStrategy: always | optimized
-  - v-model: `v-model` (Time | null | undefined), `v-model:open` (boolean)
+  - v-model: `v-model` (Time | null | undefined), `v-model:open` (boolean | undefined)
 
 **TimeRangeField**
   - variant: flat | bordered | faded | underlined | raised — defaults to flat
@@ -1565,24 +1675,20 @@ Values shown are the complete accepted set; anything else is invalid.
 
 ```vue
 <script setup lang="ts">
-import { ref } from 'vue'
 import { Button, Input, Form, FormField, Link, Separator, Text } from '@auronui/vue'
 
-const email = ref('')
-const password = ref('')
-
-async function onSubmit() {
-  // handle login
+async function onSubmit({ values, setErrors }) {
+  // values = { email, password } — handle login; setErrors({ email: '…' }) for server errors
 }
 </script>
 
 <template>
-  <Form @submit="onSubmit" class="space-y-4 w-full max-w-sm">
-    <FormField name="email">
-      <Input v-model="email" type="email" label="Email" :is-required="true" />
+  <Form :default-values="{ email: '', password: '' }" @submit="onSubmit" class="space-y-4 w-full max-w-sm">
+    <FormField name="email" :rules="{ required: true, email: true }" v-slot="{ fieldProps }">
+      <Input v-bind="fieldProps" type="email" label="Email" :is-required="true" />
     </FormField>
-    <FormField name="password">
-      <Input v-model="password" type="password" label="Password" :show-password-toggle="true" />
+    <FormField name="password" :rules="{ required: true }" v-slot="{ fieldProps }">
+      <Input v-bind="fieldProps" type="password" label="Password" :show-password-toggle="true" />
     </FormField>
     <Button type="submit" color="primary" :full-width="true">Sign in</Button>
     <Separator />
@@ -1630,57 +1736,84 @@ const emit = defineEmits<{ deleted: [] }>()
 
 ### Data Table with Pagination
 
+Client-side: hand `Table` every row and let its built-in `pagination` page them.
+
 ```vue
 <script setup lang="ts">
-import { ref, computed } from 'vue'
-import {
-  Table, TableHeader, TableBody, TableRow, TableHeaderCell, TableCell,
-  Pagination, PaginationContent, PaginationItem, PaginationPrev, PaginationNext,
-  Spinner,
-} from '@auronui/vue'
+import { ref } from 'vue'
+import type { ColumnDef } from '@tanstack/vue-table'
+import { Table, Chip, Spinner } from '@auronui/vue'
 
-const props = defineProps<{
-  rows: Array<{ id: string; name: string; email: string; role: string }>
-  loading?: boolean
-}>()
+type User = { id: string; name: string; email: string; role: string }
 
+defineProps<{ rows: User[]; loading?: boolean }>()
+
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'email', header: 'Email' },
+  { accessorKey: 'role', header: 'Role' },
+]
 const page = ref(1)
-const perPage = 10
-const totalPages = computed(() => Math.ceil(props.rows.length / perPage))
-const pageRows = computed(() =>
-  props.rows.slice((page.value - 1) * perPage, page.value * perPage)
-)
 </script>
 
 <template>
-  <div class="space-y-4">
-    <div v-if="loading" class="flex justify-center py-8">
-      <Spinner size="lg" color="primary" />
-    </div>
-    <Table v-else>
-      <TableHeader>
-        <TableRow>
-          <TableHeaderCell>Name</TableHeaderCell>
-          <TableHeaderCell>Email</TableHeaderCell>
-          <TableHeaderCell>Role</TableHeaderCell>
-        </TableRow>
-      </TableHeader>
-      <TableBody>
-        <TableRow v-for="row in pageRows" :key="row.id">
-          <TableCell>{{ row.name }}</TableCell>
-          <TableCell>{{ row.email }}</TableCell>
-          <TableCell>{{ row.role }}</TableCell>
-        </TableRow>
-      </TableBody>
-    </Table>
-    <Pagination v-model:page="page" :total="rows.length" :per-page="perPage">
-      <PaginationContent>
-        <PaginationPrev />
-        <PaginationItem v-for="p in totalPages" :key="p" :value="p">{{ p }}</PaginationItem>
-        <PaginationNext />
-      </PaginationContent>
-    </Pagination>
+  <div v-if="loading" class="flex justify-center py-8">
+    <Spinner size="lg" color="primary" />
   </div>
+  <Table
+    v-else
+    v-model:page="page"
+    :columns="columns"
+    :data="rows"
+    :pagination="{ pageSize: 10 }"
+    :page-size-options="[10, 25, 50]"
+    aria-label="Users"
+  >
+    <template #cell="{ column, value }">
+      <Chip v-if="column.id === 'role'" size="sm" variant="soft">{{ value }}</Chip>
+      <template v-else>{{ value }}</template>
+    </template>
+  </Table>
+</template>
+```
+
+Server-side: the API returns one sorted page at a time, so both paging and
+sorting are manual — `data` is only the current page, already in order.
+
+```vue
+<script setup lang="ts">
+import { ref, watch } from 'vue'
+import type { ColumnDef, SortingState } from '@tanstack/vue-table'
+import { Table } from '@auronui/vue'
+
+type User = { id: string; name: string; email: string }
+const columns: ColumnDef<User>[] = [
+  { accessorKey: 'name', header: 'Name' },
+  { accessorKey: 'email', header: 'Email' },
+]
+
+const rows = ref<User[]>([])
+const total = ref(0)
+const page = ref(1)
+const sorting = ref<SortingState>([{ id: 'name', desc: false }])
+
+watch([page, sorting], async () => {
+  const res = await fetchUsers({ page: page.value, pageSize: 20, sort: sorting.value })
+  rows.value = res.rows
+  total.value = res.total
+}, { immediate: true })
+</script>
+
+<template>
+  <Table
+    v-model:page="page"
+    v-model:sorting="sorting"
+    :columns="columns"
+    :data="rows"
+    :pagination="{ pageSize: 20, manual: true, totalItems: total }"
+    :manual-sorting="true"
+    aria-label="Users"
+  />
 </template>
 ```
 
@@ -1723,7 +1856,9 @@ const { page, totalPages, nextPage, prevPage, goToPage, isFirst, isLast } = useP
 ```
 
 ```html
-<Pagination :page="page.value" :total="totalPages.value" @change="goToPage" />
+<Pagination :page="page" :items-per-page="pageSize" :total-items="totalItems" @update:page="onPageChange">
+  <PaginationContent v-slot="{ items }">…</PaginationContent>
+</Pagination>
 ```
 
 ### useStepper
@@ -2068,19 +2203,19 @@ import {
 **Alert**
 - `severity?: AlertSeverity` — default `default` — Severity/status of the alert
 - `isClosable?: boolean` — default `false` — Whether the alert can be dismissed by the user
-- `class?: string` — Additional CSS class to merge onto the root element
+- `class?: ClassValue` — Additional CSS class to merge onto the root element
 - slots: `#icon`, `#default`
 
 **AlertIcon**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **AlertTitle**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **AlertDescription**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### AlertDialog
@@ -2100,7 +2235,7 @@ import {
 - slots: `#default`
 
 **AlertDialogContent**
-- `class?: string`
+- `class?: ClassValue`
 - `to?: string | HTMLElement`
 - `disabled?: boolean`
 - `defer?: boolean`
@@ -2115,34 +2250,34 @@ import {
 - `as?: string`
 - `asChild?: boolean` — default `false`
 - `forceMount?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 
 **AlertDialogHeader**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **AlertDialogBody**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **AlertDialogFooter**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **AlertDialogTitle**
 - `as?: string` — default `h2`
 - `asChild?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **AlertDialogDescription**
 - `as?: string` — default `p`
-- `class?: string`
+- `class?: ClassValue`
 - `asChild?: boolean` — default `false`
 - slots: `#default`
 
 **AlertDialogIcon**
-- `class?: string`
+- `class?: ClassValue`
 - `status?: 'default' | 'accent' | 'danger' | 'success' | 'warning'`
 - slots: `#default`
 
@@ -2210,6 +2345,9 @@ import {
 - `defaultOpen?: boolean` — Initial open state of the dropdown (uncontrolled).
 - `items?: AutocompleteItem[]` — default `() => []` — Static items list — used when no loadItems is provided.
 - `loadItems?: (query: string) => Promise<AutocompleteItem[]>` — Async data source: called on every query change.
+- `loadOnMount?: boolean` — default `false` — Call `loadItems` as soon as the component mounts. By default it is called lazily — when the dropdown first opens or the user types — unless a value is already selected (its label has to resolve from the loaded items).
+- `creatable?: boolean` — default `false` — Offer a "Create …" item for text that matches no option, in the built-in chrome (custom chrome adds `<AutocompleteCreateItem>` itself). Selecting it sets the typed text as the value and fires `create`.
+- `createLabel?: string | ((term: string) => string)` — Label for the `creatable` item. Defaults to `Create "<term>"`.
 - `debounceMs?: number` — default `200` — Debounce delay for loadItems calls (ms). 0 = no debounce.
 - `filterOnOpen?: boolean` — default `false` — Apply filter immediately on open (default: false — show all items until user types).
 - `truncateItems?: boolean` — default `true` — Truncate item text with an ellipsis when it overflows the dropdown width. Set to `false` to show full text — the dropdown will widen to fit.
@@ -2218,7 +2356,7 @@ import {
 
 **AutocompleteInput**
 - `placeholder?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `modelValue?: string` — Two-way bound search input value.
 - `autoFocus?: boolean` — default `false` — Auto-focus the input on mount.
 - `isDisabled?: boolean` — Disable the input. Falls back to context isDisabled.
@@ -2239,7 +2377,7 @@ import {
 
 **AutocompleteContent**
 - `sideOffset?: number` — default `8`
-- `class?: string`
+- `class?: ClassValue`
 - `to?: string | HTMLElement`
 - `disabled?: boolean`
 - `defer?: boolean`
@@ -2276,7 +2414,7 @@ import {
 **AutocompleteItem**
 - `value: string`
 - `isDisabled?: boolean`
-- `class?: string`
+- `class?: ClassValue`
 - `textValue?: string` — A string value for typeahead matching. Defaults to display text.
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
@@ -2289,7 +2427,7 @@ import {
 
 **AutocompleteCreateItem**
 - `label?: string | ((term: string) => string)` — Label for the create item. Accepts a static string or a function receiving the current search term. Defaults to `Create "${term}"`.
-- `class?: string`
+- `class?: ClassValue`
 - `value?: string` — The value of this item when selected. Defaults to the current search term.
 - `textValue?: string` — A string value that represents this item during typeahead navigation.
 - `isDisabled?: boolean`
@@ -2334,7 +2472,7 @@ import {
 - `max?: number`
 - `total?: number`
 - `renderCount?: (count: number) => string`
-- `class?: string`
+- `class?: ClassValue`
 - `avatars?: AvatarShorthandItem[]` — Shorthand API: render avatars from an array instead of the compound slot API
 - `classNames?` — per-slot class overrides: base, image, fallback, icon, name
 - slots: `#default`
@@ -2407,7 +2545,7 @@ import {
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `isLoading?: boolean` — default `false`
 - `ariaLabel?: string` — default `Close`
-- `class?: string`
+- `class?: ClassValue`
 
 **ToggleButton**
 - `variant?: 'default' | 'ghost'` — default `default`
@@ -2418,7 +2556,7 @@ import {
 - `modelValue?: boolean`
 - `defaultValue?: boolean` — default `false`
 - `value?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string`
 - `asChild?: boolean` — default `false`
 - `name?: string`
@@ -2573,6 +2711,7 @@ import {
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `isInvalid?: boolean` — default `false`
+- `errorMessage?: string` — Error text shown under the label while `isInvalid`.
 - `isIndeterminate?: boolean` — default `false`
 - `name?: string`
 - `id?: string` — HTML id attribute forwarded to CheckboxRoot.
@@ -2586,7 +2725,7 @@ import {
 - `indicatorAsChild?: boolean` — default `false` — Whether CheckboxIndicator renders as a child element.
 - `indicatorAs?: string` — Element or component to render CheckboxIndicator as.
 - `class?: ClassValue`
-- `classNames?` — per-slot class overrides: base, control, indicator, content
+- `classNames?` — per-slot class overrides: base, control, indicator, content, errorMessage
 - emits: `@update:modelValue`
 - slots: `#default`
 
@@ -2603,7 +2742,7 @@ import {
 - `label?: string`
 - `description?: string`
 - `errorMessage?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `items?: CheckboxShorthandItem[]` — Shorthand API: render checkboxes from an array instead of the compound slot API
 - `classNames?` — per-slot class overrides: label, wrapper, description, errorMessage, base, control, indicator, content
 - emits: `@update:modelValue`
@@ -2681,7 +2820,7 @@ import {
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `showDots?: 'false' | 'true'` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `thumbClass?: string`
 - `as?: string`
 - `asChild?: boolean` — default `false`
@@ -2706,7 +2845,7 @@ import {
 - `readonly?: boolean` — **deprecated** — Use isReadOnly instead.
 - `placeholder?: string`
 - `fullWidth?: 'false' | 'true'` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `ariaLabel?: string`
 - `as?: string`
 - `asChild?: boolean` — default `false`
@@ -2738,7 +2877,7 @@ import {
 - `readonly?: boolean` — **deprecated** — Use isReadOnly instead.
 - `fullWidth?: 'false' | 'true'` — default `false`
 - `variant?: 'primary' | 'secondary'` — default `primary`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string`
 - `asChild?: boolean` — default `false`
 - `name?: string`
@@ -2761,7 +2900,7 @@ import {
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `label?: string`
-- `class?: string`
+- `class?: ClassValue`
 - emits: `@update:modelValue`
 - slots: `#default`
 
@@ -2801,7 +2940,7 @@ import {
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `showOutput?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `trackClass?: string`
 - `thumbClass?: string`
 - `outputClass?: string`
@@ -2822,7 +2961,7 @@ import {
 - `colorName?: string`
 - `shape?: 'circle' | 'square'` — default `circle`
 - `size?: 'lg' | 'md' | 'sm' | 'xl' | 'xs'` — default `md`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string`
 - `asChild?: boolean`
 - `label?: string`
@@ -2836,7 +2975,7 @@ import {
 - `layout?: 'grid' | 'stack'` — default `grid`
 - `size?: 'lg' | 'md' | 'sm' | 'xl' | 'xs'` — default `md`
 - `variant?: 'circle' | 'square'` — default `circle`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string`
 - `asChild?: boolean` — default `false`
 - `name?: string`
@@ -2889,7 +3028,7 @@ import {
 
 **ComboBoxInput**
 - `placeholder?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `anchorReference?: object | null` — Custom reference element for the anchor.
 - `anchorAs?: string` — Render the anchor as a different element.
 - `anchorAsChild?: boolean` — default `false` — Merge anchor props onto child element.
@@ -2910,7 +3049,7 @@ import {
 
 **ComboBoxContent**
 - `sideOffset?: number` — default `8`
-- `class?: string`
+- `class?: ClassValue`
 - `to?: string | HTMLElement` — Portal target selector or element.
 - `portalDisabled?: boolean` — Disable the portal.
 - `defer?: boolean` — Defer portal rendering.
@@ -2949,7 +3088,7 @@ import {
 **ComboBoxItem**
 - `value: string`
 - `isDisabled?: boolean`
-- `class?: string`
+- `class?: ClassValue`
 - `textValue?: string` — A string value for typeahead matching. Defaults to display text.
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
@@ -2996,7 +3135,7 @@ import {
 **ContextMenuContent**
 - `ariaLabel?: string`
 - `alignOffset?: number` — default `0`
-- `class?: string`
+- `class?: ClassValue`
 - `to?: string | HTMLElement` — Portal target element or selector.
 - `portalDisabled?: boolean` — Disable the portal.
 - `defer?: boolean` — Defer portal rendering.
@@ -3023,7 +3162,7 @@ import {
 - `variant?: 'danger' | 'default'` — default `default`
 - `shortcut?: string`
 - `description?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -3034,7 +3173,7 @@ import {
 - `textValue?: string`
 - `isDisabled?: boolean`
 - `variant?: 'default' | 'danger'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `modelValue?: boolean` — Controlled checked state.
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
@@ -3054,7 +3193,7 @@ import {
 - `textValue?: string`
 - `isDisabled?: boolean`
 - `variant?: 'default' | 'danger'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -3064,7 +3203,7 @@ import {
 **ContextMenuSection**
 - `title?: string`
 - `showDivider?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element or component (applied to the group wrapper).
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
 - slots: `#default`
@@ -3078,7 +3217,7 @@ import {
 **ContextMenuSubTrigger**
 - `isDisabled?: boolean`
 - `textValue?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -3087,7 +3226,7 @@ import {
 **ContextMenuSubContent**
 - `sideOffset?: number` — default `4`
 - `alignOffset?: number` — default `-5`
-- `class?: string`
+- `class?: ClassValue`
 - `forceMount?: boolean` — Keep sub-content mounted even when closed.
 - `loop?: boolean` — Keep keyboard focus loop within the content.
 - `sideFlip?: boolean` — Flip to opposite side when there is not enough space.
@@ -3405,7 +3544,7 @@ import {
 - `contentAsChild?: boolean` — Render content child as root element.
 - `disableOutsidePointerEvents?: boolean` — Disable pointer events outside the content.
 - `v-model: CalendarDateTime | null | undefined`
-- `v-model:open: boolean`
+- `v-model:open: boolean | undefined`
 - emits: `@update:placeholder`, `@escape-key-down`, `@pointer-down-outside`, `@focus-outside`, `@interact-outside`, `@open-auto-focus`, `@close-auto-focus`
 - slots: `#selectorIcon`, `#footer`
 
@@ -3413,7 +3552,7 @@ import {
 
 **Description**
 - `id?: string`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### Drawer
@@ -3442,7 +3581,7 @@ import {
 - `to?: string | HTMLElement`
 - `disabled?: boolean` — default `false`
 - `defer?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - emits: `@escape-key-down`, `@pointer-down-outside`, `@interact-outside`, `@open-auto-focus`, `@close-auto-focus`, `@focus-outside`
 - slots: `#default`
 
@@ -3450,34 +3589,34 @@ import {
 - `as?: string`
 - `asChild?: boolean` — default `false`
 - `forceMount?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 
 **DrawerMain**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **DrawerHeader**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **DrawerBody**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **DrawerFooter**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **DrawerClose**
 - `as?: string`
 - `asChild?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **DrawerTitle**
 - `as?: string` — default `h2`
 - `asChild?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### Dropdown
@@ -3491,7 +3630,7 @@ import {
 - `size?: 'sm' | 'md' | 'lg'` — Context-only, like `variant` — applies no styling on its own.
 - `closeOnSelect?: boolean` — default `true`
 - `disableAnimation?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `open?: boolean` — Controlled open state of the dropdown.
 - `dir?: 'ltr' | 'rtl'` — Text direction for the dropdown.
 - emits: `@update:isOpen`, `@update:open`
@@ -3510,7 +3649,7 @@ import {
 - `side?: 'top' | 'right' | 'bottom' | 'left'` — default `bottom`
 - `align?: 'start' | 'center' | 'end'` — default `start`
 - `alignOffset?: number` — default `0`
-- `class?: string`
+- `class?: ClassValue`
 - `to?: string | HTMLElement` — Portal target element or selector.
 - `portalDisabled?: boolean` — Disable the portal.
 - `defer?: boolean` — Defer portal rendering.
@@ -3541,7 +3680,7 @@ import {
 - `variant?: 'danger' | 'default'` — default `default`
 - `shortcut?: string`
 - `description?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -3552,7 +3691,7 @@ import {
 - `textValue?: string`
 - `isDisabled?: boolean`
 - `variant?: 'default' | 'danger'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `modelValue?: boolean` — Controlled checked state.
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
@@ -3572,7 +3711,7 @@ import {
 - `textValue?: string`
 - `isDisabled?: boolean`
 - `variant?: 'default' | 'danger'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -3582,7 +3721,7 @@ import {
 **DropdownSection**
 - `title?: string`
 - `showDivider?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element or component (applied to the group wrapper).
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
 - slots: `#default`
@@ -3597,7 +3736,7 @@ import {
 **DropdownSubTrigger**
 - `isDisabled?: boolean`
 - `textValue?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -3606,7 +3745,7 @@ import {
 **DropdownSubContent**
 - `sideOffset?: number` — default `4`
 - `alignOffset?: number` — default `-5`
-- `class?: string`
+- `class?: ClassValue`
 - `forceMount?: boolean` — Keep sub-content mounted even when closed.
 - `loop?: boolean` — Keep keyboard focus loop within the content.
 - `sideFlip?: boolean` — Flip to opposite side when there is not enough space.
@@ -3708,7 +3847,7 @@ import {
 - `legend?: string` — Text content for the <legend> element; omit to render fieldset without a legend
 - `isDisabled?: boolean` — When true, disables all form controls inside this fieldset
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
-- `class?: string` — Additional CSS classes applied to the <fieldset> element
+- `class?: ClassValue` — Additional CSS classes applied to the <fieldset> element
 - slots: `#default`
 
 ### FileUpload
@@ -3734,11 +3873,12 @@ import {
 
 **Form**
 - `form?: FormContext` — External form handle from useForm(). When provided, Form uses it instead of creating its own state.
-- `defaultValues?: Record<string, unknown>` — Centralized default values. Field-level defaultValue prop wins if both set.
+- `defaultValues?: Record<string, unknown>` — Centralized default values. Field-level defaultValue prop wins if both set. With `form`, these are layered over the handle's own `defaultValues`.
 - `validationMode?: ValidationMode` — default `on-submit`
 - `isDisabled?: boolean` — default `false`
-- `class?: string`
-- emits: `@submit`, `@invalid`, `@reset`
+- `class?: ClassValue`
+- `onSubmit?: (payload: FormSubmitPayload) => void | Promise<void>` — Submit handler, bound with `@submit`. Declared as a prop rather than an emit so an async handler is awaited: `isSubmitting` stays `true` until the promise it returns settles.
+- emits: `@invalid`, `@reset`
 - slots: `#default`
 
 **FormControl**
@@ -3772,7 +3912,7 @@ import {
 
 **Header**
 - `as?: 'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6'` — default `h2`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### HoverCard
@@ -3808,7 +3948,7 @@ import {
 - `disableUpdateOnLayoutShift?: boolean`
 - `prioritizePosition?: boolean` — default `true`
 - `forceMount?: boolean`
-- `class?: string`
+- `class?: ClassValue`
 - emits: `@escape-key-down`, `@pointer-down-outside`, `@focus-outside`, `@interact-outside`
 - slots: `#default`
 
@@ -3817,7 +3957,7 @@ import {
 - `asChild?: boolean`
 - `width?: number`
 - `height?: number`
-- `class?: string`
+- `class?: ClassValue`
 
 ### Icon
 
@@ -3935,7 +4075,7 @@ import {
 - `isDisabled?: boolean` — default `false`
 - `isInvalid?: boolean` — default `false`
 - `isRequired?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### Link
@@ -4010,7 +4150,7 @@ import {
 **ListBoxSection**
 - `title?: string`
 - `showDivider?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render the ListboxGroup as a different element.
 - `asChild?: boolean` — default `false` — Merge group props onto child element.
 - `for?: string` — The id of the element the label describes (for ListboxGroupLabel).
@@ -4046,7 +4186,7 @@ import {
 - `side?: 'top' | 'right' | 'bottom' | 'left'` — default `bottom`
 - `align?: 'start' | 'center' | 'end'` — default `start`
 - `alignOffset?: number` — default `0`
-- `class?: string`
+- `class?: ClassValue`
 - `to?: string | HTMLElement` — Portal target element or selector.
 - `portalDisabled?: boolean` — Disable the portal.
 - `defer?: boolean` — Defer portal rendering.
@@ -4077,7 +4217,7 @@ import {
 - `variant?: 'danger' | 'default'` — default `default`
 - `shortcut?: string`
 - `description?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -4088,7 +4228,7 @@ import {
 - `textValue?: string`
 - `isDisabled?: boolean`
 - `variant?: 'default' | 'danger'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `modelValue?: boolean` — Controlled checked state.
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
@@ -4108,7 +4248,7 @@ import {
 - `textValue?: string`
 - `isDisabled?: boolean`
 - `variant?: 'default' | 'danger'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -4118,7 +4258,7 @@ import {
 **MenubarSection**
 - `title?: string`
 - `showDivider?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element or component (applied to the group wrapper).
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
 - slots: `#default`
@@ -4132,7 +4272,7 @@ import {
 **MenubarSubTrigger**
 - `isDisabled?: boolean`
 - `textValue?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -4141,7 +4281,7 @@ import {
 **MenubarSubContent**
 - `sideOffset?: number` — default `4`
 - `alignOffset?: number` — default `-5`
-- `class?: string`
+- `class?: ClassValue`
 - `forceMount?: boolean` — Keep sub-content mounted even when closed.
 - `loop?: boolean` — Keep keyboard focus loop within the content.
 - `sideFlip?: boolean` — Flip to opposite side when there is not enough space.
@@ -4206,7 +4346,7 @@ import {
 - `to?: string | HTMLElement`
 - `disabled?: boolean` — default `false`
 - `defer?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - emits: `@escape-key-down`, `@pointer-down-outside`, `@interact-outside`, `@open-auto-focus`, `@close-auto-focus`, `@focus-outside`
 - slots: `#default`
 
@@ -4214,36 +4354,36 @@ import {
 - `as?: string`
 - `asChild?: boolean` — default `false`
 - `forceMount?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 
 **ModalHeader**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **ModalBody**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **ModalFooter**
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **ModalTitle**
 - `as?: string` — default `h2`
 - `asChild?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **ModalDescription**
 - `as?: string` — default `p`
 - `asChild?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 **ModalClose**
 - `as?: string`
 - `asChild?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### MonthPicker
@@ -4402,6 +4542,8 @@ import {
 - `id?: string`
 - `placeholder?: string`
 - `label?: string`
+- `description?: string` — Helper text under the field. Hidden while an error message is shown.
+- `errorMessage?: string` — Error text under the field, shown while `isInvalid`.
 - `ariaLabel?: string`
 - `defaultValue?: number` — Default value when uncontrolled.
 - `stepSnapping?: boolean` — Whether to snap the value to the nearest step.
@@ -4419,7 +4561,7 @@ import {
 - `decrementAsChild?: boolean` — Whether NumberFieldDecrement renders as a child element.
 - `decrementAs?: string` — Element or component to render NumberFieldDecrement as.
 - `class?: ClassValue`
-- `classNames?` — per-slot class overrides: base, group, decrementButton, input, incrementButton
+- `classNames?` — per-slot class overrides: base, group, decrementButton, input, incrementButton, description, errorMessage
 - `v-model: number | undefined`
 
 ### Pagination
@@ -4437,51 +4579,51 @@ import {
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `beforeCursor?: string | null` — default `null` — Cursor mode: before cursor value
 - `afterCursor?: string | null` — default `null` — Cursor mode: after cursor value
-- `class?: string` — Additional CSS class
+- `class?: ClassValue` — Additional CSS class
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - emits: `@update:page`, `@update:cursor`
 - slots: `#default`
 
 **PaginationContent**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#before`, `#page-info`, `#after`, `#default`
 
 **PaginationItem**
 - `value: number` — Page number this item represents
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **PaginationPrev**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **PaginationNext**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **PaginationFirst**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **PaginationLast**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **PaginationEllipsis**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
@@ -4517,7 +4659,7 @@ import {
 - `updatePositionStrategy?: 'always' | 'optimized'`
 - `disableUpdateOnLayoutShift?: boolean`
 - `prioritizePosition?: boolean` — default `true`
-- `class?: string`
+- `class?: ClassValue`
 - emits: `@escape-key-down`, `@pointer-down-outside`, `@focus-outside`, `@interact-outside`, `@open-auto-focus`, `@close-auto-focus`
 - slots: `#default`
 
@@ -4526,7 +4668,7 @@ import {
 - `asChild?: boolean`
 - `width?: number`
 - `height?: number`
-- `class?: string`
+- `class?: ClassValue`
 
 **PopoverAnchor**
 - `as?: string | object`
@@ -4538,7 +4680,7 @@ import {
 - `asChild?: boolean`
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### ProgressBar
@@ -4631,7 +4773,7 @@ import {
 - `as?: string` — Element or component to render RadioGroupRoot as.
 - `isRequired?: boolean`
 - `required?: boolean` — Whether the radio group is required. — **deprecated** — Use isRequired instead.
-- `class?: string`
+- `class?: ClassValue`
 - `items?: RadioShorthandItem[]` — Shorthand API: render radio options from an array instead of the compound slot API
 - `classNames?` — per-slot class overrides: label, wrapper, description, errorMessage, base, control, indicator, content
 - emits: `@update:modelValue`
@@ -4677,7 +4819,7 @@ import {
 ### ScrollArea
 
 **ScrollArea**
-- `class?: string`
+- `class?: ClassValue`
 - `viewportClass?: string`
 - `type?: 'auto' | 'always' | 'scroll' | 'hover'` — default `hover`
 - `scrollHideDelay?: number` — default `600`
@@ -4767,7 +4909,7 @@ import {
 - slots: `#item`, `#default`
 
 **SelectTrigger**
-- `class?: string`
+- `class?: ClassValue`
 - `isDisabled?: boolean` — Whether the trigger is disabled.
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `reference?: object | null` — Virtual or DOM reference element to position against.
@@ -4778,7 +4920,7 @@ import {
 
 **SelectValue**
 - `placeholder?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
 - `classNames?` — per-slot class overrides: value, base, dot, startContent, label, endContent, closeButton
@@ -4786,7 +4928,7 @@ import {
 **SelectContent**
 - `position?: 'item-aligned' | 'popper'` — default `popper`
 - `sideOffset?: number` — default `8`
-- `class?: string`
+- `class?: ClassValue`
 - `forceMount?: boolean` — Keep content mounted even when closed.
 - `bodyLock?: boolean` — Lock body scroll when content is open.
 - `side?: 'top' | 'right' | 'bottom' | 'left'` — Side of the trigger to render the content.
@@ -4820,7 +4962,7 @@ import {
 - `value: SelectItemValue`
 - `textValue?: string` — Explicit human-readable label for this item. When provided, the registry is populated immediately at setup time (before the dropdown is ever opened), so SelectValue can display the correct label for a pre-set modelValue. When omitted, the label is read from slot DOM text on first mount.
 - `isDisabled?: boolean`
-- `class?: string`
+- `class?: ClassValue`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `as?: string` — Render as a different element or component.
 - `asChild?: boolean` — default `false` — Merge props onto child element instead of rendering a wrapper.
@@ -4833,7 +4975,7 @@ import {
 **Separator**
 - `orientation?: SeparatorVariants['orientation']` — default `horizontal`
 - `variant?: SeparatorVariants['variant']` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `classNames?` — per-slot class overrides: line, content
 - slots: `#default`
 
@@ -4924,7 +5066,7 @@ import {
 - `size?: 'lg' | 'md' | 'sm' | 'xl'` — default `md`
 - `color?: 'default' | 'primary' | 'secondary' | 'accent' | 'current' | 'danger' | 'success' | 'warning'` — default `primary`
 - `label?: string` — default `Loading`
-- `class?: string`
+- `class?: ClassValue`
 
 ### SplitterGroup
 
@@ -5038,7 +5180,7 @@ import {
 **Surface**
 - `as?: string`
 - `variant?: 'default' | 'secondary' | 'tertiary' | 'transparent'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### Switch
@@ -5046,6 +5188,7 @@ import {
 **Switch**
 - `size?: 'lg' | 'md' | 'sm'` — default `md`
 - `isInvalid?: boolean` — default `false`
+- `errorMessage?: string` — Error text shown under the label while `isInvalid`.
 - `value?: string`
 - `modelValue?: boolean`
 - `defaultValue?: boolean` — default `false`
@@ -5062,7 +5205,7 @@ import {
 - `thumbAsChild?: boolean` — default `false` — Whether SwitchThumb renders as a child element.
 - `thumbAs?: string` — Element or component to render SwitchThumb as.
 - `class?: ClassValue`
-- `classNames?` — per-slot class overrides: base, control, thumb, content
+- `classNames?` — per-slot class overrides: base, control, thumb, content, errorMessage
 - emits: `@update:modelValue`
 - slots: `#default`
 
@@ -5078,7 +5221,7 @@ import {
 - `errorMessage?: string`
 - `label?: string`
 - `description?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `items?: SwitchShorthandItem[]` — Shorthand API: render switches from an array instead of the compound slot API
 - `classNames?` — per-slot class overrides: label, items, description, errorMessage, base, control, thumb, content
 - emits: `@update:modelValue`
@@ -5097,11 +5240,13 @@ import {
 - `estimatedRowHeight?: number` — default `44` — Estimated row height in px used by the virtualizer (default: 44)
 - `virtualizerOverscan?: number` — default `8` — Extra rows to render outside the visible viewport (default: 8)
 - `pagination?: { /** Rows per page. Default: 10 */ pageSize?: number /** Server-side mode: `data` is assumed to already be just the current page's rows. Default: false */ manual?: boolean /** Required when `manual: true` — total row count across all pages. */ totalItems?: number }` — Opt-in pagination. Omit (default) to disable — Table renders all rows with no pagination row model applied.
+- `sorting?: SortingState` — Controlled sort state (TanStack `SortingState`). Use v-model:sorting. Uncontrolled if unbound.
+- `manualSorting?: boolean` — default `false` — Server-side sorting: `data` is assumed to already be in the requested order, so the table never reorders rows itself. Headers still toggle and report the requested sort via `update:sorting`. Use together with `pagination.manual` — otherwise a header click sorts only the rows of the current page. Default: false
 - `page?: number` — Current page, 1-indexed. Use v-model:page. Default: 1 (uncontrolled if unbound).
 - `pageSizeOptions?: number[]` — Rows-per-page choices to offer the user as a <Select> next to the auto-rendered Pagination control. Omit to hide the selector — pageSize is then fixed to `pagination.pageSize`. Requires `pagination` to be set.
 - `getKey?: (row: TData, index: number) => string` — Derives a stable row id for TanStack's `getRowId`, so row selection stays anchored to the underlying data (not array-index position) across reorders/removals of `data`. Mirrors Tree/Cascader's `getKey` convention. Defaults to the row's `id` field, then `key`, falling back to its index when neither is present.
 - `classNames?` — per-slot class overrides: base, scrollContainer, content, header, row, column, body, cell, footer
-- emits: `@update:rowSelection`, `@update:page`, `@update:pageSize`
+- emits: `@update:rowSelection`, `@update:page`, `@update:sorting`, `@update:pageSize`
 - slots: `#cell`, `#footer`
 
 **TableHeader**
@@ -5148,7 +5293,7 @@ import {
 - `classNames?` — per-slot class overrides: base, tabList
 - `items?: TabShorthandItem[]` — Shorthand API: render tabs from an array instead of the compound slot API
 - `dir?: 'ltr' | 'rtl'` — Reading direction of the tabs.
-- `unmountOnHide?: boolean` — Whether to unmount tab panels when they are hidden.
+- `unmountOnHide?: boolean` — default `true` — Whether to unmount tab panels when they are hidden.
 - `as?: string` — Render as a different element type.
 - `asChild?: boolean` — Merge props onto child element instead of rendering a wrapper.
 - `loop?: boolean` — Whether keyboard navigation loops from last to first tab. Forwarded to the shorthand-rendered TabList.
@@ -5196,7 +5341,7 @@ import {
 - `as?: string` — default `p`
 - `size?: 'base' | 'lg' | 'sm' | 'xl' | 'xs'` — default `base`
 - `variant?: 'danger' | 'default' | 'muted' | 'success' | 'warning'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - slots: `#default`
 
 ### Textarea
@@ -5317,7 +5462,7 @@ import {
 - `class?: ClassValue`
 - `classNames?` — per-slot class overrides: base, trigger, triggerIndicator, popover, panel, timeDone, label, mainWrapper, inputWrapper, startContent, segmentList, segment, endContent, helperWrapper, errorMessage, description, scrollerWrap, scrollerColumn, scrollerItem
 - `v-model: Time | null | undefined`
-- `v-model:open: boolean`
+- `v-model:open: boolean | undefined`
 - slots: `#selectorIcon`, `#footer`
 
 ### TimeRangeField
@@ -5388,7 +5533,7 @@ import {
 - `duration?: number` — default `5000`
 - `position?: ToastPosition` — default `bottom-right`
 - `variant?: 'primary' | 'accent' | 'danger' | 'default' | 'success' | 'warning'` — default `default`
-- `class?: string`
+- `class?: ClassValue`
 - `defaultOpen?: boolean` — Default open state for uncontrolled usage
 - `forceMount?: boolean` — Keep mounted in DOM when closed
 - `type?: 'foreground' | 'background'`
@@ -5398,33 +5543,33 @@ import {
 - slots: `#default`
 
 **ToastTitle**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **ToastDescription**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **ToastAction**
 - `altText?: string` — default `Action` — Required by Reka UI for screen reader announcements
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **ToastClose**
-- `class?: string`
+- `class?: ClassValue`
 - `ariaLabel?: string`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 
 **ToastViewport**
 - `position?: ToastPosition`
-- `class?: string`
+- `class?: ClassValue`
 - `hotkey?: string[]`
 - `label?: string`
 - `swipeDirection?: 'up' | 'down' | 'left' | 'right'`
@@ -5442,7 +5587,7 @@ import {
 - `orientation?: 'horizontal' | 'vertical'` — default `horizontal`
 - `loop?: boolean` — default `true`
 - `isAttached?: boolean` — default `false`
-- `class?: string`
+- `class?: ClassValue`
 - `dir?: 'ltr' | 'rtl'` — Text direction
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
@@ -5454,20 +5599,20 @@ import {
 - `isIconOnly?: boolean`
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **ToolbarLink**
 - `href?: string`
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
 
 **ToolbarSeparator**
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 
@@ -5479,7 +5624,7 @@ import {
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
 - `orientation?: 'horizontal' | 'vertical'`
 - `isDetached?: boolean`
-- `class?: string`
+- `class?: ClassValue`
 - `items?: ToolbarToggleShorthandItem[]` — Shorthand API: render toggle items from an array instead of the compound slot API
 - `rovingFocus?: boolean` — Whether to use roving focus for keyboard navigation
 - `dir?: 'ltr' | 'rtl'` — Text direction
@@ -5499,7 +5644,7 @@ import {
 - `isIconOnly?: boolean`
 - `isDisabled?: boolean`
 - `disabled?: boolean` — **deprecated** — Use isDisabled instead.
-- `class?: string`
+- `class?: ClassValue`
 - `as?: string` — Render as a different element
 - `asChild?: boolean` — Merge props onto child element
 - slots: `#default`
@@ -5551,7 +5696,7 @@ import {
 - `updatePositionStrategy?: 'always' | 'optimized'`
 - `disableUpdateOnLayoutShift?: boolean`
 - `prioritizePosition?: boolean` — default `true`
-- `class?: string`
+- `class?: ClassValue`
 - emits: `@escape-key-down`, `@pointer-down-outside`
 - slots: `#default`
 
@@ -5560,7 +5705,7 @@ import {
 - `asChild?: boolean`
 - `width?: number`
 - `height?: number`
-- `class?: string`
+- `class?: ClassValue`
 
 ### Transfer
 

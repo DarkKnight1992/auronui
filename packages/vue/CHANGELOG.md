@@ -124,3 +124,87 @@ forced into the rename:
   This is pre-existing and unrelated to `FormControl`: the hand-written
   `FormField` binding pattern produces the identical result. It is tracked by a
   parity assertion in the test suite.
+
+## 1.11.0
+
+Fixes for a sweep of real-app workarounds, a dependency security pass, and two
+packaging defects. `@auronui/react` and `@auronui/styles` ship the matching
+changes.
+
+### Behaviour changes — check before upgrading
+
+- **`Tabs` unmounts hidden panels by default.** `unmountOnHide` had no
+  default, so Vue cast the absent Boolean to `false` and every panel stayed
+  mounted (running its `setup()` and fetching its data). Pass
+  `:unmount-on-hide="false"` to keep inactive panels mounted.
+- **`Autocomplete` with `load-items` loads lazily** — on first open or when
+  the user types — instead of on mount. It still loads on mount when a value
+  is pre-selected (so its label can resolve). Set `load-on-mount` for the old
+  behaviour.
+- **`<Form @submit>` is awaited.** `isSubmitting` stays `true` until an async
+  handler settles (it was cleared before the handler even ran). The handler is
+  now a prop rather than an emitted event, so `emitted('submit')` in tests no
+  longer sees it — call the handler or assert on its effects instead.
+- **Dark-mode tokens are zero-specificity (`:where()`).** A plain
+  `.dark { --surface: … }` now overrides them; overrides that previously lost
+  to the theme's `(0,5,0)` selectors will start taking effect.
+- **Dev warnings now actually appear in development.** They were gated on
+  `import.meta.env.DEV`, which the library build replaced with `false`, so
+  every warning was a no-op in the published package. They now use
+  `process.env.NODE_ENV`, which your bundler replaces.
+
+### Fixed
+
+- **A dialog opened over another `Modal`/`AlertDialog` was invisible to screen
+  readers.** The dialog's wrapper was inserted into `<body>` while closed, got
+  `aria-hidden` from the outer dialog, and kept it. The wrapper now only exists
+  while the dialog is open or animating out.
+- **The published package broke Nuxt/Nitro production builds.** `dist/`
+  contained copies of `motion-v`, `@tanstack/*`, `@iconify/vue` and parts of
+  `@auronui/styles`, imported through relative pnpm-store paths. All
+  dependencies are now external. Same fix in `@auronui/react`.
+- `Select`: `aria-label`/`aria-labelledby` now name the combobox (they were
+  dropped); a self-closing `<SelectTrigger />` shows the value/placeholder.
+- `Form`: `<Form :form="handle" :default-values>` layers the prop over the
+  handle's defaults instead of ignoring it; an inline array/object default
+  (`:default-value="[]"`) no longer loops with "Maximum recursive updates", and
+  arrays equal to their default are no longer reported dirty.
+- `ColorPickerInput`/`ColorField`: `''` and `null` mean "no colour" — the field
+  stays empty instead of throwing or showing `#000000`.
+- `Checkbox`/`Switch`: label text is start-aligned (wrapped labels were
+  centered).
+- `class` props on all components accept object and array bindings
+  (`:class="{ active: x }"` failed typecheck).
+
+### Added
+
+- `Table`: `v-model:sorting` and `manual-sorting` for server-side sorting.
+- `Autocomplete`: `creatable` (+ `create-label`) adds a "Create …" option to
+  the built-in chrome; fires `create`.
+- `Checkbox`, `Switch`: `errorMessage`. `NumberField`: `description` and
+  `errorMessage`. (Binding `errorMessage` previously leaked an `errormessage`
+  attribute onto the DOM.)
+- `Input`, `Textarea`, `SearchField`: template refs expose `focus()`, `blur()`
+  and `el`.
+- `SelectItemValue`/`SelectItemData` are exported from the package root.
+- Dev warning for `<SelectItem value="">` (reka-ui reserves `""` for clearing).
+- `Link`, `ToolbarLink`, `NavigationMenuLink`, `BreadcrumbItem` (and Sidebar /
+  Breadcrumbs through them) drop `javascript:`/`vbscript:` URLs, with a dev
+  warning. React 19 already blocks these itself.
+
+### `@auronui/react`
+
+- `Form` never set `isSubmitting` at all — it now goes through
+  react-hook-form's `handleSubmit`.
+- `Autocomplete` `creatable` crashed on the second keystroke; fixed. Also gains
+  lazy `loadItems` + `loadOnMount` and `createLabel`.
+- `Table` gains `sorting` / `onSortingChange` / `manualSorting`; Checkbox,
+  Switch and NumberField gain the same `errorMessage`/`description` props;
+  empty colour values are handled as above.
+
+### Security
+
+No published package had a vulnerable dependency. Development tooling was
+upgraded (Vitest, Nuxt test app, Vite, Turbo, ESLint, VitePress' Vite) and the
+publish workflow hardened (pinned actions and npm, tag-only publishing).
+`@auronui/styles` no longer publishes its test files.
