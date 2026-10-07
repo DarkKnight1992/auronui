@@ -99,7 +99,12 @@ describe("NavigationMenu — render", () => {
   });
 
   it("clicking an open trigger again closes its flyout content", async () => {
-    const user = userEvent.setup();
+    // skipHover: a plain user.click also fires pointerenter/pointermove, and
+    // Radix opens on hover after a delay and then deliberately ignores a click
+    // that lands right after a hover-open. On a loaded machine the second click
+    // fell into that window and the menu stayed open — this test is about
+    // click-toggling, so click without hovering.
+    const user = userEvent.setup({ skipHover: true });
     render(<BasicNavigationMenu />);
     const trigger = screen.getByRole("button", { name: /products/i });
     await user.click(trigger);

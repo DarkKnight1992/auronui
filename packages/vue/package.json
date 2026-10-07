@@ -98,13 +98,13 @@
     "@vue/test-utils": "2.4.6",
     "@vueuse/core": "14.2.1",
     "axe-core": "^4.11.2",
-    "eslint": "^9.0.0",
+    "eslint": "^9.39.5",
     "reka-ui": "2.9.5",
     "typescript": "6.0.2",
-    "vite": "^8.0.8",
+    "vite": "^8.3.3",
     "vite-plugin-dts": "4.5.4",
-    "vitest": "4.1.4",
-    "vue": "^3.5.32",
-    "vue-tsc": "^3.2.6"
+    "vitest": "4.1.11",
+    "vue": "^3.5.43",
+    "vue-tsc": "^3.3.12"
   }
 }

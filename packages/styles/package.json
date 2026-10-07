@@ -467,7 +467,8 @@
     "utilities",
     "variants",
     "index.css",
-    "DATA_ATTRIBUTES.md"
+    "DATA_ATTRIBUTES.md",
+    "!src/**/__tests__"
   ],
   "scripts": {
     "build": "vite build",
@@ -481,10 +482,11 @@
   },
   "devDependencies": {
     "@auronui/standard": "workspace:*",
+    "@types/node": "^25.6.0",
     "tailwindcss": "4.2.2",
-    "vite": "^8.0.8",
+    "vite": "^8.3.3",
     "vite-plugin-dts": "4.5.4",
-    "vitest": "4.1.4"
+    "vitest": "4.1.11"
   },
   "peerDependencies": {
     "tailwindcss": ">=4.0.0"

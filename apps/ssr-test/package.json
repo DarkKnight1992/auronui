@@ -12,12 +12,12 @@
   "dependencies": {
     "@auronui/styles": "workspace:*",
     "@auronui/vue": "workspace:*",
-    "nuxt": "^3.15.0",
-    "vue": "^3.5.32"
+    "nuxt": "^3.21.11",
+    "vue": "^3.5.43"
   },
   "devDependencies": {
     "@auronui/vitest": "workspace:*",
-    "@nuxt/test-utils": "^3.15.0",
-    "vitest": "4.1.4"
+    "@nuxt/test-utils": "^4.3.3",
+    "vitest": "4.1.11"
   }
 }

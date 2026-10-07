@@ -126,7 +126,7 @@ function readSlots(file: string): Record<string, string> {
 function applies(source: string, slot: string, bemClass: string): boolean {
   const call = new RegExp(`\\.${slot}\\??\\.?\\(`);
 
-  return call.test(source) || source.includes(bemClass.split(" ")[0]);
+  return call.test(source) || source.includes(bemClass.split(" ")[0] ?? bemClass);
 }
 
 describe.each(TARGETS)("$name applies every style slot it owns", ({name, dir, ext}) => {

@@ -13,7 +13,7 @@
     "dev": "turbo dev",
     "lint": "turbo lint",
     "typecheck": "turbo typecheck",
-    "test": "turbo test",
+    "test": "turbo test --concurrency=1",
     "format": "prettier --write .",
     "clean": "turbo clean",
     "docs:dev": "pnpm --filter @auronui/docs dev",
@@ -24,13 +24,13 @@
   },
   "devDependencies": {
     "@auronui/standard": "workspace:*",
-    "eslint": "^9.0.0",
-    "turbo": "2.9.6",
+    "eslint": "^9.39.5",
+    "turbo": "2.11.7",
     "prettier": "3.8.2",
     "typescript": "6.0.2"
   },
   "overrides": {
-    "vue": "^3.5.32",
+    "vue": "^3.5.43",
     "tailwindcss": "^4.2.2",
     "reka-ui": "^2.9.5"
   },

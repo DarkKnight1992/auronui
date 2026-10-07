@@ -1,5 +1,5 @@
 import { parse } from 'vue-docgen-api';
-import fg from 'fast-glob';
+import { glob } from 'tinyglobby';
 import { writeFile, mkdir } from 'node:fs/promises';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -10,7 +10,7 @@ const componentsGlob = 'packages/vue/src/components/**/*.vue';
 const outFile = resolve(__dirname, '../.vitepress/data/components.json');
 
 async function run() {
-  const files = await fg(componentsGlob, { cwd: repoRoot, absolute: true });
+  const files = await glob(componentsGlob, { cwd: repoRoot, absolute: true });
   const result: Record<string, unknown> = {};
   for (const file of files) {
     try {
