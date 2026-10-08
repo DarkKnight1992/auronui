@@ -876,12 +876,17 @@ as data rather than as child components.
   placeholder="Search fruits…"
   :multiple="false"
 />
-<!-- items: { value, label?, isDisabled? }[] — or :load-items for async -->
+<!-- items: { value, label?, textValue?, isDisabled? }[] — or :load-items for async -->
+<!-- textValue: what the filter matches instead of label -->
 <!-- variant: flat | bordered | faded | underlined | raised — defaults to flat -->
 <!-- color: default | primary | secondary | accent | success | warning | danger — defaults to default -->
 <!-- multipleOverflow: wrap | collapse — how selected chips overflow -->
 <!-- debounceMs: async search debounce, default 200 -->
 ```
+- `v-model` changes only when an item is selected, a value is created, or the
+  input is emptied (→ `''`). Typing only searches, and text that matches
+  nothing goes back to the selected label when the menu closes. Use
+  `:creatable="true"` for free-text values.
 - `:load-items="(query) => Promise<items>"` loads lazily — on first open or when
   the user types — except that it loads on mount when a value is already
   selected (so its label resolves). `:load-on-mount="true"` forces eager loading.

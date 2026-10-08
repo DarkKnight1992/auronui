@@ -208,3 +208,48 @@ No published package had a vulnerable dependency. Development tooling was
 upgraded (Vitest, Nuxt test app, Vite, Turbo, ESLint, VitePress' Vite) and the
 publish workflow hardened (pinned actions and npm, tag-only publishing).
 `@auronui/styles` no longer publishes its test files.
+
+## 2.0.0
+
+One breaking change: single-mode `Autocomplete` in `@auronui/vue` now updates
+`v-model` the way `@auronui/react` already did. Nothing else in the API changed.
+`@auronui/react` and `@auronui/styles` move to 2.0.0 with it so the three
+packages keep matching versions.
+
+### Breaking
+
+- **Single-mode `Autocomplete` updates `v-model` only when the value actually
+  changes.** Typing searches and no longer emits `update:modelValue` with the
+  typed text. The model changes when:
+  - an item is selected (its value),
+  - a value is created with `creatable` (the typed text),
+  - the input is emptied, by backspacing or with the clear button (`''`).
+
+  Text that matches no item goes back to the selected item's label when the
+  menu closes (it is kept as typed when `creatable`).
+
+  **Migrating:** if you read the typed text from `v-model` to use Autocomplete
+  as a free-text field, add `creatable` — the user then picks "Create …" to
+  commit their text, and `@create` fires with it. If you reset the field after
+  each emission (an "add this" picker), no change is needed: emissions are now
+  always real selections.
+
+### Fixed
+
+- **`Autocomplete` keeps the labels of selected values while `load-items`
+  narrows the results.** Chips in multiple mode, and the input when `v-model`
+  is set from outside, showed the raw value (`GB`) once a search no longer
+  returned that item. Labels are now remembered once loaded.
+- **`Autocomplete` `items` filter on `textValue`.** The built-in list never
+  passed an item's `textValue` on, so the filter only matched the label. Note
+  that `textValue` replaces the label for matching — include the label's words
+  if they should still match.
+
+### `@auronui/react`
+
+- Same label fix. Also, a controlled `value` changed from outside now updates
+  the input (it kept showing the old text).
+- Emptying the input clears the value, and the clear button works in single
+  mode (it did nothing there: React Aria's ComboBox has no clear action of its
+  own). Blurring no longer calls `onValueChange` again with the value that is
+  already selected.
