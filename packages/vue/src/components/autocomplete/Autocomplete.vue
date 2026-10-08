@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, onMounted, ref, toRef, useAttrs, useId, watch, useSlots, type ComputedRef } from 'vue'
+import { computed, onMounted, ref, shallowReactive, toRef, useAttrs, useId, watch, useSlots, type ComputedRef } from 'vue'
 import { AutocompleteRoot } from 'reka-ui'
 import { autocompleteVariants, type AutocompleteVariants } from '@auronui/styles'
 import { composeClassName , type ClassValue} from '../../utils/composeClassName'
@@ -56,6 +56,7 @@ const isReadOnly = useDeprecatedBooleanProp(
 export interface AutocompleteItem {
   value: string
   label?: string
+  /** Text the built-in filter matches against, in place of `label` (include the label's words if they should still match). */
   textValue?: string
   isDisabled?: boolean
 }
@@ -273,6 +274,10 @@ const singleOpen = ref(props.open ?? props.defaultOpen ?? false)
 // single-mode create so the post-create re-render can't reopen the menu.
 let blockReopen = false
 let blockReopenTimer: ReturnType<typeof setTimeout> | undefined
+// Set while the input text is rewritten to a resolved label, so that sync
+// does not count as a new query.
+let syncingLabel = false
+
 const effectiveIgnoreFilter = computed(() => {
   if (props.loadItems) return true
   if (!props.filterOnOpen && isOpen.value && !isUserTyping.value) return true
@@ -280,12 +285,26 @@ const effectiveIgnoreFilter = computed(() => {
 })
 
 // ── Label/value bridge ─────────────────────────────────────────────────────
-// Priority: items prop entry > slot registry > identity fallback
+// Every label ever seen, by value. `loadItems` replaces the list on each
+// search, so a selected value can drop out of the current results while its
+// chip (or the input) still has to show its label. Written synchronously so
+// it is current before anything re-renders.
+const seenLabels = shallowReactive(new Map<string, string>())
+
+watch(internalItems, (list) => {
+  for (const i of list) seenLabels.set(i.value, i.label ?? i.textValue ?? i.value)
+}, { immediate: true, flush: 'sync' })
+
+watch(slotItemRegistry, (registry) => {
+  for (const [value, label] of registry) seenLabels.set(value, label)
+}, { flush: 'sync' })
+
+// Priority: items prop entry > slot registry > previously seen > identity fallback
 function labelFor(value: string | undefined): string {
   if (value == null || value === '') return ''
   const match = internalItems.value.find((i) => i.value === value)
   if (match) return match.label ?? match.textValue ?? value
-  return slotItemRegistry.value.get(value) ?? value
+  return slotItemRegistry.value.get(value) ?? seenLabels.get(value) ?? value
 }
 function valueFor(displayed: string): string {
   if (!displayed) return ''
@@ -296,14 +315,19 @@ function valueFor(displayed: string): string {
   for (const [value, label] of slotItemRegistry.value) {
     if (label === displayed) return value
   }
+  // Only the selected value's own label, not an older match for another value.
+  const current = selectedValue.value
+  if (current && seenLabels.get(current) === displayed) return current
   return displayed
 }
 
-const singleModelValue = computed(() =>
-  props.multiple ? undefined : (props.modelValue as string | undefined),
+// Single mode's selected value. Changes on selection, create or clearing the
+// input — never on typing, which only searches (same contract as @auronui/react).
+const selectedValue = ref<string>(
+  props.multiple ? '' : ((props.modelValue ?? props.defaultValue) as string | undefined) ?? '',
 )
 
-const searchTerm = ref(labelFor(singleModelValue.value))
+const searchTerm = ref(labelFor(selectedValue.value))
 
 const isFilled = computed(() =>
   props.multiple
@@ -323,7 +347,8 @@ watch(() => props.modelValue, (val) => {
   if (props.multiple) {
     if (Array.isArray(val)) selectedValues.value = [...val]
   } else {
-    const next = labelFor(val as string | undefined)
+    selectedValue.value = (val as string | undefined) ?? ''
+    const next = labelFor(selectedValue.value)
     if (searchTerm.value !== next) searchTerm.value = next
   }
 })
@@ -339,8 +364,10 @@ watch(searchTerm, (displayed) => {
     if (isOpen.value && displayed !== termAtOpen.value) isUserTyping.value = true
     return
   }
-  const next = valueFor(displayed)
-  if (next !== (singleModelValue.value ?? '')) emit('update:modelValue', next)
+  if (displayed === '' && selectedValue.value) {
+    selectedValue.value = ''
+    emit('update:modelValue', '')
+  }
   if (isOpen.value && displayed !== termAtOpen.value) isUserTyping.value = true
 })
 
@@ -364,8 +391,25 @@ function handleOpenChange(val: boolean) {
   isOpen.value = val
   singleOpen.value = val
   if (val) { termAtOpen.value = searchTerm.value; isUserTyping.value = false }
-  else { isUserTyping.value = false }
+  else {
+    isUserTyping.value = false
+    // Text that selected nothing goes back to the selected item's label
+    // (kept as typed when `creatable`, which allows custom values).
+    const label = labelFor(selectedValue.value)
+    if (!props.creatable && searchTerm.value && searchTerm.value !== label) {
+      syncingLabel = true
+      searchTerm.value = label
+    }
+  }
   emit('update:open', val)
+}
+
+// ── Single-mode actions ────────────────────────────────────────────────────
+
+function onSingleSelect(value: string) {
+  if (value === selectedValue.value) return
+  selectedValue.value = value
+  emit('update:modelValue', value)
 }
 
 // ── Multiple-mode actions ──────────────────────────────────────────────────
@@ -427,6 +471,7 @@ function onCreateValue(value: string) {
     isUserTyping.value = false
   } else {
     // Single mode: set the value ourselves and close the (controlled) dropdown.
+    selectedValue.value = trimmed
     searchTerm.value = trimmed
     emit('update:modelValue', trimmed)
     isOpen.value = false
@@ -468,7 +513,7 @@ function scheduleLoad(query: string) {
 }
 
 const hasSelection = () =>
-  props.multiple ? selectedValues.value.length > 0 : !!singleModelValue.value
+  props.multiple ? selectedValues.value.length > 0 : !!selectedValue.value
 
 // Lazy by default: a mounted-but-unused Autocomplete (say, in a hidden tab)
 // should not hit the network. A pre-selected value still loads up front so
@@ -485,10 +530,6 @@ watch(
   { immediate: true },
 )
 
-// Set while the input text is rewritten to a resolved label, so that sync
-// does not count as a new query.
-let syncingLabel = false
-
 watch(searchTerm, (q) => {
   if (syncingLabel) { syncingLabel = false; return }
   if (props.loadItems) scheduleLoad(q)
@@ -500,8 +541,8 @@ watch(() => props.items, (newItems) => {
 
 watch(internalItems, () => {
   if (props.multiple) return
-  const next = labelFor(singleModelValue.value)
-  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (singleModelValue.value ?? '')) {
+  const next = labelFor(selectedValue.value)
+  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === selectedValue.value) {
     syncingLabel = true
     searchTerm.value = next
   }
@@ -509,8 +550,8 @@ watch(internalItems, () => {
 
 watch(slotItemRegistry, () => {
   if (props.multiple) return
-  const next = labelFor(singleModelValue.value)
-  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === (singleModelValue.value ?? '')) {
+  const next = labelFor(selectedValue.value)
+  if (next && searchTerm.value !== next && valueFor(searchTerm.value) === selectedValue.value) {
     searchTerm.value = next
   }
 })
@@ -551,6 +592,7 @@ useAutocompleteProvide({
   multipleOverflow: toRef(props, 'multipleOverflow'),
   selectedValues,
   selectedLabels,
+  onSingleSelect,
   onMultipleSelect,
   removeValue,
   clearAll,
@@ -617,6 +659,7 @@ useAutocompleteProvide({
               v-for="item in internalItems"
               :key="item.value"
               :value="item.value"
+              :text-value="item.textValue"
               :is-disabled="item.isDisabled"
               :class-names="{ item: props.classNames?.item, text: props.classNames?.text, indicator: props.classNames?.indicator }"
             >

@@ -94,14 +94,15 @@ export function AutocompleteInput({ placeholder, autoFocus, startContent, clearI
         autoComplete="off"
       />
       {/* slot="clear" opts this Button out of ComboBox's default (unnamed-slot)
-          ButtonContext, which otherwise carries the dropdown-toggle press handler. */}
+          ButtonContext, which otherwise carries the dropdown-toggle press handler.
+          RAC has no clear behaviour of its own, so clearAll does it in both modes. */}
       <RACButton
         slot="clear"
         className={composeClassName(ctx.slots.clearButton(), classNames?.clearButton)}
         data-empty={!ctx.isFilled || ctx.isReadonly || ctx.isDisabled ? "true" : undefined}
         data-slot="clear-button"
         aria-label="Clear"
-        onPress={() => (ctx.multiple ? ctx.clearAll() : undefined)}
+        onPress={ctx.clearAll}
       >
         {clearIcon ?? DEFAULT_CLEAR_ICON}
       </RACButton>

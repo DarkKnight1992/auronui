@@ -30,6 +30,8 @@ export interface AutocompleteContext {
   selectedValues: Ref<string[]>
   /** Selected value→label pairs for rendering chips. */
   selectedLabels: ComputedRef<Array<{ value: string; label: string }>>
+  /** Select a value (single mode). */
+  onSingleSelect: (value: string) => void
   /** Toggle a value in the selectedValues array (multiple mode). */
   onMultipleSelect: (value: string) => void
   /** Remove a single value from selectedValues (multiple mode). */

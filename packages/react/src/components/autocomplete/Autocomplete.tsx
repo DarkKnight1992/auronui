@@ -149,14 +149,27 @@ export function Autocomplete({
      
   }, [items, loadItems]);
 
-  const itemByValue = useMemo(() => new Map(internalItems.map((i) => [i.value, i])), [internalItems]);
-  const labelFor = useCallback((v: string) => itemByValue.get(v)?.label ?? itemByValue.get(v)?.textValue ?? v, [itemByValue]);
+  // Every label ever seen, by value. `loadItems` replaces the list on each
+  // search, so a selected value can drop out of the current results while its
+  // chip (or the input) still has to show its label.
+  const seenLabelsRef = useRef(new Map<string, string>());
+  const itemByValue = useMemo(() => {
+    for (const i of internalItems) seenLabelsRef.current.set(i.value, i.label ?? i.textValue ?? i.value);
+    return new Map(internalItems.map((i) => [i.value, i]));
+  }, [internalItems]);
+  const labelFor = useCallback(
+    (v: string) => itemByValue.get(v)?.label ?? itemByValue.get(v)?.textValue ?? seenLabelsRef.current.get(v) ?? v,
+    [itemByValue],
+  );
 
   const isControlled = value !== undefined;
   const [internalValue, setInternalValue] = useState<string | string[]>(
     defaultValue ?? (multiple ? [] : ""),
   );
   const currentValue = isControlled ? value : internalValue;
+  // Read by RAC callbacks, which can fire again before a re-render.
+  const currentValueRef = useRef(currentValue);
+  currentValueRef.current = currentValue;
 
   const selectedValues = useMemo(
     () => (multiple ? ((currentValue as string[] | undefined) ?? []) : []),
@@ -167,6 +180,7 @@ export function Autocomplete({
   renderedValuesRef.current = selectedValues;
 
   function commit(next: string | string[]) {
+    currentValueRef.current = next;
     if (!isControlled) setInternalValue(next);
     onValueChange?.(next);
   }
@@ -240,6 +254,20 @@ export function Autocomplete({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [itemByValue]);
 
+  // A controlled value changed from outside: show its label in the input
+  // (single mode). Selections made here already set the input themselves.
+  const prevValueRef = useRef(currentValue);
+  useEffect(() => {
+    if (multiple || prevValueRef.current === currentValue) return;
+    prevValueRef.current = currentValue;
+    const resolved = labelFor((currentValue as string) ?? "");
+    if (resolved !== searchTerm) {
+      syncingLabelRef.current = true;
+      setSearchTerm(resolved);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [currentValue]);
+
   const handleOpenChange = useCallback(
     (open: boolean) => {
       if (open && loadItems && !hasLoadedRef.current) void runLoadItems(searchTerm);
@@ -248,16 +276,22 @@ export function Autocomplete({
     [loadItems, runLoadItems, searchTerm, onOpenChange],
   );
 
+  // Typing only searches; the value changes on selection. Emptying the input
+  // is the exception: it clears the value (single mode).
   const handleInputChange = useCallback((text: string) => {
     setSearchTerm(text);
-  }, []);
+    if (!multiple && text === "" && currentValueRef.current) commit("");
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [multiple]);
 
   const handleSingleSelectionChange = useCallback(
     (key: Key | null) => {
       // The create row performs its own commit via onCreateValue.
       if (key === CREATE_ITEM_ID) return;
       const next = key == null ? "" : String(key);
-      commit(next);
+      // RAC re-emits the selected key on blur to reset unmatched text; that
+      // only restores the label, it is not a change.
+      if (next !== currentValueRef.current) commit(next);
       setSearchTerm(labelFor(next));
     },
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -300,10 +334,10 @@ export function Autocomplete({
   );
 
   const clearAll = useCallback(() => {
-    commit([]);
+    commit(multiple ? [] : "");
     setSearchTerm("");
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [multiple]);
 
   const isSelected = useCallback((v: string) => selectedValues.includes(v), [selectedValues]);
 

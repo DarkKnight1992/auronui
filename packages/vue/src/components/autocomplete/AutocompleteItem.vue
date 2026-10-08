@@ -84,6 +84,8 @@ function handleSelect(event: Event) {
     // Without this, Reka's internal handler fires after ours and sets searchTerm = displayText.
     event.preventDefault()
     ctx.onMultipleSelect(props.value)
+  } else {
+    ctx.onSingleSelect(props.value)
   }
 }
 </script>

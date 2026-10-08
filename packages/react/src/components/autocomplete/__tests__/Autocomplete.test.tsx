@@ -194,3 +194,89 @@ describe("Autocomplete — creatable (default chrome)", () => {
     expect(optionTexts().some((o) => o?.startsWith("Create"))).toBe(false);
   });
 });
+
+describe("Autocomplete — selected labels survive a narrowed loadItems result", () => {
+  const all = [
+    { value: "ap", label: "Apple" },
+    { value: "bn", label: "Banana" },
+    { value: "ch", label: "Cherry" },
+  ];
+  const loadItems = (q: string) =>
+    Promise.resolve(all.filter((i) => i.label.toLowerCase().includes(q.toLowerCase())));
+
+  it("multiple: chips keep their labels while the results no longer contain them", async () => {
+    const { container } = render(
+      <Autocomplete multiple value={["ap", "bn"]} loadItems={loadItems} debounceMs={0} label="Fruit" />,
+    );
+    const chipText = () =>
+      [...container.querySelectorAll('[data-slot="selected-chip"]')].map((c) => c.textContent?.trim());
+    await act(async () => {});
+    expect(chipText()).toEqual(["Apple", "Banana"]);
+    await userEvent.type(screen.getByRole("combobox"), "che");
+    await act(async () => {});
+    expect(chipText()).toEqual(["Apple", "Banana"]);
+  });
+
+  it("single: a value set from outside resolves to a label loaded earlier", async () => {
+    const onValueChange = vi.fn();
+    const { rerender } = render(
+      <Autocomplete value="ap" loadItems={loadItems} debounceMs={0} label="Fruit" onValueChange={onValueChange} />,
+    );
+    await act(async () => {});
+    const input = screen.getByRole("combobox");
+    // Search everything (Banana is loaded), then narrow to Cherry.
+    await userEvent.clear(input);
+    await act(async () => {});
+    await userEvent.type(input, "che");
+    await act(async () => {});
+    rerender(
+      <Autocomplete value="bn" loadItems={loadItems} debounceMs={0} label="Fruit" onValueChange={onValueChange} />,
+    );
+    await act(async () => {});
+    expect(input).toHaveValue("Banana");
+  });
+});
+
+describe("Autocomplete — value changes only on selection (single mode)", () => {
+  it("typing does not change the value", async () => {
+    const onValueChange = vi.fn();
+    render(<Autocomplete items={items} label="Fruit" onValueChange={onValueChange} />);
+    await userEvent.type(screen.getByRole("combobox"), "ban");
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+
+  it("clearing the input clears the value", async () => {
+    const onValueChange = vi.fn();
+    render(<Autocomplete items={items} defaultValue="banana" label="Fruit" onValueChange={onValueChange} />);
+    await userEvent.clear(screen.getByRole("combobox"));
+    expect(onValueChange).toHaveBeenLastCalledWith("");
+  });
+
+  it("emptying the input and leaving keeps it cleared", async () => {
+    const onValueChange = vi.fn();
+    render(<Autocomplete items={items} defaultValue="banana" label="Fruit" onValueChange={onValueChange} />);
+    const input = screen.getByRole("combobox");
+    await userEvent.clear(input);
+    await userEvent.tab();
+    expect(input).toHaveValue("");
+    expect(onValueChange).toHaveBeenLastCalledWith("");
+  });
+
+  it("the clear button clears the value", async () => {
+    const onValueChange = vi.fn();
+    render(<Autocomplete items={items} defaultValue="banana" label="Fruit" onValueChange={onValueChange} />);
+    await userEvent.click(screen.getByRole("button", { name: "Clear" }));
+    expect(screen.getByRole("combobox")).toHaveValue("");
+    expect(onValueChange).toHaveBeenLastCalledWith("");
+  });
+
+  it("unmatched text reverts to the selected label on blur", async () => {
+    const onValueChange = vi.fn();
+    render(<Autocomplete items={items} defaultValue="banana" label="Fruit" onValueChange={onValueChange} />);
+    const input = screen.getByRole("combobox");
+    await userEvent.type(input, "zz");
+    await userEvent.tab();
+    expect(input).toHaveValue("Banana");
+    expect(onValueChange).not.toHaveBeenCalled();
+  });
+});

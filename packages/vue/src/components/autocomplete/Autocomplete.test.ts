@@ -768,3 +768,138 @@ describe('Autocomplete — creatable (default chrome)', () => {
     expect(options.some(o => o?.startsWith('Create'))).toBe(false)
   })
 })
+
+describe('Autocomplete — selected labels survive a narrowed load-items result', () => {
+  const all = [
+    { value: 'ap', label: 'Apple' },
+    { value: 'bn', label: 'Banana' },
+    { value: 'ch', label: 'Cherry' },
+  ]
+  const loadItems = (q: string) =>
+    Promise.resolve(all.filter(i => i.label.toLowerCase().includes(q.toLowerCase())))
+
+  it('multiple: chips keep their labels while the results no longer contain them', async () => {
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({ loadItems, selected: ref(['ap', 'bn']) }),
+      template: `<Autocomplete v-model="selected" multiple :load-items="loadItems" :debounce-ms="0" aria-label="Fruit" />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    await flushPromises()
+    const chipText = () => w.findAll('[data-slot="selected-chip"]').map(c => c.text())
+    expect(chipText()).toEqual(['Apple', 'Banana'])
+    await w.find('input').setValue('che')
+    await flushPromises()
+    expect(chipText()).toEqual(['Apple', 'Banana'])
+  })
+
+  it('single: a value set from outside resolves to a label loaded earlier', async () => {
+    const selected = ref<string | undefined>('ap')
+    const emitted: unknown[] = []
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({ loadItems, selected, onUpdate: (v: unknown) => emitted.push(v) }),
+      template: `<Autocomplete :model-value="selected" :load-items="loadItems" :debounce-ms="0" aria-label="Fruit" @update:model-value="onUpdate" />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    await flushPromises()
+    // Search everything (Banana is loaded), then narrow to Cherry.
+    await w.find('input').setValue('')
+    await flushPromises()
+    await w.find('input').setValue('che')
+    await flushPromises()
+    emitted.length = 0
+    selected.value = 'bn'
+    await flushPromises()
+    expect((w.find('input').element as HTMLInputElement).value).toBe('Banana')
+    expect(emitted).not.toContain('Banana')
+  })
+})
+
+describe('Autocomplete — static items filter on textValue', () => {
+  it('matches an item by its textValue, not just its label', async () => {
+    const items = [
+      { value: 'us', label: 'United States and 24 more (+1)', textValue: 'United States Jamaica +1' },
+      { value: 'gb', label: 'United Kingdom (+44)' },
+    ]
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({ items }),
+      template: `<Autocomplete :items="items" aria-label="Calling code" />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    const input = w.find('input')
+    await input.trigger('focus')
+    await input.setValue('jamaica')
+    await flushPromises()
+    const visible = [...document.body.querySelectorAll<HTMLElement>('[role="option"]')]
+      .filter(o => o.style.display !== 'none')
+      .map(o => o.getAttribute('data-item-value'))
+    expect(visible).toEqual(['us'])
+  })
+})
+
+describe('Autocomplete — value changes only on selection (single mode)', () => {
+  function mountSingle(initial?: string) {
+    const emitted: unknown[] = []
+    const selected = ref<string | undefined>(initial)
+    const w = mount({
+      components: { Autocomplete },
+      setup: () => ({
+        items: staticItems,
+        selected,
+        onUpdate: (v: string) => { emitted.push(v); selected.value = v },
+      }),
+      template: `<Autocomplete :model-value="selected" :items="items" aria-label="Fruit" @update:model-value="onUpdate" />`,
+    }, { attachTo: document.body })
+    mountedWrappers.push(w)
+    return { w, emitted, input: w.find('input') }
+  }
+
+  it('typing does not change the value', async () => {
+    const { input, emitted } = mountSingle()
+    await input.trigger('focus')
+    await input.setValue('ban')
+    await flushPromises()
+    expect(emitted).toEqual([])
+  })
+
+  it('selecting an item emits its value', async () => {
+    const { input, emitted } = mountSingle()
+    await input.trigger('focus')
+    await input.setValue('ban')
+    await flushPromises()
+    const option = [...document.body.querySelectorAll<HTMLElement>('[role="option"]')]
+      .find(o => o.getAttribute('data-item-value') === 'banana')!
+    option.click()
+    await flushPromises()
+    expect(emitted).toEqual(['banana'])
+    expect((input.element as HTMLInputElement).value).toBe('Banana')
+  })
+
+  it('clearing the input clears the value', async () => {
+    const { input, emitted } = mountSingle('banana')
+    await input.setValue('')
+    await flushPromises()
+    expect(emitted).toEqual([''])
+  })
+
+  it('the clear button clears the value', async () => {
+    const { w, input, emitted } = mountSingle('banana')
+    await w.find('[data-slot="clear-button"]').trigger('click')
+    await flushPromises()
+    expect((input.element as HTMLInputElement).value).toBe('')
+    expect(emitted).toEqual([''])
+  })
+
+  it('unmatched text reverts to the selected label when the menu closes', async () => {
+    const { input, emitted } = mountSingle('banana')
+    await input.trigger('focus')
+    await input.setValue('zz')
+    await flushPromises()
+    await input.trigger('keydown', { key: 'Escape' })
+    await flushPromises()
+    expect((input.element as HTMLInputElement).value).toBe('Banana')
+    expect(emitted).toEqual([])
+  })
+})

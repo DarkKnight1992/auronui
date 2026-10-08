@@ -27,7 +27,7 @@ export interface AutocompleteContextValue {
   onMultipleSelect: (value: string) => void;
   /** Remove a single value from selectedValues (multiple mode). */
   removeValue: (value: string) => void;
-  /** Clear all selected values and the search term (multiple mode). */
+  /** Clear the value (all values in multiple mode) and the search term. */
   clearAll: () => void;
   /** Returns true if the given value is in selectedValues. */
   isSelected: (value: string) => boolean;
